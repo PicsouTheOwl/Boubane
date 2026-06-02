@@ -1,103 +1,109 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, FileText, BarChart3, MessageSquare, FolderSync, Shield, ArrowUpRight } from "lucide-react";
+import { Mail, FileText, BarChart3, MessageSquare, Workflow, Shield, Cpu, Terminal } from "lucide-react";
 
 const services = [
   {
     icon: Mail,
     title: "Emails automatiques",
-    desc: "Votre agent lit, trie et répond à vos emails en imitant votre style. Il qualifie les demandes, envoie les devis, planifie les RDV.",
-    metric: "15h/semaine économisées",
-    color: "from-primary to-primary-dark",
+    desc: "L'agent lit, trie et répond à vos emails. Il qualifie les demandes, envoie les devis, planifie les RDV — en imitant votre style.",
+    stat: "15h/semaine",
   },
   {
     icon: FileText,
     title: "Documents & Rapports",
     desc: "Génération automatique de devis, factures, rapports hebdos. L'agent collecte les données et produit des documents prêts à envoyer.",
-    metric: "40 rapports/mois automatisés",
-    color: "from-accent to-cyan-600",
+    stat: "Auto",
   },
   {
     icon: BarChart3,
-    title: "Analyse en temps réel",
-    desc: "Votre agent surveille vos KPIs, détecte les anomalies et vous alerte. Tableaux de bord automatiques, recommandations proactives.",
-    metric: "Détection en < 5 min",
-    color: "from-violet-500 to-purple-700",
+    title: "Analyse temps réel",
+    desc: "Surveillance des KPI, détection d'anomalies, alertes. Tableaux de dashboards automatiques, recommandations proactives.",
+    stat: "< 5 min",
   },
   {
     icon: MessageSquare,
-    title: "Support client 24/7",
-    desc: "Réponses instantanées aux questions fréquentes, escalade intelligente, suivi des tickets. Vos clients ne attendent plus.",
-    metric: "90% résolu sans humain",
-    color: "from-emerald-500 to-green-700",
+    title: "Support client",
+    desc: "Réponses instantanées 24/7, escalade intelligente, suivi des tickets. Vos clients n'attendent plus.",
+    stat: "90% auto",
   },
   {
-    icon: FolderSync,
-    title: "Automatisation workflow",
-    desc: "L'agent connecte vos outils (CRM, Slack, compta…) et orchestre les processus. Zéro saisie manuelle, zéro erreur.",
-    metric: "0 tâche répétitive",
-    color: "from-orange-500 to-red-600",
+    icon: Workflow,
+    title: "Automatisation",
+    desc: "L'agent connecte vos outils (CRM, Slack, compta…) et orchestre les processus. Zéro saisie manuelle.",
+    stat: "∞ workflows",
   },
   {
     icon: Shield,
-    title: "Sécurité & Conformité",
-    desc: "Tout tourne sur votre infrastructure. RGPD natif, chiffrement E2E, audit complet. Vos données restent chez vous.",
-    metric: "100% données privées",
-    color: "from-pink-500 to-rose-700",
+    title: "100% local",
+    desc: "Tout tourne sur votre hardware. RGPD natif, chiffrement E2E. Vos données ne sortent jamais de votre réseau.",
+    stat: "0 donnée externe",
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="section relative">
+    <section id="produit" className="section">
       <div className="container">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
-          <span className="text-[10px] font-bold text-accent uppercase tracking-[0.25em]">
-            Ce que fait votre agent
+          <span className="text-micro uppercase tracking-[0.2em] text-text-muted block mb-4">
+            Capacités
           </span>
-          <h2 className="heading-lg mt-5 mb-6">
-            Il s&apos;intègre là où
+          <h2 className="heading-section mb-5">
+            L&apos;agent s&apos;adapte
             <br />
-            <span className="gradient-text">vous travaillez déjà</span>
+            à votre métier
           </h2>
-          <p className="text-text-muted text-base max-w-xl mx-auto">
-            Pas de nouvel outil à apprendre. Voté agent se branche sur votre messagerie, 
+          <p className="text-body max-w-xl mx-auto">
+            Pas d&apos;outil à apprendre. L&apos;agent se branche sur votre messagerie, 
             vos fichiers, vos outils existants — et automatise ce qui vous prend du temps.
           </p>
         </motion.div>
 
         {/* Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
           {services.map((s, i) => (
             <motion.div
               key={s.title}
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
-              className="group gradient-border rounded-2xl p-7 hover:scale-[1.02] transition-all duration-300 cursor-default"
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="card p-6 group"
             >
-              <div className="flex items-start justify-between mb-5">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center`}>
-                  <s.icon size={20} className="text-white" />
+              <div className="flex items-start justify-between mb-4">
+                <div className="w-9 h-9 rounded-lg bg-surface-light border border-border flex items-center justify-center">
+                  <s.icon size={16} className="text-text-secondary group-hover:text-text transition-colors" />
                 </div>
-                <ArrowUpRight size={16} className="text-text-dim opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
+                <span className="text-micro text-accent font-medium">{s.stat}</span>
               </div>
-              <h3 className="text-lg font-bold mb-2">{s.title}</h3>
-              <p className="text-text-muted text-sm leading-relaxed mb-5">{s.desc}</p>
-              <div className="pt-4 border-t border-border">
-                <span className="text-xs font-semibold text-accent">{s.metric}</span>
-              </div>
+              <h3 className="heading-card mb-2">{s.title}</h3>
+              <p className="text-small">{s.desc}</p>
             </motion.div>
           ))}
         </div>
+
+        {/* Inline demo hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-center mt-12"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface border border-border">
+            <Terminal size={14} className="text-accent" />
+            <span className="text-small">
+              Ou configurez vos propres scénarios — aucune limite.
+            </span>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

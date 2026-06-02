@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Boubane — Agents IA Locaux pour PME | Automatisation Sécurisée",
-  description: "Déployez des agents IA directement dans votre entreprise. Ils répondent à vos mails, préparent vos rapports, automatisent vos tâches. 100% local, données privées.",
-  keywords: ["agent IA local", "automatisation PME", "IA sécurisé", "email automatique", "Boubane"],
+  title: "Boubane — Agents IA Locaux pour PME",
+  description: "Installez un agent IA directement dans votre entreprise. Sur votre hardware, votre réseau, vos données. Réponses automatiques aux mails, rapports, support — tout tourne chez vous.",
+  keywords: ["agent IA local", "IA on-premise", "automatisation PME", "Mac Mini IA", "Boubane"],
   openGraph: {
     title: "Boubane — Agents IA Locaux pour PME",
-    description: "Des agents IA intégrés à votre environnement de travail. 100% local, données privées.",
+    description: "Un agent IA qui tourne sur votre hardware, dans votre entreprise. Vos données restent chez vous.",
     type: "website",
     locale: "fr_FR",
   },
@@ -30,11 +30,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} h-full`}>
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       </head>
-      <body className="min-h-full flex flex-col noise grid-bg scan-line">
+      <body className="min-h-full flex flex-col">
         {children}
       </body>
     </html>

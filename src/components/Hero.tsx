@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Shield, Cpu, Network, Terminal, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Cpu, HardDrive, Wifi, Play } from "lucide-react";
 import Link from "next/link";
-import HeroCanvas from "./HeroCanvas";
 
 /* === TYPING EFFECT === */
-function useTypewriter(words: string[], speed = 80, pause = 2500) {
+function useTypewriter(words: string[], speed = 70, pause = 3000) {
   const [text, setText] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -18,7 +17,9 @@ function useTypewriter(words: string[], speed = 80, pause = 2500) {
       () => {
         if (!isDeleting) {
           setText(current.slice(0, text.length + 1));
-          if (text.length + 1 === current.length) setTimeout(() => setIsDeleting(true), pause);
+          if (text.length + 1 === current.length) {
+            setTimeout(() => setIsDeleting(true), pause);
+          }
         } else {
           setText(current.slice(0, text.length - 1));
           if (text.length === 0) {
@@ -27,7 +28,7 @@ function useTypewriter(words: string[], speed = 80, pause = 2500) {
           }
         }
       },
-      isDeleting ? speed * 0.6 : speed
+      isDeleting ? speed * 0.5 : speed
     );
     return () => clearTimeout(timeout);
   }, [text, isDeleting, wordIndex, words, speed, pause]);
@@ -35,165 +36,112 @@ function useTypewriter(words: string[], speed = 80, pause = 2500) {
   return text;
 }
 
-/* === AGENT TERMINAL DEMO === */
-const scenarios = [
-  {
-    label: "Email automatique",
-    icon: "📧",
-    conversation: [
-      { from: "trigger", text: "Nouveau email reçu : 'Demande de devis — Salle de sport FitPlus'" },
-      { from: "agent", text: "Analyse de la demande..." },
-      { from: "agent", text: "✓ Devis personnalisé généré (PDF)" },
-      { from: "agent", text: "✓ Réponse envoyée en nom de Marc (ton professionnel)" },
-      { from: "agent", text: "✓ RDV de suivi ajouté au calendrier" },
-      { from: "agent", text: "→ Tâche suivante : relance automatique dans 3 jours si pas de réponse" },
-    ],
-  },
-  {
-    label: "Rapport commercial",
-    icon: "📊",
-    conversation: [
-      { from: "trigger", text: "Commande : 'Prépare le rapport hebdo de la semaine 22'" },
-      { from: "agent", text: "Collecte des données CRM + compta..." },
-      { from: "agent", text: "CA S22 : 47 200€ (+12% vs S21)" },
-      { from: "agent", text: "Top produit : Pack Pro (23 unités, 7 127€)" },
-      { from: "agent", text: "⚠️ Alerte : stock Pack Pro < 15 unités" },
-      { from: "agent", text: "✓ Rapport PDF généré et envoyé à l'équipe" },
-    ],
-  },
-  {
-    label: "Support client",
-    icon: "💬",
-    conversation: [
-      { from: "trigger", text: "Ticket #1847 : 'Problème livraison — commande #8834'" },
-      { from: "agent", text: "Recherche commande #8834..." },
-      { from: "agent", text: "Statut : Colis en transit, retard estimé 2 jours" },
-      { from: "agent", text: "✓ Email d'excuse envoyé au client" },
-      { from: "agent", text: "✓ Code promo 10% appliqué sur prochaine commande" },
-      { from: "agent", text: "✓ Ticket résolu — satisfaction estimée : 4.5/5" },
-    ],
-  },
-];
-
-function AgentTerminal() {
-  const [activeScenario, setActiveScenario] = useState(0);
-  const [visibleLines, setVisibleLines] = useState(0);
+/* === TERMINAL DEMO — Ce qui fait la diff === */
+function TerminalDemo() {
+  const [lines, setLines] = useState<string[]>([]);
   const [isRunning, setIsRunning] = useState(false);
-  const terminalRef = useRef<HTMLDivElement>(null);
+  const termRef = useRef<HTMLDivElement>(null);
 
-  const runScenario = (index: number) => {
-    setActiveScenario(index);
-    setVisibleLines(0);
+  const scenario = [
+    "$ boubane deploy --hardware mac-mini --local",
+    "",
+    "▸ Déploiement de l'agent ORCHESTRATOR...",
+    "▸ Configuration réseau local (192.168.1.0/24)... ✓",
+    "▸ Connexion à la messagerie (IMAP/SMTP)... ✓",
+    "▸ Chargement des modèles locaux (Llama 3.1 8B)... ✓",
+    "▸ Indexation des documents partagés... ✓",
+    "▸ Apprentissage du style d'écriture... ✓",
+    "",
+    "Agent prêt. Surveillance active.",
+    "14:32 — 3 emails triés, 1 réponse envoyée",
+    "14:35 — Rapport hebdo généré (PDF)",
+    "14:41 — Alerte: stock < 15 unités (Pack Pro)",
+    "",
+    "▸ Données traitées: 100% local",
+    "▸ Requêtes API externes: 0",
+  ];
+
+  const runDemo = () => {
+    setLines([]);
     setIsRunning(true);
   };
 
   useEffect(() => {
-    if (!isRunning || visibleLines >= scenarios[activeScenario].conversation.length) {
-      if (visibleLines >= scenarios[activeScenario].conversation.length) {
-        setIsRunning(false);
-      }
+    if (!isRunning) return;
+    if (lines.length >= scenario.length) {
+      setIsRunning(false);
       return;
     }
     const timeout = setTimeout(() => {
-      setVisibleLines((v) => v + 1);
-    }, 800);
+      setLines((prev) => [...prev, scenario[prev.length]]);
+    }, 120);
     return () => clearTimeout(timeout);
-  }, [isRunning, visibleLines, activeScenario]);
+  }, [isRunning, lines.length]);
 
   useEffect(() => {
-    if (terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    if (termRef.current) {
+      termRef.current.scrollTop = termRef.current.scrollHeight;
     }
-  }, [visibleLines]);
-
-  const scenario = scenarios[activeScenario];
+  }, [lines]);
 
   return (
-    <div className="terminal w-full max-w-lg mx-auto">
-      {/* Header */}
-      <div className="terminal-header">
-        <div className="terminal-dot bg-[#ef4444]" />
-        <div className="terminal-dot bg-[#f59e0b]" />
-        <div className="terminal-dot bg-[#10b981]" />
-        <span className="ml-3 text-text-dim text-xs font-mono">orchestrator — agent runtime</span>
-        <div className="ml-auto flex items-center gap-1.5">
-          <div className="status-dot" />
-          <span className="text-success text-[10px] font-mono">ONLINE</span>
+    <div className="screenshot">
+      {/* Title bar */}
+      <div className="flex items-center gap-2 px-4 py-3 bg-surface border-b border-border">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
-      </div>
-
-      {/* Scenario selector */}
-      <div className="flex gap-2 p-3 border-b border-border">
-        {scenarios.map((s, i) => (
-          <button
-            key={i}
-            onClick={() => runScenario(i)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              activeScenario === i
-                ? "bg-primary/15 text-primary-light border border-primary/20"
-                : "text-text-dim hover:text-text-muted hover:bg-surface-light"
-            }`}
-          >
-            <span>{s.icon}</span>
-            {s.label}
-          </button>
-        ))}
+        <span className="text-micro ml-2 font-mono">terminal — boubane deploy</span>
       </div>
 
       {/* Terminal body */}
-      <div ref={terminalRef} className="terminal-body min-h-[280px] max-h-[320px]">
-        {/* Agent info line */}
-        <div className="flex items-center gap-2 mb-4 text-text-dim">
-          <Cpu size={12} />
-          <span className="text-[11px] font-mono">ORCHESTRATOR v2.1 — Agent principal</span>
-          <span className="text-[10px] text-success ml-auto">● connecté</span>
-        </div>
-
-        {/* Conversation */}
-        <div className="space-y-2">
-          {scenario.conversation.slice(0, visibleLines).map((line, i) => (
-            <motion.div
-              key={`${activeScenario}-${i}`}
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.25 }}
-              className={`text-[12px] font-mono leading-relaxed ${
-                line.from === "trigger"
-                  ? "text-accent/70"
-                  : "text-text-muted"
-              }`}
-            >
-              <span className="text-text-dim mr-2">
-                {line.from === "trigger" ? "▸" : "→"}
-              </span>
-              {line.text}
-            </motion.div>
-          ))}
-          {isRunning && (
-            <div className="text-text-dim text-[12px] font-mono">
-              <span className="cursor-blink" />
-            </div>
-          )}
-        </div>
-
-        {/* Run button */}
-        {!isRunning && visibleLines === 0 && (
-          <button
-            onClick={() => runScenario(activeScenario)}
-            className="mt-4 flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-primary-light text-xs font-medium hover:bg-primary/15 transition-colors"
+      <div
+        ref={termRef}
+        className="p-5 bg-[#0a0a0a] font-mono text-[13px] leading-relaxed max-h-[360px] overflow-y-auto"
+      >
+        {lines.map((line, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.1 }}
+            className={`${
+              line.startsWith("$")
+                ? "text-text font-medium"
+                : line.startsWith("▸")
+                ? "text-accent-light"
+                : line.startsWith("Agent") || line.startsWith("▸ Données")
+                ? "text-success"
+                : line.includes("✓")
+                ? "text-success"
+                : line.includes("14:")
+                ? "text-text-secondary"
+                : "text-text-muted"
+            }`}
           >
-            <Terminal size={14} />
-            Exécuter le scénario
+            {line || "\u00A0"}
+          </motion.div>
+        ))}
+        {isRunning && (
+          <span className="inline-block w-2 h-4 bg-text animate-pulse" />
+        )}
+        {!isRunning && lines.length === 0 && (
+          <button
+            onClick={runDemo}
+            className="flex items-center gap-2 text-accent hover:text-accent-light transition-colors mt-2"
+          >
+            <Play size={14} />
+            <span className="text-xs">Voir le déploiement en action</span>
           </button>
         )}
-
-        {!isRunning && visibleLines >= scenario.conversation.length && (
+        {!isRunning && lines.length > 0 && (
           <button
-            onClick={() => runScenario(activeScenario)}
-            className="mt-4 flex items-center gap-2 text-text-dim text-xs hover:text-text-muted transition-colors"
+            onClick={runDemo}
+            className="text-text-dim hover:text-text-muted transition-colors mt-3 text-xs"
           >
-            <ChevronRight size={14} />
-            Relancer
+            Relancer →
           </button>
         )}
       </div>
@@ -203,91 +151,124 @@ function AgentTerminal() {
 
 /* === MAIN HERO === */
 export default function Hero() {
-  const typed = useTypewriter(["autonomes", "sécurisés", "invisibles", "fiables"]);
+  const typed = useTypewriter(["autonomes", "locaux", "privés", "fiables"]);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* 3D Background */}
-      <HeroCanvas />
+    <section className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+      {/* Subtle dot grid background */}
+      <div className="absolute inset-0 dot-grid opacity-50" />
 
-      <div className="container relative z-10 pt-32 pb-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left — Copy */}
+      <div className="container relative z-10">
+        <div className="max-w-3xl mx-auto text-center mb-16 md:mb-24">
+          {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ delay: 0.2 }}
+            className="badge mb-8"
           >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass mb-10"
-            >
-              <div className="status-dot" />
-              <span className="text-xs text-text-muted font-medium">
-                Agents IA locaux — Données 100% privées
-              </span>
-            </motion.div>
-
-            <h1 className="heading-xl mb-7">
-              Des agents IA
-              <br />
-              <span className="gradient-text">{typed}</span>
-              <span className="cursor-blink" />
-              <br />
-              <span className="text-text/70">intégrés à votre entreprise</span>
-            </h1>
-
-            <p className="text-lg text-text-muted max-w-lg mb-10 leading-relaxed">
-              Boubane installe des agents IA directement dans votre environnement de travail — 
-              votre réseau, vos mails, vos outils. Ils automatisent vos tâches répétitives, 
-              répondent à vos mails, préparent vos rapports. 
-              <span className="text-text/60"> Vos données ne sortent jamais de chez vous.</span>
-            </p>
-
-            {/* CTA */}
-            <div className="flex flex-wrap gap-4 mb-12">
-              <Link href="#contact" className="btn-primary">
-                Déployer mon agent
-                <ArrowRight size={16} />
-              </Link>
-              <Link href="#demo" className="btn-ghost">
-                Voir la démo
-                <ChevronRight size={16} />
-              </Link>
-            </div>
-
-            {/* Trust */}
-            <div className="flex flex-wrap gap-6">
-              {[
-                { icon: Shield, text: "100% local" },
-                { icon: Network, text: "Vos outils, votre réseau" },
-                { icon: Cpu, text: "Déploiement 48h" },
-              ].map((t) => (
-                <div key={t.text} className="flex items-center gap-2 text-text-dim">
-                  <t.icon size={14} className="text-accent/60" />
-                  <span className="text-xs font-medium">{t.text}</span>
-                </div>
-              ))}
-            </div>
+            <div className="status-dot" />
+            <span>Vos données restent chez vous</span>
           </motion.div>
 
-          {/* Right — Agent Terminal */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            id="demo"
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="heading-hero mb-6"
           >
-            <AgentTerminal />
+            Un agent IA sur
+            <br />
+            <span className="inline-flex items-baseline gap-2">
+              <span>{typed}</span>
+              <span className="inline-block w-1 h-[0.9em] bg-text animate-pulse" />
+            </span>
+            <br />
+            votre hardware
+          </motion.h1>
+
+          {/* Subheadline */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-body max-w-xl mx-auto mb-10"
+          >
+            Boubane installe un agent IA directement dans votre entreprise — 
+            sur un Mac Mini, un NUC, ou votre serveur. Il répond à vos mails, 
+            automatise vos rapports, gère votre support. 
+            <span className="text-text-muted"> 100% local.</span>
+          </motion.p>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            className="flex flex-wrap items-center justify-center gap-3"
+          >
+            <Link href="#contact" className="btn-primary">
+              Déployer un agent
+              <ArrowRight size={14} />
+            </Link>
+            <Link href="#hardware" className="btn-secondary">
+              Voir les configurations
+            </Link>
+          </motion.div>
+
+          {/* Trust signals */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="flex flex-wrap items-center justify-center gap-6 mt-10 text-micro"
+          >
+            <span className="flex items-center gap-1.5">
+              <Cpu size={12} />
+              <span>Mac Mini / NUC / Serveur</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <HardDrive size={12} />
+              <span>Données 100% locales</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Wifi size={12} />
+              <span>Clé API ou 100% offline</span>
+            </span>
           </motion.div>
         </div>
-      </div>
 
-      {/* Bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bg to-transparent z-10" />
+        {/* Terminal Demo */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.9 }}
+          className="max-w-2xl mx-auto"
+        >
+          <TerminalDemo />
+        </motion.div>
+
+        {/* Logos / Social proof */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.3 }}
+          className="text-center mt-16 md:mt-24"
+        >
+          <p className="text-micro mb-6 uppercase tracking-widest">
+            Déployé sur
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-micro">
+            {["Mac Mini M4", "Intel NUC", "HP ProDesk", "Serveur Linux", "DIY"].map((hw) => (
+              <span key={hw} className="flex items-center gap-2">
+                <HardDrive size={10} className="text-text-dim" />
+                {hw}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 }
