@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Cpu, HardDrive, Wifi, Play } from "lucide-react";
+import { ArrowRight, Cpu, HardDrive, Wifi, Play, Check } from "lucide-react";
 import Link from "next/link";
+import NodeNetwork from "./NodeNetwork";
 
 /* === TYPING EFFECT === */
 function useTypewriter(words: string[], speed = 70, pause = 3000) {
@@ -36,7 +37,7 @@ function useTypewriter(words: string[], speed = 70, pause = 3000) {
   return text;
 }
 
-/* === TERMINAL DEMO — Ce qui fait la diff === */
+/* === TERMINAL DEMO === */
 function TerminalDemo() {
   const [lines, setLines] = useState<string[]>([]);
   const [isRunning, setIsRunning] = useState(false);
@@ -74,7 +75,7 @@ function TerminalDemo() {
     }
     const timeout = setTimeout(() => {
       setLines((prev) => [...prev, scenario[prev.length]]);
-    }, 120);
+    }, 100);
     return () => clearTimeout(timeout);
   }, [isRunning, lines.length]);
 
@@ -85,63 +86,63 @@ function TerminalDemo() {
   }, [lines]);
 
   return (
-    <div className="screenshot">
+    <div className="rounded-xl border border-border overflow-hidden">
       {/* Title bar */}
-      <div className="flex items-center gap-2 px-4 py-3 bg-surface border-b border-border">
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-surface border-b border-border">
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
-        <span className="text-micro ml-2 font-mono">terminal — boubane deploy</span>
+        <span className="text-[11px] text-text-dim font-mono ml-2">terminal</span>
       </div>
 
       {/* Terminal body */}
       <div
         ref={termRef}
-        className="p-5 bg-[#0a0a0a] font-mono text-[13px] leading-relaxed max-h-[360px] overflow-y-auto"
+        className="p-4 bg-[#080808] font-mono text-[12px] leading-[1.7] max-h-[320px] overflow-y-auto"
       >
         {lines.map((line, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.1 }}
-            className={`${
+            transition={{ duration: 0.05 }}
+            className={
               line.startsWith("$")
-                ? "text-text font-medium"
+                ? "text-text"
+                : line.startsWith("▸") && line.includes("✓")
+                ? "text-[#30a46c]"
                 : line.startsWith("▸")
-                ? "text-accent-light"
-                : line.startsWith("Agent") || line.startsWith("▸ Données")
-                ? "text-success"
-                : line.includes("✓")
-                ? "text-success"
+                ? "text-[#5e6ad2]"
+                : line.startsWith("Agent")
+                ? "text-text font-medium"
                 : line.includes("14:")
                 ? "text-text-secondary"
                 : "text-text-muted"
-            }`}
+            }
           >
             {line || "\u00A0"}
           </motion.div>
         ))}
         {isRunning && (
-          <span className="inline-block w-2 h-4 bg-text animate-pulse" />
+          <span className="inline-block w-1.5 h-3.5 bg-text animate-pulse" />
         )}
         {!isRunning && lines.length === 0 && (
           <button
             onClick={runDemo}
-            className="flex items-center gap-2 text-accent hover:text-accent-light transition-colors mt-2"
+            className="flex items-center gap-2 text-[#5e6ad2] hover:text-[#7c85e0] transition-colors mt-1"
           >
-            <Play size={14} />
-            <span className="text-xs">Voir le déploiement en action</span>
+            <Play size={12} />
+            <span className="text-[12px]">Voir le déploiement</span>
           </button>
         )}
         {!isRunning && lines.length > 0 && (
           <button
             onClick={runDemo}
-            className="text-text-dim hover:text-text-muted transition-colors mt-3 text-xs"
+            className="text-text-dim hover:text-text-muted transition-colors mt-2 text-[11px]"
           >
-            Relancer →
+            ↻ Relancer
           </button>
         )}
       </div>
@@ -154,21 +155,28 @@ export default function Hero() {
   const typed = useTypewriter(["autonomes", "locaux", "privés", "fiables"]);
 
   return (
-    <section className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
-      {/* Subtle dot grid background */}
-      <div className="absolute inset-0 dot-grid opacity-50" />
+    <section className="relative pt-28 pb-16 md:pt-40 md:pb-28 overflow-hidden">
+      {/* Node network background */}
+      <div className="absolute inset-0 opacity-40">
+        <NodeNetwork />
+      </div>
+
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-bg via-transparent to-bg pointer-events-none" />
 
       <div className="container relative z-10">
-        <div className="max-w-3xl mx-auto text-center mb-16 md:mb-24">
+        <div className="max-w-2xl mx-auto text-center mb-12 md:mb-20">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="badge mb-8"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-surface border border-border mb-6"
           >
-            <div className="status-dot" />
-            <span>Vos données restent chez vous</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#30a46c]" />
+            <span className="text-[11px] text-text-secondary font-medium">
+              100% local — Vos données restent chez vous
+            </span>
           </motion.div>
 
           {/* Headline */}
@@ -176,16 +184,16 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="heading-hero mb-6"
+            className="text-[clamp(2.5rem,6vw,4rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-text mb-5"
           >
-            Un agent IA sur
+            Un agent IA
             <br />
-            <span className="inline-flex items-baseline gap-2">
+            <span className="inline-flex items-baseline gap-1">
               <span>{typed}</span>
-              <span className="inline-block w-1 h-[0.9em] bg-text animate-pulse" />
+              <span className="inline-block w-0.5 h-[0.85em] bg-text animate-pulse" />
             </span>
             <br />
-            votre hardware
+            <span className="text-text-muted">sur votre hardware</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -193,12 +201,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-body max-w-xl mx-auto mb-10"
+            className="text-[1.05rem] text-text-secondary leading-relaxed max-w-lg mx-auto mb-8"
           >
-            Boubane installe un agent IA directement dans votre entreprise — 
-            sur un Mac Mini, un NUC, ou votre serveur. Il répond à vos mails, 
-            automatise vos rapports, gère votre support. 
-            <span className="text-text-muted"> 100% local.</span>
+            Boubane installe un agent IA dans votre entreprise — sur un Mac Mini, 
+            un NUC, ou votre serveur. Il répond à vos mails, automatise vos rapports, 
+            gère votre support.
           </motion.p>
 
           {/* CTA */}
@@ -206,63 +213,67 @@ export default function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
-            className="flex flex-wrap items-center justify-center gap-3"
+            className="flex flex-wrap items-center justify-center gap-2.5"
           >
-            <Link href="#contact" className="btn-primary">
+            <Link
+              href="#contact"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-text text-bg font-medium text-[13px] hover:bg-[#f0f0f0] transition-colors"
+            >
               Déployer un agent
-              <ArrowRight size={14} />
+              <ArrowRight size={13} />
             </Link>
-            <Link href="#hardware" className="btn-secondary">
+            <Link
+              href="#hardware"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface border border-border text-text font-medium text-[13px] hover:bg-surface-light transition-colors"
+            >
               Voir les configurations
             </Link>
           </motion.div>
 
-          {/* Trust signals */}
+          {/* Trust */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="flex flex-wrap items-center justify-center gap-6 mt-10 text-micro"
+            className="flex flex-wrap items-center justify-center gap-5 mt-8"
           >
-            <span className="flex items-center gap-1.5">
-              <Cpu size={12} />
-              <span>Mac Mini / NUC / Serveur</span>
-            </span>
-            <span className="flex items-center gap-1.5">
-              <HardDrive size={12} />
-              <span>Données 100% locales</span>
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Wifi size={12} />
-              <span>Clé API ou 100% offline</span>
-            </span>
+            {[
+              { icon: Cpu, text: "Mac Mini / NUC / Serveur" },
+              { icon: HardDrive, text: "Données 100% locales" },
+              { icon: Wifi, text: "API ou 100% offline" },
+            ].map((t) => (
+              <span key={t.text} className="flex items-center gap-1.5 text-[11px] text-text-dim">
+                <t.icon size={11} />
+                {t.text}
+              </span>
+            ))}
           </motion.div>
         </div>
 
-        {/* Terminal Demo */}
+        {/* Terminal */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.9 }}
-          className="max-w-2xl mx-auto"
+          className="max-w-xl mx-auto"
         >
           <TerminalDemo />
         </motion.div>
 
-        {/* Logos / Social proof */}
+        {/* Deployed on */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.3 }}
-          className="text-center mt-16 md:mt-24"
+          className="text-center mt-14 md:mt-20"
         >
-          <p className="text-micro mb-6 uppercase tracking-widest">
+          <p className="text-[10px] text-text-dim uppercase tracking-[0.15em] mb-5">
             Déployé sur
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-micro">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {["Mac Mini M4", "Intel NUC", "HP ProDesk", "Serveur Linux", "DIY"].map((hw) => (
-              <span key={hw} className="flex items-center gap-2">
-                <HardDrive size={10} className="text-text-dim" />
+              <span key={hw} className="flex items-center gap-1.5 text-[11px] text-text-dim">
+                <HardDrive size={10} />
                 {hw}
               </span>
             ))}

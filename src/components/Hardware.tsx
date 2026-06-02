@@ -8,47 +8,50 @@ const configs = [
   {
     name: "Essential",
     hardware: "Mac Mini M4",
-    specs: ["Apple M4 10 cœurs", "16 Go RAM", "256 Go SSD", "macOS"],
-    price: "à partir de 590€",
-    priceNote: "hardware inclus",
+    specs: ["Apple M4 10 cœurs", "16 Go RAM", "256 Go SSD"],
+    price: "590€",
+    period: "+ 190€/mois",
+    priceNote: "hardware + agent",
     features: [
-      "1 agent IA principal",
+      "1 agent IA",
       "Jusqu'à 500 emails/mois",
       "Réponses automatiques",
       "Rapports hebdomadaires",
-      "Support par email",
+      "Support email",
     ],
     recommended: false,
   },
   {
     name: "Professional",
     hardware: "Mac Mini M4 Pro",
-    specs: ["Apple M4 Pro 14 cœurs", "32 Go RAM", "512 Go SSD", "macOS"],
-    price: "à partir de 1 190€",
-    priceNote: "hardware inclus",
+    specs: ["Apple M4 Pro 14 cœurs", "32 Go RAM", "512 Go SSD"],
+    price: "1 190€",
+    period: "+ 390€/mois",
+    priceNote: "hardware + agents",
     features: [
-      "3 agents IA spécialisés",
+      "3 agents spécialisés",
       "Emails illimités",
       "Support client 24/7",
       "Rapports temps réel",
       "Intégrations multiples",
-      "Formation équipe incluse",
+      "Formation équipe",
     ],
     recommended: true,
   },
   {
     name: "Enterprise",
     hardware: "Serveur sur-mesure",
-    specs: ["Intel Xeon / AMD EPYC", "64+ Go RAM", "1+ To SSD", "Ubuntu / Debian"],
+    specs: ["Xeon / EPYC", "64+ Go RAM", "1+ To SSD"],
     price: "Sur devis",
+    period: "sur devis",
     priceNote: "configuration adaptée",
     features: [
       "Agents illimités",
-      "Modèles LLM multiples",
       "GPU dédié (optionnel)",
+      "Modèles LLM multiples",
       "Hébergement rack",
       "SLA 99.9%",
-      "Account manager dédié",
+      "Account manager",
     ],
     recommended: false,
   },
@@ -63,67 +66,65 @@ export default function Hardware() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          className="text-center mb-16"
+          className="text-center mb-14"
         >
-          <span className="text-micro uppercase tracking-[0.2em] text-text-muted block mb-4">
-            Hardware
+          <span className="text-[10px] text-text-muted uppercase tracking-[0.2em] block mb-4">
+            Hardware & Tarifs
           </span>
-          <h2 className="heading-section mb-5">
-            Votre agent tourne
-            <br />
-            sur votre machine
+          <h2 className="text-[clamp(1.6rem,3.5vw,2.4rem)] font-semibold leading-[1.1] tracking-[-0.025em] text-text mb-4">
+            Choisissez votre configuration
           </h2>
-          <p className="text-body max-w-xl mx-auto">
-            Pas de cloud. Pas de données qui sortent. 
-            L&apos;agent s&apos;installe sur le hardware que vous choisissez — 
-            et il s&apos;adapte à vos besoins.
+          <p className="text-[0.95rem] text-text-secondary max-w-lg mx-auto">
+            Tout est inclus : le hardware, l&apos;installation de l&apos;agent, 
+            et le support. Vous branchez, on configure.
           </p>
         </motion.div>
 
         {/* Configs */}
-        <div className="grid md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-3 max-w-4xl mx-auto">
           {configs.map((config, i) => (
             <motion.div
               key={config.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`card p-6 flex flex-col ${
-                config.recommended ? "border-accent/30" : ""
+              transition={{ delay: i * 0.08 }}
+              className={`card p-5 flex flex-col ${
+                config.recommended ? "border-[#5e6ad2]/30" : ""
               }`}
             >
               {config.recommended && (
-                <div className="text-micro text-accent font-medium mb-3">
+                <p className="text-[10px] text-[#5e6ad2] font-medium mb-2 uppercase tracking-wider">
                   Recommandé
-                </div>
+                </p>
               )}
 
-              <h3 className="heading-card mb-1">{config.name}</h3>
-              <p className="text-small mb-4">{config.hardware}</p>
+              <h3 className="text-[15px] font-semibold text-text mb-0.5">{config.name}</h3>
+              <p className="text-[12px] text-text-muted mb-3">{config.hardware}</p>
 
               {/* Specs */}
-              <div className="flex flex-wrap gap-1.5 mb-5">
+              <div className="flex flex-wrap gap-1 mb-4">
                 {config.specs.map((spec) => (
-                  <span key={spec} className="badge text-micro">
+                  <span key={spec} className="inline-flex items-center px-2 py-0.5 rounded-md bg-surface-light border border-border text-[10px] text-text-secondary">
                     {spec}
                   </span>
                 ))}
               </div>
 
-              <hr className="divider my-5" />
+              <div className="h-px bg-border my-4" />
 
               {/* Price */}
-              <div className="mb-6">
-                <p className="text-text font-semibold text-lg">{config.price}</p>
-                <p className="text-micro">{config.priceNote}</p>
+              <div className="mb-5">
+                <p className="text-[17px] font-semibold text-text">{config.price}</p>
+                <p className="text-[11px] text-text-muted">{config.period}</p>
+                <p className="text-[10px] text-text-dim">{config.priceNote}</p>
               </div>
 
               {/* Features */}
-              <ul className="space-y-2.5 mb-8 flex-1">
+              <ul className="space-y-2 mb-6 flex-1">
                 {config.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-small">
-                    <Check size={14} className="text-success mt-0.5 shrink-0" />
+                  <li key={f} className="flex items-start gap-2 text-[12px] text-text-secondary">
+                    <Check size={12} className="text-[#30a46c] mt-0.5 shrink-0" />
                     {f}
                   </li>
                 ))}
@@ -131,55 +132,28 @@ export default function Hardware() {
 
               <Link
                 href="#contact"
-                className={`w-full justify-center ${
-                  config.recommended ? "btn-primary" : "btn-secondary"
+                className={`inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg text-[13px] font-medium transition-colors ${
+                  config.recommended
+                    ? "bg-text text-bg hover:bg-[#f0f0f0]"
+                    : "bg-surface border border-border text-text hover:bg-surface-light"
                 }`}
               >
-                Choisir cette config
-                <ArrowRight size={14} />
+                Choisir
+                <ArrowRight size={12} />
               </Link>
             </motion.div>
           ))}
         </div>
 
-        {/* How it works */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        {/* Note */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-20 max-w-3xl mx-auto"
+          className="text-center text-[11px] text-text-dim mt-6"
         >
-          <hr className="divider mb-12" />
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: HardDrive,
-                title: "On installe",
-                desc: "On configure le hardware chez vous — Mac Mini, NUC, ou votre serveur.",
-              },
-              {
-                icon: Cpu,
-                title: "L'agent apprend",
-                desc: "Il analyse vos mails, vos fichiers, vos processus. Il apprend votre façon de travailler.",
-              },
-              {
-                icon: Shield,
-                title: "Ça tourne",
-                desc: "L'agent travaille en autonomie. Vos données ne quittent jamais votre réseau.",
-              },
-            ].map((step, i) => (
-              <div key={step.title} className="text-center">
-                <div className="w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center mx-auto mb-4">
-                  <step.icon size={18} className="text-text-secondary" />
-                </div>
-                <p className="text-micro text-text-muted mb-2">Étape {i + 1}</p>
-                <p className="heading-card text-sm mb-2">{step.title}</p>
-                <p className="text-small">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+          Engagement 3 mois. Annulation possible après. TVA non incluse.
+        </motion.p>
       </div>
     </section>
   );
