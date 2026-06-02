@@ -76,26 +76,25 @@ function FloatingOrb({ delay, size, x, y, color }: { delay: number; size: number
 }
 
 function AgentDemo() {
-  const [messages, setMessages] = useState<{ role: "user" | "agent"; text: string }[]>([]);
-  const demoMessages = [
-    { role: "user" as const, text: "Résume les ventes de la semaine" },
-    { role: "agent" as const, text: "📊 Semaine 22 : 12 450€ (+8% vs S21). Top produit : Pack Pro (14 ventes). 3 commandes en attente de traitement." },
-    { role: "user" as const, text: "Relance les clients en attente de paiement" },
-    { role: "agent" as const, text: "✅ 4 relances envoyées par email. 2 clients ont déjà payé. Montant récupéré : 890€." },
+  const [visibleCount, setVisibleCount] = useState(0);
+
+  const demoMessages: { role: "user" | "agent"; text: string }[] = [
+    { role: "user", text: "Résume les ventes de la semaine" },
+    { role: "agent", text: "📊 Semaine 22 : 12 450€ (+8% vs S21). Top produit : Pack Pro (14 ventes). 3 commandes en attente." },
+    { role: "user", text: "Relance les clients en attente de paiement" },
+    { role: "agent", text: "✅ 4 relances envoyées. 2 clients ont déjà payé. Montant récupéré : 890€." },
   ];
 
   useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < demoMessages.length) {
-        setMessages((prev) => [...prev, demoMessages[i]]);
-        i++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+    if (visibleCount < demoMessages.length) {
+      const timeout = setTimeout(() => {
+        setVisibleCount((c) => c + 1);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [visibleCount]);
+
+  const visibleMessages = demoMessages.slice(0, visibleCount);
 
   return (
     <div className="relative w-full max-w-md mx-auto">
@@ -115,7 +114,17 @@ function AgentDemo() {
 
           {/* Messages */}
           <div className="space-y-3 min-h-[180px]">
-            {messages.map((msg, i) => (
+            {visibleMessages.length === 0 && (
+              <div className="flex items-center gap-2 text-text-dim text-sm">
+                <div className="flex gap-1">
+                  <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "150ms" }} />
+                  <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "300ms" }} />
+                </div>
+                Initialisation de l&apos;agent...
+              </div>
+            )}
+            {visibleMessages.map((msg, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 8 }}
