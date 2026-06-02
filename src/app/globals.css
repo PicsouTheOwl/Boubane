@@ -289,8 +289,36 @@ body {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* === GRID BACKGROUND (subtle) === */
+/* === SCROLL ANIMATIONS === */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === HOVER LIFT === */
+.hover-lift {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* === PULSE (subtle) === */
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.animate-subtle-pulse {
+  animation: subtle-pulse 3s ease-in-out infinite;
+}
+
+/* === DOT GRID === */
 .dot-grid {
-  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
