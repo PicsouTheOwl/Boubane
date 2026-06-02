@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Boubane — Agents IA Sécurisés pour PME",
-  description: "Déployez des agents IA autonomes et sécurisés dans votre entreprise. Boubane conçoit, installe et maintient votre assistant IA personnalisé.",
-  keywords: ["agent IA", "intelligence artificielle", "PME", "automatisation", "assistant IA", "Boubane"],
+  title: "Boubane — Votre Allié IA pour PME | Agents Autonomes & Sécurisés",
+  description: "Boubane déploie des agents IA autonomes qui automatisent vos tâches répétitives, réduisent vos coûts et vous aident à scaler — sans embaucher. Résultats concrets en 48h.",
+  keywords: ["agent IA", "intelligence artificielle PME", "automatisation entreprise", "assistant IA", "Boubane", "IA sécurisé", "agent autonome"],
   openGraph: {
-    title: "Boubane — Agents IA Sécurisés pour PME",
-    description: "Déployez des agents IA autonomes et sécurisés dans votre entreprise.",
+    title: "Boubane — Votre Allié IA pour PME",
+    description: "Des agents IA autonomes qui automatisent vos tâches, réduisent vos coûts et vous aident à scaler. Résultats concrets en 48h.",
     type: "website",
     locale: "fr_FR",
   },
@@ -34,6 +34,9 @@ export default function RootLayout({
       lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      </head>
       <body className="min-h-full flex flex-col noise-bg grid-bg">
         {children}
       </body>

@@ -2,10 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Shield, Zap } from "lucide-react";
+import { ArrowRight, Sparkles, Clock, TrendingUp, Shield } from "lucide-react";
 import Link from "next/link";
 
-const words = ["autonomes", "sécurisés", "intelligents", "fiables"];
+const results = [
+  { icon: Clock, value: "15h", label: "économisées / semaine" },
+  { icon: TrendingUp, value: "40%", label: "de productivité en plus" },
+  { icon: Shield, value: "100%", label: "données sécurisées" },
+];
+
+const words = ["autonomes", "sécurisés", "efficaces", "sur-mesure"];
 
 function TypewriterWord() {
   const [index, setIndex] = useState(0);
@@ -19,7 +25,7 @@ function TypewriterWord() {
         if (!isDeleting) {
           setText(currentWord.slice(0, text.length + 1));
           if (text.length + 1 === currentWord.length) {
-            setTimeout(() => setIsDeleting(true), 2000);
+            setTimeout(() => setIsDeleting(true), 2500);
           }
         } else {
           setText(currentWord.slice(0, text.length - 1));
@@ -29,7 +35,7 @@ function TypewriterWord() {
           }
         }
       },
-      isDeleting ? 50 : 100
+      isDeleting ? 40 : 80
     );
     return () => clearTimeout(timeout);
   }, [text, isDeleting, index]);
@@ -42,26 +48,25 @@ function TypewriterWord() {
   );
 }
 
-function FloatingOrb({ delay, size, x, y }: { delay: number; size: number; x: string; y: string }) {
+function FloatingOrb({ delay, size, x, y, color }: { delay: number; size: number; x: string; y: string; color: string }) {
   return (
     <motion.div
-      className="absolute rounded-full blur-3xl opacity-20"
+      className="absolute rounded-full blur-3xl"
       style={{
         width: size,
         height: size,
         left: x,
         top: y,
-        background: `radial-gradient(circle, ${
-          delay % 2 === 0 ? "rgba(99,102,241,0.8)" : "rgba(34,211,238,0.8)"
-        }, transparent)`,
+        background: color,
+        opacity: 0.12,
       }}
       animate={{
-        y: [0, -30, 0],
-        x: [0, 15, 0],
-        scale: [1, 1.1, 1],
+        y: [0, -25, 0],
+        x: [0, 12, 0],
+        scale: [1, 1.08, 1],
       }}
       transition={{
-        duration: 8,
+        duration: 10,
         delay,
         repeat: Infinity,
         ease: "easeInOut",
@@ -73,10 +78,10 @@ function FloatingOrb({ delay, size, x, y }: { delay: number; size: number; x: st
 function AgentDemo() {
   const [messages, setMessages] = useState<{ role: "user" | "agent"; text: string }[]>([]);
   const demoMessages = [
-    { role: "user" as const, text: "Résume les ventes du mois dernier" },
-    { role: "agent" as const, text: "📊 Ventes de mai : 47 200€ (+12% vs avril). Top produit : Pack Pro (23 unités). Tendance haussière sur les 3 dernières semaines." },
-    { role: "user" as const, text: "Envoie un résumé à l'équipe" },
-    { role: "agent" as const, text: "✅ Résumé envoyé à 6 membres de l'équipe via Slack. Programmation d'un rapport hebdomadaire activée." },
+    { role: "user" as const, text: "Résume les ventes de la semaine" },
+    { role: "agent" as const, text: "📊 Semaine 22 : 12 450€ (+8% vs S21). Top produit : Pack Pro (14 ventes). 3 commandes en attente de traitement." },
+    { role: "user" as const, text: "Relance les clients en attente de paiement" },
+    { role: "agent" as const, text: "✅ 4 relances envoyées par email. 2 clients ont déjà payé. Montant récupéré : 890€." },
   ];
 
   useEffect(() => {
@@ -88,44 +93,41 @@ function AgentDemo() {
       } else {
         clearInterval(interval);
       }
-    }, 1800);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="relative w-full max-w-md mx-auto">
       <div className="gradient-border rounded-2xl overflow-hidden">
-        <div className="bg-surface p-6">
+        <div className="bg-surface p-5">
           {/* Header */}
-          <div className="flex items-center gap-3 mb-6">
-            <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <Sparkles size={18} className="text-white" />
-              <div className="absolute inset-0 rounded-full bg-accent/30 animate-ping" />
+          <div className="flex items-center gap-3 mb-5">
+            <div className="relative w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+              <Sparkles size={16} className="text-white" />
+              <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-success border-2 border-surface" />
             </div>
             <div>
               <p className="font-semibold text-sm">Agent Boubane</p>
-              <p className="text-xs text-success flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-success inline-block" />
-                En ligne
-              </p>
+              <p className="text-xs text-success">Actif</p>
             </div>
           </div>
 
           {/* Messages */}
-          <div className="space-y-4 min-h-[200px]">
+          <div className="space-y-3 min-h-[180px]">
             {messages.map((msg, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
                 className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${
+                  className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-[13px] leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-primary/20 text-foreground rounded-br-md"
-                      : "bg-surface-light text-foreground/90 rounded-bl-md border border-surface-border"
+                      ? "bg-primary/15 text-text rounded-br-sm"
+                      : "bg-surface-light text-text/90 rounded-bl-sm border border-border"
                   }`}
                 >
                   {msg.text}
@@ -141,99 +143,100 @@ function AgentDemo() {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16">
       {/* Background orbs */}
-      <FloatingOrb delay={0} size={400} x="10%" y="20%" />
-      <FloatingOrb delay={2} size={300} x="70%" y="60%" />
-      <FloatingOrb delay={4} size={250} x="80%" y="10%" />
+      <FloatingOrb delay={0} size={500} x="5%" y="15%" color="rgba(99,102,241,0.6)" />
+      <FloatingOrb delay={3} size={400} x="75%" y="55%" color="rgba(34,211,238,0.5)" />
+      <FloatingOrb delay={6} size={300} x="85%" y="10%" color="rgba(99,102,241,0.4)" />
 
-      <div className="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-center relative z-10">
-        {/* Left — Text */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          {/* Badge */}
+      <div className="container relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left — Copy */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            <Sparkles size={14} className="text-accent" />
-            <span className="text-sm text-text-muted">Nouveau — Agents IA de nouvelle génération</span>
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/8 border border-border mb-8"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+              <span className="text-xs text-text-muted font-medium">Agents IA déployés en 48h</span>
+            </motion.div>
+
+            <h1 className="heading-xl mb-6">
+              Des agents IA
+              <br />
+              <TypewriterWord />
+              <br />
+              <span className="text-text/80">qui travaillent pour vous</span>
+            </h1>
+
+            <p className="text-lg text-text-muted max-w-lg mb-10 leading-relaxed">
+              Boubane installe des assistants IA dans votre PME. Ils automatisent vos tâches répétitives, 
+              traitent vos demandes clients et analysent vos données — pendant que vous vous concentrez sur ce qui compte.
+            </p>
+
+            {/* CTA */}
+            <div className="flex flex-wrap gap-4 mb-12">
+              <Link
+                href="#contact"
+                className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-gradient-to-r from-primary to-primary-dark text-white font-semibold text-sm hover:shadow-lg hover:shadow-primary/20 transition-all hover:scale-[1.03] active:scale-[0.98]"
+              >
+                Démarrer gratuitement
+                <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="#resultats"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-border text-text font-semibold text-sm hover:bg-surface-light hover:border-border-hover transition-all"
+              >
+                Voir les résultats
+              </Link>
+            </div>
+
+            {/* Results */}
+            <div className="flex flex-wrap gap-6">
+              {results.map((r) => (
+                <div key={r.label} className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center">
+                    <r.icon size={18} className="text-accent" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-text">{r.value}</p>
+                    <p className="text-xs text-text-dim">{r.label}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6">
-            Des agents IA
-            <br />
-            <TypewriterWord />
-            <br />
-            <span className="text-foreground/80">pour votre PME</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-text-muted max-w-lg mb-10 leading-relaxed">
-            Boubane déploie des assistants IA autonomes qui comprennent votre métier,
-            exécutent vos tâches répétitives et sécurisent vos données.
-          </p>
-
-          {/* CTA */}
-          <div className="flex flex-wrap gap-4 mb-12">
-            <Link
-              href="#contact"
-              className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-primary to-primary-dark text-white font-semibold hover:shadow-xl hover:shadow-primary/25 transition-all hover:scale-105"
-            >
-              Démarrer un projet
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              href="#services"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-surface-border text-foreground font-semibold hover:bg-surface-light transition-all"
-            >
-              Découvrir nos services
-            </Link>
-          </div>
-
-          {/* Trust signals */}
-          <div className="flex flex-wrap gap-8">
-            <div className="flex items-center gap-2 text-text-dim">
-              <Shield size={16} className="text-success" />
-              <span className="text-sm">Données 100% sécurisées</span>
-            </div>
-            <div className="flex items-center gap-2 text-text-dim">
-              <Zap size={16} className="text-accent" />
-              <span className="text-sm">Déploiement en 48h</span>
-            </div>
-            <div className="flex items-center gap-2 text-text-dim">
-              <Sparkles size={16} className="text-primary-light" />
-              <span className="text-sm">Sur-mesure</span>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Right — Agent Demo */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-          className="relative"
-        >
-          <AgentDemo />
-        </motion.div>
+          {/* Right — Agent Demo */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+            className="relative"
+          >
+            <AgentDemo />
+          </motion.div>
+        </div>
       </div>
 
       {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        animate={{ y: [0, 6, 0] }}
+        transition={{ duration: 2.5, repeat: Infinity }}
       >
-        <div className="w-6 h-10 rounded-full border-2 border-surface-border flex items-start justify-center p-1.5">
+        <div className="w-5 h-8 rounded-full border border-border flex items-start justify-center p-1">
           <motion.div
-            className="w-1.5 h-1.5 rounded-full bg-primary"
-            animate={{ y: [0, 16, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            className="w-1 h-1.5 rounded-full bg-primary"
+            animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity }}
           />
         </div>
       </motion.div>
