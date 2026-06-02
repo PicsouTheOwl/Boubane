@@ -1,132 +1,103 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Brain, MessageSquare, BarChart3, Shield, Cog, Headphones } from "lucide-react";
+import { Mail, FileText, BarChart3, MessageSquare, FolderSync, Shield, ArrowUpRight } from "lucide-react";
 
 const services = [
   {
-    icon: Brain,
-    title: "Agent IA Métier",
-    description:
-      "Un assistant qui connaît votre entreprise sur le bout des doigts. Il répond aux questions, rédige des documents et prend des décisions selon vos règles.",
-    features: ["Compréhension contextuelle", "Mémoire à long terme", "Décisions autonomes"],
+    icon: Mail,
+    title: "Emails automatiques",
+    desc: "Votre agent lit, trie et répond à vos emails en imitant votre style. Il qualifie les demandes, envoie les devis, planifie les RDV.",
+    metric: "15h/semaine économisées",
     color: "from-primary to-primary-dark",
   },
   {
-    icon: MessageSquare,
-    title: "Support Client IA",
-    description:
-      "Un agent disponible 24/7 qui traite les demandes clients, escalade les cas complexes et maintient la satisfaction à son maximum.",
-    features: ["Disponibilité 24/7", "Multi-canal", "Escalade intelligente"],
+    icon: FileText,
+    title: "Documents & Rapports",
+    desc: "Génération automatique de devis, factures, rapports hebdos. L'agent collecte les données et produit des documents prêts à envoyer.",
+    metric: "40 rapports/mois automatisés",
     color: "from-accent to-cyan-600",
   },
   {
     icon: BarChart3,
-    title: "Analyse & Reporting",
-    description:
-      "Automatisez vos rapports, dashboards et analyses. Votre agent collecte, traite et présente les données clés de votre business.",
-    features: ["Rapports automatiques", "Alertes en temps réel", "Recommandations"],
+    title: "Analyse en temps réel",
+    desc: "Votre agent surveille vos KPIs, détecte les anomalies et vous alerte. Tableaux de bord automatiques, recommandations proactives.",
+    metric: "Détection en < 5 min",
     color: "from-violet-500 to-purple-700",
+  },
+  {
+    icon: MessageSquare,
+    title: "Support client 24/7",
+    desc: "Réponses instantanées aux questions fréquentes, escalade intelligente, suivi des tickets. Vos clients ne attendent plus.",
+    metric: "90% résolu sans humain",
+    color: "from-emerald-500 to-green-700",
+  },
+  {
+    icon: FolderSync,
+    title: "Automatisation workflow",
+    desc: "L'agent connecte vos outils (CRM, Slack, compta…) et orchestre les processus. Zéro saisie manuelle, zéro erreur.",
+    metric: "0 tâche répétitive",
+    color: "from-orange-500 to-red-600",
   },
   {
     icon: Shield,
     title: "Sécurité & Conformité",
-    description:
-      "Vos agents Boubane respectent les normes RGPD et les standards de sécurité. Hébergement en France, données chiffrées.",
-    features: ["RGPD compliant", "Hébergement FR", "Chiffrement E2E"],
-    color: "from-emerald-500 to-green-700",
-  },
-  {
-    icon: Cog,
-    title: "Automatisation Workflow",
-    description:
-      "Connectez vos outils existants (CRM, ERP, Slack, email) et laissez vos agents orchestrer les processus automatiquement.",
-    features: ["Intégrations multiples", "Workflows visuels", "Zéro code"],
-    color: "from-orange-500 to-red-600",
-  },
-  {
-    icon: Headphones,
-    title: "Formation & Suivi",
-    description:
-      "On ne vous laisse pas seuls. Formation de votre équipe, monitoring continu et optimisation des performances de vos agents.",
-    features: ["Formation incluse", "Monitoring 24/7", "Amélioration continue"],
+    desc: "Tout tourne sur votre infrastructure. RGPD natif, chiffrement E2E, audit complet. Vos données restent chez vous.",
+    metric: "100% données privées",
     color: "from-pink-500 to-rose-700",
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
 export default function Services() {
   return (
-    <section id="services" className="relative py-32">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="services" className="section relative">
+      <div className="container">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-80px" }}
           className="text-center mb-20"
         >
-          <span className="text-sm font-semibold text-accent uppercase tracking-widest">
-            Services
+          <span className="text-[10px] font-bold text-accent uppercase tracking-[0.25em]">
+            Ce que fait votre agent
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
-            Tout ce dont votre PME
+          <h2 className="heading-lg mt-5 mb-6">
+            Il s&apos;intègre là où
             <br />
-            <span className="gradient-text">a besoin</span>
+            <span className="gradient-text">vous travaillez déjà</span>
           </h2>
-          <p className="text-text-muted text-lg max-w-2xl mx-auto">
-            Des solutions IA modulables, déployées rapidement et adaptées à votre réalité.
+          <p className="text-text-muted text-base max-w-xl mx-auto">
+            Pas de nouvel outil à apprendre. Voté agent se branche sur votre messagerie, 
+            vos fichiers, vos outils existants — et automatise ce qui vous prend du temps.
           </p>
         </motion.div>
 
         {/* Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {services.map((service) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {services.map((s, i) => (
             <motion.div
-              key={service.title}
-              variants={cardVariants}
-              className="group gradient-border rounded-2xl p-8 hover:scale-[1.02] transition-transform duration-300 cursor-default"
+              key={s.title}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              className="group gradient-border rounded-2xl p-7 hover:scale-[1.02] transition-all duration-300 cursor-default"
             >
-              <div
-                className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:shadow-lg transition-shadow`}
-              >
-                <service.icon size={24} className="text-white" />
+              <div className="flex items-start justify-between mb-5">
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center`}>
+                  <s.icon size={20} className="text-white" />
+                </div>
+                <ArrowUpRight size={16} className="text-text-dim opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
               </div>
-              <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-              <p className="text-text-muted text-sm leading-relaxed mb-6">
-                {service.description}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {service.features.map((f) => (
-                  <span
-                    key={f}
-                    className="px-3 py-1 rounded-full bg-surface-light text-xs text-text-muted border border-surface-border"
-                  >
-                    {f}
-                  </span>
-                ))}
+              <h3 className="text-lg font-bold mb-2">{s.title}</h3>
+              <p className="text-text-muted text-sm leading-relaxed mb-5">{s.desc}</p>
+              <div className="pt-4 border-t border-border">
+                <span className="text-xs font-semibold text-accent">{s.metric}</span>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

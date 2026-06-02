@@ -1,254 +1,293 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Clock, TrendingUp, Shield } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Shield, Cpu, Network, Terminal, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import HeroCanvas from "./HeroCanvas";
 
-const results = [
-  { icon: Clock, value: "15h", label: "économisées / semaine" },
-  { icon: TrendingUp, value: "40%", label: "de productivité en plus" },
-  { icon: Shield, value: "100%", label: "données sécurisées" },
-];
-
-const words = ["autonomes", "sécurisés", "efficaces", "sur-mesure"];
-
-function TypewriterWord() {
-  const [index, setIndex] = useState(0);
+/* === TYPING EFFECT === */
+function useTypewriter(words: string[], speed = 80, pause = 2500) {
   const [text, setText] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const currentWord = words[index];
+    const current = words[wordIndex];
     const timeout = setTimeout(
       () => {
         if (!isDeleting) {
-          setText(currentWord.slice(0, text.length + 1));
-          if (text.length + 1 === currentWord.length) {
-            setTimeout(() => setIsDeleting(true), 2500);
-          }
+          setText(current.slice(0, text.length + 1));
+          if (text.length + 1 === current.length) setTimeout(() => setIsDeleting(true), pause);
         } else {
-          setText(currentWord.slice(0, text.length - 1));
+          setText(current.slice(0, text.length - 1));
           if (text.length === 0) {
             setIsDeleting(false);
-            setIndex((prev) => (prev + 1) % words.length);
+            setWordIndex((p) => (p + 1) % words.length);
           }
         }
       },
-      isDeleting ? 40 : 80
+      isDeleting ? speed * 0.6 : speed
     );
     return () => clearTimeout(timeout);
-  }, [text, isDeleting, index]);
+  }, [text, isDeleting, wordIndex, words, speed, pause]);
 
-  return (
-    <span className="gradient-text">
-      {text}
-      <span className="cursor-blink" />
-    </span>
-  );
+  return text;
 }
 
-function FloatingOrb({ delay, size, x, y, color }: { delay: number; size: number; x: string; y: string; color: string }) {
-  return (
-    <motion.div
-      className="absolute rounded-full blur-3xl"
-      style={{
-        width: size,
-        height: size,
-        left: x,
-        top: y,
-        background: color,
-        opacity: 0.12,
-      }}
-      animate={{
-        y: [0, -25, 0],
-        x: [0, 12, 0],
-        scale: [1, 1.08, 1],
-      }}
-      transition={{
-        duration: 10,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-    />
-  );
-}
+/* === AGENT TERMINAL DEMO === */
+const scenarios = [
+  {
+    label: "Email automatique",
+    icon: "📧",
+    conversation: [
+      { from: "trigger", text: "Nouveau email reçu : 'Demande de devis — Salle de sport FitPlus'" },
+      { from: "agent", text: "Analyse de la demande..." },
+      { from: "agent", text: "✓ Devis personnalisé généré (PDF)" },
+      { from: "agent", text: "✓ Réponse envoyée en nom de Marc (ton professionnel)" },
+      { from: "agent", text: "✓ RDV de suivi ajouté au calendrier" },
+      { from: "agent", text: "→ Tâche suivante : relance automatique dans 3 jours si pas de réponse" },
+    ],
+  },
+  {
+    label: "Rapport commercial",
+    icon: "📊",
+    conversation: [
+      { from: "trigger", text: "Commande : 'Prépare le rapport hebdo de la semaine 22'" },
+      { from: "agent", text: "Collecte des données CRM + compta..." },
+      { from: "agent", text: "CA S22 : 47 200€ (+12% vs S21)" },
+      { from: "agent", text: "Top produit : Pack Pro (23 unités, 7 127€)" },
+      { from: "agent", text: "⚠️ Alerte : stock Pack Pro < 15 unités" },
+      { from: "agent", text: "✓ Rapport PDF généré et envoyé à l'équipe" },
+    ],
+  },
+  {
+    label: "Support client",
+    icon: "💬",
+    conversation: [
+      { from: "trigger", text: "Ticket #1847 : 'Problème livraison — commande #8834'" },
+      { from: "agent", text: "Recherche commande #8834..." },
+      { from: "agent", text: "Statut : Colis en transit, retard estimé 2 jours" },
+      { from: "agent", text: "✓ Email d'excuse envoyé au client" },
+      { from: "agent", text: "✓ Code promo 10% appliqué sur prochaine commande" },
+      { from: "agent", text: "✓ Ticket résolu — satisfaction estimée : 4.5/5" },
+    ],
+  },
+];
 
-function AgentDemo() {
-  const [visibleCount, setVisibleCount] = useState(0);
+function AgentTerminal() {
+  const [activeScenario, setActiveScenario] = useState(0);
+  const [visibleLines, setVisibleLines] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const terminalRef = useRef<HTMLDivElement>(null);
 
-  const demoMessages: { role: "user" | "agent"; text: string }[] = [
-    { role: "user", text: "Résume les ventes de la semaine" },
-    { role: "agent", text: "📊 Semaine 22 : 12 450€ (+8% vs S21). Top produit : Pack Pro (14 ventes). 3 commandes en attente." },
-    { role: "user", text: "Relance les clients en attente de paiement" },
-    { role: "agent", text: "✅ 4 relances envoyées. 2 clients ont déjà payé. Montant récupéré : 890€." },
-  ];
+  const runScenario = (index: number) => {
+    setActiveScenario(index);
+    setVisibleLines(0);
+    setIsRunning(true);
+  };
 
   useEffect(() => {
-    if (visibleCount < demoMessages.length) {
-      const timeout = setTimeout(() => {
-        setVisibleCount((c) => c + 1);
-      }, 2000);
-      return () => clearTimeout(timeout);
+    if (!isRunning || visibleLines >= scenarios[activeScenario].conversation.length) {
+      if (visibleLines >= scenarios[activeScenario].conversation.length) {
+        setIsRunning(false);
+      }
+      return;
     }
-  }, [visibleCount]);
+    const timeout = setTimeout(() => {
+      setVisibleLines((v) => v + 1);
+    }, 800);
+    return () => clearTimeout(timeout);
+  }, [isRunning, visibleLines, activeScenario]);
 
-  const visibleMessages = demoMessages.slice(0, visibleCount);
+  useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, [visibleLines]);
+
+  const scenario = scenarios[activeScenario];
 
   return (
-    <div className="relative w-full max-w-md mx-auto">
-      <div className="gradient-border rounded-2xl overflow-hidden">
-        <div className="bg-surface p-5">
-          {/* Header */}
-          <div className="flex items-center gap-3 mb-5">
-            <div className="relative w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <Sparkles size={16} className="text-white" />
-              <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-success border-2 border-surface" />
-            </div>
-            <div>
-              <p className="font-semibold text-sm">Agent Boubane</p>
-              <p className="text-xs text-success">Actif</p>
-            </div>
-          </div>
-
-          {/* Messages */}
-          <div className="space-y-3 min-h-[180px]">
-            {visibleMessages.length === 0 && (
-              <div className="flex items-center gap-2 text-text-dim text-sm">
-                <div className="flex gap-1">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "300ms" }} />
-                </div>
-                Initialisation de l&apos;agent...
-              </div>
-            )}
-            {visibleMessages.map((msg, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-[13px] leading-relaxed ${
-                    msg.role === "user"
-                      ? "bg-primary/15 text-text rounded-br-sm"
-                      : "bg-surface-light text-text/90 rounded-bl-sm border border-border"
-                  }`}
-                >
-                  {msg.text}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+    <div className="terminal w-full max-w-lg mx-auto">
+      {/* Header */}
+      <div className="terminal-header">
+        <div className="terminal-dot bg-[#ef4444]" />
+        <div className="terminal-dot bg-[#f59e0b]" />
+        <div className="terminal-dot bg-[#10b981]" />
+        <span className="ml-3 text-text-dim text-xs font-mono">orchestrator — agent runtime</span>
+        <div className="ml-auto flex items-center gap-1.5">
+          <div className="status-dot" />
+          <span className="text-success text-[10px] font-mono">ONLINE</span>
         </div>
+      </div>
+
+      {/* Scenario selector */}
+      <div className="flex gap-2 p-3 border-b border-border">
+        {scenarios.map((s, i) => (
+          <button
+            key={i}
+            onClick={() => runScenario(i)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              activeScenario === i
+                ? "bg-primary/15 text-primary-light border border-primary/20"
+                : "text-text-dim hover:text-text-muted hover:bg-surface-light"
+            }`}
+          >
+            <span>{s.icon}</span>
+            {s.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Terminal body */}
+      <div ref={terminalRef} className="terminal-body min-h-[280px] max-h-[320px]">
+        {/* Agent info line */}
+        <div className="flex items-center gap-2 mb-4 text-text-dim">
+          <Cpu size={12} />
+          <span className="text-[11px] font-mono">ORCHESTRATOR v2.1 — Agent principal</span>
+          <span className="text-[10px] text-success ml-auto">● connecté</span>
+        </div>
+
+        {/* Conversation */}
+        <div className="space-y-2">
+          {scenario.conversation.slice(0, visibleLines).map((line, i) => (
+            <motion.div
+              key={`${activeScenario}-${i}`}
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.25 }}
+              className={`text-[12px] font-mono leading-relaxed ${
+                line.from === "trigger"
+                  ? "text-accent/70"
+                  : "text-text-muted"
+              }`}
+            >
+              <span className="text-text-dim mr-2">
+                {line.from === "trigger" ? "▸" : "→"}
+              </span>
+              {line.text}
+            </motion.div>
+          ))}
+          {isRunning && (
+            <div className="text-text-dim text-[12px] font-mono">
+              <span className="cursor-blink" />
+            </div>
+          )}
+        </div>
+
+        {/* Run button */}
+        {!isRunning && visibleLines === 0 && (
+          <button
+            onClick={() => runScenario(activeScenario)}
+            className="mt-4 flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-primary-light text-xs font-medium hover:bg-primary/15 transition-colors"
+          >
+            <Terminal size={14} />
+            Exécuter le scénario
+          </button>
+        )}
+
+        {!isRunning && visibleLines >= scenario.conversation.length && (
+          <button
+            onClick={() => runScenario(activeScenario)}
+            className="mt-4 flex items-center gap-2 text-text-dim text-xs hover:text-text-muted transition-colors"
+          >
+            <ChevronRight size={14} />
+            Relancer
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
+/* === MAIN HERO === */
 export default function Hero() {
-  return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16">
-      {/* Background orbs */}
-      <FloatingOrb delay={0} size={500} x="5%" y="15%" color="rgba(99,102,241,0.6)" />
-      <FloatingOrb delay={3} size={400} x="75%" y="55%" color="rgba(34,211,238,0.5)" />
-      <FloatingOrb delay={6} size={300} x="85%" y="10%" color="rgba(99,102,241,0.4)" />
+  const typed = useTypewriter(["autonomes", "sécurisés", "invisibles", "fiables"]);
 
-      <div className="container relative z-10">
+  return (
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* 3D Background */}
+      <HeroCanvas />
+
+      <div className="container relative z-10 pt-32 pb-20">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left — Copy */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
             {/* Badge */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/8 border border-border mb-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass mb-10"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-              <span className="text-xs text-text-muted font-medium">Agents IA déployés en 48h</span>
+              <div className="status-dot" />
+              <span className="text-xs text-text-muted font-medium">
+                Agents IA locaux — Données 100% privées
+              </span>
             </motion.div>
 
-            <h1 className="heading-xl mb-6">
+            <h1 className="heading-xl mb-7">
               Des agents IA
               <br />
-              <TypewriterWord />
+              <span className="gradient-text">{typed}</span>
+              <span className="cursor-blink" />
               <br />
-              <span className="text-text/80">qui travaillent pour vous</span>
+              <span className="text-text/70">intégrés à votre entreprise</span>
             </h1>
 
             <p className="text-lg text-text-muted max-w-lg mb-10 leading-relaxed">
-              Boubane installe des assistants IA dans votre PME. Ils automatisent vos tâches répétitives, 
-              traitent vos demandes clients et analysent vos données — pendant que vous vous concentrez sur ce qui compte.
+              Boubane installe des agents IA directement dans votre environnement de travail — 
+              votre réseau, vos mails, vos outils. Ils automatisent vos tâches répétitives, 
+              répondent à vos mails, préparent vos rapports. 
+              <span className="text-text/60"> Vos données ne sortent jamais de chez vous.</span>
             </p>
 
             {/* CTA */}
             <div className="flex flex-wrap gap-4 mb-12">
-              <Link
-                href="#contact"
-                className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-gradient-to-r from-primary to-primary-dark text-white font-semibold text-sm hover:shadow-lg hover:shadow-primary/20 transition-all hover:scale-[1.03] active:scale-[0.98]"
-              >
-                Démarrer gratuitement
-                <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+              <Link href="#contact" className="btn-primary">
+                Déployer mon agent
+                <ArrowRight size={16} />
               </Link>
-              <Link
-                href="#resultats"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-border text-text font-semibold text-sm hover:bg-surface-light hover:border-border-hover transition-all"
-              >
-                Voir les résultats
+              <Link href="#demo" className="btn-ghost">
+                Voir la démo
+                <ChevronRight size={16} />
               </Link>
             </div>
 
-            {/* Results */}
+            {/* Trust */}
             <div className="flex flex-wrap gap-6">
-              {results.map((r) => (
-                <div key={r.label} className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center">
-                    <r.icon size={18} className="text-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-text">{r.value}</p>
-                    <p className="text-xs text-text-dim">{r.label}</p>
-                  </div>
+              {[
+                { icon: Shield, text: "100% local" },
+                { icon: Network, text: "Vos outils, votre réseau" },
+                { icon: Cpu, text: "Déploiement 48h" },
+              ].map((t) => (
+                <div key={t.text} className="flex items-center gap-2 text-text-dim">
+                  <t.icon size={14} className="text-accent/60" />
+                  <span className="text-xs font-medium">{t.text}</span>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Right — Agent Demo */}
+          {/* Right — Agent Terminal */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-            className="relative"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            id="demo"
           >
-            <AgentDemo />
+            <AgentTerminal />
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 6, 0] }}
-        transition={{ duration: 2.5, repeat: Infinity }}
-      >
-        <div className="w-5 h-8 rounded-full border border-border flex items-start justify-center p-1">
-          <motion.div
-            className="w-1 h-1.5 rounded-full bg-primary"
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 2.5, repeat: Infinity }}
-          />
-        </div>
-      </motion.div>
+      {/* Bottom gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bg to-transparent z-10" />
     </section>
   );
 }
