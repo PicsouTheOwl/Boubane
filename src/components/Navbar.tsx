@@ -36,7 +36,7 @@ export default function Navbar() {
         <div className="container flex items-center justify-between h-14">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-6 h-6 rounded-md bg-accent flex items-center justify-center">
+            <div className="w-6 h-6 rounded-md bg-[#5e6ad2] flex items-center justify-center">
               <span className="text-white font-bold text-xs">B</span>
             </div>
             <span className="text-sm font-semibold text-text tracking-tight">

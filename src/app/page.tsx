@@ -12,6 +12,7 @@ import FinalCTA from "@/components/FinalCTA";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import SectionDivider from "@/components/SectionDivider";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
       <SectionDivider />
       <Contact />
       <Footer />
+      <ScrollToTop />
     </main>
   );
 }
