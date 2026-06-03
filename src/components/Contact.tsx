@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Check, Mail, MapPin, Send } from "lucide-react";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -43,27 +44,35 @@ export default function Contact() {
               Déployez votre agent
             </h2>
             <p className="text-[0.95rem] text-text-secondary">
-              Décrivez-nous votre besoin. On vous répond sous 24h 
+              Décrivez-nous votre besoin. On vous répond sous 24h
               avec une proposition adaptée.
             </p>
           </motion.div>
 
           {submitted ? (
             <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="card p-8 text-center"
             >
-              <div className="w-8 h-8 rounded-lg bg-[#30a46c]/10 flex items-center justify-center mx-auto mb-3">
-                <Check size={16} className="text-[#30a46c]" />
-              </div>
-              <h3 className="text-[15px] font-semibold text-text mb-1">Message envoyé</h3>
-              <p className="text-[12px] text-text-muted mb-4">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="w-12 h-12 rounded-full bg-[#30a46c]/10 border border-[#30a46c]/20 flex items-center justify-center mx-auto mb-4"
+              >
+                <Check size={20} className="text-[#30a46c]" />
+              </motion.div>
+              <h3 className="text-[16px] font-semibold text-text mb-1">Message envoyé ✓</h3>
+              <p className="text-[12px] text-text-muted mb-5">
                 Merci. On vous répond sous 24h ouvrées.
               </p>
               <button
-                onClick={() => { setSubmitted(false); setForm({ name: "", email: "", company: "", config: "", message: "" }); }}
-                className="text-[12px] text-text-secondary hover:text-text transition-colors"
+                onClick={() => {
+                  setSubmitted(false);
+                  setForm({ name: "", email: "", company: "", config: "", message: "" });
+                }}
+                className="text-[12px] text-[#5e6ad2] hover:text-[#7c85e0] transition-colors font-medium"
               >
                 Envoyer un autre message →
               </button>
@@ -74,7 +83,7 @@ export default function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               onSubmit={handleSubmit}
-              className="card p-5 space-y-4"
+              className="card p-6 space-y-4"
             >
               <div className="grid sm:grid-cols-2 gap-3">
                 <div>
@@ -85,7 +94,11 @@ export default function Contact() {
                     required
                     value={form.name}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-border text-[13px] text-text placeholder-text-dim outline-none focus:border-border-active transition-colors"
+                    onFocus={() => setFocusedField("name")}
+                    onBlur={() => setFocusedField(null)}
+                    className={`w-full px-3 py-2.5 rounded-lg bg-surface border text-[13px] text-text placeholder-text-dim outline-none transition-all duration-200 ${
+                      focusedField === "name" ? "border-[#5e6ad2]/50 shadow-[0_0_0_1px_rgba(94,106,210,0.15)]" : "border-border"
+                    }`}
                     placeholder="Jean Dupont"
                   />
                 </div>
@@ -97,7 +110,11 @@ export default function Contact() {
                     required
                     value={form.email}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-border text-[13px] text-text placeholder-text-dim outline-none focus:border-border-active transition-colors"
+                    onFocus={() => setFocusedField("email")}
+                    onBlur={() => setFocusedField(null)}
+                    className={`w-full px-3 py-2.5 rounded-lg bg-surface border text-[13px] text-text placeholder-text-dim outline-none transition-all duration-200 ${
+                      focusedField === "email" ? "border-[#5e6ad2]/50 shadow-[0_0_0_1px_rgba(94,106,210,0.15)]" : "border-border"
+                    }`}
                     placeholder="jean@entreprise.fr"
                   />
                 </div>
@@ -111,7 +128,7 @@ export default function Contact() {
                     name="company"
                     value={form.company}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-border text-[13px] text-text placeholder-text-dim outline-none focus:border-border-active transition-colors"
+                    className="w-full px-3 py-2.5 rounded-lg bg-surface border border-border text-[13px] text-text placeholder-text-dim outline-none focus:border-[#5e6ad2]/50 focus:shadow-[0_0_0_1px_rgba(94,106,210,0.15)] transition-all duration-200"
                     placeholder="Nom de l'entreprise"
                   />
                 </div>
@@ -121,7 +138,7 @@ export default function Contact() {
                     name="config"
                     value={form.config}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-border text-[13px] text-text outline-none focus:border-border-active transition-colors appearance-none"
+                    className="w-full px-3 py-2.5 rounded-lg bg-surface border border-border text-[13px] text-text outline-none focus:border-[#5e6ad2]/50 transition-colors appearance-none cursor-pointer"
                   >
                     <option value="">Sélectionnez...</option>
                     <option value="essential">Essential — Mac Mini M4</option>
@@ -140,17 +157,17 @@ export default function Contact() {
                   rows={4}
                   value={form.message}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 rounded-lg bg-surface border border-border text-[13px] text-text placeholder-text-dim outline-none focus:border-border-active transition-colors resize-none"
+                  className="w-full px-3 py-2.5 rounded-lg bg-surface border border-border text-[13px] text-text placeholder-text-dim outline-none focus:border-[#5e6ad2]/50 focus:shadow-[0_0_0_1px_rgba(94,106,210,0.15)] transition-all duration-200 resize-none"
                   placeholder="Décrivez votre activité, ce que vous voulez automatiser..."
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-text text-bg font-medium text-[13px] hover:bg-[#f0f0f0] transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#5e6ad2] text-white font-medium text-[13px] hover:bg-[#4f58b8] transition-colors"
               >
+                <Send size={13} />
                 Envoyer
-                <ArrowRight size={13} />
               </button>
 
               <p className="text-[10px] text-text-dim text-center">
@@ -161,7 +178,10 @@ export default function Contact() {
 
           {/* Alternative contact */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <a href="mailto:contact@boubane.ai" className="flex items-center gap-2 text-[12px] text-text-muted hover:text-text-secondary transition-colors">
+            <a
+              href="mailto:contact@boubane.ai"
+              className="flex items-center gap-2 text-[12px] text-text-muted hover:text-[#5e6ad2] transition-colors"
+            >
               <Mail size={12} />
               contact@boubane.ai
             </a>

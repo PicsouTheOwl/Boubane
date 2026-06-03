@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Monitor, Server, Mail, FileText, BarChart3, MessageSquare, ArrowDown, ArrowRight, Lock, Wifi } from "lucide-react";
+import { Monitor, Server, Mail, FileText, BarChart3, MessageSquare, ArrowDown, Lock, Wifi } from "lucide-react";
+import GlowCard from "./GlowCard";
 
 export default function Deployment() {
   return (
@@ -20,90 +21,111 @@ export default function Deployment() {
             Comment ça marche
           </h2>
           <p className="text-[0.95rem] text-text-secondary max-w-lg mx-auto">
-            L&apos;agent s&apos;installe sur votre hardware et se connecte à vos outils existants. 
+            L&apos;agent s&apos;installe sur votre hardware et se connecte à vos outils existants.
             Rien ne change pour votre équipe.
           </p>
         </motion.div>
 
         {/* Flow diagram — desktop */}
         <div className="hidden md:block max-w-5xl mx-auto">
-          {/* Row 1: Hardware → Agent */}
+          {/* Row 1: Hardware → Agent → Internet */}
           <div className="flex items-center justify-center gap-4 mb-6">
             {/* Hardware */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="card p-5 w-56 text-center"
             >
-              <Server size={20} className="text-text-secondary mx-auto mb-3" />
-              <p className="text-[13px] font-semibold text-text mb-1">Votre hardware</p>
-              <p className="text-[11px] text-text-muted">Mac Mini / NUC / Serveur</p>
-              <div className="flex items-center justify-center gap-1.5 mt-3">
-                <Lock size={9} className="text-[#30a46c]" />
-                <span className="text-[9px] text-[#30a46c]">Chez vous</span>
-              </div>
+              <GlowCard className="p-5 w-56 text-center">
+                <Server size={20} className="text-text-secondary mx-auto mb-3" />
+                <p className="text-[13px] font-semibold text-text mb-1">Votre hardware</p>
+                <p className="text-[11px] text-text-muted">Mac Mini / NUC / Serveur</p>
+                <div className="flex items-center justify-center gap-1.5 mt-3">
+                  <Lock size={9} className="text-[#30a46c]" />
+                  <span className="text-[9px] text-[#30a46c] font-medium">Chez vous</span>
+                </div>
+              </GlowCard>
             </motion.div>
 
             {/* Connection */}
-            <div className="flex flex-col items-center gap-1">
-              <div className="h-px w-16 bg-border" />
-              <span className="text-[9px] text-text-dim">LAN</span>
-              <div className="h-px w-16 bg-border" />
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="flex flex-col items-center gap-1"
+            >
+              <div className="h-px w-16 bg-gradient-to-r from-border to-[#5e6ad2]/30" />
+              <span className="text-[9px] text-text-dim font-mono">LAN</span>
+              <div className="h-px w-16 bg-gradient-to-r from-border to-[#5e6ad2]/30" />
+            </motion.div>
 
             {/* Agent */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="card p-5 w-64 text-center border-[#5e6ad2]/20"
+              transition={{ delay: 0.15 }}
             >
-              <div className="w-10 h-10 rounded-lg bg-[#5e6ad2]/10 flex items-center justify-center mx-auto mb-3">
-                <Monitor size={18} className="text-[#5e6ad2]" />
-              </div>
-              <p className="text-[13px] font-semibold text-text mb-0.5">ORCHESTRATOR</p>
-              <p className="text-[11px] text-text-muted">Agent principal</p>
-              <div className="flex items-center justify-center gap-1.5 mt-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#30a46c]" />
-                <span className="text-[9px] text-[#30a46c]">Actif</span>
-              </div>
+              <GlowCard className="p-5 w-64 text-center border-[#5e6ad2]/30" glowColor="rgba(94, 106, 210, 0.12)">
+                <div className="w-10 h-10 rounded-lg bg-[#5e6ad2]/10 border border-[#5e6ad2]/20 flex items-center justify-center mx-auto mb-3">
+                  <Monitor size={18} className="text-[#5e6ad2]" />
+                </div>
+                <p className="text-[13px] font-semibold text-text mb-0.5">ORCHESTRATOR</p>
+                <p className="text-[11px] text-text-muted">Agent principal</p>
+                <div className="flex items-center justify-center gap-1.5 mt-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#30a46c] animate-pulse" />
+                  <span className="text-[9px] text-[#30a46c] font-medium">Actif</span>
+                </div>
+              </GlowCard>
             </motion.div>
 
             {/* Connection */}
-            <div className="flex flex-col items-center gap-1">
-              <div className="h-px w-16 bg-border" />
-              <span className="text-[9px] text-text-dim">API / IMAP</span>
-              <div className="h-px w-16 bg-border" />
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-col items-center gap-1"
+            >
+              <div className="h-px w-16 bg-gradient-to-r from-[#5e6ad2]/30 to-border" />
+              <span className="text-[9px] text-text-dim font-mono">API</span>
+              <div className="h-px w-16 bg-gradient-to-r from-[#5e6ad2]/30 to-border" />
+            </motion.div>
 
             {/* Internet (optional) */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="card p-5 w-44 text-center opacity-60"
+              transition={{ delay: 0.25 }}
             >
-              <Wifi size={16} className="text-text-dim mx-auto mb-2" />
-              <p className="text-[12px] font-medium text-text-muted mb-0.5">Internet</p>
-              <p className="text-[10px] text-text-dim">Optionnel</p>
-              <p className="text-[8px] text-text-dim mt-1">Clés API ou offline</p>
+              <GlowCard className="p-5 w-44 text-center opacity-50">
+                <Wifi size={16} className="text-text-dim mx-auto mb-2" />
+                <p className="text-[12px] font-medium text-text-muted mb-0.5">Internet</p>
+                <p className="text-[10px] text-text-dim">Optionnel</p>
+                <p className="text-[8px] text-text-dim mt-1">Clés API ou offline</p>
+              </GlowCard>
             </motion.div>
           </div>
 
           {/* Arrow down */}
-          <div className="flex justify-center mb-6">
-            <ArrowDown size={16} className="text-text-dim" />
-          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-center mb-6"
+          >
+            <ArrowDown size={16} className="text-[#5e6ad2]/40" />
+          </motion.div>
 
           {/* Row 2: Tools */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.35 }}
             className="flex items-center justify-center gap-3 flex-wrap"
           >
             {[
@@ -112,13 +134,13 @@ export default function Deployment() {
               { icon: BarChart3, label: "Données", sub: "CRM/ERP" },
               { icon: MessageSquare, label: "Chat", sub: "Slack/Web" },
             ].map((tool) => (
-              <div key={tool.label} className="card px-5 py-3 flex items-center gap-3">
-                <tool.icon size={14} className="text-text-muted" />
+              <GlowCard key={tool.label} className="px-4 py-3 flex items-center gap-3">
+                <tool.icon size={13} className="text-[#5e6ad2]" />
                 <div>
-                  <p className="text-[12px] font-medium text-text">{tool.label}</p>
+                  <p className="text-[11px] font-medium text-text">{tool.label}</p>
                   <p className="text-[9px] text-text-dim">{tool.sub}</p>
                 </div>
-              </div>
+              </GlowCard>
             ))}
           </motion.div>
         </div>
@@ -127,7 +149,13 @@ export default function Deployment() {
         <div className="md:hidden space-y-3 max-w-sm mx-auto">
           {[
             { icon: Server, title: "Votre hardware", sub: "Mac Mini / NUC / Serveur", badge: "Chez vous" },
-            { icon: Monitor, title: "Agent ORCHESTRATOR", sub: "Installé localement", badge: "100% local", accent: true },
+            {
+              icon: Monitor,
+              title: "Agent ORCHESTRATOR",
+              sub: "Installé localement",
+              badge: "100% local",
+              accent: true,
+            },
             { icon: Mail, title: "Vos outils", sub: "Emails, CRM, Slack, fichiers...", badge: "Connecté" },
           ].map((item, i) => (
             <motion.div
@@ -137,19 +165,23 @@ export default function Deployment() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <div className={`card p-4 flex items-center gap-4 ${item.accent ? "border-[#5e6ad2]/20" : ""}`}>
-                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${item.accent ? "bg-[#5e6ad2]/10" : "bg-surface-light border border-border"}`}>
-                  <item.icon size={16} className={item.accent ? "text-[#5e6ad2]" : "text-text-secondary"} />
+              <GlowCard className={`p-4 flex items-center gap-4 ${item.accent ? "border-[#5e6ad2]/30" : ""}`}>
+                <div
+                  className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
+                    item.accent ? "bg-[#5e6ad2]/10 border border-[#5e6ad2]/20" : "bg-surface-light border border-border"
+                  }`}
+                >
+                  <item.icon size={15} className={item.accent ? "text-[#5e6ad2]" : "text-text-secondary"} />
                 </div>
                 <div className="flex-1">
                   <p className="text-[13px] font-medium text-text">{item.title}</p>
                   <p className="text-[11px] text-text-muted">{item.sub}</p>
                 </div>
-                <span className="text-[9px] text-[#30a46c]">{item.badge}</span>
-              </div>
+                <span className="text-[9px] text-[#30a46c] font-medium">{item.badge}</span>
+              </GlowCard>
               {i < 2 && (
                 <div className="flex justify-center py-1">
-                  <ArrowDown size={12} className="text-text-dim" />
+                  <ArrowDown size={12} className="text-[#5e6ad2]/30" />
                 </div>
               )}
             </motion.div>

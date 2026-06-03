@@ -7,6 +7,7 @@ import Deployment from "@/components/Deployment";
 import WhyBoubane from "@/components/WhyBoubane";
 import Hardware from "@/components/Hardware";
 import CaseStudies from "@/components/CaseStudies";
+import Testimonials from "@/components/Testimonials";
 import Processus from "@/components/Processus";
 import FinalCTA from "@/components/FinalCTA";
 import Contact from "@/components/Contact";
@@ -29,6 +30,8 @@ export default function Home() {
       <Hardware />
       <SectionDivider />
       <CaseStudies />
+      <SectionDivider />
+      <Testimonials />
       <SectionDivider />
       <Processus />
       <SectionDivider />

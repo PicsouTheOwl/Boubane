@@ -36,7 +36,7 @@ export default function Processus() {
       <div className="container">
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
           {/* Left */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 lg:sticky lg:top-24">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -51,11 +51,11 @@ export default function Processus() {
                 à l&apos;autonomie
               </h2>
               <p className="text-[0.95rem] text-text-secondary mb-6">
-                On s&apos;occupe de tout. Vous branchez, on configure, 
+                On s&apos;occupe de tout. Vous branchez, on configure,
                 l&apos;agent apprend — et vous gagnez du temps dès la première semaine.
               </p>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-surface border border-border text-[11px] text-text-secondary">
-                <Zap size={11} className="text-[#f5a623]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#5e6ad2]/10 border border-[#5e6ad2]/20 text-[11px] text-[#5e6ad2] font-medium">
+                <Zap size={11} />
                 Déploiement en 48h après livraison
               </div>
             </motion.div>
@@ -74,12 +74,10 @@ export default function Processus() {
               >
                 {/* Timeline */}
                 <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 rounded-lg bg-surface border border-border flex items-center justify-center shrink-0 group-hover:border-border-hover transition-colors">
-                    <step.icon size={13} className="text-text-muted group-hover:text-text-secondary transition-colors" />
+                  <div className="w-9 h-9 rounded-lg bg-[#5e6ad2]/10 border border-[#5e6ad2]/20 flex items-center justify-center shrink-0 group-hover:bg-[#5e6ad2]/20 transition-colors">
+                    <step.icon size={14} className="text-[#5e6ad2]" />
                   </div>
-                  {i < steps.length - 1 && (
-                    <div className="w-px flex-1 bg-border mt-2" />
-                  )}
+                  {i < steps.length - 1 && <div className="w-px flex-1 bg-border mt-2" />}
                 </div>
 
                 {/* Content */}

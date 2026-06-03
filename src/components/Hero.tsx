@@ -1,10 +1,27 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Cpu, HardDrive, Wifi, Play, Check } from "lucide-react";
+import { ArrowRight, Cpu, HardDrive, Wifi, Play } from "lucide-react";
 import Link from "next/link";
-import NodeNetwork from "./NodeNetwork";
+import dynamic from "next/dynamic";
+
+/* === LAZY LOAD 3D === */
+const NodeNetwork3D = dynamic(() => import("./NodeNetwork3D"), {
+  ssr: false,
+  loading: () => <HeroCanvasFallback />,
+});
+
+function HeroCanvasFallback() {
+  return (
+    <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0" style={{
+        backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)",
+        backgroundSize: "40px 40px",
+      }} />
+    </div>
+  );
+}
 
 /* === TYPING EFFECT === */
 function useTypewriter(words: string[], speed = 70, pause = 3000) {
@@ -87,26 +104,30 @@ function TerminalDemo() {
 
   return (
     <div className="rounded-xl border border-border overflow-hidden">
-      {/* Title bar */}
+      {/* Title bar with traffic lights */}
       <div className="flex items-center gap-2 px-4 py-2.5 bg-surface border-b border-border">
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
-        <span className="text-[11px] text-text-dim font-mono ml-2">terminal</span>
+        <span className="text-[11px] text-text-dim font-mono ml-2">terminal — boubane</span>
+        <div className="ml-auto flex items-center gap-1.5">
+          <div className="w-1.5 h-1.5 rounded-full bg-[#30a46c] animate-pulse" />
+          <span className="text-[9px] text-text-dim">live</span>
+        </div>
       </div>
 
       {/* Terminal body */}
       <div
         ref={termRef}
-        className="p-4 bg-[#080808] font-mono text-[12px] leading-[1.7] max-h-[320px] overflow-y-auto"
+        className="p-4 bg-[#080808] font-mono text-[12px] leading-[1.7] max-h-[340px] overflow-y-auto"
       >
         {lines.map((line, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, x: -4 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.05 }}
             className={
               line.startsWith("$")
@@ -131,10 +152,10 @@ function TerminalDemo() {
         {!isRunning && lines.length === 0 && (
           <button
             onClick={runDemo}
-            className="flex items-center gap-2 text-[#5e6ad2] hover:text-[#7c85e0] transition-colors mt-1"
+            className="flex items-center gap-2 text-[#5e6ad2] hover:text-[#7c85e0] transition-colors mt-1 group"
           >
-            <Play size={12} />
-            <span className="text-[12px]">Voir le déploiement</span>
+            <Play size={12} className="group-hover:scale-110 transition-transform" />
+            <span className="text-[12px]">Voir le déploiement en direct</span>
           </button>
         )}
         {!isRunning && lines.length > 0 && (
@@ -142,7 +163,7 @@ function TerminalDemo() {
             onClick={runDemo}
             className="text-text-dim hover:text-text-muted transition-colors mt-2 text-[11px]"
           >
-            ↻ Relancer
+            ↻ Relancer la démo
           </button>
         )}
       </div>
@@ -150,19 +171,27 @@ function TerminalDemo() {
   );
 }
 
+/* === STATS === */
+const stats = [
+  { value: "100%", label: "Données locales" },
+  { value: "48h", label: "Déploiement" },
+  { value: "0", label: "Donnée externe" },
+];
+
 /* === MAIN HERO === */
 export default function Hero() {
   const typed = useTypewriter(["autonomes", "locaux", "privés", "fiables"]);
 
   return (
     <section className="relative pt-28 pb-16 md:pt-40 md:pb-28 overflow-hidden">
-      {/* Node network background */}
-      <div className="absolute inset-0 opacity-40">
-        <NodeNetwork />
-      </div>
+      {/* 3D Background */}
+      <Suspense fallback={<HeroCanvasFallback />}>
+        <NodeNetwork3D />
+      </Suspense>
 
       {/* Gradient overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-bg via-transparent to-bg pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#5e6ad2]/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container relative z-10">
         <div className="max-w-2xl mx-auto text-center mb-12 md:mb-20">
@@ -173,7 +202,7 @@ export default function Hero() {
             transition={{ delay: 0.2 }}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-surface border border-border mb-6"
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-[#30a46c]" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#30a46c] animate-pulse" />
             <span className="text-[11px] text-text-secondary font-medium">
               100% local — Vos données restent chez vous
             </span>
@@ -184,13 +213,13 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-[clamp(2.5rem,6vw,4rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-text mb-5"
+            className="text-[clamp(2.5rem,6vw,4.2rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-text mb-5"
           >
             Un agent IA
             <br />
             <span className="inline-flex items-baseline gap-1">
-              <span>{typed}</span>
-              <span className="inline-block w-0.5 h-[0.85em] bg-text animate-pulse" />
+              <span className="text-[#5e6ad2]">{typed}</span>
+              <span className="inline-block w-0.5 h-[0.85em] bg-[#5e6ad2] animate-pulse" />
             </span>
             <br />
             <span className="text-text-muted">sur votre hardware</span>
@@ -203,8 +232,8 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-[1.05rem] text-text-secondary leading-relaxed max-w-lg mx-auto mb-8"
           >
-            Boubane installe un agent IA dans votre entreprise — sur un Mac Mini, 
-            un NUC, ou votre serveur. Il répond à vos mails, automatise vos rapports, 
+            Boubane installe un agent IA dans votre entreprise — sur un Mac Mini,
+            un NUC, ou votre serveur. Il répond à vos mails, automatise vos rapports,
             gère votre support.
           </motion.p>
 
@@ -217,20 +246,20 @@ export default function Hero() {
           >
             <Link
               href="#contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-text text-bg font-medium text-[13px] hover:bg-[#f0f0f0] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#5e6ad2] text-white font-medium text-[13px] hover:bg-[#4f58b8] transition-colors"
             >
               Déployer un agent
               <ArrowRight size={13} />
             </Link>
             <Link
               href="#hardware"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface border border-border text-text font-medium text-[13px] hover:bg-surface-light transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface border border-border text-text font-medium text-[13px] hover:bg-surface-light hover:border-border-hover transition-colors"
             >
               Voir les configurations
             </Link>
           </motion.div>
 
-          {/* Trust */}
+          {/* Trust row */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -260,12 +289,27 @@ export default function Hero() {
           <TerminalDemo />
         </motion.div>
 
+        {/* Stats row */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2 }}
+          className="flex items-center justify-center gap-8 md:gap-12 mt-14 md:mt-20"
+        >
+          {stats.map((s, i) => (
+            <div key={s.label} className="text-center">
+              <p className="text-[1.5rem] font-semibold text-text mb-0.5">{s.value}</p>
+              <p className="text-[10px] text-text-dim uppercase tracking-wider">{s.label}</p>
+            </div>
+          ))}
+        </motion.div>
+
         {/* Deployed on */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.3 }}
-          className="text-center mt-14 md:mt-20"
+          className="text-center mt-12"
         >
           <p className="text-[10px] text-text-dim uppercase tracking-[0.15em] mb-5">
             Déployé sur

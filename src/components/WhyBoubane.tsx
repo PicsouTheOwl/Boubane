@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Shield, Zap, Eye, Server, Lock, Cpu } from "lucide-react";
+import GlowCard from "./GlowCard";
 
 const reasons = [
   {
@@ -53,7 +54,7 @@ export default function WhyBoubane() {
             Pas un SaaS de plus
           </h2>
           <p className="text-[0.95rem] text-text-secondary max-w-lg mx-auto">
-            Un agent qui vous appartient, qui tourne chez vous, 
+            Un agent qui vous appartient, qui tourne chez vous,
             et qui ne partage rien avec personne.
           </p>
         </motion.div>
@@ -66,17 +67,18 @@ export default function WhyBoubane() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.06 }}
-              className="card p-5 group hover-lift"
             >
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-lg bg-surface-light border border-border flex items-center justify-center shrink-0 group-hover:border-border-hover transition-colors">
-                  <r.icon size={14} className="text-text-muted group-hover:text-text-secondary transition-colors" />
+              <GlowCard className="p-5 h-full">
+                <div className="flex items-start gap-4">
+                  <div className="w-9 h-9 rounded-lg bg-[#5e6ad2]/10 border border-[#5e6ad2]/20 flex items-center justify-center shrink-0">
+                    <r.icon size={15} className="text-[#5e6ad2]" />
+                  </div>
+                  <div>
+                    <h3 className="text-[13px] font-semibold text-text mb-1">{r.title}</h3>
+                    <p className="text-[11px] text-text-muted leading-relaxed">{r.desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-[13px] font-semibold text-text mb-1">{r.title}</h3>
-                  <p className="text-[11px] text-text-muted leading-relaxed">{r.desc}</p>
-                </div>
-              </div>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
@@ -111,15 +113,11 @@ export default function WhyBoubane() {
                 ["Contrôle", "Total", "Partiel"],
               ].map(([critere, boubane, saas], i) => (
                 <div key={critere} className="contents">
-                  <div className={`p-3 border-b border-border text-text-secondary ${i === 5 ? "" : ""}`}>
-                    {critere}
-                  </div>
-                  <div className="p-3 border-b border-border text-center text-[#30a46c]">
+                  <div className="p-3 border-b border-border text-text-secondary">{critere}</div>
+                  <div className="p-3 border-b border-border text-center text-[#30a46c] font-medium">
                     {boubane}
                   </div>
-                  <div className="p-3 border-b border-border text-center text-text-dim">
-                    {saas}
-                  </div>
+                  <div className="p-3 border-b border-border text-center text-text-dim">{saas}</div>
                 </div>
               ))}
             </div>
