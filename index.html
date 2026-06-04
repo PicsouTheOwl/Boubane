@@ -5,753 +5,227 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boubane — Votre IA locale, vos données, votre contrôle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0D0D0D;
-  --bg2: #111111;
-  --bg-card: #161616;
-  --bg-card-hover: #1c1c1c;
-  --accent: #5e6ad2;
-  --accent-glow: rgba(94, 106, 210, 0.25);
-  --accent2: #34d399;
-  --accent2-glow: rgba(52, 211, 153, 0.2);
-  --accent3: #f59e0b;
-  --accent3-glow: rgba(245, 158, 11, 0.2);
-  --text: #e8e8e8;
-  --text-muted: #666;
-  --border: #1e1e1e;
-  --red: #ef4444;
+  --bg: #0D0D0D; --bg2: #111; --bg-card: #161616; --bg-card-hover: #1c1c1c;
+  --accent: #5e6ad2; --accent-glow: rgba(94,106,210,0.25);
+  --accent2: #34d399; --accent2-glow: rgba(52,211,153,0.2);
+  --accent3: #f59e0b; --accent3-glow: rgba(245,158,11,0.2);
+  --text: #e8e8e8; --text-muted: #555; --border: #1e1e1e; --red: #ef4444;
 }
 
 html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
-body {
-  font-family: 'Inter', -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.012'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; }
 
-/* ── Noise ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
+/* Nav */
+nav { position:fixed; top:0; left:0; right:0; z-index:200; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; background:rgba(13,13,13,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+.logo { font-weight:800; font-size:1.3rem; letter-spacing:-0.03em; color:var(--text); text-decoration:none; }
+.logo span { color:var(--accent); }
+.nav-links { display:flex; gap:2rem; align-items:center; }
+.nav-links a { color:var(--text-muted); text-decoration:none; font-size:0.9rem; font-weight:500; transition:color 0.2s; }
+.nav-links a:hover { color:var(--text); }
+.nav-cta { padding:0.6rem 1.4rem; background:var(--accent); color:#fff; border:none; border-radius:8px; font-weight:600; font-size:0.85rem; cursor:pointer; text-decoration:none; transition:all 0.2s; box-shadow:0 0 20px var(--accent-glow); }
+.nav-cta:hover { transform:translateY(-1px); box-shadow:0 0 30px var(--accent-glow); }
 
-/* ── Nav ── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(13, 13, 13, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-}
-
-.logo { font-weight: 800; font-size: 1.3rem; letter-spacing: -0.03em; color: var(--text); text-decoration: none; }
-.logo span { color: var(--accent); }
-
-.nav-links { display: flex; gap: 2rem; align-items: center; }
-.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-.nav-links a:hover { color: var(--text); }
-
-.nav-cta {
-  padding: 0.6rem 1.4rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s;
-  box-shadow: 0 0 20px var(--accent-glow);
-}
-.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 0 30px var(--accent-glow); }
-
-/* ── Hero ── */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 8rem 2rem 4rem;
-  position: relative;
-}
-
-.hero-glow {
-  position: absolute;
-  top: 30%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 700px; height: 400px;
-  background: radial-gradient(ellipse, rgba(94, 106, 210, 0.1) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 1rem;
-  background: rgba(52, 211, 153, 0.08);
-  border: 1px solid rgba(52, 211, 153, 0.25);
-  border-radius: 100px;
-  font-size: 0.8rem;
-  color: var(--accent2);
-  font-weight: 600;
-  margin-bottom: 2rem;
-  position: relative;
-}
-
-.hero-badge .dot {
-  width: 6px; height: 6px;
-  background: var(--accent2);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
+/* Hero */
+.hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:8rem 2rem 4rem; position:relative; }
+.hero-glow { position:absolute; top:30%; left:50%; transform:translate(-50%,-50%); width:700px; height:400px; background:radial-gradient(ellipse,rgba(94,106,210,0.08) 0%,transparent 70%); pointer-events:none; }
+.hero-badge { display:inline-flex; align-items:center; gap:0.5rem; padding:0.4rem 1rem; background:rgba(52,211,153,0.08); border:1px solid rgba(52,211,153,0.25); border-radius:100px; font-size:0.8rem; color:var(--accent2); font-weight:600; margin-bottom:2rem; position:relative; }
+.hero-badge .dot { width:6px; height:6px; background:var(--accent2); border-radius:50%; animation:pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero h1 { font-size:clamp(3rem,7.5vw,6rem); font-weight:900; letter-spacing:-0.06em; line-height:1; max-width:900px; margin-bottom:1.5rem; position:relative; }
+.hero h1 .line { display:block; }
+.hero h1 .highlight { background:linear-gradient(135deg,var(--accent),#818cf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero h1 .highlight-green { background:linear-gradient(135deg,var(--accent2),#6ee7b7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero-desc { font-size:1.15rem; color:var(--text-muted); max-width:550px; margin-bottom:2.5rem; position:relative; line-height:1.7; }
+.hero-buttons { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; position:relative; }
+.btn-primary { padding:1rem 2.5rem; background:var(--accent); color:#fff; border:none; border-radius:12px; font-weight:700; font-size:1rem; cursor:pointer; text-decoration:none; transition:all 0.2s; box-shadow:0 0 30px var(--accent-glow); font-family:inherit; }
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 50px var(--accent-glow); }
+.btn-secondary { padding:1rem 2.5rem; background:transparent; color:var(--text); border:1px solid var(--border); border-radius:12px; font-weight:600; font-size:1rem; cursor:pointer; text-decoration:none; transition:all 0.2s; font-family:inherit; }
+.btn-secondary:hover { border-color:var(--accent); }
 
-.hero h1 {
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
-  font-weight: 900;
-  letter-spacing: -0.05em;
-  line-height: 1.02;
-  max-width: 850px;
-  margin-bottom: 1.5rem;
-  position: relative;
+/* Sector selector */
+.sector-section { padding:5rem 2rem 0; max-width:1100px; margin:0 auto; text-align:center; }
+.sector-selector { display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin:2rem 0; }
+.sector-btn { padding:0.65rem 1.3rem; background:var(--bg-card); border:1px solid var(--border); border-radius:10px; color:var(--text-muted); font-size:0.85rem; font-weight:500; cursor:pointer; transition:all 0.25s; font-family:inherit; }
+.sector-btn:hover { border-color:var(--accent); color:var(--text); }
+.sector-btn.active { background:rgba(94,106,210,0.15); border-color:var(--accent); color:var(--text); box-shadow:0 0 15px var(--accent-glow); }
+
+/* Dashboard */
+.dashboard-container { margin-top:2rem; display:none; opacity:0; transform:translateY(20px); transition:all 0.5s cubic-bezier(0.16,1,0.3,1); }
+.dashboard-container.visible { opacity:1; transform:translateY(0); display:block; }
+.dash { background:var(--bg2); border:1px solid var(--border); border-radius:20px; overflow:hidden; text-align:left; position:relative; }
+
+/* Email panel overlay */
+.email-panel-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.5); z-index:50; opacity:0; pointer-events:none; transition:opacity 0.3s; border-radius:20px; }
+.email-panel-overlay.open { opacity:1; pointer-events:auto; }
+.email-panel { position:absolute; top:0; right:0; width:520px; max-width:90%; height:100%; background:var(--bg); border-left:1px solid var(--border); z-index:60; transform:translateX(100%); transition:transform 0.4s cubic-bezier(0.16,1,0.3,1); display:flex; flex-direction:column; overflow:hidden; }
+.email-panel.open { transform:translateX(0); }
+.email-panel-header { padding:1.2rem 1.5rem; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-shrink:0; }
+.email-panel-header h3 { font-size:0.95rem; font-weight:700; }
+.email-panel-close { width:32px; height:32px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text-muted); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+.email-panel-close:hover { background:var(--red); color:#fff; border-color:var(--red); }
+.email-panel-body { padding:1.5rem; overflow-y:auto; flex:1; }
+.email-panel-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+.email-panel-from { font-weight:700; font-size:0.9rem; }
+.email-panel-to { font-size:0.78rem; color:var(--text-muted); }
+.email-panel-date { font-size:0.75rem; color:var(--text-muted); }
+.email-panel-subject { font-size:1.1rem; font-weight:700; margin-bottom:1.2rem; line-height:1.3; }
+.email-panel-content { font-size:0.9rem; line-height:1.7; color:var(--text); }
+.email-panel-content p { margin-bottom:0.8rem; }
+.email-panel-actions { padding:1rem 1.5rem; border-top:1px solid var(--border); display:flex; gap:0.6rem; flex-shrink:0; }
+.panel-btn { padding:0.7rem 1.4rem; border-radius:10px; font-weight:600; font-size:0.85rem; cursor:pointer; transition:all 0.2s; font-family:inherit; border:none; }
+.panel-btn-primary { background:var(--accent); color:#fff; }
+.panel-btn-primary:hover { box-shadow:0 0 20px var(--accent-glow); transform:translateY(-1px); }
+.panel-btn-secondary { background:transparent; color:var(--text); border:1px solid var(--border); }
+.panel-btn-secondary:hover { border-color:var(--accent); }
+.panel-btn-danger { background:transparent; color:var(--red); border:1px solid rgba(239,68,68,0.3); }
+.panel-btn-danger:hover { background:rgba(239,68,68,0.1); }
+
+/* Reply composer */
+.reply-composer { padding:1.5rem; border-top:1px solid var(--border); display:none; flex-shrink:0; }
+.reply-composer.open { display:block; }
+.reply-composer textarea { width:100%; min-height:120px; background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:1rem; color:var(--text); font-family:inherit; font-size:0.88rem; resize:vertical; outline:none; transition:border-color 0.2s; }
+.reply-composer textarea:focus { border-color:var(--accent); }
+.reply-composer-actions { display:flex; gap:0.5rem; margin-top:0.8rem; justify-content:flex-end; }
+
+/* Toast notification */
+.toast { position:fixed; bottom:2rem; right:2rem; padding:1rem 1.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; z-index:999; transform:translateY(100px); opacity:0; transition:all 0.4s cubic-bezier(0.16,1,0.3,1); font-size:0.88rem; font-weight:500; box-shadow:0 10px 40px rgba(0,0,0,0.5); }
+.toast.show { transform:translateY(0); opacity:1; }
+.toast.success { border-color:var(--accent2); color:var(--accent2); }
+.toast.info { border-color:var(--accent); color:var(--accent); }
+
+.dash-header { padding:1rem 1.5rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.01); }
+.dash-header-left { display:flex; align-items:center; gap:0.5rem; }
+.dash-dot { width:10px; height:10px; border-radius:50%; }
+.dash-dot-red { background:#ef4444; } .dash-dot-yellow { background:#f59e0b; } .dash-dot-green { background:#22c55e; }
+.dash-url { font-size:0.72rem; color:var(--text-muted); margin-left:0.5rem; font-family:'JetBrains Mono',monospace; }
+.dash-live { display:inline-flex; align-items:center; gap:0.3rem; padding:0.25rem 0.7rem; background:rgba(52,211,153,0.08); border:1px solid rgba(52,211,153,0.2); border-radius:100px; font-size:0.7rem; color:var(--accent2); font-weight:600; }
+.dash-live .dot { width:5px; height:5px; background:var(--accent2); border-radius:50%; animation:pulse 1.5s infinite; }
+.dash-body { display:grid; grid-template-columns:220px 1fr; min-height:520px; }
+.dash-sidebar { padding:1.2rem; border-right:1px solid var(--border); background:rgba(255,255,255,0.008); }
+.dash-sidebar-title { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); font-weight:600; margin-bottom:0.8rem; padding-left:0.6rem; }
+.dash-nav-item { display:flex; align-items:center; gap:0.6rem; padding:0.6rem 0.8rem; border-radius:8px; font-size:0.82rem; color:var(--text-muted); margin-bottom:0.15rem; cursor:pointer; transition:all 0.2s; }
+.dash-nav-item:hover { background:rgba(255,255,255,0.03); color:var(--text); }
+.dash-nav-item.active { background:rgba(94,106,210,0.12); color:var(--text); font-weight:500; }
+.dash-nav-item .nav-icon { font-size:0.9rem; }
+.dash-main { padding:1.5rem; display:flex; flex-direction:column; gap:1.2rem; overflow-y:auto; }
+.dash-stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
+.dash-stat { background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:12px; padding:1.2rem; transition:all 0.3s; }
+.dash-stat:hover { border-color:rgba(94,106,210,0.25); }
+.dash-stat .value { font-size:1.8rem; font-weight:800; letter-spacing:-0.03em; font-family:'JetBrains Mono',monospace; }
+.dash-stat .label { font-size:0.72rem; color:var(--text-muted); margin-top:0.2rem; }
+.dash-stat .trend { font-size:0.7rem; font-weight:600; margin-top:0.3rem; }
+.trend-up { color:var(--accent2); } .trend-down { color:var(--red); }
+
+.dash-section-title { font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); margin-bottom:0.6rem; }
+.dash-email-list { background:rgba(255,255,255,0.015); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+
+.dash-email-item { display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:1rem; padding:0.85rem 1.2rem; border-bottom:1px solid var(--border); font-size:0.82rem; transition:all 0.2s; cursor:pointer; }
+.dash-email-item:last-child { border-bottom:none; }
+.dash-email-item:hover { background:rgba(94,106,210,0.06); }
+.dash-email-item.unread .from { font-weight:800; }
+.dash-email-item.unread { background:rgba(94,106,210,0.03); }
+.dash-email-item .from { font-weight:600; font-size:0.84rem; }
+.dash-email-item .subject { color:var(--text-muted); font-size:0.78rem; margin-top:0.1rem; }
+.dash-email-item .time { font-size:0.72rem; color:var(--text-muted); white-space:nowrap; }
+.status-badge { padding:0.2rem 0.6rem; border-radius:6px; font-size:0.68rem; font-weight:700; white-space:nowrap; }
+.status-done { background:rgba(52,211,153,0.1); color:var(--accent2); }
+.status-pending { background:rgba(245,158,11,0.1); color:var(--accent3); }
+.status-urgent { background:rgba(239,68,68,0.1); color:var(--red); }
+
+.activity-feed { background:rgba(255,255,255,0.015); border:1px solid var(--border); border-radius:12px; padding:1rem 1.2rem; }
+.activity-item { display:flex; gap:0.8rem; padding:0.6rem 0; border-bottom:1px solid var(--border); font-size:0.8rem; align-items:flex-start; }
+.activity-item:last-child { border-bottom:none; }
+.activity-dot { width:8px; height:8px; border-radius:50%; margin-top:0.35rem; flex-shrink:0; }
+.activity-dot.green { background:var(--accent2); } .activity-dot.blue { background:var(--accent); } .activity-dot.yellow { background:var(--accent3); }
+.activity-text { color:var(--text-muted); }
+.activity-text strong { color:var(--text); font-weight:600; }
+.activity-time { font-size:0.7rem; color:var(--text-muted); margin-top:0.15rem; }
+
+.chart-container { background:rgba(255,255,255,0.015); border:1px solid var(--border); border-radius:12px; padding:1.2rem; }
+.chart-bars { display:flex; align-items:flex-end; gap:0.4rem; height:80px; margin-top:0.8rem; }
+.chart-bar { flex:1; border-radius:4px 4px 0 0; transition:height 0.8s cubic-bezier(0.16,1,0.3,1); min-height:4px; }
+.chart-labels { display:flex; justify-content:space-between; margin-top:0.4rem; font-size:0.65rem; color:var(--text-muted); }
+
+/* Sections */
+section { padding:6rem 2rem; max-width:1100px; margin:0 auto; }
+.section-label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--accent); font-weight:700; margin-bottom:0.8rem; }
+.section-title { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; letter-spacing:-0.03em; margin-bottom:1rem; line-height:1.1; }
+.section-subtitle { font-size:1.05rem; color:var(--text-muted); max-width:550px; }
+
+.local-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-top:3rem; }
+.local-card { padding:2.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:20px; position:relative; overflow:hidden; transition:all 0.3s; }
+.local-card:hover { border-color:rgba(94,106,210,0.3); transform:translateY(-3px); }
+.local-card .icon { font-size:1.5rem; margin-bottom:1.2rem; }
+.local-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.5rem; }
+.local-card p { font-size:0.88rem; color:var(--text-muted); line-height:1.55; }
+.local-card .big-text { font-size:3.5rem; font-weight:900; color:var(--accent); letter-spacing:-0.04em; margin-bottom:0.2rem; font-family:'JetBrains Mono',monospace; }
+
+.features { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; margin-top:3rem; }
+.feature-card { padding:2rem; background:var(--bg-card); border:1px solid var(--border); border-radius:16px; transition:all 0.3s; }
+.feature-card:hover { border-color:rgba(94,106,210,0.3); transform:translateY(-2px); }
+.feature-card .icon { width:44px; height:44px; background:rgba(94,106,210,0.1); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:1.2rem; }
+.feature-card h3 { font-size:1.05rem; font-weight:700; margin-bottom:0.4rem; }
+.feature-card p { font-size:0.88rem; color:var(--text-muted); line-height:1.5; }
+
+.steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2rem; margin-top:3rem; }
+.step { padding:2rem; text-align:center; }
+.step-number { width:52px; height:52px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.2rem; margin:0 auto 1.2rem; box-shadow:0 0 30px var(--accent-glow); }
+.step h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.5rem; }
+.step p { font-size:0.9rem; color:var(--text-muted); }
+
+.pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-top:3rem; }
+.pricing-card { padding:2.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:20px; position:relative; transition:all 0.3s; }
+.pricing-card:hover { transform:translateY(-4px); }
+.pricing-card.featured { border-color:var(--accent); box-shadow:0 0 50px rgba(94,106,210,0.12); }
+.pricing-card.featured::before { content:'Recommandé'; position:absolute; top:-12px; left:50%; transform:translateX(-50%); padding:0.3rem 1rem; background:var(--accent); border-radius:100px; font-size:0.72rem; font-weight:700; color:#fff; }
+.pricing-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.3rem; }
+.pricing-card .price-one-shot { display:inline-block; padding:0.25rem 0.8rem; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.25); border-radius:8px; font-size:0.75rem; color:var(--accent2); font-weight:600; margin-bottom:0.5rem; }
+.pricing-card .price { font-size:2.8rem; font-weight:900; letter-spacing:-0.04em; margin:1rem 0; font-family:'JetBrains Mono',monospace; }
+.pricing-card .price .period { font-size:0.9rem; font-weight:500; color:var(--text-muted); }
+.pricing-card ul { list-style:none; margin:1.5rem 0; }
+.pricing-card ul li { padding:0.5rem 0; font-size:0.88rem; color:var(--text-muted); display:flex; align-items:center; gap:0.6rem; }
+.pricing-card ul li::before { content:'→'; color:var(--accent); font-weight:700; }
+.pricing-cta { display:block; width:100%; padding:0.9rem; border-radius:10px; font-weight:700; font-size:0.92rem; cursor:pointer; text-align:center; text-decoration:none; transition:all 0.2s; font-family:inherit; border:none; }
+.pricing-card.featured .pricing-cta { background:var(--accent); color:#fff; }
+.pricing-card.featured .pricing-cta:hover { box-shadow:0 0 25px var(--accent-glow); }
+.pricing-card:not(.featured) .pricing-cta { background:transparent; border:1px solid var(--border); color:var(--text); }
+.pricing-card:not(.featured) .pricing-cta:hover { border-color:var(--accent); }
+
+.cta-section { text-align:center; padding:6rem 2rem; max-width:700px; margin:0 auto; }
+.cta-section h2 { font-size:clamp(2rem,4vw,3rem); font-weight:900; letter-spacing:-0.03em; margin-bottom:1rem; }
+.cta-section p { color:var(--text-muted); font-size:1.1rem; margin-bottom:2rem; }
+
+footer { padding:3rem 2rem; border-top:1px solid var(--border); text-align:center; color:var(--text-muted); font-size:0.82rem; }
+footer a { color:var(--text-muted); text-decoration:none; }
+footer a:hover { color:var(--accent); }
+
+@media (max-width:900px) {
+  .dash-body { grid-template-columns:1fr; }
+  .dash-sidebar { display:none; }
+  .dash-stat-row { grid-template-columns:repeat(2,1fr); }
+  .email-panel { width:100%; }
+}
+@media (max-width:768px) {
+  nav { padding:1rem; }
+  .nav-links { display:none; }
+  .hero { padding:6rem 1.5rem 3rem; }
+  section { padding:4rem 1.5rem; }
+  .dash-stat-row { grid-template-columns:1fr 1fr; }
 }
 
-.hero h1 .line { display: block; }
-
-.hero h1 .highlight {
-  background: linear-gradient(135deg, var(--accent), #818cf8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero h1 .highlight-green {
-  background: linear-gradient(135deg, var(--accent2), #6ee7b7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-desc {
-  font-size: 1.15rem;
-  color: var(--text-muted);
-  max-width: 580px;
-  margin-bottom: 2.5rem;
-  position: relative;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  position: relative;
-}
-
-.btn-primary {
-  padding: 1rem 2.5rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s;
-  box-shadow: 0 0 30px var(--accent-glow);
-  font-family: inherit;
-}
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px var(--accent-glow); }
-
-.btn-secondary {
-  padding: 1rem 2.5rem;
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s;
-  font-family: inherit;
-}
-.btn-secondary:hover { border-color: var(--accent); }
-
-/* ── Sector selector ── */
-.sector-section {
-  padding: 4rem 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.sector-selector {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-  margin: 2rem 0;
-}
-
-.sector-btn {
-  padding: 0.65rem 1.3rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.25s;
-  font-family: inherit;
-}
-
-.sector-btn:hover { border-color: var(--accent); color: var(--text); }
-.sector-btn.active {
-  background: rgba(94, 106, 210, 0.15);
-  border-color: var(--accent);
-  color: var(--text);
-  box-shadow: 0 0 15px var(--accent-glow);
-}
-
-/* ── Dashboard container ── */
-.dashboard-container {
-  margin-top: 2rem;
-  display: none;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.dashboard-container.visible {
-  opacity: 1;
-  transform: translateY(0);
-  display: block;
-}
-
-/* ── Dashboard shared styles ── */
-.dash {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-  text-align: left;
-}
-
-.dash-header {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255,255,255,0.01);
-}
-
-.dash-header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.dash-dot { width: 10px; height: 10px; border-radius: 50%; }
-.dash-dot-red { background: #ef4444; }
-.dash-dot-yellow { background: #f59e0b; }
-.dash-dot-green { background: #22c55e; }
-
-.dash-url {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  margin-left: 0.5rem;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.dash-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.25rem 0.7rem;
-  background: rgba(52, 211, 153, 0.08);
-  border: 1px solid rgba(52, 211, 153, 0.2);
-  border-radius: 100px;
-  font-size: 0.7rem;
-  color: var(--accent2);
-  font-weight: 600;
-}
-
-.dash-live .dot {
-  width: 5px; height: 5px;
-  background: var(--accent2);
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-}
-
-.dash-body {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  min-height: 480px;
-}
-
-.dash-sidebar {
-  padding: 1.2rem;
-  border-right: 1px solid var(--border);
-  background: rgba(255,255,255,0.008);
-}
-
-.dash-sidebar-title {
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  font-weight: 600;
-  margin-bottom: 0.8rem;
-  padding-left: 0.6rem;
-}
-
-.dash-nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 0.8rem;
-  border-radius: 8px;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  margin-bottom: 0.15rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.dash-nav-item:hover { background: rgba(255,255,255,0.03); color: var(--text); }
-.dash-nav-item.active {
-  background: rgba(94, 106, 210, 0.12);
-  color: var(--text);
-  font-weight: 500;
-}
-
-.dash-nav-item .nav-icon { font-size: 0.9rem; }
-
-.dash-main {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  overflow-y: auto;
-}
-
-.dash-stat-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-}
-
-.dash-stat {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.2rem;
-  transition: all 0.3s;
-}
-
-.dash-stat:hover { border-color: rgba(94, 106, 210, 0.25); }
-
-.dash-stat .value {
-  font-size: 1.8rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.dash-stat .label { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
-.dash-stat .trend {
-  font-size: 0.7rem;
-  font-weight: 600;
-  margin-top: 0.3rem;
-}
-.trend-up { color: var(--accent2); }
-.trend-down { color: var(--red); }
-
-/* ── Email list ── */
-.dash-section-title {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  margin-bottom: 0.6rem;
-}
-
-.dash-email-list {
-  background: rgba(255,255,255,0.015);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.dash-email-item {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.85rem 1.2rem;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.82rem;
-  transition: background 0.2s;
-}
-
-.dash-email-item:last-child { border-bottom: none; }
-.dash-email-item:hover { background: rgba(255,255,255,0.02); }
-
-.dash-email-item .from { font-weight: 600; font-size: 0.84rem; }
-.dash-email-item .subject { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.1rem; }
-.dash-email-item .time { font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; }
-
-.status-badge {
-  padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.status-done { background: rgba(52, 211, 153, 0.1); color: var(--accent2); }
-.status-pending { background: rgba(245, 158, 11, 0.1); color: var(--accent3); }
-.status-urgent { background: rgba(239, 68, 68, 0.1); color: var(--red); }
-
-/* ── Activity feed ── */
-.activity-feed {
-  background: rgba(255,255,255,0.015);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem 1.2rem;
-}
-
-.activity-item {
-  display: flex;
-  gap: 0.8rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.8rem;
-  align-items: flex-start;
-}
-
-.activity-item:last-child { border-bottom: none; }
-
-.activity-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  margin-top: 0.35rem;
-  flex-shrink: 0;
-}
-
-.activity-dot.green { background: var(--accent2); }
-.activity-dot.blue { background: var(--accent); }
-.activity-dot.yellow { background: var(--accent3); }
-
-.activity-text { color: var(--text-muted); }
-.activity-text strong { color: var(--text); font-weight: 600; }
-.activity-time { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.15rem; }
-
-/* ── Chart placeholder ── */
-.chart-container {
-  background: rgba(255,255,255,0.015);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.2rem;
-}
-
-.chart-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.4rem;
-  height: 80px;
-  margin-top: 0.8rem;
-}
-
-.chart-bar {
-  flex: 1;
-  border-radius: 4px 4px 0 0;
-  transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  min-height: 4px;
-}
-
-.chart-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.4rem;
-  font-size: 0.65rem;
-  color: var(--text-muted);
-}
-
-/* ── Sections ── */
-section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
-
-.section-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent);
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-}
-
-.section-title {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  margin-bottom: 1rem;
-  line-height: 1.1;
-}
-
-.section-subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 550px; }
-
-/* ── Local-first ── */
-.local-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
-
-.local-card {
-  padding: 2.5rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s;
-}
-
-.local-card:hover { border-color: rgba(94, 106, 210, 0.3); transform: translateY(-3px); }
-
-.local-card .icon { font-size: 1.5rem; margin-bottom: 1.2rem; }
-.local-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-.local-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
-
-.local-card .big-text {
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: var(--accent);
-  letter-spacing: -0.04em;
-  margin-bottom: 0.2rem;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* ── Features ── */
-.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
-
-.feature-card {
-  padding: 2rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  transition: all 0.3s;
-}
-
-.feature-card:hover { border-color: rgba(94, 106, 210, 0.3); transform: translateY(-2px); }
-
-.feature-card .icon {
-  width: 44px; height: 44px;
-  background: rgba(94, 106, 210, 0.1);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  margin-bottom: 1.2rem;
-}
-
-.feature-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
-.feature-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
-
-/* ── Steps ── */
-.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 3rem; }
-.step { padding: 2rem; text-align: center; }
-
-.step-number {
-  width: 52px; height: 52px;
-  background: var(--accent);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 1.2rem;
-  margin: 0 auto 1.2rem;
-  box-shadow: 0 0 30px var(--accent-glow);
-}
-
-.step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-.step p { font-size: 0.9rem; color: var(--text-muted); }
-
-/* ── Pricing ── */
-.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
-
-.pricing-card {
-  padding: 2.5rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  position: relative;
-  transition: all 0.3s;
-}
-
-.pricing-card:hover { transform: translateY(-4px); }
-.pricing-card.featured { border-color: var(--accent); box-shadow: 0 0 50px rgba(94, 106, 210, 0.12); }
-
-.pricing-card.featured::before {
-  content: 'Recommandé';
-  position: absolute;
-  top: -12px; left: 50%;
-  transform: translateX(-50%);
-  padding: 0.3rem 1rem;
-  background: var(--accent);
-  border-radius: 100px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-.pricing-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
-
-.pricing-card .price-one-shot {
-  display: inline-block;
-  padding: 0.25rem 0.8rem;
-  background: rgba(52, 211, 153, 0.1);
-  border: 1px solid rgba(52, 211, 153, 0.25);
-  border-radius: 8px;
-  font-size: 0.75rem;
-  color: var(--accent2);
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.pricing-card .price { font-size: 2.8rem; font-weight: 900; letter-spacing: -0.04em; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; }
-.pricing-card .price .period { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); }
-
-.pricing-card ul { list-style: none; margin: 1.5rem 0; }
-.pricing-card ul li {
-  padding: 0.5rem 0;
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-.pricing-card ul li::before { content: '→'; color: var(--accent); font-weight: 700; }
-
-.pricing-cta {
-  display: block;
-  width: 100%;
-  padding: 0.9rem;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 0.92rem;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  transition: all 0.2s;
-  font-family: inherit;
-  border: none;
-}
-
-.pricing-card.featured .pricing-cta { background: var(--accent); color: #fff; }
-.pricing-card.featured .pricing-cta:hover { box-shadow: 0 0 25px var(--accent-glow); }
-.pricing-card:not(.featured) .pricing-cta { background: transparent; border: 1px solid var(--border); color: var(--text); }
-.pricing-card:not(.featured) .pricing-cta:hover { border-color: var(--accent); }
-
-/* ── CTA ── */
-.cta-section { text-align: center; padding: 6rem 2rem; max-width: 700px; margin: 0 auto; }
-.cta-section h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 1rem; }
-.cta-section p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; }
-
-/* ── Footer ── */
-footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.82rem; }
-footer a { color: var(--text-muted); text-decoration: none; }
-footer a:hover { color: var(--accent); }
-
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  .dash-body { grid-template-columns: 1fr; }
-  .dash-sidebar { display: none; }
-  .dash-stat-row { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 768px) {
-  nav { padding: 1rem; }
-  .nav-links { display: none; }
-  .hero { padding: 6rem 1.5rem 3rem; }
-  section { padding: 4rem 1.5rem; }
-  .dash-stat-row { grid-template-columns: 1fr 1fr; }
-}
-
-/* ── Animations ── */
-.fade-up {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.fade-up.visible { opacity: 1; transform: translateY(0); }
-
-/* Counter animation */
-.count-up { display: inline-block; }
-
-/* Typing cursor */
-.typing-cursor::after {
-  content: '|';
-  animation: blink 1s infinite;
-  color: var(--accent);
-}
-
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-/* Glow pulse on active */
-.glow-pulse {
-  animation: glowPulse 2s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 15px var(--accent-glow); }
-  50% { box-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(94, 106, 210, 0.1); }
-}
-
-/* Slide in from left */
-.slide-in-left {
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.slide-in-left.visible { opacity: 1; transform: translateX(0); }
-
-/* Stagger children */
-.stagger-children > *:nth-child(1) { transition-delay: 0.05s; }
-.stagger-children > *:nth-child(2) { transition-delay: 0.1s; }
-.stagger-children > *:nth-child(3) { transition-delay: 0.15s; }
-.stagger-children > *:nth-child(4) { transition-delay: 0.2s; }
-.stagger-children > *:nth-child(5) { transition-delay: 0.25s; }
-.stagger-children > *:nth-child(6) { transition-delay: 0.3s; }
+.fade-up { opacity:0; transform:translateY(30px); transition:all 0.7s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- Nav -->
 <nav>
   <a href="#" class="logo">boubane<span>.</span></a>
   <div class="nav-links">
@@ -762,41 +236,63 @@ footer a:hover { color: var(--accent); }
   <a href="#pricing" class="nav-cta">Installer Boubane</a>
 </nav>
 
-<!-- Hero -->
 <section class="hero">
   <div class="hero-glow"></div>
-  <div class="hero-badge">
-    <span class="dot"></span>
-    100% local — Vos données ne quittent jamais votre machine
-  </div>
+  <div class="hero-badge"><span class="dot"></span> 100% local — Vos données ne quittent jamais votre machine</div>
   <h1>
     <span class="line">Votre IA personnelle.</span>
     <span class="line"><span class="highlight">Sur votre machine.</span></span>
     <span class="line"><span class="highlight-green">Sous votre contrôle.</span></span>
   </h1>
-  <p class="hero-desc">
-    Boubane s'installe sur votre hardware. Emails, données, dashboard — tout tourne chez vous. Pas de cloud, pas d'abonnement imposé, pas de fuite possible.
-  </p>
+  <p class="hero-desc">Boubane s'installe sur votre hardware. Emails, données, dashboard — tout tourne chez vous. Pas de cloud, pas d'abonnement imposé, pas de fuite possible.</p>
   <div class="hero-buttons">
     <a href="#pricing" class="btn-primary">Installer Boubane</a>
     <a href="#dashboards" class="btn-secondary">Voir les dashboards</a>
   </div>
 </section>
 
-<!-- Sector selector + Dashboards -->
+<!-- ═══ SECTOR SELECTOR + DASHBOARDS ═══ -->
 <div class="sector-section" id="dashboards">
-  <p style="color:var(--text-muted); font-size:0.95rem;">Choisissez votre secteur — découvrez votre dashboard personnalisé</p>
+  <p style="color:var(--text-muted);font-size:0.95rem;">Choisissez votre secteur — cliquez sur un email pour l'ouvrir</p>
   <div class="sector-selector">
     <button class="sector-btn active" data-sector="avocats">⚖️ Cabinets d'avocats</button>
     <button class="sector-btn" data-sector="comptabilite">📊 Cabinets comptables</button>
     <button class="sector-btn" data-sector="sante">🏥 Cliniques & Santé</button>
   </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- DASHBOARD AVOCATS -->
-  <!-- ═══════════════════════════════════════ -->
+  <!-- ═══ AVOCATS ═══ -->
   <div class="dashboard-container visible" id="dash-avocats">
-    <div class="dash">
+    <div class="dash" data-sector="avocats">
+      <div class="email-panel-overlay" id="overlay-avocats"></div>
+      <div class="email-panel" id="panel-avocats">
+        <div class="email-panel-header">
+          <h3 id="panel-title-avocats">Email</h3>
+          <button class="email-panel-close" onclick="closePanel('avocats')">✕</button>
+        </div>
+        <div class="email-panel-body">
+          <div class="email-panel-meta">
+            <div>
+              <div class="email-panel-from" id="panel-from-avocats"></div>
+              <div class="email-panel-to" id="panel-to-avocats"></div>
+            </div>
+            <div class="email-panel-date" id="panel-date-avocats"></div>
+          </div>
+          <div class="email-panel-subject" id="panel-subject-avocats"></div>
+          <div class="email-panel-content" id="panel-content-avocats"></div>
+        </div>
+        <div class="reply-composer" id="reply-avocats">
+          <textarea placeholder="Votre réponse..."></textarea>
+          <div class="reply-composer-actions">
+            <button class="panel-btn panel-btn-secondary" onclick="closeReply('avocats')">Annuler</button>
+            <button class="panel-btn panel-btn-primary" onclick="sendReply('avocats')">Envoyer</button>
+          </div>
+        </div>
+        <div class="email-panel-actions">
+          <button class="panel-btn panel-btn-primary" onclick="openReply('avocats')">✍️ Répondre</button>
+          <button class="panel-btn panel-btn-secondary" onclick="markDone('avocats')">✓ Marquer traité</button>
+          <button class="panel-btn panel-btn-danger" onclick="archiveEmail('avocats')">🗄 Archiver</button>
+        </div>
+      </div>
       <div class="dash-header">
         <div class="dash-header-left">
           <div class="dash-dot dash-dot-red"></div>
@@ -822,142 +318,72 @@ footer a:hover { color: var(--accent); }
         </div>
         <div class="dash-main">
           <div class="dash-stat-row">
-            <div class="dash-stat">
-              <div class="value" data-count="347">0</div>
-              <div class="label">Emails traités aujourd'hui</div>
-              <div class="trend trend-up">↑ 12% vs hier</div>
-            </div>
-            <div class="dash-stat">
-              <div class="value" data-count="96">0<span style="font-size:0.9rem">%</span></div>
-              <div class="label">Réponses automatiques</div>
-              <div class="trend trend-up">↑ 3% vs semaine dernière</div>
-            </div>
-            <div class="dash-stat">
-              <div class="value" data-count="1" data-suffix="min" data-decimal="42">0</div>
-              <div class="label">Temps de réponse moyen</div>
-              <div class="trend trend-down">↓ 18s vs hier</div>
-            </div>
-            <div class="dash-stat">
-              <div class="value" data-count="23">0</div>
-              <div class="label">RDV planifiés</div>
-              <div class="trend trend-up">↑ 5 cette semaine</div>
-            </div>
+            <div class="dash-stat"><div class="value" data-count="347">0</div><div class="label">Emails traités aujourd'hui</div><div class="trend trend-up">↑ 12% vs hier</div></div>
+            <div class="dash-stat"><div class="value" data-count="96">0<span style="font-size:0.9rem">%</span></div><div class="label">Réponses automatiques</div><div class="trend trend-up">↑ 3% vs semaine</div></div>
+            <div class="dash-stat"><div class="value" data-count="1" data-suffix="min">0</div><div class="label">Temps de réponse moyen</div><div class="trend trend-down">↓ 18s vs hier</div></div>
+            <div class="dash-stat"><div class="value" data-count="23">0</div><div class="label">RDV planifiés</div><div class="trend trend-up">↑ 5 cette semaine</div></div>
           </div>
-
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
             <div>
               <div class="dash-section-title">Emails récents</div>
-              <div class="dash-email-list">
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Me Jean Moreau</div>
-                    <div class="subject">Transmission pièces — Affaire #4471</div>
-                  </div>
-                  <div class="time">Il y a 2min</div>
-                  <span class="status-badge status-done">Traité</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Greffe TGI Paris</div>
-                    <div class="subject">Convocation audience 15/06 — Mme Laurent</div>
-                  </div>
-                  <div class="time">Il y a 8min</div>
-                  <span class="status-badge status-urgent">Urgent</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Sophie Laurent</div>
-                    <div class="subject">Demande de rendez-vous urgent</div>
-                  </div>
-                  <div class="time">Il y a 15min</div>
-                  <span class="status-badge status-done">Traité</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Cabinet Lex & Associés</div>
-                    <div class="subject">Demande de collaboration — Droit social</div>
-                  </div>
-                  <div class="time">Il y a 32min</div>
-                  <span class="status-badge status-pending">En attente</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Martin Dupont</div>
-                    <div class="subject">Question honoraires — Affaire en cours</div>
-                  </div>
-                  <div class="time">Il y a 1h</div>
-                  <span class="status-badge status-done">Traité</span>
-                </div>
-              </div>
+              <div class="dash-email-list" id="email-list-avocats"></div>
             </div>
-
             <div>
               <div class="dash-section-title">Activité IA</div>
-              <div class="activity-feed">
-                <div class="activity-item">
-                  <div class="activity-dot green"></div>
-                  <div>
-                    <div class="activity-text"><strong>Email répondu</strong> à Sophie Laurent — RDV confirmé au 12/06</div>
-                    <div class="activity-time">Il y a 15min</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot blue"></div>
-                  <div>
-                    <div class="activity-text"><strong>Affaire créée</strong> #4472 — Mme Laurent / Droit familial</div>
-                    <div class="activity-time">Il y a 22min</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot green"></div>
-                  <div>
-                    <div class="activity-text"><strong>Email répondu</strong> à Martin Dupont — Honoraires détaillés</div>
-                    <div class="activity-time">Il y a 1h</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot yellow"></div>
-                  <div>
-                    <div class="activity-text"><strong>En attente validation</strong> — Cabinet Lex & Associés (demande collaboration)</div>
-                    <div class="activity-time">Il y a 32min</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot blue"></div>
-                  <div>
-                    <div class="activity-text"><strong>Audience détectée</strong> — Greffe TGI, 15/06, ajoutée au calendrier</div>
-                    <div class="activity-time">Il y a 8min</div>
-                  </div>
-                </div>
-              </div>
+              <div class="activity-feed" id="activity-avocats"></div>
             </div>
           </div>
-
           <div class="chart-container">
             <div class="dash-section-title">Emails sur 7 jours</div>
             <div class="chart-bars" id="chart-avocats">
-              <div class="chart-bar" style="height:45%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:62%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:38%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:80%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:55%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:90%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:70%;background:var(--accent2);"></div>
+              <div class="chart-bar" style="height:45%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:62%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:38%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:80%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:55%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:90%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:70%;background:var(--accent2)"></div>
             </div>
-            <div class="chart-labels">
-              <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Auj.</span>
-            </div>
+            <div class="chart-labels"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Auj.</span></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- DASHBOARD COMPTABILITÉ -->
-  <!-- ═══════════════════════════════════════ -->
+  <!-- ═══ COMPTABILITÉ ═══ -->
   <div class="dashboard-container" id="dash-comptabilite">
-    <div class="dash">
+    <div class="dash" data-sector="comptabilite">
+      <div class="email-panel-overlay" id="overlay-comptabilite"></div>
+      <div class="email-panel" id="panel-comptabilite">
+        <div class="email-panel-header">
+          <h3 id="panel-title-comptabilite">Email</h3>
+          <button class="email-panel-close" onclick="closePanel('comptabilite')">✕</button>
+        </div>
+        <div class="email-panel-body">
+          <div class="email-panel-meta">
+            <div>
+              <div class="email-panel-from" id="panel-from-comptabilite"></div>
+              <div class="email-panel-to" id="panel-to-comptabilite"></div>
+            </div>
+            <div class="email-panel-date" id="panel-date-comptabilite"></div>
+          </div>
+          <div class="email-panel-subject" id="panel-subject-comptabilite"></div>
+          <div class="email-panel-content" id="panel-content-comptabilite"></div>
+        </div>
+        <div class="reply-composer" id="reply-comptabilite">
+          <textarea placeholder="Votre réponse..."></textarea>
+          <div class="reply-composer-actions">
+            <button class="panel-btn panel-btn-secondary" onclick="closeReply('comptabilite')">Annuler</button>
+            <button class="panel-btn panel-btn-primary" onclick="sendReply('comptabilite')">Envoyer</button>
+          </div>
+        </div>
+        <div class="email-panel-actions">
+          <button class="panel-btn panel-btn-primary" onclick="openReply('comptabilite')">✍️ Répondre</button>
+          <button class="panel-btn panel-btn-secondary" onclick="markDone('comptabilite')">✓ Marquer traité</button>
+          <button class="panel-btn panel-btn-danger" onclick="archiveEmail('comptabilite')">🗄 Archiver</button>
+        </div>
+      </div>
       <div class="dash-header">
         <div class="dash-header-left">
           <div class="dash-dot dash-dot-red"></div>
@@ -983,142 +409,72 @@ footer a:hover { color: var(--accent); }
         </div>
         <div class="dash-main">
           <div class="dash-stat-row">
-            <div class="dash-stat">
-              <div class="value" data-count="512">0</div>
-              <div class="label">Emails ce mois-ci</div>
-              <div class="trend trend-up">↑ 24% vs mois dernier</div>
-            </div>
-            <div class="dash-stat">
-              <div class="value" data-count="89">0<span style="font-size:0.9rem">%</span></div>
-              <div class="label">Tri automatique</div>
-              <div class="trend trend-up">↑ 7% efficacité</div>
-            </div>
-            <div class="dash-stat">
-              <div class="value" data-count="18">0</div>
-              <div class="label">Docs à traiter</div>
-              <div class="trend trend-down">↓ 12 vs hier</div>
-            </div>
-            <div class="dash-stat">
-              <div class="value" data-count="6">0</div>
-              <div class="label">Relances envoyées</div>
-              <div class="trend trend-up">Aujourd'hui</div>
-            </div>
+            <div class="dash-stat"><div class="value" data-count="512">0</div><div class="label">Emails ce mois-ci</div><div class="trend trend-up">↑ 24% vs mois dernier</div></div>
+            <div class="dash-stat"><div class="value" data-count="89">0<span style="font-size:0.9rem">%</span></div><div class="label">Tri automatique</div><div class="trend trend-up">↑ 7% efficacité</div></div>
+            <div class="dash-stat"><div class="value" data-count="18">0</div><div class="label">Docs à traiter</div><div class="trend trend-down">↓ 12 vs hier</div></div>
+            <div class="dash-stat"><div class="value" data-count="6">0</div><div class="label">Relances envoyées</div><div class="trend trend-up">Aujourd'hui</div></div>
           </div>
-
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
             <div>
               <div class="dash-section-title">Emails récents</div>
-              <div class="dash-email-list">
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">EURL BTP Martin</div>
-                    <div class="subject">Envoi factures mai — 23 documents</div>
-                  </div>
-                  <div class="time">Il y a 5min</div>
-                  <span class="status-badge status-done">Traité</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Mme Petit</div>
-                    <div class="subject">Question déclaration TVA trimestrielle</div>
-                  </div>
-                  <div class="time">Il y a 12min</div>
-                  <span class="status-badge status-done">Traité</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">SARL TechVision</div>
-                    <div class="subject">Relance — Documents manquants bilan</div>
-                  </div>
-                  <div class="time">Il y a 28min</div>
-                  <span class="status-badge status-pending">En attente</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Expert-Comptable Online</div>
-                    <div class="subject">Proposition partenariat logiciel</div>
-                  </div>
-                  <div class="time">Il y a 1h</div>
-                  <span class="status-badge status-pending">En attente</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">M. Roux</div>
-                    <div class="subject">Demande rendez-vous — Optimisation fiscale</div>
-                  </div>
-                  <div class="time">Il y a 2h</div>
-                  <span class="status-badge status-done">Traité</span>
-                </div>
-              </div>
+              <div class="dash-email-list" id="email-list-comptabilite"></div>
             </div>
-
             <div>
               <div class="dash-section-title">Activité IA</div>
-              <div class="activity-feed">
-                <div class="activity-item">
-                  <div class="activity-dot green"></div>
-                  <div>
-                    <div class="activity-text"><strong>Documents classés</strong> — 23 factures EURL BTP Martin / Dossier #2026-05</div>
-                    <div class="activity-time">Il y a 5min</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot blue"></div>
-                  <div>
-                    <div class="activity-text"><strong>Réponse envoyée</strong> — Mme Petit / TVA : seuils et échéances détaillés</div>
-                    <div class="activity-time">Il y a 12min</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot yellow"></div>
-                  <div>
-                    <div class="activity-text"><strong>Relance programmée</strong> — SARL TechVision / Documents manquants (3)</div>
-                    <div class="activity-time">Il y a 28min</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot green"></div>
-                  <div>
-                    <div class="activity-text"><strong>RDV confirmé</strong> — M. Roux / 14/06 à 10h — Optimisation fiscale</div>
-                    <div class="activity-time">Il y a 2h</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot blue"></div>
-                  <div>
-                    <div class="activity-text"><strong>Échéance détectée</strong> — Déclaration TVA au 25/06 pour 6 clients</div>
-                    <div class="activity-time">Il y a 3h</div>
-                  </div>
-                </div>
-              </div>
+              <div class="activity-feed" id="activity-comptabilite"></div>
             </div>
           </div>
-
           <div class="chart-container">
             <div class="dash-section-title">Charge de travail — 7 jours</div>
             <div class="chart-bars" id="chart-compta">
-              <div class="chart-bar" style="height:70%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:85%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:55%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:95%;background:var(--accent3);"></div>
-              <div class="chart-bar" style="height:78%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:30%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:60%;background:var(--accent2);"></div>
+              <div class="chart-bar" style="height:70%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:85%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:55%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:95%;background:var(--accent3)"></div>
+              <div class="chart-bar" style="height:78%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:30%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:60%;background:var(--accent2)"></div>
             </div>
-            <div class="chart-labels">
-              <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Auj.</span>
-            </div>
+            <div class="chart-labels"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Auj.</span></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- DASHBOARD SANTÉ -->
-  <!-- ═══════════════════════════════════════ -->
+  <!-- ═══ SANTÉ ═══ -->
   <div class="dashboard-container" id="dash-sante">
-    <div class="dash">
+    <div class="dash" data-sector="sante">
+      <div class="email-panel-overlay" id="overlay-sante"></div>
+      <div class="email-panel" id="panel-sante">
+        <div class="email-panel-header">
+          <h3 id="panel-title-sante">Email</h3>
+          <button class="email-panel-close" onclick="closePanel('sante')">✕</button>
+        </div>
+        <div class="email-panel-body">
+          <div class="email-panel-meta">
+            <div>
+              <div class="email-panel-from" id="panel-from-sante"></div>
+              <div class="email-panel-to" id="panel-to-sante"></div>
+            </div>
+            <div class="email-panel-date" id="panel-date-sante"></div>
+          </div>
+          <div class="email-panel-subject" id="panel-subject-sante"></div>
+          <div class="email-panel-content" id="panel-content-sante"></div>
+        </div>
+        <div class="reply-composer" id="reply-sante">
+          <textarea placeholder="Votre réponse..."></textarea>
+          <div class="reply-composer-actions">
+            <button class="panel-btn panel-btn-secondary" onclick="closeReply('sante')">Annuler</button>
+            <button class="panel-btn panel-btn-primary" onclick="sendReply('sante')">Envoyer</button>
+          </div>
+        </div>
+        <div class="email-panel-actions">
+          <button class="panel-btn panel-btn-primary" onclick="openReply('sante')">✍️ Répondre</button>
+          <button class="panel-btn panel-btn-secondary" onclick="markDone('sante')">✓ Marquer traité</button>
+          <button class="panel-btn panel-btn-danger" onclick="archiveEmail('sante')">🗄 Archiver</button>
+        </div>
+      </div>
       <div class="dash-header">
         <div class="dash-header-left">
           <div class="dash-dot dash-dot-red"></div>
@@ -1144,131 +500,33 @@ footer a:hover { color: var(--accent); }
         </div>
         <div class="dash-main">
           <div class="dash-stat-row">
-            <div class="dash-stat">
-              <div class="value" data-count="189">0</div>
-              <div class="label">Emails aujourd'hui</div>
-              <div class="trend trend-up">↑ 8% vs hier</div>
-            </div>
-            <div class="dash-stat">
-              <div class="value" data-count="42">0</div>
-              <div class="label">RDV confirmés</div>
-              <div class="trend trend-up">Aujourd'hui</div>
-            </div>
-            <div class="dash-stat">
-              <div class="value" data-count="98">0<span style="font-size:0.9rem">%</span></div>
-              <div class="label">Taux de réponse</div>
-              <div class="trend trend-up">↑ 2% vs semaine</div>
-            </div>
-            <div class="dash-stat">
-              <div class="value" data-count="3">0</div>
-              <div class="label">Urgences détectées</div>
-              <div class="trend" style="color:var(--accent3);">À traiter</div>
-            </div>
+            <div class="dash-stat"><div class="value" data-count="189">0</div><div class="label">Emails aujourd'hui</div><div class="trend trend-up">↑ 8% vs hier</div></div>
+            <div class="dash-stat"><div class="value" data-count="42">0</div><div class="label">RDV confirmés</div><div class="trend trend-up">Aujourd'hui</div></div>
+            <div class="dash-stat"><div class="value" data-count="98">0<span style="font-size:0.9rem">%</span></div><div class="label">Taux de réponse</div><div class="trend trend-up">↑ 2% vs semaine</div></div>
+            <div class="dash-stat"><div class="value" data-count="3">0</div><div class="label">Urgences détectées</div><div class="trend" style="color:var(--accent3)">À traiter</div></div>
           </div>
-
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
             <div>
               <div class="dash-section-title">Emails récents</div>
-              <div class="dash-email-list">
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Mme Isabelle Fabre</div>
-                    <div class="subject">Demande RDV urgent — Douleur persistante</div>
-                  </div>
-                  <div class="time">Il y a 3min</div>
-                  <span class="status-badge status-urgent">Urgent</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Dr. Patrick Morel</div>
-                    <div class="subject">Demande de consultation — Courrier patient</div>
-                  </div>
-                  <div class="time">Il y a 10min</div>
-                  <span class="status-badge status-done">Traité</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">M. Ahmed Benali</div>
-                    <div class="subject">Rappel vaccinal — Disponibilités ?</div>
-                  </div>
-                  <div class="time">Il y a 18min</div>
-                  <span class="status-badge status-done">Traité</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Cabinet Dentaire Dupont</div>
-                    <div class="subject">Demande de rendez-vous — Mme Laurent</div>
-                  </div>
-                  <div class="time">Il y a 45min</div>
-                  <span class="status-badge status-pending">En attente</span>
-                </div>
-                <div class="dash-email-item">
-                  <div>
-                    <div class="from">Mme Claire Dubois</div>
-                    <div class="subject">Question résultats analyse de sang</div>
-                  </div>
-                  <div class="time">Il y a 1h</div>
-                  <span class="status-badge status-done">Traité</span>
-                </div>
-              </div>
+              <div class="dash-email-list" id="email-list-sante"></div>
             </div>
-
             <div>
               <div class="dash-section-title">Activité IA</div>
-              <div class="activity-feed">
-                <div class="activity-item">
-                  <div class="activity-dot yellow"></div>
-                  <div>
-                    <div class="activity-text"><strong>⚠️ Urgence détectée</strong> — Mme Fabre / Douleur persistante — RDV proposé demain 9h</div>
-                    <div class="activity-time">Il y a 3min</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot green"></div>
-                  <div>
-                    <div class="activity-text"><strong>RDV confirmé</strong> — Dr Morel / Consultation le 11/06 à 14h30</div>
-                    <div class="activity-time">Il y a 10min</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot blue"></div>
-                  <div>
-                    <div class="activity-text"><strong>Rappel envoyé</strong> — M. Benali / Vaccin grippe, créneaux disponibles</div>
-                    <div class="activity-time">Il y a 18min</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot green"></div>
-                  <div>
-                    <div class="activity-text"><strong>Réponse envoyée</strong> — Mme Dubois / Résultats transmis au Dr Leroy</div>
-                    <div class="activity-time">Il y a 1h</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot blue"></div>
-                  <div>
-                    <div class="activity-text"><strong>3 RDV ajoutés</strong> — Planning du 12/06 mis à jour</div>
-                    <div class="activity-time">Il y a 2h</div>
-                  </div>
-                </div>
-              </div>
+              <div class="activity-feed" id="activity-sante"></div>
             </div>
           </div>
-
           <div class="chart-container">
             <div class="dash-section-title">Rendez-vous — 7 jours</div>
             <div class="chart-bars" id="chart-sante">
-              <div class="chart-bar" style="height:60%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:75%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:50%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:85%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:95%;background:var(--accent3);"></div>
-              <div class="chart-bar" style="height:25%;background:var(--accent);"></div>
-              <div class="chart-bar" style="height:70%;background:var(--accent2);"></div>
+              <div class="chart-bar" style="height:60%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:75%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:50%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:85%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:95%;background:var(--accent3)"></div>
+              <div class="chart-bar" style="height:25%;background:var(--accent)"></div>
+              <div class="chart-bar" style="height:70%;background:var(--accent2)"></div>
             </div>
-            <div class="chart-labels">
-              <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Auj.</span>
-            </div>
+            <div class="chart-labels"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Auj.</span></div>
           </div>
         </div>
       </div>
@@ -1276,173 +534,259 @@ footer a:hover { color: var(--accent); }
   </div>
 </div>
 
-<!-- Local-first argument -->
+<!-- Local-first -->
 <section>
   <div class="fade-up">
     <div class="section-label">Pourquoi local</div>
     <h2 class="section-title">Le cloud c'est pratique.<br>Mais c'est pas chez vous.</h2>
     <p class="section-subtitle">Chaque solution IA envoie vos données quelque part. Boubane, non.</p>
   </div>
-  <div class="local-grid stagger-children">
-    <div class="local-card fade-up">
-      <div class="big-text">0</div>
-      <h3>Données envoyées à l'extérieur</h3>
-      <p>Vos emails, vos contacts, vos documents — tout reste sur votre machine. Boubane traite localement, point final.</p>
-    </div>
-    <div class="local-card fade-up">
-      <div class="icon">🖥️</div>
-      <h3>Sur votre hardware</h3>
-      <p>Un mini-PC, un vieux bureau, un VPS que vous contrôlez — Boubane tourne sur ce que vous possédez déjà.</p>
-    </div>
-    <div class="local-card fade-up">
-      <div class="icon">🔓</div>
-      <h3>Pas de vendor lock-in</h3>
-      <p>Vous pouvez arrêter quand vous voulez. Vos données sont à vous, dans des formats standards, accessibles à tout moment.</p>
-    </div>
-    <div class="local-card fade-up">
-      <div class="icon">🛡️</div>
-      <h3>Conformité par design</h3>
-      <p>RGPD, secret professionnel, confidentialité patient — avec du local, la conformité est automatique. Pas de risque, pas de question.</p>
-    </div>
+  <div class="local-grid">
+    <div class="local-card fade-up"><div class="big-text">0</div><h3>Données envoyées à l'extérieur</h3><p>Vos emails, vos contacts, vos documents — tout reste sur votre machine. Boubane traite localement, point final.</p></div>
+    <div class="local-card fade-up"><div class="icon">🖥️</div><h3>Sur votre hardware</h3><p>Un mini-PC, un vieux bureau, un VPS que vous contrôlez — Boubane tourne sur ce que vous possédez déjà.</p></div>
+    <div class="local-card fade-up"><div class="icon">🔓</div><h3>Pas de vendor lock-in</h3><p>Vous pouvez arrêter quand vous voulez. Vos données sont à vous, dans des formats standards, accessibles à tout moment.</p></div>
+    <div class="local-card fade-up"><div class="icon">🛡️</div><h3>Conformité par design</h3><p>RGPD, secret professionnel, confidentialité patient — avec du local, la conformité est automatique. Pas de risque, pas de question.</p></div>
   </div>
 </section>
 
 <!-- Features -->
 <section>
-  <div class="fade-up">
-    <div class="section-label">Fonctionnalités</div>
-    <h2 class="section-title">Un agent complet.<br>Sur votre machine.</h2>
-  </div>
-  <div class="features stagger-children">
-    <div class="feature-card fade-up">
-      <div class="icon">📬</div>
-      <h3>Tri intelligent</h3>
-      <p>Chaque email est classé par priorité, type et urgence. Clients, fournisseurs, prospects — chaque message trouve sa place automatiquement.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="icon">✍️</div>
-      <h3>Réponses automatiques</h3>
-      <p>Boubane rédige des réponses adaptées à votre ton et votre secteur. Vous validez ou laissez partir en autonomie totale.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="icon">📅</div>
-      <h3>Prise de rendez-vous</h3>
-      <p>Détection automatique des demandes de RDV, proposition de créneaux, confirmation — sans aucun aller-retour manuel.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="icon">📊</div>
-      <h3>Dashboard temps réel</h3>
-      <p>Emails traités, temps gagné, satisfaction — suivez tout depuis votre tableau de bord personnel, accessible en local.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="icon">🧠</div>
-      <h3>IA qui apprend</h3>
-      <p>Plus vous utilisez Boubane, plus il s'adapte à votre style, vos processus et vos préférences. Il devient votre double numérique.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="icon">🔌</div>
-      <h3>Compatible tout email</h3>
-      <p>Gmail, Outlook, IMAP — Boubane se connecte à votre boîte mail existante. Pas de migration, pas de changement d'habitude.</p>
-    </div>
+  <div class="fade-up"><div class="section-label">Fonctionnalités</div><h2 class="section-title">Un agent complet.<br>Sur votre machine.</h2></div>
+  <div class="features">
+    <div class="feature-card fade-up"><div class="icon">📬</div><h3>Tri intelligent</h3><p>Chaque email est classé par priorité, type et urgence. Clients, fournisseurs, prospects — chaque message trouve sa place automatiquement.</p></div>
+    <div class="feature-card fade-up"><div class="icon">✍️</div><h3>Réponses automatiques</h3><p>Boubane rédige des réponses adaptées à votre ton et votre secteur. Vous validez ou laissez partir en autonomie totale.</p></div>
+    <div class="feature-card fade-up"><div class="icon">📅</div><h3>Prise de rendez-vous</h3><p>Détection automatique des demandes de RDV, proposition de créneaux, confirmation — sans aucun aller-retour manuel.</p></div>
+    <div class="feature-card fade-up"><div class="icon">📊</div><h3>Dashboard temps réel</h3><p>Emails traités, temps gagné, satisfaction — suivez tout depuis votre tableau de bord personnel, accessible en local.</p></div>
+    <div class="feature-card fade-up"><div class="icon">🧠</div><h3>IA qui apprend</h3><p>Plus vous utilisez Boubane, plus il s'adapte à votre style, vos processus et vos préférences. Il devient votre double numérique.</p></div>
+    <div class="feature-card fade-up"><div class="icon">🔌</div><h3>Compatible tout email</h3><p>Gmail, Outlook, IMAP — Boubane se connecte à votre boîte mail existante. Pas de migration, pas de changement d'habitude.</p></div>
   </div>
 </section>
 
 <!-- Steps -->
 <section id="comment">
-  <div class="fade-up" style="text-align:center;">
-    <div class="section-label">Installation</div>
-    <h2 class="section-title">Opérationnel en une demi-journée</h2>
-    <p class="section-subtitle">On s'occupe de tout. Vous reprenez le contrôle.</p>
-  </div>
+  <div class="fade-up" style="text-align:center;"><div class="section-label">Installation</div><h2 class="section-title">Opérationnel en une demi-journée</h2><p class="section-subtitle">On s'occupe de tout. Vous reprenez le contrôle.</p></div>
   <div class="steps">
-    <div class="step fade-up">
-      <div class="step-number">1</div>
-      <h3>On installe</h3>
-      <p>On configure Boubane sur votre hardware (mini-PC, serveur, VPS). Vous choisissez la machine, on fait le reste.</p>
-    </div>
-    <div class="step fade-up">
-      <div class="step-number">2</div>
-      <h3>On connecte</h3>
-      <p>Connexion à votre boîte mail, analyse de vos emails passés, calibration du modèle IA à votre style et votre secteur.</p>
-    </div>
-    <div class="step fade-up">
-      <div class="step-number">3</div>
-      <h3>Vous pilotez</h3>
-      <p>Votre dashboard est prêt. Vous supervisez, ajustez, validez. Boubane travaille, vous gardez le contrôle.</p>
-    </div>
+    <div class="step fade-up"><div class="step-number">1</div><h3>On installe</h3><p>On configure Boubane sur votre hardware (mini-PC, serveur, VPS). Vous choisissez la machine, on fait le reste.</p></div>
+    <div class="step fade-up"><div class="step-number">2</div><h3>On connecte</h3><p>Connexion à votre boîte mail, analyse de vos emails passés, calibration du modèle IA à votre style et votre secteur.</p></div>
+    <div class="step fade-up"><div class="step-number">3</div><h3>Vous pilotez</h3><p>Votre dashboard est prêt. Vous supervisez, ajustez, validez. Boubane travaille, vous gardez le contrôle.</p></div>
   </div>
 </section>
 
 <!-- Pricing -->
 <section id="pricing">
-  <div class="fade-up" style="text-align:center;">
-    <div class="section-label">Tarifs</div>
-    <h2 class="section-title">Simple, transparent,<br>one-shot</h2>
-    <p class="section-subtitle">Pas d'abonnement imposé. Vous possédez votre installation.</p>
-  </div>
+  <div class="fade-up" style="text-align:center;"><div class="section-label">Tarifs</div><h2 class="section-title">Simple, transparent, one-shot</h2><p class="section-subtitle">Pas d'abonnement imposé. Vous possédez votre installation.</p></div>
   <div class="pricing-grid">
-    <div class="pricing-card fade-up">
-      <h3>Installation</h3>
-      <div class="price-one-shot">One-shot</div>
-      <div class="price">€990</div>
-      <ul>
-        <li>Installation complète sur votre hardware</li>
-        <li>Connexion boîte mail (Gmail, Outlook, IMAP)</li>
-        <li>Configuration IA adaptée à votre secteur</li>
-        <li>Dashboard personnel</li>
-        <li>Formation 1h incluse</li>
-        <li>Support 30 jours</li>
-      </ul>
-      <a href="#" class="pricing-cta">Démarrer</a>
-    </div>
-    <div class="pricing-card featured fade-up">
-      <h3>Installation + Maintenance</h3>
-      <div class="price-one-shot">One-shot + mensuel</div>
-      <div class="price">€990 <span class="period">+ 99€/mois</span></div>
-      <ul>
-        <li>Tout dans Installation</li>
-        <li>Mises à jour IA continues</li>
-        <li>Support prioritaire illimité</li>
-        <li>Monitoring proactif</li>
-        <li>Évolutions fonctionnelles</li>
-        <li>Sauvegardes automatiques</li>
-      </ul>
-      <a href="#" class="pricing-cta">Démarrer</a>
-    </div>
-    <div class="pricing-card fade-up">
-      <h3>Enterprise</h3>
-      <div class="price-one-shot">Sur mesure</div>
-      <div class="price" style="font-size:1.8rem; margin:1.5rem 0;">Contactez-nous</div>
-      <ul>
-        <li>Multi-postes / multi-utilisateurs</li>
-        <li>Intégrations métier custom</li>
-        <li>SLA garanti</li>
-        <li>Account manager dédié</li>
-        <li>On-premise renforcé</li>
-        <li>Audit sécurité inclus</li>
-      </ul>
-      <a href="#" class="pricing-cta">Nous contacter</a>
-    </div>
+    <div class="pricing-card fade-up"><h3>Installation</h3><div class="price-one-shot">One-shot</div><div class="price">€990</div><ul><li>Installation complète sur votre hardware</li><li>Connexion boîte mail (Gmail, Outlook, IMAP)</li><li>Configuration IA adaptée à votre secteur</li><li>Dashboard personnel</li><li>Formation 1h incluse</li><li>Support 30 jours</li></ul><a href="#" class="pricing-cta">Démarrer</a></div>
+    <div class="pricing-card featured fade-up"><h3>Installation + Maintenance</h3><div class="price-one-shot">One-shot + mensuel</div><div class="price">€990 <span class="period">+ 99€/mois</span></div><ul><li>Tout dans Installation</li><li>Mises à jour IA continues</li><li>Support prioritaire illimité</li><li>Monitoring proactif</li><li>Évolutions fonctionnelles</li><li>Sauvegardes automatiques</li></ul><a href="#" class="pricing-cta">Démarrer</a></div>
+    <div class="pricing-card fade-up"><h3>Enterprise</h3><div class="price-one-shot">Sur mesure</div><div class="price" style="font-size:1.8rem;margin:1.5rem 0;">Contactez-nous</div><ul><li>Multi-postes / multi-utilisateurs</li><li>Intégrations métier custom</li><li>SLA garanti</li><li>Account manager dédié</li><li>On-premise renforcé</li><li>Audit sécurité inclus</li></ul><a href="#" class="pricing-cta">Nous contacter</a></div>
   </div>
 </section>
 
-<!-- CTA -->
 <div class="cta-section fade-up">
   <h2>Vos données méritent<br><span style="color:var(--accent2)">de rester chez vous.</span></h2>
   <p>Installation en une demi-journée. Vous possédez tout. On s'occupe du reste.</p>
-  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
     <a href="#" class="btn-primary">Installer Boubane</a>
     <a href="#" class="btn-secondary">Parler à un expert</a>
   </div>
 </div>
 
-<!-- Footer -->
 <footer>
   <p>© 2026 Boubane — IA locale, données locales, contrôle total · <a href="#">Mentions légales</a> · <a href="#">RGPD</a> · <a href="#">Contact</a></p>
 </footer>
 
+<div class="toast" id="toast"></div>
+
 <script>
-// ── Sector switcher ──
+// ═══ EMAIL DATA ═══
+const emailData = {
+  avocats: [
+    { id:1, from:'Me Jean Moreau', to:'cabinet-dupont.fr', subject:'Transmission pièces — Affaire #4471', time:'Il y a 2min', status:'done', read:false,
+      content:'<p>Bonjour Maître,</p><p>Vous trouverez ci-joint les pièces relatives à l\'affaire #4471 — Mme Laurent c/ SARL BTP Martin.</p><p>Les documents suivants sont joints :</p><p>• Contrat de travail original<br>• Bulletins de salaire (12 derniers mois)<br>• Courriers de licenciement<br>• Attestations Pôle Emploi</p><p>Merci de bien vouloir me confirmer bonne réception.</p><p>Cordialement,<br>Me Jean Moreau</p>' },
+    { id:2, from:'Greffe TGI Paris', to:'cabinet-dupont.fr', subject:'Convocation audience 15/06 — Mme Laurent', time:'Il y a 8min', status:'urgent', read:false,
+      content:'<p>CONVOCATION À L\'AUDIENCE</p><p>Audience fixée au 15 juin 2026 à 14h00<br>Tribunal judiciaire de Paris<br>Chambre 7 — Bureau 3</p><p>Affaire : Laurent c/ SARL BTP Martin<br>Rôle général : RG 2025/4471</p><p>La présence de l\'avocat est obligatoire.</p>' },
+    { id:3, from:'Sophie Laurent', to:'cabinet-dupont.fr', subject:'Demande de rendez-vous urgent', time:'Il y a 15min', status:'done', read:true,
+      content:'<p>Bonjour Maître,</p><p>J\'ai besoin de vous consulter en urgence concernant mon affaire. Mon ancien employeur a déposé un pourvoi en cassation et je ne sais pas quoi faire.</p><p>Êtes-vous disponible cette semaine ?</p><p>Merci,<br>Sophie Laurent<br>06 12 34 56 78</p>' },
+    { id:4, from:'Cabinet Lex & Associés', to:'cabinet-dupont.fr', subject:'Demande de collaboration — Droit social', time:'Il y a 32min', status:'pending', read:false,
+      content:'<p>Bonjour,</p><p>Nous avons un dossier de droit social qui dépasse notre champ de compétence habituel. Seriez-vous intéressé pour une collaboration ?</p><p>Il s\'agit d\'un licenciement économique collectif (15 salariés) pour un client industriel.</p><p>Disponible pour en discuter ?</p><p>Me Caroline Lex</p>' },
+    { id:5, from:'Martin Dupont', to:'cabinet-dupont.fr', subject:'Question honoraires — Affaire en cours', time:'Il y a 1h', status:'done', read:true,
+      content:'<p>Bonjour Maître,</p><p>Je souhaitais faire le point sur les honoraires de mon affaire. Nous en sommes à 3 audiences et je voulais savoir où nous en sommes financièrement.</p><p>Pourriez-vous me faire un récapitulatif ?</p><p>Merci,<br>Martin Dupont</p>' }
+  ],
+  comptabilite: [
+    { id:1, from:'EURL BTP Martin', to:'expertise-compta.fr', subject:'Envoi factures mai — 23 documents', time:'Il y a 5min', status:'done', read:false,
+      content:'<p>Bonjour,</p><p>Veuillez trouver ci-joint les 23 factures du mois de mai 2026.</p><p>Répartition :<br>• Factures fournisseurs : 15<br>• Factures clients : 8</p><p>Total HT : 47 830€<br>Total TVA : 9 566€</p><p>Merci de procéder à l\'enregistrement.<br>Le gérant</p>' },
+    { id:2, from:'Mme Petit', to:'expertise-compta.fr', subject:'Question déclaration TVA trimestrielle', time:'Il y a 12min', status:'done', read:true,
+      content:'<p>Bonjour,</p><p>Ma déclaration TVA trimestrielle est bientôt due. Pouvez-vous me rappeler les seuils et les échéances ?</p><p>Mon chiffre d\'affaires du trimestre est d\'environ 28 000€.</p><p>Merci,<br>Mme Petit</p>' },
+    { id:3, from:'SARL TechVision', to:'expertise-compta.fr', subject:'Relance — Documents manquants bilan', time:'Il y a 28min', status:'pending', read:false,
+      content:'<p>Bonjour,</p><p>Nous n\'avons toujours pas reçu les documents suivants pour l\'établissement du bilan :</p><p>• Relevés bancaires de décembre<br>• Contrat de prêt immobilier<br>• Factures d\'immobilisation</p><p>Pouvez-vous nous les transmettre rapidement ?</p><p>Le commissaire aux comptes</p>' },
+    { id:4, from:'Expert-Comptable Online', to:'expertise-compta.fr', subject:'Proposition partenariat logiciel', time:'Il y a 1h', status:'pending', read:true,
+      content:'<p>Bonjour,</p><p>Je me permets de vous contacter pour une proposition de partenariat. Nous développons un logiciel de comptabilité en ligne et cherchons des cabinets partenaires.</p><p>Intéressé pour en discuter ?</p><p>Thomas — Expert-Comptable Online</p>' },
+    { id:5, from:'M. Roux', to:'expertise-compta.fr', subject:'Demande rendez-vous — Optimisation fiscale', time:'Il y a 2h', status:'done', read:true,
+      content:'<p>Bonjour,</p><p>Je souhaiterais prendre rendez-vous pour discuter d\'optimisation fiscale. Mon activité a fortement progressé cette année et je souhaite anticiper.</p><p>Disponible la semaine prochaine ?<br>M. Roux</p>' }
+  ],
+  sante: [
+    { id:1, from:'Mme Isabelle Fabre', to:'clinique-sante.fr', subject:'Demande RDV urgent — Douleur persistante', time:'Il y a 3min', status:'urgent', read:false,
+      content:'<p>Bonjour,</p><p>Je souffre de douleurs persistantes au niveau du bas du dos depuis 3 semaines. Les antalgiques ne font plus effet.</p><p>Je souhaiterais consulter en urgence. Êtes-vous disponible demain ?</p><p>Mes coordonnées :<br>Isabelle Fabre<br>06 98 76 54 32<br>Mutuelle : MGEN</p>' },
+    { id:2, from:'Dr. Patrick Morel', to:'clinique-sante.fr', subject:'Demande de consultation — Courrier patient', time:'Il y a 10min', status:'done', read:true,
+      content:'<p>Bonjour,</p><p>Je vous adresse Mme Claire Dubois, 45 ans, pour une consultation de suivi.</p><p>Antécédents :<br>• Hypertension traitée<br>• Diabète type 2<br>• Allergie pénicilline</p><p>Merci de bien vouloir la recevoir.<br>Dr. Patrick Morel</p>' },
+    { id:3, from:'M. Ahmed Benali', to:'clinique-sante.fr', subject:'Rappel vaccinal — Disponibilités ?', time:'Il y a 18min', status:'done', read:true,
+      content:'<p>Bonjour,</p><p>Je dois faire mon rappel de vaccin contre la grippe. Avez-vous des créneaux disponibles cette semaine ?</p><p>Merci,<br>Ahmed Benali</p>' },
+    { id:4, from:'Cabinet Dentaire Dupont', to:'clinique-sante.fr', subject:'Demande de rendez-vous — Mme Laurent', time:'Il y a 45min', status:'pending', read:false,
+      content:'<p>Bonjour,</p><p>Notre patiente Mme Laurent (dossier #2287) a besoin d\'un certificat médical avant son intervention dentaire prévue le 20/06.</p><p>Seriez-vous disponible pour la recevoir ?<br>Cabinet Dentaire Dupont</p>' },
+    { id:5, from:'Mme Claire Dubois', to:'clinique-sante.fr', subject:'Question résultats analyse de sang', time:'Il y a 1h', status:'done', read:true,
+      content:'<p>Bonjour,</p><p>J\'ai reçu mes résultats d\'analyse de sang et j\'aimerais avoir votre interprétation. Certains marqueurs sont en rouge.</p><p>Pouvez-vous me rappeler ?<br>Claire Dubois</p>' }
+  ]
+};
+
+const activityData = {
+  avocats: [
+    { dot:'green', text:'<strong>Email répondu</strong> à Sophie Laurent — RDV confirmé au 12/06', time:'Il y a 15min' },
+    { dot:'blue', text:'<strong>Affaire créée</strong> #4472 — Mme Laurent / Droit familial', time:'Il y a 22min' },
+    { dot:'green', text:'<strong>Email répondu</strong> à Martin Dupont — Honoraires détaillés', time:'Il y a 1h' },
+    { dot:'yellow', text:'<strong>En attente validation</strong> — Cabinet Lex & Associés', time:'Il y a 32min' },
+    { dot:'blue', text:'<strong>Audience détectée</strong> — Greffe TGI, 15/06, ajoutée au calendrier', time:'Il y a 8min' }
+  ],
+  comptabilite: [
+    { dot:'green', text:'<strong>Documents classés</strong> — 23 factures EURL BTP Martin / Dossier #2026-05', time:'Il y a 5min' },
+    { dot:'blue', text:'<strong>Réponse envoyée</strong> — Mme Petit / TVA : seuils et échéances', time:'Il y a 12min' },
+    { dot:'yellow', text:'<strong>Relance programmée</strong> — SARL TechVision / Documents manquants (3)', time:'Il y a 28min' },
+    { dot:'green', text:'<strong>RDV confirmé</strong> — M. Roux / 14/06 à 10h — Optimisation fiscale', time:'Il y a 2h' },
+    { dot:'blue', text:'<strong>Échéance détectée</strong> — Déclaration TVA au 25/06 pour 6 clients', time:'Il y a 3h' }
+  ],
+  sante: [
+    { dot:'yellow', text:'<strong>⚠️ Urgence détectée</strong> — Mme Fabre / Douleur persistante — RDV proposé demain 9h', time:'Il y a 3min' },
+    { dot:'green', text:'<strong>RDV confirmé</strong> — Dr Morel / Consultation le 11/06 à 14h30', time:'Il y a 10min' },
+    { dot:'blue', text:'<strong>Rappel envoyé</strong> — M. Benali / Vaccin grippe, créneaux disponibles', time:'Il y a 18min' },
+    { dot:'green', text:'<strong>Réponse envoyée</strong> — Mme Dubois / Résultats transmis au Dr Leroy', time:'Il y a 1h' },
+    { dot:'blue', text:'<strong>3 RDV ajoutés</strong> — Planning du 12/06 mis à jour', time:'Il y a 2h' }
+  ]
+};
+
+// ═══ RENDER EMAILS ═══
+function renderEmails(sector) {
+  const list = document.getElementById('email-list-' + sector);
+  const emails = emailData[sector];
+  list.innerHTML = emails.map(e => `
+    <div class="dash-email-item ${e.read ? '' : 'unread'}" onclick="openEmail('${sector}', ${e.id})">
+      <div>
+        <div class="from">${e.from}</div>
+        <div class="subject">${e.subject}</div>
+      </div>
+      <div class="time">${e.time}</div>
+      <span class="status-badge status-${e.status}">${e.status === 'done' ? 'Traité' : e.status === 'urgent' ? 'Urgent' : 'En attente'}</span>
+    </div>
+  `).join('');
+}
+
+function renderActivity(sector) {
+  const feed = document.getElementById('activity-' + sector);
+  const items = activityData[sector];
+  feed.innerHTML = items.map(a => `
+    <div class="activity-item">
+      <div class="activity-dot ${a.dot}"></div>
+      <div>
+        <div class="activity-text">${a.text}</div>
+        <div class="activity-time">${a.time}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══ EMAIL PANEL ═══
+let currentEmail = null;
+
+function openEmail(sector, id) {
+  const email = emailData[sector].find(e => e.id === id);
+  if (!email) return;
+  currentEmail = { sector, id };
+  email.read = true;
+
+  document.getElementById('panel-title-' + sector).textContent = email.subject;
+  document.getElementById('panel-from-' + sector).textContent = email.from;
+  document.getElementById('panel-to-' + sector).textContent = 'À : ' + email.to;
+  document.getElementById('panel-date-' + sector).textContent = email.time;
+  document.getElementById('panel-subject-' + sector).textContent = email.subject;
+  document.getElementById('panel-content-' + sector).innerHTML = email.content;
+
+  document.getElementById('overlay-' + sector).classList.add('open');
+  document.getElementById('panel-' + sector).classList.add('open');
+  closeReply(sector);
+  renderEmails(sector);
+}
+
+function closePanel(sector) {
+  document.getElementById('overlay-' + sector).classList.remove('open');
+  document.getElementById('panel-' + sector).classList.remove('open');
+  closeReply(sector);
+  currentEmail = null;
+}
+
+function openReply(sector) {
+  document.getElementById('reply-' + sector).classList.add('open');
+}
+
+function closeReply(sector) {
+  document.getElementById('reply-' + sector).classList.remove('open');
+  document.getElementById('reply-' + sector).querySelector('textarea').value = '';
+}
+
+function sendReply(sector) {
+  const textarea = document.getElementById('reply-' + sector).querySelector('textarea');
+  const text = textarea.value.trim();
+  if (!text) return;
+
+  closePanel(sector);
+  showToast('✓ Réponse envoyée avec succès', 'success');
+
+  // Add to activity
+  if (currentEmail) {
+    const email = emailData[sector].find(e => e.id === currentEmail.id);
+    if (email) {
+      activityData[sector].unshift({
+        dot: 'green',
+        text: `<strong>Réponse envoyée</strong> à ${email.from} — ${email.subject.substring(0, 40)}...`,
+        time: 'À l\'instant'
+      });
+      activityData[sector].pop();
+      renderActivity(sector);
+    }
+  }
+}
+
+function markDone(sector) {
+  if (currentEmail) {
+    const email = emailData[sector].find(e => e.id === currentEmail.id);
+    if (email) {
+      email.status = 'done';
+      renderEmails(sector);
+    }
+  }
+  closePanel(sector);
+  showToast('✓ Email marqué comme traité', 'success');
+}
+
+function archiveEmail(sector) {
+  if (currentEmail) {
+    const idx = emailData[sector].findIndex(e => e.id === currentEmail.id);
+    if (idx > -1) {
+      emailData[sector].splice(idx, 1);
+      renderEmails(sector);
+    }
+  }
+  closePanel(sector);
+  showToast('🗄 Email archivé', 'info');
+}
+
+// ═══ TOAST ═══
+function showToast(msg, type) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast ' + type;
+  setTimeout(() => toast.classList.add('show'), 50);
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ═══ SECTOR SWITCHER ═══
 const sectorBtns = document.querySelectorAll('.sector-btn');
 const dashContainers = {
   avocats: document.getElementById('dash-avocats'),
@@ -1454,9 +798,7 @@ sectorBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     sectorBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-
     const sector = btn.dataset.sector;
-
     Object.entries(dashContainers).forEach(([key, el]) => {
       if (key === sector) {
         el.style.display = 'block';
@@ -1471,27 +813,25 @@ sectorBtns.forEach(btn => {
   });
 });
 
-// ── Counter animation ──
+// ═══ COUNTER ANIMATION ═══
 function animateCounters(container) {
   container.querySelectorAll('[data-count]').forEach(el => {
     const target = parseInt(el.dataset.count);
     const suffix = el.dataset.suffix || '';
     const duration = 1200;
     const start = performance.now();
-
     function update(now) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(target * eased);
-      el.textContent = current + suffix;
+      el.textContent = Math.round(target * eased) + suffix;
       if (progress < 1) requestAnimationFrame(update);
     }
     requestAnimationFrame(update);
   });
 }
 
-// ── Chart animation ──
+// ═══ CHART ANIMATION ═══
 function animateCharts(container) {
   container.querySelectorAll('.chart-bar').forEach((bar, i) => {
     const targetHeight = bar.style.height;
@@ -1500,72 +840,75 @@ function animateCharts(container) {
   });
 }
 
-// ── Scroll animations ──
+// ═══ SCROLL ANIMATIONS ═══
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
-
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-// ── Initial animation ──
+// ═══ INIT ═══
+renderEmails('avocats');
+renderActivity('avocats');
+renderEmails('comptabilite');
+renderActivity('comptabilite');
+renderEmails('sante');
+renderActivity('sante');
 setTimeout(() => {
   animateCounters(dashContainers.avocats);
   animateCharts(dashContainers.avocats);
 }, 300);
 
-// ── Simulate live activity ──
-const activities = {
+// ═══ LIVE ACTIVITY ═══
+const liveActivities = {
   avocats: [
-    { dot: 'green', text: '<strong>Email répondu</strong> à un client — RDV confirmé', time: 'Il y a 1min' },
-    { dot: 'blue', text: '<strong>Affaire créée</strong> #4473 — Nouveau client / Droit du travail', time: 'Il y a 5min' },
-    { dot: 'green', text: '<strong>Email répondu</strong> — Question honoraires traitée', time: 'Il y a 12min' },
+    { dot:'green', text:'<strong>Email répondu</strong> à un client — RDV confirmé', time:'Il y a 1min' },
+    { dot:'blue', text:'<strong>Affaire créée</strong> #4473 — Nouveau client / Droit du travail', time:'Il y a 5min' },
+    { dot:'green', text:'<strong>Email répondu</strong> — Question honoraires traitée', time:'Il y a 12min' },
   ],
   comptabilite: [
-    { dot: 'green', text: '<strong>Documents classés</strong> — 15 factures / Dossier #2026-06', time: 'Il y a 2min' },
-    { dot: 'blue', text: '<strong>Réponse envoyée</strong> — Client TVA trimestrielle', time: 'Il y a 8min' },
-    { dot: 'yellow', text: '<strong>Relance programmée</strong> — 3 clients / Documents manquants', time: 'Il y a 15min' },
+    { dot:'green', text:'<strong>Documents classés</strong> — 15 factures / Dossier #2026-06', time:'Il y a 2min' },
+    { dot:'blue', text:'<strong>Réponse envoyée</strong> — Client TVA trimestrielle', time:'Il y a 8min' },
+    { dot:'yellow', text:'<strong>Relance programmée</strong> — 3 clients / Documents manquants', time:'Il y a 15min' },
   ],
   sante: [
-    { dot: 'yellow', text: '<strong>⚠️ Urgence détectée</strong> — Patient / RDV prioritaire proposé', time: 'Il y a 1min' },
-    { dot: 'green', text: '<strong>RDV confirmé</strong> — Consultation le 13/06 à 10h', time: 'Il y a 6min' },
-    { dot: 'blue', text: '<strong>Rappel envoyé</strong> — 5 patients / Rappels vaccinaux', time: 'Il y a 14min' },
+    { dot:'yellow', text:'<strong>⚠️ Urgence détectée</strong> — Patient / RDV prioritaire proposé', time:'Il y a 1min' },
+    { dot:'green', text:'<strong>RDV confirmé</strong> — Consultation le 13/06 à 10h', time:'Il y a 6min' },
+    { dot:'blue', text:'<strong>Rappel envoyé</strong> — 5 patients / Rappels vaccinaux', time:'Il y a 14min' },
   ]
 };
 
-// Add new activity items periodically
 setInterval(() => {
   const activeSector = document.querySelector('.sector-btn.active')?.dataset.sector;
-  if (!activeSector || !activities[activeSector]) return;
-
-  const feed = dashContainers[activeSector]?.querySelector('.activity-feed');
+  if (!activeSector || !liveActivities[activeSector]) return;
+  const feed = document.getElementById('activity-' + activeSector);
   if (!feed) return;
-
-  const items = activities[activeSector];
+  const items = liveActivities[activeSector];
   const newItem = items[Math.floor(Math.random() * items.length)];
-
   const div = document.createElement('div');
   div.className = 'activity-item';
   div.style.opacity = '0';
   div.style.transform = 'translateY(-10px)';
   div.style.transition = 'all 0.4s';
-  div.innerHTML = `
-    <div class="activity-dot ${newItem.dot}"></div>
-    <div>
-      <div class="activity-text">${newItem.text}</div>
-      <div class="activity-time">${newItem.time}</div>
-    </div>
-  `;
-
+  div.innerHTML = `<div class="activity-dot ${newItem.dot}"></div><div><div class="activity-text">${newItem.text}</div><div class="activity-time">${newItem.time}</div></div>`;
   feed.insertBefore(div, feed.firstChild);
   setTimeout(() => { div.style.opacity = '1'; div.style.transform = 'translateY(0)'; }, 50);
-
-  // Keep only last 5
   while (feed.children.length > 5) feed.removeChild(feed.lastChild);
 }, 8000);
+
+// Close panel on overlay click
+document.querySelectorAll('.email-panel-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function() {
+    const sector = this.id.replace('overlay-', '');
+    closePanel(sector);
+  });
+});
+
+// Close panel on Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    ['avocats', 'comptabilite', 'sante'].forEach(closePanel);
+  }
+});
 </script>
 </body>
 </html>
