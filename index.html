@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boubane — Votre IA locale, vos données, votre contrôle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0D0D0D;
+  --bg-card: #141414;
+  --bg-card-hover: #1a1a1a;
+  --accent: #5e6ad2;
+  --accent-glow: rgba(94, 106, 210, 0.25);
+  --accent2: #34d399;
+  --text: #e8e8e8;
+  --text-muted: #777;
+  --border: #1e1e1e;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Nav ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(13, 13, 13, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  padding: 0.6rem 1.4rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 0 30px var(--accent-glow); }
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  position: relative;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(94, 106, 210, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  color: var(--accent2);
+  font-weight: 600;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  background: var(--accent2);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero h1 {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+  max-width: 850px;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.hero h1 .line { display: block; }
+
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent), #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero h1 .highlight-green {
+  background: linear-gradient(135deg, var(--accent2), #6ee7b7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-desc {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+}
+
+.btn-primary {
+  padding: 1rem 2.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 0 30px var(--accent-glow);
+  font-family: inherit;
+}
+
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px var(--accent-glow); }
+
+.btn-secondary {
+  padding: 1rem 2.5rem;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* ── Sector selector ── */
+.sector-section {
+  padding: 4rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.sector-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.sector-btn {
+  padding: 0.65rem 1.3rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.sector-btn:hover { border-color: var(--accent); color: var(--text); }
+.sector-btn.active {
+  background: rgba(94, 106, 210, 0.15);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.dynamic-content {
+  margin-top: 1.5rem;
+  padding: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s;
+  display: none;
+  text-align: left;
+}
+
+.dynamic-content.visible { opacity: 1; transform: translateY(0); display: block; }
+
+.dynamic-content .tag {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  background: rgba(94, 106, 210, 0.12);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.8rem;
+}
+
+.dynamic-content h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+.dynamic-content p { font-size: 0.95rem; color: var(--text-muted); }
+
+/* ── Sections ── */
+section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
+
+.section-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 550px;
+}
+
+/* ── Local-first argument ── */
+.local-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.local-card {
+  padding: 2.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.local-card:hover {
+  border-color: rgba(94, 106, 210, 0.3);
+  transform: translateY(-3px);
+}
+
+.local-card .icon {
+  width: 48px; height: 48px;
+  background: rgba(94, 106, 210, 0.1);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.local-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; }
+.local-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; }
+
+.local-card .big-text {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: -0.04em;
+  margin-bottom: 0.3rem;
+}
+
+/* ── How it works ── */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 3rem; }
+
+.step { padding: 2rem; text-align: center; }
+
+.step-number {
+  width: 52px; height: 52px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.2rem;
+  margin: 0 auto 1.2rem;
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.step p { font-size: 0.9rem; color: var(--text-muted); }
+
+/* ── Dashboard preview ── */
+.dashboard-preview {
+  margin-top: 3rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dashboard-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-header .dot { width: 10px; height: 10px; border-radius: 50%; }
+.dashboard-header .dot-red { background: #ef4444; }
+.dashboard-header .dot-yellow { background: #f59e0b; }
+.dashboard-header .dot-green { background: #22c55e; }
+
+.dashboard-header span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+  font-family: monospace;
+}
+
+.dashboard-body {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1.5rem;
+  min-height: 350px;
+}
+
+.dash-sidebar {
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  padding: 1.2rem;
+}
+
+.dash-sidebar .dash-item {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dash-sidebar .dash-item:hover,
+.dash-sidebar .dash-item.active {
+  background: rgba(94, 106, 210, 0.12);
+  color: var(--text);
+}
+
+.dash-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dash-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.dash-stat {
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  padding: 1.2rem;
+}
+
+.dash-stat .value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+}
+
+.dash-stat .label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+.dash-email-list {
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.dash-email-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+}
+
+.dash-email-item:last-child { border-bottom: none; }
+
+.dash-email-item .from { font-weight: 600; }
+.dash-email-item .subject { color: var(--text-muted); }
+.dash-email-item .status {
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.status-done { background: rgba(52, 211, 153, 0.12); color: var(--accent2); }
+.status-pending { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+
+@media (max-width: 700px) {
+  .dashboard-body { grid-template-columns: 1fr; }
+  .dash-sidebar { display: none; }
+  .dash-stat-row { grid-template-columns: 1fr; }
+}
+
+/* ── Features ── */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+
+.feature-card {
+  padding: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: all 0.3s;
+}
+
+.feature-card:hover { border-color: rgba(94, 106, 210, 0.3); transform: translateY(-2px); }
+
+.feature-card .icon {
+  width: 44px; height: 44px;
+  background: rgba(94, 106, 210, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.feature-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+.feature-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
+
+/* ── Pricing ── */
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+
+.pricing-card {
+  padding: 2.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.pricing-card:hover { transform: translateY(-4px); }
+
+.pricing-card.featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 50px rgba(94, 106, 210, 0.12);
+}
+
+.pricing-card.featured::before {
+  content: 'Recommandé';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.3rem 1rem;
+  background: var(--accent);
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pricing-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+
+.pricing-card .price { font-size: 2.8rem; font-weight: 900; letter-spacing: -0.04em; margin: 1rem 0; }
+.pricing-card .price .currency { font-size: 1.2rem; font-weight: 600; vertical-align: super; }
+.pricing-card .price .period { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); }
+
+.pricing-card .price-one-shot {
+  display: inline-block;
+  padding: 0.25rem 0.8rem;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  color: var(--accent2);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.pricing-card ul { list-style: none; margin: 1.5rem 0; }
+.pricing-card ul li {
+  padding: 0.5rem 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pricing-card ul li::before { content: '→'; color: var(--accent); font-weight: 700; }
+
+.pricing-cta {
+  display: block;
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: inherit;
+  border: none;
+}
+
+.pricing-card.featured .pricing-cta { background: var(--accent); color: #fff; }
+.pricing-card.featured .pricing-cta:hover { box-shadow: 0 0 25px var(--accent-glow); }
+
+.pricing-card:not(.featured) .pricing-cta { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.pricing-card:not(.featured) .pricing-cta:hover { border-color: var(--accent); }
+
+/* ── CTA ── */
+.cta-section {
+  text-align: center;
+  padding: 6rem 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta-section h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+
+.cta-section p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; }
+
+/* ── Footer ── */
+footer {
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+footer a { color: var(--text-muted); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  nav { padding: 1rem; }
+  .nav-links { display: none; }
+  .hero { padding: 6rem 1.5rem 3rem; }
+  section { padding: 4rem 1.5rem; }
+}
+
+/* ── Animations ── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="logo">boubane<span>.</span></a>
+  <div class="nav-links">
+    <a href="#comment">Comment ça marche</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#pricing">Tarifs</a>
+  </div>
+  <a href="#pricing" class="nav-cta">Installer Boubane</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <span class="dot"></span>
+    100% local — Vos données ne quittent jamais votre machine
+  </div>
+  <h1>
+    <span class="line">Votre IA personnelle.</span>
+    <span class="line"><span class="highlight">Sur votre machine.</span></span>
+    <span class="line"><span class="highlight-green">Sous votre contrôle.</span></span>
+  </h1>
+  <p class="hero-desc">
+    Boubane s'installe sur votre hardware. Emails, données, dashboard — tout tourne chez vous. Pas de cloud, pas d'abonnement imposé, pas de fuite possible.
+  </p>
+  <div class="hero-buttons">
+    <a href="#pricing" class="btn-primary">Installer Boubane</a>
+    <a href="#dashboard" class="btn-secondary">Voir le dashboard</a>
+  </div>
+</section>
+
+<!-- Sector selector -->
+<div class="sector-section">
+  <p style="color:var(--text-muted); font-size:0.95rem;">Choisissez votre secteur — Boubane s'adapte à vos besoins</p>
+  <div class="sector-selector">
+    <button class="sector-btn active" data-sector="avocats">⚖️ Cabinets d'avocats</button>
+    <button class="sector-btn" data-sector="comptabilite">📊 Cabinets comptables</button>
+    <button class="sector-btn" data-sector="sante">🏥 Cliniques & Santé</button>
+    <button class="sector-btn" data-sector="immobilier">🏢 Agences immobilières</button>
+    <button class="sector-btn" data-sector="consulting">💼 Consultants</button>
+    <button class="sector-btn" data-sector="autre">✏️ Autre</button>
+  </div>
+  <div class="dynamic-content" id="dynamicContent">
+    <span class="tag" id="dynamicTag">Juridique</span>
+    <h3 id="dynamicTitle">Vos emails traités. Vos données chez vous.</h3>
+    <p id="dynamicText">Boubane qualifie les premiers contacts, répond aux demandes d'informations et planifie les rendez-vous — le tout en local sur votre machine. Aucun email ne part sur un serveur tiers.</p>
+  </div>
+</div>
+
+<!-- Local-first argument -->
+<section>
+  <div class="fade-up">
+    <div class="section-label">Pourquoi local</div>
+    <h2 class="section-title">Le cloud c'est pratique.<br>Mais c'est pas chez vous.</h2>
+    <p class="section-subtitle">Chaque solution IA envoie vos données quelque pas. Boubane, non.</p>
+  </div>
+  <div class="local-grid">
+    <div class="local-card fade-up">
+      <div class="big-text">0</div>
+      <h3>Données envoyées à l'extérieur</h3>
+      <p>Vos emails, vos contacts, vos documents — tout reste sur votre machine. Boubane traite localement, point final.</p>
+    </div>
+    <div class="local-card fade-up">
+      <div class="icon">🖥️</div>
+      <h3>Sur votre hardware</h3>
+      <p>Un mini-PC, un vieux bureau, un VPS que vous contrôlez — Boubane tourne sur ce que vous possédez déjà.</p>
+    </div>
+    <div class="local-card fade-up">
+      <div class="icon">🔓</div>
+      <h3>Pas de vendor lock-in</h3>
+      <p>Vous pouvez arrêter quand vous voulez. Vos données sont à vous, dans des formats standards, accessibles à tout moment.</p>
+    </div>
+    <div class="local-card fade-up">
+      <div class="icon">🛡️</div>
+      <h3>Conformité par design</h3>
+      <p>RGPD, secret professionnel, confidentialité client — avec du local, la conformité est automatique. Pas de risque, pas de question.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Dashboard preview -->
+<section id="dashboard">
+  <div class="fade-up" style="text-align:center;">
+    <div class="section-label">Dashboard</div>
+    <h2 class="section-title">Votre contrôle total.<br>En temps réel.</h2>
+    <p class="section-subtitle">Un tableau de bord personnel pour piloter Boubane, suivre vos emails, et garder la main.</p>
+  </div>
+  <div class="dashboard-preview fade-up">
+    <div class="dashboard-header">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+      <span>boubane.local — dashboard</span>
+    </div>
+    <div class="dashboard-body">
+      <div class="dash-sidebar">
+        <div class="dash-item active">📬 Emails</div>
+        <div class="dash-item">📊 Statistiques</div>
+        <div class="dash-item">⚙️ Configuration</div>
+        <div class="dash-item">🧠 Modèle IA</div>
+        <div class="dash-item">📁 Données</div>
+        <div class="dash-item">🔒 Sécurité</div>
+      </div>
+      <div class="dash-main">
+        <div class="dash-stat-row">
+          <div class="dash-stat">
+            <div class="value">247</div>
+            <div class="label">Emails traités aujourd'hui</div>
+          </div>
+          <div class="dash-stat">
+            <div class="value">94%</div>
+            <div class="label">Réponses automatiques</div>
+          </div>
+          <div class="dash-stat">
+            <div class="value">2min</div>
+            <div class="label">Temps de réponse moyen</div>
+          </div>
+        </div>
+        <div class="dash-email-list">
+          <div class="dash-email-item">
+            <div>
+              <div class="from">Martin Dupont</div>
+              <div class="subject">Demande de rendez-vous urgent</div>
+            </div>
+            <span class="status status-done">Traité</span>
+          </div>
+          <div class="dash-email-item">
+            <div>
+              <div class="from">Cabinet Lex & Co</div>
+              <div class="subject">Transmission de pièces — Affaire #4471</div>
+            </div>
+            <span class="status status-done">Traité</span>
+          </div>
+          <div class="dash-email-item">
+            <div>
+              <div class="from">Sophie Laurent</div>
+              <div class="subject">Question sur honoraires</div>
+            </div>
+            <span class="status status-pending">En attente</span>
+          </div>
+          <div class="dash-email-item">
+            <div>
+              <div class="from">Greffe Tribunal</div>
+              <div class="subject">Convocation audience 15/06</div>
+            </div>
+            <span class="status status-done">Traité</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section>
+  <div class="fade-up">
+    <div class="section-label">Fonctionnalités</div>
+    <h2 class="section-title">Un agent complet.<br>Sur votre machine.</h2>
+  </div>
+  <div class="features">
+    <div class="feature-card fade-up">
+      <div class="icon">📬</div>
+      <h3>Tri intelligent</h3>
+      <p>Chaque email est classé par priorité, type et urgence. Clients, fournisseurs, prospects — chaque message trouve sa place automatiquement.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="icon">✍️</div>
+      <h3>Réponses automatiques</h3>
+      <p>Boubane rédige des réponses adaptées à votre ton et votre secteur. Vous validez ou laissez partir en autonomie totale.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="icon">📅</div>
+      <h3>Prise de rendez-vous</h3>
+      <p>Détection automatique des demandes de RDV, proposition de créneaux, confirmation — sans aucun aller-retour manuel.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="icon">📊</div>
+      <h3>Dashboard temps réel</h3>
+      <p>Emails traités, temps gagné, satisfaction — suivez tout depuis votre tableau de bord personnel, accessible en local.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="icon">🧠</div>
+      <h3>IA qui apprend</h3>
+      <p>Plus vous utilisez Boubane, plus il s'adapte à votre style, vos processus et vos préférences. Il devient votre double numérique.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="icon">🔌</div>
+      <h3>Compatible tout email</h3>
+      <p>Gmail, Outlook, IMAP — Boubane se connecte à votre boîte mail existante. Pas de migration, pas de changement d'habitude.</p>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section id="comment">
+  <div class="fade-up" style="text-align:center;">
+    <div class="section-label">Installation</div>
+    <h2 class="section-title">Opérationnel en une demi-journée</h2>
+    <p class="section-subtitle">On s'occupe de tout. Vous reprenez le contrôle.</p>
+  </div>
+  <div class="steps">
+    <div class="step fade-up">
+      <div class="step-number">1</div>
+      <h3>On installe</h3>
+      <p>On configure Boubane sur votre hardware (mini-PC, serveur, VPS). Vous choisissez la machine, on fait le reste.</p>
+    </div>
+    <div class="step fade-up">
+      <div class="step-number">2</div>
+      <h3>On connecte</h3>
+      <p>Connexion à votre boîte mail, analyse de vos emails passés, calibration du modèle IA à votre style et votre secteur.</p>
+    </div>
+    <div class="step fade-up">
+      <div class="step-number">3</div>
+      <h3>Vous pilotez</h3>
+      <p>Votre dashboard est prêt. Vous supervisez, ajustez, validez. Boubane travaille, vous gardez le contrôle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+  <div class="fade-up" style="text-align:center;">
+    <div class="section-label">Tarifs</div>
+    <h2 class="section-title">Simple, transparent,<br>one-shot</h2>
+    <p class="section-subtitle">Pas d'abonnement imposé. Vous possédez votre installation.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card fade-up">
+      <h3>Installation</h3>
+      <div class="price-one-shot">One-shot</div>
+      <div class="price"><span class="currency">€</span>990</div>
+      <ul>
+        <li>Installation complète sur votre hardware</li>
+        <li>Connexion boîte mail (Gmail, Outlook, IMAP)</li>
+        <li>Configuration IA adaptée à votre secteur</li>
+        <li>Dashboard personnel</li>
+        <li>Formation 1h incluse</li>
+        <li>Support 30 jours</li>
+      </ul>
+      <a href="#" class="pricing-cta">Démarrer</a>
+    </div>
+    <div class="pricing-card featured fade-up">
+      <h3>Installation + Maintenance</h3>
+      <div class="price-one-shot">One-shot + mensuel</div>
+      <div class="price"><span class="currency">€</span>990 <span class="period">+ 99€/mois</span></div>
+      <ul>
+        <li>Tout dans Installation</li>
+        <li>Mises à jour IA continues</li>
+        <li>Support prioritaire illimité</li>
+        <li>Monitoring proactif</li>
+        <li>Évolutions fonctionnelles</li>
+        <li>Sauvegardes automatiques</li>
+      </ul>
+      <a href="#" class="pricing-cta">Démarrer</a>
+    </div>
+    <div class="pricing-card fade-up">
+      <h3>Enterprise</h3>
+      <div class="price-one-shot">Sur mesure</div>
+      <div class="price" style="font-size:1.8rem; margin:1.5rem 0;">Contactez-nous</div>
+      <ul>
+        <li>Multi-postes / multi-utilisateurs</li>
+        <li>Intégrations métier custom</li>
+        <li>SLA garanti</li>
+        <li>Account manager dédié</li>
+        <li>On-premise renforcé</li>
+        <li>Audit sécurité inclus</li>
+      </ul>
+      <a href="#" class="pricing-cta">Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section fade-up">
+  <h2>Vos données méritent<br><span style="color:var(--accent2)">de rester chez vous.</span></h2>
+  <p>Installation en une demi-journée. Vous possédez tout. On s'occupe du reste.</p>
+  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+    <a href="#" class="btn-primary">Installer Boubane</a>
+    <a href="#" class="btn-secondary">Parler à un expert</a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>© 2026 Boubane — IA locale, données locales, contrôle total · <a href="#">Mentions légales</a> · <a href="#">RGPD</a> · <a href="#">Contact</a></p>
+</footer>
+
+<script>
+const sectorContent = {
+  avocats: {
+    tag: 'Juridique',
+    title: 'Vos emails traités. Vos données chez vous.',
+    text: 'Boubane qualifie les premiers contacts, répond aux demandes d\'informations et planifie les rendez-vous — le tout en local sur votre machine. Aucun email ne part sur un serveur tiers. Secret professionnel préservé.'
+  },
+  comptabilite: {
+    tag: 'Comptabilité',
+    title: 'Saison fiscale ? Boubane gère.',
+    text: 'Demandes de documents, relances clients, questions récurrentes — Boubane traite tout en local. Vos données financières restent dans votre cabinet, point final.'
+  },
+  sante: {
+    tag: 'Santé',
+    title: 'Données patients = données sensibles.',
+    text: 'Boubane prend les rendez-vous et répond aux questions administratives, le tout sur votre serveur. Conformité RGPD santé intégrée par design.'
+  },
+  immobilier: {
+    tag: 'Immobilier',
+    title: 'Zéro lead perdu. Zéro donnée partagée.',
+    text: 'Réponses instantanées aux demandes de visite, qualification des prospects, planification — tout tourne sur votre hardware, tout reste chez vous.'
+  },
+  consulting: {
+    tag: 'Consulting',
+    title: 'Votre expertise. Votre machine.',
+    text: 'Boubane trie vos leads, répond aux demandes de devis et planifie les appels. Vos données clients ne quittent jamais votre infrastructure.'
+  },
+  autre: {
+    tag: 'Sur mesure',
+    title: 'Boubane s\'adapte à votre métier.',
+    text: 'Quel que soit votre secteur, Boubane apprend vos processus et s\'adapte. Installation locale, données locales, contrôle total. Dites-nous ce que vous faites.'
+  }
+};
+
+const sectorBtns = document.querySelectorAll('.sector-btn');
+const dynamicContent = document.getElementById('dynamicContent');
+const dynamicTag = document.getElementById('dynamicTag');
+const dynamicTitle = document.getElementById('dynamicTitle');
+const dynamicText = document.getElementById('dynamicText');
+
+dynamicContent.classList.add('visible');
+dynamicContent.style.display = 'block';
+
+sectorBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    sectorBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const sector = btn.dataset.sector;
+    const c = sectorContent[sector];
+    dynamicContent.classList.remove('visible');
+    setTimeout(() => {
+      dynamicTag.textContent = c.tag;
+      dynamicTitle.textContent = c.title;
+      dynamicText.textContent = c.text;
+      dynamicContent.classList.add('visible');
+    }, 200);
+  });
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
