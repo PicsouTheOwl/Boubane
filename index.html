@@ -28,6 +28,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1rem 1.
 .nav-links { display: flex; gap: 2rem; align-items: center; }
 .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text); }
+.nav-dashboard { color: var(--accent2) !important; font-weight: 600 !important; border: 1.5px solid var(--accent2-light); padding: 0.5rem 1rem; border-radius: 100px; transition: all 0.25s !important; }
+.nav-dashboard:hover { background: var(--accent2-light) !important; color: var(--accent2) !important; }
 .nav-cta { padding: 0.6rem 1.3rem; background: var(--accent); color: #fff; border: none; border-radius: 100px; font-weight: 600; font-size: 0.82rem; cursor: pointer; text-decoration: none; transition: all 0.25s; font-family: inherit; }
 .nav-cta:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(200,149,108,0.3); }
 .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 8rem 1.5rem 4rem; position: relative; }
@@ -208,8 +210,8 @@ footer a:hover { color: var(--accent); }
 
 <nav>
   <a href="#" class="logo"><div class="logo-mark">B</div> boubane</a>
-  <div class="nav-links"><a href="#dashboards">Dashboards</a><a href="#comment">Installation</a><a href="#pricing">Tarifs</a></div>
-  <a href="#pricing" class="nav-cta">Installer</a>
+  <div class="nav-links"><a href="#dashboards">Dashboards</a><a href="#comment">Installation</a><a href="#pricing">Tarifs</a><a href="https://boubane-dashboard.vercel.app" class="nav-dashboard" target="_blank">Dashboard IA</a></div>
+  <a href="https://boubane-dashboard.vercel.app/auth" class="nav-cta">Accéder au Dashboard</a>
 </nav>
 
 <section class="hero">
@@ -218,7 +220,7 @@ footer a:hover { color: var(--accent); }
   <p class="hero-desc">Boubane s'installe sur votre machine. Il lit, trie et répond à vos emails. Tout reste chez vous.</p>
   <div class="hero-buttons">
     <a href="#pricing" class="btn-primary">Installer Boubane</a>
-    <a href="#dashboards" class="btn-secondary">Voir les dashboards</a>
+    <a href="https://boubane-dashboard.vercel.app/auth" class="btn-secondary" target="_blank">Ouvrir le Dashboard IA</a>
   </div>
 </section>
 
