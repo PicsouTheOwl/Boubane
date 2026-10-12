@@ -3,187 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boubane · Automatisation IA & Sites Web sur-mesure pour PME</title>
+    <title>Boubane · L'Art de l'Automatisation & IA pour PME</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        darkbg: '#0a0a0c',
-                        cardbg: '#121216',
-                        accent: '#6366f1',
+                        cream: '#faf9f7',
+                        oat: '#dad4c8',
+                        oatlight: '#eee9df',
+                        clayblack: '#0f0e0d',
+                        matcha: '#078a52',
+                        matchalight: '#84e7a5',
+                        ube: '#43089f',
+                        ubesoft: '#c1b0ff',
+                        slushie: '#3bd3fd',
+                    },
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        clay: '0px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px rgba(0,0,0,0.04), 0px -0.5px 1px rgba(0,0,0,0.05)',
+                        hard: '-6px 6px 0px #0f0e0d',
                     }
                 }
             }
         }
     </script>
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
 </head>
-<body class="bg-darkbg text-gray-100 antialiased selection:bg-accent selection:text-white">
+<body class="bg-cream text-clayblack font-sans antialiased selection:bg-matchalight selection:text-clayblack">
 
     <!-- Navbar -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-darkbg/80 backdrop-blur-md border-b border-gray-800">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-cream/80 backdrop-blur-md border-b border-oat">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#" class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-indigo-500 inline-block"></span>
-                BOUBANE
+            <a href="#" class="text-xl font-bold tracking-tight text-clayblack flex items-center gap-3">
+                <span class="w-3.5 h-3.5 rounded-full bg-matcha inline-block"></span>
+                <span class="font-bold tracking-tighter text-2xl">BOUBANE</span>
             </a>
-            <nav class="hidden md:flex items-center gap-8 text-sm text-gray-400 font-medium">
-                <a href="#services" class="hover:text-white transition">Services</a>
-                <a href="#process" class="hover:text-white transition">Comment ça marche</a>
-                <a href="#faq" class="hover:text-white transition">FAQ</a>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+                <a href="#manifeste" class="hover:text-clayblack transition">Manifeste</a>
+                <a href="#services" class="hover:text-clayblack transition">Ateliers & Métiers</a>
+                <a href="#process" class="hover:text-clayblack transition">Méthode</a>
+                <a href="#faq" class="hover:text-clayblack transition">FAQ</a>
             </nav>
-            <a href="#contact" class="bg-white text-gray-900 px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-200 transition">
-                Réserver une visio
+            <a href="#contact" class="bg-clayblack text-cream px-6 py-3 rounded-full text-sm font-medium hover:bg-matcha transition shadow-clay">
+                Prendre rendez-vous
             </a>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="pt-32 pb-20 md:pt-44 md:pb-32 px-6 border-b border-gray-800/60 relative overflow-hidden">
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <section class="pt-40 pb-28 md:pt-48 md:pb-36 px-6 border-b border-oat relative overflow-hidden">
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-matchalight/20 blur-[140px] rounded-full pointer-events-none"></div>
         
         <div class="max-w-4xl mx-auto text-center relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium mb-6">
-                <span>⚡ Automatisation & IA pour PME</span>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-oat text-matcha text-xs font-mono uppercase tracking-wider mb-8 shadow-clay">
+                <span>✦ Agence d'automatisation artisanale & IA</span>
             </div>
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white mb-8 leading-tight">
-                Nous automatisons ce qui fait perdre du temps à votre PME.
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-clayblack mb-8 leading-[1.05]">
+                Vos outils travaillent enfin ensemble. <span class="text-matcha">Sans effort.</span>
             </h1>
-            <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-                Boîte mail triée, prospection en pilotage automatique et sites web boostés à l'IA. Vos outils travaillent enfin ensemble, sans abonnement inutile.
+            <p class="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto font-normal leading-relaxed">
+                Nous concevons des systématisations sur-mesure qui libèrent vos équipes des tâches répétitives : e-mails, prospection et sites web intelligents.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#contact" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-4 rounded-full font-semibold transition shadow-lg shadow-indigo-600/20">
-                    Réserver une visio (15 min)
+                <a href="#contact" class="w-full sm:w-auto bg-matcha hover:bg-emerald-800 text-white px-8 py-4 rounded-full font-medium transition shadow-clay">
+                    Réserver une visio de 15 min
                 </a>
-                <a href="#services" class="w-full sm:w-auto bg-cardbg hover:bg-gray-800 border border-gray-800 text-gray-300 px-8 py-4 rounded-full font-semibold transition">
-                    Découvrir nos solutions
+                <a href="#services" class="w-full sm:w-auto bg-white hover:bg-oatlight border border-oat text-clayblack px-8 py-4 rounded-full font-medium transition shadow-clay">
+                    Explorer nos solutions
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Manifesto Section -->
-    <section class="py-24 px-6 bg-cardbg/40 border-b border-gray-800/60">
+    <!-- Manifesto / Organic Philosophy Section -->
+    <section id="manifeste" class="py-28 px-6 bg-white border-b border-oat">
         <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-2xl md:text-3xl font-semibold text-white mb-6">Le problème des entreprises modernes</h2>
-            <p class="text-gray-400 text-lg leading-relaxed">
-                Une PME n'a pas besoin d'un énième logiciel complexe. Elle a besoin que ses outils existants communiquent. Une IA installée au bon endroit rédige vos e-mails, qualifie vos prospects et met à jour votre site web en temps réel.
+            <span class="text-xs font-mono uppercase tracking-widest text-gray-400 mb-4 block">Notre Philosophie</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-clayblack mb-8">L'entreprise n'a pas besoin d'un abonnement de plus.</h2>
+            <p class="text-gray-600 text-lg md:text-xl leading-relaxed mb-8">
+                Trop d'outils SaaS promettent des miracles mais finissent par alourdir vos processus. Chez Boubane, nous faisons l'inverse : nous tissons des ponts invisibles et robustes entre vos logiciels existants. Une IA posée exactement là où vous perdez du temps.
             </p>
+            <div class="inline-block border border-dashed border-oat px-6 py-3 rounded-2xl bg-cream text-sm font-mono text-gray-500">
+                Audit sur place ou en visio · Remboursé si inexploitable
+            </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-24 px-6">
+    <!-- Services Section (Organic Cards) -->
+    <section id="services" class="py-28 px-6 border-b border-oat">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-3xl font-bold text-white mb-4">Ce que nous automatisons</h2>
-                <p class="text-gray-400">Des solutions concrètes ancrées dans vos outils quotidiens.</p>
+            <div class="text-center max-w-2xl mx-auto mb-20">
+                <span class="text-xs font-mono uppercase tracking-widest text-gray-400 mb-3 block">Champs d'intervention</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-clayblack mb-4">Ce que nous automatisons pour vous</h2>
+                <p class="text-gray-600">Des flux pensés pour l'humain, exécutés par la machine.</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- Service 1 -->
-                <div class="bg-cardbg border border-gray-800 p-8 rounded-2xl relative group hover:border-indigo-500/50 transition">
-                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold text-xl mb-6">01</div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Boîte mail intelligente</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Tri automatique, classement des urgences et réponses pré-rédigées dans votre ton exact. Libérez des dizaines d'heures par mois.
-                    </p>
-                    <span class="text-indigo-400 text-xs font-semibold uppercase tracking-wider">Gain estimé : ~300h/an</span>
+                <!-- Card 1 -->
+                <div class="bg-white border border-oat p-10 rounded-[28px] shadow-clay flex flex-col justify-between hover:border-matcha transition group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-cream border border-oat flex items-center justify-center text-matcha font-mono font-bold text-lg mb-8 group-hover:bg-matcha group-hover:text-white transition">
+                            01
+                        </div>
+                        <h3 class="text-2xl font-bold text-clayblack mb-4">Boîte mail intelligente</h3>
+                        <p class="text-gray-600 leading-relaxed mb-8">
+                            Tri automatique, qualification des demandes entrantes et pré-rédaction de réponses dans votre ton exact. Fini le syndrome de la boîte de réception saturée.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-oat/60 flex items-center justify-between">
+                        <span class="text-xs font-mono uppercase text-matcha font-semibold">Gain : ~300h / an</span>
+                        <span class="text-gray-400">→</span>
+                    </div>
                 </div>
 
-                <!-- Service 2 -->
-                <div class="bg-cardbg border border-gray-800 p-8 rounded-2xl relative group hover:border-indigo-500/50 transition">
-                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold text-xl mb-6">02</div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Prospection & CRM</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Génération de leads ciblés, relances automatisées et fiches clients toujours à jour sans aucune saisie manuelle.
-                    </p>
-                    <span class="text-indigo-400 text-xs font-semibold uppercase tracking-wider">Gain estimé : Pipeline continu</span>
+                <!-- Card 2 -->
+                <div class="bg-white border border-oat p-10 rounded-[28px] shadow-clay flex flex-col justify-between hover:border-matcha transition group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-cream border border-oat flex items-center justify-center text-matcha font-mono font-bold text-lg mb-8 group-hover:bg-matcha group-hover:text-white transition">
+                            02
+                        </div>
+                        <h3 class="text-2xl font-bold text-clayblack mb-4">Prospection & CRM</h3>
+                        <p class="text-gray-600 leading-relaxed mb-8">
+                            Enrichissement automatique des leads, relances personnalisées au bon moment et synchronisation parfaite de vos fiches clients.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-oat/60 flex items-center justify-between">
+                        <span class="text-xs font-mono uppercase text-matcha font-semibold">Gain : Pipeline continu</span>
+                        <span class="text-gray-400">→</span>
+                    </div>
                 </div>
 
-                <!-- Service 3 -->
-                <div class="bg-cardbg border border-gray-800 p-8 rounded-2xl relative group hover:border-indigo-500/50 transition">
-                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold text-xl mb-6">03</div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Sites Web & IA sur-mesure</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Création de sites web ultra-rapides intégrés à vos workflows d'IA et assistants de support client connectés 24h/24.
-                    </p>
-                    <span class="text-indigo-400 text-xs font-semibold uppercase tracking-wider">Gain estimé : Conversion x2</span>
+                <!-- Card 3 -->
+                <div class="bg-white border border-oat p-10 rounded-[28px] shadow-clay flex flex-col justify-between hover:border-matcha transition group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-cream border border-oat flex items-center justify-center text-matcha font-mono font-bold text-lg mb-8 group-hover:bg-matcha group-hover:text-white transition">
+                            03
+                        </div>
+                        <h3 class="text-2xl font-bold text-clayblack mb-4">Sites Web & IA sur-mesure</h3>
+                        <p class="text-gray-600 leading-relaxed mb-8">
+                            Conception de sites ultra-performants et intégration d'agents conversationnels intelligents formés sur vos documentations internes.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-oat/60 flex items-center justify-between">
+                        <span class="text-xs font-mono uppercase text-matcha font-semibold">Gain : Conversion x2</span>
+                        <span class="text-gray-400">→</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Process Section -->
-    <section id="process" class="py-24 px-6 bg-cardbg/40 border-t border-b border-gray-800/60">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-3xl font-bold text-white mb-4">Trois étapes, zéro risque</h2>
-                <p class="text-gray-400">Vous ne vous engagez qu'une fois la valeur chiffrée.</p>
+    <!-- Process Section (Ube Background Block) -->
+    <section id="process" class="py-28 px-6 bg-clayblack text-cream border-b border-oat relative overflow-hidden">
+        <div class="max-w-5xl mx-auto relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-20">
+                <span class="text-xs font-mono uppercase tracking-widest text-matchalight mb-3 block">Méthodologie</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Trois étapes, zéro risque.</h2>
+                <p class="text-gray-400">Vous ne validez la suite qu'en connaissant le retour sur investissement exact.</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-6">
-                    <span class="text-indigo-400 text-sm font-bold">ÉTAPE 01</span>
-                    <h3 class="text-xl font-semibold text-white mt-2 mb-3">La Visio</h3>
-                    <p class="text-gray-400 text-sm">30 minutes pour analyser vos goulets d'étranglement et voir ce qui peut être automatisé.</p>
+                <div class="bg-white/5 border border-white/10 p-8 rounded-3xl">
+                    <span class="text-matchalight font-mono text-sm font-bold">01 / DÉCOUVERTE</span>
+                    <h3 class="text-xl font-bold text-white mt-4 mb-3">La Visio (30 min)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Un échange sans langue de bois pour identifier vos goulets d'étranglement majeurs.</p>
                 </div>
-                <div class="p-6">
-                    <span class="text-indigo-400 text-sm font-bold">ÉTAPE 02</span>
-                    <h3 class="text-xl font-semibold text-white mt-2 mb-3">L'Audit</h3>
-                    <p class="text-gray-400 text-sm">Rapport complet chiffrant chaque automatisation et son retour sur investissement exact.</p>
+                <div class="bg-white/5 border border-white/10 p-8 rounded-3xl">
+                    <span class="text-matchalight font-mono text-sm font-bold">02 / AUDIT</span>
+                    <h3 class="text-xl font-bold text-white mt-4 mb-3">Le Rapport</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Chaque automatisation possible est chiffrée. Si rien n'est rentable, l'audit est remboursé.</p>
                 </div>
-                <div class="p-6">
-                    <span class="text-indigo-400 text-sm font-bold">ÉTAPE 03</span>
-                    <h3 class="text-xl font-semibold text-white mt-2 mb-3">La Prestation</h3>
-                    <p class="text-gray-400 text-sm">Développement sur-mesure, installation sur votre infrastructure et formation de vos équipes.</p>
+                <div class="bg-white/5 border border-white/10 p-8 rounded-3xl">
+                    <span class="text-matchalight font-mono text-sm font-bold">03 / LIVRAISON</span>
+                    <h3 class="text-xl font-bold text-white mt-4 mb-3">Installation & Formation</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Mise en place sur votre infrastructure et formation complète de vos équipes.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="py-24 px-6">
+    <section id="faq" class="py-28 px-6 bg-cream border-b border-oat">
         <div class="max-w-3xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-white mb-4">Questions fréquentes</h2>
+                <span class="text-xs font-mono uppercase tracking-widest text-gray-400 mb-3 block">Précisions</span>
+                <h2 class="text-3xl font-bold text-clayblack">Questions fréquentes</h2>
             </div>
             
             <div class="space-y-6">
-                <div class="bg-cardbg border border-gray-800 p-6 rounded-xl">
-                    <h3 class="text-lg font-medium text-white mb-2">Combien de temps avant la mise en production ?</h3>
-                    <p class="text-gray-400 text-sm">Les premières automatisations tournent généralement en quelques semaines après l'audit initial.</p>
+                <div class="bg-white border border-oat p-8 rounded-2xl shadow-clay">
+                    <h3 class="text-lg font-bold text-clayblack mb-2">Où sont hébergées nos données ?</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Chez vous, sur vos serveurs ou votre VPS privé. Vos données restent strictement confidentielles et cloisonnées.</p>
                 </div>
-                <div class="bg-cardbg border border-gray-800 p-6 rounded-xl">
-                    <h3 class="text-lg font-medium text-white mb-2">Faut-il une équipe technique en interne ?</h3>
-                    <p class="text-gray-400 text-sm">Non. Nous installons tout, documentons les processus et formons vos équipes de A à Z.</p>
+                <div class="bg-white border border-oat p-8 rounded-2xl shadow-clay">
+                    <h3 class="text-lg font-bold text-clayblack mb-2">Faut-il une équipe technique interne ?</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Absolument pas. Nous gérons l'intégralité du développement et formons vos équipes sur leurs outils actuels.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact CTA Section -->
-    <section id="contact" class="py-24 px-6 bg-indigo-600/10 border-t border-indigo-500/20 text-center">
+    <!-- Contact / CTA Section -->
+    <section id="contact" class="py-28 px-6 bg-white text-center">
         <div class="max-w-2xl mx-auto">
-            <h2 class="text-3xl font-bold text-white mb-4">Prêt à éliminer les tâches répétitives ?</h2>
-            <p class="text-gray-300 mb-8">Réservez un échange de 15 minutes pour faire le point sur vos automatisations.</p>
-            <a href="mailto:contact@boubane.io" class="bg-white text-gray-900 px-8 py-4 rounded-full font-semibold hover:bg-gray-200 transition inline-block">
+            <span class="text-xs font-mono uppercase tracking-widest text-matcha mb-3 block">Passons à l'action</span>
+            <h2 class="text-3xl md:text-5xl font-bold text-clayblack mb-6">Prêt à transformer votre quotidien ?</h2>
+            <p class="text-gray-600 mb-10 text-lg">Réservez votre premier échange de 15 minutes dès aujourd'hui.</p>
+            <a href="mailto:contact@boubane.io" class="bg-matcha hover:bg-emerald-800 text-white px-10 py-5 rounded-full font-medium transition shadow-clay inline-block text-lg">
                 contact@boubane.io
             </a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 px-6 border-t border-gray-800 text-center text-sm text-gray-500">
-        <p>&copy; 2026 Boubane. Tous droits réservés.</p>
+    <footer class="py-12 px-6 bg-cream border-t border-oat text-center text-sm text-gray-500 font-mono">
+        <p>&copy; 2026 Boubane. Fait avec art & précision.</p>
     </footer>
 
 </body>
