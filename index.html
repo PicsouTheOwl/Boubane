@@ -9,12 +9,12 @@
     <!-- Open Graph -->
     <meta property="og:title" content="Boubane · Automatisation IA sur-mesure pour les entreprises">
     <meta property="og:description" content="Une IA installée au bon endroit dans les outils que vos équipes utilisent déjà. Votre prochaine recrue ne dort jamais.">
-    <meta property="og:image" content="/assets/boubane-logo.png">
+    <meta property="og:image" content="assets/boubane-logo.png">
     <meta property="og:type" content="website">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/assets/boubane-logo.png">
-    <link rel="apple-touch-icon" href="/assets/boubane-logo.png">
+    <link rel="icon" type="image/png" href="assets/boubane-logo.png">
+    <link rel="apple-touch-icon" href="assets/boubane-logo.png">
 
     <!-- Fonts: Instrument Serif + Inter + Space Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -374,15 +374,16 @@
             letter-spacing: -0.04em;
             text-decoration: none;
             color: var(--color-ink);
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 12px;
         }
         .sic-brand-logo {
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             object-fit: contain;
             display: block;
+            filter: drop-shadow(0 2px 4px rgba(237, 92, 1, 0.2));
             transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .sic-brand:hover .sic-brand-logo {
@@ -426,16 +427,16 @@
             overflow: hidden;
             border: 2px solid var(--color-ink);
             box-shadow: -8px 8px 0px var(--color-ink);
-            background: radial-gradient(circle at 50% 40%, rgba(237, 92, 1, 0.12) 0%, #ffffff 75%);
+            background: radial-gradient(circle at 50% 40%, #ffffff 0%, #fff3eb 60%, #fedcc7 100%);
             position: relative;
             max-width: 420px;
             width: 100%;
-            aspect-ratio: 4 / 5;
+            aspect-ratio: 4 / 4.9;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px;
+            padding: 30px 20px 65px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .sic-arch:hover {
@@ -444,14 +445,15 @@
         }
         .sic-arch img {
             width: 82%;
+            max-width: 300px;
             height: auto;
             object-fit: contain;
             display: block;
-            margin-top: 10px;
+            filter: drop-shadow(0 14px 28px rgba(237, 92, 1, 0.22));
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .sic-arch:hover img {
-            transform: scale(1.05) translateY(-4px);
+            transform: scale(1.06) translateY(-4px);
         }
         .arch-badge {
             position: absolute;
@@ -1172,7 +1174,7 @@
     <header class="sic-header">
         <div class="sic-container sic-nav-wrapper">
             <a href="#top" class="sic-brand">
-                <img src="/assets/boubane-logo.png" alt="Logo Boubane Chat" class="sic-brand-logo">
+                <img src="assets/boubane-logo.png" alt="Logo Boubane Chat" class="sic-brand-logo">
                 <span>BOUBANE</span>
             </a>
 
@@ -1254,7 +1256,7 @@
                 <!-- L'arche du chat mascotte -->
                 <div>
                     <div class="sic-arch">
-                        <img src="/assets/boubane-logo.png" alt="Boubane - Le chat orange mascotte de l'agence IA">
+                        <img src="assets/boubane-logo.png" alt="Boubane - Le chat orange mascotte de l'agence IA">
                         <div class="arch-badge">
                             <div class="arch-badge-left">
                                 <div class="cat-eye-dot"></div>
@@ -1905,11 +1907,10 @@
     <!-- Footer -->
     <footer class="sic-footer">
         <div class="sic-container footer-content">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <img src="/assets/boubane-logo.png" alt="Logo Boubane Chat" style="width: 32px; height: 32px; object-fit: contain;">
-                <span style="font-weight: 800; color: var(--color-ink); letter-spacing: -0.02em;">BOUBANE</span>
-                <span>· Automatisation IA & Architectures de données</span>
-            </div>
+            <a href="#top" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                <img src="assets/boubane-logo.png" alt="Logo Boubane Chat" style="width: 36px; height: 36px; object-fit: contain;">
+                <span style="font-weight: 800; color: var(--color-ink); letter-spacing: -0.02em; font-size: 19px;">BOUBANE</span>
+            </a>
 
             <ul class="footer-links">
                 <li><a href="#manifeste">Philosophie</a></li>
