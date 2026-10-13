@@ -3,228 +3,2073 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boubane · L'Art de l'Automatisation & IA pour PME</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        cream: '#faf9f7',
-                        oat: '#dad4c8',
-                        oatlight: '#eee9df',
-                        clayblack: '#0f0e0d',
-                        matcha: '#078a52',
-                        matchalight: '#84e7a5',
-                        ube: '#43089f',
-                        ubesoft: '#c1b0ff',
-                        slushie: '#3bd3fd',
-                    },
-                    fontFamily: {
-                        sans: ['DM Sans', 'sans-serif'],
-                        mono: ['Space Mono', 'monospace'],
-                    },
-                    boxShadow: {
-                        clay: '0px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px rgba(0,0,0,0.04), 0px -0.5px 1px rgba(0,0,0,0.05)',
-                        hard: '-6px 6px 0px #0f0e0d',
-                    }
-                }
+    <title>Boubane · Automatisation IA sur-mesure pour les entreprises</title>
+    <meta name="description" content="Audit, développement et installation d'automatisations IA pour les entreprises. Audit chiffré remboursé si inexploitable. Formation de vos équipes incluse.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Boubane · Automatisation IA sur-mesure pour les entreprises">
+    <meta property="og:description" content="Une IA installée au bon endroit dans les outils que vos équipes utilisent déjà. Votre prochaine recrue ne dort jamais.">
+    <meta property="og:image" content="/assets/boubane-logo.png">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/boubane-logo.png">
+    <link rel="apple-touch-icon" href="/assets/boubane-logo.png">
+
+    <!-- Fonts: Instrument Serif + Inter + Space Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palette officielle Boubane basée sur le logo Chat Orange */
+            --color-orange: #ed5c01;
+            --color-orange-hover: #d34e00;
+            --color-orange-light: #ff7524;
+            --color-orange-soft: #fff1ea;
+            --color-orange-border: #fecba5;
+            --color-paper: #faf9f8;
+            --color-paper-card: #ffffff;
+            --color-ink: #0c0d10;
+            --color-ink-card: #131418;
+            --color-muted: #e5e2dc;
+            --color-text-subtle: #5a5a64;
+            --font-serif: 'Instrument Serif', Georgia, serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            background-color: var(--color-paper);
+            color: var(--color-ink);
+            font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-paper);
+            color: var(--color-ink);
+            line-height: 1.5;
+            overflow-x: hidden;
+            padding-bottom: 60px; /* Espace réservé pour le ruban fixe */
+        }
+
+        /* Selection styling */
+        ::selection {
+            background-color: var(--color-orange);
+            color: #ffffff;
+        }
+
+        /* Conteneur principal */
+        .sic-container {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        @media (max-width: 768px) {
+            .sic-container {
+                padding: 0 20px;
             }
         }
-    </script>
-</head>
-<body class="bg-cream text-clayblack font-sans antialiased selection:bg-matchalight selection:text-clayblack">
 
-    <!-- Navbar -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-cream/80 backdrop-blur-md border-b border-oat">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#" class="text-xl font-bold tracking-tight text-clayblack flex items-center gap-3">
-                <span class="w-3.5 h-3.5 rounded-full bg-matcha inline-block"></span>
-                <span class="font-bold tracking-tighter text-2xl">BOUBANE</span>
+        /* Typographie Instrument Serif */
+        .sic-display {
+            font-family: var(--font-serif);
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+            color: var(--color-ink);
+            font-weight: 400;
+            line-height: 0.88;
+        }
+
+        .sic-display em {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--color-orange);
+            text-decoration: underline;
+            text-decoration-color: var(--color-orange-border);
+            text-decoration-thickness: 4px;
+            text-underline-offset: 6px;
+        }
+
+        .sic-display.on-orange em {
+            color: #ffffff;
+            text-decoration-color: #0c0d10;
+        }
+
+        .sic-kicker {
+            font-family: var(--font-mono);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-orange);
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sic-kicker::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-orange);
+            box-shadow: 0 0 0 3px rgba(237, 92, 1, 0.25);
+        }
+
+        /* Boutons architecturaux aux 4 pastilles crantées */
+        .sic-button {
+            height: 56px;
+            display: inline-block;
+            position: relative;
+            text-decoration: none;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease;
+        }
+
+        .sic-button:active {
+            transform: scale(0.98);
+        }
+
+        .sic-button > a,
+        .sic-button > button,
+        .sic-button-inner {
+            border: 1.5px solid var(--color-ink);
+            background: transparent;
+            color: var(--color-ink);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 0 30px;
+            font-family: var(--font-sans);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            text-decoration: none;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* Encoches circulaires aux 4 angles (Signature InstallClaw) */
+        .sic-button .c1,
+        .sic-button .c2,
+        .sic-button .c3,
+        .sic-button .c4 {
+            border: 1.5px solid var(--color-ink);
+            background: var(--color-paper);
+            z-index: 2;
+            box-sizing: border-box;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            pointer-events: none;
+            transition: border-color 0.25s ease, background-color 0.25s ease;
+        }
+
+        .sic-button .c1 {
+            clip-path: polygon(48% 48%, 100% 50%, 100% 100%, 50% 100%);
+            top: -8px;
+            left: -8px;
+        }
+        .sic-button .c2 {
+            clip-path: polygon(0 50%, 52% 48%, 50% 100%, 0 100%);
+            top: -8px;
+            right: -8px;
+        }
+        .sic-button .c3 {
+            clip-path: polygon(0 0, 50% 0, 52% 52%, 0 50%);
+            bottom: -8px;
+            right: -8px;
+        }
+        .sic-button .c4 {
+            clip-path: polygon(50% 0, 100% 0, 100% 50%, 48% 52%);
+            bottom: -8px;
+            left: -8px;
+        }
+
+        /* Hover classique : Remplissage orange signature */
+        .sic-button:hover > a,
+        .sic-button:hover > button,
+        .sic-button:hover .sic-button-inner {
+            background-color: var(--color-orange);
+            border-color: var(--color-orange);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(237, 92, 1, 0.35);
+        }
+
+        .sic-button:hover .c1,
+        .sic-button:hover .c2,
+        .sic-button:hover .c3,
+        .sic-button:hover .c4 {
+            border-color: var(--color-orange);
+        }
+
+        /* Variante On-Orange (pour la bannière pleine) */
+        .sic-button.on-orange > a,
+        .sic-button.on-orange > button,
+        .sic-button.on-orange .sic-button-inner {
+            border-color: var(--color-ink);
+            color: #ffffff;
+            background: var(--color-ink);
+        }
+        .sic-button.on-orange .c1,
+        .sic-button.on-orange .c2,
+        .sic-button.on-orange .c3,
+        .sic-button.on-orange .c4 {
+            border-color: var(--color-ink);
+            background: var(--color-orange);
+        }
+        .sic-button.on-orange:hover > a,
+        .sic-button.on-orange:hover > button,
+        .sic-button.on-orange:hover .sic-button-inner {
+            background-color: #ffffff;
+            border-color: var(--color-ink);
+            color: var(--color-ink);
+        }
+
+        /* Variante On-Dark (pour le bloc sombre du simulateur) */
+        .sic-button.on-dark > a,
+        .sic-button.on-dark > button,
+        .sic-button.on-dark .sic-button-inner {
+            border-color: var(--color-orange);
+            color: #ffffff;
+            background: var(--color-orange);
+        }
+        .sic-button.on-dark .c1,
+        .sic-button.on-dark .c2,
+        .sic-button.on-dark .c3,
+        .sic-button.on-dark .c4 {
+            border-color: var(--color-orange);
+            background: var(--color-ink-card);
+        }
+        .sic-button.on-dark:hover > a,
+        .sic-button.on-dark:hover > button,
+        .sic-button.on-dark:hover .sic-button-inner {
+            background-color: #ffffff;
+            border-color: #ffffff;
+            color: var(--color-ink);
+        }
+
+        /* Badges doubles (.sic-flag) */
+        .sic-flag {
+            display: inline-flex;
+            align-items: stretch;
+            margin-bottom: 6px;
+            margin-right: 8px;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(237, 92, 1, 0.35);
+        }
+        .sic-flag:last-child {
+            margin-bottom: 0;
+        }
+        .sic-flag span:first-child {
+            background-color: var(--color-orange);
+            color: #ffffff;
+            padding: 6px 10px;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            display: flex;
+            align-items: center;
+        }
+        .sic-flag span:last-child {
+            background-color: var(--color-orange-soft);
+            color: var(--color-ink);
+            padding: 6px 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Ruban Ticker Infini en bas d'écran */
+        .sic-ribbon {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-orange);
+            border-top: 1.5px solid var(--color-ink);
+            padding: 13px 0;
+            z-index: 99;
+            overflow: hidden;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .sic-ribbon-content {
+            display: flex;
+            width: max-content;
+            animation: ribbonScroll 34s linear infinite;
+        }
+        .sic-ribbon:hover .sic-ribbon-content {
+            animation-play-state: paused;
+        }
+        .sic-ribbon-item {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.02em;
+        }
+        .sic-ribbon-star {
+            margin: 0 24px;
+            color: var(--color-ink);
+            font-size: 14px;
+            opacity: 0.85;
+        }
+        @keyframes ribbonScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Header Navigation */
+        .sic-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 84px;
+            background-color: rgba(250, 249, 248, 0.94);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--color-muted);
+            z-index: 90;
+            display: flex;
+            align-items: center;
+        }
+        .sic-nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .sic-brand {
+            font-family: var(--font-sans);
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: -0.04em;
+            text-decoration: none;
+            color: var(--color-ink);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sic-brand-logo {
+            width: 46px;
+            height: 46px;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .sic-brand:hover .sic-brand-logo {
+            transform: scale(1.15) rotate(-6deg);
+        }
+        .sic-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .sic-nav-links a {
+            text-decoration: none;
+            color: var(--color-ink);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+        .sic-nav-links a:hover {
+            color: var(--color-orange);
+        }
+        .sic-nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--color-orange);
+            transition: width 0.2s ease;
+        }
+        .sic-nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Arche architecturale du chat (Signature InstallClaw .sic-arch) */
+        .sic-arch {
+            border-radius: 190px 190px 16px 16px;
+            overflow: hidden;
+            border: 2px solid var(--color-ink);
+            box-shadow: -8px 8px 0px var(--color-ink);
+            background: radial-gradient(circle at 50% 40%, rgba(237, 92, 1, 0.12) 0%, #ffffff 75%);
+            position: relative;
+            max-width: 420px;
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .sic-arch:hover {
+            transform: translate(2px, -2px);
+            box-shadow: -10px 10px 0px var(--color-ink);
+        }
+        .sic-arch img {
+            width: 82%;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            margin-top: 10px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .sic-arch:hover img {
+            transform: scale(1.05) translateY(-4px);
+        }
+        .arch-badge {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(12, 13, 16, 0.92);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(237, 92, 1, 0.5);
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #ffffff;
+        }
+        .arch-badge-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cat-eye-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--color-orange);
+            box-shadow: 0 0 10px var(--color-orange);
+            animation: eyePulse 2s infinite ease-in-out;
+        }
+        @keyframes eyePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
+        /* Hero Section */
+        .sic-hero {
+            padding-top: 150px;
+            padding-bottom: 90px;
+            border-bottom: 1px solid var(--color-muted);
+            position: relative;
+            background: radial-gradient(circle at 85% 20%, rgba(237, 92, 1, 0.1) 0%, transparent 60%);
+        }
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1.25fr 0.95fr;
+            gap: 54px;
+            align-items: center;
+        }
+        @media (max-width: 960px) {
+            .hero-layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+        .hero-headline {
+            font-size: clamp(46px, 6.8vw, 96px);
+            margin-top: 20px;
+            margin-bottom: 30px;
+            line-height: 0.9;
+        }
+        .hero-lead {
+            font-size: clamp(19px, 2vw, 23px);
+            line-height: 1.5;
+            color: var(--color-ink);
+            font-weight: 400;
+            margin-bottom: 36px;
+        }
+        .hero-lead strong {
+            font-weight: 700;
+            background: linear-gradient(180deg, transparent 65%, var(--color-orange-soft) 65%);
+        }
+        .hero-guarantees {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-top: 36px;
+            padding: 22px;
+            background: var(--color-paper-card);
+            border: 1px solid var(--color-muted);
+            border-radius: 8px;
+        }
+        @media (max-width: 640px) {
+            .hero-guarantees {
+                grid-template-columns: 1fr;
+            }
+        }
+        .guarantee-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--color-ink);
+        }
+        .guarantee-icon {
+            width: 22px;
+            height: 22px;
+            background: var(--color-orange-soft);
+            color: var(--color-orange);
+            border: 1px solid var(--color-orange-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Manifesto Section (Philosophie) */
+        .sic-manifesto {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--color-muted);
+            background-color: var(--color-paper-card);
+        }
+        .manifesto-cols {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 60px;
+        }
+        @media (max-width: 860px) {
+            .manifesto-cols {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+        .manifesto-title {
+            font-size: clamp(34px, 4.2vw, 56px);
+            line-height: 0.95;
+        }
+        .manifesto-text p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--color-text-subtle);
+            margin-bottom: 24px;
+        }
+        .manifesto-text p:last-child {
+            margin-bottom: 0;
+        }
+        .manifesto-highlight {
+            font-size: 21px !important;
+            font-weight: 600;
+            color: var(--color-ink) !important;
+            border-left: 4px solid var(--color-orange);
+            padding-left: 20px;
+        }
+
+        /* Services / Automations Section */
+        .sic-automations {
+            padding: 110px 0;
+            border-bottom: 1px solid var(--color-muted);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 54px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .section-title {
+            font-size: clamp(38px, 5vw, 68px);
+            line-height: 0.92;
+            margin-top: 14px;
+        }
+
+        /* Table & Rangées dynamiques d'automatisations */
+        .auto-table {
+            border-top: 1px solid var(--color-muted);
+        }
+        .auto-row {
+            border-bottom: 1px solid var(--color-muted);
+            padding: 40px 0;
+            position: relative;
+            transition: background-color 0.25s ease;
+        }
+        .auto-row:hover {
+            background-color: rgba(237, 92, 1, 0.03);
+        }
+        .auto-row::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: -1px;
+            width: 100%;
+            height: 2.5px;
+            background-color: var(--color-orange);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .auto-row:hover::after {
+            transform: scaleX(1);
+        }
+        .auto-grid {
+            display: grid;
+            grid-template-columns: 80px 1.4fr 1.6fr 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+        @media (max-width: 960px) {
+            .auto-grid {
+                grid-template-columns: 50px 1fr;
+                gap: 20px;
+            }
+            .auto-flags-col {
+                grid-column: 2;
+            }
+            .auto-action-col {
+                grid-column: 2;
+            }
+        }
+        .auto-number {
+            font-family: var(--font-mono);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-orange);
+            background: var(--color-orange-soft);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid var(--color-orange-border);
+        }
+        .auto-name {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--color-ink);
+            margin-bottom: 8px;
+        }
+        .auto-desc {
+            font-size: 16px;
+            color: var(--color-text-subtle);
+            line-height: 1.6;
+        }
+        .auto-flags-col {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        /* Simulateur Interactif d'Impact */
+        .sic-simulator {
+            padding: 110px 0;
+            border-bottom: 1px solid var(--color-muted);
+            background: var(--color-paper-card);
+        }
+        .sim-box {
+            border: 1.5px solid var(--color-ink);
+            border-radius: 12px;
+            padding: 48px;
+            background: var(--color-paper);
+            box-shadow: -8px 8px 0px var(--color-ink);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 56px;
+        }
+        @media (max-width: 900px) {
+            .sim-box {
+                grid-template-columns: 1fr;
+                padding: 28px;
+                gap: 36px;
+            }
+        }
+        .sim-control {
+            margin-bottom: 32px;
+        }
+        .sim-control:last-child {
+            margin-bottom: 0;
+        }
+        .sim-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+        }
+        .sim-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-ink);
+        }
+        .sim-val {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            background: var(--color-orange);
+            padding: 2px 10px;
+            border-radius: 4px;
+        }
+        .sim-range {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: var(--color-muted);
+            border-radius: 4px;
+            outline: none;
+        }
+        .sim-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--color-orange);
+            cursor: pointer;
+            border: 2px solid var(--color-ink);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.15s ease;
+        }
+        .sim-range::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        .sim-result-card {
+            background-color: var(--color-ink-card);
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(237, 92, 1, 0.35);
+        }
+        .sim-result-card::after {
+            content: "";
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(237, 92, 1, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .sim-stat {
+            margin-bottom: 28px;
+        }
+        .sim-stat-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 6px;
+        }
+        .sim-stat-num {
+            font-family: var(--font-serif);
+            font-size: clamp(42px, 4.6vw, 68px);
+            line-height: 0.95;
+            color: #ffffff;
+        }
+        .sim-stat-num span {
+            color: var(--color-orange);
+        }
+
+        /* Méthode ("Trois étapes, zéro risque") */
+        .sic-process {
+            padding: 110px 0;
+            border-bottom: 1px solid var(--color-muted);
+        }
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 60px;
+        }
+        @media (max-width: 860px) {
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+        .step-card {
+            border: 1.5px solid var(--color-ink);
+            background: #ffffff;
+            padding: 40px 32px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: -6px 6px 0px var(--color-ink);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .step-card:hover {
+            transform: translate(2px, -2px);
+            box-shadow: -8px 8px 0px var(--color-ink);
+        }
+        .step-num {
+            font-family: var(--font-serif);
+            font-size: 68px;
+            line-height: 0.8;
+            color: var(--color-orange);
+            margin-bottom: 28px;
+            text-shadow: 2px 2px 0px var(--color-ink);
+        }
+        .step-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+        .step-desc {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--color-text-subtle);
+        }
+        .step-guarantee-pill {
+            margin-top: 24px;
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            background: var(--color-orange-soft);
+            color: var(--color-orange);
+            border: 1px solid var(--color-orange-border);
+            border-radius: 4px;
+        }
+
+        /* Grande Bannière d'Impact avec la mascotte */
+        .sic-banner-cta {
+            background-color: var(--color-orange);
+            color: #ffffff;
+            padding: 120px 0;
+            border-bottom: 1.5px solid var(--color-ink);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .banner-headline {
+            font-family: var(--font-serif);
+            font-size: clamp(48px, 7.5vw, 108px);
+            line-height: 0.88;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+        .banner-sub {
+            font-size: clamp(18px, 2.2vw, 22px);
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 680px;
+            margin: 0 auto 48px;
+            font-weight: 400;
+        }
+
+        /* Cas Clients ("Ce qui tourne déjà") */
+        .sic-cases {
+            padding: 110px 0;
+            border-bottom: 1px solid var(--color-muted);
+            background: var(--color-paper-card);
+        }
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-top: 54px;
+        }
+        @media (max-width: 860px) {
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .case-card {
+            border: 1.5px solid var(--color-ink);
+            padding: 36px;
+            background: var(--color-paper);
+            border-radius: 8px;
+            box-shadow: -5px 5px 0px var(--color-ink);
+            transition: transform 0.2s ease;
+        }
+        .case-card:hover {
+            transform: translate(2px, -2px);
+        }
+        .case-sector {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--color-orange);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .case-impact {
+            font-size: 21px;
+            font-weight: 700;
+            color: var(--color-ink);
+            margin-bottom: 14px;
+            line-height: 1.3;
+        }
+        .case-body {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--color-text-subtle);
+            margin-bottom: 24px;
+        }
+        .case-metrics-row {
+            display: flex;
+            gap: 20px;
+            border-top: 1px solid var(--color-muted);
+            padding-top: 18px;
+        }
+        .metric-box {
+            display: flex;
+            flex-direction: column;
+        }
+        .metric-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--color-text-subtle);
+        }
+        .metric-val {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-orange);
+        }
+
+        /* FAQ Interactive */
+        .sic-faq {
+            padding: 110px 0;
+            border-bottom: 1px solid var(--color-muted);
+        }
+        .faq-wrapper {
+            max-width: 900px;
+            margin: 50px auto 0;
+            border-top: 1px solid var(--color-muted);
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--color-muted);
+        }
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 28px 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-ink);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            gap: 20px;
+            transition: color 0.2s ease;
+        }
+        .faq-question:hover {
+            color: var(--color-orange);
+        }
+        .faq-icon {
+            font-family: var(--font-mono);
+            font-size: 22px;
+            color: #ffffff;
+            background: var(--color-orange);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--color-text-subtle);
+            padding: 0;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 250px;
+            padding-bottom: 28px;
+        }
+
+        /* Formulaire de Contact & Prise de RDV */
+        .sic-contact {
+            padding: 120px 0;
+            background: var(--color-paper-card);
+            border-bottom: 1px solid var(--color-muted);
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: start;
+        }
+        @media (max-width: 860px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .contact-title {
+            font-size: clamp(40px, 5.5vw, 76px);
+            line-height: 0.9;
+            margin-top: 16px;
+            margin-bottom: 24px;
+        }
+        .contact-card {
+            border: 1.5px solid var(--color-ink);
+            border-radius: 12px;
+            padding: 40px;
+            background: var(--color-paper);
+            box-shadow: -6px 6px 0px var(--color-ink);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--color-ink);
+        }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--color-muted);
+            background: #ffffff;
+            border-radius: 6px;
+            font-family: var(--font-sans);
+            font-size: 15px;
+            color: var(--color-ink);
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--color-orange);
+            box-shadow: 0 0 0 3px rgba(237, 92, 1, 0.25);
+        }
+
+        /* Footer */
+        .sic-footer {
+            padding: 60px 0;
+            background-color: var(--color-paper);
+            font-size: 14px;
+            color: var(--color-text-subtle);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+        .footer-links a {
+            color: var(--color-ink);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .footer-links a:hover {
+            color: var(--color-orange);
+        }
+
+        /* Modal de Visio */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(12, 13, 16, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-window {
+            background: #ffffff;
+            border: 2px solid var(--color-ink);
+            max-width: 580px;
+            width: 100%;
+            border-radius: 12px;
+            padding: 40px;
+            position: relative;
+            box-shadow: -10px 10px 0px var(--color-ink);
+            animation: modalPop 0.25s ease-out;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 26px;
+            cursor: pointer;
+            color: var(--color-ink);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body id="top">
+
+    <!-- Header Navigation avec le Logo Chat Orange à côté de BOUBANE -->
+    <header class="sic-header">
+        <div class="sic-container sic-nav-wrapper">
+            <a href="#top" class="sic-brand">
+                <img src="/assets/boubane-logo.png" alt="Logo Boubane Chat" class="sic-brand-logo">
+                <span>BOUBANE</span>
             </a>
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-                <a href="#manifeste" class="hover:text-clayblack transition">Manifeste</a>
-                <a href="#services" class="hover:text-clayblack transition">Ateliers & Métiers</a>
-                <a href="#process" class="hover:text-clayblack transition">Méthode</a>
-                <a href="#faq" class="hover:text-clayblack transition">FAQ</a>
+
+            <nav>
+                <ul class="sic-nav-links">
+                    <li><a href="#manifeste">Philosophie</a></li>
+                    <li><a href="#automations">Automatisations</a></li>
+                    <li><a href="#simulateur">Simulateur ROI</a></li>
+                    <li><a href="#methode">Méthode</a></li>
+                    <li><a href="#cases">Cas clients</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
             </nav>
-            <a href="#contact" class="bg-clayblack text-cream px-6 py-3 rounded-full text-sm font-medium hover:bg-matcha transition shadow-clay">
-                Prendre rendez-vous
-            </a>
+
+            <div class="sic-button" onclick="openVisioModal()">
+                <button type="button">
+                    <span>Réserver une visio</span>
+                </button>
+                <span class="c1"></span>
+                <span class="c2"></span>
+                <span class="c3"></span>
+                <span class="c4"></span>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="pt-40 pb-28 md:pt-48 md:pb-36 px-6 border-b border-oat relative overflow-hidden">
-        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-matchalight/20 blur-[140px] rounded-full pointer-events-none"></div>
-        
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-oat text-matcha text-xs font-mono uppercase tracking-wider mb-8 shadow-clay">
-                <span>✦ Agence d'automatisation artisanale & IA</span>
+    <!-- Hero Section avec Arche Architecturale du Chat Boubane -->
+    <section class="sic-hero">
+        <div class="sic-container">
+            <div class="hero-layout">
+                <div>
+                    <div class="sic-kicker">Automatisation IA sur-mesure pour PME</div>
+                    
+                    <h1 class="sic-display hero-headline">
+                        NOUS AUTOMATISONS<br>
+                        CE QUI VOUS FAIT<br>
+                        <em>PERDRE DU TEMPS.</em>
+                    </h1>
+
+                    <p class="hero-lead">
+                        Une IA vigilante installée au bon endroit lit vos e-mails, prépare votre comptabilité et relance vos prospects <strong>dans les outils que vos équipes utilisent déjà</strong>.
+                    </p>
+
+                    <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
+                        <div class="sic-button" onclick="openVisioModal()">
+                            <button type="button">
+                                <span>Réserver une visio (15 min)</span>
+                            </button>
+                            <span class="c1"></span>
+                            <span class="c2"></span>
+                            <span class="c3"></span>
+                            <span class="c4"></span>
+                        </div>
+                        <a href="#automations" style="font-size: 15px; font-weight: 700; color: var(--color-ink); text-decoration: none; padding: 16px 20px; display: inline-flex; align-items: center; gap: 6px;">
+                            Explorer nos flux →
+                        </a>
+                    </div>
+
+                    <div class="hero-guarantees">
+                        <div class="guarantee-item">
+                            <div class="guarantee-icon">✓</div>
+                            <span><strong>Audit remboursé</strong> si rien d'exploitable.</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <div class="guarantee-icon">✓</div>
+                            <span><strong>Sur site partout en France</strong> ou en visio.</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <div class="guarantee-icon">✓</div>
+                            <span><strong>Formation incluse</strong> dans chaque projet.</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <div class="guarantee-icon">✓</div>
+                            <span><strong>Hébergement souverain</strong> : 100% chez vous.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- L'arche du chat mascotte -->
+                <div>
+                    <div class="sic-arch">
+                        <img src="/assets/boubane-logo.png" alt="Boubane - Le chat orange mascotte de l'agence IA">
+                        <div class="arch-badge">
+                            <div class="arch-badge-left">
+                                <div class="cat-eye-dot"></div>
+                                <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.04em;">BOUBANE · IA EN VEILLE</span>
+                            </div>
+                            <span style="font-family: var(--font-mono); font-size: 11px; opacity: 0.8;">24h/24 · 7j/7</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-clayblack mb-8 leading-[1.05]">
-                Vos outils travaillent enfin ensemble. <span class="text-matcha">Sans effort.</span>
-            </h1>
-            <p class="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto font-normal leading-relaxed">
-                Nous concevons des systématisations sur-mesure qui libèrent vos équipes des tâches répétitives : e-mails, prospection et sites web intelligents.
+        </div>
+    </section>
+
+    <!-- Manifesto Section (Philosophie) -->
+    <section id="manifeste" class="sic-manifesto">
+        <div class="sic-container">
+            <div class="manifesto-cols">
+                <div>
+                    <span class="sic-kicker">Notre engagement</span>
+                    <h2 class="sic-display manifesto-title" style="margin-top: 14px;">
+                        Pas un abonnement<br>
+                        <em>de plus.</em>
+                    </h2>
+                </div>
+                <div class="manifesto-text">
+                    <p class="manifesto-highlight">
+                        Nous croyons qu'une entreprise n'a pas besoin d'un outil de plus. Elle a besoin que ses outils travaillent enfin ensemble.
+                    </p>
+                    <p>
+                        Trop d'automatisations se vendent sous la forme d'abonnements SaaS opaques que personne n'utilise au bout de trois mois. Chez <strong>Boubane</strong>, nous faisons l'exact inverse : un audit qui chiffre précisément chaque flux, un développement sur-mesure et une installation directe sur votre infrastructure.
+                    </p>
+                    <p>
+                        Le tri des mails du matin. La compta du 15. Les devis, les relances commerciales, le rapprochement bancaire. Comme un chat attentif et agile, nos automatisations veillent sur chaque étape mécanique pour que vos équipes se concentrent sur ce qui crée réellement de la valeur.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Automations Section -->
+    <section id="automations" class="sic-automations">
+        <div class="sic-container">
+            <div class="section-header">
+                <div>
+                    <span class="sic-kicker">Ce que nous automatisons</span>
+                    <h2 class="sic-display section-title">
+                        Des automatisations qui tournent<br>
+                        <em>dans vos outils actuels.</em>
+                    </h2>
+                </div>
+                <div class="sic-button" onclick="openVisioModal()">
+                    <button type="button">
+                        <span>Chiffrer mon projet</span>
+                    </button>
+                    <span class="c1"></span>
+                    <span class="c2"></span>
+                    <span class="c3"></span>
+                    <span class="c4"></span>
+                </div>
+            </div>
+
+            <div class="auto-table">
+                <!-- 01 Boîte Mail -->
+                <div class="auto-row">
+                    <div class="auto-grid">
+                        <div class="auto-number">01</div>
+                        <div>
+                            <h3 class="auto-name">Boîte mail intelligente</h3>
+                            <p class="auto-desc">Triée, classée par urgence, avec des réponses pré-rédigées dans votre ton exact. Votre boîte de réception est traitée chaque matin avant même votre premier café.</p>
+                        </div>
+                        <div class="auto-flags-col">
+                            <div class="sic-flag">
+                                <span>Gain estimé</span>
+                                <span>≈ 300 heures / an</span>
+                            </div>
+                            <div class="sic-flag">
+                                <span>Se branche sur</span>
+                                <span>Gmail, Outlook, Apple Mail</span>
+                            </div>
+                        </div>
+                        <div class="auto-action-col" style="text-align: right;">
+                            <a href="#contact" style="font-family: var(--font-mono); font-size: 13px; color: #ffffff; text-decoration: none; font-weight: 700; background: var(--color-orange); padding: 7px 14px; border-radius: 4px;">
+                                Déployer ce flux →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 02 Compta & Facturation -->
+                <div class="auto-row">
+                    <div class="auto-grid">
+                        <div class="auto-number">02</div>
+                        <div>
+                            <h3 class="auto-name">Compta & Facturation</h3>
+                            <p class="auto-desc">Factures d'achats ingérées automatiquement depuis vos boîtes mails et dossiers partagés, rapprochées des relevés bancaires, provisions calculées. Le récapitulatif comptable est prêt sans stress le 15.</p>
+                        </div>
+                        <div class="auto-flags-col">
+                            <div class="sic-flag">
+                                <span>Gain estimé</span>
+                                <span>1 à 3 jours par mois</span>
+                            </div>
+                            <div class="sic-flag">
+                                <span>Livrable</span>
+                                <span>Récap comptable prêt le 15</span>
+                            </div>
+                        </div>
+                        <div class="auto-action-col" style="text-align: right;">
+                            <a href="#contact" style="font-family: var(--font-mono); font-size: 13px; color: #ffffff; text-decoration: none; font-weight: 700; background: var(--color-orange); padding: 7px 14px; border-radius: 4px;">
+                                Déployer ce flux →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 03 Pilotage Financier -->
+                <div class="auto-row">
+                    <div class="auto-grid">
+                        <div class="auto-number">03</div>
+                        <div>
+                            <h3 class="auto-name">Pilotage Financier & Marges</h3>
+                            <p class="auto-desc">Trésorerie consolidée en direct, calcul des marges réelles par projet ou client, détection des impayés et état des travaux restant à facturer sans jongler entre plusieurs tableaux Excel.</p>
+                        </div>
+                        <div class="auto-flags-col">
+                            <div class="sic-flag">
+                                <span>Livrable</span>
+                                <span>Dashboard temps réel</span>
+                            </div>
+                            <div class="sic-flag">
+                                <span>Connecté à</span>
+                                <span>Banques, ERP, Logiciels de facturation</span>
+                            </div>
+                        </div>
+                        <div class="auto-action-col" style="text-align: right;">
+                            <a href="#contact" style="font-family: var(--font-mono); font-size: 13px; color: #ffffff; text-decoration: none; font-weight: 700; background: var(--color-orange); padding: 7px 14px; border-radius: 4px;">
+                                Déployer ce flux →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 04 Support Client -->
+                <div class="auto-row">
+                    <div class="auto-grid">
+                        <div class="auto-number">04</div>
+                        <div>
+                            <h3 class="auto-name">Agents Support & Connaissances</h3>
+                            <p class="auto-desc">Un agent autonome formé sur l'ensemble de vos documentations, devis passés et FAQ. Il répond avec une précision chirurgicale, qualifie les tickets et apprend en continu de vos corrections.</p>
+                        </div>
+                        <div class="auto-flags-col">
+                            <div class="sic-flag">
+                                <span>Disponibilité</span>
+                                <span>24h/24, 7j/7 sans interruption</span>
+                            </div>
+                            <div class="sic-flag">
+                                <span>Apprentissage</span>
+                                <span>Alimenté par vos retours</span>
+                            </div>
+                        </div>
+                        <div class="auto-action-col" style="text-align: right;">
+                            <a href="#contact" style="font-family: var(--font-mono); font-size: 13px; color: #ffffff; text-decoration: none; font-weight: 700; background: var(--color-orange); padding: 7px 14px; border-radius: 4px;">
+                                Déployer ce flux →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 05 Devis & Documents -->
+                <div class="auto-row">
+                    <div class="auto-grid">
+                        <div class="auto-number">05</div>
+                        <div>
+                            <h3 class="auto-name">Devis & Documents sur-mesure</h3>
+                            <p class="auto-desc">De la note vocale ou du brief client jusqu'au devis complet prêt à envoyer, calculé selon votre grille tarifaire et inséré directement dans votre logiciel commercial habituel.</p>
+                        </div>
+                        <div class="auto-flags-col">
+                            <div class="sic-flag">
+                                <span>Gain de temps</span>
+                                <span>Zéro double saisie</span>
+                            </div>
+                            <div class="sic-flag">
+                                <span>Format</span>
+                                <span>Devis pré-rempli en 2 min</span>
+                            </div>
+                        </div>
+                        <div class="auto-action-col" style="text-align: right;">
+                            <a href="#contact" style="font-family: var(--font-mono); font-size: 13px; color: #ffffff; text-decoration: none; font-weight: 700; background: var(--color-orange); padding: 7px 14px; border-radius: 4px;">
+                                Déployer ce flux →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 06 Prospection & CRM -->
+                <div class="auto-row">
+                    <div class="auto-grid">
+                        <div class="auto-number">06</div>
+                        <div>
+                            <h3 class="auto-name">Prospection & Mise à jour CRM</h3>
+                            <p class="auto-desc">Leads qualifiés et enrichis automatiquement, séquences de relances multicanales intelligentes, et fiches clients maintenues à jour après chaque échange téléphonique ou mail.</p>
+                        </div>
+                        <div class="auto-flags-col">
+                            <div class="sic-flag">
+                                <span>Automatisé</span>
+                                <span>Qualification & Relances</span>
+                            </div>
+                            <div class="sic-flag">
+                                <span>Connecté à</span>
+                                <span>HubSpot, Pipedrive, Notion...</span>
+                            </div>
+                        </div>
+                        <div class="auto-action-col" style="text-align: right;">
+                            <a href="#contact" style="font-family: var(--font-mono); font-size: 13px; color: #ffffff; text-decoration: none; font-weight: 700; background: var(--color-orange); padding: 7px 14px; border-radius: 4px;">
+                                Déployer ce flux →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulateur Interactif d'Impact & ROI -->
+    <section id="simulateur" class="sic-simulator">
+        <div class="sic-container">
+            <div class="section-header">
+                <div>
+                    <span class="sic-kicker">Simulateur d'impact</span>
+                    <h2 class="sic-display section-title">
+                        Combien d'heures perdez-vous<br>
+                        <em>chaque semaine ?</em>
+                    </h2>
+                </div>
+                <p style="color: var(--color-text-subtle); max-width: 420px; font-size: 16px;">
+                    Calculez instantanément le volume d'heures gaspillées sur des tâches mécaniques et votre retour sur investissement prévisionnel.
+                </p>
+            </div>
+
+            <div class="sim-box">
+                <div>
+                    <!-- Curseur 1 -->
+                    <div class="sim-control">
+                        <div class="sim-label-row">
+                            <span class="sim-label">Taille de vos équipes</span>
+                            <span class="sim-val" id="teamVal">8 collaborateurs</span>
+                        </div>
+                        <input type="range" class="sim-range" id="teamRange" min="2" max="60" value="8" oninput="updateSim()">
+                    </div>
+
+                    <!-- Curseur 2 -->
+                    <div class="sim-control">
+                        <div class="sim-label-row">
+                            <span class="sim-label">Heures perdues / pers. / semaine</span>
+                            <span class="sim-val" id="hoursVal">5 heures</span>
+                        </div>
+                        <input type="range" class="sim-range" id="hoursRange" min="1" max="15" value="5" oninput="updateSim()">
+                    </div>
+
+                    <!-- Curseur 3 -->
+                    <div class="sim-control">
+                        <div class="sim-label-row">
+                            <span class="sim-label">Coût horaire moyen chargé (€)</span>
+                            <span class="sim-val" id="costVal">40 €/h</span>
+                        </div>
+                        <input type="range" class="sim-range" id="costRange" min="25" max="95" value="40" step="5" oninput="updateSim()">
+                    </div>
+
+                    <div style="margin-top: 32px; padding: 18px; border-radius: 8px; background: #ffffff; border: 1.5px dashed var(--color-orange-border);">
+                        <p style="font-size: 13.5px; color: var(--color-ink); line-height: 1.5;">
+                            ⚡ <strong>Garantie Boubane :</strong> chaque flux installé génère en moyenne 65% à 85% de réduction de temps de gestion dès le premier mois.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="sim-result-card">
+                    <div>
+                        <div class="sim-stat">
+                            <div class="sim-stat-title">Heures récupérables par an</div>
+                            <div class="sim-stat-num" id="resHours">1 920 <span>h</span></div>
+                        </div>
+
+                        <div class="sim-stat">
+                            <div class="sim-stat-title">Économie de valeur annuelle estimée</div>
+                            <div class="sim-stat-num" id="resSavings">76 800 <span>€</span></div>
+                        </div>
+
+                        <div style="font-family: var(--font-mono); font-size: 13px; color: rgba(255, 255, 255, 0.85); margin-bottom: 28px;">
+                            ✦ Rentabilité constatée : <strong>&lt; 30 jours</strong>
+                        </div>
+                    </div>
+
+                    <div class="sic-button on-dark" onclick="openVisioModal()" style="width: 100%;">
+                        <button type="button" style="width: 100%;">
+                            <span>Programmer l'audit chiffré</span>
+                        </button>
+                        <span class="c1"></span>
+                        <span class="c2"></span>
+                        <span class="c3"></span>
+                        <span class="c4"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Méthode ("Comment ça se passe") -->
+    <section id="methode" class="sic-process">
+        <div class="sic-container">
+            <div class="section-header">
+                <div>
+                    <span class="sic-kicker">Comment ça se passe</span>
+                    <h2 class="sic-display section-title">
+                        Trois étapes,<br>
+                        <em>zéro risque.</em>
+                    </h2>
+                </div>
+                <p style="color: var(--color-text-subtle); max-width: 440px; font-size: 16px;">
+                    Vous ne vous engagez qu'une fois que vous savez exactement ce que chaque automatisation vous rapporte.
+                </p>
+            </div>
+
+            <div class="process-steps">
+                <!-- Step 1 -->
+                <div class="step-card">
+                    <div>
+                        <div class="step-num">01</div>
+                        <h3 class="step-title">La visio (30 min)</h3>
+                        <p class="step-desc">
+                            30 minutes d'échange pour comprendre votre activité, vos outils actuels et repérer précisément ce qui peut être automatisé. Si on ne peut rien faire d'utile pour vous, on vous le dit immédiatement.
+                        </p>
+                    </div>
+                    <span class="step-guarantee-pill">30 min · Sans engagement</span>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card">
+                    <div>
+                        <div class="step-num">02</div>
+                        <h3 class="step-title">L'audit chiffré</h3>
+                        <p class="step-desc">
+                            2 à 3 heures dans vos locaux ou en visio avec vos équipes opérationnelles. Vous repartez avec un rapport complet : chaque automatisation possible, son coût précis, et ce qu'elle vous rapporte.
+                        </p>
+                    </div>
+                    <span class="step-guarantee-pill" style="background-color: #fee2e2; color: #991b1b; border-color: #fca5a5;">Remboursé si inexploitable</span>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card">
+                    <div>
+                        <div class="step-num">03</div>
+                        <h3 class="step-title">L'installation & formation</h3>
+                        <p class="step-desc">
+                            Nous développons vos automatisations, nous les installons sur votre infrastructure (serveur local ou VPS privé sécurisé) et nous formons vos équipes. Vous êtes 100% autonomes dès la livraison.
+                        </p>
+                    </div>
+                    <span class="step-guarantee-pill">Livraison clé-en-main</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grande Bannière d'Impact avec la mascotte -->
+    <section class="sic-banner-cta">
+        <div class="sic-container">
+            <h2 class="banner-headline">
+                VOTRE PROCHAINE RECRUE<br>
+                NE DORT JAMAIS.
+            </h2>
+            <p class="banner-sub">
+                Une infrastructure IA sur-mesure connectée à vos outils pour supprimer définitivement les goulets d'étranglement de votre PME.
             </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#contact" class="w-full sm:w-auto bg-matcha hover:bg-emerald-800 text-white px-8 py-4 rounded-full font-medium transition shadow-clay">
-                    Réserver une visio de 15 min
-                </a>
-                <a href="#services" class="w-full sm:w-auto bg-white hover:bg-oatlight border border-oat text-clayblack px-8 py-4 rounded-full font-medium transition shadow-clay">
-                    Explorer nos solutions
-                </a>
+            <div class="sic-button on-orange" onclick="openVisioModal()">
+                <button type="button">
+                    <span>Réserver une visio de 15 minutes</span>
+                </button>
+                <span class="c1"></span>
+                <span class="c2"></span>
+                <span class="c3"></span>
+                <span class="c4"></span>
             </div>
         </div>
     </section>
 
-    <!-- Manifesto / Organic Philosophy Section -->
-    <section id="manifeste" class="py-28 px-6 bg-white border-b border-oat">
-        <div class="max-w-3xl mx-auto text-center">
-            <span class="text-xs font-mono uppercase tracking-widest text-gray-400 mb-4 block">Notre Philosophie</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-clayblack mb-8">L'entreprise n'a pas besoin d'un abonnement de plus.</h2>
-            <p class="text-gray-600 text-lg md:text-xl leading-relaxed mb-8">
-                Trop d'outils SaaS promettent des miracles mais finissent par alourdir vos processus. Chez Boubane, nous faisons l'inverse : nous tissons des ponts invisibles et robustes entre vos logiciels existants. Une IA posée exactement là où vous perdez du temps.
-            </p>
-            <div class="inline-block border border-dashed border-oat px-6 py-3 rounded-2xl bg-cream text-sm font-mono text-gray-500">
-                Audit sur place ou en visio · Remboursé si inexploitable
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section (Organic Cards) -->
-    <section id="services" class="py-28 px-6 border-b border-oat">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center max-w-2xl mx-auto mb-20">
-                <span class="text-xs font-mono uppercase tracking-widest text-gray-400 mb-3 block">Champs d'intervention</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-clayblack mb-4">Ce que nous automatisons pour vous</h2>
-                <p class="text-gray-600">Des flux pensés pour l'humain, exécutés par la machine.</p>
+    <!-- Cas Clients ("Ce qui tourne déjà") -->
+    <section id="cases" class="sic-cases">
+        <div class="sic-container">
+            <div class="section-header">
+                <div>
+                    <span class="sic-kicker">Cas clients</span>
+                    <h2 class="sic-display section-title">
+                        Ce qui tourne<br>
+                        <em>déjà en production.</em>
+                    </h2>
+                </div>
+                <p style="color: var(--color-text-subtle); max-width: 440px; font-size: 16px;">
+                    Des installations concrètes déployées sur les infrastructures réelles de nos clients en France.
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="bg-white border border-oat p-10 rounded-[28px] shadow-clay flex flex-col justify-between hover:border-matcha transition group">
-                    <div>
-                        <div class="w-14 h-14 rounded-2xl bg-cream border border-oat flex items-center justify-center text-matcha font-mono font-bold text-lg mb-8 group-hover:bg-matcha group-hover:text-white transition">
-                            01
+            <div class="cases-grid">
+                <!-- Cas 1 -->
+                <div class="case-card">
+                    <span class="case-sector">Métallerie d'art & BTP · 8 collaborateurs</span>
+                    <h4 class="case-impact">1 journée par mois économisée sur la clôture comptable</h4>
+                    <p class="case-body">
+                        La compta du 15 prenait une journée entière à la direction. Aujourd'hui, les factures sont ingérées par IA, rapprochées de la banque, et le récapitulatif se prépare seul. La boîte mail principale est filtrée chaque matin avec les devis urgents isolés.
+                    </p>
+                    <div class="case-metrics-row">
+                        <div class="metric-box">
+                            <span class="metric-label">Temps compta</span>
+                            <span class="metric-val">-85%</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-clayblack mb-4">Boîte mail intelligente</h3>
-                        <p class="text-gray-600 leading-relaxed mb-8">
-                            Tri automatique, qualification des demandes entrantes et pré-rédaction de réponses dans votre ton exact. Fini le syndrome de la boîte de réception saturée.
-                        </p>
-                    </div>
-                    <div class="pt-6 border-t border-oat/60 flex items-center justify-between">
-                        <span class="text-xs font-mono uppercase text-matcha font-semibold">Gain : ~300h / an</span>
-                        <span class="text-gray-400">→</span>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="bg-white border border-oat p-10 rounded-[28px] shadow-clay flex flex-col justify-between hover:border-matcha transition group">
-                    <div>
-                        <div class="w-14 h-14 rounded-2xl bg-cream border border-oat flex items-center justify-center text-matcha font-mono font-bold text-lg mb-8 group-hover:bg-matcha group-hover:text-white transition">
-                            02
+                        <div class="metric-box">
+                            <span class="metric-label">Visibilité tréso</span>
+                            <span class="metric-val">Temps réel</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-clayblack mb-4">Prospection & CRM</h3>
-                        <p class="text-gray-600 leading-relaxed mb-8">
-                            Enrichissement automatique des leads, relances personnalisées au bon moment et synchronisation parfaite de vos fiches clients.
-                        </p>
-                    </div>
-                    <div class="pt-6 border-t border-oat/60 flex items-center justify-between">
-                        <span class="text-xs font-mono uppercase text-matcha font-semibold">Gain : Pipeline continu</span>
-                        <span class="text-gray-400">→</span>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bg-white border border-oat p-10 rounded-[28px] shadow-clay flex flex-col justify-between hover:border-matcha transition group">
-                    <div>
-                        <div class="w-14 h-14 rounded-2xl bg-cream border border-oat flex items-center justify-center text-matcha font-mono font-bold text-lg mb-8 group-hover:bg-matcha group-hover:text-white transition">
-                            03
+                        <div class="metric-box">
+                            <span class="metric-label">Infrastructure</span>
+                            <span class="metric-val">VPS Privé</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-clayblack mb-4">Sites Web & IA sur-mesure</h3>
-                        <p class="text-gray-600 leading-relaxed mb-8">
-                            Conception de sites ultra-performants et intégration d'agents conversationnels intelligents formés sur vos documentations internes.
-                        </p>
-                    </div>
-                    <div class="pt-6 border-t border-oat/60 flex items-center justify-between">
-                        <span class="text-xs font-mono uppercase text-matcha font-semibold">Gain : Conversion x2</span>
-                        <span class="text-gray-400">→</span>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Process Section (Ube Background Block) -->
-    <section id="process" class="py-28 px-6 bg-clayblack text-cream border-b border-oat relative overflow-hidden">
-        <div class="max-w-5xl mx-auto relative z-10">
-            <div class="text-center max-w-2xl mx-auto mb-20">
-                <span class="text-xs font-mono uppercase tracking-widest text-matchalight mb-3 block">Méthodologie</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Trois étapes, zéro risque.</h2>
-                <p class="text-gray-400">Vous ne validez la suite qu'en connaissant le retour sur investissement exact.</p>
-            </div>
+                <!-- Cas 2 -->
+                <div class="case-card">
+                    <span class="case-sector">Agence Conseil & Marketing · 14 personnes</span>
+                    <h4 class="case-impact">Campagnes et reporting automatisés à 100%</h4>
+                    <p class="case-body">
+                        Génération des synthèses de performances publicitaires, synchronisation entre Asana, Slack et les régies. L'équipe a arrêté de copier-coller des chiffres et se consacre à 100% au conseil stratégique de leurs clients.
+                    </p>
+                    <div class="case-metrics-row">
+                        <div class="metric-box">
+                            <span class="metric-label">Temps de reporting</span>
+                            <span class="metric-val">12h → 0h / sem.</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Satisfaction client</span>
+                            <span class="metric-val">+34%</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Outils connectés</span>
+                            <span class="metric-val">Slack, Asana, Ads</span>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white/5 border border-white/10 p-8 rounded-3xl">
-                    <span class="text-matchalight font-mono text-sm font-bold">01 / DÉCOUVERTE</span>
-                    <h3 class="text-xl font-bold text-white mt-4 mb-3">La Visio (30 min)</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Un échange sans langue de bois pour identifier vos goulets d'étranglement majeurs.</p>
+                <!-- Cas 3 -->
+                <div class="case-card">
+                    <span class="case-sector">Gestion locative & Immobilier · Indépendant</span>
+                    <h4 class="case-impact">Un gestionnaire seul qui produit le travail d'une équipe</h4>
+                    <p class="case-body">
+                        Sept chantiers automatisés de bout en bout : pré-qualification des dossiers locataires, organisation automatique des visites, suivi des sinistres artisans et relances d'impayés. Zéro ressaisie administrative.
+                    </p>
+                    <div class="case-metrics-row">
+                        <div class="metric-box">
+                            <span class="metric-label">Dossiers traités</span>
+                            <span class="metric-val">x3 par semaine</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Délai de réponse</span>
+                            <span class="metric-val">&lt; 5 minutes</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Données</span>
+                            <span class="metric-val">100% chez l'agent</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-white/5 border border-white/10 p-8 rounded-3xl">
-                    <span class="text-matchalight font-mono text-sm font-bold">02 / AUDIT</span>
-                    <h3 class="text-xl font-bold text-white mt-4 mb-3">Le Rapport</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Chaque automatisation possible est chiffrée. Si rien n'est rentable, l'audit est remboursé.</p>
-                </div>
-                <div class="bg-white/5 border border-white/10 p-8 rounded-3xl">
-                    <span class="text-matchalight font-mono text-sm font-bold">03 / LIVRAISON</span>
-                    <h3 class="text-xl font-bold text-white mt-4 mb-3">Installation & Formation</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Mise en place sur votre infrastructure et formation complète de vos équipes.</p>
+
+                <!-- Cas 4 -->
+                <div class="case-card">
+                    <span class="case-sector">Gestion de Flotte Automobile · Groupe Européen</span>
+                    <h4 class="case-impact">Un agent IA dédié par département avec accès cloisonnés</h4>
+                    <p class="case-body">
+                        Déploiement d'agents cloisonnés selon les droits d'accès de chaque service (SAV, logistique, direction financière). Chaque agent dialogue avec la base métier sans jamais faire fuiter de données confidentielles vers l'extérieur.
+                    </p>
+                    <div class="case-metrics-row">
+                        <div class="metric-box">
+                            <span class="metric-label">Départements</span>
+                            <span class="metric-val">4 connectés</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Sécurité</span>
+                            <span class="metric-val">Zero-Leakage</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Hébergement</span>
+                            <span class="metric-val">Serveur Dédié</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="py-28 px-6 bg-cream border-b border-oat">
-        <div class="max-w-3xl mx-auto">
-            <div class="text-center mb-16">
-                <span class="text-xs font-mono uppercase tracking-widest text-gray-400 mb-3 block">Précisions</span>
-                <h2 class="text-3xl font-bold text-clayblack">Questions fréquentes</h2>
+    <section id="faq" class="sic-faq">
+        <div class="sic-container">
+            <div style="text-align: center; max-width: 650px; margin: 0 auto;">
+                <span class="sic-kicker">FAQ</span>
+                <h2 class="sic-display" style="font-size: clamp(38px, 5vw, 64px); margin-top: 14px;">
+                    Les questions<br>
+                    <em>qu'on nous pose.</em>
+                </h2>
             </div>
-            
-            <div class="space-y-6">
-                <div class="bg-white border border-oat p-8 rounded-2xl shadow-clay">
-                    <h3 class="text-lg font-bold text-clayblack mb-2">Où sont hébergées nos données ?</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Chez vous, sur vos serveurs ou votre VPS privé. Vos données restent strictement confidentielles et cloisonnées.</p>
+
+            <div class="faq-wrapper">
+                <!-- Q1 -->
+                <div class="faq-item active">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Combien de temps avant que ça tourne ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Une première visio de 30 minutes, un audit de 2 à 3 heures, puis un développement par phases. Les premières automatisations sont installées et en production dans votre entreprise en quelques semaines.
+                    </div>
                 </div>
-                <div class="bg-white border border-oat p-8 rounded-2xl shadow-clay">
-                    <h3 class="text-lg font-bold text-clayblack mb-2">Faut-il une équipe technique interne ?</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Absolument pas. Nous gérons l'intégralité du développement et formons vos équipes sur leurs outils actuels.</p>
+
+                <!-- Q2 -->
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Et si rien n'est automatisable chez nous ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        L'audit est intégralement remboursé. C'est notre engagement contractuel : vous ne payez que ce qui vous fait réellement gagner du temps et de l'argent.
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Où sont hébergées nos données sensibles ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Où vous le décidez. Sur un serveur dédié dans vos locaux ou sur un VPS privé sécurisé en France : vos données d'entreprise restent chez vous, avec des accès strictement cloisonnés par collaborateur.
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Faut-il une équipe technique en interne ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Non, absolument aucune compétence technique n'est requise. Nous concevons, nous installons, nous documentons et nous formons vos équipes. Vos collaborateurs continuent d'utiliser leurs outils habituels, l'IA travaille discrètement en arrière-plan.
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Ça se branche sur nos outils actuels ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Oui. Boîte mail (Gmail, Outlook), CRM, logiciels comptables, tableurs, agenda, WhatsApp, ERP ou outils métiers spécifiques : les automatisations travaillent là où vos informations circulent déjà.
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Par quoi commence-t-on ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Réservez simplement une visio de découverte de 15 à 30 minutes. C'est gratuit, sans engagement, et vous repartez déjà avec un premier diagnostic de vos opportunités d'automatisation.
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact / CTA Section -->
-    <section id="contact" class="py-28 px-6 bg-white text-center">
-        <div class="max-w-2xl mx-auto">
-            <span class="text-xs font-mono uppercase tracking-widest text-matcha mb-3 block">Passons à l'action</span>
-            <h2 class="text-3xl md:text-5xl font-bold text-clayblack mb-6">Prêt à transformer votre quotidien ?</h2>
-            <p class="text-gray-600 mb-10 text-lg">Réservez votre premier échange de 15 minutes dès aujourd'hui.</p>
-            <a href="mailto:contact@boubane.io" class="bg-matcha hover:bg-emerald-800 text-white px-10 py-5 rounded-full font-medium transition shadow-clay inline-block text-lg">
-                contact@boubane.io
-            </a>
+    <!-- Booking / Contact Section -->
+    <section id="contact" class="sic-contact">
+        <div class="sic-container">
+            <div class="contact-grid">
+                <div>
+                    <span class="sic-kicker">Contact direct</span>
+                    <h2 class="sic-display contact-title">
+                        Parlez-nous de<br>
+                        <em>votre entreprise.</em>
+                    </h2>
+                    <p style="font-size: 17px; line-height: 1.6; color: var(--color-text-subtle); margin-bottom: 32px;">
+                        Que ce soit pour un premier échange de 15 minutes ou pour planifier votre audit sur site, nous vous répondons sous 24h ouvrées.
+                    </p>
+                    
+                    <div style="margin-bottom: 24px;">
+                        <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--color-text-subtle); display: block; margin-bottom: 6px;">Email direct</span>
+                        <a href="mailto:contact@boubane.io" style="font-size: 22px; font-weight: 700; color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-orange);">contact@boubane.io</a>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span class="guarantee-icon">📍</span>
+                        <span style="font-size: 14px; font-weight: 600;">Bordeaux · Paris · Déplacements partout en France</span>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="formName">Votre nom & prénom</label>
+                            <input class="form-input" type="text" id="formName" required placeholder="Ex: Alexandre Dubois">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="formCompany">Votre entreprise & nombre d'employés</label>
+                            <input class="form-input" type="text" id="formCompany" required placeholder="Ex: Ateliers Nova (12 pers.)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="formEmail">Email professionnel</label>
+                            <input class="form-input" type="email" id="formEmail" required placeholder="alexandre@entreprise.fr">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="formSubject">Ce qui vous fait perdre le plus de temps aujourd'hui</label>
+                            <select class="form-select" id="formSubject">
+                                <option value="mail">Le tri et le traitement des emails</option>
+                                <option value="compta">La comptabilité et la facturation</option>
+                                <option value="devis">La création et relance des devis</option>
+                                <option value="support">Le support client et questions répétitives</option>
+                                <option value="audit">Un audit complet de tous nos processus</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="formMessage">Précisions supplémentaires (optionnel)</label>
+                            <textarea class="form-textarea" id="formMessage" rows="3" placeholder="Quels logiciels utilisez-vous ? Quelles tâches vous bloquent ?"></textarea>
+                        </div>
+
+                        <div class="sic-button" style="width: 100%; margin-top: 10px;">
+                            <button type="submit" style="width: 100%;">
+                                <span>Demander un premier diagnostic gratuit</span>
+                            </button>
+                            <span class="c1"></span>
+                            <span class="c2"></span>
+                            <span class="c3"></span>
+                            <span class="c4"></span>
+                        </div>
+                        <div id="formSuccess" style="display: none; margin-top: 16px; padding: 12px; background: var(--color-orange-soft); border: 1.5px solid var(--color-orange); border-radius: 6px; color: var(--color-orange); font-size: 14px; text-align: center; font-weight: 600;">
+                            ✓ Demande enregistrée ! Nous vous recontactons dans les 24h.
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 px-6 bg-cream border-t border-oat text-center text-sm text-gray-500 font-mono">
-        <p>&copy; 2026 Boubane. Fait avec art & précision.</p>
+    <footer class="sic-footer">
+        <div class="sic-container footer-content">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="/assets/boubane-logo.png" alt="Logo Boubane Chat" style="width: 32px; height: 32px; object-fit: contain;">
+                <span style="font-weight: 800; color: var(--color-ink); letter-spacing: -0.02em;">BOUBANE</span>
+                <span>· Automatisation IA & Architectures de données</span>
+            </div>
+
+            <ul class="footer-links">
+                <li><a href="#manifeste">Philosophie</a></li>
+                <li><a href="#automations">Solutions</a></li>
+                <li><a href="#methode">Méthode</a></li>
+                <li><a href="mailto:contact@boubane.io">Contact</a></li>
+            </ul>
+
+            <div style="font-family: var(--font-mono); font-size: 12px;">
+                © 2026 Boubane. Tous droits réservés.
+            </div>
+        </div>
     </footer>
 
+    <!-- Fixed Bottom Infinite Scrolling Ribbon (Marquee Orange) -->
+    <div class="sic-ribbon">
+        <div class="sic-ribbon-content">
+            <!-- Premier tour -->
+            <div class="sic-ribbon-item">
+                <span>L'audit est remboursé si rien n'est exploitable</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Votre prochaine recrue ne dort jamais</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Déplacement sur site partout en France</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Formation de vos équipes incluse dans chaque installation</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Vos données restent chez vous (Hébergement souverain)</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Zéro abonnement SaaS fantôme</span>
+                <span class="sic-ribbon-star">✦</span>
+            </div>
+            <!-- Second tour pour défilement continu -->
+            <div class="sic-ribbon-item">
+                <span>L'audit est remboursé si rien n'est exploitable</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Votre prochaine recrue ne dort jamais</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Déplacement sur site partout en France</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Formation de vos équipes incluse dans chaque installation</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Vos données restent chez vous (Hébergement souverain)</span>
+                <span class="sic-ribbon-star">✦</span>
+                <span>Zéro abonnement SaaS fantôme</span>
+                <span class="sic-ribbon-star">✦</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Visio -->
+    <div class="modal-overlay" id="visioModal" onclick="closeVisioModal(event)">
+        <div class="modal-window" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeVisioModal()">&times;</button>
+            <div class="sic-kicker" style="margin-bottom: 8px;">Échange sans engagement</div>
+            <h3 class="sic-display" style="font-size: 38px; line-height: 0.95; margin-bottom: 16px;">
+                Réserver une visio<br>
+                <em>de 15 minutes.</em>
+            </h3>
+            <p style="font-size: 15px; color: var(--color-text-subtle); margin-bottom: 24px; line-height: 1.5;">
+                Choisissez comment vous souhaitez démarrer. Nous analysons vos flux existants et vous indiquons immédiatement ce qui est automatisable.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <a href="mailto:contact@boubane.io?subject=Demande%20de%20visio%20Boubane%20(15%20min)" class="sic-button" style="width: 100%; text-align: center;">
+                    <div class="sic-button-inner" style="width: 100%;">
+                        <span>Envoyer un email à contact@boubane.io</span>
+                    </div>
+                    <span class="c1"></span>
+                    <span class="c2"></span>
+                    <span class="c3"></span>
+                    <span class="c4"></span>
+                </a>
+
+                <button type="button" class="sic-button on-dark" onclick="scrollToContact()" style="width: 100%;">
+                    <div class="sic-button-inner" style="width: 100%;">
+                        <span>Remplir le formulaire de contact</span>
+                    </div>
+                    <span class="c1"></span>
+                    <span class="c2"></span>
+                    <span class="c3"></span>
+                    <span class="c4"></span>
+                </button>
+            </div>
+
+            <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--color-muted); font-size: 13px; color: var(--color-text-subtle); display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--color-orange); font-weight: bold;">✦</span>
+                <span>Pas de discours commercial creux : un diagnostic concret par un technicien.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Simulateur Interactif
+        function updateSim() {
+            const team = parseInt(document.getElementById('teamRange').value, 10);
+            const hours = parseInt(document.getElementById('hoursRange').value, 10);
+            const cost = parseInt(document.getElementById('costRange').value, 10);
+
+            document.getElementById('teamVal').textContent = team + ' collaborateur' + (team > 1 ? 's' : '');
+            document.getElementById('hoursVal').textContent = hours + ' heure' + (hours > 1 ? 's' : '');
+            document.getElementById('costVal').textContent = cost + ' €/h';
+
+            // Calcul sur 48 semaines ouvrées par an
+            const totalHoursSaved = Math.round(team * hours * 48);
+            const financialGain = Math.round(totalHoursSaved * cost);
+
+            document.getElementById('resHours').innerHTML = totalHoursSaved.toLocaleString('fr-FR') + ' <span>h</span>';
+            document.getElementById('resSavings').innerHTML = financialGain.toLocaleString('fr-FR') + ' <span>€</span>';
+        }
+
+        // Accordéon FAQ
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const wasActive = item.classList.contains('active');
+            
+            // Fermer les autres
+            document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+            
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // Gestion de la Modal
+        function openVisioModal() {
+            document.getElementById('visioModal').classList.add('active');
+        }
+
+        function closeVisioModal(e) {
+            if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
+            document.getElementById('visioModal').classList.remove('active');
+        }
+
+        function scrollToContact() {
+            closeVisioModal();
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Soumission du formulaire
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const successDiv = document.getElementById('formSuccess');
+            if (successDiv) {
+                successDiv.style.display = 'block';
+                e.target.reset();
+                setTimeout(() => {
+                    successDiv.style.display = 'none';
+                }, 6000);
+            }
+        }
+
+        // Initialisation du simulateur
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSim();
+        });
+    </script>
 </body>
 </html>
