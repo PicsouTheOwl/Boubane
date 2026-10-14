@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boubane · Automatisation IA sur-mesure pour les entreprises</title>
-    <meta name="description" content="Audit, développement et installation d'automatisations IA pour les entreprises. Audit chiffré remboursé si inexploitable. Formation de vos équipes incluse.">
+    <title>Boubane · Votre Site Web Offert à Vie & Automatisations IA</title>
+    <meta name="description" content="Nous concevons votre site web professionnel 100% gratuitement. Vous le gardez à vie, sous seule condition de régler votre nom de domaine et votre hébergement. Zéro engagement.">
     
     <!-- Open Graph & Social Preview Cards -->
-    <meta property="og:title" content="Boubane · Automatisation IA sur-mesure pour les entreprises">
-    <meta property="og:description" content="Une IA installée au bon endroit dans les outils que vos équipes utilisent déjà. Votre prochaine recrue ne dort jamais.">
+    <meta property="og:title" content="Boubane · Votre Site Web Offert à Vie & Automatisations IA">
+    <meta property="og:description" content="Conception de site web offerte à vie. Vous ne payez que votre hébergement et domaine direct. Zéro frais d'agence, propriété totale.">
     <meta property="og:image" content="https://raw.githubusercontent.com/PicsouTheOwl/Boubane/main/assets/boubane-logo.png">
     <meta property="og:image:width" content="856">
     <meta property="og:image:height" content="901">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Boubane · Automatisation IA sur-mesure pour les entreprises">
-    <meta name="twitter:description" content="Audit, développement et installation d'automatisations IA pour les entreprises. Votre prochaine recrue ne dort jamais.">
+    <meta name="twitter:title" content="Boubane · Votre Site Web Offert à Vie & Automatisations IA">
+    <meta name="twitter:description" content="Nous créons votre site web gratuitement, vous le gardez à vie. Seule condition : votre nom de domaine et hébergement habituel.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/PicsouTheOwl/Boubane/main/assets/boubane-logo.png">
 
     <!-- Favicon -->
@@ -133,6 +133,20 @@
             border-radius: 50%;
             background-color: var(--color-orange);
             box-shadow: 0 0 0 3px rgba(237, 92, 1, 0.25);
+        }
+
+        /* Badge 0 € Offert */
+        .badge-free {
+            background-color: var(--color-orange);
+            color: #ffffff;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            letter-spacing: 0.05em;
         }
 
         /* Boutons architecturaux aux 4 pastilles crantées */
@@ -398,7 +412,7 @@
         .sic-nav-links {
             display: flex;
             align-items: center;
-            gap: 32px;
+            gap: 28px;
             list-style: none;
         }
         .sic-nav-links a {
@@ -496,7 +510,7 @@
 
         /* Hero Section */
         .sic-hero {
-            padding-top: 150px;
+            padding-top: 145px;
             padding-bottom: 90px;
             border-bottom: 1px solid var(--color-muted);
             position: relative;
@@ -515,17 +529,17 @@
             }
         }
         .hero-headline {
-            font-size: clamp(46px, 6.8vw, 96px);
-            margin-top: 20px;
-            margin-bottom: 30px;
+            font-size: clamp(44px, 6.4vw, 92px);
+            margin-top: 18px;
+            margin-bottom: 24px;
             line-height: 0.9;
         }
         .hero-lead {
-            font-size: clamp(19px, 2vw, 23px);
+            font-size: clamp(18px, 1.9vw, 22px);
             line-height: 1.5;
             color: var(--color-ink);
             font-weight: 400;
-            margin-bottom: 36px;
+            margin-bottom: 32px;
         }
         .hero-lead strong {
             font-weight: 700;
@@ -535,11 +549,12 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 14px;
-            margin-top: 36px;
+            margin-top: 32px;
             padding: 22px;
             background: var(--color-paper-card);
-            border: 1px solid var(--color-muted);
+            border: 1.5px solid var(--color-ink);
             border-radius: 8px;
+            box-shadow: -4px 4px 0px var(--color-ink);
         }
         @media (max-width: 640px) {
             .hero-guarantees {
@@ -557,9 +572,8 @@
         .guarantee-icon {
             width: 22px;
             height: 22px;
-            background: var(--color-orange-soft);
-            color: var(--color-orange);
-            border: 1px solid var(--color-orange-border);
+            background: var(--color-orange);
+            color: #ffffff;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -569,45 +583,173 @@
             flex-shrink: 0;
         }
 
-        /* Manifesto Section (Philosophie) */
-        .sic-manifesto {
+        /* Section Deal Transparent ("Pourquoi est-ce gratuit ?") */
+        .sic-deal {
             padding: 100px 0;
             border-bottom: 1px solid var(--color-muted);
             background-color: var(--color-paper-card);
         }
-        .manifesto-cols {
+        .deal-grid {
             display: grid;
-            grid-template-columns: 1fr 1.6fr;
-            gap: 60px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 48px;
         }
         @media (max-width: 860px) {
-            .manifesto-cols {
+            .deal-grid {
                 grid-template-columns: 1fr;
-                gap: 32px;
+                gap: 24px;
             }
         }
-        .manifesto-title {
-            font-size: clamp(34px, 4.2vw, 56px);
-            line-height: 0.95;
+        .deal-card {
+            background: var(--color-paper);
+            border: 1.5px solid var(--color-ink);
+            box-shadow: -6px 6px 0px var(--color-ink);
+            padding: 36px 28px;
+            border-radius: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .manifesto-text p {
-            font-size: 18px;
-            line-height: 1.7;
+        .deal-card:hover {
+            transform: translate(2px, -2px);
+            box-shadow: -8px 8px 0px var(--color-ink);
+        }
+        .deal-num {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-orange);
+            margin-bottom: 16px;
+            display: block;
+        }
+        .deal-title {
+            font-size: 21px;
+            font-weight: 700;
+            color: var(--color-ink);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .deal-desc {
+            font-size: 15px;
+            line-height: 1.65;
             color: var(--color-text-subtle);
-            margin-bottom: 24px;
-        }
-        .manifesto-text p:last-child {
-            margin-bottom: 0;
-        }
-        .manifesto-highlight {
-            font-size: 21px !important;
-            font-weight: 600;
-            color: var(--color-ink) !important;
-            border-left: 4px solid var(--color-orange);
-            padding-left: 20px;
         }
 
-        /* Services / Automations Section */
+        /* Table de Comparatif : Agence Web vs Boubane */
+        .sic-compare {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--color-muted);
+            background: var(--color-paper);
+        }
+        .compare-table-wrapper {
+            overflow-x: auto;
+            margin-top: 48px;
+        }
+        .compare-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 2px solid var(--color-ink);
+            box-shadow: -8px 8px 0px var(--color-ink);
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            min-width: 600px;
+        }
+        .compare-table th, .compare-table td {
+            padding: 22px 28px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-muted);
+            font-size: 15px;
+        }
+        .compare-table th {
+            background: var(--color-paper);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-ink);
+            font-weight: 700;
+        }
+        .compare-table th.col-boubane {
+            background: var(--color-orange);
+            color: #ffffff;
+            font-size: 14px;
+        }
+        .compare-table td.col-boubane {
+            background: #fffaf6;
+            font-weight: 600;
+            color: var(--color-ink);
+            border-left: 2px solid var(--color-orange);
+            border-right: 2px solid var(--color-orange);
+        }
+        .compare-table tr:last-child td {
+            border-bottom: none;
+        }
+        .compare-bad {
+            color: #b91c1c;
+            font-weight: 500;
+        }
+        .compare-good {
+            color: #15803d;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Deliverables Grid du Site Offert */
+        .sic-deliverables {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--color-muted);
+            background: var(--color-paper-card);
+        }
+        .deliv-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 48px;
+        }
+        @media (max-width: 900px) {
+            .deliv-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .deliv-card {
+            border: 1.5px solid var(--color-ink);
+            padding: 32px;
+            background: var(--color-paper);
+            border-radius: 8px;
+            box-shadow: -5px 5px 0px var(--color-ink);
+            transition: transform 0.2s ease;
+        }
+        .deliv-card:hover {
+            transform: translate(2px, -2px);
+        }
+        .deliv-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #ffffff;
+            background: var(--color-orange);
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+        .deliv-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-ink);
+            margin-bottom: 10px;
+        }
+        .deliv-desc {
+            font-size: 14.5px;
+            color: var(--color-text-subtle);
+            line-height: 1.6;
+        }
+
+        /* Section Automations IA ("Pour aller plus loin") */
         .sic-automations {
             padding: 110px 0;
             border-bottom: 1px solid var(--color-muted);
@@ -632,7 +774,7 @@
         }
         .auto-row {
             border-bottom: 1px solid var(--color-muted);
-            padding: 40px 0;
+            padding: 38px 0;
             position: relative;
             transition: background-color 0.25s ease;
         }
@@ -687,14 +829,14 @@
             border: 1px solid var(--color-orange-border);
         }
         .auto-name {
-            font-size: 26px;
+            font-size: 25px;
             font-weight: 700;
             letter-spacing: -0.02em;
             color: var(--color-ink);
             margin-bottom: 8px;
         }
         .auto-desc {
-            font-size: 16px;
+            font-size: 15.5px;
             color: var(--color-text-subtle);
             line-height: 1.6;
         }
@@ -820,7 +962,7 @@
             color: var(--color-orange);
         }
 
-        /* Méthode ("Trois étapes, zéro risque") */
+        /* Méthode ("Trois étapes vers votre site offert") */
         .sic-process {
             padding: 110px 0;
             border-bottom: 1px solid var(--color-muted);
@@ -911,79 +1053,6 @@
             font-weight: 400;
         }
 
-        /* Cas Clients ("Ce qui tourne déjà") */
-        .sic-cases {
-            padding: 110px 0;
-            border-bottom: 1px solid var(--color-muted);
-            background: var(--color-paper-card);
-        }
-        .cases-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-            margin-top: 54px;
-        }
-        @media (max-width: 860px) {
-            .cases-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .case-card {
-            border: 1.5px solid var(--color-ink);
-            padding: 36px;
-            background: var(--color-paper);
-            border-radius: 8px;
-            box-shadow: -5px 5px 0px var(--color-ink);
-            transition: transform 0.2s ease;
-        }
-        .case-card:hover {
-            transform: translate(2px, -2px);
-        }
-        .case-sector {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            color: var(--color-orange);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            margin-bottom: 12px;
-            display: block;
-        }
-        .case-impact {
-            font-size: 21px;
-            font-weight: 700;
-            color: var(--color-ink);
-            margin-bottom: 14px;
-            line-height: 1.3;
-        }
-        .case-body {
-            font-size: 15px;
-            line-height: 1.65;
-            color: var(--color-text-subtle);
-            margin-bottom: 24px;
-        }
-        .case-metrics-row {
-            display: flex;
-            gap: 20px;
-            border-top: 1px solid var(--color-muted);
-            padding-top: 18px;
-        }
-        .metric-box {
-            display: flex;
-            flex-direction: column;
-        }
-        .metric-label {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            text-transform: uppercase;
-            color: var(--color-text-subtle);
-        }
-        .metric-val {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--color-orange);
-        }
-
         /* FAQ Interactive */
         .sic-faq {
             padding: 110px 0;
@@ -1042,11 +1111,11 @@
             padding: 0;
         }
         .faq-item.active .faq-answer {
-            max-height: 250px;
+            max-height: 300px;
             padding-bottom: 28px;
         }
 
-        /* Formulaire de Contact & Prise de RDV */
+        /* Formulaire de Contact & Réservation du site */
         .sic-contact {
             padding: 120px 0;
             background: var(--color-paper-card);
@@ -1131,7 +1200,7 @@
             color: var(--color-orange);
         }
 
-        /* Modal de Visio */
+        /* Modal de Réservation */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1197,18 +1266,18 @@
 
             <nav>
                 <ul class="sic-nav-links">
-                    <li><a href="#manifeste">Philosophie</a></li>
-                    <li><a href="#automations">Automatisations</a></li>
-                    <li><a href="#simulateur">Simulateur ROI</a></li>
+                    <li><a href="#offre">Le Site Offert</a></li>
+                    <li><a href="#pourquoi">Pourquoi 0 € ?</a></li>
+                    <li><a href="#comparatif">Comparatif</a></li>
+                    <li><a href="#automations">Automatisations IA</a></li>
                     <li><a href="#methode">Méthode</a></li>
-                    <li><a href="#cases">Cas clients</a></li>
                     <li><a href="#faq">FAQ</a></li>
                 </ul>
             </nav>
 
             <div class="sic-button" onclick="openVisioModal()">
                 <button type="button">
-                    <span>Réserver une visio</span>
+                    <span>Obtenir mon site gratuit</span>
                 </button>
                 <span class="c1"></span>
                 <span class="c2"></span>
@@ -1218,54 +1287,54 @@
         </div>
     </header>
 
-    <!-- Hero Section avec Arche Architecturale du Chat Boubane -->
-    <section class="sic-hero">
+    <!-- Hero Section avec la nouvelle Offre Gratuite à vie -->
+    <section class="sic-hero" id="offre">
         <div class="sic-container">
             <div class="hero-layout">
                 <div>
-                    <div class="sic-kicker">Automatisation IA sur-mesure pour PME</div>
+                    <div class="sic-kicker">Offre transparente · Propriété à vie</div>
                     
                     <h1 class="sic-display hero-headline">
-                        NOUS AUTOMATISONS<br>
-                        CE QUI VOUS FAIT<br>
-                        <em>PERDRE DU TEMPS.</em>
+                        NOUS CRÉONS VOTRE<br>
+                        SITE WEB GRATUITEMENT.<br>
+                        <em>VOUS LE GARDEZ À VIE.</em>
                     </h1>
 
                     <p class="hero-lead">
-                        Une IA vigilante installée au bon endroit lit vos e-mails, prépare votre comptabilité et relance vos prospects <strong>dans les outils que vos équipes utilisent déjà</strong>.
+                        Design artisanal sur-mesure, vitesse d'élite et prêt pour l'IA. <strong>La création et le développement sont 100% offerts</strong>. Vous ne payez que votre hébergement et nom de domaine habituel (quelques euros par mois). Zéro frais d'agence, propriété totale.
                     </p>
 
                     <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
                         <div class="sic-button" onclick="openVisioModal()">
                             <button type="button">
-                                <span>Réserver une visio (15 min)</span>
+                                <span>Commander mon site offert (0 €)</span>
                             </button>
                             <span class="c1"></span>
                             <span class="c2"></span>
                             <span class="c3"></span>
                             <span class="c4"></span>
                         </div>
-                        <a href="#automations" style="font-size: 15px; font-weight: 700; color: var(--color-ink); text-decoration: none; padding: 16px 20px; display: inline-flex; align-items: center; gap: 6px;">
-                            Explorer nos flux →
+                        <a href="#pourquoi" style="font-size: 15px; font-weight: 700; color: var(--color-ink); text-decoration: none; padding: 16px 20px; display: inline-flex; align-items: center; gap: 6px;">
+                            Où est le piège ? (Transparence totale) →
                         </a>
                     </div>
 
                     <div class="hero-guarantees">
                         <div class="guarantee-item">
                             <div class="guarantee-icon">✓</div>
-                            <span><strong>Audit remboursé</strong> si rien d'exploitable.</span>
+                            <span><strong>Création & Design : 0 €</strong> (Offert à 100%).</span>
                         </div>
                         <div class="guarantee-item">
                             <div class="guarantee-icon">✓</div>
-                            <span><strong>Sur site partout en France</strong> ou en visio.</span>
+                            <span><strong>Propriété du site : À vous pour toujours</strong>.</span>
                         </div>
                         <div class="guarantee-item">
                             <div class="guarantee-icon">✓</div>
-                            <span><strong>Formation incluse</strong> dans chaque projet.</span>
+                            <span><strong>Votre seul coût : Hébergement & Domaine</strong> (~8€/m).</span>
                         </div>
                         <div class="guarantee-item">
                             <div class="guarantee-icon">✓</div>
-                            <span><strong>Hébergement souverain</strong> : 100% chez vous.</span>
+                            <span><strong>Aucun engagement d'achat</strong> sur nos flux IA.</span>
                         </div>
                     </div>
                 </div>
@@ -1277,9 +1346,9 @@
                         <div class="arch-badge">
                             <div class="arch-badge-left">
                                 <div class="cat-eye-dot"></div>
-                                <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.04em;">BOUBANE · IA EN VEILLE</span>
+                                <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.04em;">BOUBANE · SITE OFFERT & IA EN VEILLE</span>
                             </div>
-                            <span style="font-family: var(--font-mono); font-size: 11px; opacity: 0.8;">24h/24 · 7j/7</span>
+                            <span style="font-family: var(--font-mono); font-size: 11px; opacity: 0.85;">24h/24 · 7j/7</span>
                         </div>
                     </div>
                 </div>
@@ -1287,46 +1356,202 @@
         </div>
     </section>
 
-    <!-- Manifesto Section (Philosophie) -->
-    <section id="manifeste" class="sic-manifesto">
+    <!-- Section "Pourquoi est-ce gratuit ? Le deal 100% transparent" -->
+    <section id="pourquoi" class="sic-deal">
         <div class="sic-container">
-            <div class="manifesto-cols">
-                <div>
-                    <span class="sic-kicker">Notre engagement</span>
-                    <h2 class="sic-display manifesto-title" style="margin-top: 14px;">
-                        Pas un abonnement<br>
-                        <em>de plus.</em>
-                    </h2>
+            <div style="max-width: 800px;">
+                <span class="sic-kicker">Transparence radicale</span>
+                <h2 class="sic-display section-title" style="margin-top: 14px;">
+                    Un site web professionnel à 0 €.<br>
+                    <em>Où est le piège ?</em>
+                </h2>
+                <p style="font-size: 18px; color: var(--color-text-subtle); line-height: 1.7; margin-top: 16px;">
+                    La plupart des agences vous facturent entre 3 000 € et 8 000 € pour créer un site vitrine, puis vous enferment dans des abonnements de maintenance captifs. Chez <strong>Boubane</strong>, nous faisons l'inverse. Voici exactement pourquoi nous vous offrons la création :
+                </p>
+            </div>
+
+            <div class="deal-grid">
+                <!-- Deal 1 -->
+                <div class="deal-card">
+                    <span class="deal-num">01 / PROUVER AVANT DE VENDRE</span>
+                    <h3 class="deal-title">Zéro risque financier pour vous</h3>
+                    <p class="deal-desc">
+                        Les longs devis commerciaux font perdre du temps. Plutôt que d'essayer de vous convaincre avec des promesses, nous vous prouvons notre niveau d'excellence technique directement en fabriquant votre site.
+                    </p>
                 </div>
-                <div class="manifesto-text">
-                    <p class="manifesto-highlight">
-                        Nous croyons qu'une entreprise n'a pas besoin d'un outil de plus. Elle a besoin que ses outils travaillent enfin ensemble.
+
+                <!-- Deal 2 -->
+                <div class="deal-card">
+                    <span class="deal-num">02 / LE SOCLE DE VOTRE IA</span>
+                    <h3 class="deal-title">Une vitrine prête pour le futur</h3>
+                    <p class="deal-desc">
+                        Pour que nos agents IA puissent capturer vos leads, pré-remplir vos devis ou gérer vos réservations, vous avez besoin d'un site ultra-rapide et bien codé. Votre nouveau site devient ce socle idéal.
                     </p>
-                    <p>
-                        Trop d'automatisations se vendent sous la forme d'abonnements SaaS opaques que personne n'utilise au bout de trois mois. Chez <strong>Boubane</strong>, nous faisons l'exact inverse : un audit qui chiffre précisément chaque flux, un développement sur-mesure et une installation directe sur votre infrastructure.
+                </div>
+
+                <!-- Deal 3 -->
+                <div class="deal-card">
+                    <span class="deal-num">03 / LIBERTÉ ABSOLUE</span>
+                    <h3 class="deal-title">Vous le gardez à vie, sans condition</h3>
+                    <p class="deal-desc">
+                        Si vous souhaitez ensuite nous confier l'automatisation de vos tâches répétitives (mails, compta, CRM), nous le ferons avec plaisir. Si vous ne voulez que le site gratuit ? Vous le gardez pour toujours. Les fichiers vous appartiennent.
                     </p>
-                    <p>
-                        Le tri des mails du matin. La compta du 15. Les devis, les relances commerciales, le rapprochement bancaire. Comme un chat attentif et agile, nos automatisations veillent sur chaque étape mécanique pour que vos équipes se concentrent sur ce qui crée réellement de la valeur.
-                    </p>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; padding: 24px; border-radius: 8px; background: var(--color-orange-soft); border: 1.5px solid var(--color-orange); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                <div style="font-size: 15px; color: var(--color-ink); font-weight: 600;">
+                    💡 <strong>La seule condition :</strong> vous payez directement votre nom de domaine (~12€/an) et votre hébergement (~8€/mois) chez l'hébergeur de votre choix (OVH, Hostinger, Vercel, Infomaniak). Nous ne prenons aucune marge dessus.
+                </div>
+                <div class="sic-button" onclick="openVisioModal()">
+                    <button type="button">
+                        <span>Réserver mon site offert</span>
+                    </button>
+                    <span class="c1"></span>
+                    <span class="c2"></span>
+                    <span class="c3"></span>
+                    <span class="c4"></span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services / Automations Section -->
+    <!-- Ce qui est inclus dans le site offert -->
+    <section class="sic-deliverables">
+        <div class="sic-container">
+            <div class="section-header">
+                <div>
+                    <span class="sic-kicker">Ce que vous recevez</span>
+                    <h2 class="sic-display section-title">
+                        Tout ce dont votre entreprise a besoin.<br>
+                        <em>Sans compromis sur la qualité.</em>
+                    </h2>
+                </div>
+                <p style="color: var(--color-text-subtle); max-width: 420px; font-size: 16px;">
+                    Pas de maquettes au rabais. Nous livrons un site web au standard des plus belles agences digitales de la Silicon Valley.
+                </p>
+            </div>
+
+            <div class="deliv-grid">
+                <!-- 01 -->
+                <div class="deliv-card">
+                    <span class="deliv-tag">Inclus · 0 €</span>
+                    <h3 class="deliv-title">Design artisanal sur-mesure</h3>
+                    <p class="deliv-desc">Une direction artistique soignée, moderne et alignée sur votre secteur d'activité. Jamais de templates WordPress lourds ou génériques.</p>
+                </div>
+
+                <!-- 02 -->
+                <div class="deliv-card">
+                    <span class="deliv-tag">Inclus · 0 €</span>
+                    <h3 class="deliv-title">Vitesse d'élite & Mobile First</h3>
+                    <p class="deliv-desc">Chargement quasi-instantané (Score Google PageSpeed 95+), optimisé pour smartphone, tablette et écran Retina haute résolution.</p>
+                </div>
+
+                <!-- 03 -->
+                <div class="deliv-card">
+                    <span class="deliv-tag">Inclus · 0 €</span>
+                    <h3 class="deliv-title">Référencement SEO & Visibilité Locale</h3>
+                    <p class="deliv-desc">Balises OpenGraph, métadonnées sémantiques propres, structure Schema.org pour positionner votre PME en tête des recherches Google.</p>
+                </div>
+
+                <!-- 04 -->
+                <div class="deliv-card">
+                    <span class="deliv-tag">Inclus · 0 €</span>
+                    <h3 class="deliv-title">Prise de rendez-vous & Formulaire</h3>
+                    <p class="deliv-desc">Connexion directe à votre agenda (Calendly, Cal.com) et boîte mail pour que vos prospects réservent en direct sans intermédiaire.</p>
+                </div>
+
+                <!-- 05 -->
+                <div class="deliv-card">
+                    <span class="deliv-tag">Inclus · 0 €</span>
+                    <h3 class="deliv-title">Propriété totale du code à vie</h3>
+                    <p class="deliv-desc">Les fichiers sources, designs et textes vous appartiennent à 100%. Vous êtes libre de changer d'hébergeur à tout moment sans frais de sortie.</p>
+                </div>
+
+                <!-- 06 -->
+                <div class="deliv-card">
+                    <span class="deliv-tag">Inclus · 0 €</span>
+                    <h3 class="deliv-title">Socle technique prêt pour l'IA</h3>
+                    <p class="deliv-desc">Une architecture prête à recevoir nos agents conversationnels intelligents, devis automatiques et synchronisations CRM.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparatif : Agence Web vs Boubane -->
+    <section id="comparatif" class="sic-compare">
+        <div class="sic-container">
+            <div style="text-align: center; max-width: 750px; margin: 0 auto;">
+                <span class="sic-kicker">Le comparatif honnête</span>
+                <h2 class="sic-display" style="font-size: clamp(38px, 5.2vw, 68px); margin-top: 14px;">
+                    Agence Web classique<br>
+                    <em>vs l'offre Boubane.</em>
+                </h2>
+                <p style="color: var(--color-text-subtle); font-size: 16px; margin-top: 12px;">
+                    Comparez par vous-même ce que vous payez ailleurs par rapport à notre engagement.
+                </p>
+            </div>
+
+            <div class="compare-table-wrapper">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>Critères</th>
+                            <th>Agence Web Traditionnelle</th>
+                            <th class="col-boubane">✦ Offre Boubane</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Frais de création & développement</strong></td>
+                            <td class="compare-bad">3 500 € à 7 000 € d'acompte</td>
+                            <td class="col-boubane"><span class="compare-good">✓ 0 € (Offert à 100%)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Propriété du site</strong></td>
+                            <td class="compare-bad">Code captif / Licences propriétaires</td>
+                            <td class="col-boubane"><span class="compare-good">✓ 100% à vous, à vie</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Abonnement de maintenance forcé</strong></td>
+                            <td class="compare-bad">120 € à 250 € / mois avec engagement</td>
+                            <td class="col-boubane"><span class="compare-good">✓ 0 € (Vous payez juste votre hébergeur ~8€)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Délai de livraison</strong></td>
+                            <td class="compare-bad">2 à 4 mois de réunions</td>
+                            <td class="col-boubane"><span class="compare-good">✓ 7 à 10 jours ouvrés</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Préparé pour l'IA & l'automatisation</strong></td>
+                            <td class="compare-bad">Non (CMS lourd et obsolète)</td>
+                            <td class="col-boubane"><span class="compare-good">✓ Oui, connectivité native prête</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Frais de sortie si vous partez</strong></td>
+                            <td class="compare-bad">Site souvent perdu ou payant à récupérer</td>
+                            <td class="col-boubane"><span class="compare-good">✓ Zéro frais, liberté absolue</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Automations Section ("Pour aller plus loin") -->
     <section id="automations" class="sic-automations">
         <div class="sic-container">
             <div class="section-header">
                 <div>
-                    <span class="sic-kicker">Ce que nous automatisons</span>
+                    <span class="sic-kicker">Pour aller plus loin · Nos automatisations IA</span>
                     <h2 class="sic-display section-title">
-                        Des automatisations qui tournent<br>
-                        <em>dans vos outils actuels.</em>
+                        Votre site est en ligne.<br>
+                        <em>Automatisons le reste de votre entreprise.</em>
                     </h2>
                 </div>
                 <div class="sic-button" onclick="openVisioModal()">
                     <button type="button">
-                        <span>Chiffrer mon projet</span>
+                        <span>Chiffrer un flux IA</span>
                     </button>
                     <span class="c1"></span>
                     <span class="c2"></span>
@@ -1403,7 +1628,7 @@
                             </div>
                             <div class="sic-flag">
                                 <span>Connecté à</span>
-                                <span>Banques, ERP, Logiciels de facturation</span>
+                                <span>Banques, ERP, Facturation</span>
                             </div>
                         </div>
                         <div class="auto-action-col" style="text-align: right;">
@@ -1419,8 +1644,8 @@
                     <div class="auto-grid">
                         <div class="auto-number">04</div>
                         <div>
-                            <h3 class="auto-name">Agents Support & Connaissances</h3>
-                            <p class="auto-desc">Un agent autonome formé sur l'ensemble de vos documentations, devis passés et FAQ. Il répond avec une précision chirurgicale, qualifie les tickets et apprend en continu de vos corrections.</p>
+                            <h3 class="auto-name">Agents Support & Connaissances (24/7)</h3>
+                            <p class="auto-desc">Un agent autonome branché directement sur votre nouveau site web, formé sur l'ensemble de vos documentations, devis passés et FAQ. Il qualifie les prospects jour et nuit.</p>
                         </div>
                         <div class="auto-flags-col">
                             <div class="sic-flag">
@@ -1500,14 +1725,14 @@
         <div class="sic-container">
             <div class="section-header">
                 <div>
-                    <span class="sic-kicker">Simulateur d'impact</span>
+                    <span class="sic-kicker">Simulateur de ROI</span>
                     <h2 class="sic-display section-title">
                         Combien d'heures perdez-vous<br>
                         <em>chaque semaine ?</em>
                     </h2>
                 </div>
                 <p style="color: var(--color-text-subtle); max-width: 420px; font-size: 16px;">
-                    Calculez instantanément le volume d'heures gaspillées sur des tâches mécaniques et votre retour sur investissement prévisionnel.
+                    En plus de votre site web offert, découvrez les gains potentiels si vous décidez d'automatiser vos tâches administratives.
                 </p>
             </div>
 
@@ -1542,7 +1767,7 @@
 
                     <div style="margin-top: 32px; padding: 18px; border-radius: 8px; background: #ffffff; border: 1.5px dashed var(--color-orange-border);">
                         <p style="font-size: 13.5px; color: var(--color-ink); line-height: 1.5;">
-                            ⚡ <strong>Garantie Boubane :</strong> chaque flux installé génère en moyenne 65% à 85% de réduction de temps de gestion dès le premier mois.
+                            ⚡ <strong>Offre combinée :</strong> votre site internet est 100% offert, et chaque flux IA déployé est amorti en moins de 30 jours.
                         </p>
                     </div>
                 </div>
@@ -1560,7 +1785,7 @@
                         </div>
 
                         <div style="font-family: var(--font-mono); font-size: 13px; color: rgba(255, 255, 255, 0.85); margin-bottom: 28px;">
-                            ✦ Rentabilité constatée : <strong>&lt; 30 jours</strong>
+                            ✦ Site Web : <strong>0 € de création</strong> · Rentabilité IA : <strong>&lt; 30 jours</strong>
                         </div>
                     </div>
 
@@ -1578,19 +1803,19 @@
         </div>
     </section>
 
-    <!-- Méthode ("Comment ça se passe") -->
+    <!-- Méthode ("Trois étapes simples vers votre site offert") -->
     <section id="methode" class="sic-process">
         <div class="sic-container">
             <div class="section-header">
                 <div>
                     <span class="sic-kicker">Comment ça se passe</span>
                     <h2 class="sic-display section-title">
-                        Trois étapes,<br>
-                        <em>zéro risque.</em>
+                        Trois étapes simples,<br>
+                        <em>votre site en ligne en 7 jours.</em>
                     </h2>
                 </div>
                 <p style="color: var(--color-text-subtle); max-width: 440px; font-size: 16px;">
-                    Vous ne vous engagez qu'une fois que vous savez exactement ce que chaque automatisation vous rapporte.
+                    Un processus fluide, transparent et sans mauvaise surprise.
                 </p>
             </div>
 
@@ -1599,36 +1824,36 @@
                 <div class="step-card">
                     <div>
                         <div class="step-num">01</div>
-                        <h3 class="step-title">La visio (30 min)</h3>
+                        <h3 class="step-title">L'Échange (15 min)</h3>
                         <p class="step-desc">
-                            30 minutes d'échange pour comprendre votre activité, vos outils actuels et repérer précisément ce qui peut être automatisé. Si on ne peut rien faire d'utile pour vous, on vous le dit immédiatement.
+                            15 minutes en visio pour comprendre votre activité, vos services clés et récupérer vos éléments (logo, photos, textes de base). Si vous n'avez pas de contenu, nous vous aidons à le structurer.
                         </p>
                     </div>
-                    <span class="step-guarantee-pill">30 min · Sans engagement</span>
+                    <span class="step-guarantee-pill">15 min · Sans engagement</span>
                 </div>
 
                 <!-- Step 2 -->
                 <div class="step-card">
                     <div>
                         <div class="step-num">02</div>
-                        <h3 class="step-title">L'audit chiffré</h3>
+                        <h3 class="step-title">La Conception (7 jours)</h3>
                         <p class="step-desc">
-                            2 à 3 heures dans vos locaux ou en visio avec vos équipes opérationnelles. Vous repartez avec un rapport complet : chaque automatisation possible, son coût précis, et ce qu'elle vous rapporte.
+                            Nous développons votre site sur-mesure de A à Z : design mobile & desktop, optimisation SEO, formulaires et vitesse de pointe. Vous validez le rendu avant mise en production.
                         </p>
                     </div>
-                    <span class="step-guarantee-pill" style="background-color: #fee2e2; color: #991b1b; border-color: #fca5a5;">Remboursé si inexploitable</span>
+                    <span class="step-guarantee-pill">0 € de frais de création</span>
                 </div>
 
                 <!-- Step 3 -->
                 <div class="step-card">
                     <div>
                         <div class="step-num">03</div>
-                        <h3 class="step-title">L'installation & formation</h3>
+                        <h3 class="step-title">La Mise en ligne & Propriété</h3>
                         <p class="step-desc">
-                            Nous développons vos automatisations, nous les installons sur votre infrastructure (serveur local ou VPS privé sécurisé) et nous formons vos équipes. Vous êtes 100% autonomes dès la livraison.
+                            Nous branchons votre site sur votre nom de domaine et votre hébergeur habituel. Les fichiers et le code vous appartiennent à 100%, pour toujours. Vous êtes libre.
                         </p>
                     </div>
-                    <span class="step-guarantee-pill">Livraison clé-en-main</span>
+                    <span class="step-guarantee-pill">Propriété à vie garantie</span>
                 </div>
             </div>
         </div>
@@ -1638,132 +1863,20 @@
     <section class="sic-banner-cta">
         <div class="sic-container">
             <h2 class="banner-headline">
-                VOTRE PROCHAINE RECRUE<br>
-                NE DORT JAMAIS.
+                VOTRE NOUVEAU SITE WEB OFFERT.<br>
+                LIVRÉ EN 7 JOURS.
             </h2>
             <p class="banner-sub">
-                Une infrastructure IA sur-mesure connectée à vos outils pour supprimer définitivement les goulets d'étranglement de votre PME.
+                0 € de frais de création. Vous ne réglez que votre hébergement et nom de domaine direct. Propriété totale à vie.
             </p>
             <div class="sic-button on-orange" onclick="openVisioModal()">
                 <button type="button">
-                    <span>Réserver une visio de 15 minutes</span>
+                    <span>Réserver la création de mon site (0 €)</span>
                 </button>
                 <span class="c1"></span>
                 <span class="c2"></span>
                 <span class="c3"></span>
                 <span class="c4"></span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cas Clients ("Ce qui tourne déjà") -->
-    <section id="cases" class="sic-cases">
-        <div class="sic-container">
-            <div class="section-header">
-                <div>
-                    <span class="sic-kicker">Cas clients</span>
-                    <h2 class="sic-display section-title">
-                        Ce qui tourne<br>
-                        <em>déjà en production.</em>
-                    </h2>
-                </div>
-                <p style="color: var(--color-text-subtle); max-width: 440px; font-size: 16px;">
-                    Des installations concrètes déployées sur les infrastructures réelles de nos clients en France.
-                </p>
-            </div>
-
-            <div class="cases-grid">
-                <!-- Cas 1 -->
-                <div class="case-card">
-                    <span class="case-sector">Métallerie d'art & BTP · 8 collaborateurs</span>
-                    <h4 class="case-impact">1 journée par mois économisée sur la clôture comptable</h4>
-                    <p class="case-body">
-                        La compta du 15 prenait une journée entière à la direction. Aujourd'hui, les factures sont ingérées par IA, rapprochées de la banque, et le récapitulatif se prépare seul. La boîte mail principale est filtrée chaque matin avec les devis urgents isolés.
-                    </p>
-                    <div class="case-metrics-row">
-                        <div class="metric-box">
-                            <span class="metric-label">Temps compta</span>
-                            <span class="metric-val">-85%</span>
-                        </div>
-                        <div class="metric-box">
-                            <span class="metric-label">Visibilité tréso</span>
-                            <span class="metric-val">Temps réel</span>
-                        </div>
-                        <div class="metric-box">
-                            <span class="metric-label">Infrastructure</span>
-                            <span class="metric-val">VPS Privé</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cas 2 -->
-                <div class="case-card">
-                    <span class="case-sector">Agence Conseil & Marketing · 14 personnes</span>
-                    <h4 class="case-impact">Campagnes et reporting automatisés à 100%</h4>
-                    <p class="case-body">
-                        Génération des synthèses de performances publicitaires, synchronisation entre Asana, Slack et les régies. L'équipe a arrêté de copier-coller des chiffres et se consacre à 100% au conseil stratégique de leurs clients.
-                    </p>
-                    <div class="case-metrics-row">
-                        <div class="metric-box">
-                            <span class="metric-label">Temps de reporting</span>
-                            <span class="metric-val">12h → 0h / sem.</span>
-                        </div>
-                        <div class="metric-box">
-                            <span class="metric-label">Satisfaction client</span>
-                            <span class="metric-val">+34%</span>
-                        </div>
-                        <div class="metric-box">
-                            <span class="metric-label">Outils connectés</span>
-                            <span class="metric-val">Slack, Asana, Ads</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cas 3 -->
-                <div class="case-card">
-                    <span class="case-sector">Gestion locative & Immobilier · Indépendant</span>
-                    <h4 class="case-impact">Un gestionnaire seul qui produit le travail d'une équipe</h4>
-                    <p class="case-body">
-                        Sept chantiers automatisés de bout en bout : pré-qualification des dossiers locataires, organisation automatique des visites, suivi des sinistres artisans et relances d'impayés. Zéro ressaisie administrative.
-                    </p>
-                    <div class="case-metrics-row">
-                        <div class="metric-box">
-                            <span class="metric-label">Dossiers traités</span>
-                            <span class="metric-val">x3 par semaine</span>
-                        </div>
-                        <div class="metric-box">
-                            <span class="metric-label">Délai de réponse</span>
-                            <span class="metric-val">&lt; 5 minutes</span>
-                        </div>
-                        <div class="metric-box">
-                            <span class="metric-label">Données</span>
-                            <span class="metric-val">100% chez l'agent</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cas 4 -->
-                <div class="case-card">
-                    <span class="case-sector">Gestion de Flotte Automobile · Groupe Européen</span>
-                    <h4 class="case-impact">Un agent IA dédié par département avec accès cloisonnés</h4>
-                    <p class="case-body">
-                        Déploiement d'agents cloisonnés selon les droits d'accès de chaque service (SAV, logistique, direction financière). Chaque agent dialogue avec la base métier sans jamais faire fuiter de données confidentielles vers l'extérieur.
-                    </p>
-                    <div class="case-metrics-row">
-                        <div class="metric-box">
-                            <span class="metric-label">Départements</span>
-                            <span class="metric-val">4 connectés</span>
-                        </div>
-                        <div class="metric-box">
-                            <span class="metric-label">Sécurité</span>
-                            <span class="metric-val">Zero-Leakage</span>
-                        </div>
-                        <div class="metric-box">
-                            <span class="metric-label">Hébergement</span>
-                            <span class="metric-val">Serveur Dédié</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -1783,66 +1896,66 @@
                 <!-- Q1 -->
                 <div class="faq-item active">
                     <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Combien de temps avant que ça tourne ?</span>
+                        <span>La création du site est-elle réellement 100% gratuite ?</span>
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        Une première visio de 30 minutes, un audit de 2 à 3 heures, puis un développement par phases. Les premières automatisations sont installées et en production dans votre entreprise en quelques semaines.
+                        Oui, absolument. Nous ne vous facturons aucun euro pour le design, le développement, l'intégration ou l'optimisation mobile de votre site. Notre travail de conception est 100% offert.
                     </div>
                 </div>
 
                 <!-- Q2 -->
                 <div class="faq-item">
                     <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Et si rien n'est automatisable chez nous ?</span>
+                        <span>Combien coûtent le nom de domaine et l'hébergement ?</span>
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        L'audit est intégralement remboursé. C'est notre engagement contractuel : vous ne payez que ce qui vous fait réellement gagner du temps et de l'argent.
+                        Ce sont les seuls frais techniques obligatoires sur Internet. Un nom de domaine coûte environ 10 à 15 € par an (.fr ou .com) et un hébergement performant coûte environ 5 à 15 € par mois (chez OVH, Hostinger, Vercel ou Infomaniak). Vous payez directement ces fournisseurs, nous ne prenons aucune commission dessus.
                     </div>
                 </div>
 
                 <!-- Q3 -->
                 <div class="faq-item">
                     <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Où sont hébergées nos données sensibles ?</span>
+                        <span>Le site m'appartient-il vraiment à vie ?</span>
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        Où vous le décidez. Sur un serveur dédié dans vos locaux ou sur un VPS privé sécurisé en France : vos données d'entreprise restent chez vous, avec des accès strictement cloisonnés par collaborateur.
+                        Oui, à 100%. Contrairement aux agences qui vous louent votre propre site ou utilisent des CMS captifs, vous recevez l'intégralité du code source et des fichiers. Vous pouvez le déplacer, le modifier ou changer d'hébergeur quand vous le souhaitez.
                     </div>
                 </div>
 
                 <!-- Q4 -->
                 <div class="faq-item">
                     <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Faut-il une équipe technique en interne ?</span>
+                        <span>Suis-je obligé d'acheter des automatisations IA par la suite ?</span>
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        Non, absolument aucune compétence technique n'est requise. Nous concevons, nous installons, nous documentons et nous formons vos équipes. Vos collaborateurs continuent d'utiliser leurs outils habituels, l'IA travaille discrètement en arrière-plan.
+                        Non, aucune obligation. Si vous ne souhaitez que le site web offert, vous le gardez sans aucune contrepartie commerciale. Si plus tard vous constatez que vous perdez du temps sur vos devis, mails ou facturation, nous serons là pour vous aider à les automatiser.
                     </div>
                 </div>
 
                 <!-- Q5 -->
                 <div class="faq-item">
                     <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Ça se branche sur nos outils actuels ?</span>
+                        <span>Et si j'ai déjà un nom de domaine ou un hébergement ?</span>
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        Oui. Boîte mail (Gmail, Outlook), CRM, logiciels comptables, tableurs, agenda, WhatsApp, ERP ou outils métiers spécifiques : les automatisations travaillent là où vos informations circulent déjà.
+                        C'est parfait ! Nous déployons simplement votre nouveau site sur votre hébergement existant et branchons votre nom de domaine actuel sans aucune coupure de service.
                     </div>
                 </div>
 
                 <!-- Q6 -->
                 <div class="faq-item">
                     <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Par quoi commence-t-on ?</span>
+                        <span>Comment démarrer la création de mon site ?</span>
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        Réservez simplement une visio de découverte de 15 à 30 minutes. C'est gratuit, sans engagement, et vous repartez déjà avec un premier diagnostic de vos opportunités d'automatisation.
+                        Remplissez simplement le formulaire ci-dessous ou réservez un créneau de 15 minutes. Nous analysons votre besoin et lançons la conception immédiatement.
                     </div>
                 </div>
             </div>
@@ -1854,13 +1967,13 @@
         <div class="sic-container">
             <div class="contact-grid">
                 <div>
-                    <span class="sic-kicker">Contact direct</span>
+                    <span class="sic-kicker">Passez à l'action</span>
                     <h2 class="sic-display contact-title">
-                        Parlez-nous de<br>
-                        <em>votre entreprise.</em>
+                        Commandez votre<br>
+                        <em>site web offert.</em>
                     </h2>
                     <p style="font-size: 17px; line-height: 1.6; color: var(--color-text-subtle); margin-bottom: 32px;">
-                        Que ce soit pour un premier échange de 15 minutes ou pour planifier votre audit sur site, nous vous répondons sous 24h ouvrées.
+                        0 € de création. Propriété totale à vie. Indiquez-nous votre entreprise et nous vous recontactons sous 24h pour démarrer.
                     </p>
                     
                     <div style="margin-bottom: 24px;">
@@ -1870,7 +1983,7 @@
 
                     <div style="display: flex; gap: 12px; align-items: center;">
                         <span class="guarantee-icon">📍</span>
-                        <span style="font-size: 14px; font-weight: 600;">Bordeaux · Paris · Déplacements partout en France</span>
+                        <span style="font-size: 14px; font-weight: 600;">Bordeaux · Paris · Déploiement partout en France</span>
                     </div>
                 </div>
 
@@ -1881,31 +1994,30 @@
                             <input class="form-input" type="text" id="formName" required placeholder="Ex: Alexandre Dubois">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="formCompany">Votre entreprise & nombre d'employés</label>
-                            <input class="form-input" type="text" id="formCompany" required placeholder="Ex: Ateliers Nova (12 pers.)">
+                            <label class="form-label" for="formCompany">Votre entreprise & activité</label>
+                            <input class="form-input" type="text" id="formCompany" required placeholder="Ex: Menuiserie Dubois (Artisanat & Pose)">
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="formEmail">Email professionnel</label>
-                            <input class="form-input" type="email" id="formEmail" required placeholder="alexandre@entreprise.fr">
+                            <input class="form-input" type="email" id="formEmail" required placeholder="alexandre@menuiserie-dubois.fr">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="formSubject">Ce qui vous fait perdre le plus de temps aujourd'hui</label>
-                            <select class="form-select" id="formSubject">
-                                <option value="mail">Le tri et le traitement des emails</option>
-                                <option value="compta">La comptabilité et la facturation</option>
-                                <option value="devis">La création et relance des devis</option>
-                                <option value="support">Le support client et questions répétitives</option>
-                                <option value="audit">Un audit complet de tous nos processus</option>
+                            <label class="form-label" for="formHosting">Votre situation actuelle</label>
+                            <select class="form-select" id="formHosting">
+                                <option value="none">Je n'ai pas encore de site ni d'hébergement (aidez-moi à choisir)</option>
+                                <option value="redesign">J'ai déjà un site existant que je veux refaire gratuitement</option>
+                                <option value="domain_only">J'ai déjà mon nom de domaine réservé</option>
+                                <option value="ai_interest">Je veux le site offert + des informations sur les flux IA</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="formMessage">Précisions supplémentaires (optionnel)</label>
-                            <textarea class="form-textarea" id="formMessage" rows="3" placeholder="Quels logiciels utilisez-vous ? Quelles tâches vous bloquent ?"></textarea>
+                            <label class="form-label" for="formMessage">Précisions sur votre projet (optionnel)</label>
+                            <textarea class="form-textarea" id="formMessage" rows="3" placeholder="Quels sont vos services clés ? Avez-vous une charte ou des photos ?"></textarea>
                         </div>
 
                         <div class="sic-button" style="width: 100%; margin-top: 10px;">
                             <button type="submit" style="width: 100%;">
-                                <span>Demander un premier diagnostic gratuit</span>
+                                <span>Demander mon site web offert (0 €)</span>
                             </button>
                             <span class="c1"></span>
                             <span class="c2"></span>
@@ -1913,7 +2025,7 @@
                             <span class="c4"></span>
                         </div>
                         <div id="formSuccess" style="display: none; margin-top: 16px; padding: 12px; background: var(--color-orange-soft); border: 1.5px solid var(--color-orange); border-radius: 6px; color: var(--color-orange); font-size: 14px; text-align: center; font-weight: 600;">
-                            ✓ Demande enregistrée ! Nous vous recontactons dans les 24h.
+                            ✓ Demande enregistrée avec succès ! Nous vous recontactons sous 24h ouvrées.
                         </div>
                     </form>
                 </div>
@@ -1930,8 +2042,10 @@
             </a>
 
             <ul class="footer-links">
-                <li><a href="#manifeste">Philosophie</a></li>
-                <li><a href="#automations">Solutions</a></li>
+                <li><a href="#offre">Le Site Offert</a></li>
+                <li><a href="#pourquoi">Pourquoi 0 € ?</a></li>
+                <li><a href="#comparatif">Comparatif</a></li>
+                <li><a href="#automations">Automatisations IA</a></li>
                 <li><a href="#methode">Méthode</a></li>
                 <li><a href="mailto:contact@boubane.io">Contact</a></li>
             </ul>
@@ -1947,52 +2061,52 @@
         <div class="sic-ribbon-content">
             <!-- Premier tour -->
             <div class="sic-ribbon-item">
-                <span>L'audit est remboursé si rien n'est exploitable</span>
+                <span>Création de site web 100% offerte</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Votre prochaine recrue ne dort jamais</span>
+                <span>Propriété à vie garantie</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Déplacement sur site partout en France</span>
+                <span>Vous ne payez que votre hébergement & domaine</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Formation de vos équipes incluse dans chaque installation</span>
+                <span>Zéro abonnement d'agence caché</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Vos données restent chez vous (Hébergement souverain)</span>
+                <span>Livraison en 7 à 10 jours</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Zéro abonnement SaaS fantôme</span>
+                <span>Prêt pour l'automatisation & l'IA</span>
                 <span class="sic-ribbon-star">✦</span>
             </div>
             <!-- Second tour pour défilement continu -->
             <div class="sic-ribbon-item">
-                <span>L'audit est remboursé si rien n'est exploitable</span>
+                <span>Création de site web 100% offerte</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Votre prochaine recrue ne dort jamais</span>
+                <span>Propriété à vie garantie</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Déplacement sur site partout en France</span>
+                <span>Vous ne payez que votre hébergement & domaine</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Formation de vos équipes incluse dans chaque installation</span>
+                <span>Zéro abonnement d'agence caché</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Vos données restent chez vous (Hébergement souverain)</span>
+                <span>Livraison en 7 à 10 jours</span>
                 <span class="sic-ribbon-star">✦</span>
-                <span>Zéro abonnement SaaS fantôme</span>
+                <span>Prêt pour l'automatisation & l'IA</span>
                 <span class="sic-ribbon-star">✦</span>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Visio -->
+    <!-- Modal de Réservation -->
     <div class="modal-overlay" id="visioModal" onclick="closeVisioModal(event)">
         <div class="modal-window" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeVisioModal()">&times;</button>
-            <div class="sic-kicker" style="margin-bottom: 8px;">Échange sans engagement</div>
+            <div class="sic-kicker" style="margin-bottom: 8px;">Offre 100% Transparente</div>
             <h3 class="sic-display" style="font-size: 38px; line-height: 0.95; margin-bottom: 16px;">
-                Réserver une visio<br>
-                <em>de 15 minutes.</em>
+                Obtenir votre site<br>
+                <em>offert à vie.</em>
             </h3>
             <p style="font-size: 15px; color: var(--color-text-subtle); margin-bottom: 24px; line-height: 1.5;">
-                Choisissez comment vous souhaitez démarrer. Nous analysons vos flux existants et vous indiquons immédiatement ce qui est automatisable.
+                Choisissez comment vous préférez démarrer : un échange direct de 15 minutes ou en remplissant votre demande en ligne.
             </p>
 
             <div style="display: flex; flex-direction: column; gap: 14px;">
-                <a href="mailto:contact@boubane.io?subject=Demande%20de%20visio%20Boubane%20(15%20min)" class="sic-button" style="width: 100%; text-align: center;">
+                <a href="mailto:contact@boubane.io?subject=Demande%20de%20site%20web%20offert%20Boubane" class="sic-button" style="width: 100%; text-align: center;">
                     <div class="sic-button-inner" style="width: 100%;">
                         <span>Envoyer un email à contact@boubane.io</span>
                     </div>
@@ -2004,7 +2118,7 @@
 
                 <button type="button" class="sic-button on-dark" onclick="scrollToContact()" style="width: 100%;">
                     <div class="sic-button-inner" style="width: 100%;">
-                        <span>Remplir le formulaire de contact</span>
+                        <span>Remplir le formulaire de réservation (0 €)</span>
                     </div>
                     <span class="c1"></span>
                     <span class="c2"></span>
@@ -2015,7 +2129,7 @@
 
             <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--color-muted); font-size: 13px; color: var(--color-text-subtle); display: flex; align-items: center; gap: 8px;">
                 <span style="color: var(--color-orange); font-weight: bold;">✦</span>
-                <span>Pas de discours commercial creux : un diagnostic concret par un technicien.</span>
+                <span>0 € de création · Propriété intégrale à vie · Zéro engagement.</span>
             </div>
         </div>
     </div>
