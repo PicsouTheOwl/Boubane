@@ -710,7 +710,200 @@
             }
         }
 
-        /* Table de Comparatif : Agence Web vs Boubane */
+        
+        /* Section Transparence des Coûts */
+        .sic-costs {
+            padding: 105px 0;
+            border-bottom: 1px solid var(--color-muted);
+            background: #ffffff;
+            position: relative;
+        }
+        .costs-header {
+            text-align: center;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .costs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 54px;
+            align-items: stretch;
+        }
+        @media (max-width: 960px) {
+            .costs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .cost-card {
+            border: 2px solid var(--color-ink);
+            border-radius: 10px;
+            background: var(--color-paper);
+            padding: 34px 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: -6px 6px 0px var(--color-ink);
+            position: relative;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .cost-card:hover {
+            transform: translate(2px, -2px);
+            box-shadow: -8px 8px 0px var(--color-ink);
+        }
+        .cost-card.highlight {
+            background: #fffaf6;
+            border-color: var(--color-orange);
+            box-shadow: -6px 6px 0px var(--color-orange);
+        }
+        .cost-card.highlight:hover {
+            box-shadow: -8px 8px 0px var(--color-orange);
+        }
+        .cost-badge {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 5px 12px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+            width: fit-content;
+        }
+        .cost-badge.free {
+            background: #15803d;
+            color: #ffffff;
+        }
+        .cost-badge.external {
+            background: var(--color-orange);
+            color: #ffffff;
+        }
+        .cost-badge.optional {
+            background: var(--color-ink);
+            color: #ffffff;
+        }
+        .cost-top {
+            margin-bottom: 24px;
+        }
+        .cost-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--color-ink);
+            margin-bottom: 6px;
+            line-height: 1.25;
+        }
+        .cost-price-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin: 14px 0 10px;
+        }
+        .cost-price {
+            font-size: clamp(38px, 4vw, 48px);
+            font-family: var(--font-display);
+            color: var(--color-ink);
+            line-height: 1;
+        }
+        .cost-price.orange {
+            color: var(--color-orange);
+        }
+        .cost-period {
+            font-size: 14px;
+            color: var(--color-text-subtle);
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+        .cost-summary {
+            font-size: 14.5px;
+            color: var(--color-text-subtle);
+            line-height: 1.55;
+            margin-bottom: 20px;
+        }
+        .cost-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 28px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            border-top: 1px dashed var(--color-muted);
+            padding-top: 20px;
+        }
+        .cost-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .cost-item-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 14px;
+            line-height: 1.45;
+            font-weight: 600;
+            color: var(--color-ink);
+        }
+        .cost-item-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cost-item-label i {
+            width: 16px;
+            height: 16px;
+            color: var(--color-orange);
+            flex-shrink: 0;
+        }
+        .cost-item-val {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .cost-item-desc {
+            font-size: 12.5px;
+            color: var(--color-text-subtle);
+            margin-left: 24px;
+            line-height: 1.4;
+        }
+        .cost-footer {
+            padding-top: 18px;
+            border-top: 1.5px solid var(--color-ink);
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .cost-footer.highlight {
+            border-top-color: var(--color-orange);
+            color: var(--color-orange);
+        }
+        .costs-callout {
+            margin-top: 48px;
+            padding: 28px 32px;
+            border-radius: 10px;
+            background: var(--color-orange-soft);
+            border: 1.5px solid var(--color-orange);
+            box-shadow: -5px 5px 0px var(--color-orange);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .costs-callout {
+                padding: 22px;
+            }
+        }
+
+/* Table de Comparatif : Agence Web vs Boubane */
         .sic-compare {
             padding: 100px 0;
             border-bottom: 1px solid var(--color-muted);
@@ -1350,6 +1543,7 @@
                     <li><a href="#offre">Mon Offre</a></li>
                     <li><a href="#pourquoi">Pourquoi 0 € ?</a></li>
                     <li><a href="#fondateur">Qui suis-je ?</a></li>
+                    <li><a href="#couts">Coûts Réels</a></li>
                     <li><a href="#comparatif">Comparatif</a></li>
                     <li><a href="#automations">Automatisations IA</a></li>
                     <li><a href="#faq">FAQ</a></li>
@@ -1395,8 +1589,8 @@
                             <span class="c3"></span>
                             <span class="c4"></span>
                         </div>
-                        <a href="#pourquoi" style="font-size: 15px; font-weight: 700; color: var(--color-ink); text-decoration: none; padding: 16px 20px; display: inline-flex; align-items: center; gap: 6px;">
-                            Où est le piège ? (Transparence totale) →
+                        <a href="#couts" style="font-size: 15px; font-weight: 700; color: var(--color-ink); text-decoration: none; padding: 16px 20px; display: inline-flex; align-items: center; gap: 6px;">
+                            Combien ça coûte vraiment ? (Grille des coûts) →
                         </a>
                     </div>
 
@@ -1411,7 +1605,7 @@
                         </div>
                         <div class="guarantee-item">
                             <div class="guarantee-icon"><i data-lucide="server"></i></div>
-                            <span><strong>Votre seul coût : Hébergement & Domaine</strong> (~8€/m).</span>
+                            <span><strong>Vos seuls coûts réels :</strong> Domaine (~12€/an) & hébergeur habituel (~8€/m).</span>
                         </div>
                         <div class="guarantee-item">
                             <div class="guarantee-icon"><i data-lucide="unlock"></i></div>
@@ -1587,6 +1781,238 @@
         </div>
     </section>
 
+
+    <!-- Section Transparence des Coûts Réels -->
+    <section id="couts" class="sic-costs">
+        <div class="sic-container">
+            <div class="costs-header">
+                <span class="sic-kicker">Transparence radicale · Zéro entourloupe</span>
+                <h2 class="sic-display" style="font-size: clamp(38px, 5.2vw, 68px); margin-top: 14px; line-height: 0.94;">
+                    Quels sont les coûts réels<br>
+                    <em>qui peuvent apparaître ?</em>
+                </h2>
+                <p style="color: var(--color-text-subtle); font-size: 16.5px; margin-top: 16px; line-height: 1.6;">
+                    Pas d'astérisque, pas de piège en petits caractères. Voici la décomposition exacte de chaque centime : ce qui est 100% offert par Boubane, ce que vous payez directement à vos prestataires d'hébergement, et ce qui reste strictement optionnel.
+                </p>
+            </div>
+
+            <div class="costs-grid">
+                <!-- Colonne 1 : La Création du Site -->
+                <div class="cost-card">
+                    <div>
+                        <div class="cost-badge free"><i data-lucide="gift"></i> 100% Offert · 0 €</div>
+                        <div class="cost-top">
+                            <h3 class="cost-title">Création & Livraison du Site Web</h3>
+                            <div class="cost-price-wrap">
+                                <span class="cost-price">0 €</span>
+                                <span class="cost-period">/ À vie (Facture Boubane : 0 €)</span>
+                            </div>
+                            <p class="cost-summary">
+                                Je conçois, code, teste et optimise votre site de A à Z. Aucun acompte, aucun honoraire d'agence à régler.
+                            </p>
+                        </div>
+
+                        <div class="cost-list">
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="check"></i> Design sur-mesure & DA</span>
+                                    <span class="cost-item-val" style="color: #15803d;">0 €</span>
+                                </div>
+                                <span class="cost-item-desc">Création artisanale unique, zéro template WordPress lourd.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="check"></i> Dév. haute vitesse & Mobile</span>
+                                    <span class="cost-item-val" style="color: #15803d;">0 €</span>
+                                </div>
+                                <span class="cost-item-desc">Score Google PageSpeed 95+, fluide sur smartphone & Retina.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="check"></i> SEO & Métadonnées Google</span>
+                                    <span class="cost-item-val" style="color: #15803d;">0 €</span>
+                                </div>
+                                <span class="cost-item-desc">Indexation propre, OpenGraph et structure Schema.org.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="check"></i> Formulaires & Agenda</span>
+                                    <span class="cost-item-val" style="color: #15803d;">0 €</span>
+                                </div>
+                                <span class="cost-item-desc">Connexion directe avec votre boîte mail ou Calendly.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="check"></i> Propriété des fichiers à vie</span>
+                                    <span class="cost-item-val" style="color: #15803d;">0 €</span>
+                                </div>
+                                <span class="cost-item-desc">Code source libre et cédé à 100% à votre nom.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cost-footer">
+                        <span>FACTURE CRÉATION BOUBANE</span>
+                        <span style="color: #15803d; font-size: 15px;">0,00 €</span>
+                    </div>
+                </div>
+
+                <!-- Colonne 2 : Les Coûts Techniques Incompressibles (Mise en avant spéciale) -->
+                <div class="cost-card highlight">
+                    <div>
+                        <div class="cost-badge external"><i data-lucide="server"></i> Vos Seuls Coûts Réels</div>
+                        <div class="cost-top">
+                            <h3 class="cost-title">Domaine & Hébergement</h3>
+                            <div class="cost-price-wrap">
+                                <span class="cost-price orange">~8 €</span>
+                                <span class="cost-period">/ mois (direct hébergeur)</span>
+                            </div>
+                            <p class="cost-summary">
+                                <strong>La seule condition :</strong> Vous payez directement vos prestataires habituels. Je ne prends aucune commission ni intermédiaire.
+                            </p>
+                        </div>
+
+                        <div class="cost-list">
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="globe"></i> Nom de domaine (.fr, .com)</span>
+                                    <span class="cost-item-val">~10 à 15 € / an</span>
+                                </div>
+                                <span class="cost-item-desc">Payé directement chez OVH, Gandi, Cloudflare. Vous êtes l'unique titulaire légal.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="hard-drive"></i> Hébergement web sécurisé</span>
+                                    <span class="cost-item-val">0 € à 8 € / mois</span>
+                                </div>
+                                <span class="cost-item-desc">Vercel / Cloudflare (0 € pour les sites statiques) ou Hostinger/Infomaniak (~3 à 7 €/m).</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="shield-check"></i> Certificat SSL HTTPS</span>
+                                    <span class="cost-item-val" style="color: #15803d;">0 € (Inclus)</span>
+                                </div>
+                                <span class="cost-item-desc">Cadenas de sécurité automatique délivré gratuitement par l'hébergeur.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="mail"></i> Boîte mail pro (optionnel)</span>
+                                    <span class="cost-item-val">~1 € / mois</span>
+                                </div>
+                                <span class="cost-item-desc">Pour un email @votre-domaine.fr (inclus chez la plupart des hébergeurs ou OVH Mail).</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="percent"></i> Marge Boubane sur vos frais</span>
+                                    <span class="cost-item-val" style="color: var(--color-orange);">0 %</span>
+                                </div>
+                                <span class="cost-item-desc">Prix coûtant direct fournisseur. Vous gardez la main sur vos factures.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cost-footer highlight">
+                        <span>COÛT MENSUEL ESTIMÉ</span>
+                        <span style="font-size: 15px;">~5 € à 8 € / MOIS</span>
+                    </div>
+                </div>
+
+                <!-- Colonne 3 : Évolutions & Flux IA (Optionnels) -->
+                <div class="cost-card">
+                    <div>
+                        <div class="cost-badge optional"><i data-lucide="sparkles"></i> 100% Optionnel · Libre</div>
+                        <div class="cost-top">
+                            <h3 class="cost-title">Maintenance & Flux IA</h3>
+                            <div class="cost-price-wrap">
+                                <span class="cost-price">0 €</span>
+                                <span class="cost-period">/ Pas d'abonnement forcé</span>
+                            </div>
+                            <p class="cost-summary">
+                                Vous êtes 100% libre. Si vous ne voulez que le site offert, vous ne payez rien d'autre. Si vous voulez aller plus loin, c'est sur devis clair.
+                            </p>
+                        </div>
+
+                        <div class="cost-list">
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="wrench"></i> Maintenance technique</span>
+                                    <span class="cost-item-val" style="color: #15803d;">0 € / mois</span>
+                                </div>
+                                <span class="cost-item-desc">Le site est codé en statique sans plugin vulnérable. Il ne casse jamais tout seul.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="edit-3"></i> Modifications ultérieures</span>
+                                    <span class="cost-item-val">Libres ou à la carte</span>
+                                </div>
+                                <span class="cost-item-desc">Vous possédez le code source pour modifier vos textes, ou forfait ponctuel sans engagement.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="bot"></i> Automatisations IA sur-mesure</span>
+                                    <span class="cost-item-val">Sur devis fixe</span>
+                                </div>
+                                <span class="cost-item-desc">Optionnel : connexion boîte mail, compta, devis automatique ou agents 24/7.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="cpu"></i> Consommation API IA (si active)</span>
+                                    <span class="cost-item-val">Prix coûtant tiers</span>
+                                </div>
+                                <span class="cost-item-desc">Quelques centimes à quelques euros réglés directement à OpenAI/Anthropic selon votre volume.</span>
+                            </div>
+
+                            <div class="cost-item">
+                                <div class="cost-item-row">
+                                    <span class="cost-item-label"><i data-lucide="lock"></i> Durée d'engagement imposée</span>
+                                    <span class="cost-item-val" style="color: #15803d;">0 jour</span>
+                                </div>
+                                <span class="cost-item-desc">Zéro tacite reconduction, zéro frais de sortie ou de résiliation.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cost-footer">
+                        <span>ENGAGEMENT COMMERCIAL</span>
+                        <span style="font-size: 15px; color: var(--color-ink);">AUCUN</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Callout récapitulatif -->
+            <div class="costs-callout">
+                <div>
+                    <div style="font-size: 17px; font-weight: 800; color: var(--color-ink); margin-bottom: 4px;">
+                        💡 Vous avez déjà un nom de domaine ou un hébergement existant ?
+                    </div>
+                    <div style="font-size: 14.5px; color: var(--color-text-subtle); line-height: 1.5;">
+                        Dans ce cas, votre coût supplémentaire est de <strong>0,00 €</strong>. Je déploie directement le nouveau site sur votre serveur sans interrompre votre activité.
+                    </div>
+                </div>
+                <div class="sic-button" onclick="openVisioModal()">
+                    <button type="button">
+                        <span>Calculer mon coût exact en 15 min</span>
+                    </button>
+                    <span class="c1"></span>
+                    <span class="c2"></span>
+                    <span class="c3"></span>
+                    <span class="c4"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Comparatif : Agence Web vs Boubane -->
     <section id="comparatif" class="sic-compare">
         <div class="sic-container">
@@ -1620,6 +2046,11 @@
                             <td><strong>Propriété du site</strong></td>
                             <td class="compare-bad">Code captif / Licences propriétaires</td>
                             <td class="col-boubane"><span class="compare-good"><i data-lucide="check-circle-2"></i> 100% à vous, à vie</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nom de domaine & Hébergement</strong></td>
+                            <td class="compare-bad">Facturé 40 € à 120 € / mois avec marge opaque</td>
+                            <td class="col-boubane"><span class="compare-good"><i data-lucide="check-circle-2"></i> Prix coûtant direct (~8 € / mois, 0% de marge)</span></td>
                         </tr>
                         <tr>
                             <td><strong>Abonnement de maintenance forcé</strong></td>
@@ -1900,6 +2331,28 @@
             </div>
 
             <div class="faq-wrapper">
+                <!-- Q-Couts -->
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Quels sont très exactement TOUS les coûts qui peuvent apparaître ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        La règle est d'une clarté totale : <strong>0 € de création ou d'honoraires</strong> pour Boubane. Les seuls coûts techniques réels sont votre nom de domaine (~10 à 15 € par an) et votre hébergement web (~5 à 8 € par mois, voire 0 € sur Vercel selon vos besoins). Vous réglez directement ces prestataires (OVH, Hostinger, Vercel, Infomaniak), je ne prends aucune marge dessus. Pour le reste (maintenance ou automatisations IA), tout est facultatif et sans aucun abonnement forcé.
+                    </div>
+                </div>
+
+                <!-- Q-Engagement -->
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Y a-t-il des frais cachés de résiliation, de sortie ou un engagement ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Absolument aucun. Dès le site mis en ligne, vous recevez la totalité du code source et des accès. Vous êtes libre à 100% de changer d'hébergeur, d'embaucher un autre prestataire ou d'éditer vos pages sans me devoir le moindre euro.
+                    </div>
+                </div>
+
                 <!-- Q1 -->
                 <div class="faq-item active">
                     <button class="faq-question" onclick="toggleFaq(this)">
