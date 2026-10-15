@@ -94,7 +94,7 @@ function handleFormSubmit(e) {
   }, 600);
 }
 
-// 5. Initialisation au chargement
+// 5. Initialisation au chargement & Micro-interactions 3D Tilt
 document.addEventListener('DOMContentLoaded', () => {
   // Hash check pour #mentions-legales ou #contact
   if (window.location.hash === '#contact') {
@@ -102,4 +102,29 @@ document.addEventListener('DOMContentLoaded', () => {
   } else if (window.location.hash === '#mentions-legales') {
     openModal('legalModal');
   }
+
+  // Effet 3D Tilt interactif sur la carte Studio
+  const studioCard = document.querySelector('.hero-card-studio');
+  if (studioCard && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    studioCard.addEventListener('mousemove', (e) => {
+      const rect = studioCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -7;
+      const rotateY = ((x - centerX) / centerX) * 7;
+      studioCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+
+    studioCard.addEventListener('mouseleave', () => {
+      studioCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+      studioCard.style.transition = 'transform 0.4s ease';
+    });
+
+    studioCard.addEventListener('mouseenter', () => {
+      studioCard.style.transition = 'none';
+    });
+  }
 });
+

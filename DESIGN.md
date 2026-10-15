@@ -1,7 +1,7 @@
 # Boubane — Système de Design (DESIGN.md)
 
 Ce système de design est dérivé exclusivement de la couleur dominante du logo Boubane : **`#ED5B04`** (Orange vif).  
-Toutes les teintes (fond, texte, bordures, ombres, rayons) sont harmonisées avec cette teinte primaire selon l'approche **Surface-First** (Surface Decide / Learn pour une landing page d'agence d'artisanat web et d'automatisation IA pour PME).
+Toutes les teintes (fond, texte, bordures, ombres, rayons) sont harmonisées avec cette teinte primaire selon l'approche **Surface-First** (Surface Decide / Learn pour une landing page de studio digital d'élite et d'architectures IA pour entreprises ambitieuses).
 
 ```yaml
 meta:
