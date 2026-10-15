@@ -782,82 +782,306 @@ p.lead {
   background: #FFFFFF;
 }
 
-.pricing-toggle-wrap {
+/* Next-Level Segmented Control Pill */
+.pricing-segmented-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-md);
-  margin: var(--spacing-xl) 0;
+  margin: var(--spacing-xl) auto var(--spacing-md);
+  padding: 0 var(--spacing-sm);
 }
 
-.pricing-toggle-label {
+.pricing-segmented-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 5px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+  max-width: 100%;
+}
+
+.segmented-glider {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc(50% - 5px);
+  background: #FFFFFF;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pricing-segmented-control[data-active="agency"] .segmented-glider {
+  transform: translateX(0);
+}
+
+.pricing-segmented-control[data-active="boubane"] .segmented-glider {
+  transform: translateX(100%);
+}
+
+.segmented-tab {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: color var(--transition-fast);
+  transition: color 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;
 }
 
-.pricing-toggle-label.active {
+.segmented-tab:active {
+  transform: scale(0.97);
+}
+
+.segmented-tab.active {
+  color: var(--color-text);
+}
+
+#tabBoubane.active {
   color: var(--color-primary);
 }
 
-.pricing-switch {
-  position: relative;
-  width: 64px;
-  height: 34px;
-  background: var(--color-surface-subtle);
-  border: 2px solid var(--color-border-subtle);
+#tabAgency.active {
+  color: #A32626;
+}
+
+.tab-badge {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  padding: 3px 8px;
   border-radius: var(--radius-pill);
-  cursor: pointer;
-  transition: background-color var(--transition-normal);
+  border: 1px solid rgba(237, 91, 4, 0.2);
+  letter-spacing: 0.02em;
 }
 
-.pricing-switch.active {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+/* Bannière de Verdict Interactive */
+.pricing-verdict-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: var(--spacing-sm) auto var(--spacing-2xl);
+  min-height: 48px;
+  padding: 0 var(--spacing-sm);
 }
 
-.pricing-switch-handle {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 24px;
-  height: 24px;
-  background: #FFFFFF;
-  border-radius: 50%;
-  box-shadow: var(--shadow-low);
-  transition: transform var(--transition-normal) var(--elastic-ease);
+.verdict-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 0.92rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
 }
 
-.pricing-switch.active .pricing-switch-handle {
-  transform: translateX(30px);
+.verdict-inner.boubane-verdict {
+  background: rgba(34, 197, 94, 0.09);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #15803d;
 }
 
+.verdict-inner.agency-verdict {
+  background: rgba(163, 38, 38, 0.08);
+  border-color: rgba(163, 38, 38, 0.25);
+  color: #991b1b;
+}
+
+/* Grille & Cartes Tarifaires Cinématiques */
 .pricing-cards-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-xl);
-  max-width: 920px;
+  max-width: 940px;
   margin: 0 auto;
+  perspective: 1000px;
 }
 
 .pricing-plan-card {
-  background: var(--color-background);
-  border: 1px solid var(--color-border-subtle);
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--spacing-2xl);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: all var(--transition-normal);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              opacity 0.4s ease,
+              filter 0.4s ease;
+  cursor: pointer;
+  overflow: hidden;
 }
 
+.plan-header-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.plan-status-pill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+}
+
+.plan-status-pill.boubane-pill {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border: 1px solid rgba(237, 91, 4, 0.25);
+}
+
+.plan-status-pill.agency-pill {
+  background: rgba(163, 38, 38, 0.08);
+  color: #A32626;
+  border: 1px solid rgba(163, 38, 38, 0.2);
+}
+
+.offert-badge-pulse {
+  font-size: 0.95rem;
+  color: var(--color-success);
+  font-weight: 700;
+  background: var(--color-success-bg);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  animation: pulseSoft 3s infinite ease-in-out;
+}
+
+@keyframes pulseSoft {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.2); }
+  50% { transform: scale(1.03); box-shadow: 0 0 12px 2px rgba(34, 197, 94, 0.15); }
+}
+
+/* État Actif vs Inactif */
 .pricing-plan-card.highlight {
+  transform: translateY(-8px) scale(1.02);
+  opacity: 1;
+  filter: none;
+  z-index: 2;
+}
+
+#cardBoubane.highlight {
   background: #FFFFFF;
-  border: 2px solid var(--color-primary);
-  box-shadow: 0 16px 40px rgba(237, 91, 4, 0.12);
-  transform: scale(1.02);
+  border-color: var(--color-primary);
+  box-shadow: 0 24px 60px -12px rgba(237, 91, 4, 0.2), 0 0 0 2px var(--color-primary);
+}
+
+#cardAgency.highlight {
+  background: #FFFFFF;
+  border-color: #A32626;
+  box-shadow: 0 24px 60px -12px rgba(163, 38, 38, 0.16), 0 0 0 2px #A32626;
+}
+
+.pricing-plan-card.muted-card {
+  opacity: 0.52;
+  transform: translateY(4px) scale(0.98);
+  filter: grayscale(20%);
+  border-color: var(--color-border-subtle);
+  box-shadow: var(--shadow-low);
+  z-index: 1;
+}
+
+.pricing-plan-card.muted-card:hover {
+  opacity: 0.85;
+  filter: none;
+  transform: translateY(0) scale(0.99);
+  box-shadow: var(--shadow-mid);
+}
+
+/* Items & micro-animations */
+.pricing-features-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+.pricing-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+}
+
+.pricing-plan-card.highlight .pricing-feature-item:nth-child(1) { transition-delay: 0.04s; }
+.pricing-plan-card.highlight .pricing-feature-item:nth-child(2) { transition-delay: 0.08s; }
+.pricing-plan-card.highlight .pricing-feature-item:nth-child(3) { transition-delay: 0.12s; }
+.pricing-plan-card.highlight .pricing-feature-item:nth-child(4) { transition-delay: 0.16s; }
+
+/* Bouton Shimmer CTA Boubane */
+.btn-cta-shimmer {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(237, 91, 4, 0.28);
+}
+
+.btn-cta-shimmer::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: rotate(25deg);
+  transition: none;
+  animation: btnShimmer 3.8s infinite ease-in-out;
+}
+
+@keyframes btnShimmer {
+  0% { left: -60%; }
+  30% { left: 130%; }
+  100% { left: 130%; }
+}
+
+@media screen and (max-width: 768px) {
+  .pricing-cards-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  .pricing-plan-card.highlight {
+    transform: translateY(-4px) scale(1.01);
+  }
+  .pricing-plan-card.muted-card {
+    transform: translateY(0) scale(0.99);
+  }
+  .segmented-tab {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
 }
 
 /* ==========================================================================
