@@ -172,8 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initReviewRotator();
   initPricingToggle();
 
-  // 3D Tilt sur les cartes de projets et browser flottant
-  const tiltCards = document.querySelectorAll('.hero-floating-browser, .project-card');
+  // 3D Tilt sur les cartes de projets et showcase d'auteur
+  const tiltCards = document.querySelectorAll('.hero-showcase-frame, .project-card, .pillar-card');
   if (tiltCards.length > 0 && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
     tiltCards.forEach(card => {
       card.addEventListener('mousemove', (e) => {
