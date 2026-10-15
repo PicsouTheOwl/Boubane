@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentions Légales & Confidentialité · Boubane</title>
+    <meta name="description" content="Mentions légales, politique de confidentialité RGPD et cadre juridique du site Boubane.com.">
+    <link rel="icon" type="image/png" href="assets/boubane-logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --color-orange: #ed5c01;
+            --color-orange-hover: #d34e00;
+            --color-orange-soft: #fff1ea;
+            --color-orange-border: #fecba5;
+            --color-paper: #faf9f8;
+            --color-paper-card: #ffffff;
+            --color-ink: #0c0d10;
+            --color-muted: #e7e5e4;
+            --color-text-subtle: #57534e;
+            --font-display: "Instrument Serif", Georgia, serif;
+            --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: "Space Mono", monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--color-paper);
+            color: var(--color-ink);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--color-muted);
+            margin-bottom: 40px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--color-ink);
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--color-ink);
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1.5px solid var(--color-ink);
+            border-radius: 6px;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+        .back-link:hover {
+            background: var(--color-orange-soft);
+            color: var(--color-orange);
+            border-color: var(--color-orange);
+        }
+
+        .kicker {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--color-orange);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(38px, 6vw, 56px);
+            line-height: 1.05;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--color-orange);
+        }
+
+        .intro {
+            font-size: 15px;
+            color: var(--color-text-subtle);
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--color-muted);
+        }
+
+        .card {
+            background: #ffffff;
+            border: 2px solid var(--color-ink);
+            border-radius: 12px;
+            padding: 36px;
+            margin-bottom: 32px;
+            box-shadow: -6px 6px 0px var(--color-ink);
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: var(--color-orange-soft);
+            color: var(--color-orange);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--color-orange-border);
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-ink);
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 15px;
+            color: var(--color-text-subtle);
+            margin-bottom: 12px;
+            line-height: 1.65;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 14px;
+            color: var(--color-text-subtle);
+            font-size: 15px;
+        }
+
+        li { margin-bottom: 6px; }
+
+        a {
+            color: var(--color-orange);
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-muted);
+            text-align: center;
+            font-size: 13px;
+            color: var(--color-text-subtle);
+            font-family: var(--font-mono);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="brand">
+                <img src="assets/boubane-logo.png" alt="Logo Boubane Chat">
+                <span>BOUBANE</span>
+            </a>
+            <a href="/" class="back-link">
+                <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+                <span>Retour au site</span>
+            </a>
+        </header>
+
+        <span class="kicker">Conformité Légale & RGPD</span>
+        <h1>Mentions Légales &<br><em>Confidentialité.</em></h1>
+        <p class="intro">
+            Conformément aux obligations de l’article 6-III et 19 de la Loi pour la Confiance dans l'Économie Numérique (LCEN n° 2004-575 du 21 juin 2004) et aux articles 13 et 14 du Règlement Général sur la Protection des Données (RGPD UE 2016/679).
+        </p>
+
+        <!-- 01. Éditeur -->
+        <div class="card">
+            <span class="section-tag">ARTICLE 01</span>
+            <h2>Éditeur du site et Responsable de la publication</h2>
+            <p>Le site internet accessible à l’adresse <strong>boubane.com</strong> est édité par :</p>
+            <ul>
+                <li><strong>Responsable de la publication :</strong> Léo Saillour</li>
+                <li><strong>Nom commercial / Marque :</strong> Boubane</li>
+                <li><strong>Statut juridique :</strong> Entrepreneur Individuel (EI)</li>
+                <li><strong>Activité :</strong> Conception, design et développement informatique de sites internet et solutions digitales</li>
+                <li><strong>Email de contact :</strong> <a href="mailto:contact@boubane.com">contact@boubane.com</a></li>
+                <li><strong>Pays de domiciliation :</strong> France</li>
+            </ul>
+        </div>
+
+        <!-- 02. Hébergeur -->
+        <div class="card">
+            <span class="section-tag">ARTICLE 02</span>
+            <h2>Hébergement du site</h2>
+            <p>Le site est hébergé sur les infrastructures mondiales de pointe fournies par :</p>
+            <ul>
+                <li><strong>Prestataire d’hébergement :</strong> Vercel Inc.</li>
+                <li><strong>Adresse :</strong> 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis</li>
+                <li><strong>Site officiel :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">https://vercel.com</a></li>
+                <li><strong>Contact confidentialité :</strong> privacy@vercel.com</li>
+            </ul>
+        </div>
+
+        <!-- 03. Propriété intellectuelle -->
+        <div class="card">
+            <span class="section-tag">ARTICLE 03</span>
+            <h2>Propriété intellectuelle & Droits d'auteur</h2>
+            <p>
+                L'ensemble du présent site, incluant son architecture technique, le code source, le design graphique, la mascotte du chat orange Boubane, les textes, animations et typographies, relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle.
+            </p>
+            <p>
+                Toute reproduction, représentation, modification, diffusion ou exploitation, partielle ou intégrale, de ces contenus est interdite sans accord préalable écrit de Léo Saillour, sous peine de poursuites pénales et civiles au titre de la contrefaçon (articles L.335-2 et suivants du Code de la propriété intellectuelle).
+            </p>
+        </div>
+
+        <!-- 04. RGPD -->
+        <div class="card">
+            <span class="section-tag">ARTICLE 04</span>
+            <h2>Protection des données personnelles (RGPD)</h2>
+            <p>
+                Lors de votre prise de contact via notre formulaire en ligne, des informations personnelles vous sont demandées (nom, prénom, e-mail, téléphone éventuel, description du projet de site web).
+            </p>
+            <ul>
+                <li><strong>Finalité :</strong> Répondre à votre demande, étudier la faisabilité technique du site web offert et planifier sa mise en ligne.</li>
+                <li><strong>Base juridique :</strong> Consentement de l’utilisateur (art. 6.1.a du RGPD) exprimé lors de l'envoi volontaire du formulaire.</li>
+                <li><strong>Destinataire :</strong> Léo Saillour (Boubane) exclusivement. Vos données <strong>ne sont jamais vendues, louées ou partagées</strong> avec des tiers à des fins publicitaires.</li>
+                <li><strong>Durée de conservation :</strong> 3 ans maximum après le dernier contact, après quoi elles sont supprimées.</li>
+                <li><strong>Vos droits :</strong> Vous disposez d’un droit d’accès, de rectification, d'effacement (« droit à l'oubli »), de limitation et de portabilité de vos données. Pour exercer ce droit, adressez votre demande à <a href="mailto:contact@boubane.com">contact@boubane.com</a>.</li>
+                <li><strong>Réclamation CNIL :</strong> Vous pouvez introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">cnil.fr</a>).</li>
+            </ul>
+        </div>
+
+        <!-- 05. Cookies -->
+        <div class="card">
+            <span class="section-tag">ARTICLE 05</span>
+            <h2>Politique de cookies et traceurs</h2>
+            <p>
+                Le site <strong>boubane.com</strong> applique le principe de sobriété numérique et de respect de la vie privée (Privacy by Design). <strong>Aucun cookie traceur publicitaire, aucun outil de profilage ou cookie commercial intrusif n'est déposé</strong> lors de votre visite.
+            </p>
+            <p>
+                Le site est exempté de bandeau de consentement selon les directives de la CNIL pour les plateformes sans traceurs comportementaux.
+            </p>
+        </div>
+
+        <!-- 06. Cadre de l'offre -->
+        <div class="card">
+            <span class="section-tag">ARTICLE 06</span>
+            <h2>Cadre de l'offre « Site offert à vie » & Responsabilité</h2>
+            <p>
+                La prestation de conception, design et programmation du site web est réalisée gratuitement par Boubane (0 € de frais de création, aucun abonnement d’agence captif, zéro engagement).
+            </p>
+            <p>
+                Le bénéficiaire demeure propriétaire exclusif de son site et de ses contenus. Les frais techniques obligatoires de nom de domaine et d’hébergement (estimés entre 1 € et 3 € par mois) sont souscrits et payés directement par le client auprès des prestataires tiers agréés de son choix (ex. IONOS, OVH, Vercel, Hostinger). Boubane ne perçoit aucune rétrocommission et n’assume aucune responsabilité en cas de panne ou défaillance liée aux hébergeurs tiers.
+            </p>
+        </div>
+
+        <!-- 07. Juridiction -->
+        <div class="card">
+            <span class="section-tag">ARTICLE 07</span>
+            <h2>Droit applicable et juridiction compétente</h2>
+            <p>
+                Les présentes mentions légales sont soumises au droit français. En cas de litige non résolu à l'amiable, les tribunaux français sont seuls compétents.
+            </p>
+        </div>
+
+        <footer>
+            © 2026 Boubane · Léo Saillour. Tous droits réservés.
+        </footer>
+    </div>
+
+    <script>
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    </script>
+</body>
+</html>

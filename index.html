@@ -1205,6 +1205,75 @@
             cursor: pointer;
             color: var(--color-ink);
             font-weight: bold;
+            line-height: 1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            transition: background 0.15s ease;
+        }
+        .modal-close:hover {
+            background: rgba(12, 13, 16, 0.06);
+        }
+
+        /* Modal Mentions Légales */
+        .legal-modal-window {
+            background: #ffffff;
+            border: 2px solid var(--color-ink);
+            max-width: 780px;
+            max-height: 85vh;
+            overflow-y: auto;
+            width: 100%;
+            border-radius: 14px;
+            padding: 40px;
+            position: relative;
+            box-shadow: -10px 10px 0px var(--color-ink);
+            animation: modalPop 0.25s ease-out;
+        }
+        .legal-body {
+            margin-top: 24px;
+            color: var(--color-text-subtle);
+            font-size: 14px;
+            line-height: 1.65;
+        }
+        .legal-section {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--color-muted);
+        }
+        .legal-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .legal-section h4 {
+            font-family: var(--font-sans);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-ink);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legal-section p {
+            margin-bottom: 10px;
+        }
+        .legal-section ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        .legal-section li {
+            margin-bottom: 6px;
+        }
+        .legal-tag {
+            display: inline-block;
+            background: var(--color-orange-soft);
+            color: var(--color-orange);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--color-orange-border);
         }
     </style>
     <!-- Logo Boubane Embed -->
@@ -1783,7 +1852,7 @@
                     
                     <div style="margin-bottom: 24px;">
                         <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--color-text-subtle); display: block; margin-bottom: 6px;">Email direct</span>
-                        <a href="mailto:contact@boubane.io" style="font-size: 22px; font-weight: 700; color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-orange);">contact@boubane.io</a>
+                        <a href="mailto:contact@boubane.com" style="font-size: 22px; font-weight: 700; color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-orange);">contact@boubane.com</a>
                     </div>
 
                     <div style="display: flex; gap: 12px; align-items: center;">
@@ -1847,16 +1916,16 @@
             </a>
 
             <ul class="footer-links">
-                <li><a href="#offre">Mon Offre</a></li>
-                <li><a href="#pourquoi">Pourquoi 0 € ?</a></li>
+                <li><a href="#livrables">Ce qui est inclus</a></li>
+                <li><a href="#couts">Coûts Réels</a></li>
                 <li><a href="#fondateur">Qui suis-je ?</a></li>
-                <li><a href="#comparatif">Comparatif</a></li>
-                <li><a href="#automations">Automatisations IA</a></li>
-                <li><a href="mailto:contact@boubane.io">Contact</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#mentions-legales" onclick="openLegalModal(event)" style="font-weight: 700; color: var(--color-orange);">Mentions Légales</a></li>
             </ul>
 
             <div style="font-family: var(--font-mono); font-size: 12px;">
-                © 2026 Boubane · Léo. Tous droits réservés.
+                © 2026 Boubane · Léo Saillour. Tous droits réservés.
             </div>
         </div>
     </footer>
@@ -1907,13 +1976,13 @@
                 <em>offert à vie.</em>
             </h3>
             <p style="font-size: 15px; color: var(--color-text-subtle); margin-bottom: 24px; line-height: 1.5;">
-                Choisissez comment vous préférez démarrer : un échange direct de 15 minutes ou en remplissant votre demande en ligne.
+                Choisissez comment vous préférez démarrer : un échange direct par email ou en remplissant votre demande en ligne.
             </p>
 
             <div style="display: flex; flex-direction: column; gap: 14px;">
-                <a href="mailto:contact@boubane.io?subject=Demande%20de%20site%20web%20offert%20Boubane" class="sic-button" style="width: 100%; text-align: center;">
+                <a href="mailto:contact@boubane.com?subject=Demande%20de%20site%20web%20offert%20Boubane" class="sic-button" style="width: 100%; text-align: center;">
                     <div class="sic-button-inner" style="width: 100%;">
-                        <span>Envoyer un email à contact@boubane.io</span>
+                        <span>Envoyer un email à contact@boubane.com</span>
                     </div>
                     <span class="c1"></span>
                     <span class="c2"></span>
@@ -1935,6 +2004,119 @@
             <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--color-muted); font-size: 13px; color: var(--color-text-subtle); display: flex; align-items: center; gap: 8px;">
                 <span style="color: var(--color-orange); font-weight: bold;">✦</span>
                 <span>0 € de création · Propriété intégrale à vie · Zéro engagement.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Mentions Légales & Confidentialité (Conforme LCEN & RGPD) -->
+    <div class="modal-overlay" id="legalModal" onclick="closeLegalModal(event)">
+        <div class="legal-modal-window" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeLegalModal()">&times;</button>
+            <div class="sic-kicker" style="margin-bottom: 8px;">Transparence & Conformité Juridique</div>
+            <h3 class="sic-display" style="font-size: 36px; line-height: 0.95; margin-bottom: 10px;">
+                Mentions Légales &<br>
+                <em>Politique de Confidentialité.</em>
+            </h3>
+            <p style="font-size: 13px; color: var(--color-text-subtle); margin-bottom: 22px; line-height: 1.5;">
+                Conformément aux dispositions des articles 6-III et 19 de la Loi n° 2004-575 du 21 juin 2004 pour la Confiance dans l'Économie Numérique (LCEN) et au Règlement Général sur la Protection des Données (RGPD UE 2016/679).
+            </p>
+
+            <div class="legal-body">
+                <!-- 1. Éditeur -->
+                <div class="legal-section">
+                    <h4><span class="legal-tag">01</span> Éditeur du site & Direction de la publication</h4>
+                    <p>Le site internet <strong>boubane.com</strong> est édité par :</p>
+                    <ul>
+                        <li><strong>Responsable de la publication :</strong> Léo Saillour</li>
+                        <li><strong>Nom commercial / Marque :</strong> Boubane</li>
+                        <li><strong>Statut juridique :</strong> Entrepreneur Individuel (EI)</li>
+                        <li><strong>Activité :</strong> Conception graphique, développement informatique et création de sites internet</li>
+                        <li><strong>Contact e-mail :</strong> <a href="mailto:contact@boubane.com" style="color: var(--color-orange); text-decoration: underline;">contact@boubane.com</a></li>
+                        <li><strong>Localisation :</strong> France</li>
+                    </ul>
+                </div>
+
+                <!-- 2. Hébergeur -->
+                <div class="legal-section">
+                    <h4><span class="legal-tag">02</span> Hébergement du site</h4>
+                    <p>Le site est hébergé sur une infrastructure cloud mondiale haute disponibilité gérée par :</p>
+                    <ul>
+                        <li><strong>Hébergeur :</strong> Vercel Inc.</li>
+                        <li><strong>Adresse postale :</strong> 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis</li>
+                        <li><strong>Site web officiel :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" style="color: var(--color-orange); text-decoration: underline;">https://vercel.com</a></li>
+                        <li><strong>Contact :</strong> privacy@vercel.com</li>
+                    </ul>
+                </div>
+
+                <!-- 3. Propriété intellectuelle -->
+                <div class="legal-section">
+                    <h4><span class="legal-tag">03</span> Propriété intellectuelle & Droits d'auteur</h4>
+                    <p>
+                        L’ensemble des éléments constitutifs du présent site (code source, structure éditoriale, typographies, design visuel, animations, identité de marque, mascotte et logo officiel du chat orange « Boubane ») est la propriété exclusive de Léo Saillour, au titre du droit d’auteur et de la propriété intellectuelle.
+                    </p>
+                    <p>
+                        Toute reproduction, représentation, diffusion, extraction ou modification, totale ou partielle, de l'un quelconque de ces éléments, sans accord préalable écrit, est formellement interdite et engage la responsabilité civile et pénale de son auteur au titre de la contrefaçon (articles L.335-2 et suivants du Code de la propriété intellectuelle).
+                    </p>
+                </div>
+
+                <!-- 4. Données personnelles (RGPD) -->
+                <div class="legal-section">
+                    <h4><span class="legal-tag">04</span> Protection des données personnelles & RGPD</h4>
+                    <p>
+                        Dans le cadre de l’utilisation de notre formulaire de contact ou d'échanges directs par e-mail, certaines données personnelles sont recueillies (nom, prénom, e-mail, téléphone, nature du projet digital).
+                    </p>
+                    <ul>
+                        <li><strong>Finalité du traitement :</strong> Étudier la faisabilité de votre projet de site internet offert, répondre à vos questions et convenir des étapes de mise en ligne.</li>
+                        <li><strong>Base juridique :</strong> Votre consentement exprès (art. 6.1.a du RGPD) matérialisé par l’envoi volontaire de votre demande.</li>
+                        <li><strong>Destinataire des données :</strong> Léo Saillour (Boubane) exclusivement. <strong>Aucune donnée n’est cédée, vendue, louée ou communiquée à des tiers</strong> à des fins publicitaires ou commerciales.</li>
+                        <li><strong>Durée de conservation :</strong> Les données sont conservées pour une durée maximale de 3 ans à compter du dernier contact avec l'utilisateur, après quoi elles sont définitivement détruites.</li>
+                        <li><strong>Exercice de vos droits :</strong> Conformément à la réglementation européenne, vous disposez d'un droit d'accès, de rectification, d'effacement (« droit à l'oubli »), de limitation du traitement et de portabilité de vos données. Pour exercer ce droit, écrivez simplement à <a href="mailto:contact@boubane.com" style="color: var(--color-orange); text-decoration: underline;">contact@boubane.com</a>.</li>
+                        <li><strong>Droit de réclamation :</strong> Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL (Commission Nationale de l'Informatique et des Libertés) sur <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style="color: var(--color-orange); text-decoration: underline;">cnil.fr</a>.</li>
+                    </ul>
+                </div>
+
+                <!-- 5. Cookies -->
+                <div class="legal-section">
+                    <h4><span class="legal-tag">05</span> Politique de cookies & Traceurs</h4>
+                    <p>
+                        Le site <strong>boubane.com</strong> applique une stricte démarche de minimisation des données (Privacy by Design). <strong>Aucun cookie publicitaire, aucun traceur de profilage ou cookie commercial tiers</strong> n'est utilisé lors de votre navigation.
+                    </p>
+                    <p>
+                        Le site ne nécessite ainsi aucun bandeau cookies intrusif, conformément aux dispenses de consentement de la CNIL pour les solutions exemptes de traceurs comportementaux.
+                    </p>
+                </div>
+
+                <!-- 6. Modalités de l'offre -->
+                <div class="legal-section">
+                    <h4><span class="legal-tag">06</span> Cadre de l'offre « Site web offert à vie » & Responsabilité</h4>
+                    <p>
+                        La conception graphique, l'intégration technique et le développement complet du site internet sont réalisés gratuitement par Boubane, sans frais d'agence, sans abonnement captif et sans engagement de durée.
+                    </p>
+                    <p>
+                        Le client conserve la pleine et entière propriété de son site. Les coûts techniques tiers obligatoires (nom de domaine et hébergement web, estimés entre 1 € et 3 € par mois) sont souscrits, hébergés et réglés directement par le client auprès des prestataires officiels de son choix (ex. IONOS, OVH, Vercel, Hostinger). Boubane ne perçoit aucune commission cachée et décline toute responsabilité quant aux interruptions ou dysfonctionnements imputables aux hébergeurs ou registrars tiers sélectionnés par le client.
+                    </p>
+                </div>
+
+                <!-- 7. Droit applicable -->
+                <div class="legal-section">
+                    <h4><span class="legal-tag">07</span> Droit applicable et attribution de juridiction</h4>
+                    <p>
+                        Les présentes mentions légales sont soumises à la loi française. En cas de contestation ou de litige et à défaut d'accord amiable, les tribunaux français compétents seront seuls habilités à statuer.
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--color-muted); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                <span style="font-size: 12px; color: var(--color-text-subtle); font-family: var(--font-mono);">Mise à jour : Octobre 2026</span>
+                <button type="button" class="sic-button" onclick="closeLegalModal()">
+                    <div class="sic-button-inner">
+                        <span>Fermer la fenêtre</span>
+                    </div>
+                    <span class="c1"></span>
+                    <span class="c2"></span>
+                    <span class="c3"></span>
+                    <span class="c4"></span>
+                </button>
             </div>
         </div>
     </div>
@@ -2054,7 +2236,7 @@
             }
         }
 
-        // 8. Gestion de la Modal
+        // 8. Gestion des Modales (Réservation & Mentions Légales)
         function openVisioModal() {
             document.getElementById('visioModal').classList.add('active');
         }
@@ -2063,6 +2245,40 @@
             if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
             document.getElementById('visioModal').classList.remove('active');
         }
+
+        function openLegalModal(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            document.getElementById('legalModal').classList.add('active');
+            try {
+                history.pushState(null, "", "#mentions-legales");
+            } catch (err) {}
+        }
+
+        function closeLegalModal(e) {
+            if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close') && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) return;
+            document.getElementById('legalModal').classList.remove('active');
+            if (window.location.hash === '#mentions-legales') {
+                try {
+                    history.pushState("", document.title, window.location.pathname + window.location.search);
+                } catch (err) {}
+            }
+        }
+
+        // Fermeture automatique sur la touche Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeVisioModal();
+                closeLegalModal();
+            }
+        });
+
+        // Détection de l'ancre #mentions-legales dans l'URL
+        function checkLegalHash() {
+            if (window.location.hash === '#mentions-legales') {
+                document.getElementById('legalModal').classList.add('active');
+            }
+        }
+        window.addEventListener('hashchange', checkLegalHash);
 
         function scrollToContact() {
             closeVisioModal();
@@ -2093,6 +2309,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             syncBoubaneLogos();
             if (typeof lucide !== 'undefined') lucide.createIcons();
+            checkLegalHash();
         });
     </script>
 </body>
