@@ -1,6 +1,6 @@
 /* ==========================================================================
    BOUBANE — STUDIO WEB & ARCHITECTURES IA (SYSTÈME DE DESIGN WORLD-CLASS)
-   Inspiré du standard Pulsor Agency · Tokens exclusifs #ED5B04 · Surface Decide/Learn
+   Essence Pulsor Agency · Tokens exclusifs #ED5B04 · Surface Decide/Learn
    ========================================================================== */
 
 :root {
@@ -9,7 +9,7 @@
   --color-primary-hover: #D64E00;
   --color-primary-active: #BA4200;
   --color-primary-soft: #FFF2E8;
-  --color-primary-glow: rgba(237, 91, 4, 0.20);
+  --color-primary-glow: rgba(237, 91, 4, 0.22);
   --color-background: #FAF8F5;
   --color-surface: #FFFFFF;
   --color-surface-card: #FFFFFF;
@@ -32,15 +32,15 @@
   --font-mono: 'Space Mono', ui-monospace, SFMono-Regular, monospace;
 
   /* Échelle Typographique */
-  --font-size-h1: clamp(2.35rem, 5.5vw, 3.85rem);
-  --font-size-h2: clamp(1.8rem, 4vw, 2.75rem);
+  --font-size-h1: clamp(2.5rem, 6vw, 4.2rem);
+  --font-size-h2: clamp(1.85rem, 4.2vw, 2.85rem);
   --font-size-h3: 1.35rem;
   --font-size-body: 1rem;
   --font-size-body-lg: 1.15rem;
   --font-size-caption: 0.875rem;
   --font-size-small: 0.8125rem;
 
-  /* 3. Espacements (Base 8px) */
+  /* 3. Espacements */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
@@ -67,6 +67,7 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  --elastic-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ==========================================================================
@@ -98,7 +99,7 @@ body {
   padding-bottom: 76px;
 }
 
-/* Grille d'ambiance et halos incandescents de fond (Pulsor Tech Luxury) */
+/* Halo incandescent d'ambiance */
 .ambient-glow {
   position: absolute;
   top: 0;
@@ -106,13 +107,13 @@ body {
   transform: translateX(-50%);
   width: 100vw;
   max-width: 1400px;
-  height: 650px;
-  background: radial-gradient(circle at 50% 120px, rgba(237, 91, 4, 0.14), rgba(250, 248, 245, 0) 70%);
+  height: 720px;
+  background: radial-gradient(circle at 50% 120px, rgba(237, 91, 4, 0.13), rgba(250, 248, 245, 0) 72%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Canvas Dot-Grid Background (Généré en dynamique) */
+/* Canvas Dot-Grid Background */
 .dot-canvas {
   position: absolute;
   top: 0;
@@ -120,11 +121,11 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  opacity: 0.45;
+  opacity: 0.55;
   z-index: 0;
 }
 
-/* Accessibilité: Focus visible */
+/* Focus visible & sélection */
 :focus-visible {
   outline: 2px solid var(--color-border-focus) !important;
   outline-offset: 2px !important;
@@ -152,12 +153,12 @@ h1, h2, h3, h4 {
   font-family: var(--font-heading);
   color: var(--color-text);
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
 }
 
 h1 {
   font-size: var(--font-size-h1);
-  line-height: 1.08;
+  line-height: 1.05;
   margin-bottom: var(--spacing-md);
 }
 
@@ -181,18 +182,15 @@ p {
 p.lead {
   font-size: var(--font-size-body-lg);
   color: var(--color-text-muted);
-  max-width: 680px;
+  max-width: 720px;
   line-height: 1.6;
 }
 
-.text-center {
-  text-align: center;
-}
-
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
+.text-center { text-align: center; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.font-mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.text-s { font-size: var(--font-size-caption); }
+.text-xs { font-size: var(--font-size-small); }
 
 .highlight-orange {
   color: var(--color-primary);
@@ -201,35 +199,56 @@ p.lead {
 }
 
 /* ==========================================================================
-   Header & Navigation Sticky
+   Header Flottant avec Glassmorphism
    ========================================================================== */
 .header {
   position: sticky;
-  top: 0;
+  top: 16px;
   z-index: 100;
-  background-color: rgba(250, 248, 245, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border-subtle);
-  transition: background-color var(--transition-normal);
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
 }
 
-.nav-wrapper {
+.nav-pill-wrapper {
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 8px 32px rgba(14, 15, 18, 0.06);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 64px;
+  padding: 0 20px;
+  transition: all var(--transition-normal);
+}
+
+.nav-pill-wrapper:hover {
+  border-color: rgba(237, 91, 4, 0.25);
+  box-shadow: 0 12px 36px rgba(237, 91, 4, 0.08);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: 10px;
   text-decoration: none;
   color: var(--color-text);
   font-weight: 800;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   letter-spacing: -0.02em;
+}
+
+.brand-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
 }
 
 .brand-logo {
@@ -238,7 +257,7 @@ p.lead {
 }
 
 .brand:hover .brand-logo {
-  transform: rotate(-4deg) scale(1.05);
+  transform: rotate(-6deg) scale(1.08);
 }
 
 .nav-links {
@@ -254,7 +273,7 @@ p.lead {
   font-size: var(--font-size-caption);
   font-weight: 600;
   transition: color var(--transition-fast);
-  padding: 8px 4px;
+  padding: 6px 4px;
 }
 
 .nav-link:hover {
@@ -262,7 +281,7 @@ p.lead {
 }
 
 /* ==========================================================================
-   Boutons World-Class (Inspiré de Pulsor Agency avec Flèche à Double Tir)
+   Boutons World-Class Pulsor (Double Flèche Diagonale & Border Glow)
    ========================================================================== */
 .btn {
   display: inline-flex;
@@ -284,7 +303,6 @@ p.lead {
   white-space: nowrap;
 }
 
-/* Bouton Primaire Orange */
 .btn-primary {
   background-color: var(--color-primary);
   color: #FFFFFF;
@@ -297,12 +315,6 @@ p.lead {
   box-shadow: var(--shadow-glow);
 }
 
-.btn-primary:active {
-  background-color: var(--color-primary-active);
-  transform: translateY(0);
-}
-
-/* Bouton Secondaire Ciselé */
 .btn-secondary {
   background-color: #FFFFFF;
   color: var(--color-text);
@@ -314,11 +326,10 @@ p.lead {
   border-color: var(--color-primary);
   color: var(--color-primary);
   transform: translateY(-2px);
-  background-color: #FFFFFF;
   box-shadow: var(--shadow-medium);
 }
 
-/* Micro-Interaction Pulsor : Double Flèche Diagonale */
+/* Double Flèche Animée Pulsor-Style */
 .btn-arrow-double {
   display: inline-flex;
   position: relative;
@@ -352,7 +363,7 @@ p.lead {
   transform: translate(0, 0);
 }
 
-/* Badge Kicker Monospace */
+/* Badge Kicker */
 .kicker-pill {
   display: inline-flex;
   align-items: center;
@@ -392,10 +403,7 @@ p.lead {
   text-transform: uppercase;
 }
 
-.kicker-divider {
-  color: var(--color-muted);
-}
-
+.kicker-divider { color: var(--color-muted); }
 .kicker-highlight {
   font-family: var(--font-mono);
   font-weight: 700;
@@ -405,50 +413,63 @@ p.lead {
 }
 
 /* ==========================================================================
-   Hero Section World-Class
+   Hero Section Centré Pulsor-Style (Titre Massif & Tag Incrusté)
    ========================================================================== */
-.hero {
-  padding-top: var(--spacing-3xl);
+.hero-pulsor {
+  padding-top: var(--spacing-4xl);
   padding-bottom: var(--spacing-4xl);
   position: relative;
-  overflow: hidden;
+  text-align: center;
 }
 
-.hero-layout {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: var(--spacing-3xl);
-  align-items: center;
-}
-
-.hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.hero-heading-wrap {
   position: relative;
-  z-index: 2;
+  max-width: 960px;
+  margin: 0 auto var(--spacing-md);
 }
 
-.hero-actions {
+.hero-tag-inline {
+  display: inline-block;
+  vertical-align: middle;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-left: 8px;
+  transform: translateY(-4px);
+}
+
+.hero-lead-wrap {
+  max-width: 760px;
+  margin: 0 auto var(--spacing-2xl);
+}
+
+.hero-actions-center {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-xl);
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
   flex-wrap: wrap;
 }
 
-/* Social Proof Hero (Inspiré Pulsor Review Bar) */
-.hero-reviews-bar {
-  display: flex;
+/* Social Proof Bar Centrée */
+.hero-reviews-bar-center {
+  display: inline-flex;
   align-items: center;
   gap: var(--spacing-md);
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-pill);
   box-shadow: var(--shadow-low);
-  max-width: 540px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .hero-reviews-score {
@@ -464,9 +485,8 @@ p.lead {
 }
 
 .stars-svg {
-  display: flex;
-  gap: 2px;
   color: #ED5B04;
+  letter-spacing: 2px;
 }
 
 .hero-review-rotator {
@@ -474,9 +494,10 @@ p.lead {
   color: var(--color-text-muted);
   line-height: 1.4;
   overflow: hidden;
-  height: 20px;
+  height: 22px;
   position: relative;
   flex: 1;
+  text-align: left;
 }
 
 .hero-review-slide {
@@ -497,87 +518,78 @@ p.lead {
   transform: translateY(0);
 }
 
-/* Carte Interactive Visuel Hero */
-.hero-visual {
+/* ==========================================================================
+   Hero Visual Center : Showcase 3D Floating Browser & Benchmark
+   ========================================================================== */
+.hero-visual-center {
+  max-width: 980px;
+  margin: var(--spacing-3xl) auto 0;
   position: relative;
-  z-index: 2;
 }
 
-.hero-card-studio {
+.hero-floating-browser {
   background: #FFFFFF;
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-xl);
-  padding: var(--spacing-2xl);
-  box-shadow: var(--shadow-high);
-  position: relative;
+  box-shadow: 0 32px 72px -16px rgba(14, 15, 18, 0.14);
+  overflow: hidden;
   transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
-.hero-card-studio:hover {
-  transform: translateY(-4px) rotate(0.5deg);
-  box-shadow: 0 28px 56px -12px rgba(14, 15, 18, 0.16);
+.hero-floating-browser:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 40px 84px -16px rgba(237, 91, 4, 0.16);
 }
 
-.hero-mascot-container {
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
-  position: relative;
-}
-
-.hero-mascot-img {
-  max-width: 160px;
-  height: auto;
-  filter: drop-shadow(0 12px 24px rgba(237, 91, 4, 0.22));
-  transition: transform var(--transition-normal);
-}
-
-.hero-card-studio:hover .hero-mascot-img {
-  transform: scale(1.05);
-}
-
-/* Widget Benchmark Google PageSpeed */
-.benchmark-widget {
-  background: var(--color-surface-subtle);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-md);
-  margin-top: var(--spacing-md);
-}
-
-.benchmark-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--spacing-sm);
-}
-
-.benchmark-item {
-  background: #FFFFFF;
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  text-align: center;
-}
-
-.benchmark-value {
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--color-success);
+.browser-bar {
+  background: #1A1C23;
+  padding: 12px 18px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
+  justify-content: space-between;
 }
 
-.benchmark-label {
+.browser-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.browser-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot-red { background: #FF5F56; }
+.dot-yellow { background: #FFBD2E; }
+.dot-green { background: #27C93F; }
+
+.browser-url {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-  margin-top: 2px;
+  padding: 4px 16px;
+  border-radius: var(--radius-sm);
+}
+
+.browser-badge-studio {
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.browser-content-hero {
+  padding: var(--spacing-2xl);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+  background: #FFFFFF;
 }
 
 /* ==========================================================================
-   Logo Wall World-Class (Inspiré Pulsor)
+   Logo Wall & Divider Canvas
    ========================================================================== */
 .logo-wall-section {
   padding: var(--spacing-2xl) 0;
@@ -622,7 +634,7 @@ p.lead {
 }
 
 /* ==========================================================================
-   Showcase Réalisations Studio (Standard d'Élite Boubane)
+   Showcase Réalisations Studio (Layout Élite Pulsor)
    ========================================================================== */
 .portfolio-section {
   padding: var(--spacing-4xl) 0;
@@ -653,7 +665,6 @@ p.lead {
   box-shadow: var(--shadow-high);
 }
 
-/* Mockup Browser macOS */
 .browser-mockup {
   background: #1C1D22;
   border-radius: var(--radius-lg);
@@ -673,21 +684,6 @@ p.lead {
   gap: var(--spacing-sm);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
-
-.browser-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.browser-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.dot-red { background: #FF5F56; }
-.dot-yellow { background: #FFBD2E; }
-.dot-green { background: #27C93F; }
 
 .browser-address {
   background: rgba(0, 0, 0, 0.35);
@@ -719,8 +715,6 @@ p.lead {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-size: cover;
-  background-position: center;
   position: relative;
 }
 
@@ -736,7 +730,6 @@ p.lead {
   color: #FFFFFF;
 }
 
-/* Fiche Projet Détails */
 .project-details {
   padding: var(--spacing-2xl);
   display: flex;
@@ -781,27 +774,105 @@ p.lead {
   line-height: 1.6;
 }
 
-.project-actions {
+/* ==========================================================================
+   Module Toggle Offre & Transparence (Pulsor-Style Interactive Switch)
+   ========================================================================== */
+.pricing-toggle-section {
+  padding: var(--spacing-4xl) 0;
+  background: #FFFFFF;
+}
+
+.pricing-toggle-wrap {
   display: flex;
-  gap: var(--spacing-md);
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin: var(--spacing-xl) 0;
+}
+
+.pricing-toggle-label {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.pricing-toggle-label.active {
+  color: var(--color-primary);
+}
+
+.pricing-switch {
+  position: relative;
+  width: 64px;
+  height: 34px;
+  background: var(--color-surface-subtle);
+  border: 2px solid var(--color-border-subtle);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background-color var(--transition-normal);
+}
+
+.pricing-switch.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.pricing-switch-handle {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: var(--shadow-low);
+  transition: transform var(--transition-normal) var(--elastic-ease);
+}
+
+.pricing-switch.active .pricing-switch-handle {
+  transform: translateX(30px);
+}
+
+.pricing-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.pricing-plan-card {
+  background: var(--color-background);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all var(--transition-normal);
+}
+
+.pricing-plan-card.highlight {
+  background: #FFFFFF;
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 16px 40px rgba(237, 91, 4, 0.12);
+  transform: scale(1.02);
 }
 
 /* ==========================================================================
-   Simulateur de ROI Interactif (Calculateur d'Économie en Direct)
+   Simulateur de ROI
    ========================================================================== */
 .simulator-section {
   padding: var(--spacing-4xl) 0;
-  background: #FFFFFF;
+  background: var(--color-background);
   border-top: 1px solid var(--color-border-subtle);
-  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .simulator-card {
   max-width: 860px;
   margin: 0 auto;
-  background: var(--color-background);
+  background: #FFFFFF;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--spacing-3xl);
@@ -830,7 +901,7 @@ p.lead {
   width: 100%;
   height: 8px;
   border-radius: 4px;
-  background: var(--color-border-subtle);
+  background: var(--color-surface-subtle);
   outline: none;
   -webkit-appearance: none;
   accent-color: var(--color-primary);
@@ -838,7 +909,7 @@ p.lead {
 }
 
 .simulator-result-box {
-  background: #FFFFFF;
+  background: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--spacing-lg);
@@ -848,14 +919,14 @@ p.lead {
 
 .simulator-result-number {
   font-family: var(--font-mono);
-  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
   font-weight: 700;
   color: var(--color-success);
   margin: var(--spacing-xs) 0;
 }
 
 /* ==========================================================================
-   Bento Grid Livrables & Méthode
+   Bento Grid Standards
    ========================================================================== */
 .section {
   padding: var(--spacing-4xl) 0;
@@ -921,52 +992,7 @@ p.lead {
   line-height: 1.6;
 }
 
-/* Matrice Tarifaire */
-.pricing-matrix-wrap {
-  overflow-x: auto;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-medium);
-  background: #FFFFFF;
-  margin-top: var(--spacing-xl);
-}
-
-.pricing-matrix {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-.pricing-matrix th,
-.pricing-matrix td {
-  padding: 18px 24px;
-  border-bottom: 1px solid var(--color-border-subtle);
-  font-size: var(--font-size-body);
-}
-
-.pricing-matrix thead th {
-  background-color: var(--color-surface-subtle);
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--color-text);
-}
-
-.pricing-matrix tbody tr.highlight-boubane {
-  background-color: var(--color-primary-soft);
-}
-
-.badge-offert {
-  background-color: var(--color-primary);
-  color: #FFFFFF;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: var(--font-size-small);
-  display: inline-block;
-}
-
-/* Cartes Standards */
+/* Cartes Standards & FAQ */
 .card {
   background: var(--color-surface-card);
   border: 1px solid var(--color-border-subtle);
@@ -981,7 +1007,6 @@ p.lead {
   box-shadow: var(--shadow-medium);
 }
 
-/* FAQ Accordion */
 .faq-list {
   max-width: 800px;
   margin: 0 auto;
@@ -1042,30 +1067,58 @@ p.lead {
   transform: rotate(45deg);
 }
 
-/* Ruban Flottant Fixe */
-.floating-ribbon {
+/* ==========================================================================
+   Bulle Flottante Interactive (Pulsor Quick Action Button)
+   ========================================================================== */
+.floating-action-bubble {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(14, 15, 18, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(237, 91, 4, 0.3);
-  padding: 12px 24px;
+  bottom: 28px;
+  right: 28px;
+  z-index: 99;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  z-index: 99;
+  gap: 10px;
 }
 
-.floating-ribbon-text {
+.floating-bubble-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #0E0F12;
+  color: #FFFFFF;
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 8px 24px rgba(237, 91, 4, 0.35);
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.floating-bubble-btn:hover {
+  transform: scale(1.1) rotate(6deg);
+  background: var(--color-primary);
+  box-shadow: 0 12px 32px rgba(237, 91, 4, 0.5);
+}
+
+.floating-bubble-tooltip {
+  background: #0E0F12;
   color: #FFFFFF;
-  font-size: var(--font-size-caption);
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-medium);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all var(--transition-fast);
+}
+
+.floating-action-bubble:hover .floating-bubble-tooltip {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* Footer */
@@ -1097,9 +1150,7 @@ p.lead {
   transition: color var(--transition-fast);
 }
 
-.footer-link:hover {
-  color: var(--color-primary);
-}
+.footer-link:hover { color: var(--color-primary); }
 
 /* Modales */
 .modal-overlay {
@@ -1156,29 +1207,26 @@ p.lead {
   justify-content: center;
 }
 
-.modal-close:hover {
-  color: var(--color-primary);
-}
+.modal-close:hover { color: var(--color-primary); }
 
 /* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
 @media screen and (max-width: 991px) {
-  .hero-layout {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-2xl);
-  }
-
   .project-card {
     grid-template-columns: 1fr;
   }
-
   .bento-grid {
     grid-template-columns: 1fr;
   }
-
   .bento-card.highlight {
     grid-column: span 1;
+  }
+  .pricing-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .browser-content-hero {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1186,32 +1234,18 @@ p.lead {
   .nav-links {
     display: none;
   }
-
-  .hero-actions {
+  .hero-actions-center {
     flex-direction: column;
     width: 100%;
   }
-
-  .hero-actions .btn {
+  .hero-actions-center .btn {
     width: 100%;
   }
-
-  .floating-ribbon {
-    flex-direction: column;
-    gap: var(--spacing-sm);
-    text-align: center;
-    padding: 10px 16px;
-  }
-
-  .floating-ribbon .btn {
-    width: 100%;
-  }
-
-  .hero-reviews-bar {
+  .hero-reviews-bar-center {
     flex-direction: column;
     align-items: flex-start;
+    border-radius: var(--radius-md);
   }
-
   .hero-reviews-score {
     border-right: none;
     border-bottom: 1px solid var(--color-border-subtle);

@@ -1,9 +1,9 @@
 /**
- * Boubane — Komponent Interactions (World-Class Pulsor Edition)
- * Interactions légères, fluides et accessibles sans dépendances tierces lourdes.
+ * Boubane — Komponent Interactions (World-Class Pulsor Essence)
+ * Modules interactifs ultra-légers sans dépendances tierces.
  */
 
-// 1. Modale de Contact / Réservation
+// 1. Modales
 function openModal(modalId) {
   const modal = document.getElementById(modalId || 'contactModal');
   if (modal) {
@@ -24,7 +24,6 @@ function closeModal(modalId) {
   }
 }
 
-// 2. Gestion globale des clics sur overlay et touche Escape
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     const activeModal = document.querySelector('.modal-overlay.active');
@@ -38,7 +37,7 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// 3. Accordéon FAQ Accessible
+// 2. Accordéon FAQ Accessible
 function toggleFaq(btn) {
   const item = btn.closest('.faq-item');
   if (!item) return;
@@ -61,7 +60,7 @@ function toggleFaq(btn) {
   }
 }
 
-// 4. Soumission Formulaire
+// 3. Soumission Formulaire
 function handleFormSubmit(e) {
   e.preventDefault();
   const form = e.target;
@@ -92,7 +91,7 @@ function handleFormSubmit(e) {
   }, 600);
 }
 
-// 5. Canvas Dot-Grid Dynamique (Inspiré Pulsor Agency)
+// 4. Canvas Dot-Grid Dynamique (Signature Visuelle Pulsor)
 function initDotCanvas() {
   const canvas = document.getElementById('dotCanvas');
   if (!canvas) return;
@@ -103,8 +102,7 @@ function initDotCanvas() {
   let height = (canvas.height = canvas.parentElement.offsetHeight);
 
   let mouseX = width / 2;
-  let mouseY = 180;
-  let isMouseOver = false;
+  let mouseY = 200;
 
   window.addEventListener('resize', () => {
     width = canvas.width = canvas.parentElement.offsetWidth;
@@ -116,37 +114,28 @@ function initDotCanvas() {
     const rect = canvas.getBoundingClientRect();
     mouseX = e.clientX - rect.left;
     mouseY = e.clientY - rect.top;
-    isMouseOver = true;
-    requestAnimationFrame(draw);
-  });
-
-  canvas.parentElement.addEventListener('mouseleave', () => {
-    isMouseOver = false;
-    mouseX = width / 2;
-    mouseY = 180;
     requestAnimationFrame(draw);
   });
 
   function draw() {
     ctx.clearRect(0, 0, width, height);
     const spacing = 32;
-    const dotRadius = 1.2;
+    const dotRadius = 1.15;
 
     for (let x = spacing / 2; x < width; x += spacing) {
       for (let y = spacing / 2; y < height; y += spacing) {
         const dx = x - mouseX;
         const dy = y - mouseY;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 260;
+        const maxDist = 280;
 
-        // Opacité de base + amplification locale à proximité du curseur
         let alpha = 0.12;
         let radius = dotRadius;
 
         if (dist < maxDist) {
           const factor = 1 - dist / maxDist;
-          alpha += factor * 0.45;
-          radius += factor * 1.5;
+          alpha += factor * 0.48;
+          radius += factor * 1.6;
         }
 
         ctx.fillStyle = `rgba(237, 91, 4, ${alpha})`;
@@ -160,7 +149,7 @@ function initDotCanvas() {
   draw();
 }
 
-// 6. Review Rotator (Carrousel d'Avis Clients Pulsor-Style)
+// 5. Review Rotator (Carrousel d'Avis Centré Pulsor-Style)
 function initReviewRotator() {
   const slides = document.querySelectorAll('.hero-review-slide');
   if (!slides || slides.length === 0) return;
@@ -173,6 +162,46 @@ function initReviewRotator() {
   }, 3800);
 }
 
+// 6. Interactive Pricing Toggle (Switch Élastique Pulsor)
+function initPricingToggle() {
+  const switchBtn = document.getElementById('pricingSwitch');
+  const labelAgency = document.getElementById('labelAgency');
+  const labelBoubane = document.getElementById('labelBoubane');
+  const cardAgency = document.getElementById('cardAgency');
+  const cardBoubane = document.getElementById('cardBoubane');
+
+  if (!switchBtn || !cardAgency || !cardBoubane) return;
+
+  let isBoubaneMode = true; // Par défaut Boubane en avant
+
+  function setMode(boubane) {
+    isBoubaneMode = boubane;
+    if (isBoubaneMode) {
+      switchBtn.classList.add('active');
+      labelBoubane.classList.add('active');
+      labelAgency.classList.remove('active');
+      cardBoubane.classList.add('highlight');
+      cardAgency.classList.remove('highlight');
+      cardAgency.style.opacity = '0.65';
+      cardBoubane.style.opacity = '1';
+    } else {
+      switchBtn.classList.remove('active');
+      labelAgency.classList.add('active');
+      labelBoubane.classList.remove('active');
+      cardAgency.classList.add('highlight');
+      cardBoubane.classList.remove('highlight');
+      cardBoubane.style.opacity = '0.65';
+      cardAgency.style.opacity = '1';
+    }
+  }
+
+  switchBtn.addEventListener('click', () => setMode(!isBoubaneMode));
+  if (labelAgency) labelAgency.addEventListener('click', () => setMode(false));
+  if (labelBoubane) labelBoubane.addEventListener('click', () => setMode(true));
+
+  setMode(true);
+}
+
 // 7. Simulateur ROI Interactif (Calculateur en Direct)
 function initRoiSimulator() {
   const rangeInput = document.getElementById('agencyBudgetRange');
@@ -183,10 +212,8 @@ function initRoiSimulator() {
 
   function updateSavings() {
     const budget = parseInt(rangeInput.value, 10);
-    // Format français
     budgetDisplay.textContent = budget.toLocaleString('fr-FR') + ' €';
 
-    // Économie sur 3 ans : budget agence + (80 €/mois d'hébergement captif * 36) - (Boubane 0€ + ~5€/mois)
     const agencyHosting3Years = 80 * 36; // 2 880 €
     const directHosting3Years = 5 * 36;  // 180 €
     const totalSavings = budget + (agencyHosting3Years - directHosting3Years);
@@ -198,22 +225,21 @@ function initRoiSimulator() {
   updateSavings();
 }
 
-// 8. Initialisation au chargement & Micro-interactions
+// 8. Initialisation au chargement & Micro-interactions 3D Tilt
 document.addEventListener('DOMContentLoaded', () => {
-  // Hash check
   if (window.location.hash === '#contact') {
     openModal('contactModal');
   } else if (window.location.hash === '#mentions-legales') {
     openModal('legalModal');
   }
 
-  // Initialisations dynamiques
   initDotCanvas();
   initReviewRotator();
+  initPricingToggle();
   initRoiSimulator();
 
-  // 3D Tilt sur les cartes de projets et la carte Studio
-  const tiltCards = document.querySelectorAll('.hero-card-studio, .project-card, .simulator-card');
+  // 3D Tilt sur les cartes de projets et browser flottant
+  const tiltCards = document.querySelectorAll('.hero-floating-browser, .project-card, .simulator-card, .pricing-plan-card');
   if (tiltCards.length > 0 && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
     tiltCards.forEach(card => {
       card.addEventListener('mousemove', (e) => {
@@ -222,8 +248,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -4;
-        const rotateY = ((x - centerX) / centerX) * 4;
+        const rotateX = ((y - centerY) / centerY) * -3.5;
+        const rotateY = ((x - centerX) / centerX) * 3.5;
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
       });
 
