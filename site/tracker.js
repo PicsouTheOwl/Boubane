@@ -185,8 +185,9 @@
     }, { passive: true });
   }
 
-  // 5. Enregistrement sécurisé des Leads Formulaire
+  // 5. Enregistrement sécurisé des Leads Formulaire & Synchronisation CRM
   window.boubaneRegisterLead = function(lead) {
+    const session = getVisitorSession();
     const leadData = {
       id: 'lead_' + Math.random().toString(36).substring(2, 9),
       name: lead.name || 'Anonyme',
@@ -194,7 +195,9 @@
       message: lead.message || '',
       date: new Date().toLocaleString('fr-FR'),
       timestamp: Date.now(),
-      status: 'Nouveau'
+      status: 'Nouveau',
+      source: session ? session.source : 'Direct',
+      crmSynced: false
     };
 
     try {
@@ -203,15 +206,58 @@
       leads.unshift(leadData);
       localStorage.setItem(STORAGE_KEY_LEADS, JSON.stringify(leads));
       trackEvent('form_lead_submitted', { leadId: leadData.id, name: leadData.name });
+
+      // Synchronisation immédiate vers le CRM si configuré
+      const cfgRaw = localStorage.getItem(STORAGE_KEY_CONFIG);
+      if (cfgRaw) {
+        const cfg = JSON.parse(cfgRaw);
+        if (cfg.crmWebhookUrl && cfg.crmWebhookUrl.trim()) {
+          window.boubaneSendLeadToCrm(leadData, cfg.crmWebhookUrl)
+            .then(() => {
+              leadData.crmSynced = true;
+              localStorage.setItem(STORAGE_KEY_LEADS, JSON.stringify(leads));
+            })
+            .catch(() => {});
+        }
+      }
     } catch (e) {
       console.error('Lead register error', e);
     }
   };
 
+  // Envoi vers le Webhook CRM externe (HubSpot, Notion, Make, Zapier, Airtable, Brevo)
+  window.boubaneSendLeadToCrm = function(lead, webhookUrl) {
+    if (!webhookUrl) return Promise.reject(new Error('Aucune URL Webhook configurée'));
+    
+    const payload = {
+      event: 'lead_captured',
+      timestamp: new Date().toISOString(),
+      source: 'Boubane Studio (boubane.com)',
+      lead: {
+        id: lead.id,
+        name: lead.name,
+        email: lead.email,
+        message: lead.message,
+        date: lead.date,
+        sourceAcquisition: lead.source || 'Direct'
+      }
+    };
+
+    return fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload),
+      mode: 'no-cors'
+    });
+  };
+
   // Exposer les méthodes publiques
   window.BoubaneAnalytics = {
     track: trackEvent,
-    getVisitorSession: getVisitorSession
+    getVisitorSession: getVisitorSession,
+    sendLeadToCrm: window.boubaneSendLeadToCrm
   };
 
   // Démarrage
