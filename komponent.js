@@ -161,30 +161,7 @@ function initPricingToggle() {
   setMode(true);
 }
 
-// 7. Simulateur ROI Interactif (Calculateur en Direct)
-function initRoiSimulator() {
-  const rangeInput = document.getElementById('agencyBudgetRange');
-  const budgetDisplay = document.getElementById('agencyBudgetValue');
-  const savingsDisplay = document.getElementById('savingsNumberValue');
-
-  if (!rangeInput || !budgetDisplay || !savingsDisplay) return;
-
-  function updateSavings() {
-    const budget = parseInt(rangeInput.value, 10);
-    budgetDisplay.textContent = budget.toLocaleString('fr-FR') + ' €';
-
-    const agencyHosting3Years = 80 * 36; // 2 880 €
-    const directHosting3Years = 5 * 36;  // 180 €
-    const totalSavings = budget + (agencyHosting3Years - directHosting3Years);
-
-    savingsDisplay.textContent = totalSavings.toLocaleString('fr-FR') + ' €';
-  }
-
-  rangeInput.addEventListener('input', updateSavings);
-  updateSavings();
-}
-
-// 8. Initialisation au chargement & Micro-interactions 3D Tilt
+// 7. Initialisation au chargement & Micro-interactions 3D Tilt
 document.addEventListener('DOMContentLoaded', () => {
   if (window.location.hash === '#contact') {
     openModal('contactModal');
@@ -194,10 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initReviewRotator();
   initPricingToggle();
-  initRoiSimulator();
 
   // 3D Tilt sur les cartes de projets et browser flottant
-  const tiltCards = document.querySelectorAll('.hero-floating-browser, .project-card, .simulator-card');
+  const tiltCards = document.querySelectorAll('.hero-floating-browser, .project-card');
   if (tiltCards.length > 0 && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
     tiltCards.forEach(card => {
       card.addEventListener('mousemove', (e) => {

@@ -39,7 +39,6 @@
                     <li><a href="#realisations" class="nav-link">Réalisations</a></li>
                     <li><a href="#livrables" class="nav-link">Standards</a></li>
                     <li><a href="#tarifs" class="nav-link">Modèle 0 €</a></li>
-                    <li><a href="#simulateur" class="nav-link">Calculateur</a></li>
                     <li><a href="#qui-suis-je" class="nav-link">L'Architecte</a></li>
                     <li><a href="#faq" class="nav-link">FAQ</a></li>
                 </ul>
@@ -416,50 +415,6 @@
             </div>
         </section>
 
-        <!-- Section Simulateur ROI Interactif (Calculateur en Direct) -->
-        <section id="simulateur" class="simulator-section">
-            <div class="container">
-                <div class="section-title-wrap center">
-                    <div class="kicker-pill" style="margin-bottom: var(--spacing-sm);">
-                        <span class="kicker-label">SIMULATEUR DE TRÉSORERIE</span>
-                    </div>
-                    <h2>Calculez Vos Économies Immédiates avec Boubane</h2>
-                    <p class="lead mx-auto">
-                        Faites glisser le curseur pour voir exactement combien vous préservez en trésorerie par rapport à un devis d'agence classique.
-                    </p>
-                </div>
-
-                <div class="simulator-card">
-                    <div class="simulator-slider-wrap">
-                        <div class="simulator-slider-label">
-                            <span>Devis estimé d'une agence classique pour la création :</span>
-                            <span id="agencyBudgetValue" class="simulator-slider-value">4 500 €</span>
-                        </div>
-                        <input type="range" id="agencyBudgetRange" class="simulator-range" min="1500" max="8000" step="250" value="4500" aria-label="Devis estimé en agence">
-                    </div>
-
-                    <div class="simulator-result-box">
-                        <span style="font-family: var(--font-mono); font-size: var(--font-size-small); color: var(--color-primary); font-weight: 700; text-transform: uppercase;">
-                            ÉCONOMIE NETTE RÉALISÉE SUR 3 ANS (Création offerte + 0€ redevance)
-                        </span>
-                        <div id="savingsNumberValue" class="simulator-result-number">7 200 €</div>
-                        <p style="color: var(--color-text-muted); font-size: var(--font-size-caption); max-width: 520px; margin: 0 auto;">
-                            De la trésorerie pure réinvestie dans votre acquisition client, au lieu d'enrichir une agence intermédiaire.
-                        </p>
-                        <div style="margin-top: var(--spacing-lg);">
-                            <a href="#contact" onclick="openModal('contactModal'); return false;" class="btn btn-primary" aria-label="Réclamer mon site offert">
-                                <span>Bloquer mon site offert à 0 €</span>
-                                <span class="btn-arrow-double" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Section Bento Grid Standards Techniques -->
         <section id="livrables" class="section">
             <div class="container">
@@ -738,7 +693,6 @@
                 <li><a href="#realisations" class="footer-link">Réalisations</a></li>
                 <li><a href="#livrables" class="footer-link">Standards</a></li>
                 <li><a href="#tarifs" class="footer-link">Tarifs 0 €</a></li>
-                <li><a href="#simulateur" class="footer-link">Calculateur</a></li>
                 <li><a href="#faq" class="footer-link">FAQ</a></li>
                 <li><a href="#mentions-legales" onclick="openModal('legalModal'); return false;" class="footer-link" style="color: var(--color-primary); font-weight: 700;">Mentions Légales</a></li>
             </ul>
