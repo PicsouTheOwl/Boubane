@@ -1,6 +1,6 @@
 /**
- * Boubane — Komponent Interactions
- * Interactions légères, fluides et accessibles sans dépendances lourdes.
+ * Boubane — Komponent Interactions (World-Class Pulsor Edition)
+ * Interactions légères, fluides et accessibles sans dépendances tierces lourdes.
  */
 
 // 1. Modale de Contact / Réservation
@@ -44,7 +44,6 @@ function toggleFaq(btn) {
   if (!item) return;
   const isExpanded = item.classList.contains('active');
   
-  // Ferme les autres items pour garder une lecture épurée
   document.querySelectorAll('.faq-item').forEach(el => {
     if (el !== item) {
       el.classList.remove('active');
@@ -67,14 +66,13 @@ function handleFormSubmit(e) {
   e.preventDefault();
   const form = e.target;
   const successMessage = document.getElementById('formSuccessMessage');
-  
   const submitBtn = form.querySelector('button[type="submit"]');
+  
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Envoi en cours...';
   }
 
-  // Simulation propre (ou intégration webhook)
   setTimeout(() => {
     if (submitBtn) {
       submitBtn.disabled = false;
@@ -94,37 +92,149 @@ function handleFormSubmit(e) {
   }, 600);
 }
 
-// 5. Initialisation au chargement & Micro-interactions 3D Tilt
+// 5. Canvas Dot-Grid Dynamique (Inspiré Pulsor Agency)
+function initDotCanvas() {
+  const canvas = document.getElementById('dotCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let width = (canvas.width = canvas.parentElement.offsetWidth);
+  let height = (canvas.height = canvas.parentElement.offsetHeight);
+
+  let mouseX = width / 2;
+  let mouseY = 180;
+  let isMouseOver = false;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = canvas.parentElement.offsetWidth;
+    height = canvas.height = canvas.parentElement.offsetHeight;
+    draw();
+  });
+
+  canvas.parentElement.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+    isMouseOver = true;
+    requestAnimationFrame(draw);
+  });
+
+  canvas.parentElement.addEventListener('mouseleave', () => {
+    isMouseOver = false;
+    mouseX = width / 2;
+    mouseY = 180;
+    requestAnimationFrame(draw);
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    const spacing = 32;
+    const dotRadius = 1.2;
+
+    for (let x = spacing / 2; x < width; x += spacing) {
+      for (let y = spacing / 2; y < height; y += spacing) {
+        const dx = x - mouseX;
+        const dy = y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 260;
+
+        // Opacité de base + amplification locale à proximité du curseur
+        let alpha = 0.12;
+        let radius = dotRadius;
+
+        if (dist < maxDist) {
+          const factor = 1 - dist / maxDist;
+          alpha += factor * 0.45;
+          radius += factor * 1.5;
+        }
+
+        ctx.fillStyle = `rgba(237, 91, 4, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+
+  draw();
+}
+
+// 6. Review Rotator (Carrousel d'Avis Clients Pulsor-Style)
+function initReviewRotator() {
+  const slides = document.querySelectorAll('.hero-review-slide');
+  if (!slides || slides.length === 0) return;
+
+  let currentIndex = 0;
+  setInterval(() => {
+    slides[currentIndex].classList.remove('active');
+    currentIndex = (currentIndex + 1) % slides.length;
+    slides[currentIndex].classList.add('active');
+  }, 3800);
+}
+
+// 7. Simulateur ROI Interactif (Calculateur en Direct)
+function initRoiSimulator() {
+  const rangeInput = document.getElementById('agencyBudgetRange');
+  const budgetDisplay = document.getElementById('agencyBudgetValue');
+  const savingsDisplay = document.getElementById('savingsNumberValue');
+
+  if (!rangeInput || !budgetDisplay || !savingsDisplay) return;
+
+  function updateSavings() {
+    const budget = parseInt(rangeInput.value, 10);
+    // Format français
+    budgetDisplay.textContent = budget.toLocaleString('fr-FR') + ' €';
+
+    // Économie sur 3 ans : budget agence + (80 €/mois d'hébergement captif * 36) - (Boubane 0€ + ~5€/mois)
+    const agencyHosting3Years = 80 * 36; // 2 880 €
+    const directHosting3Years = 5 * 36;  // 180 €
+    const totalSavings = budget + (agencyHosting3Years - directHosting3Years);
+
+    savingsDisplay.textContent = totalSavings.toLocaleString('fr-FR') + ' €';
+  }
+
+  rangeInput.addEventListener('input', updateSavings);
+  updateSavings();
+}
+
+// 8. Initialisation au chargement & Micro-interactions
 document.addEventListener('DOMContentLoaded', () => {
-  // Hash check pour #mentions-legales ou #contact
+  // Hash check
   if (window.location.hash === '#contact') {
     openModal('contactModal');
   } else if (window.location.hash === '#mentions-legales') {
     openModal('legalModal');
   }
 
-  // Effet 3D Tilt interactif sur la carte Studio
-  const studioCard = document.querySelector('.hero-card-studio');
-  if (studioCard && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    studioCard.addEventListener('mousemove', (e) => {
-      const rect = studioCard.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -7;
-      const rotateY = ((x - centerX) / centerX) * 7;
-      studioCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-    });
+  // Initialisations dynamiques
+  initDotCanvas();
+  initReviewRotator();
+  initRoiSimulator();
 
-    studioCard.addEventListener('mouseleave', () => {
-      studioCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
-      studioCard.style.transition = 'transform 0.4s ease';
-    });
+  // 3D Tilt sur les cartes de projets et la carte Studio
+  const tiltCards = document.querySelectorAll('.hero-card-studio, .project-card, .simulator-card');
+  if (tiltCards.length > 0 && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -4;
+        const rotateY = ((x - centerX) / centerX) * 4;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      });
 
-    studioCard.addEventListener('mouseenter', () => {
-      studioCard.style.transition = 'none';
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+        card.style.transition = 'transform 0.4s ease';
+      });
+
+      card.addEventListener('mouseenter', () => {
+        card.style.transition = 'none';
+      });
     });
   }
 });
-
