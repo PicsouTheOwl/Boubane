@@ -162,101 +162,60 @@ function initReviewRotator() {
   }, 3800);
 }
 
-// 6. Interactive Pricing Toggle (Segmented Pill & Cinematic Cards Next-Level)
+// 6. Interactive Pricing Toggle (Mise en lumière cinématographique)
 function initPricingToggle() {
-  const control = document.querySelector('.pricing-segmented-control');
-  const tabAgency = document.getElementById('tabAgency');
-  const tabBoubane = document.getElementById('tabBoubane');
+  const switchBtn = document.getElementById('pricingSwitch');
+  const labelAgency = document.getElementById('labelAgency');
+  const labelBoubane = document.getElementById('labelBoubane');
   const cardAgency = document.getElementById('cardAgency');
   const cardBoubane = document.getElementById('cardBoubane');
-  const verdictBanner = document.getElementById('pricingVerdict');
-  const verdictInner = document.getElementById('verdictInner');
 
-  if (!cardAgency || !cardBoubane) return;
+  if (!switchBtn || !cardAgency || !cardBoubane) return;
 
-  let isBoubaneMode = true;
+  let isBoubaneMode = true; // Par défaut Boubane en avant
 
   function setMode(boubane) {
     isBoubaneMode = boubane;
 
-    if (control) {
-      control.setAttribute('data-active', isBoubaneMode ? 'boubane' : 'agency');
-    }
-
-    if (tabBoubane && tabAgency) {
-      if (isBoubaneMode) {
-        tabBoubane.classList.add('active');
-        tabBoubane.setAttribute('aria-selected', 'true');
-        tabAgency.classList.remove('active');
-        tabAgency.setAttribute('aria-selected', 'false');
-      } else {
-        tabAgency.classList.add('active');
-        tabAgency.setAttribute('aria-selected', 'true');
-        tabBoubane.classList.remove('active');
-        tabBoubane.setAttribute('aria-selected', 'false');
-      }
-    }
-
     if (isBoubaneMode) {
+      switchBtn.classList.add('active');
+      switchBtn.classList.remove('agency-active');
+      switchBtn.setAttribute('aria-checked', 'true');
+
+      if (labelBoubane) labelBoubane.classList.add('active');
+      if (labelAgency) labelAgency.classList.remove('active');
+
       cardBoubane.classList.add('highlight');
-      cardBoubane.classList.remove('muted-card');
       cardAgency.classList.remove('highlight');
-      cardAgency.classList.add('muted-card');
-
-      if (verdictInner) {
-        verdictInner.style.opacity = '0';
-        verdictInner.style.transform = 'translateY(4px)';
-        setTimeout(() => {
-          verdictInner.className = 'verdict-inner boubane-verdict';
-          verdictInner.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Impact Trésorerie : <strong>3 500 € à 5 000 € préservés</strong> immédiatement + <strong>0 € d'engagement</strong> mensuel.</span>
-          `;
-          verdictInner.style.opacity = '1';
-          verdictInner.style.transform = 'translateY(0)';
-        }, 150);
-      }
     } else {
-      cardAgency.classList.add('highlight');
-      cardAgency.classList.remove('muted-card');
-      cardBoubane.classList.remove('highlight');
-      cardBoubane.classList.add('muted-card');
+      switchBtn.classList.remove('active');
+      switchBtn.classList.add('agency-active');
+      switchBtn.setAttribute('aria-checked', 'false');
 
-      if (verdictInner) {
-        verdictInner.style.opacity = '0';
-        verdictInner.style.transform = 'translateY(4px)';
-        setTimeout(() => {
-          verdictInner.className = 'verdict-inner agency-verdict';
-          verdictInner.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span>Facture Constatée en Agence : <strong>5 400 € à 8 600 € TTC</strong> engagés sur les 24 premiers mois.</span>
-          `;
-          verdictInner.style.opacity = '1';
-          verdictInner.style.transform = 'translateY(0)';
-        }, 150);
-      }
+      if (labelAgency) labelAgency.classList.add('active');
+      if (labelBoubane) labelBoubane.classList.remove('active');
+
+      cardAgency.classList.add('highlight');
+      cardBoubane.classList.remove('highlight');
     }
   }
 
-  // Exposer pour les boutons d'appel direct
-  window.boubaneSetPricingMode = setMode;
+  switchBtn.addEventListener('click', () => setMode(!isBoubaneMode));
+  if (labelAgency) labelAgency.addEventListener('click', () => setMode(false));
+  if (labelBoubane) labelBoubane.addEventListener('click', () => setMode(true));
 
-  if (tabAgency) tabAgency.addEventListener('click', () => setMode(false));
-  if (tabBoubane) tabBoubane.addEventListener('click', () => setMode(true));
-
-  // Clic direct sur une carte pour l'activer intuitivement
+  // Clic direct sur une carte pour transférer la mise en lumière
   cardAgency.addEventListener('click', (e) => {
-    if (!e.target.closest('button, a')) {
+    if (!e.target.closest('a, button')) {
       setMode(false);
     }
   });
   cardBoubane.addEventListener('click', (e) => {
-    if (!e.target.closest('button, a')) {
+    if (!e.target.closest('a, button')) {
       setMode(true);
     }
   });
 
-  // Initialisation par défaut sur Boubane Studio (Offert)
   setMode(true);
 }
 

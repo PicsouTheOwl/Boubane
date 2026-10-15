@@ -356,90 +356,61 @@
                         Basculez entre les deux modèles pour comprendre la rupture économique de notre offre.
                     </p>
 
-                    <!-- Interactive Segmented Pill Switch Next-Level -->
-                    <div class="pricing-segmented-wrapper">
-                        <div class="pricing-segmented-control" role="tablist" aria-label="Comparateur de modèles financiers" data-active="boubane">
-                            <div id="segmentedGlider" class="segmented-glider" aria-hidden="true"></div>
-                            <button type="button" id="tabAgency" class="segmented-tab" role="tab" aria-selected="false" aria-controls="cardAgency" aria-label="Afficher le modèle Agence Traditionnelle">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                <span>Agence Traditionnelle</span>
-                            </button>
-                            <button type="button" id="tabBoubane" class="segmented-tab active" role="tab" aria-selected="true" aria-controls="cardBoubane" aria-label="Afficher le modèle Boubane Studio">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                <span>Boubane Studio</span>
-                                <span class="tab-badge">0 € OFFERT</span>
-                            </button>
+                    <!-- Interactive Switch Pulsor -->
+                    <div class="pricing-toggle-wrap">
+                        <span id="labelAgency" class="pricing-toggle-label">Agence Traditionnelle</span>
+                        <div id="pricingSwitch" class="pricing-switch" role="switch" aria-checked="true" aria-label="Basculer entre Agence et Boubane">
+                            <div class="pricing-switch-handle"></div>
                         </div>
-                    </div>
-
-                    <!-- Verdict dynamique cinématique -->
-                    <div class="pricing-verdict-banner" id="pricingVerdict" aria-live="polite">
-                        <div class="verdict-inner boubane-verdict" id="verdictInner">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span>Impact Trésorerie : <strong>3 500 € à 5 000 € préservés</strong> immédiatement + <strong>0 € d'engagement</strong> mensuel.</span>
-                        </div>
+                        <span id="labelBoubane" class="pricing-toggle-label active">Boubane Studio (Offert)</span>
                     </div>
                 </div>
 
                 <div class="pricing-cards-grid">
                     <!-- Carte 1 : Agence Classique -->
-                    <div id="cardAgency" class="pricing-plan-card muted-card" tabindex="0" role="region" aria-label="Modèle Agence Web Classique">
+                    <div id="cardAgency" class="pricing-plan-card">
                         <div>
-                            <div class="plan-header-badge">
-                                <span class="font-mono text-s" style="color: #A32626; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">MODÈLE TRADITIONNEL</span>
-                                <span class="plan-status-pill agency-pill">Modèle Captif</span>
-                            </div>
-                            <h3 style="font-size: 1.6rem; margin-top: 10px; margin-bottom: 8px;">Agence Web Classique</h3>
-                            <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: #A32626; margin-bottom: 16px; line-height: 1.2;">
+                            <span class="font-mono text-s" style="color: #A32626; font-weight: 700; text-transform: uppercase;">MODÈLE TRADITIONNEL</span>
+                            <h3 style="font-size: 1.6rem; margin-top: 8px; margin-bottom: 8px;">Agence Web Classique</h3>
+                            <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: #A32626; margin-bottom: 16px;">
                                 3 500 € à 5 000 €
-                                <span style="font-size: 0.9rem; color: var(--color-text-muted); display: block; font-weight: 500; margin-top: 4px;">+ 80 € à 150 € / mois d'engagement</span>
+                                <span style="font-size: 0.9rem; color: var(--color-text-muted); display: block; font-weight: 500;">+ 80 € à 150 € / mois d'engagement</span>
                             </div>
-                            <ul class="pricing-features-list">
-                                <li class="pricing-feature-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Frais de création élevés et souvent opaques</span></li>
-                                <li class="pricing-feature-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>CMS lourd imposé (WordPress, plugins obsolètes)</span></li>
-                                <li class="pricing-feature-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Engagement contractuel de 12 à 36 mois</span></li>
-                                <li class="pricing-feature-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Code et nom de domaine souvent captifs de l'agence</span></li>
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; font-size: 0.95rem;">
+                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Frais de création élevés et souvent opaques</span></li>
+                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>CMS lourd imposé (WordPress, plugins obsolètes)</span></li>
+                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Engagement contractuel de 12 à 36 mois</span></li>
+                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Code et nom de domaine souvent captifs de l'agence</span></li>
                             </ul>
                         </div>
-                        <div style="margin-top: 20px;">
-                            <p style="font-size: 0.85rem; color: var(--color-text-muted); border-top: 1px solid var(--color-border-subtle); padding-top: 14px; margin-bottom: 14px;">
-                                Un coût récurrent lourd qui pénalise votre trésorerie dès le démarrage.
-                            </p>
-                            <button type="button" class="btn btn-outline" onclick="window.boubaneSetPricingMode(true)" style="width: 100%; border-color: rgba(163, 38, 38, 0.35); color: #A32626; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
-                                <span>Éviter ces frais avec Boubane</span>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                            </button>
-                        </div>
+                        <p style="font-size: 0.85rem; color: var(--color-text-muted); border-top: 1px solid var(--color-border-subtle); padding-top: 14px;">
+                            Un coût récurrent lourd qui pénalise votre trésorerie dès le démarrage.
+                        </p>
                     </div>
 
                     <!-- Carte 2 : Boubane Studio (Offre Rupture) -->
-                    <div id="cardBoubane" class="pricing-plan-card highlight" tabindex="0" role="region" aria-label="Modèle Boubane Studio Partenariat 2026">
+                    <div id="cardBoubane" class="pricing-plan-card highlight">
                         <div>
-                            <div class="plan-header-badge">
-                                <span class="font-mono text-s" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">PARTENARIAT 2026</span>
-                                <span class="plan-status-pill boubane-pill">Rupture Économique</span>
-                            </div>
-                            <h3 style="font-size: 1.6rem; margin-top: 10px; margin-bottom: 8px;">Boubane Studio</h3>
-                            <div style="font-family: var(--font-mono); font-size: 2.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 16px; line-height: 1.2;">
-                                0 € <span class="offert-badge-pulse">OFFERT À VIE</span>
+                            <span class="font-mono text-s" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase;">PARTENARIAT 2026</span>
+                            <h3 style="font-size: 1.6rem; margin-top: 8px; margin-bottom: 8px;">Boubane Studio</h3>
+                            <div style="font-family: var(--font-mono); font-size: 2.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 16px;">
+                                0 € <span style="font-size: 1rem; color: var(--color-success); font-weight: 700; background: var(--color-success-bg); padding: 4px 10px; border-radius: var(--radius-pill); vertical-align: middle;">OFFERT À VIE</span>
                                 <span style="font-size: 0.85rem; color: var(--color-text-muted); display: block; font-weight: 500; margin-top: 4px;">Vous ne réglez que votre hébergeur direct (~5 €/mois)</span>
                             </div>
-                            <ul class="pricing-features-list">
-                                <li class="pricing-feature-item" style="color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>100% de la conception et du code pris en charge à mes frais</span></li>
-                                <li class="pricing-feature-item" style="color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Vitesse chirurgicale &lt; 0.4s (Google PageSpeed 100/100)</span></li>
-                                <li class="pricing-feature-item" style="color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Zéro engagement · Nom de domaine directement à votre nom</span></li>
-                                <li class="pricing-feature-item" style="color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Code source complet livré sur votre compte GitHub</span></li>
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; font-size: 0.95rem;">
+                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>100% de la conception et du code pris en charge à mes frais</span></li>
+                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Vitesse chirurgicale &lt; 0.4s (Google PageSpeed 100/100)</span></li>
+                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Zéro engagement · Nom de domaine directement à votre nom</span></li>
+                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Code source complet livré sur votre compte GitHub</span></li>
                             </ul>
                         </div>
-                        <div style="margin-top: 20px;">
-                            <a href="#contact" onclick="openModal('contactModal'); return false;" class="btn btn-primary btn-cta-shimmer" style="width: 100%;" aria-label="Réclamer mon site offert">
-                                <span>Réclamer mon site offert (0 €)</span>
-                                <span class="btn-arrow-double" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                                </span>
-                            </a>
-                        </div>
+                        <a href="#contact" onclick="openModal('contactModal'); return false;" class="btn btn-primary" style="width: 100%;" aria-label="Réclamer mon site offert">
+                            <span>Réclamer mon site offert (0 €)</span>
+                            <span class="btn-arrow-double" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>
