@@ -1,70 +1,120 @@
-# Boubane — Système de Design (Design System)
+# Boubane — Système de Design (DESIGN.md)
 
-Système de design extrait de **boubane.com**, conçu selon l'approche **Surface-First** pour une landing page de conversion et de réassurance (Decide / Learn).
+Ce système de design est dérivé exclusivement de la couleur dominante du logo Boubane : **`#ED5B04`** (Orange vif).  
+Toutes les teintes (fond, texte, bordures, ombres, rayons) sont harmonisées avec cette teinte primaire selon l'approche **Surface-First** (Surface Decide / Learn pour une landing page d'agence d'artisanat web et d'automatisation IA pour PME).
 
----
+```yaml
+meta:
+  name: "Boubane Design System"
+  version: "1.0.0"
+  primaryColor: "#ED5B04"
+  surfaceType: "Decide / Learn"
 
-## 1. Tokens de Design (Design Tokens)
+colors:
+  primary: "#ED5B04"
+  primary-hover: "#D64E00"
+  primary-active: "#BA4200"
+  primary-soft: "#FFF2E8"
+  background: "#FFF9F0"
+  surface: "#FFFFFF"
+  surface-card: "#FFFFFF"
+  text: "#1A1A1A"
+  text-muted: "#595959"
+  muted: "#6B6B6B"
+  border: "#ED5B0433"
+  border-subtle: "#EADCCF"
+  border-focus: "rgb(20, 110, 245)"
+  dark-surface: "#141416"
+  dark-text: "#F7F7F8"
 
-### 1.1 Palette de Couleurs (Color Palette)
-Les couleurs sont construites autour de l'orange signature du logo chat et de tons organiques contrastés :
+typography:
+  heading:
+    fontFamily: "Inter, system-ui, -apple-system, sans-serif"
+    fontSize: "2.5rem"
+    fontWeight: 600
+    lineHeight: 1.2
+    letterSpacing: "-0.02em"
+  subheading:
+    fontFamily: "Inter, system-ui, -apple-system, sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 600
+    lineHeight: 1.4
+    letterSpacing: "-0.01em"
+  body:
+    fontFamily: "Inter, system-ui, -apple-system, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.6
+  caption:
+    fontFamily: "Inter, system-ui, -apple-system, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 500
+    lineHeight: 1.4
+  mono:
+    fontFamily: "Space Mono, ui-monospace, SFMono-Regular, monospace"
+    fontSize: "0.875rem"
+    fontWeight: 700
 
-| Variable CSS | Valeur Hex / Format | Usage |
-| :--- | :--- | :--- |
-| `--color-orange` | `#ed5c01` | Couleur d'accent principale, boutons CTA, points focaux |
-| `--color-orange-hover` | `#d34e00` | État hover des boutons et éléments interactifs |
-| `--color-orange-light` | `#ff7524` | Accents lumineux, dégradés, lueurs d'ambiance |
-| `--color-orange-soft` | `#fff1ea` | Fonds de badges, tags, surbrillances douces |
-| `--color-orange-border` | `#fecba5` | Bordures de cartes actives, focus states |
-| `--color-paper` | `#faf9f8` | Surface principale (fond de page chaud et tactile) |
-| `--color-paper-card` | `#ffffff` | Surface de cartes, conteneurs surélevés |
-| `--color-ink` | `#0c0d10` | Texte principal, titres, contrastes profonds |
-| `--color-ink-card` | `#131418` | Cartes sombres contrastées (bannière finale) |
-| `--color-muted` | `#e5e2dc` | Bordures douces, séparateurs de section |
-| `--color-text-subtle` | `#5a5a64` | Textes secondaires, légendes, kickers |
+spacing:
+  xs: "4px"
+  sm: "8px"
+  md: "16px"
+  lg: "24px"
+  xl: "32px"
+  2xl: "48px"
+  3xl: "64px"
 
-### 1.2 Typographie (Typography)
+radius:
+  sm: "4px"
+  md: "12px"
+  lg: "24px"
+  xl: "40px"
+  pill: "9999px"
 
-| Variable CSS | Police | Usage |
-| :--- | :--- | :--- |
-| `--font-serif` | `'Instrument Serif', Georgia, serif` | Titres d'impact (h1, h2), italiques d'emphase |
-| `--font-sans` | `'Inter', -apple-system, sans-serif` | Corps de texte, interfaces, boutons, navigation |
-| `--font-mono` | `'Space Mono', monospace` | Kickers, chiffres, badges, étiquettes techniques |
+shadow:
+  low: "0px 1px 2px rgba(0,0,0,0.05)"
+  medium: "0px 4px 6px rgba(0,0,0,0.1)"
+  high: "0px 8px 16px rgba(0,0,0,0.15)"
+  colored: "0px 6px 16px rgba(237, 91, 4, 0.25)"
 
-### 1.3 Échelle Typographique
-- **Display / H1** : `clamp(2.5rem, 6vw, 4.2rem)`, line-height: `1.05`, letter-spacing: `-0.02em`
-- **Section Heading / H2** : `clamp(2rem, 4.5vw, 3.2rem)`, line-height: `1.15`
-- **Subheading / H3** : `1.25rem - 1.5rem`, font-weight: `600`
-- **Body Regular** : `1rem (16px)`, line-height: `1.6`
-- **Body Large** : `1.125rem (18px)`, line-height: `1.6`
-- **Small / Tag** : `0.75rem - 0.875rem`, font-weight: `600`, uppercase
+components:
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "#FFFFFF"
+    rounded: "{radius.md}"
+    padding: "12px 24px"
+    minHeight: "44px"
+    fontWeight: "600"
+  button-secondary:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.text}"
+    border: "1px solid {colors.border}"
+    rounded: "{radius.md}"
+    padding: "12px 24px"
+    minHeight: "44px"
+    fontWeight: "600"
+  card:
+    backgroundColor: "{colors.surface}"
+    border: "1px solid {colors.border}"
+    rounded: "{radius.lg}"
+    padding: "{spacing.md}"
+    shadow: "{shadow.low}"
+  badge:
+    backgroundColor: "{colors.primary-soft}"
+    textColor: "{colors.primary}"
+    border: "1px solid {colors.border}"
+    rounded: "{radius.pill}"
+    padding: "4px 12px"
 
-### 1.4 Espacements & Rayons (Spacing & Radius)
-- `--radius-sm`: `6px`
-- `--radius-md`: `12px`
-- `--radius-lg`: `20px`
-- `--radius-pill`: `9999px`
-- `--space-unit`: `8px` (multiples: 8px, 16px, 24px, 32px, 48px, 64px, 96px)
+breakpoints:
+  mobile-small: "< 479px"
+  mobile: "479px - 767px"
+  tablet: "768px - 991px"
+  desktop: ">= 992px"
 
-### 1.5 Ombres & Élévation (Shadows)
-- `--shadow-card`: `0 1px 3px rgba(12, 13, 16, 0.04), 0 10px 30px -10px rgba(12, 13, 16, 0.06)`
-- `--shadow-hover`: `0 20px 40px -15px rgba(237, 92, 1, 0.15)`
-- `--shadow-button`: `0 4px 14px rgba(237, 92, 1, 0.35)`
-
----
-
-## 2. Règle « Surface-First »
-
-1. **Surface Principale** : `--color-paper` (`#faf9f8`) crée une sensation chaleureuse d'atelier d'artisan numérique, loin du blanc clinique ou du noir générique.
-2. **Surfaces d'Élévation** : `--color-paper-card` (`#ffffff`) avec bordure subtile `--color-muted` pour détacher le contenu sans alourdir.
-3. **Surfaces de Conversion** : Ruban fixe en bas de page (`backdrop-filter: blur(12px)`) et modale fluide pour réserver un appel ou échanger directement par WhatsApp/Email.
-
----
-
-## 3. Composants Clés
-
-- **Navbar** : Logo chat haute fidélité, navigation fluide vers les sections `#offre`, `#pourquoi-gratuit`, `#couts`, `#faq`.
-- **Hero** : Proposition de valeur tranchante ("Je crée votre site web gratuitement"), proposition "zéro risque", badge de garantie à vie.
-- **Section Coûts Réels** : Clarté totale sur les seuls frais tiers (nom de domaine ~10€/an + hébergement ~5-10€/mois) payés directement aux hébergeurs.
-- **Ruban d'Action Flottant** : Bouton d'action directe toujours à portée de main sans bloquer la lecture.
-- **Mentions Légales** : Modale accessible intégrée + page dédiée `/mentions-legales` conformes LCEN et RGPD.
+accessibility:
+  wcagContrast: "AA compliant (>= 4.5:1)"
+  touchTargetMin: "44px"
+  focusVisible: "2px solid rgb(20, 110, 245) with 2px offset"
+  reducedMotion: "Supported via @media (prefers-reduced-motion: reduce)"
+```

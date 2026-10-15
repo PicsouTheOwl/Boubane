@@ -28,6 +28,14 @@
       "dest": "/mentions-legales.html"
     },
     {
+      "src": "/site",
+      "dest": "/site/index.html"
+    },
+    {
+      "src": "/site/(.*)",
+      "dest": "/site/$1"
+    },
+    {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },

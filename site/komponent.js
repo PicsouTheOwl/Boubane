@@ -1,191 +1,105 @@
-        // 1. Initialisation de Lenis (Smooth Momentum Scrolling moderne)
-        let lenis;
-        if (typeof Lenis !== 'undefined') {
-            lenis = new Lenis({
-                duration: 1.15,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                smoothWheel: true,
-                touchMultiplier: 1.5,
-            });
+/**
+ * Boubane — Komponent Interactions
+ * Interactions légères, fluides et accessibles sans dépendances lourdes.
+ */
 
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
+// 1. Modale de Contact / Réservation
+function openModal(modalId) {
+  const modal = document.getElementById(modalId || 'contactModal');
+  if (modal) {
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    const firstInput = modal.querySelector('input, textarea, button:not(.modal-close)');
+    if (firstInput) firstInput.focus();
+    document.body.style.overflow = 'hidden';
+  }
+}
 
-            if (typeof ScrollTrigger !== 'undefined') {
-                lenis.on('scroll', ScrollTrigger.update);
-                gsap.ticker.add((time) => {
-                    lenis.raf(time * 1000);
-                });
-                gsap.ticker.lagSmoothing(0);
-            }
-        }
+function closeModal(modalId) {
+  const modal = typeof modalId === 'string' ? document.getElementById(modalId) : (modalId || document.querySelector('.modal-overlay.active'));
+  if (modal) {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+}
 
-        // 2. Initialisation des icônes Lucide
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
+// 2. Gestion globale des clics sur overlay et touche Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const activeModal = document.querySelector('.modal-overlay.active');
+    if (activeModal) closeModal(activeModal);
+  }
+});
 
-        // 3. Effet 3D Tilt interactif sur l'Arche du Chat Mascotte
-        const mascotArch = document.getElementById('mascotArch');
-        const mascotGlare = document.getElementById('mascotGlare');
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('modal-overlay')) {
+    closeModal(e.target);
+  }
+});
 
-        if (mascotArch) {
-            mascotArch.addEventListener('mousemove', (e) => {
-                const rect = mascotArch.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -12;
-                const rotateY = ((x - centerX) / centerX) * 12;
-                
-                mascotArch.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(0, -4px, 0)`;
-                mascotArch.style.boxShadow = `${-rotateY * 0.8 - 8}px ${rotateX * 0.8 + 8}px 0px var(--color-ink)`;
-                
-                if (mascotGlare) {
-                    mascotGlare.style.opacity = '1';
-                    mascotGlare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.45) 0%, transparent 65%)`;
-                }
-            });
+// 3. Accordéon FAQ Accessible
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  if (!item) return;
+  const isExpanded = item.classList.contains('active');
+  
+  // Ferme les autres items pour garder une lecture épurée
+  document.querySelectorAll('.faq-item').forEach(el => {
+    if (el !== item) {
+      el.classList.remove('active');
+      const b = el.querySelector('.faq-question');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    }
+  });
 
-            mascotArch.addEventListener('mouseleave', () => {
-                mascotArch.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)';
-                mascotArch.style.boxShadow = '-8px 8px 0px var(--color-ink)';
-                if (mascotGlare) mascotGlare.style.opacity = '0';
-            });
-        }
+  if (isExpanded) {
+    item.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+  } else {
+    item.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
 
-        // 4. Lueur ambiante Canvas fluide qui suit le curseur
-        const canvas = document.getElementById('ambientCanvas');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            let mouseX = window.innerWidth / 2;
-            let mouseY = window.innerHeight / 2;
-            let currentX = mouseX;
-            let currentY = mouseY;
+// 4. Soumission Formulaire
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const successMessage = document.getElementById('formSuccessMessage');
+  
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi en cours...';
+  }
 
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
+  // Simulation propre (ou intégration webhook)
+  setTimeout(() => {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Envoyer ma demande';
+    }
+    form.reset();
+    if (successMessage) {
+      successMessage.style.display = 'block';
+      setTimeout(() => {
+        successMessage.style.display = 'none';
+        closeModal();
+      }, 4000);
+    } else {
+      alert('Merci ! Votre message a bien été envoyé. Je vous réponds sous 24h.');
+      closeModal();
+    }
+  }, 600);
+}
 
-            window.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-
-            function animateAura() {
-                currentX += (mouseX - currentX) * 0.08;
-                currentY += (mouseY - currentY) * 0.08;
-
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                const grad = ctx.createRadialGradient(currentX, currentY, 20, currentX, currentY, 320);
-                grad.addColorStop(0, 'rgba(237, 92, 1, 0.16)');
-                grad.addColorStop(1, 'rgba(237, 92, 1, 0)');
-
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                requestAnimationFrame(animateAura);
-            }
-            animateAura();
-        }
-
-        // 7. Accordéon FAQ
-        function toggleFaq(btn) {
-            const item = btn.parentElement;
-            const wasActive = item.classList.contains('active');
-            
-            document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
-            
-            if (!wasActive) {
-                item.classList.add('active');
-            }
-        }
-
-        // 8. Gestion des Modales (Réservation & Mentions Légales)
-        function openVisioModal() {
-            document.getElementById('visioModal').classList.add('active');
-        }
-
-        function closeVisioModal(e) {
-            if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
-            document.getElementById('visioModal').classList.remove('active');
-        }
-
-        function openLegalModal(e) {
-            if (e && e.preventDefault) e.preventDefault();
-            document.getElementById('legalModal').classList.add('active');
-            try {
-                history.pushState(null, "", "#mentions-legales");
-            } catch (err) {}
-        }
-
-        function closeLegalModal(e) {
-            if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close') && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) return;
-            document.getElementById('legalModal').classList.remove('active');
-            if (window.location.hash === '#mentions-legales') {
-                try {
-                    history.pushState("", document.title, window.location.pathname + window.location.search);
-                } catch (err) {}
-            }
-        }
-
-        // Fermeture automatique sur la touche Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeVisioModal();
-                closeLegalModal();
-            }
-        });
-
-        // Détection de l'ancre #mentions-legales dans l'URL
-        function checkLegalHash() {
-            if (window.location.hash === '#mentions-legales') {
-                document.getElementById('legalModal').classList.add('active');
-            }
-        }
-        window.addEventListener('hashchange', checkLegalHash);
-
-        function scrollToContact() {
-            closeVisioModal();
-            const contactSection = document.getElementById('contact');
-            if (contactSection) {
-                if (lenis) {
-                    lenis.scrollTo(contactSection);
-                } else {
-                    contactSection.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        }
-
-        // 9. Soumission du formulaire
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const successDiv = document.getElementById('formSuccess');
-            if (successDiv) {
-                successDiv.style.display = 'block';
-                e.target.reset();
-                setTimeout(() => {
-                    successDiv.style.display = 'none';
-                }, 6000);
-            }
-        }
-
-        // 10. Initialisation au chargement
-        document.addEventListener('DOMContentLoaded', () => {
-            syncBoubaneLogos();
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-            checkLegalHash();
-        });
-    </script>
-</body>
-</html>
+// 5. Initialisation au chargement
+document.addEventListener('DOMContentLoaded', () => {
+  // Hash check pour #mentions-legales ou #contact
+  if (window.location.hash === '#contact') {
+    openModal('contactModal');
+  } else if (window.location.hash === '#mentions-legales') {
+    openModal('legalModal');
+  }
+});
