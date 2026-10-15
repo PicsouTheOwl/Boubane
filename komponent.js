@@ -91,65 +91,7 @@ function handleFormSubmit(e) {
   }, 600);
 }
 
-// 4. Canvas Dot-Grid Dynamique (Signature Visuelle Pulsor)
-function initDotCanvas() {
-  const canvas = document.getElementById('dotCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  let width = (canvas.width = canvas.parentElement.offsetWidth);
-  let height = (canvas.height = canvas.parentElement.offsetHeight);
-
-  let mouseX = width / 2;
-  let mouseY = 200;
-
-  window.addEventListener('resize', () => {
-    width = canvas.width = canvas.parentElement.offsetWidth;
-    height = canvas.height = canvas.parentElement.offsetHeight;
-    draw();
-  });
-
-  canvas.parentElement.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
-    requestAnimationFrame(draw);
-  });
-
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    const spacing = 32;
-    const dotRadius = 1.15;
-
-    for (let x = spacing / 2; x < width; x += spacing) {
-      for (let y = spacing / 2; y < height; y += spacing) {
-        const dx = x - mouseX;
-        const dy = y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 280;
-
-        let alpha = 0.12;
-        let radius = dotRadius;
-
-        if (dist < maxDist) {
-          const factor = 1 - dist / maxDist;
-          alpha += factor * 0.48;
-          radius += factor * 1.6;
-        }
-
-        ctx.fillStyle = `rgba(237, 91, 4, ${alpha})`;
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-  }
-
-  draw();
-}
-
-// 5. Review Rotator (Carrousel d'Avis Centré Pulsor-Style)
+// 4. Review Rotator (Carrousel d'Avis Centré Pulsor-Style)
 function initReviewRotator() {
   const slides = document.querySelectorAll('.hero-review-slide');
   if (!slides || slides.length === 0) return;
@@ -250,13 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
     openModal('legalModal');
   }
 
-  initDotCanvas();
   initReviewRotator();
   initPricingToggle();
   initRoiSimulator();
 
   // 3D Tilt sur les cartes de projets et browser flottant
-  const tiltCards = document.querySelectorAll('.hero-floating-browser, .project-card, .simulator-card, .pricing-plan-card');
+  const tiltCards = document.querySelectorAll('.hero-floating-browser, .project-card, .simulator-card');
   if (tiltCards.length > 0 && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
     tiltCards.forEach(card => {
       card.addEventListener('mousemove', (e) => {
