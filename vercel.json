@@ -6,6 +6,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "blog.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "dashboard.html",
       "use": "@vercel/static"
     },
@@ -47,6 +51,14 @@
     }
   ],
   "routes": [
+    {
+      "src": "/blog",
+      "dest": "/blog.html"
+    },
+    {
+      "src": "/blog/(.*)",
+      "dest": "/blog.html"
+    },
     {
       "src": "/dashboard",
       "dest": "/dashboard.html"

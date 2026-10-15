@@ -25,32 +25,132 @@
     <meta name="twitter:description" content="Des vitrines d'exception pour entreprises exigeantes. 100% offert, zéro engagement.">
     <meta name="twitter:image" content="https://www.boubane.com/assets/boubane-logo.png">
 
-    <!-- Données Structurées Schema.org JSON-LD (Rich Snippets Google) -->
+    <!-- SEO GEO (Géolocalisation & Moteurs Génératifs) -->
+    <meta name="geo.region" content="FR">
+    <meta name="geo.placename" content="France">
+    <meta name="geo.position" content="48.8566;2.3522">
+    <meta name="ICBM" content="48.8566, 2.3522">
+
+    <!-- Données Structurées Schema.org JSON-LD (Rich Snippets Google & GEO LocalBusiness) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "Boubane Studio",
-      "url": "https://www.boubane.com/",
-      "logo": "https://www.boubane.com/assets/boubane-logo.png",
-      "image": "https://www.boubane.com/assets/boubane-logo.png",
-      "description": "Studio d'artisanat web et conception de sites vitrines sur-mesure ultra-rapides (<0.4s) sans frais d'agence ni abonnement captif.",
-      "priceRange": "0 €",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "FR"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "bestRating": "5",
-        "worstRating": "1",
-        "ratingCount": "34"
-      },
-      "founder": {
-        "@type": "Person",
-        "name": "Léo Saillour"
-      }
+      "@graph": [
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://www.boubane.com/#organization",
+          "name": "Boubane Studio",
+          "url": "https://www.boubane.com/",
+          "logo": "https://www.boubane.com/assets/boubane-logo.png",
+          "image": "https://www.boubane.com/assets/boubane-logo.png",
+          "description": "Studio d'artisanat web et conception de sites vitrines sur-mesure ultra-rapides (<0.4s) sans frais d'agence ni abonnement captif pour PME et artisans en France.",
+          "priceRange": "0 €",
+          "telephone": "+33600000000",
+          "email": "leosaillour@gmail.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "FR",
+            "addressRegion": "Île-de-France",
+            "addressLocality": "Paris"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 48.8566,
+            "longitude": 2.3522
+          },
+          "areaServed": [
+            { "@type": "Country", "name": "France" },
+            { "@type": "City", "name": "Paris" },
+            { "@type": "City", "name": "Lyon" },
+            { "@type": "City", "name": "Marseille" },
+            { "@type": "City", "name": "Bordeaux" },
+            { "@type": "City", "name": "Lille" },
+            { "@type": "City", "name": "Nantes" },
+            { "@type": "City", "name": "Toulouse" }
+          ],
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "09:00",
+            "closes": "19:00"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "bestRating": "5",
+            "worstRating": "1",
+            "ratingCount": "34"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Léo Saillour",
+            "jobTitle": "Fondateur & Développeur Web",
+            "url": "https://www.boubane.com/#qui-suis-je"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Conception Web Sur-Mesure",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Création de Site Vitrine Sur-Mesure Offert",
+                  "description": "100% de la conception et du code pris en charge à mes frais, code propriétaire livré sur GitHub."
+                },
+                "price": "0",
+                "priceCurrency": "EUR"
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Performance Chirurgicale & SEO Naturel",
+                  "description": "Vitesse d'affichage < 0.4s, Google PageSpeed 100/100, sémantique Hn optimisée."
+                }
+              }
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://www.boubane.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Le site est-il réellement 100% gratuit en création ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Oui, exactement 0 €. Vous ne réglez aucun honoraire de conception, de design ou de développement. Vos seuls frais sont techniques (votre nom de domaine ~10 €/an et votre hébergement habituel ~5 €/mois), réglés directement et en toute transparence auprès de votre hébergeur (IONOS, OVH, Hostinger, Vercel...)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Y a-t-il un engagement ou un abonnement caché ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Aucun. Vous n'êtes engagé sur aucune durée. Vous êtes le seul propriétaire légal du nom de domaine et du code source. Vous pouvez migrer, modifier ou faire évoluer votre site à tout moment en toute indépendance."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Quel est le délai de livraison ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Dès réception de vos éléments (textes, photos ou préférences d'activité), votre site est conçu, validé avec vous et mis en ligne sous 5 à 7 jours ouvrés."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Que se passe-t-il si le résultat ne me convient pas ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Nous faisons les ajustements nécessaires ensemble. Si le résultat ne vous satisfait toujours pas, vous êtes entièrement libre d'arrêter le projet sans débourser un centime. Le risque est à 100% de mon côté."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
 
@@ -85,6 +185,7 @@
                     <li><a href="#livrables" class="nav-link">Standards</a></li>
                     <li><a href="#tarifs" class="nav-link">Modèle 0 €</a></li>
                     <li><a href="#qui-suis-je" class="nav-link">L'Architecte</a></li>
+                    <li><a href="/blog" class="nav-link">Journal &amp; SEO</a></li>
                     <li><a href="#faq" class="nav-link">FAQ</a></li>
                 </ul>
             </nav>
@@ -502,7 +603,7 @@
                             Fondateur · Concepteur & Développeur Web Sur-Mesure
                         </p>
                         <p style="font-size: var(--font-size-caption); color: var(--color-text-muted);">
-                            Interventions France & International · Visioconférence & Téléphone.
+                            Interventions France entière (Paris, Lyon, Marseille, Bordeaux, Lille, Nantes, Toulouse) &amp; International · Visioconférence &amp; Téléphone.
                         </p>
                     </div>
                 </div>
@@ -675,6 +776,7 @@
                 <li><a href="#realisations" class="footer-link">Réalisations</a></li>
                 <li><a href="#livrables" class="footer-link">Standards</a></li>
                 <li><a href="#tarifs" class="footer-link">Tarifs 0 €</a></li>
+                <li><a href="/blog" class="footer-link">Journal &amp; SEO</a></li>
                 <li><a href="#faq" class="footer-link">FAQ</a></li>
                 <li><a href="#mentions-legales" onclick="openModal('legalModal'); return false;" class="footer-link" style="color: var(--color-primary); font-weight: 700;">Mentions Légales</a></li>
                 <li><a href="/dashboard" class="footer-link" style="opacity: 0.75;" title="Accès Dashboard Télémétrie &amp; Leads">Dashboard</a></li>

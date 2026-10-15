@@ -584,6 +584,7 @@
             <button class="tab-btn active" onclick="switchTab('tab-vue-generale')">Vue Générale &amp; Trafic</button>
             <button class="tab-btn" onclick="switchTab('tab-leads')">Pipeline Prospects &amp; Leads (<span id="leadsCountBadge">0</span>)</button>
             <button class="tab-btn" onclick="switchTab('tab-seo')">Santé SEO &amp; Google Search</button>
+            <button class="tab-btn" onclick="switchTab('tab-blog')">Blog &amp; Rédaction SEO (<span id="blogCountBadge">3</span>)</button>
             <button class="tab-btn" onclick="switchTab('tab-config')">Intégrations &amp; Outils</button>
         </div>
 
@@ -902,6 +903,156 @@
                     </div>
                 </div>
             </div>
+        <!-- ONGLET 5 : BLOG & RÉDACTION SEO -->
+        <section id="tab-blog" style="display: none;">
+            <div class="panel-card" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                    <div>
+                        <h3 class="panel-title">Articles de Blog &amp; Stratégie SEO GEO</h3>
+                        <p class="panel-subtitle">Gérez vos publications pour capter des recherches locales et nationales à forte intention d'achat</p>
+                    </div>
+                    <button onclick="createNewArticleForm()" class="btn-dash primary">
+                        <span>+ Rédiger un nouvel article</span>
+                    </button>
+                </div>
+
+                <div class="leads-table-wrap">
+                    <table class="dash-table">
+                        <thead>
+                            <tr>
+                                <th>Titre de l'Article</th>
+                                <th>Catégorie</th>
+                                <th>Cible SEO GEO</th>
+                                <th>Lecture</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="blogArticlesTableBody">
+                            <!-- Rempli dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Éditeur d'Article & Simulateur SERP Google -->
+            <div class="two-cols-grid" id="articleEditorCard">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <div>
+                            <h3 class="panel-title" id="editorModeTitle">Rédiger / Modifier un Article SEO</h3>
+                            <p class="panel-subtitle">Optimisé pour la vitesse chirurgicale et les moteurs de recherche IA (GEO)</p>
+                        </div>
+                    </div>
+
+                    <form onsubmit="handleSaveArticle(event)">
+                        <div style="margin-bottom: 14px;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Titre de l'Article (Balise H1) *</label>
+                            <input type="text" id="artTitle" required oninput="syncSlugAndSerp()" placeholder="Ex: Prix d'un Site Vitrine en 2026 : Comparatif Agence vs Studio" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.9rem;">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; margin-bottom: 14px;">
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Slug URL (/blog#article=...)</label>
+                                <input type="text" id="artSlug" required placeholder="prix-site-vitrine-2026" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.82rem;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Catégorie</label>
+                                <select id="artCategory" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                                    <option value="Enquête &amp; Tarifs">Enquête &amp; Tarifs</option>
+                                    <option value="Indépendance Numérique">Indépendance Numérique</option>
+                                    <option value="Performance &amp; SEO GEO">Performance &amp; SEO GEO</option>
+                                    <option value="Guides Métier Artisans">Guides Métier Artisans</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Mots-Clés Cibles &amp; Localisation GEO</label>
+                                <input type="text" id="artKeywords" placeholder="Ex: site vitrine artisan France, Paris, Lyon" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Temps de lecture</label>
+                                <input type="text" id="artReadTime" value="4 min" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 14px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <label style="font-weight: 600; font-size: 0.8rem;">Meta Title SEO Google</label>
+                                <span id="metaTitleCount" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--success);">0 / 60 car.</span>
+                            </div>
+                            <input type="text" id="artMetaTitle" oninput="updateSerpPreview()" placeholder="Titre affiché dans les résultats Google" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                        </div>
+
+                        <div style="margin-bottom: 14px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <label style="font-weight: 600; font-size: 0.8rem;">Meta Description SEO Google</label>
+                                <span id="metaDescCount" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--success);">0 / 155 car.</span>
+                            </div>
+                            <textarea id="artMetaDesc" rows="2" oninput="updateSerpPreview()" placeholder="Description engageante affichée dans Google sous le titre bleu" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;"></textarea>
+                        </div>
+
+                        <!-- Barre d'outils de Rédaction Rapide -->
+                        <div style="margin-bottom: 6px;">
+                            <label style="font-weight: 600; font-size: 0.8rem; display: block; margin-bottom: 6px;">Contenu de l'Article (HTML enrichi)</label>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px;">
+                                <button type="button" onclick="insertSnippet('h2')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Titre H2</button>
+                                <button type="button" onclick="insertSnippet('h3')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Sous-titre H3</button>
+                                <button type="button" onclick="insertSnippet('callout')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Encadré Pro</button>
+                                <button type="button" onclick="insertSnippet('cta')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem; color: var(--primary);">+ Bloc CTA Offert (0 €)</button>
+                                <button type="button" onclick="insertSnippet('list')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Liste à puces</button>
+                            </div>
+                            <textarea id="artContent" rows="10" required style="width: 100%; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5;"></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; align-items: center; margin-top: 16px;">
+                            <button type="submit" class="btn-dash primary">
+                                <span>Publier / Mettre à jour l'article</span>
+                            </button>
+                            <button type="button" onclick="exportCurrentArticleHtml()" class="btn-dash">
+                                <span>Télécharger HTML autonome</span>
+                            </button>
+                            <span id="artSavedNotice" style="color: var(--success); font-size: 0.8rem; display: none;">✓ Article enregistré avec succès !</span>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Simulateur SERP Google & Aide Rédactionnelle -->
+                <div>
+                    <div class="panel-card" style="margin-bottom: 20px;">
+                        <div class="panel-header">
+                            <h3 class="panel-title">Aperçu Résultat de Recherche Google (SERP Preview)</h3>
+                        </div>
+                        <div style="background: #FFFFFF; color: #1F1F1F; padding: 18px; border-radius: var(--radius-md); font-family: Arial, sans-serif; box-shadow: 0 4px 14px rgba(0,0,0,0.2);">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 12px; color: #4D5156;">
+                                <img src="assets/boubane-logo.png" style="width: 16px; height: 16px; border-radius: 50%;">
+                                <div>
+                                    <span style="font-weight: 500; color: #202124;">Boubane Studio</span>
+                                    <span style="color: #4D5156; margin-left: 4px;">https://www.boubane.com › blog › <span id="serpSlugPreview">prix-site-vitrine-artisan-2026</span></span>
+                                </div>
+                            </div>
+                            <h4 id="serpTitlePreview" style="color: #1A0DAB; font-size: 18px; font-weight: 400; line-height: 1.3; margin: 4px 0; cursor: pointer; text-decoration: none;">Quel est le Vrai Prix d'un Site Vitrine en 2026 ?</h4>
+                            <p id="serpDescPreview" style="color: #4D5156; font-size: 13px; line-height: 1.5; margin: 0;">
+                                Pourquoi une agence classique vous facture-t-elle 3 500 € à 5 000 € ? Découvrez comment accéder à un site vitrine sur-mesure d'élite à 0 € en création...
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3 class="panel-title">Règles d'Or SEO &amp; GEO (Generative Engine Optimization)</h3>
+                        </div>
+                        <ul style="padding-left: 18px; color: var(--text-main); font-size: 0.82rem; line-height: 1.8;">
+                            <li><strong>Chiffres Précis &amp; Preuves :</strong> Mentionnez les tarifs exacts (0 € création, 5 € hébergement, &lt; 0.4s). Les IA (Perplexity, ChatGPT, Gemini) adorent citer des sources avec des données chiffrées claires.</li>
+                            <li><strong>Ancrage Géographique :</strong> Citez les villes françaises ciblées (Paris, Lyon, Marseille, Bordeaux, Lille, etc.) pour capter les requêtes locales d'artisans et PME.</li>
+                            <li><strong>Hiérarchie Sémantique :</strong> Utilisez toujours un seul H1, des H2 pour chaque grand point et des listes claires.</li>
+                            <li><strong>Réponse Directe en Premier Paragraphe :</strong> Donnez la réponse à la question dès les 3 premières lignes pour être sélectionné en "Position Zéro" sur Google.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </section>
 
     </main>
@@ -945,10 +1096,14 @@
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            ['tab-vue-generale', 'tab-leads', 'tab-seo', 'tab-config'].forEach(id => {
+            ['tab-vue-generale', 'tab-leads', 'tab-seo', 'tab-blog', 'tab-config'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = (id === tabId) ? 'block' : 'none';
             });
+
+            if (tabId === 'tab-blog') {
+                loadBlogArticles();
+            }
         }
 
         // 3. Chargement et Calcul des Données du Dashboard
@@ -1334,6 +1489,241 @@
             return (str || '').replace(/[&<>"']/g, function(m) {
                 return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m];
             });
+        }
+
+        // =====================================================================
+        // GESTION DU BLOG & RÉDACTION SEO GEO
+        // =====================================================================
+        const BLOG_STORAGE_KEY = 'boubane_blog_articles';
+
+        const DEFAULT_ARTICLES = [
+            {
+                slug: 'prix-site-vitrine-artisan-2026',
+                title: "Quel est le Vrai Prix d'un Site Vitrine en 2026 ? Comparatif Agence vs Studio Indépendant",
+                category: "Enquête & Tarifs",
+                keywords: "prix site vitrine artisan France, devis site web pme, tarif agence web",
+                readTime: "5 min",
+                metaTitle: "Quel est le Vrai Prix d'un Site Vitrine en 2026 ? Comparatif Agence vs Studio",
+                metaDesc: "Pourquoi une agence vous facture 3 500 € à 5 000 € ? Découvrez le modèle de rupture Boubane Studio : 0 € en création et liberté totale.",
+                status: "Publié",
+                date: "15 Octobre 2026",
+                content: `<h2>1. La décomposition des coûts d'une agence classique</h2><p>Une agence web classique a des coûts de structure incompressibles qui gonflent la facture sans valeur ajoutée pour votre entreprise.</p>`
+            },
+            {
+                slug: 'piege-abonnement-site-internet-150-euros',
+                title: "Pourquoi Fuir les Abonnements Web à 150 €/mois : Le Piège de la Captivité Numérique",
+                category: "Indépendance Numérique",
+                keywords: "piege abonnement site internet, location site web artisan, resiliation contrat agence web",
+                readTime: "4 min",
+                metaTitle: "Pourquoi Fuir les Abonnements Web à 150 €/mois : Le Piège de la Captivité",
+                metaDesc: "7 200 € sur 4 ans pour un site dont vous n'êtes même pas propriétaire : décryptage du piège des contrats d'agences et annuaires.",
+                status: "Publié",
+                date: "12 Octobre 2026",
+                content: `<h2>1. Le calcul financier de la captivité</h2><p>Un abonnement mensuel avec engagement vous coûte des milliers d'euros sans jamais vous rendre propriétaire de votre code.</p>`
+            },
+            {
+                slug: 'vitesse-chargement-site-vitrine-seo',
+                title: "Vitesse Web & Conversion : Comment un Site sous 0.4s Surclasse Vos Concurrents sur Google",
+                category: "Performance & SEO GEO",
+                keywords: "vitesse chargement site vitrine, core web vitals google, seo local artisan france",
+                readTime: "4 min",
+                metaTitle: "Vitesse Web & Conversion : Comment un Site sous 0.4s Surclasse Vos Concurrents",
+                metaDesc: "53% des mobinautes fuient un site lent. Découvrez pourquoi un code pur sans CMS lourd propulse votre entreprise au sommet de Google.",
+                status: "Publié",
+                date: "08 Octobre 2026",
+                content: `<h2>1. L'exigence chirurgicale des algorithmes Google</h2><p>En 2026, la vitesse d'affichage est le premier facteur de conversion et de visibilité locale.</p>`
+            }
+        ];
+
+        function getBlogArticles() {
+            const raw = localStorage.getItem(BLOG_STORAGE_KEY);
+            return raw ? JSON.parse(raw) : DEFAULT_ARTICLES;
+        }
+
+        function loadBlogArticles() {
+            const articles = getBlogArticles();
+            const tbody = document.getElementById('blogArticlesTableBody');
+            document.getElementById('blogCountBadge').textContent = articles.length;
+
+            tbody.innerHTML = articles.map(art => `
+                <tr>
+                    <td><strong>${escapeHtml(art.title)}</strong><br><span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">/blog#article=${art.slug}</span></td>
+                    <td><span class="dash-tag">${escapeHtml(art.category)}</span></td>
+                    <td style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(art.keywords || 'France')}</td>
+                    <td style="font-family: var(--font-mono); font-size: 0.8rem;">${art.readTime}</td>
+                    <td><span class="lead-status-pill status-done">${art.status || 'Publié'}</span></td>
+                    <td>
+                        <button onclick="editArticle('${art.slug}')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">Éditer</button>
+                        <button onclick="deleteArticle('${art.slug}')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem; color: #EF4444;">✕</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Pré-remplir le premier article si aucun n'est chargé dans l'éditeur
+            if (!document.getElementById('artSlug').value && articles.length > 0) {
+                editArticle(articles[0].slug);
+            }
+        }
+
+        function createNewArticleForm() {
+            document.getElementById('editorModeTitle').textContent = "Créer un Nouvel Article SEO GEO";
+            document.getElementById('artTitle').value = "";
+            document.getElementById('artSlug').value = "";
+            document.getElementById('artKeywords').value = "France, Paris, PME, artisan";
+            document.getElementById('artReadTime').value = "4 min";
+            document.getElementById('artMetaTitle').value = "";
+            document.getElementById('artMetaDesc').value = "";
+            document.getElementById('artContent').value = `<h2>1. Introduction percutante</h2>\n<p>Expliquez ici le problème concret rencontré par vos clients et pourquoi les solutions habituelles échouent.</p>\n\n<div class="article-callout">\n<strong>Point clé à retenir :</strong> Boubane prend en charge 100% de la conception à 0 €.\n</div>\n\n<h2>2. Votre méthode et solution</h2>\n<p>Détaillez les bénéfices techniques et commerciaux pour votre prospect.</p>`;
+            syncSlugAndSerp();
+            document.getElementById('artTitle').focus();
+        }
+
+        function editArticle(slug) {
+            const articles = getBlogArticles();
+            const art = articles.find(a => a.slug === slug);
+            if (!art) return;
+
+            document.getElementById('editorModeTitle').textContent = "Modifier l'Article : " + art.title;
+            document.getElementById('artTitle').value = art.title;
+            document.getElementById('artSlug').value = art.slug;
+            document.getElementById('artCategory').value = art.category;
+            document.getElementById('artKeywords').value = art.keywords || '';
+            document.getElementById('artReadTime').value = art.readTime || '4 min';
+            document.getElementById('artMetaTitle').value = art.metaTitle || art.title;
+            document.getElementById('artMetaDesc').value = art.metaDesc || '';
+            document.getElementById('artContent').value = art.content || '';
+            updateSerpPreview();
+        }
+
+        function handleSaveArticle(e) {
+            e.preventDefault();
+            const slug = document.getElementById('artSlug').value.trim() || 'article-' + Date.now();
+            const title = document.getElementById('artTitle').value.trim();
+            const category = document.getElementById('artCategory').value;
+            const keywords = document.getElementById('artKeywords').value.trim();
+            const readTime = document.getElementById('artReadTime').value.trim();
+            const metaTitle = document.getElementById('artMetaTitle').value.trim() || title;
+            const metaDesc = document.getElementById('artMetaDesc').value.trim();
+            const content = document.getElementById('artContent').value.trim();
+
+            const articles = getBlogArticles();
+            const existingIdx = articles.findIndex(a => a.slug === slug);
+
+            const articleObj = {
+                slug,
+                title,
+                category,
+                keywords,
+                readTime,
+                metaTitle,
+                metaDesc,
+                content,
+                status: 'Publié',
+                date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+            };
+
+            if (existingIdx >= 0) {
+                articles[existingIdx] = articleObj;
+            } else {
+                articles.unshift(articleObj);
+            }
+
+            localStorage.setItem(BLOG_STORAGE_KEY, JSON.stringify(articles));
+            loadBlogArticles();
+
+            const notice = document.getElementById('artSavedNotice');
+            notice.style.display = 'inline';
+            setTimeout(() => { notice.style.display = 'none'; }, 3000);
+        }
+
+        function deleteArticle(slug) {
+            if (!confirm(`Supprimer l'article "${slug}" ?`)) return;
+            let articles = getBlogArticles();
+            articles = articles.filter(a => a.slug !== slug);
+            localStorage.setItem(BLOG_STORAGE_KEY, JSON.stringify(articles));
+            loadBlogArticles();
+        }
+
+        function syncSlugAndSerp() {
+            const title = document.getElementById('artTitle').value;
+            const slug = title.toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            document.getElementById('artSlug').value = slug;
+            if (!document.getElementById('artMetaTitle').value) {
+                document.getElementById('artMetaTitle').value = title;
+            }
+            updateSerpPreview();
+        }
+
+        function updateSerpPreview() {
+            const title = document.getElementById('artMetaTitle').value || document.getElementById('artTitle').value || "Titre de l'article";
+            const desc = document.getElementById('artMetaDesc').value || "Description de l'article affichée dans Google...";
+            const slug = document.getElementById('artSlug').value || "slug-article";
+
+            document.getElementById('serpTitlePreview').textContent = title;
+            document.getElementById('serpDescPreview').textContent = desc;
+            document.getElementById('serpSlugPreview').textContent = slug;
+
+            // Compteurs
+            const tLen = title.length;
+            const dLen = desc.length;
+            const tCount = document.getElementById('metaTitleCount');
+            const dCount = document.getElementById('metaDescCount');
+
+            tCount.textContent = `${tLen} / 60 car.`;
+            tCount.style.color = (tLen >= 40 && tLen <= 65) ? 'var(--success)' : (tLen > 65 ? '#EF4444' : 'var(--warning)');
+
+            dCount.textContent = `${dLen} / 155 car.`;
+            dCount.style.color = (dLen >= 120 && dLen <= 160) ? 'var(--success)' : (dLen > 160 ? '#EF4444' : 'var(--warning)');
+        }
+
+        function insertSnippet(type) {
+            const textarea = document.getElementById('artContent');
+            let snippet = '';
+            if (type === 'h2') snippet = `\n<h2>Titre Majeur de Section</h2>\n<p>Votre texte ici...</p>\n`;
+            else if (type === 'h3') snippet = `\n<h3>Sous-titre d'approfondissement</h3>\n<p>Détail technique ou argumentaire...</p>\n`;
+            else if (type === 'callout') snippet = `\n<div class="article-callout">\n<strong>À noter :</strong> Point essentiel pour les moteurs IA et vos clients.\n</div>\n`;
+            else if (type === 'cta') snippet = `\n<div style="text-align: center; margin: 24px 0; padding: 20px; background: #FAF8F5; border: 1px solid #E5E1D8; border-radius: 12px;">\n<h3>Passez à la vitesse supérieure</h3>\n<p>Boubane conçoit votre site vitrine sur-mesure à 0 €.</p>\n<a href="/#contact" class="btn btn-primary" style="display: inline-block; padding: 12px 24px; background: #ED5B04; color: #FFF; text-decoration: none; border-radius: 9999px; font-weight: 700; margin-top: 8px;">Commander mon site offert (0 €)</a>\n</div>\n`;
+            else if (type === 'list') snippet = `\n<ul>\n<li>Avantage 1 : Code souverain et léger</li>\n<li>Avantage 2 : Vitesse inférieure à 400ms</li>\n<li>Avantage 3 : Zéro redevance mensuelle</li>\n</ul>\n`;
+
+            textarea.value += snippet;
+            textarea.focus();
+        }
+
+        function exportCurrentArticleHtml() {
+            const title = document.getElementById('artTitle').value || 'article';
+            const slug = document.getElementById('artSlug').value || 'article';
+            const content = document.getElementById('artContent').value;
+            const metaTitle = document.getElementById('artMetaTitle').value;
+            const metaDesc = document.getElementById('artMetaDesc').value;
+
+            const html = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>${escapeHtml(metaTitle)} · Boubane Studio</title>
+    <meta name="description" content="${escapeHtml(metaDesc)}">
+    <meta name="geo.region" content="FR">
+    <link rel="canonical" href="https://www.boubane.com/blog#article=${slug}">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body style="padding: 40px 20px; max-width: 800px; margin: 0 auto; font-family: sans-serif; line-height: 1.8;">
+    <h1>${escapeHtml(title)}</h1>
+    <hr style="margin: 20px 0;">
+    <div>${content}</div>
+</body>
+</html>`;
+
+            const blob = new Blob([html], { type: 'text/html;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${slug}.html`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         // Initialisation

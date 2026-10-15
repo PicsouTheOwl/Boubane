@@ -6,14 +6,21 @@
     <!-- Page d'Accueil Principale -->
     <url>
         <loc>https://www.boubane.com/</loc>
-        <lastmod>2026-10-15T20:30:00+02:00</lastmod>
+        <lastmod>2026-10-15T23:15:00+02:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+    </url>
+    <!-- Espace Blog & Guides SEO GEO -->
+    <url>
+        <loc>https://www.boubane.com/blog</loc>
+        <lastmod>2026-10-15T23:15:00+02:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
     </url>
     <!-- Page Mentions Légales & Confidentialité -->
     <url>
         <loc>https://www.boubane.com/mentions-legales</loc>
-        <lastmod>2026-10-15T20:30:00+02:00</lastmod>
+        <lastmod>2026-10-15T23:15:00+02:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.3</priority>
     </url>
