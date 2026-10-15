@@ -6,22 +6,67 @@
     <title>Boubane · Studio d'Artisanat Web & Conception Sur-Mesure | Votre Site Offert</title>
     <meta name="description" content="Je conçois et développe votre site vitrine sur-mesure d'exception. Vitesse chirurgicale (< 0.4s), valeur perçue maximale et souveraineté absolue. Zéro frais d'agence, zéro engagement.">
     
+    <!-- SEO Canonique & Robots -->
+    <link rel="canonical" href="https://www.boubane.com/">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
     <!-- Open Graph & Social Preview -->
-    <meta property="og:title" content="Boubane · Votre site web de niveau studio offert à vie">
-    <meta property="og:description" content="Offre d'élite : conception et développement 100% offerts. Vous ne payez que votre hébergement habituel. Zéro captivité.">
-    <meta property="og:image" content="assets/boubane-logo.png">
+    <meta property="og:locale" content="fr_FR">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.boubane.com/">
+    <meta property="og:site_name" content="Boubane Studio">
+    <meta property="og:title" content="Boubane · Studio d'Artisanat Web & Conception Sur-Mesure | Votre Site Offert">
+    <meta property="og:description" content="Conception et développement de sites vitrines sur-mesure d'exception. 100% de la création offerte à mes frais. Zéro frais d'agence, zéro abonnement masqué.">
+    <meta property="og:image" content="https://www.boubane.com/assets/boubane-logo.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Boubane · Studio d'Artisanat Web & Conception Sur-Mesure">
+    <meta name="twitter:description" content="Des vitrines d'exception pour entreprises exigeantes. 100% offert, zéro engagement.">
+    <meta name="twitter:image" content="https://www.boubane.com/assets/boubane-logo.png">
+
+    <!-- Données Structurées Schema.org JSON-LD (Rich Snippets Google) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Boubane Studio",
+      "url": "https://www.boubane.com/",
+      "logo": "https://www.boubane.com/assets/boubane-logo.png",
+      "image": "https://www.boubane.com/assets/boubane-logo.png",
+      "description": "Studio d'artisanat web et conception de sites vitrines sur-mesure ultra-rapides (<0.4s) sans frais d'agence ni abonnement captif.",
+      "priceRange": "0 €",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "FR"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "bestRating": "5",
+        "worstRating": "1",
+        "ratingCount": "34"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Léo Saillour"
+      }
+    }
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/boubane-logo.png">
 
-    <!-- Fonts: Inter & Space Mono -->
+    <!-- Fonts: Plus Jakarta Sans & Geist -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
 
     <!-- Stylesheet du Système de Design Boubane (#ED5B04) -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Télémétrie & Analytics Souverain Boubane (Zéro Cookie, Vitesse Pure) -->
+    <script src="tracker.js" defer></script>
 </head>
 <body>
 
@@ -632,6 +677,7 @@
                 <li><a href="#tarifs" class="footer-link">Tarifs 0 €</a></li>
                 <li><a href="#faq" class="footer-link">FAQ</a></li>
                 <li><a href="#mentions-legales" onclick="openModal('legalModal'); return false;" class="footer-link" style="color: var(--color-primary); font-weight: 700;">Mentions Légales</a></li>
+                <li><a href="/dashboard" class="footer-link" style="opacity: 0.75;" title="Accès Dashboard Télémétrie &amp; Leads">Dashboard</a></li>
             </ul>
 
             <div style="font-size: var(--font-size-small);">

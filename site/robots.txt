@@ -1,0 +1,9 @@
+# Robots.txt pour Boubane Studio
+# https://www.boubane.com/
+
+User-agent: *
+Allow: /
+Disallow: /dashboard
+
+# Sitemaps
+Sitemap: https://www.boubane.com/sitemap.xml

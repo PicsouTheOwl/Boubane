@@ -6,6 +6,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "dashboard.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "mentions-legales.html",
       "use": "@vercel/static"
     },
@@ -22,6 +26,18 @@
       "use": "@vercel/static"
     },
     {
+      "src": "tracker.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "sitemap.xml",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "robots.txt",
+      "use": "@vercel/static"
+    },
+    {
       "src": "assets/**",
       "use": "@vercel/static"
     },
@@ -32,8 +48,20 @@
   ],
   "routes": [
     {
+      "src": "/dashboard",
+      "dest": "/dashboard.html"
+    },
+    {
       "src": "/mentions-legales",
       "dest": "/mentions-legales.html"
+    },
+    {
+      "src": "/sitemap.xml",
+      "dest": "/sitemap.xml"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
     },
     {
       "src": "/site",
@@ -53,4 +81,3 @@
     }
   ]
 }
-

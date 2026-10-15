@@ -60,16 +60,29 @@ function toggleFaq(btn) {
   }
 }
 
-// 3. Soumission Formulaire
+// 3. Soumission Formulaire & Enregistrement Lead
 function handleFormSubmit(e) {
   e.preventDefault();
   const form = e.target;
   const successMessage = document.getElementById('formSuccessMessage');
   const submitBtn = form.querySelector('button[type="submit"]');
+
+  const contactName = document.getElementById('contactName')?.value || 'Client';
+  const contactEmail = document.getElementById('contactEmail')?.value || '';
+  const contactDetails = document.getElementById('contactDetails')?.value || '';
   
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Envoi en cours...';
+  }
+
+  // Enregistrer le lead pour le dashboard
+  if (typeof window.boubaneRegisterLead === 'function') {
+    window.boubaneRegisterLead({
+      name: contactName,
+      email: contactEmail,
+      message: contactDetails
+    });
   }
 
   setTimeout(() => {
@@ -79,7 +92,7 @@ function handleFormSubmit(e) {
     }
     form.reset();
     if (successMessage) {
-      successMessage.style.display = 'block';
+      successMessage.style.display = 'flex';
       setTimeout(() => {
         successMessage.style.display = 'none';
         closeModal();
