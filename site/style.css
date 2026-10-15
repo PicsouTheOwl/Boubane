@@ -978,7 +978,9 @@ p.lead {
   color: var(--color-primary);
   text-transform: uppercase;
   margin-bottom: var(--spacing-sm);
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .bento-title {
