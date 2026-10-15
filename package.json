@@ -4,7 +4,6 @@
   "private": true,
   "description": "Boubane · Automatisation IA sur-mesure pour les entreprises",
   "scripts": {
-    "build": "echo 'Build OK'",
     "dev": "npx -y serve . -l 3000",
     "start": "npx -y serve . -l 3000"
   }
