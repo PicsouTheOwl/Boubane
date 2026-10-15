@@ -911,9 +911,18 @@
                         <h3 class="panel-title">Articles de Blog &amp; Stratégie SEO GEO</h3>
                         <p class="panel-subtitle">Gérez vos publications pour capter des recherches locales et nationales à forte intention d'achat</p>
                     </div>
-                    <button onclick="createNewArticleForm()" class="btn-dash primary">
-                        <span>+ Rédiger un nouvel article</span>
-                    </button>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button onclick="createNewArticleForm()" class="btn-dash primary">
+                            <span>+ Nouvel article</span>
+                        </button>
+                        <button onclick="exportBlogArticlesJson()" class="btn-dash" title="Sauvegarder tous les articles en JSON">
+                            <span>Sauvegarde JSON</span>
+                        </button>
+                        <label class="btn-dash" style="cursor: pointer;" title="Restaurer un fichier JSON">
+                            <span>Importer JSON</span>
+                            <input type="file" id="importBlogJsonInput" accept=".json" onchange="importBlogArticlesJson(event)" style="display: none;">
+                        </label>
+                    </div>
                 </div>
 
                 <div class="leads-table-wrap">
@@ -935,6 +944,25 @@
                 </div>
             </div>
 
+            <!-- Barre d'Accélération : Templates Prêts à l'Emploi & Assistant Prompt IA -->
+            <div class="panel-card" style="margin-bottom: 24px; background: linear-gradient(145deg, var(--bg-card), rgba(237, 91, 4, 0.08));">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <strong style="color: var(--primary); font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase;">ACCÉLÉRATEURS ÉDITORIAUX STUDIO</strong>
+                        <h4 style="font-size: 1.05rem; margin-top: 2px;">Charger une Structure d'Article Optimisée en 1 Clic</h4>
+                    </div>
+                    <button onclick="generateAiSuperPrompt()" class="btn-dash" style="background: var(--primary); border-color: var(--primary); color: #FFF; font-weight: 700;">
+                        <span>✨ Générer le Super-Prompt IA (ChatGPT / Claude / Gemini)</span>
+                    </button>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button onclick="applyArticleTemplate('tarifs')" class="btn-dash" style="font-size: 0.78rem;">Template : Guide Comparatif de Tarifs</button>
+                    <button onclick="applyArticleTemplate('arnaque')" class="btn-dash" style="font-size: 0.78rem;">Template : Débunking Abonnements Captifs</button>
+                    <button onclick="applyArticleTemplate('cas-client')" class="btn-dash" style="font-size: 0.78rem;">Template : Cas Client &amp; Résultats Métier</button>
+                    <button onclick="applyArticleTemplate('vitesse-seo')" class="btn-dash" style="font-size: 0.78rem;">Template : Vitesse Web &amp; SEO Local</button>
+                </div>
+            </div>
+
             <!-- Éditeur d'Article & Simulateur SERP Google -->
             <div class="two-cols-grid" id="articleEditorCard">
                 <div class="panel-card">
@@ -943,68 +971,88 @@
                             <h3 class="panel-title" id="editorModeTitle">Rédiger / Modifier un Article SEO</h3>
                             <p class="panel-subtitle">Optimisé pour la vitesse chirurgicale et les moteurs de recherche IA (GEO)</p>
                         </div>
+                        <!-- Bascule Éditeur / Aperçu en Direct -->
+                        <div style="display: flex; gap: 4px; background: var(--bg-surface); padding: 3px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                            <button type="button" id="btnEditMode" onclick="setEditorTab('edit')" class="btn-dash" style="padding: 4px 10px; font-size: 0.75rem; background: var(--primary); color: #FFF; border: none;">Édition</button>
+                            <button type="button" id="btnPreviewMode" onclick="setEditorTab('preview')" class="btn-dash" style="padding: 4px 10px; font-size: 0.75rem; background: none; border: none;">Aperçu Réel</button>
+                        </div>
                     </div>
 
                     <form onsubmit="handleSaveArticle(event)">
-                        <div style="margin-bottom: 14px;">
-                            <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Titre de l'Article (Balise H1) *</label>
-                            <input type="text" id="artTitle" required oninput="syncSlugAndSerp()" placeholder="Ex: Prix d'un Site Vitrine en 2026 : Comparatif Agence vs Studio" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.9rem;">
+                        <!-- Mode Édition Normal -->
+                        <div id="editorInputsWrap">
+                            <div style="margin-bottom: 14px;">
+                                <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Titre de l'Article (Balise H1) *</label>
+                                <input type="text" id="artTitle" required oninput="syncSlugAndSerp()" placeholder="Ex: Prix d'un Site Vitrine en 2026 : Comparatif Agence vs Studio" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.9rem;">
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; margin-bottom: 14px;">
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Slug URL (/blog#article=...)</label>
+                                    <input type="text" id="artSlug" required placeholder="prix-site-vitrine-2026" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.82rem;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Catégorie</label>
+                                    <select id="artCategory" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                                        <option value="Enquête &amp; Tarifs">Enquête &amp; Tarifs</option>
+                                        <option value="Indépendance Numérique">Indépendance Numérique</option>
+                                        <option value="Performance &amp; SEO GEO">Performance &amp; SEO GEO</option>
+                                        <option value="Guides Métier Artisans">Guides Métier Artisans</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 12px; margin-bottom: 14px;">
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Mots-Clés Cibles &amp; SEO GEO</label>
+                                    <input type="text" id="artKeywords" oninput="calculateSeoScore()" placeholder="Ex: site vitrine artisan France, Paris" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Temps de lecture</label>
+                                    <input type="text" id="artReadTime" value="4 min" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Statut</label>
+                                    <select id="artStatus" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                                        <option value="Publié">Publié</option>
+                                        <option value="Brouillon">Brouillon</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom: 14px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <label style="font-weight: 600; font-size: 0.8rem;">Meta Title SEO Google</label>
+                                    <span id="metaTitleCount" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--success);">0 / 60 car.</span>
+                                </div>
+                                <input type="text" id="artMetaTitle" oninput="updateSerpPreview()" placeholder="Titre affiché dans les résultats Google" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                            </div>
+
+                            <div style="margin-bottom: 14px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <label style="font-weight: 600; font-size: 0.8rem;">Meta Description SEO Google</label>
+                                    <span id="metaDescCount" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--success);">0 / 155 car.</span>
+                                </div>
+                                <textarea id="artMetaDesc" rows="2" oninput="updateSerpPreview()" placeholder="Description engageante affichée dans Google sous le titre bleu" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;"></textarea>
+                            </div>
+
+                            <!-- Barre d'outils de Rédaction Rapide -->
+                            <div style="margin-bottom: 6px;">
+                                <label style="font-weight: 600; font-size: 0.8rem; display: block; margin-bottom: 6px;">Contenu de l'Article (HTML enrichi)</label>
+                                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px;">
+                                    <button type="button" onclick="insertSnippet('h2')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Titre H2</button>
+                                    <button type="button" onclick="insertSnippet('h3')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Sous-titre H3</button>
+                                    <button type="button" onclick="insertSnippet('callout')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Encadré Pro</button>
+                                    <button type="button" onclick="insertSnippet('cta')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem; color: var(--primary);">+ Bloc CTA Offert (0 €)</button>
+                                    <button type="button" onclick="insertSnippet('list')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Liste à puces</button>
+                                </div>
+                                <textarea id="artContent" rows="12" oninput="calculateSeoScore()" required style="width: 100%; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5;"></textarea>
+                            </div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; margin-bottom: 14px;">
-                            <div>
-                                <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Slug URL (/blog#article=...)</label>
-                                <input type="text" id="artSlug" required placeholder="prix-site-vitrine-2026" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.82rem;">
-                            </div>
-                            <div>
-                                <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Catégorie</label>
-                                <select id="artCategory" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
-                                    <option value="Enquête &amp; Tarifs">Enquête &amp; Tarifs</option>
-                                    <option value="Indépendance Numérique">Indépendance Numérique</option>
-                                    <option value="Performance &amp; SEO GEO">Performance &amp; SEO GEO</option>
-                                    <option value="Guides Métier Artisans">Guides Métier Artisans</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
-                            <div>
-                                <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Mots-Clés Cibles &amp; Localisation GEO</label>
-                                <input type="text" id="artKeywords" placeholder="Ex: site vitrine artisan France, Paris, Lyon" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
-                            </div>
-                            <div>
-                                <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Temps de lecture</label>
-                                <input type="text" id="artReadTime" value="4 min" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
-                            </div>
-                        </div>
-
-                        <div style="margin-bottom: 14px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                                <label style="font-weight: 600; font-size: 0.8rem;">Meta Title SEO Google</label>
-                                <span id="metaTitleCount" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--success);">0 / 60 car.</span>
-                            </div>
-                            <input type="text" id="artMetaTitle" oninput="updateSerpPreview()" placeholder="Titre affiché dans les résultats Google" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.85rem;">
-                        </div>
-
-                        <div style="margin-bottom: 14px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                                <label style="font-weight: 600; font-size: 0.8rem;">Meta Description SEO Google</label>
-                                <span id="metaDescCount" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--success);">0 / 155 car.</span>
-                            </div>
-                            <textarea id="artMetaDesc" rows="2" oninput="updateSerpPreview()" placeholder="Description engageante affichée dans Google sous le titre bleu" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;"></textarea>
-                        </div>
-
-                        <!-- Barre d'outils de Rédaction Rapide -->
-                        <div style="margin-bottom: 6px;">
-                            <label style="font-weight: 600; font-size: 0.8rem; display: block; margin-bottom: 6px;">Contenu de l'Article (HTML enrichi)</label>
-                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px;">
-                                <button type="button" onclick="insertSnippet('h2')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Titre H2</button>
-                                <button type="button" onclick="insertSnippet('h3')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Sous-titre H3</button>
-                                <button type="button" onclick="insertSnippet('callout')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Encadré Pro</button>
-                                <button type="button" onclick="insertSnippet('cta')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem; color: var(--primary);">+ Bloc CTA Offert (0 €)</button>
-                                <button type="button" onclick="insertSnippet('list')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Liste à puces</button>
-                            </div>
-                            <textarea id="artContent" rows="10" required style="width: 100%; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5;"></textarea>
+                        <!-- Mode Aperçu Direct Studio (Caché par défaut) -->
+                        <div id="editorLivePreview" style="display: none; padding: 20px; background: #FFFFFF; color: #1F1F1F; border-radius: var(--radius-md); max-height: 600px; overflow-y: auto; line-height: 1.8;">
+                            <!-- Rempli dynamiquement -->
                         </div>
 
                         <div style="display: flex; gap: 10px; align-items: center; margin-top: 16px;">
@@ -1019,11 +1067,50 @@
                     </form>
                 </div>
 
-                <!-- Simulateur SERP Google & Aide Rédactionnelle -->
+                <!-- Simulateur SERP Google & Jauge de Score SEO GEO -->
                 <div>
+                    <!-- Jauge de Score SEO On-Page /100 -->
                     <div class="panel-card" style="margin-bottom: 20px;">
                         <div class="panel-header">
-                            <h3 class="panel-title">Aperçu Résultat de Recherche Google (SERP Preview)</h3>
+                            <div>
+                                <h3 class="panel-title">Score de Qualité SEO &amp; GEO</h3>
+                                <p class="panel-subtitle">Mesure automatique de la conformité Google &amp; IA</p>
+                            </div>
+                            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--success);" id="seoScoreBadge">100 / 100</div>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 8px;" id="seoChecklistList">
+                            <div class="checklist-item" id="checkH1">
+                                <span>Titre H1 optimal (40 - 75 car.)</span>
+                                <span class="check-badge" id="badgeH1">✓ Conforme</span>
+                            </div>
+                            <div class="checklist-item" id="checkMetaTitle">
+                                <span>Meta Title Google (45 - 65 car.)</span>
+                                <span class="check-badge" id="badgeMetaTitle">✓ Conforme</span>
+                            </div>
+                            <div class="checklist-item" id="checkMetaDesc">
+                                <span>Meta Description (120 - 160 car.)</span>
+                                <span class="check-badge" id="badgeMetaDesc">✓ Conforme</span>
+                            </div>
+                            <div class="checklist-item" id="checkH2Count">
+                                <span>Au moins 2 sous-titres H2 sémantiques</span>
+                                <span class="check-badge" id="badgeH2Count">✓ Conforme</span>
+                            </div>
+                            <div class="checklist-item" id="checkCta">
+                                <span>Présence d'un Call to Action (0 €)</span>
+                                <span class="check-badge" id="badgeCta">✓ Présent</span>
+                            </div>
+                            <div class="checklist-item" id="checkLength">
+                                <span>Volume de contenu (&gt; 250 mots)</span>
+                                <span class="check-badge" id="badgeLength">✓ &gt; 350 mots</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aperçu Résultat de Recherche Google -->
+                    <div class="panel-card" style="margin-bottom: 20px;">
+                        <div class="panel-header">
+                            <h3 class="panel-title">Aperçu Résultat Google (SERP Preview)</h3>
                         </div>
                         <div style="background: #FFFFFF; color: #1F1F1F; padding: 18px; border-radius: var(--radius-md); font-family: Arial, sans-serif; box-shadow: 0 4px 14px rgba(0,0,0,0.2);">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 12px; color: #4D5156;">
@@ -1038,18 +1125,6 @@
                                 Pourquoi une agence classique vous facture-t-elle 3 500 € à 5 000 € ? Découvrez comment accéder à un site vitrine sur-mesure d'élite à 0 € en création...
                             </p>
                         </div>
-                    </div>
-
-                    <div class="panel-card">
-                        <div class="panel-header">
-                            <h3 class="panel-title">Règles d'Or SEO &amp; GEO (Generative Engine Optimization)</h3>
-                        </div>
-                        <ul style="padding-left: 18px; color: var(--text-main); font-size: 0.82rem; line-height: 1.8;">
-                            <li><strong>Chiffres Précis &amp; Preuves :</strong> Mentionnez les tarifs exacts (0 € création, 5 € hébergement, &lt; 0.4s). Les IA (Perplexity, ChatGPT, Gemini) adorent citer des sources avec des données chiffrées claires.</li>
-                            <li><strong>Ancrage Géographique :</strong> Citez les villes françaises ciblées (Paris, Lyon, Marseille, Bordeaux, Lille, etc.) pour capter les requêtes locales d'artisans et PME.</li>
-                            <li><strong>Hiérarchie Sémantique :</strong> Utilisez toujours un seul H1, des H2 pour chaque grand point et des listes claires.</li>
-                            <li><strong>Réponse Directe en Premier Paragraphe :</strong> Donnez la réponse à la question dès les 3 premières lignes pour être sélectionné en "Position Zéro" sur Google.</li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -1724,6 +1799,262 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        // 1. Bascule Onglets Édition vs Aperçu Direct Studio
+        function setEditorTab(tab) {
+            const editWrap = document.getElementById('editorInputsWrap');
+            const previewWrap = document.getElementById('editorLivePreview');
+            const btnEdit = document.getElementById('btnEditMode');
+            const btnPrev = document.getElementById('btnPreviewMode');
+
+            if (tab === 'preview') {
+                editWrap.style.display = 'none';
+                previewWrap.style.display = 'block';
+                btnEdit.style.background = 'none';
+                btnEdit.style.color = 'var(--text-main)';
+                btnPrev.style.background = 'var(--primary)';
+                btnPrev.style.color = '#FFF';
+
+                // Générer le rendu
+                const title = document.getElementById('artTitle').value || 'Sans titre';
+                const cat = document.getElementById('artCategory').value;
+                const time = document.getElementById('artReadTime').value;
+                const content = document.getElementById('artContent').value || '<p>Aucun contenu rédigé.</p>';
+
+                previewWrap.innerHTML = `
+                    <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #ED5B04; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">${cat} · ${time}</div>
+                    <h1 style="font-size: 1.8rem; font-family: var(--font-heading); color: #0E0F12; margin-bottom: 16px; line-height: 1.25;">${escapeHtml(title)}</h1>
+                    <div style="font-size: 0.95rem; color: #374151; line-height: 1.8;">${content}</div>
+                `;
+            } else {
+                editWrap.style.display = 'block';
+                previewWrap.style.display = 'none';
+                btnEdit.style.background = 'var(--primary)';
+                btnEdit.style.color = '#FFF';
+                btnPrev.style.background = 'none';
+                btnPrev.style.color = 'var(--text-main)';
+            }
+        }
+
+        // 2. Templates d'Articles Prêts à l'Emploi
+        const ARTICLE_TEMPLATES = {
+            'tarifs': {
+                title: "Combien Coûte un Site Vitrine d'Artisan à Paris & en France en 2026 ?",
+                category: "Enquête & Tarifs",
+                keywords: "prix site vitrine artisan France, devis site web Paris Lyon, tarif agence",
+                readTime: "5 min",
+                metaTitle: "Prix Site Vitrine Artisan en 2026 : Le Vrai Coût Dévoilé",
+                metaDesc: "Comparatif sans filtre : 4 500 € en agence classique vs 0 € en création chez Boubane Studio. Comprenez pourquoi vous payez trop cher.",
+                content: `<h2>1. Pourquoi les devis d'agences varient de 1 500 € à 7 000 €</h2>
+<p>Pour un même projet de site vitrine de 5 pages, les propositions tarifaires reçues par les artisans et PME peuvent varier du simple au quintuple.</p>
+<p>La raison est simple : les agences classiques vous font payer leur structure commerciale, leurs commerciaux commissionnés et leurs bureaux physiques.</p>
+
+<div class="article-callout">
+<strong>Règle d'or économique :</strong> En 2026, un site vitrine codé sur-mesure ne doit comporter aucune redevance mensuelle captente.
+</div>
+
+<h2>2. Les postes de dépenses indispensables vs superflus</h2>
+<ul>
+<li><strong>Nom de domaine direct :</strong> ~10 € / an réglé directement à votre nom (OVH, IONOS).</li>
+<li><strong>Hébergement cloud ultra-rapide :</strong> ~5 € / mois sans intermédiaire.</li>
+<li><strong>Conception & Code source :</strong> 100% pris en charge à nos frais avec Boubane Studio (0 €).</li>
+</ul>
+
+<div style="text-align: center; margin: 24px 0; padding: 20px; background: #FAF8F5; border: 1px solid #E5E1D8; border-radius: 12px;">
+<h3>Bénéficiez de votre vitrine offerte</h3>
+<p>Arrêtez d'engraisser des intermédiaires. Réclamez votre site conçu sur-mesure à 0 €.</p>
+<a href="/#contact" class="btn btn-primary" style="display: inline-block; padding: 12px 24px; background: #ED5B04; color: #FFF; text-decoration: none; border-radius: 9999px; font-weight: 700; margin-top: 8px;">Commander mon site offert (0 €)</a>
+</div>`
+            },
+            'arnaque': {
+                title: "Contrats de Site Web à 150 €/mois : Pourquoi C'est le Pire Choix pour une PME",
+                category: "Indépendance Numérique",
+                keywords: "piege location site internet, resiliation contrat agence web, independance numerique pme",
+                readTime: "4 min",
+                metaTitle: "Contrats de Site Web à 150 €/mois : Le Piège des 7 200 €",
+                metaDesc: "Ne signez jamais un contrat de location de site internet sur 36 ou 48 mois. Découvrez les clauses cachées qui vous privent de vos accès.",
+                content: `<h2>1. L'illusion de la mensualité indolore</h2>
+<p>150 € par mois semble indolore dans la trésorerie mensuelle d'un artisan. Mais multiplié par 48 mois d'engagement irrévocable, vous payez plus de 7 200 € pour un outil dont vous n'êtes même pas propriétaire.</p>
+
+<div class="article-callout">
+<strong>Attention aux clauses de sortie :</strong> Si vous résiliez, le prestataire coupe le serveur. Vous perdez votre nom de domaine, vos emails professionnels et tout votre référencement Google.
+</div>
+
+<h2>2. Comment reprendre le contrôle de vos actifs numériques</h2>
+<p>Pour protéger votre entreprise, votre nom de domaine doit impérativement être déposé à votre propre nom ou SIREN, et votre code source doit vous être remis sans restriction.</p>`
+            },
+            'cas-client': {
+                title: "Cas Client : Comment l'Atelier Vaneau a Doublé ses Demandes de Devis sans Publicité",
+                category: "Guides Métier Artisans",
+                keywords: "site vitrine ebenisterie, cas client artisan france, generer devis site web",
+                readTime: "4 min",
+                metaTitle: "Cas Client Atelier Vaneau : Doubler ses Devis sans Pub",
+                metaDesc: "Étude de cas concrète : comment une direction artistique d'exception et un temps de chargement sous 0.3s ont transformé l'acquisition d'un artisan d'art.",
+                content: `<h2>1. Le défi : une activité d'exception invisible sur le web</h2>
+<p>L'Atelier Vaneau réalisait des chantiers d'ébénisterie d'art et d'agencement sur-mesure de très haut niveau, mais son ancien site WordPress mettait plus de 4 secondes à s'afficher et dégradait l'image de marque.</p>
+
+<h2>2. La refonte par Boubane Studio</h2>
+<p>En supprimant le CMS obèse pour une architecture sur-mesure ultra-légère (affichage en 280ms) et une mise en page valorisant la noblesse du bois, le taux de conversion a bondi dès le premier mois.</p>`
+            },
+            'vitesse-seo': {
+                title: "SEO Local & Core Web Vitals : Comment Dominer Google dans Votre Ville",
+                category: "Performance & SEO GEO",
+                keywords: "seo local artisan ville, core web vitals lcp, visibilite google pme",
+                readTime: "5 min",
+                metaTitle: "SEO Local & Vitesse : Dominez Google dans Votre Ville",
+                metaDesc: "Le guide complet pour surclasser vos concurrents locaux sur Google sans dépenser en publicité payante. Focus Core Web Vitals et sémantique.",
+                content: `<h2>1. Ce que regarde vraiment l'algorithme de Google en 2026</h2>
+<p>Google ne se contente plus de compter les mots-clés. Il mesure l'expérience utilisateur réelle : la stabilité visuelle (CLS) et la rapidité du premier rendu (LCP sous 2.5 secondes).</p>
+
+<h2>2. Le ciblage local : villes et requêtes d'intention</h2>
+<p>Les prospects ne tapent plus seulement 'plombier' ou 'architecte' : ils cherchent 'ébéniste Paris 6', 'menuisier Bordeaux centre'. Votre architecture doit refléter cette granularité géographique.</p>`
+            }
+        };
+
+        function applyArticleTemplate(type) {
+            const tpl = ARTICLE_TEMPLATES[type];
+            if (!tpl) return;
+
+            document.getElementById('editorModeTitle').textContent = "Template Chargé : " + tpl.title;
+            document.getElementById('artTitle').value = tpl.title;
+            document.getElementById('artCategory').value = tpl.category;
+            document.getElementById('artKeywords').value = tpl.keywords;
+            document.getElementById('artReadTime').value = tpl.readTime;
+            document.getElementById('artMetaTitle').value = tpl.metaTitle;
+            document.getElementById('artMetaDesc').value = tpl.metaDesc;
+            document.getElementById('artContent').value = tpl.content;
+
+            syncSlugAndSerp();
+            calculateSeoScore();
+            setEditorTab('edit');
+        }
+
+        // 3. Générateur de Super-Prompt IA pour LLM
+        function generateAiSuperPrompt() {
+            const title = document.getElementById('artTitle').value || "Création de site vitrine sans abonnement";
+            const keywords = document.getElementById('artKeywords').value || "artisan, PME, France, vitesse";
+            const category = document.getElementById('artCategory').value || "Indépendance Numérique";
+
+            const prompt = `Agis comme le Directeur Éditorial de Boubane Studio (studio d'artisanat web fondé par Léo Saillour, https://www.boubane.com).
+
+RÈGLES D'OR DU STUDIO :
+- Modèle de rupture : 100% de la création et du code sont offerts (0 €). Le client ne règle que son hébergement direct habituel (~5 €/mois).
+- Zéro abonnement masqué, zéro captivité, code source propriétaire livré sur GitHub.
+- Vitesse chirurgicale (< 0.4s), sans aucun CMS lourd (zéro WordPress, zéro plugin obsolète).
+- Ton : Sobre, noble, percutant, orienté dirigeants de PME et artisans exigeants en France. Zéro jargon IA creux, zéro blabla commercial agressif.
+
+MISSION DE RÉDACTION :
+Rédige un article complet prêt à être publié sur le blog Boubane avec :
+- Titre : "${title}"
+- Catégorie : "${category}"
+- Mots-clés cibles & Localisation : "${keywords}"
+- Structure attendue :
+  1. Une introduction captivante qui pose la réalité du marché
+  2. Deux ou trois grands titres <h2> d'approfondissement technique et économique
+  3. Des listes à puces concrètes
+  4. Un encadré d'autorité <div class="article-callout"><strong>...</strong>...</div>
+  5. Un appel à l'action invitant à commander son site offert (0 €) sur https://www.boubane.com/#contact
+
+Fournis directement le code HTML propre sans préambule ni balises <html> externes.`;
+
+            navigator.clipboard.writeText(prompt).then(() => {
+                alert("✨ Super-Prompt IA copié dans votre presse-papier !\n\nVous pouvez le coller directement dans ChatGPT, Claude ou Gemini pour obtenir un article d'une qualité chirurgicale.");
+            }).catch(() => {
+                prompt("Copiez le prompt ci-dessous pour votre IA :", prompt);
+            });
+        }
+
+        // 4. Calculateur de Score SEO & GEO On-Page (/100)
+        function calculateSeoScore() {
+            const title = document.getElementById('artTitle').value.trim();
+            const metaTitle = document.getElementById('artMetaTitle').value.trim();
+            const metaDesc = document.getElementById('artMetaDesc').value.trim();
+            const content = document.getElementById('artContent').value.trim();
+
+            let score = 0;
+
+            // H1 (40 - 75 car)
+            const h1Ok = title.length >= 35 && title.length <= 80;
+            if (h1Ok) score += 20;
+            document.getElementById('badgeH1').textContent = h1Ok ? "✓ Conforme" : "⚠ À ajuster";
+            document.getElementById('badgeH1').style.background = h1Ok ? "var(--success-soft)" : "rgba(239, 68, 68, 0.15)";
+            document.getElementById('badgeH1').style.color = h1Ok ? "var(--success)" : "#EF4444";
+
+            // Meta Title (45 - 65 car)
+            const mTitleOk = metaTitle.length >= 40 && metaTitle.length <= 70;
+            if (mTitleOk) score += 20;
+            document.getElementById('badgeMetaTitle').textContent = mTitleOk ? "✓ Conforme" : "⚠ À ajuster";
+            document.getElementById('badgeMetaTitle').style.background = mTitleOk ? "var(--success-soft)" : "rgba(239, 68, 68, 0.15)";
+            document.getElementById('badgeMetaTitle').style.color = mTitleOk ? "var(--success)" : "#EF4444";
+
+            // Meta Desc (120 - 165 car)
+            const mDescOk = metaDesc.length >= 100 && metaDesc.length <= 165;
+            if (mDescOk) score += 20;
+            document.getElementById('badgeMetaDesc').textContent = mDescOk ? "✓ Conforme" : "⚠ À ajuster";
+            document.getElementById('badgeMetaDesc').style.background = mDescOk ? "var(--success-soft)" : "rgba(239, 68, 68, 0.15)";
+            document.getElementById('badgeMetaDesc').style.color = mDescOk ? "var(--success)" : "#EF4444";
+
+            // H2 Count (>= 2)
+            const h2Matches = content.match(/<h2/gi) || [];
+            const h2Ok = h2Matches.length >= 2;
+            if (h2Ok) score += 15;
+            document.getElementById('badgeH2Count').textContent = h2Ok ? `✓ ${h2Matches.length} H2 détectés` : "⚠ Au moins 2 H2 requis";
+            document.getElementById('badgeH2Count').style.background = h2Ok ? "var(--success-soft)" : "rgba(239, 68, 68, 0.15)";
+            document.getElementById('badgeH2Count').style.color = h2Ok ? "var(--success)" : "#EF4444";
+
+            // Call to action (CTA)
+            const ctaOk = content.includes('contact') || content.includes('offert') || content.includes('0 €');
+            if (ctaOk) score += 15;
+            document.getElementById('badgeCta').textContent = ctaOk ? "✓ Présent" : "⚠ Manquant";
+            document.getElementById('badgeCta').style.background = ctaOk ? "var(--success-soft)" : "rgba(239, 68, 68, 0.15)";
+            document.getElementById('badgeCta').style.color = ctaOk ? "var(--success)" : "#EF4444";
+
+            // Longueur
+            const words = content.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+            const lenOk = words >= 200;
+            if (lenOk) score += 10;
+            document.getElementById('badgeLength').textContent = `✓ ${words} mots`;
+            document.getElementById('badgeLength').style.background = lenOk ? "var(--success-soft)" : "rgba(239, 68, 68, 0.15)";
+            document.getElementById('badgeLength').style.color = lenOk ? "var(--success)" : "#EF4444";
+
+            const badge = document.getElementById('seoScoreBadge');
+            badge.textContent = `${score} / 100`;
+            badge.style.color = score >= 80 ? 'var(--success)' : (score >= 50 ? 'var(--warning)' : '#EF4444');
+        }
+
+        // 5. Sauvegarde & Restauration JSON de toute la base d'articles
+        function exportBlogArticlesJson() {
+            const articles = getBlogArticles();
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(articles, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", `boubane_articles_backup_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        }
+
+        function importBlogArticlesJson(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        localStorage.setItem(BLOG_STORAGE_KEY, JSON.stringify(imported));
+                        loadBlogArticles();
+                        alert(`✓ Succès : ${imported.length} articles importés et synchronisés !`);
+                    } else {
+                        alert("Le fichier JSON n'est pas au format valide.");
+                    }
+                } catch(err) {
+                    alert("Erreur lors de la lecture du fichier JSON : " + err.message);
+                }
+            };
+            reader.readAsText(file);
         }
 
         // Initialisation

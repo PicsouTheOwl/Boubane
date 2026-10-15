@@ -32,7 +32,7 @@
     <meta name="twitter:image" content="https://www.boubane.com/assets/boubane-logo.png">
 
     <!-- Données Structurées Schema.org JSON-LD -->
-    <script type="application/ld+json">
+    <script type="application/ld+json" id="blogJsonLd">
     {
       "@context": "https://schema.org",
       "@type": "Blog",
@@ -65,16 +65,103 @@
     <script src="tracker.js" defer></script>
 
     <style>
+        /* Barre de progression de lecture */
+        #readProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--color-primary);
+            width: 0%;
+            z-index: 999;
+            transition: width 0.1s ease-out;
+        }
+
         .blog-header {
-            padding: var(--spacing-4xl) 0 var(--spacing-2xl);
+            padding: var(--spacing-4xl) 0 var(--spacing-xl);
             text-align: center;
         }
 
+        /* Barre de recherche et filtres */
+        .blog-controls-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0 var(--spacing-2xl);
+            flex-wrap: wrap;
+        }
+
+        .blog-search-box {
+            position: relative;
+            flex: 1;
+            max-width: 380px;
+            min-width: 260px;
+        }
+
+        .blog-search-input {
+            width: 100%;
+            padding: 10px 16px 10px 38px;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--color-border);
+            background: #FFFFFF;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color var(--transition-fast);
+        }
+
+        .blog-search-input:focus {
+            border-color: var(--color-primary);
+        }
+
+        .blog-search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-muted);
+            pointer-events: none;
+        }
+
+        .blog-categories-pills {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .cat-pill {
+            background: #FFFFFF;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+        }
+
+        .cat-pill:hover {
+            color: var(--color-text);
+            border-color: var(--color-text-muted);
+        }
+
+        .cat-pill.active {
+            background: var(--color-text);
+            color: #FFFFFF;
+            border-color: var(--color-text);
+        }
+
+        /* Grille des Articles */
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: var(--spacing-2xl);
-            margin: var(--spacing-2xl) 0 var(--spacing-4xl);
+            margin-bottom: var(--spacing-4xl);
         }
 
         .article-card {
@@ -87,6 +174,7 @@
             justify-content: space-between;
             box-shadow: var(--shadow-low);
             transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-smooth);
+            cursor: pointer;
             text-decoration: none;
             color: inherit;
         }
@@ -152,9 +240,44 @@
 
         /* Vue Détail d'Article */
         .article-view-container {
-            max-width: 820px;
+            max-width: 860px;
             margin: 0 auto;
             padding: var(--spacing-3xl) var(--spacing-lg) var(--spacing-4xl);
+        }
+
+        .article-actions-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .social-share-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .share-btn {
+            background: #FFFFFF;
+            border: 1px solid var(--color-border);
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-text);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all var(--transition-fast);
+        }
+
+        .share-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
         }
 
         .article-view-body {
@@ -163,33 +286,69 @@
             border-radius: var(--radius-xl);
             padding: var(--spacing-3xl);
             box-shadow: var(--shadow-medium);
-            line-height: 1.8;
+            line-height: 1.85;
             font-size: 1.05rem;
             color: #2D3139;
+        }
+
+        /* Sommaire automatique */
+        .toc-box {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .toc-title {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-item {
+            margin-bottom: 6px;
+        }
+
+        .toc-link {
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .toc-link:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
         }
 
         .article-view-body h2 {
             margin: var(--spacing-2xl) 0 var(--spacing-sm);
             font-size: 1.7rem;
             letter-spacing: -0.03em;
+            scroll-margin-top: 100px;
         }
 
         .article-view-body h3 {
             margin: var(--spacing-xl) 0 var(--spacing-xs);
             font-size: 1.3rem;
             letter-spacing: -0.02em;
+            scroll-margin-top: 100px;
         }
 
         .article-view-body p {
             margin-bottom: var(--spacing-md);
-        }
-
-        .article-view-body ul, .article-view-body ol {
-            margin: var(--spacing-md) 0 var(--spacing-lg) var(--spacing-xl);
-        }
-
-        .article-view-body li {
-            margin-bottom: 6px;
         }
 
         .article-callout {
@@ -201,12 +360,35 @@
             font-size: 0.95rem;
         }
 
+        /* Toast notification */
+        #toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #111318;
+            color: #FFFFFF;
+            padding: 12px 20px;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1000;
+            border: 1px solid #232733;
+        }
+
         @media (max-width: 991px) {
             .blog-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Barre de progression de lecture -->
+    <div id="readProgress"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast">✓ Lien copié dans le presse-papier !</div>
 
     <!-- Header Flottant -->
     <header class="header">
@@ -250,63 +432,26 @@
                 <p class="lead mx-auto">
                     Décryptages techniques, transparence tarifaire et guides d'autorité pour les chefs d'entreprise, PME et artisans exigeants en France.
                 </p>
+
+                <!-- Barre de Contrôle : Recherche & Filtres -->
+                <div class="blog-controls-wrap">
+                    <div class="blog-search-box">
+                        <svg class="blog-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="blogSearchInput" oninput="filterArticles()" placeholder="Rechercher un sujet, mot-clé, tarif..." class="blog-search-input">
+                    </div>
+
+                    <div class="blog-categories-pills">
+                        <button class="cat-pill active" onclick="setCategoryFilter('Tous')">Tous</button>
+                        <button class="cat-pill" onclick="setCategoryFilter('Enquête &amp; Tarifs')">Enquête &amp; Tarifs</button>
+                        <button class="cat-pill" onclick="setCategoryFilter('Indépendance Numérique')">Indépendance</button>
+                        <button class="cat-pill" onclick="setCategoryFilter('Performance &amp; SEO GEO')">Performance &amp; SEO GEO</button>
+                    </div>
+                </div>
             </div>
 
             <div class="container">
                 <div class="blog-grid" id="blogGridContainer">
-                    <!-- Article 01 -->
-                    <article class="article-card" onclick="openArticle('prix-site-vitrine-artisan-2026')">
-                        <div>
-                            <div class="article-meta">
-                                <span class="article-category">Enquête &amp; Tarifs</span>
-                                <span>Lecture : 5 min</span>
-                            </div>
-                            <h2 class="article-title">Quel est le Vrai Prix d'un Site Vitrine en 2026 ? Comparatif Agence vs Studio Indépendant</h2>
-                            <p class="article-excerpt">
-                                Pourquoi une agence classique vous facture-t-elle 3 500 € à 5 000 € pour un simple thème WordPress ? Décryptage des marges intermédiaires et comment accéder à une vitrine sur-mesure d'élite à 0 € de création.
-                            </p>
-                        </div>
-                        <div class="article-footer">
-                            <span>Par Léo Saillour · Octobre 2026</span>
-                            <span class="article-read-btn">Lire l'analyse →</span>
-                        </div>
-                    </article>
-
-                    <!-- Article 02 -->
-                    <article class="article-card" onclick="openArticle('piege-abonnement-site-internet-150-euros')">
-                        <div>
-                            <div class="article-meta">
-                                <span class="article-category">Indépendance Numérique</span>
-                                <span>Lecture : 4 min</span>
-                            </div>
-                            <h2 class="article-title">Pourquoi Fuir les Abonnements Web à 150 €/mois : Le Piège de la Captivité Numérique</h2>
-                            <p class="article-excerpt">
-                                Annuaires professionnels, contrats avec engagement de 24 à 48 mois, code source inaccessible : comment les PME et artisans se retrouvent otages de prestataires et comment récupérer votre souveraineté.
-                            </p>
-                        </div>
-                        <div class="article-footer">
-                            <span>Par Léo Saillour · Octobre 2026</span>
-                            <span class="article-read-btn">Lire l'analyse →</span>
-                        </div>
-                    </article>
-
-                    <!-- Article 03 -->
-                    <article class="article-card" onclick="openArticle('vitesse-chargement-site-vitrine-seo')">
-                        <div>
-                            <div class="article-meta">
-                                <span class="article-category">Performance &amp; SEO GEO</span>
-                                <span>Lecture : 4 min</span>
-                            </div>
-                            <h2 class="article-title">Vitesse Web &amp; Conversion : Comment un Site sous 0.4s Surclasse Vos Concurrents sur Google</h2>
-                            <p class="article-excerpt">
-                                53% des visiteurs mobiles quittent un site qui met plus de 3 secondes à s'afficher. Découvrez pourquoi le code pur sans CMS lourd propulse votre entreprise au sommet des recherches locales en France.
-                            </p>
-                        </div>
-                        <div class="article-footer">
-                            <span>Par Léo Saillour · Octobre 2026</span>
-                            <span class="article-read-btn">Lire l'analyse →</span>
-                        </div>
-                    </article>
+                    <!-- Rempli dynamiquement en combinant les articles de référence et les créations du Dashboard -->
                 </div>
             </div>
         </section>
@@ -314,9 +459,24 @@
         <!-- Vue Détail de Lecture d'Article (Gérée en JS fluide sans rechargement) -->
         <section id="articleDetailView" style="display: none;">
             <div class="container article-view-container">
-                <button onclick="closeArticleView()" class="btn btn-secondary" style="margin-bottom: var(--spacing-xl); padding: 8px 18px; font-size: 0.85rem;">
-                    ← Retour à la liste des articles
-                </button>
+                <div class="article-actions-bar">
+                    <button onclick="closeArticleView()" class="btn btn-secondary" style="padding: 8px 18px; font-size: 0.85rem;">
+                        ← Retour à la liste
+                    </button>
+
+                    <div class="social-share-group">
+                        <button onclick="copyArticleLink()" class="share-btn" title="Copier le lien direct">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                            <span>Copier le lien</span>
+                        </button>
+                        <a id="shareLinkedIn" href="#" target="_blank" class="share-btn" title="Partager sur LinkedIn">
+                            <span>LinkedIn</span> ↗
+                        </a>
+                        <a id="shareTwitter" href="#" target="_blank" class="share-btn" title="Partager sur X">
+                            <span>X</span> ↗
+                        </a>
+                    </div>
+                </div>
 
                 <div id="articleContentPlaceholder">
                     <!-- Rempli dynamiquement -->
@@ -359,14 +519,16 @@
         </div>
     </footer>
 
-    <!-- Script de consultation & données des articles -->
+    <!-- Script de consultation & gestion dynamique des articles -->
     <script>
-        const ARTICLES_DATA = {
+        const DEFAULT_ARTICLES_MAP = {
             'prix-site-vitrine-artisan-2026': {
+                slug: 'prix-site-vitrine-artisan-2026',
                 title: "Quel est le Vrai Prix d'un Site Vitrine en 2026 ? Comparatif Agence vs Studio Indépendant",
                 category: "Enquête & Tarifs",
                 date: "15 Octobre 2026",
                 readTime: "5 min",
+                excerpt: "Pourquoi une agence classique vous facture-t-elle 3 500 € à 5 000 € pour un simple thème WordPress ? Décryptage des marges intermédiaires et comment accéder à une vitrine sur-mesure d'élite à 0 € de création.",
                 content: `
                     <div class="article-view-body">
                         <div class="article-meta">
@@ -378,6 +540,9 @@
                         <p class="lead" style="font-size: 1.15rem; color: #4B5563; margin-bottom: var(--spacing-xl);">
                             Lorsqu'un artisan, un cabinet libéral ou une PME en France demande un devis pour la création d'un site vitrine, les tarifs oscillent généralement entre 2 500 € et plus de 6 000 €, souvent assortis d'un abonnement mensuel de 80 € à 200 €. Mais que payez-vous réellement derrière ces chiffres ?
                         </p>
+
+                        <!-- Sommaire Automatique -->
+                        <div class="toc-box" id="articleToc"></div>
 
                         <h2>1. La décomposition des coûts d'une agence traditionnelle</h2>
                         <p>
@@ -411,10 +576,12 @@
                 `
             },
             'piege-abonnement-site-internet-150-euros': {
+                slug: 'piege-abonnement-site-internet-150-euros',
                 title: "Pourquoi Fuir les Abonnements Web à 150 €/mois : Le Piège de la Captivité Numérique",
                 category: "Indépendance Numérique",
                 date: "12 Octobre 2026",
                 readTime: "4 min",
+                excerpt: "Annuaires professionnels, contrats avec engagement de 24 à 48 mois, code source inaccessible : comment les PME et artisans se retrouvent otages de prestataires et comment récupérer votre souveraineté.",
                 content: `
                     <div class="article-view-body">
                         <div class="article-meta">
@@ -426,6 +593,9 @@
                         <p class="lead" style="font-size: 1.15rem; color: #4B5563; margin-bottom: var(--spacing-xl);">
                             C'est le démarchage téléphonique le plus fréquent subi par les artisans et dirigeants en France : « Nous vous créons votre site pour seulement 149 € par mois ». Derrière cette promesse indolore se cache l'un des modèles les plus toxiques du web français.
                         </p>
+
+                        <!-- Sommaire Automatique -->
+                        <div class="toc-box" id="articleToc"></div>
 
                         <h2>1. Le calcul financier : 7 200 € sur 4 ans pour un site dont vous n'êtes pas propriétaire</h2>
                         <p>
@@ -454,10 +624,12 @@
                 `
             },
             'vitesse-chargement-site-vitrine-seo': {
+                slug: 'vitesse-chargement-site-vitrine-seo',
                 title: "Vitesse Web & Conversion : Comment un Site sous 0.4s Surclasse Vos Concurrents sur Google",
                 category: "Performance & SEO GEO",
                 date: "08 Octobre 2026",
                 readTime: "4 min",
+                excerpt: "53% des visiteurs mobiles quittent un site qui met plus de 3 secondes à s'afficher. Découvrez pourquoi le code pur sans CMS lourd propulse votre entreprise au sommet des recherches locales en France.",
                 content: `
                     <div class="article-view-body">
                         <div class="article-meta">
@@ -469,6 +641,9 @@
                         <p class="lead" style="font-size: 1.15rem; color: #4B5563; margin-bottom: var(--spacing-xl);">
                             En 2026, l'algorithme de Google ainsi que les moteurs de recherche par IA (Perplexity, SearchGPT, Gemini) privilégient sans pitié les sites d'une rapidité absolue. Pourquoi chaque centième de seconde fait la différence pour votre chiffre d'affaires.
                         </p>
+
+                        <!-- Sommaire Automatique -->
+                        <div class="toc-box" id="articleToc"></div>
 
                         <h2>1. La règle des 3 secondes sur smartphone</h2>
                         <p>
@@ -497,21 +672,153 @@
             }
         };
 
+        let currentCategoryFilter = 'Tous';
+        let allArticlesList = [];
+
+        // Récupérer et fusionner tous les articles
+        function getAllArticles() {
+            let userArticles = [];
+            try {
+                const raw = localStorage.getItem('boubane_blog_articles');
+                if (raw) userArticles = JSON.parse(raw);
+            } catch(e) {}
+
+            const merged = { ...DEFAULT_ARTICLES_MAP };
+
+            userArticles.forEach(art => {
+                if (art && art.slug) {
+                    merged[art.slug] = {
+                        slug: art.slug,
+                        title: art.title,
+                        category: art.category,
+                        date: art.date || 'Récemment',
+                        readTime: art.readTime || '4 min',
+                        excerpt: art.metaDesc || (art.content ? art.content.replace(/<[^>]+>/g, '').substring(0, 180) + '...' : ''),
+                        content: art.content.includes('article-view-body') ? art.content : `
+                            <div class="article-view-body">
+                                <div class="article-meta">
+                                    <span class="article-category">${art.category}</span>
+                                    <span>Publié le ${art.date || 'Récemment'} · Par Léo Saillour</span>
+                                </div>
+                                <h1 style="font-size: 2.2rem; line-height: 1.2; letter-spacing: -0.03em; margin-bottom: var(--spacing-lg);">${art.title}</h1>
+                                <div class="toc-box" id="articleToc"></div>
+                                ${art.content}
+                            </div>
+                        `
+                    };
+                }
+            });
+
+            return Object.values(merged);
+        }
+
+        // Rendu de la grille d'articles avec filtres
+        function renderArticlesGrid() {
+            const container = document.getElementById('blogGridContainer');
+            const searchKeyword = (document.getElementById('blogSearchInput')?.value || '').toLowerCase().trim();
+
+            allArticlesList = getAllArticles();
+
+            let filtered = allArticlesList.filter(art => {
+                const matchCat = currentCategoryFilter === 'Tous' || art.category === currentCategoryFilter;
+                const matchSearch = !searchKeyword || 
+                    art.title.toLowerCase().includes(searchKeyword) || 
+                    art.excerpt.toLowerCase().includes(searchKeyword) ||
+                    art.category.toLowerCase().includes(searchKeyword);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: #FFFFFF; border-radius: var(--radius-xl); border: 1px solid var(--color-border);">
+                        <h3>Aucun article ne correspond à votre recherche.</h3>
+                        <p style="color: var(--color-text-muted); margin-top: 8px;">Essayez d'autres mots-clés ou sélectionnez une autre catégorie.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(art => `
+                <article class="article-card" onclick="openArticle('${art.slug}')">
+                    <div>
+                        <div class="article-meta">
+                            <span class="article-category">${escapeHtml(art.category)}</span>
+                            <span>Lecture : ${art.readTime}</span>
+                        </div>
+                        <h2 class="article-title">${escapeHtml(art.title)}</h2>
+                        <p class="article-excerpt">${escapeHtml(art.excerpt)}</p>
+                    </div>
+                    <div class="article-footer">
+                        <span>Par Léo Saillour · ${art.date}</span>
+                        <span class="article-read-btn">Lire l'analyse →</span>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function setCategoryFilter(cat) {
+            currentCategoryFilter = cat;
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.trim() === cat.replace('&amp;', '&'));
+            });
+            renderArticlesGrid();
+        }
+
+        function filterArticles() {
+            renderArticlesGrid();
+        }
+
+        // Ouvrir la lecture d'un article
         function openArticle(slug) {
-            const article = ARTICLES_DATA[slug];
+            const articles = getAllArticles();
+            const article = articles.find(a => a.slug === slug);
             if (!article) return;
 
             document.getElementById('articleContentPlaceholder').innerHTML = article.content;
             document.getElementById('blogListView').style.display = 'none';
             document.getElementById('articleDetailView').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Mise à jour de l'URL avec ancre propre
+
+            // Générer le sommaire automatique à partir des <h2>
+            generateTableOfContents();
+
+            // Configurer les liens de partage
+            const articleUrl = window.location.origin + '/blog#article=' + slug;
+            document.getElementById('shareLinkedIn').href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`;
+            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(articleUrl)}`;
+
+            // Mettre à jour les données structurées SEO dynamiques
+            updateArticleJsonLd(article);
+
             window.location.hash = 'article=' + slug;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
             if (typeof window.BoubaneAnalytics === 'object') {
                 window.BoubaneAnalytics.track('read_article', { slug: slug, title: article.title });
             }
+        }
+
+        // Génération dynamique du Sommaire
+        function generateTableOfContents() {
+            const body = document.querySelector('.article-view-body');
+            const toc = document.getElementById('articleToc');
+            if (!body || !toc) return;
+
+            const headings = body.querySelectorAll('h2');
+            if (headings.length < 2) {
+                toc.style.display = 'none';
+                return;
+            }
+
+            let tocHtml = `<div class="toc-title">Sommaire de l'analyse</div><ul class="toc-list">`;
+            headings.forEach((h, idx) => {
+                const id = 'section-' + idx;
+                h.id = id;
+                tocHtml += `<li class="toc-item"><a href="#${id}" class="toc-link">→ ${h.textContent}</a></li>`;
+            });
+            tocHtml += `</ul>`;
+
+            toc.innerHTML = tocHtml;
+            toc.style.display = 'block';
         }
 
         function closeArticleView() {
@@ -519,16 +826,75 @@
             document.getElementById('blogListView').style.display = 'block';
             window.location.hash = '';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('readProgress').style.width = '0%';
         }
 
-        // Vérifier si un article est demandé dans l'URL
+        function copyArticleLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2600);
+            });
+        }
+
+        function updateArticleJsonLd(art) {
+            let script = document.getElementById('articleDynamicSchema');
+            if (!script) {
+                script = document.createElement('script');
+                script.id = 'articleDynamicSchema';
+                script.type = 'application/ld+json';
+                document.head.appendChild(script);
+            }
+            script.textContent = JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                "headline": art.title,
+                "description": art.excerpt,
+                "author": {
+                    "@type": "Person",
+                    "name": "Léo Saillour",
+                    "url": "https://www.boubane.com/#qui-suis-je"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "Boubane Studio",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://www.boubane.com/assets/boubane-logo.png"
+                    }
+                },
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": window.location.href
+                }
+            });
+        }
+
+        // Barre de défilement de lecture
+        window.addEventListener('scroll', () => {
+            const detailView = document.getElementById('articleDetailView');
+            if (detailView && detailView.style.display !== 'none') {
+                const winScroll = document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.getElementById('readProgress').style.width = scrolled + '%';
+            }
+        });
+
+        function escapeHtml(str) {
+            return (str || '').replace(/[&<>"']/g, function(m) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m];
+            });
+        }
+
+        // Initialisation
         window.addEventListener('DOMContentLoaded', () => {
+            renderArticlesGrid();
+
             const hash = window.location.hash;
             if (hash.startsWith('#article=')) {
                 const slug = hash.replace('#article=', '');
-                if (ARTICLES_DATA[slug]) {
-                    openArticle(slug);
-                }
+                openArticle(slug);
             }
         });
     </script>
