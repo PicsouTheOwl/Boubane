@@ -14,6 +14,14 @@
       "use": "@vercel/static"
     },
     {
+      "src": "style.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "komponent.js",
+      "use": "@vercel/static"
+    },
+    {
       "src": "assets/**",
       "use": "@vercel/static"
     },
