@@ -418,7 +418,7 @@ p.lead {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(2rem, 4vh, 3.2rem) var(--spacing-lg) clamp(2rem, 4.5vh, 3.8rem);
+  padding: clamp(8px, 1.8vh, 18px) var(--spacing-lg) clamp(10px, 2vh, 20px);
   text-align: center;
   overflow: hidden;
   background: radial-gradient(ellipse 70% 60% at 50% 25%, rgba(238, 248, 90, 0.09) 0%, rgba(250, 248, 245, 0) 70%);
@@ -447,7 +447,7 @@ p.lead {
 .hero-split-grid {
   display: grid;
   grid-template-columns: 1fr 1.25fr;
-  gap: clamp(24px, 3.2vw, 44px);
+  gap: clamp(20px, 2.6vw, 38px);
   align-items: center;
   width: 100%;
   max-width: 1480px;
@@ -465,11 +465,11 @@ p.lead {
 }
 
 .hero-split-title {
-  font-size: clamp(2.3rem, 4.4vw, 3.8rem);
+  font-size: clamp(1.95rem, 3.2vw, 3.1rem);
   font-weight: 700;
   letter-spacing: -0.04em;
-  line-height: 1.02;
-  margin-bottom: 16px;
+  line-height: 1.05;
+  margin-bottom: 12px;
   color: #0C0A08;
 }
 
@@ -478,11 +478,11 @@ p.lead {
 }
 
 .hero-split-lead {
-  font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+  font-size: clamp(0.88rem, 1.02vw, 0.98rem);
   color: #5C5B56;
-  max-width: 580px;
-  margin-bottom: 22px;
-  line-height: 1.55;
+  max-width: 540px;
+  margin-bottom: 16px;
+  line-height: 1.48;
   letter-spacing: -0.015em;
 }
 
@@ -510,8 +510,11 @@ p.lead {
 }
 
 .hero-split-col--mockup .cs-cell--windowed {
-  min-height: 520px;
-  height: clamp(520px, 64vh, 600px);
+  height: clamp(390px, calc(100vh - 160px), 520px);
+  min-height: 360px;
+  max-height: calc(100vh - 130px);
+  overflow: hidden;
+  border-radius: 16px;
 }
 
 /* Badge Éditorial Ramp [ 01 ] */
@@ -1344,10 +1347,14 @@ body.mockup-modal-open .hero-card-slide {
 }
 
 .cs-cell--windowed {
-  min-height: clamp(480px, 62vh, 600px);
+  height: clamp(390px, calc(100vh - 160px), 520px);
+  min-height: 360px;
+  max-height: calc(100vh - 130px);
   display: flex;
   flex-direction: column;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 /* Mode Plein Écran Actif sur la Fenêtre */
@@ -2467,11 +2474,12 @@ body.mockup-modal-open .hero-card-slide {
 }
 
 .cs-viewport {
-  flex: 1;
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: none;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: clamp(380px, 52vh, 520px);
   scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
@@ -2790,7 +2798,7 @@ body.mockup-modal-open .hero-card-slide {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid rgba(12, 10, 8, 0.1);
-  padding: 10px 20px;
+  padding: 7px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
