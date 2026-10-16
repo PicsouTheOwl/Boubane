@@ -270,6 +270,9 @@
                                     </div>
 
                                     <div class="cs-window-bar-right">
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('astra')" title="Agrandir la vitrine en vue pleine écran">
+                                            <span class="cs-btn-expand-icon">⤢</span> Vue Pleine
+                                        </button>
                                         <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
                                             ✕ Réduire
                                         </button>
@@ -336,6 +339,9 @@
                                     </div>
 
                                     <div class="cs-window-bar-right">
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('achille')" title="Agrandir la vitrine en vue pleine écran">
+                                            <span class="cs-btn-expand-icon">⤢</span> Vue Pleine
+                                        </button>
                                         <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
                                             ✕ Réduire
                                         </button>
@@ -545,6 +551,9 @@
                                     </div>
 
                                     <div class="cs-window-bar-right">
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('valmy')" title="Agrandir la vitrine en vue pleine écran">
+                                            <span class="cs-btn-expand-icon">⤢</span> Vue Pleine
+                                        </button>
                                         <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
                                             ✕ Réduire
                                         </button>
@@ -784,46 +793,63 @@
                             </div>
                         </div>
                     </div>
-
-                        <!-- Dock Flottant macOS en Bas (Barre des tâches interactive) -->
-                        <nav class="cs-floating-dock" id="heroFloatingDock" aria-label="Dock d'applications macOS et sélecteur de vitrines">
-                            <!-- Applications / Vitrines principales -->
-                            <div class="cs-dock-items-wrap">
-                                <button type="button" class="cs-dock-app-btn active" id="dockBtn0" onclick="toggleDockApp(0)" title="Astravacances.fr — Audit &amp; Hôtellerie">
-                                    <div class="cs-dock-icon-box">
-                                        <img src="assets/astra-logo.png" alt="" class="cs-dock-img">
-                                    </div>
-                                    <span class="cs-dock-title">Astravacances</span>
-                                    <span class="cs-dock-indicator"></span>
-                                </button>
-
-                                <button type="button" class="cs-dock-app-btn" id="dockBtn1" onclick="toggleDockApp(1)" title="Achille.ai — Support Client AI-First">
-                                    <div class="cs-dock-icon-box">
-                                        <img src="assets/achille-logo.png" alt="" class="cs-dock-img cs-dock-img--achille">
-                                    </div>
-                                    <span class="cs-dock-title">Achille.ai</span>
-                                    <span class="cs-dock-indicator"></span>
-                                </button>
-
-                                <button type="button" class="cs-dock-app-btn" id="dockBtn2" onclick="toggleDockApp(2)" title="Cabinet Valmy — Avocats M&amp;A">
-                                    <div class="cs-dock-icon-box cs-dock-icon-box--valmy">
-                                        <span class="cs-dock-seal">V</span>
-                                    </div>
-                                    <span class="cs-dock-title">Cabinet Valmy</span>
-                                    <span class="cs-dock-indicator"></span>
-                                </button>
-
-                                <button type="button" class="cs-dock-app-btn" id="dockBtn3" onclick="toggleDockApp(3)" title="Studio Boubane — Carte Membre 3D">
-                                    <div class="cs-dock-icon-box">
-                                        <img src="assets/boubane-logo.png" alt="" class="cs-dock-img">
-                                    </div>
-                                    <span class="cs-dock-title">Studio</span>
-                                    <span class="cs-dock-indicator"></span>
-                                </button>
-                            </div>
-                        </nav>
-                    </div>
                 </div>
+            </div>
+        </div>
+
+            <!-- Dock Flottant macOS Centré sur toute la page (Barre des tâches interactive & sélecteur de vitrines) -->
+            <div class="hero-dock-wrap">
+                <nav class="cs-floating-dock" id="heroFloatingDock" aria-label="Dock d'applications macOS et sélecteur de vitrines">
+                    <!-- Applications / Vitrines principales -->
+                    <div class="cs-dock-items-wrap">
+                        <button type="button" class="cs-dock-app-btn active" id="dockBtn0" onclick="toggleDockApp(0)" title="Astravacances.fr — Audit &amp; Hôtellerie" aria-selected="true">
+                            <div class="cs-dock-icon-box">
+                                <img src="assets/astra-logo.png" alt="" class="cs-dock-img">
+                            </div>
+                            <span class="cs-dock-title">Astravacances</span>
+                            <span class="cs-dock-indicator"></span>
+                        </button>
+
+                        <button type="button" class="cs-dock-app-btn" id="dockBtn1" onclick="toggleDockApp(1)" title="Achille.ai — Support Client AI-First" aria-selected="false">
+                            <div class="cs-dock-icon-box">
+                                <img src="assets/achille-logo.png" alt="" class="cs-dock-img cs-dock-img--achille">
+                            </div>
+                            <span class="cs-dock-title">Achille.ai</span>
+                            <span class="cs-dock-indicator"></span>
+                        </button>
+
+                        <button type="button" class="cs-dock-app-btn" id="dockBtn2" onclick="toggleDockApp(2)" title="Cabinet Valmy — Avocats M&amp;A" aria-selected="false">
+                            <div class="cs-dock-icon-box cs-dock-icon-box--valmy">
+                                <span class="cs-dock-seal">V</span>
+                            </div>
+                            <span class="cs-dock-title">Cabinet Valmy</span>
+                            <span class="cs-dock-indicator"></span>
+                        </button>
+
+                        <button type="button" class="cs-dock-app-btn" id="dockBtn3" onclick="toggleDockApp(3)" title="Studio Boubane — Carte Membre 3D" aria-selected="false">
+                            <div class="cs-dock-icon-box">
+                                <img src="assets/boubane-logo.png" alt="" class="cs-dock-img">
+                            </div>
+                            <span class="cs-dock-title">Studio</span>
+                            <span class="cs-dock-indicator"></span>
+                        </button>
+                    </div>
+
+                    <!-- Séparateur vertical macOS -->
+                    <div class="cs-dock-divider" aria-hidden="true"></div>
+
+                    <!-- Actions Rapides : Vue Pleine & Visite Réelle -->
+                    <div class="cs-dock-actions-wrap">
+                        <button type="button" class="cs-dock-action-pill cs-dock-action-pill--fullscreen" onclick="openActiveFullscreen()" title="Ouvrir la vitrine active en plein écran immersif (Échap pour quitter)" aria-label="Agrandir en plein écran">
+                            <span class="cs-dock-action-icon">⤢</span>
+                            <span class="cs-dock-action-label">Vue Pleine</span>
+                        </button>
+                        <button type="button" class="cs-dock-action-pill cs-dock-action-pill--visit" onclick="openActiveSiteExternal()" title="Ouvrir le site réalisé dans un nouvel onglet" aria-label="Visiter le site réalisé">
+                            <span class="cs-dock-action-icon">↗</span>
+                            <span class="cs-dock-action-label">Visiter</span>
+                        </button>
+                    </div>
+                </nav>
             </div>
         </section>
 

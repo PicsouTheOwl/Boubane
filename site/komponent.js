@@ -457,6 +457,41 @@ function handleMockupKeydown(e) {
   }
 }
 
+// 9c. Ouverture directe de la vitrine active en Vue Pleine & Visite externe
+function openActiveFullscreen() {
+  const sites = ['astra', 'achille', 'valmy', 'studio'];
+  const siteKey = sites[currentHeroCardIndex] || 'astra';
+
+  if (siteKey === 'studio') {
+    // Basculer sur la vitrine Astra Vacances
+    restoreMockupAnimated(0);
+    setTimeout(() => toggleFullscreenMockup('astra'), 320);
+    return;
+  }
+
+  if (isWindowMinimized) {
+    restoreMockupAnimated(currentHeroCardIndex);
+    setTimeout(() => toggleFullscreenMockup(siteKey), 350);
+  } else {
+    toggleFullscreenMockup(siteKey);
+  }
+}
+
+function openActiveSiteExternal() {
+  const urls = [
+    'showcase-astra.html',
+    'https://achille.ai',
+    'https://cabinet-valmy.com',
+    '#tarifs'
+  ];
+  const url = urls[currentHeroCardIndex] || 'showcase-astra.html';
+  if (url.startsWith('http') || url.endsWith('.html')) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  } else {
+    window.location.hash = url;
+  }
+}
+
 // Sélecteur Responsive Device (Desktop / Tablette / Mobile)
 function setMockupDevice(site, device, btn) {
   const containerId = site === 'astra' ? 'mockupAstra' : (site === 'achille' ? 'mockupAchille' : 'mockupValmy');
