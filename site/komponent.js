@@ -283,14 +283,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 9. Moteur de Navigation des Maquettes Interactives de Sites Web
 const mockupState = {
-  vaneau: {
-    views: ['home', 'creations', 'atelier', 'calc'],
-    paths: ['/accueil', '/creations', '/savoir-faire', '/devis-express'],
+  astra: {
+    views: ['home', 'audit', 'gestion', 'calc'],
+    paths: ['/audit-operationnel', '/audit-terrain-360', '/pilotage-exploitation', '/simulateur-rentabilite'],
     current: 0
   },
-  apex: {
-    views: ['dash', 'fleet', 'calc', 'api'],
-    paths: ['/dashboard', '/flotte', '/cotation-express', '/webhooks'],
+  achille: {
+    views: ['auto', 'copilot', 'insights', 'calc'],
+    paths: ['/automation', '/mode-copilote', '/insights-racine', '/simulateur-economie'],
     current: 0
   },
   valmy: {
@@ -301,7 +301,9 @@ const mockupState = {
 };
 
 function switchMockupPage(site, viewKey, path, btnElement) {
-  const container = document.getElementById(site === 'vaneau' ? 'mockupVaneau' : (site === 'apex' ? 'mockupApex' : 'mockupValmy'));
+  const container = document.getElementById(
+    site === 'astra' ? 'mockupAstra' : (site === 'achille' ? 'mockupAchille' : 'mockupValmy')
+  );
   if (!container) return;
 
   // Mise à jour de l'état
@@ -355,7 +357,9 @@ function navigateMockup(site, direction) {
   const viewKey = state.views[state.current];
   const path = state.paths[state.current];
 
-  const container = document.getElementById(site === 'vaneau' ? 'mockupVaneau' : (site === 'apex' ? 'mockupApex' : 'mockupValmy'));
+  const container = document.getElementById(
+    site === 'astra' ? 'mockupAstra' : (site === 'achille' ? 'mockupAchille' : 'mockupValmy')
+  );
   if (!container) return;
 
   const tabs = container.querySelectorAll('.cs-mockup-tab-btn');
@@ -364,27 +368,27 @@ function navigateMockup(site, direction) {
 }
 
 // Interactions des simulateurs intégrés
-function setVaneauProject(btn, name, price) {
+function setAstraProject(btn, name, price) {
   const parent = btn.closest('.cs-mock-calc-row');
   if (parent) {
     parent.querySelectorAll('.cs-mock-calc-btn').forEach(b => b.classList.remove('selected'));
   }
   btn.classList.add('selected');
-  const priceDisplay = document.getElementById('vaneauPriceDisplay');
+  const priceDisplay = document.getElementById('astraPriceDisplay');
   if (priceDisplay) {
-    priceDisplay.textContent = `${price} HT`;
+    priceDisplay.textContent = `${price} / saison`;
   }
 }
 
-function setApexRoute(btn, route, price) {
+function setAchilleTickets(btn, volume, economy, hours) {
   const parent = btn.closest('.cs-mock-calc-row');
   if (parent) {
     parent.querySelectorAll('.cs-mock-calc-btn').forEach(b => b.classList.remove('selected'));
   }
   btn.classList.add('selected');
-  const priceDisplay = document.getElementById('apexPriceDisplay');
+  const priceDisplay = document.getElementById('achillePriceDisplay');
   if (priceDisplay) {
-    priceDisplay.textContent = `${price} HT`;
+    priceDisplay.textContent = `${economy} · ${hours} gagnées`;
   }
 }
 
@@ -395,12 +399,12 @@ let isHeroInteracting = false;
 
 const heroSiteMetadata = [
   {
-    kpi: "⚡ Vitesse : 0.28s · PageSpeed 100/100",
-    desc: "Atelier Vaneau — Vitrine d'ébénisterie d'art haute précision avec configurateur de devis instantané et navigation sans rechargement."
+    kpi: "⚡ Vitesse : 0.27s · PageSpeed 100/100",
+    desc: "Astravacances.fr — Plateforme d'audit et gestion opérationnelle pour campings et résidences avec simulateur de gain d'EBITDA."
   },
   {
-    kpi: "⚡ Vitesse : 0.31s · API 12ms",
-    desc: "Apex Solutions — Portail corporate de transport & fret avec télémétrie de flotte en direct et calculateur kilométrique B2B."
+    kpi: "⚡ Vitesse : 0.24s · IA 18ms",
+    desc: "Achille.ai — Support client e-commerce & SaaS AI-first automatisant 50% des tickets avec synchronisation Shopify et Gorgias."
   },
   {
     kpi: "⚡ Vitesse : 0.26s · Audit 0 €",

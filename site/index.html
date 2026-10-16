@@ -244,14 +244,14 @@
                     <div class="hero-switcher-bar">
                         <div class="hero-switcher-pills" role="tablist" aria-label="Sélection des sites web réalisés">
                             <button type="button" class="hero-pill-btn active" role="tab" id="heroTab0" aria-selected="true" onclick="selectHeroCard(0)">
-                                <span class="hero-pill-dot" style="background: var(--ramp-yellow);"></span>
-                                <span class="hero-pill-title">Atelier Vaneau</span>
-                                <span class="hero-pill-badge">Ébénisterie</span>
+                                <span class="hero-pill-dot" style="background: #2B9BBD;"></span>
+                                <span class="hero-pill-title">Astravacances.fr</span>
+                                <span class="hero-pill-badge">Tourisme &amp; Audit</span>
                             </button>
                             <button type="button" class="hero-pill-btn" role="tab" id="heroTab1" aria-selected="false" onclick="selectHeroCard(1)">
-                                <span class="hero-pill-dot" style="background: #27C93F;"></span>
-                                <span class="hero-pill-title">Apex Solutions</span>
-                                <span class="hero-pill-badge">Logistique</span>
+                                <span class="hero-pill-dot" style="background: #6366F1;"></span>
+                                <span class="hero-pill-title">Achille.ai</span>
+                                <span class="hero-pill-badge">IA Support SaaS</span>
                             </button>
                             <button type="button" class="hero-pill-btn" role="tab" id="heroTab2" aria-selected="false" onclick="selectHeroCard(2)">
                                 <span class="hero-pill-dot" style="background: #F59E0B;"></span>
@@ -273,9 +273,9 @@
                     <!-- Cartouche descriptif contextuel du site affiché sur la Hero -->
                     <div class="hero-site-meta-banner">
                         <div class="hero-site-meta-left">
-                            <span class="hero-meta-kpi" id="heroMetaKpi">⚡ Vitesse : 0.28s · PageSpeed 100/100</span>
+                            <span class="hero-meta-kpi" id="heroMetaKpi">⚡ Vitesse : 0.27s · PageSpeed 100/100</span>
                             <span class="hero-meta-sep">•</span>
-                            <span class="hero-meta-desc" id="heroMetaDesc">Atelier Vaneau — Vitrine d'ébénisterie d'art haute précision avec configurateur de devis instantané et navigation sans rechargement.</span>
+                            <span class="hero-meta-desc" id="heroMetaDesc">Astravacances.fr — Plateforme d'audit et gestion opérationnelle pour campings et résidences avec simulateur de gain d'EBITDA.</span>
                         </div>
                         <div class="hero-site-meta-right">
                             <span class="hero-meta-badge-interactive">✦ Maquette navigable en direct ci-dessous</span>
@@ -284,9 +284,9 @@
 
                     <!-- Viewport des cartes de sites web sur la Hero -->
                     <div class="hero-cards-viewport" id="heroCardsViewport">
-                        <!-- Slide 0 : Atelier Vaneau (Maquette Navigable) -->
+                        <!-- Slide 0 : Astravacances.fr (Maquette Navigable) -->
                         <div class="hero-card-slide active" id="heroSlide0">
-                            <div class="cs-cell cs-cell--windowed" id="mockupVaneau">
+                            <div class="cs-cell cs-cell--windowed" id="mockupAstra">
                                 <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
@@ -295,48 +295,48 @@
                                             <span class="cs-dot cs-dot--green" title="Mode immersif"></span>
                                         </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('vaneau', -1)" title="Page précédente">‹</button>
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('vaneau', 1)" title="Page suivante">›</button>
+                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('astra', -1)" title="Page précédente">‹</button>
+                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('astra', 1)" title="Page suivante">›</button>
                                         </div>
                                     </div>
 
                                     <div class="cs-url-bar">
                                         <span class="cs-url-lock">🔒</span>
-                                        <span class="cs-url-text">atelier-vaneau.fr<span id="vaneauUrlPath" class="cs-url-path">/accueil</span></span>
+                                        <span class="cs-url-text">astravacances.fr<span id="astraUrlPath" class="cs-url-path">/audit-operationnel</span></span>
                                     </div>
 
-                                    <span class="cs-speed-pill" id="vaneauSpeedBadge">⚡ 0.28s</span>
+                                    <span class="cs-speed-pill" id="astraSpeedBadge" style="color: #2B9BBD; border-color: rgba(43, 155, 189, 0.35);">⚡ 0.27s</span>
                                 </div>
 
                                 <div class="cs-viewport">
                                     <nav class="cs-mockup-navbar">
                                         <div class="cs-mockup-brand">
-                                            <span style="color: var(--ramp-yellow);">✦</span>
-                                            <span>ATELIER VANEAU</span>
+                                            <span style="color: #2B9BBD;">✦</span>
+                                            <span>ASTRA VACANCES · AUDIT &amp; GESTION HÔTELIÈRE</span>
                                         </div>
                                         <ul class="cs-mockup-tabs">
-                                            <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('vaneau', 'home', '/accueil', this)">Accueil</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('vaneau', 'creations', '/creations', this)">Créations</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('vaneau', 'atelier', '/savoir-faire', this)">L'Atelier</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('vaneau', 'calc', '/devis-express', this)">Devis 0 €</button></li>
+                                            <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('astra', 'home', '/audit-operationnel', this)">Accueil</button></li>
+                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('astra', 'audit', '/audit-terrain-360', this)">Audit Terrain</button></li>
+                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('astra', 'gestion', '/pilotage-exploitation', this)">Pilotage</button></li>
+                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('astra', 'calc', '/simulateur-rentabilite', this)">Simulateur ROI</button></li>
                                         </ul>
                                     </nav>
 
                                     <!-- Vue 1 : Accueil -->
-                                    <div id="vaneauView_home" class="cs-page-view active" style="background: radial-gradient(circle at 60% 40%, #1E1A17 0%, #0C0A08 100%);">
+                                    <div id="astraView_home" class="cs-page-view active" style="background: radial-gradient(circle at 60% 40%, #0E1D28 0%, #09131C 100%);">
                                         <div class="cs-mock-hero">
-                                            <span class="cs-mock-badge-inline" style="background: rgba(238, 248, 90, 0.15); color: var(--ramp-yellow);">[ ÉBÉNISTERIE D'ART &amp; AGENCEMENT ]</span>
-                                            <h3 class="cs-mock-title">Matières Nobles &amp; Précision du Geste</h3>
-                                            <p class="cs-mock-dek">Conception artisanale de mobilier haut de gamme et d'agencements sur-mesure pour appartements parisiens et villas d'exception.</p>
+                                            <span class="cs-mock-badge-inline" style="background: rgba(43, 155, 189, 0.2); color: #45B7D9;">[ PARTENAIRE D'EXCELLENCE TOURISME ]</span>
+                                            <h3 class="cs-mock-title">Audit &amp; Gestion Opérationnelle pour Établissements Touristiques</h3>
+                                            <p class="cs-mock-dek">Optimisez la rentabilité, sécurisez votre gestion au quotidien et retrouvez une vraie sérénité d'esprit grâce à notre accompagnement terrain sur-mesure.</p>
                                         </div>
                                         <div class="cs-mock-kpi-bar">
                                             <div>
-                                                <div class="cs-mock-kpi-val">100%</div>
-                                                <div class="cs-mock-kpi-lbl">Bois Éco-certifiés</div>
+                                                <div class="cs-mock-kpi-val" style="color: #45B7D9;">+24%</div>
+                                                <div class="cs-mock-kpi-lbl">Marge Opérationnelle</div>
                                             </div>
                                             <div>
-                                                <div class="cs-mock-kpi-val">40 Ans</div>
-                                                <div class="cs-mock-kpi-lbl">Savoir-Faire Maître</div>
+                                                <div class="cs-mock-kpi-val">100%</div>
+                                                <div class="cs-mock-kpi-lbl">Présence Terrain</div>
                                             </div>
                                             <div>
                                                 <div class="cs-mock-kpi-val">&lt; 0.3s</div>
@@ -345,61 +345,61 @@
                                         </div>
                                     </div>
 
-                                    <!-- Vue 2 : Créations -->
-                                    <div id="vaneauView_creations" class="cs-page-view" style="background: #111114;">
-                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--ramp-yellow); margin-bottom: 8px;">// SÉLECTION DE RÉALISATIONS</div>
-                                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 12px;">Mobilier Contemporain d'Exception</h4>
+                                    <!-- Vue 2 : Audit Terrain -->
+                                    <div id="astraView_audit" class="cs-page-view" style="background: #0B161F;">
+                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #45B7D9; margin-bottom: 8px;">// DIAGNOSTIC OPÉRATIONNEL 360°</div>
+                                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 12px;">Méthodologie de Valorisation des Établissements</h4>
                                         <div class="cs-mock-grid-cards">
                                             <div class="cs-mock-card-item">
-                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #3A2E26, #1A1512);">TABLE NOYER</div>
-                                                <strong style="color: #fff; font-size: 0.8rem;">Table Monolithe</strong>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Noyer d'Amérique &amp; Laiton</span>
+                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #184A5C, #0E2A35);">PROCESS ACCUEIL</div>
+                                                <strong style="color: #fff; font-size: 0.8rem;">Parcours Vacancier</strong>
+                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Fluidité check-in &amp; satisfaction avis</span>
                                             </div>
                                             <div class="cs-mock-card-item">
-                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #262D3A, #12151A);">AGENCEMENT</div>
-                                                <strong style="color: #fff; font-size: 0.8rem;">Bibliothèque Valmy</strong>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Chêne Fumé sur 4 mètres</span>
+                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #1E5C4E, #0E352C);">YIELD MANAGEMENT</div>
+                                                <strong style="color: #fff; font-size: 0.8rem;">Grilles Dynamiques</strong>
+                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Optimisation RevPAR haute &amp; basse saison</span>
                                             </div>
                                             <div class="cs-mock-card-item">
-                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #3A3626, #1A1812);">CONSOLE</div>
-                                                <strong style="color: #fff; font-size: 0.8rem;">Console Minimaliste</strong>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Frêne Brut &amp; Verre Fumé</span>
+                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #4A3A18, #2A210E);">CONTRÔLE DES COÛTS</div>
+                                                <strong style="color: #fff; font-size: 0.8rem;">Masse Salariale &amp; Achats</strong>
+                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Sécurisation des marges d'exploitation</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- Vue 3 : L'Atelier -->
-                                    <div id="vaneauView_atelier" class="cs-page-view" style="background: #0E0F12;">
-                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #27C93F; margin-bottom: 8px;">// SOUVERAINETÉ ARTISANALE</div>
-                                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 8px;">L'Exigence des Essences Nobles</h4>
+                                    <!-- Vue 3 : Pilotage -->
+                                    <div id="astraView_gestion" class="cs-page-view" style="background: #09131C;">
+                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #27C93F; margin-bottom: 8px;">// GESTION DÉLÉGUÉE &amp; DIRECTION DE SITE</div>
+                                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 8px;">Pilotage Opérationnel sans Faille</h4>
                                         <p style="color: rgba(255,255,255,0.7); font-size: 0.84rem; line-height: 1.5; margin-bottom: 12px;">
-                                            Chaque planche est séchée en atmosphère contrôlée pendant 18 mois avant d'être usinée au dixième de millimètre. Assemblages traditionnels à queue d'aronde.
+                                            Prise en charge de la direction d'exploitation, recrutement et coordination des saisonniers, protocoles de sécurité ERP et conformité réglementaire.
                                         </p>
                                         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                            <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Chêne Français PEFC</span>
-                                            <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Noyer Massif</span>
-                                            <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Finition Cire Végétale</span>
+                                            <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Hôtellerie de Plein Air</span>
+                                            <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Campings 3★ à 5★</span>
+                                            <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Résidences de Tourisme</span>
                                         </div>
                                     </div>
 
-                                    <!-- Vue 4 : Simulateur Devis Express -->
-                                    <div id="vaneauView_calc" class="cs-page-view" style="background: #131418;">
+                                    <!-- Vue 4 : Simulateur ROI -->
+                                    <div id="astraView_calc" class="cs-page-view" style="background: #0C1822;">
                                         <div class="cs-mock-calc">
                                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: var(--ramp-yellow);">SIMULATEUR DE PROJET ATELIER</span>
-                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">EN DIRECT</span>
+                                                <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #45B7D9;">ESTIMATION DU GAIN D'EXPLOITATION PARC</span>
+                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">SIMULATEUR DIRECT</span>
                                             </div>
                                             <div class="cs-mock-calc-row">
-                                                <button type="button" class="cs-mock-calc-btn selected" onclick="setVaneauProject(this, 'Table à manger', '3 400 €')">Table à manger</button>
-                                                <button type="button" class="cs-mock-calc-btn" onclick="setVaneauProject(this, 'Bibliothèque murale', '5 800 €')">Bibliothèque</button>
-                                                <button type="button" class="cs-mock-calc-btn" onclick="setVaneauProject(this, 'Agencement complet', '12 500 €')">Agencement</button>
+                                                <button type="button" class="cs-mock-calc-btn selected" onclick="setAstraProject(this, 'Camping 3★ (80 à 150 emplacements)', '+22 500 €')">Camping 3★</button>
+                                                <button type="button" class="cs-mock-calc-btn" onclick="setAstraProject(this, 'Camping 4★/5★ (150 à 350 emplacements)', '+48 000 €')">Camping 4/5★</button>
+                                                <button type="button" class="cs-mock-calc-btn" onclick="setAstraProject(this, 'Résidence ou Domaine Touristique', '+72 000 €')">Résidence de Tourisme</button>
                                             </div>
                                             <div class="cs-mock-calc-res">
                                                 <div>
-                                                    <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">ESTIMATION INDICATIVE :</div>
-                                                    <div id="vaneauPriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #fff;">3 400 € HT</div>
+                                                    <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">GAIN DE MARGE NETTE ESTIMÉ :</div>
+                                                    <div id="astraPriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #45B7D9;">+22 500 € / saison</div>
                                                 </div>
-                                                <button type="button" class="cs-mockup-cta-btn" onclick="alert('Module de contact Atelier Vaneau : étude transmise.')">Transmettre l'étude</button>
+                                                <button type="button" class="cs-mockup-cta-btn" style="background: #2B9BBD; color: #ffffff;" onclick="alert('Demande d\'étude transmise aux consultants Astra Vacances.')">Réserver un audit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -407,17 +407,17 @@
 
                                 <div class="cs-cap">
                                     <div class="cs-cap__left">
-                                        <span class="cs-cap__dot"></span>
-                                        <span class="cs-cap__t">Atelier Vaneau — Maquette Navigable sur la Hero</span>
+                                        <span class="cs-cap__dot" style="background: #2B9BBD;"></span>
+                                        <span class="cs-cap__t">Astravacances.fr — Maquette Navigable sur la Hero</span>
                                     </div>
                                     <span class="cs-cap__tag">⚡ Cliquez sur les onglets pour tester</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Slide 1 : Apex Solutions (Maquette Navigable) -->
+                        <!-- Slide 1 : Achille.ai (Maquette Navigable) -->
                         <div class="hero-card-slide" id="heroSlide1">
-                            <div class="cs-cell cs-cell--windowed" id="mockupApex">
+                            <div class="cs-cell cs-cell--windowed" id="mockupAchille">
                                 <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
@@ -426,116 +426,118 @@
                                             <span class="cs-dot cs-dot--green"></span>
                                         </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('apex', -1)" title="Page précédente">‹</button>
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('apex', 1)" title="Page suivante">›</button>
+                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('achille', -1)" title="Page précédente">‹</button>
+                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('achille', 1)" title="Page suivante">›</button>
                                         </div>
                                     </div>
 
                                     <div class="cs-url-bar">
                                         <span class="cs-url-lock">🔒</span>
-                                        <span class="cs-url-text">apex-solutions.fr<span id="apexUrlPath" class="cs-url-path">/dashboard</span></span>
+                                        <span class="cs-url-text">achille.ai<span id="achilleUrlPath" class="cs-url-path">/automation</span></span>
                                     </div>
 
-                                    <span class="cs-speed-pill" id="apexSpeedBadge">⚡ 0.31s</span>
+                                    <span class="cs-speed-pill" id="achilleSpeedBadge" style="color: #818CF8; border-color: rgba(99, 102, 241, 0.35);">⚡ 0.24s</span>
                                 </div>
 
                                 <div class="cs-viewport">
                                     <nav class="cs-mockup-navbar">
                                         <div class="cs-mockup-brand">
-                                            <span style="color: #27C93F;">●</span>
-                                            <span>APEX LOGISTICS</span>
+                                            <span style="color: #6366F1;">●</span>
+                                            <span>ACHILLE.AI · SERVICE CLIENT AI-FIRST (STATION F)</span>
                                         </div>
                                         <ul class="cs-mockup-tabs">
-                                            <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('apex', 'dash', '/dashboard', this)">Dashboard</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('apex', 'fleet', '/flotte', this)">Flotte</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('apex', 'calc', '/cotation-express', this)">Cotation</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('apex', 'api', '/webhooks', this)">API Live</button></li>
+                                            <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('achille', 'auto', '/automation', this)">IA Automate</button></li>
+                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('achille', 'copilot', '/mode-copilote', this)">Mode Copilote</button></li>
+                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('achille', 'insights', '/insights-racine', this)">Insights</button></li>
+                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('achille', 'calc', '/simulateur-economie', this)">Simulateur ROI</button></li>
                                         </ul>
                                     </nav>
 
-                                    <!-- Vue 1 : Dashboard Télémétrie -->
-                                    <div id="apexView_dash" class="cs-page-view active" style="background: radial-gradient(circle at 60% 40%, #101B17 0%, #0C0A08 100%);">
+                                    <!-- Vue 1 : IA Automate -->
+                                    <div id="achilleView_auto" class="cs-page-view active" style="background: radial-gradient(circle at 60% 40%, #15132A 0%, #0A0914 100%);">
                                         <div class="cs-mock-hero">
-                                            <span class="cs-mock-badge-inline" style="background: rgba(39, 201, 63, 0.15); color: #27C93F;">[ TRANSPORT INDUSTRIEL &amp; FRET ]</span>
-                                            <h3 class="cs-mock-title">Supervision Logistique en Temps Réel</h3>
-                                            <p class="cs-mock-dek">Portail corporate B2B assurant la traçabilité continue des convois industriels et le dispatching automatique.</p>
+                                            <span class="cs-mock-badge-inline" style="background: rgba(99, 102, 241, 0.2); color: #A5B4FC;">[ AUTOMATISATION SERVICE CLIENT E-COMMERCE &amp; SAAS ]</span>
+                                            <h3 class="cs-mock-title">50% de vos tickets de support automatisés en un mois</h3>
+                                            <p class="cs-mock-dek">WISMO, retours, échanges, facturation : Achille répond et exécute l'action côté Shopify, Gorgias et Zendesk en respectant scrupuleusement votre ton de marque.</p>
                                         </div>
                                         <div class="cs-mock-kpi-bar">
                                             <div>
-                                                <div class="cs-mock-kpi-val" style="color: #27C93F;">99.4%</div>
-                                                <div class="cs-mock-kpi-lbl">Ponctualité DDU</div>
+                                                <div class="cs-mock-kpi-val" style="color: #818CF8;">50%</div>
+                                                <div class="cs-mock-kpi-lbl">Tickets Résolus Auto</div>
                                             </div>
                                             <div>
-                                                <div class="cs-mock-kpi-val">142</div>
-                                                <div class="cs-mock-kpi-lbl">Camions en Transit</div>
+                                                <div class="cs-mock-kpi-val">150+</div>
+                                                <div class="cs-mock-kpi-lbl">Intégrations Natives</div>
                                             </div>
                                             <div>
-                                                <div class="cs-mock-kpi-val">0.31s</div>
-                                                <div class="cs-mock-kpi-lbl">API Latency</div>
+                                                <div class="cs-mock-kpi-val">0.24s</div>
+                                                <div class="cs-mock-kpi-lbl">Vitesse Vitrine</div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- Vue 2 : Flotte -->
-                                    <div id="apexView_fleet" class="cs-page-view" style="background: #0E1210;">
-                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #27C93F; margin-bottom: 8px;">// PARC ROULANT EURO 6 &amp; BIO-GNV</div>
-                                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 12px;">Unités de Fret Spécialisées</h4>
+                                    <!-- Vue 2 : Mode Copilote -->
+                                    <div id="achilleView_copilot" class="cs-page-view" style="background: #0E0D1B;">
+                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #818CF8; margin-bottom: 8px;">// ASSISTANCE AUGMENTÉE AGENTS SUPPORT</div>
+                                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 12px;">Réponses Prêtes à Valider en 1 Clic</h4>
                                         <div class="cs-mock-grid-cards">
                                             <div class="cs-mock-card-item">
-                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #1C3325, #0E1812);">44 TONNES</div>
-                                                <strong style="color: #fff; font-size: 0.8rem;">Tautliner Standard</strong>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">33 Palettes Européennes</span>
+                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #2D275A, #14112E);">ÉBAUCHE AUTO</div>
+                                                <strong style="color: #fff; font-size: 0.8rem;">Réponse Copilote</strong>
+                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Génération selon historique client</span>
                                             </div>
                                             <div class="cs-mock-card-item">
-                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #1A2E35, #0E181C);">FRIGORIFIQUE</div>
-                                                <strong style="color: #fff; font-size: 0.8rem;">Frigo Bi-température</strong>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">-25°C à +18°C Télémétré</span>
+                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #1C384A, #0C1A22);">SHOPIFY ACTION</div>
+                                                <strong style="color: #fff; font-size: 0.8rem;">Remboursement / Retour</strong>
+                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Exécution déclenchée sans quitter le chat</span>
                                             </div>
                                             <div class="cs-mock-card-item">
-                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #33271C, #18130E);">CONVOI</div>
-                                                <strong style="color: #fff; font-size: 0.8rem;">Plateau Extensible</strong>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Charges Lourdes &amp; Cuves</span>
+                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #4A1C44, #220C20);">MULTILINGUE</div>
+                                                <strong style="color: #fff; font-size: 0.8rem;">+ 30 Langues</strong>
+                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Support international immédiat</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- Vue 3 : Cotation Express -->
-                                    <div id="apexView_calc" class="cs-page-view" style="background: #111413;">
+                                    <!-- Vue 3 : Insights -->
+                                    <div id="achilleView_insights" class="cs-page-view" style="background: #0B0A16;">
+                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #27C93F; margin-bottom: 8px;">// ANALYSE DES CAUSES RACINES</div>
+                                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 8px;">Réduction du Volume Entrant à la Source</h4>
+                                        <p style="color: rgba(255,255,255,0.7); font-size: 0.84rem; line-height: 1.5; margin-bottom: 12px;">
+                                            Achille analyse l'historique complet des conversations pour identifier les blocages produits et pages de tracking, réduisant le volume entrant de 50%.
+                                        </p>
+                                        <div style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 14px; font-family: var(--font-mono); font-size: 0.72rem; color: #A5B4FC;">
+                                            ✔ Détection auto : 34% des tickets concernent la taille du produit X → Recommandation guide des tailles générée.
+                                        </div>
+                                    </div>
+
+                                    <!-- Vue 4 : Simulateur ROI Tickets -->
+                                    <div id="achilleView_calc" class="cs-page-view" style="background: #111022;">
                                         <div class="cs-mock-calc">
                                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #27C93F;">CALCULATEUR KILOMÉTRIQUE B2B</span>
-                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">DISPATCH AUTO</span>
+                                                <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #818CF8;">SIMULATEUR DE GAIN SUPPORT CLIENT</span>
+                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">ROI IMMÉDIAT</span>
                                             </div>
                                             <div class="cs-mock-calc-row">
-                                                <button type="button" class="cs-mock-calc-btn selected" onclick="setApexRoute(this, 'Paris → Lyon (460 km)', '680 €')">Paris → Lyon</button>
-                                                <button type="button" class="cs-mock-calc-btn" onclick="setApexRoute(this, 'Lille → Marseille (980 km)', '1 340 €')">Lille → Marseille</button>
-                                                <button type="button" class="cs-mock-calc-btn" onclick="setApexRoute(this, 'Bordeaux → Francfort (1 120 km)', '1 690 €')">Bordeaux → Francfort</button>
+                                                <button type="button" class="cs-mock-calc-btn selected" onclick="setAchilleTickets(this, '1 000 tickets / mois', '2 400 € / mois', '140 heures')">1 000 tickets</button>
+                                                <button type="button" class="cs-mock-calc-btn" onclick="setAchilleTickets(this, '5 000 tickets / mois', '11 800 € / mois', '680 heures')">5 000 tickets</button>
+                                                <button type="button" class="cs-mock-calc-btn" onclick="setAchilleTickets(this, '15 000 tickets / mois', '34 500 € / mois', '2 100 heures')">15 000 tickets</button>
                                             </div>
                                             <div class="cs-mock-calc-res">
                                                 <div>
-                                                    <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">TARIF ESTIMÉ EN DIRECT :</div>
-                                                    <div id="apexPriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #27C93F;">680 € HT</div>
+                                                    <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">ÉCONOMIE NETTE ESTIMÉE :</div>
+                                                    <div id="achillePriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #818CF8;">2 400 € / mois · 140 h gagnées</div>
                                                 </div>
-                                                <button type="button" class="cs-mockup-cta-btn" onclick="alert('Réservation Apex Logistics transmise aux dispatcheurs.')">Affréter le convoi</button>
+                                                <button type="button" class="cs-mockup-cta-btn" style="background: #6366F1; color: #ffffff;" onclick="alert('Réservation de démo Achille.ai (15 min avec un expert).')">Demander une démo</button>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Vue 4 : API & Webhooks -->
-                                    <div id="apexView_api" class="cs-page-view" style="background: #0D0F0E; font-family: var(--font-mono); font-size: 0.72rem;">
-                                        <div style="color: #27C93F; margin-bottom: 8px;">// WEBHOOK LOGS (STATUS 200 OK)</div>
-                                        <div style="background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; color: rgba(255,255,255,0.8); line-height: 1.6;">
-                                            <div><span style="color: #27C93F;">POST</span> /api/v1/shipments/create</div>
-                                            <div style="color: rgba(255,255,255,0.5);">{ "carrier": "APEX", "fleet_id": "TRK-842", "status": "IN_TRANSIT" }</div>
-                                            <div style="color: #27C93F; margin-top: 4px;">✔ Synchronisé en 12ms avec le CRM client</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="cs-cap">
                                     <div class="cs-cap__left">
-                                        <span class="cs-cap__dot" style="background: #27C93F;"></span>
-                                        <span class="cs-cap__t">Apex Solutions — Maquette Navigable sur la Hero</span>
+                                        <span class="cs-cap__dot" style="background: #6366F1;"></span>
+                                        <span class="cs-cap__t">Achille.ai — Maquette Navigable sur la Hero</span>
                                     </div>
                                     <span class="cs-cap__tag">⚡ Cliquez sur les onglets pour tester</span>
                                 </div>
@@ -747,28 +749,28 @@
                 <div class="cs-grid cs-grid--pairs">
                     <!-- Ligne 1 : Paire Asymétrique (1fr - 1fr) -->
                     <div class="cs-grid__row cs-grid__row--1-1">
-                        <!-- Cas 01 : Atelier Vaneau -->
+                        <!-- Cas 01 : Astravacances.fr -->
                         <div class="cs-case-card reveal-on-scroll reveal-delay-1">
                             <div class="cs-case-badge-row">
-                                <span class="cs-mock-badge-inline" style="background: rgba(238, 248, 90, 0.15); color: var(--ramp-yellow);">[ 01 · ÉBÉNISTERIE D'ART ]</span>
-                                <span class="cs-speed-pill">⚡ 0.28s</span>
+                                <span class="cs-mock-badge-inline" style="background: rgba(43, 155, 189, 0.15); color: #2B9BBD;">[ 01 · TOURISME &amp; HÔTELLERIE ]</span>
+                                <span class="cs-speed-pill" style="color: #2B9BBD; border-color: rgba(43, 155, 189, 0.35);">⚡ 0.27s</span>
                             </div>
-                            <h3 class="cs-case-title">Atelier Vaneau — Mobilier Haute Facture</h3>
+                            <h3 class="cs-case-title">Astravacances.fr — Audit &amp; Gestion Touristique</h3>
                             <p class="cs-case-p">
-                                Conception d'un univers visuel sombre et chaleureux mettant en majesté les textures de noyer et de chêne massif. Intégration d'un configurateur express sans CMS pour un chiffrage instantané.
+                                Vitrine premium d'autorité pour campings et domaines de loisirs. Conception d'un univers océan &amp; sérénité, simulateur de gain d'exploitation et tunnel de réservation d'audit terrain sans friction.
                             </p>
                             <div class="cs-case-specs-list">
                                 <div class="cs-case-spec-item">
                                     <span class="cs-case-spec-k">PageSpeed Google</span>
-                                    <span class="cs-case-spec-v" style="color: #27C93F;">100 / 100 Mobile</span>
+                                    <span class="cs-case-spec-v" style="color: #27C93F;">100 / 100 Mobile &amp; Desktop</span>
                                 </div>
                                 <div class="cs-case-spec-item">
-                                    <span class="cs-case-spec-k">Architecture</span>
-                                    <span class="cs-case-spec-v">Vanilla HTML/CSS/JS (0 dépendance)</span>
+                                    <span class="cs-case-spec-k">Gain Client Prouvé</span>
+                                    <span class="cs-case-spec-v">+24% marge nette d'exploitation</span>
                                 </div>
                                 <div class="cs-case-spec-item">
                                     <span class="cs-case-spec-k">Hébergement Direct</span>
-                                    <span class="cs-case-spec-v">Cloudflare Pages (Souveraineté totale)</span>
+                                    <span class="cs-case-spec-v">Cloudflare Pages (0 € / mois d'agence)</span>
                                 </div>
                             </div>
                             <div class="cs-case-actions">
@@ -780,28 +782,28 @@
                             </div>
                         </div>
 
-                        <!-- Cas 02 : Apex Solutions -->
+                        <!-- Cas 02 : Achille.ai -->
                         <div class="cs-case-card reveal-on-scroll reveal-delay-2">
                             <div class="cs-case-badge-row">
-                                <span class="cs-mock-badge-inline" style="background: rgba(39, 201, 63, 0.15); color: #27C93F;">[ 02 · TRANSPORT &amp; FRET B2B ]</span>
-                                <span class="cs-speed-pill" style="color: #27C93F; border-color: rgba(39, 201, 63, 0.3);">⚡ 0.31s</span>
+                                <span class="cs-mock-badge-inline" style="background: rgba(99, 102, 241, 0.15); color: #6366F1;">[ 02 · IA &amp; SERVICE CLIENT SAAS ]</span>
+                                <span class="cs-speed-pill" style="color: #818CF8; border-color: rgba(99, 102, 241, 0.35);">⚡ 0.24s</span>
                             </div>
-                            <h3 class="cs-case-title">Apex Solutions — Logistique Européenne</h3>
+                            <h3 class="cs-case-title">Achille.ai — Support Client AI-First</h3>
                             <p class="cs-case-p">
-                                Vitrine corporate haute autorité destinée aux chargeurs industriels. Télémétrie de flotte simulée en temps réel et calculateur kilométrique B2B synchronisé en 12ms.
+                                Vitrine SaaS ultra-rapide pour startup incubée à Station F. Automatisation de 50% des tickets e-commerce (Shopify/Gorgias), calculateur d'économie en direct et micro-latence de 18ms.
                             </p>
                             <div class="cs-case-specs-list">
                                 <div class="cs-case-spec-item">
-                                    <span class="cs-case-spec-k">Latence API Webhooks</span>
-                                    <span class="cs-case-spec-v" style="color: #27C93F;">12 ms</span>
+                                    <span class="cs-case-spec-k">Volume de tickets</span>
+                                    <span class="cs-case-spec-v" style="color: #6366F1;">50% résolus automatiquement</span>
                                 </div>
                                 <div class="cs-case-spec-item">
-                                    <span class="cs-case-spec-k">Télémétrie</span>
-                                    <span class="cs-case-spec-v">Temps Réel B2B Dispatch</span>
+                                    <span class="cs-case-spec-k">Latence d'affichage</span>
+                                    <span class="cs-case-spec-v">240 ms · Zéro blocage tiers</span>
                                 </div>
                                 <div class="cs-case-spec-item">
                                     <span class="cs-case-spec-k">Temps de livraison</span>
-                                    <span class="cs-case-spec-v">Livré en 5 jours ouvrés</span>
+                                    <span class="cs-case-spec-v">Livré clé en main en 5 jours</span>
                                 </div>
                             </div>
                             <div class="cs-case-actions">
