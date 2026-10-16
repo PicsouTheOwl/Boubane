@@ -429,18 +429,20 @@ p.lead {
   display: none !important;
 }
 
-/* Hero Split Grid : Texte d'Accroche Élégant à Gauche + Vitrine Navigable Harmonieuse à Droite */
+/* Hero Split Grid : Répartition plein écran harmonieuse Texte (gauche) & Vitrine (droite) */
 .hero-split-grid {
   display: grid;
-  grid-template-columns: minmax(320px, 420px) 1fr;
-  gap: clamp(32px, 5vw, 68px);
+  grid-template-columns: minmax(340px, 0.95fr) minmax(480px, 1.4fr);
+  gap: clamp(32px, 5vw, 76px);
   align-items: center;
   width: 100%;
-  max-width: 1420px;
+  max-width: 1720px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
   text-align: left;
+  padding: 0 clamp(12px, 2.5vw, 40px);
+  box-sizing: border-box;
 }
 
 .hero-split-col--text {
@@ -448,16 +450,18 @@ p.lead {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  max-width: 420px;
+  width: 100%;
+  max-width: 580px;
   flex-shrink: 0;
+  justify-self: start;
 }
 
 .hero-split-title {
-  font-size: clamp(2rem, 2.7vw, 2.85rem);
+  font-size: clamp(2.3rem, 3.3vw, 3.8rem);
   font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.08;
-  margin-bottom: 16px;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 20px;
   color: #0C0A08;
 }
 
@@ -466,18 +470,18 @@ p.lead {
 }
 
 .hero-split-lead {
-  font-size: clamp(0.92rem, 1vw, 1.02rem);
+  font-size: clamp(1rem, 1.15vw, 1.18rem);
   color: #5C5B56;
-  max-width: 400px;
-  margin-bottom: 24px;
-  line-height: 1.54;
+  max-width: 540px;
+  margin-bottom: 30px;
+  line-height: 1.58;
   letter-spacing: -0.015em;
 }
 
 .hero-split-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
   margin-bottom: 0;
 }
@@ -492,28 +496,26 @@ p.lead {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Décalage net vers la droite */
+  align-items: center; /* Centrage rigoureux */
   justify-content: center;
 }
 
 .hero-showcase-stage-inner {
   width: 100%;
-  max-width: 800px; /* Proportion bijou idéale équilibrée avec le texte */
-  margin-left: auto;
-  margin-right: 0;
+  max-width: min(1040px, 100%);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Centre la fenêtre et le dock parfaitement */
 }
 
 .hero-split-col--mockup .cs-cell--windowed {
   width: 100%;
-  max-width: 800px; /* Conserve scrupuleusement le ratio classique 16 / 10 */
-  margin-left: auto;
-  margin-right: 0;
+  max-width: min(1040px, 100%);
+  margin: 0 auto;
   aspect-ratio: 16 / 10;
   height: auto;
-  max-height: calc(100vh - 120px);
+  max-height: calc(100vh - 160px);
   overflow: hidden;
   border-radius: 14px;
   box-shadow: 
@@ -1600,13 +1602,14 @@ body.mockup-modal-open .hero-card-slide {
 .cs-floating-dock {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   background: rgba(14, 15, 20, 0.82);
   backdrop-filter: blur(28px) saturate(200%);
   -webkit-backdrop-filter: blur(28px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: var(--radius-pill);
   padding: 3px 10px;
-  margin-top: 10px;
+  margin: 12px auto 0 auto; /* Centrage absolu */
   box-shadow: 
     0 10px 24px -4px rgba(0, 0, 0, 0.42),
     0 2px 6px rgba(0, 0, 0, 0.2),
