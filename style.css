@@ -203,51 +203,57 @@ p.lead {
 }
 
 /* ==========================================================================
-   Header Flottant avec Glassmorphism Organique (Fusion Fluide)
+   Header Flottant avec Glassmorphism Organique (Fusion Fluide & Plus Ample)
    ========================================================================== */
 .header {
   position: sticky;
-  top: 14px;
+  top: 28px;
   z-index: 100;
-  max-width: 860px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 var(--spacing-md);
+  transition: all var(--transition-normal);
 }
 
 .nav-pill-wrapper {
-  background: rgba(250, 249, 246, 0.82);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border: 1px solid rgba(12, 10, 8, 0.08);
+  background: rgba(250, 249, 246, 0.88);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(12, 10, 8, 0.09);
   border-radius: var(--radius-pill);
-  box-shadow: 0 2px 16px -2px rgba(12, 10, 8, 0.04), 0 1px 2px rgba(12, 10, 8, 0.02);
+  box-shadow: 
+    0 4px 20px -2px rgba(12, 10, 8, 0.07),
+    0 1px 3px rgba(12, 10, 8, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 52px;
-  padding: 0 8px 0 16px;
+  height: 60px;
+  padding: 0 10px 0 20px;
   transition: all var(--transition-normal);
 }
 
 .nav-pill-wrapper:hover {
-  background: rgba(250, 249, 246, 0.94);
-  border-color: rgba(12, 10, 8, 0.16);
-  box-shadow: 0 6px 24px -4px rgba(12, 10, 8, 0.06);
+  background: rgba(250, 249, 246, 0.96);
+  border-color: rgba(12, 10, 8, 0.18);
+  box-shadow: 0 8px 30px -4px rgba(12, 10, 8, 0.1);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
   color: #0C0A08;
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 800;
+  font-size: 1.02rem;
   letter-spacing: -0.02em;
 }
 
 .brand-logo {
-  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   transition: transform var(--transition-normal);
 }
 
@@ -258,36 +264,36 @@ p.lead {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   list-style: none;
 }
 
 .nav-link {
-  color: #5C5B56;
+  color: #4A4944;
   text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
   transition: all var(--transition-fast);
-  padding: 6px 14px;
+  padding: 7px 16px;
   border-radius: var(--radius-pill);
   letter-spacing: -0.01em;
 }
 
 .nav-link:hover {
   color: #0C0A08;
-  background: rgba(12, 10, 8, 0.05);
+  background: rgba(12, 10, 8, 0.06);
 }
 
 .header .btn-primary {
-  min-height: 38px;
-  padding: 8px 18px;
-  font-size: 0.82rem;
-  font-weight: 600;
+  min-height: 42px;
+  padding: 9px 20px;
+  font-size: 0.86rem;
+  font-weight: 700;
   border-radius: var(--radius-pill);
   background: #0C0A08;
   color: #FFFFFF;
   border: 1px solid #0C0A08;
-  box-shadow: 0 2px 10px rgba(12, 10, 8, 0.15);
+  box-shadow: 0 3px 12px rgba(12, 10, 8, 0.2);
 }
 
 /* ==========================================================================
@@ -429,19 +435,19 @@ p.lead {
   display: none !important;
 }
 
-/* Hero Split Grid : Répartition plein écran harmonieuse Texte (gauche) & Vitrine (droite) */
+/* Hero Split Grid : Répartition plein écran généreuse Texte (gauche) & Vitrine Immersive (droite) */
 .hero-split-grid {
   display: grid;
-  grid-template-columns: minmax(340px, 0.95fr) minmax(480px, 1.4fr);
-  gap: clamp(32px, 5vw, 76px);
+  grid-template-columns: minmax(320px, 0.84fr) minmax(560px, 1.62fr);
+  gap: clamp(28px, 4.5vw, 68px);
   align-items: center;
   width: 100%;
-  max-width: 1720px;
+  max-width: 1780px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
   text-align: left;
-  padding: 0 clamp(12px, 2.5vw, 40px);
+  padding: 0 clamp(16px, 3vw, 48px);
   box-sizing: border-box;
 }
 
@@ -451,7 +457,7 @@ p.lead {
   align-items: flex-start;
   text-align: left;
   width: 100%;
-  max-width: 580px;
+  max-width: 560px;
   flex-shrink: 0;
   justify-self: start;
 }
@@ -503,11 +509,12 @@ p.lead {
 .hero-showcase-stage-inner {
   position: relative;
   width: 100%;
-  max-width: min(1040px, 100%);
+  max-width: min(1200px, 100%);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center; /* Centre la fenêtre et le dock parfaitement */
+  transition: max-width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Micro-halo cinématique d'ambiance projeté en arrière-plan (Studio Display Backlighting) */
@@ -529,15 +536,19 @@ p.lead {
   position: relative;
   z-index: 1;
   width: 100%;
+  min-height: clamp(520px, 64vh, 750px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-split-col--mockup .cs-cell--windowed {
   width: 100%;
-  max-width: min(1040px, 100%);
+  max-width: min(1200px, 100%);
   margin: 0 auto;
   aspect-ratio: 16 / 10;
-  height: auto;
-  max-height: calc(100vh - 160px);
+  height: clamp(520px, 64vh, 750px);
+  max-height: calc(100vh - 140px);
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -552,7 +563,14 @@ p.lead {
   background: #08090C;
   display: flex;
   flex-direction: column;
-  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: 
+    max-width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    aspect-ratio 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 0.4s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-split-col--mockup .cs-cell--windowed:hover {
@@ -1859,24 +1877,86 @@ body.mockup-modal-open .hero-card-slide {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* Redimensionnement adaptatif du viewport quand le device switch est activé */
-.cs-cell--windowed.device-tablet .cs-viewport {
+/* ==========================================================================
+   Redimensionnement Adaptatif Réel de la Fenêtre (Smartphone / Tablette / Desktop)
+   ========================================================================== */
+
+/* Mode Tablette : Le châssis prend les dimensions et le ratio d'un iPad */
+.cs-cell--windowed.device-tablet {
   max-width: 768px !important;
+  width: 100% !important;
+  height: clamp(540px, 68vh, 720px) !important;
+  aspect-ratio: 4 / 3 !important;
+  border-radius: 28px !important;
+  border: 3px solid #1C1E24 !important;
+  outline: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 
+    0 24px 70px -10px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
   margin: 0 auto !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.14);
-  border-right: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.75), inset 0 3px 12px rgba(0, 0, 0, 0.5);
-  transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cs-cell--windowed.device-tablet .cs-viewport {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: calc(100% - 46px) !important;
+  border-radius: 0 0 25px 25px;
+  overflow-y: auto !important;
+}
+
+.cs-cell--windowed.device-tablet .cs-mockup-iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  border: none;
+  display: block;
+}
+
+/* Mode Mobile : Le châssis prend les dimensions et le ratio d'un véritable Smartphone iPhone */
+.cs-cell--windowed.device-mobile {
+  max-width: 390px !important;
+  width: 100% !important;
+  height: clamp(600px, 78vh, 760px) !important;
+  aspect-ratio: 9 / 18.5 !important;
+  border-radius: 44px !important;
+  border: 4px solid #1A1C22 !important;
+  outline: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 32px 84px -12px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(255, 255, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+  margin: 0 auto !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-window-bar {
+  padding: 10px 16px;
+  min-height: 42px;
+  border-radius: 40px 40px 0 0;
+  gap: 8px;
+}
+
+.cs-cell--windowed.device-mobile .cs-url-bar {
+  max-width: 175px !important;
+  padding: 4px 10px;
+  font-size: 0.68rem;
 }
 
 .cs-cell--windowed.device-mobile .cs-viewport {
-  max-width: 390px !important;
-  margin: 0 auto !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.18);
-  border-right: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 18px;
-  box-shadow: 0 0 70px rgba(0, 0, 0, 0.85), inset 0 3px 12px rgba(0, 0, 0, 0.5);
-  transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100% !important;
+  max-width: 100% !important;
+  height: calc(100% - 42px) !important;
+  border-radius: 0 0 40px 40px;
+  overflow-y: auto !important;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.cs-cell--windowed.device-mobile .cs-mockup-iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  border: none;
+  display: block;
 }
 
 .cs-nav-arrows {

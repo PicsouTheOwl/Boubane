@@ -146,7 +146,7 @@
 
     /* --- HERO SECTION --- */
     .hero-section {
-      padding: 80px 0 90px;
+      padding: 40px 0 48px;
       background: linear-gradient(180deg, #edf7fb 0%, var(--bg-page) 100%);
       position: relative;
     }
@@ -154,15 +154,15 @@
     .hero-grid {
       display: grid;
       grid-template-columns: 1.1fr 1fr;
-      gap: 50px;
+      gap: 36px;
       align-items: center;
     }
 
     .hero-title {
-      font-size: 2.85rem;
-      line-height: 1.2;
+      font-size: 2.35rem;
+      line-height: 1.18;
       color: var(--dark);
-      margin-bottom: 22px;
+      margin-bottom: 16px;
       letter-spacing: -0.025em;
     }
 
@@ -173,10 +173,10 @@
     }
 
     .hero-subtitle {
-      font-size: 1.15rem;
+      font-size: 1.04rem;
       color: var(--text-light);
-      line-height: 1.7;
-      margin-bottom: 34px;
+      line-height: 1.6;
+      margin-bottom: 24px;
     }
 
     .hero-visual {
@@ -185,11 +185,11 @@
 
     .hero-img-container {
       position: relative;
-      border-radius: 22px;
+      border-radius: 20px;
       overflow: hidden;
       box-shadow: var(--shadow-lg);
-      border: 6px solid #ffffff;
-      height: 440px;
+      border: 5px solid #ffffff;
+      height: 350px;
     }
 
     .hero-img {
@@ -538,14 +538,26 @@
     }
 
     @media (max-width: 640px) {
-      .hero-title { font-size: 1.9rem; }
-      .section-title { font-size: 1.7rem; }
-      .hero-img-container { height: 290px; }
-      .cta-card { padding: 45px 20px; border-radius: 20px; }
-      .cta-title { font-size: 1.75rem !important; }
-      .cta-text { font-size: 1rem; }
-      .cards-grid { grid-template-columns: 1fr; }
-      .btn { width: 100%; }
+      .hero-section { padding: 24px 0 32px; }
+      .container { padding: 0 16px; }
+      .badge-tag { font-size: 0.78rem; padding: 6px 14px; margin-bottom: 14px; }
+      .hero-title { font-size: 1.62rem; margin-bottom: 12px; line-height: 1.25; }
+      .hero-subtitle { font-size: 0.92rem; margin-bottom: 20px; line-height: 1.55; }
+      .hero-img-container { height: 210px; border-radius: 16px; border-width: 4px; }
+      .hero-floating-card { bottom: 10px; left: 10px; padding: 10px 14px; gap: 10px; border-radius: 12px; }
+      .floating-icon { width: 36px; height: 36px; font-size: 1.05rem; }
+      .section-padding { padding: 42px 0; }
+      .section-title { font-size: 1.45rem; }
+      .cards-grid { grid-template-columns: 1fr; gap: 16px; }
+      .service-card { padding: 24px 18px; }
+      .card-icon { width: 48px; height: 48px; font-size: 1.3rem; margin-bottom: 16px; }
+      .timeline-wrapper { margin-top: 24px; }
+      .timeline-steps { gap: 14px; }
+      .timeline-content { padding: 16px 14px; }
+      .cta-card { padding: 36px 18px; border-radius: 20px; }
+      .cta-title { font-size: 1.6rem !important; }
+      .cta-text { font-size: 0.95rem; margin-bottom: 26px; }
+      .btn { width: 100%; padding: 14px 20px; font-size: 0.95rem; }
     }
   </style>
 </head>
