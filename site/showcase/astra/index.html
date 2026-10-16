@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit & Gestion Opérationnelle - Astra Vacances</title>
+  
+  <!-- Polices Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Icônes FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #2b9bbd;
+      --primary-hover: #1e7d99;
+      --primary-soft: #eaf6fa;
+      --primary-gradient: linear-gradient(135deg, #2b9bbd 0%, #45b7d9 100%);
+      --accent: #f59e0b;
+      --dark: #091a28;
+      --text: #334155;
+      --text-light: #64748b;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+      --shadow-md: 0 12px 30px -4px rgba(43, 155, 189, 0.14), 0 4px 12px -2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 20px 40px -6px rgba(43, 155, 189, 0.22);
+      --radius: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* --- TYPOGRAPHIE --- */
+    h1, h2, h3, h4 {
+      color: var(--dark);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      border: 1px solid rgba(43, 155, 189, 0.25);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 50px;
+    }
+
+    .section-title {
+      font-size: 2.3rem;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .section-subtitle {
+      color: var(--text-light);
+      font-size: 1.05rem;
+    }
+
+    /* --- BOUTONS --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 18px 36px;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--primary-gradient);
+      color: #ffffff !important;
+      box-shadow: 0 10px 25px rgba(43, 155, 189, 0.38);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary i {
+      color: #ffffff !important;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(43, 155, 189, 0.48);
+      filter: brightness(1.05);
+      color: #ffffff !important;
+    }
+
+    .btn-cta-white {
+      background: #ffffff !important;
+      color: #0c1b26 !important;
+      font-weight: 800;
+      padding: 20px 42px;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-cta-white i {
+      color: var(--primary) !important;
+    }
+
+    .btn-cta-white:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      background: #f8fafc !important;
+      color: #0c1b26 !important;
+    }
+
+    /* --- HERO SECTION --- */
+    .hero-section {
+      padding: 80px 0 90px;
+      background: linear-gradient(180deg, #edf7fb 0%, var(--bg-page) 100%);
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: 2.85rem;
+      line-height: 1.2;
+      color: var(--dark);
+      margin-bottom: 22px;
+      letter-spacing: -0.025em;
+    }
+
+    .hero-title span {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 34px;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-img-container {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 6px solid #ffffff;
+      height: 440px;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .hero-img-container:hover .hero-img {
+      transform: scale(1.04);
+    }
+
+    .hero-floating-card {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      padding: 16px 22px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      animation: float 4s ease-in-out infinite alternate;
+    }
+
+    .floating-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+
+    /* --- SERVICES SECTION --- */
+    .section-padding {
+      padding: 85px 0;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 40px 30px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(43, 155, 189, 0.4);
+    }
+
+    .card-icon {
+      width: 62px;
+      height: 62px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+      transition: var(--transition);
+    }
+
+    .service-card:hover .card-icon {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: var(--dark);
+    }
+
+    .card-text {
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    /* --- TIMELINE SECTION --- */
+    .timeline-wrapper {
+      position: relative;
+      margin-top: 50px;
+    }
+
+    .timeline-track {
+      position: absolute;
+      top: 35px;
+      left: 60px;
+      right: 60px;
+      height: 3px;
+      background: #cce9f3;
+      z-index: 1;
+    }
+
+    .timeline-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .timeline-circle {
+      width: 70px;
+      height: 70px;
+      background: #fff;
+      border: 3px solid var(--primary);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(43, 155, 189, 0.18);
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .timeline-circle i {
+      font-size: 1.3rem;
+      color: var(--primary);
+      transition: color 0.3s;
+    }
+
+    .timeline-circle .step-num {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+    }
+
+    .timeline-item:hover .timeline-circle {
+      transform: scale(1.08);
+      background: var(--primary);
+    }
+
+    .timeline-item:hover .timeline-circle i {
+      color: #ffffff;
+    }
+
+    .timeline-content {
+      background: #fff;
+      padding: 22px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-top: 24px;
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+      height: 100%;
+      transition: var(--transition);
+    }
+
+    .timeline-item:hover .timeline-content {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(43, 155, 189, 0.35);
+    }
+
+    .timeline-title {
+      font-size: 1.05rem;
+      color: var(--dark);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
+      font-size: 0.88rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .timeline-micro {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* --- PARTENAIRES --- */
+    .partners-section {
+      padding: 60px 0;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .partners-title {
+      text-align: center;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+
+    .partners-flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .partner-logo {
+      height: 65px;
+      max-width: 220px;
+      object-fit: contain;
+      filter: grayscale(1) opacity(0.7);
+      transition: var(--transition);
+    }
+
+    .partner-logo:hover {
+      filter: grayscale(0) opacity(1);
+      transform: scale(1.05);
+    }
+
+    /* --- CTA BANNER (CORRECTION CONTRASTE & COULEUR) --- */
+    .cta-card {
+      background: radial-gradient(circle at top right, #1d4b64 0%, #0c1b26 100%);
+      border-radius: 28px;
+      padding: 80px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(12, 27, 38, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .cta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 8px 20px;
+      border-radius: 30px;
+      color: #bae6fd !important;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Force le titre à être BLANC pur et lumineux */
+    .cta-card h2.cta-title,
+    .cta-title {
+      font-size: 2.85rem !important;
+      color: #ffffff !important;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 22px;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .cta-title .highlight {
+      color: #38bdf8 !important;
+      -webkit-text-fill-color: #38bdf8 !important;
+      display: inline-block;
+      text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+
+    .cta-text {
+      font-size: 1.2rem;
+      color: #f1f5f9 !important;
+      max-width: 720px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    /* --- RESPONSIVE MOBILE --- */
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+      .hero-floating-card {
+        left: 20px;
+        bottom: 20px;
+      }
+      .timeline-track { display: none; }
+      .timeline-steps {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .timeline-item {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        gap: 16px;
+      }
+      .timeline-circle {
+        flex-shrink: 0;
+        width: 54px;
+        height: 54px;
+      }
+      .timeline-content { margin-top: 0; }
+      .hero-title { font-size: 2.3rem; }
+      .cta-title { font-size: 2.2rem !important; }
+    }
+
+    @media (max-width: 640px) {
+      .hero-title { font-size: 1.9rem; }
+      .section-title { font-size: 1.7rem; }
+      .hero-img-container { height: 290px; }
+      .cta-card { padding: 45px 20px; border-radius: 20px; }
+      .cta-title { font-size: 1.75rem !important; }
+      .cta-text { font-size: 1rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="badge-tag">
+            <i class="fas fa-shield-halved"></i> Astra Vacances • Partenaire d'Excellence
+          </div>
+          <h1 class="hero-title">
+            Audit & gestion opérationnelle pour <span>établissements touristiques</span>
+          </h1>
+          <p class="hero-subtitle">
+            Optimisez la rentabilité, sécurisez votre gestion au quotidien et retrouvez une vraie sérénité d’esprit grâce à notre accompagnement terrain sur-mesure.
+          </p>
+          <a href="https://astravacances.fr/contact/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <i class="fas fa-phone-alt"></i> Réserver un appel avec un expert
+          </a>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-img-container">
+            <img src="https://astravacances.fr/wp-content/uploads/2026/09/20221_YellohVillage_DRONE_10.jpg" alt="Vue aérienne d'un établissement de tourisme" class="hero-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80';">
+          </div>
+          <div class="hero-floating-card">
+            <div class="floating-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+              <strong style="display:block; font-size: 0.95rem; color: #091a28;">Performance Opérationnelle</strong>
+              <span style="font-size: 0.82rem; color: #64748b;">Pilotage & optimisation continue</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISES SECTION -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Nos expertises opérationnelles</h2>
+        <p class="section-subtitle">Un accompagnement complet et sur-mesure adapté aux défis concrets des hébergements touristiques.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="service-card">
+          <div class="card-icon"><i class="fas fa-cogs"></i></div>
+          <h3 class="card-title">Accompagnement à la gestion</h3>
+          <p class="card-text">Planification stratégique, gestion agile des ressources, sélection des outils digitaux et indicateurs de performance (KPI) sur mesure.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="card-icon"><i class="fas fa-tasks"></i></div>
+          <h3 class="card-title">Gestion opérationnelle</h3>
+          <p class="card-text">Coordination globale, organisation administrative fluide, expérience client haut de gamme et rationalisation efficace des coûts.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="card-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
+          <h3 class="card-title">Audit & diagnostic</h3>
+          <p class="card-text">Audit complet sur site : examen des processus internes, évaluation digitale, critères qualité et recommandations d'actions concrètes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE SECTION -->
+  <section class="section-padding" style="background: #ffffff; border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Votre parcours avec Astra Vacances</h2>
+        <p class="section-subtitle">Une méthode éprouvée en 5 étapes pour faire franchir un cap à votre établissement.</p>
+      </div>
+
+      <div class="timeline-wrapper">
+        <div class="timeline-track"></div>
+        <div class="timeline-steps">
+          
+          <div class="timeline-item">
+            <div class="timeline-circle">
+              <i class="fas fa-search"></i>
+              <span class="step-num">1</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Diagnostic</h4>
+              <p class="timeline-desc">Analyse complète à 360° pour déceler vos axes d'amélioration.</p>
+              <span class="timeline-micro">Solutions sur-mesure</span>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-circle">
+              <i class="fas fa-file-lines"></i>
+              <span class="step-num">2</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Proposition</h4>
+              <p class="timeline-desc">Plan d’action clair, pragmatique et parfaitement réaliste.</p>
+              <span class="timeline-micro">Vision stratégique</span>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-circle">
+              <i class="fas fa-sliders"></i>
+              <span class="step-num">3</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Implémentation</h4>
+              <p class="timeline-desc">Mise en œuvre terrain, structuration et coordination opérationnelle.</p>
+              <span class="timeline-micro">Accompagnement actif</span>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-circle">
+              <i class="fas fa-arrows-rotate"></i>
+              <span class="step-num">4</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Suivi</h4>
+              <p class="timeline-desc">Ajustements continus, conseils proactifs et optimisation régulière.</p>
+              <span class="timeline-micro">Évolution permanente</span>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-circle">
+              <i class="fas fa-chart-pie"></i>
+              <span class="step-num">5</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Reporting</h4>
+              <p class="timeline-desc">Bilans synthétiques, valorisation du ROI et projections de croissance.</p>
+              <span class="timeline-micro">Transparence totale</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVANTAGES SECTION -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Les avantages pour votre établissement</h2>
+        <p class="section-subtitle">Des résultats palpables dès les premières semaines de collaboration.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="service-card">
+          <div class="card-icon"><i class="fas fa-clock"></i></div>
+          <h3 class="card-title">Gain de temps</h3>
+          <p class="card-text">Déléguez la complexité opérationnelle pour vous focaliser sur votre cœur de métier : l'accueil et la relation avec vos vacanciers.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="card-icon"><i class="fas fa-arrow-trend-up"></i></div>
+          <h3 class="card-title">Performance & Rentabilité</h3>
+          <p class="card-text">Optimisation tarifaire saisonnière, gestion maîtrisée des coûts et pilotage axé sur la maximisation de votre rentabilité nette.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="card-icon"><i class="fas fa-star"></i></div>
+          <h3 class="card-title">Satisfaction & Fidélisation</h3>
+          <p class="card-text">Une expérience client soignée et des avis positifs constants pour transformer chaque séjour en réservation pérenne.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS -->
+  <section class="partners-section">
+    <div class="container">
+      <p class="partners-title">Ils nous font confiance</p>
+      <div class="partners-flex">
+        <img src="https://astravacances.fr/wp-content/uploads/2025/07/logo.png" alt="Logo Astra Vacances" class="partner-logo">
+        <img src="https://astravacances.fr/wp-content/uploads/2025/07/GT_Capital_Rouge_-removebg-preview.png" alt="Logo GT Capital" class="partner-logo">
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-badge">
+          <i class="fas fa-rocket"></i> Échangeons sur votre projet
+        </div>
+        <h2 class="cta-title">
+          Donnez un <span class="highlight">nouvel élan</span> à votre établissement
+        </h2>
+        <p class="cta-text">
+          Prenez rendez-vous pour un échange téléphonique d'audit avec un expert Astra Vacances. Analysons ensemble vos besoins et définissons votre plan d'action sans engagement.
+        </p>
+        <a href="https://astravacances.fr/contact/" target="_blank" rel="noopener noreferrer" class="btn btn-cta-white">
+          <i class="fas fa-phone-alt"></i> Réserver mon appel de découverte
+        </a>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -492,6 +492,14 @@ function reloadMockup(site, btn) {
   const containerId = site === 'astra' ? 'mockupAstra' : (site === 'achille' ? 'mockupAchille' : 'mockupValmy');
   const container = document.getElementById(containerId);
   if (container) {
+    const iframe = container.querySelector('iframe');
+    if (iframe) {
+      try {
+        iframe.contentWindow.location.reload();
+      } catch (e) {
+        iframe.src = iframe.src;
+      }
+    }
     const vp = container.querySelector('.cs-viewport');
     if (vp) {
       vp.style.opacity = '0.35';
