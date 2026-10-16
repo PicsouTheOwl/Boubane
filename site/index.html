@@ -190,7 +190,8 @@
             </nav>
 
             <a href="/commander" class="btn btn-primary" aria-label="Commander mon site offert">
-                <span>Commander mon site offert</span>
+                <span class="nav-btn-text-full">Commander mon site offert</span>
+                <span class="nav-btn-text-short">Commander (0 €)</span>
                 <span class="btn-arrow-double" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
@@ -206,12 +207,12 @@
             <div class="ambient-grain" aria-hidden="true"></div>
 
             <div class="container" style="position: relative; z-index: 2;">
-                <div class="hero-editorial-badge">
+                <div class="hero-editorial-badge reveal-on-scroll">
                     <span class="editorial-num">[ 01 ]</span>
                     <span class="editorial-text">STUDIO D'ARTISANAT WEB SUR-MESURE</span>
                 </div>
 
-                <div class="hero-heading-wrap">
+                <div class="hero-heading-wrap reveal-on-scroll reveal-delay-1">
                     <h1>Des sites d'exception pour entreprises exigeantes.</h1>
                 </div>
 
@@ -291,7 +292,7 @@
         <!-- Section Showcase Réalisations Studio (Format Fiches Immersives) -->
         <section id="realisations" class="portfolio-section">
             <div class="container">
-                <div class="section-title-wrap center">
+                <div class="section-title-wrap center reveal-on-scroll">
                     <div class="hero-editorial-badge" style="justify-content: center; margin-bottom: var(--spacing-sm);">
                         <span class="editorial-num">[ 02 ]</span>
                         <span class="editorial-text">SHOWCASE RÉALISATIONS</span>
@@ -304,22 +305,34 @@
 
                 <div class="portfolio-grid">
                     <!-- Projet 01 : Atelier Vaneau -->
-                    <div class="project-card">
+                    <div class="project-card reveal-on-scroll reveal-delay-1">
                         <div class="browser-mockup">
                             <div class="browser-header">
                                 <div class="browser-dots">
-                                    <div class="browser-dot dot-red"></div>
-                                    <div class="browser-dot dot-yellow"></div>
-                                    <div class="browser-dot dot-green"></div>
+                                    <span class="browser-dot dot-red"></span>
+                                    <span class="browser-dot dot-yellow"></span>
+                                    <span class="browser-dot dot-green"></span>
                                 </div>
                                 <div class="browser-address">atelier-vaneau.fr</div>
+                                <div class="browser-speed-badge">⚡ 0.28s</div>
                             </div>
                             <div class="browser-body">
                                 <div class="browser-preview-art" style="background: linear-gradient(135deg, #0C0D10 0%, #1A1C23 100%);">
+                                    <div class="browser-preview-nav-mock">
+                                        <span>ATELIER VANEAU</span>
+                                        <span>Créations · Savoir-Faire · Contact</span>
+                                    </div>
                                     <div class="browser-preview-content">
-                                        <div style="font-family: var(--font-mono); color: var(--color-primary); font-size: 0.8rem; margin-bottom: 8px;">[ ARTISANAT D'ART & AGENCEMENT ]</div>
-                                        <h3 style="color: #FFFFFF; font-size: 1.5rem; margin-bottom: 8px;">Atelier Vaneau — Ébénisterie</h3>
-                                        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; max-width: 320px;">Direction artistique sur-mesure valorisant les matières nobles et l'excellence du geste.</p>
+                                        <div style="font-family: var(--font-mono); color: var(--color-primary); font-size: 0.75rem; margin-bottom: 6px; letter-spacing: 0.05em;">[ ÉBÉNISTERIE D'ART & AGENCEMENT ]</div>
+                                        <h3 style="color: #FFFFFF; font-size: 1.45rem; margin-bottom: 8px; line-height: 1.2;">Matières Nobles &amp; Précision du Geste</h3>
+                                        <p style="color: rgba(255, 255, 255, 0.72); font-size: 0.82rem; max-width: 320px; line-height: 1.45;">Direction artistique sur-mesure valorisant les pièces d'exception.</p>
+                                    </div>
+                                    <div class="browser-preview-metrics">
+                                        <span>PageSpeed : 100/100</span>
+                                        <span>·</span>
+                                        <span>LCP : 0.28s</span>
+                                        <span>·</span>
+                                        <span>Code Épuré</span>
                                     </div>
                                     <div class="browser-preview-overlay"></div>
                                 </div>
@@ -349,24 +362,36 @@
                     </div>
 
                     <!-- Projet 02 : Apex Solutions B2B -->
-                    <div class="project-card">
+                    <div class="project-card reveal-on-scroll reveal-delay-2">
                         <div class="browser-mockup">
                             <div class="browser-header">
                                 <div class="browser-dots">
-                                    <div class="browser-dot dot-red"></div>
-                                    <div class="browser-dot dot-yellow"></div>
-                                    <div class="browser-dot dot-green"></div>
+                                    <span class="browser-dot dot-red"></span>
+                                    <span class="browser-dot dot-yellow"></span>
+                                    <span class="browser-dot dot-green"></span>
                                 </div>
                                 <div class="browser-address">apex-solutions.fr</div>
+                                <div class="browser-speed-badge">⚡ 0.31s</div>
                             </div>
                             <div class="browser-body">
                                 <div class="browser-preview-art" style="background: linear-gradient(135deg, #101524 0%, #0F1015 100%);">
-                                    <div class="browser-preview-content">
-                                        <div style="font-family: var(--font-mono); color: #22C55E; font-size: 0.8rem; margin-bottom: 8px;">[ SERVICES & LOGISTIQUE B2B ]</div>
-                                        <h3 style="color: #FFFFFF; font-size: 1.5rem; margin-bottom: 8px;">Apex Solutions — Fret & Logistique</h3>
-                                        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; max-width: 320px;">Portail corporate moderne avec formulaire de devis dynamique connecté au CRM.</p>
+                                    <div class="browser-preview-nav-mock">
+                                        <span style="color: #22C55E;">APEX SOLUTIONS</span>
+                                        <span>Logistique · Flotte · Devis Express</span>
                                     </div>
-                                    <div class="browser-preview-overlay" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(14, 15, 18, 0.9));"></div>
+                                    <div class="browser-preview-content">
+                                        <div style="font-family: var(--font-mono); color: #22C55E; font-size: 0.75rem; margin-bottom: 6px; letter-spacing: 0.05em;">[ TRANSPORT &amp; LOGISTIQUE INDUSTRIELLE ]</div>
+                                        <h3 style="color: #FFFFFF; font-size: 1.45rem; margin-bottom: 8px; line-height: 1.2;">L'Infrastructure Logistique d'Envergure</h3>
+                                        <p style="color: rgba(255, 255, 255, 0.72); font-size: 0.82rem; max-width: 320px; line-height: 1.45;">Tunnel de conversion devis et synchronisation directe CRM.</p>
+                                    </div>
+                                    <div class="browser-preview-metrics">
+                                        <span style="color: #22C55E;">PageSpeed : 100/100</span>
+                                        <span>·</span>
+                                        <span>Webhook Auto</span>
+                                        <span>·</span>
+                                        <span>B2B Multi-pages</span>
+                                    </div>
+                                    <div class="browser-preview-overlay" style="background: radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.18) 0%, transparent 60%);"></div>
                                 </div>
                             </div>
                         </div>
@@ -394,31 +419,43 @@
                     </div>
 
                     <!-- Projet 03 : Cabinet Valmy -->
-                    <div class="project-card">
+                    <div class="project-card reveal-on-scroll reveal-delay-3">
                         <div class="browser-mockup">
                             <div class="browser-header">
                                 <div class="browser-dots">
-                                    <div class="browser-dot dot-red"></div>
-                                    <div class="browser-dot dot-yellow"></div>
-                                    <div class="browser-dot dot-green"></div>
+                                    <span class="browser-dot dot-red"></span>
+                                    <span class="browser-dot dot-yellow"></span>
+                                    <span class="browser-dot dot-green"></span>
                                 </div>
                                 <div class="browser-address">cabinet-valmy.com</div>
+                                <div class="browser-speed-badge">⚡ 0.26s</div>
                             </div>
                             <div class="browser-body">
                                 <div class="browser-preview-art" style="background: linear-gradient(135deg, #18110D 0%, #0A0A0C 100%);">
-                                    <div class="browser-preview-content">
-                                        <div style="font-family: var(--font-mono); color: #F59E0B; font-size: 0.8rem; margin-bottom: 8px;">[ CONSEIL STRATÉGIQUE & M&A ]</div>
-                                        <h3 style="color: #FFFFFF; font-size: 1.5rem; margin-bottom: 8px;">Cabinet Valmy — Conseil & Finance</h3>
-                                        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; max-width: 320px;">Positionnement d'autorité immédiat auprès des dirigeants et investisseurs.</p>
+                                    <div class="browser-preview-nav-mock">
+                                        <span style="color: #F59E0B;">CABINET VALMY</span>
+                                        <span>Conseil M&amp;A · Missions · Équipe</span>
                                     </div>
-                                    <div class="browser-preview-overlay" style="background: linear-gradient(135deg, rgba(237, 91, 4, 0.22), rgba(14, 15, 18, 0.88));"></div>
+                                    <div class="browser-preview-content">
+                                        <div style="font-family: var(--font-mono); color: #F59E0B; font-size: 0.75rem; margin-bottom: 6px; letter-spacing: 0.05em;">[ CONSEIL STRATÉGIQUE & FINANCE M&A ]</div>
+                                        <h3 style="color: #FFFFFF; font-size: 1.45rem; margin-bottom: 8px; line-height: 1.2;">L'Excellence Financière &amp; Souveraine</h3>
+                                        <p style="color: rgba(255, 255, 255, 0.72); font-size: 0.82rem; max-width: 320px; line-height: 1.45;">Autorité immédiate auprès des dirigeants et investisseurs.</p>
+                                    </div>
+                                    <div class="browser-preview-metrics">
+                                        <span style="color: #F59E0B;">PageSpeed : 100/100</span>
+                                        <span>·</span>
+                                        <span>Confidentialité RGPD</span>
+                                        <span>·</span>
+                                        <span>Agenda Sync</span>
+                                    </div>
+                                    <div class="browser-preview-overlay" style="background: radial-gradient(circle at 80% 20%, rgba(237, 91, 4, 0.2) 0%, transparent 60%);"></div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="project-details">
                             <div class="project-tags">
-                                <span class="project-tag highlight">Prestige & Finance</span>
+                                <span class="project-tag highlight">Prestige &amp; Finance</span>
                                 <span class="project-tag">Architecture Souveraine</span>
                                 <span class="project-tag">Confidentialité</span>
                             </div>
@@ -444,7 +481,7 @@
         <!-- Module Toggle Tarifaire Pulsor-Style (Switch Interactif) -->
         <section id="tarifs" class="pricing-toggle-section">
             <div class="container">
-                <div class="section-title-wrap center">
+                <div class="section-title-wrap center reveal-on-scroll">
                     <div class="hero-editorial-badge" style="justify-content: center; margin-bottom: var(--spacing-sm);">
                         <span class="editorial-num">[ 03 ]</span>
                         <span class="editorial-text">RUPTURE ÉCONOMIQUE</span>
@@ -464,7 +501,7 @@
                     </div>
                 </div>
 
-                <div class="pricing-cards-grid">
+                <div class="pricing-cards-grid reveal-on-scroll reveal-delay-1">
                     <!-- Carte 1 : Agence Classique -->
                     <div id="cardAgency" class="pricing-plan-card">
                         <div>
@@ -517,7 +554,7 @@
         <!-- Section Standards Studio (Manifeste en 3 Piliers Épurés) -->
         <section id="livrables" class="section">
             <div class="container">
-                <div class="section-title-wrap center">
+                <div class="section-title-wrap center reveal-on-scroll">
                     <div class="hero-editorial-badge" style="justify-content: center; margin-bottom: var(--spacing-sm);">
                         <span class="editorial-num">[ 04 ]</span>
                         <span class="editorial-text">STANDARDS &amp; ENGAGEMENTS</span>
@@ -529,7 +566,7 @@
                 </div>
 
                 <div class="pillars-editorial-grid">
-                    <div class="pillar-card">
+                    <div class="pillar-card reveal-on-scroll reveal-delay-1">
                         <div class="pillar-num">01</div>
                         <h3 class="pillar-title">Vitesse Chirurgicale &amp; SEO Naturel</h3>
                         <p class="pillar-text">
@@ -541,7 +578,7 @@
                         </div>
                     </div>
 
-                    <div class="pillar-card">
+                    <div class="pillar-card reveal-on-scroll reveal-delay-2">
                         <div class="pillar-num">02</div>
                         <h3 class="pillar-title">Direction Artistique &amp; Psychologie</h3>
                         <p class="pillar-text">
@@ -553,7 +590,7 @@
                         </div>
                     </div>
 
-                    <div class="pillar-card">
+                    <div class="pillar-card reveal-on-scroll reveal-delay-3">
                         <div class="pillar-num">03</div>
                         <h3 class="pillar-title">Souveraineté &amp; Liberté Totale</h3>
                         <p class="pillar-text">
@@ -571,7 +608,7 @@
         <!-- Section L'Architecte -->
         <section id="qui-suis-je" class="section" style="background: #FFFFFF;">
             <div class="container">
-                <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--spacing-3xl); align-items: center;">
+                <div class="architect-grid reveal-on-scroll">
                     <div>
                         <div class="hero-editorial-badge" style="margin-bottom: var(--spacing-sm);">
                             <span class="editorial-num">[ 05 ]</span>
@@ -595,8 +632,8 @@
                         </div>
                     </div>
 
-                    <div class="card" style="text-align: center; max-width: 420px; margin: 0 auto; box-shadow: var(--shadow-medium);">
-                        <img src="assets/boubane-logo.png" alt="Boubane Studio" style="width: 130px; height: 130px; object-fit: contain; margin-bottom: var(--spacing-md);">
+                    <div class="card architect-card">
+                        <img src="assets/boubane-logo.png" alt="Boubane Studio" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: var(--spacing-md);">
                         <h3 style="margin-bottom: var(--spacing-xs);">Léo Saillour</h3>
                         <p style="color: var(--color-primary); font-family: var(--font-mono); font-weight: 700; font-size: var(--font-size-caption); margin-bottom: var(--spacing-md); text-transform: uppercase;">
                             Fondateur · Concepteur & Développeur Web Sur-Mesure
@@ -612,7 +649,7 @@
         <!-- Section FAQ -->
         <section id="faq" class="section">
             <div class="container">
-                <div class="section-title-wrap center">
+                <div class="section-title-wrap center reveal-on-scroll">
                     <div class="hero-editorial-badge" style="justify-content: center; margin-bottom: var(--spacing-sm);">
                         <span class="editorial-num">[ 06 ]</span>
                         <span class="editorial-text">QUESTIONS &amp; RÉPONSES</span>
@@ -621,40 +658,48 @@
                 </div>
 
                 <div class="faq-list">
-                    <div class="faq-item">
+                    <div class="faq-item reveal-on-scroll reveal-delay-1">
                         <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
                             <span>Le site est-il réellement 100% gratuit en création ?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
+                            <span class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                            </span>
                         </button>
                         <div class="faq-answer">
                             <p>Oui, exactement 0 €. Vous ne réglez aucun honoraire de conception, de design ou de développement. Vos seuls frais sont techniques (votre nom de domaine ~10 €/an et votre hébergement habituel ~5 €/mois), réglés directement et en toute transparence auprès de votre hébergeur (IONOS, OVH, Hostinger, Vercel...).</p>
                         </div>
                     </div>
 
-                    <div class="faq-item">
+                    <div class="faq-item reveal-on-scroll reveal-delay-2">
                         <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
                             <span>Y a-t-il un engagement ou un abonnement caché ?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
+                            <span class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                            </span>
                         </button>
                         <div class="faq-answer">
                             <p>Aucun. Vous n'êtes engagé sur aucune durée. Vous êtes le seul propriétaire légal du nom de domaine et du code source. Vous pouvez migrer, modifier ou faire évoluer votre site à tout moment en toute indépendance.</p>
                         </div>
                     </div>
 
-                    <div class="faq-item">
+                    <div class="faq-item reveal-on-scroll reveal-delay-3">
                         <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
                             <span>Quel est le délai de livraison ?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
+                            <span class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                            </span>
                         </button>
                         <div class="faq-answer">
                             <p>Dès réception de vos éléments (textes, photos ou préférences d'activité), votre site est conçu, validé avec vous et mis en ligne sous 5 à 7 jours ouvrés.</p>
                         </div>
                     </div>
 
-                    <div class="faq-item">
+                    <div class="faq-item reveal-on-scroll">
                         <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
                             <span>Que se passe-t-il si le résultat ne me convient pas ?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
+                            <span class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                            </span>
                         </button>
                         <div class="faq-answer">
                             <p>Nous faisons les ajustements nécessaires ensemble. Si le résultat ne vous satisfait toujours pas, vous êtes entièrement libre d'arrêter le projet sans débourser un centime. Le risque est à 100% de mon côté.</p>

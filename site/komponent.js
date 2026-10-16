@@ -174,7 +174,32 @@ function initPricingToggle() {
   setMode(true);
 }
 
-// 7. Initialisation au chargement & Micro-interactions 3D Tilt
+// 7. Scroll Reveal Observer (Transitions Fluides au Défilement)
+function initScrollReveal() {
+  const elements = document.querySelectorAll('.reveal-on-scroll');
+  if (!elements.length) return;
+
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    elements.forEach(el => el.classList.add('is-revealed'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -40px 0px',
+    threshold: 0.08
+  });
+
+  elements.forEach(el => observer.observe(el));
+}
+
+// 8. Initialisation au chargement & Micro-interactions 3D Tilt
 document.addEventListener('DOMContentLoaded', () => {
   if (window.location.hash === '#contact') {
     openModal('contactModal');
@@ -184,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initReviewRotator();
   initPricingToggle();
+  initScrollReveal();
 
   // 3D Tilt sur les cartes de projets et showcase d'auteur
   const tiltCards = document.querySelectorAll('.hero-showcase-frame, .project-card, .pillar-card');
@@ -211,3 +237,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
