@@ -211,8 +211,54 @@ document.addEventListener('DOMContentLoaded', () => {
   initPricingToggle();
   initScrollReveal();
 
-  // 3D Tilt sur les cartes de projets et showcase d'auteur
-  const tiltCards = document.querySelectorAll('.hero-showcase-frame, .project-card, .pillar-card');
+  // 8. Interaction 3D Interactive Ramp Card (The Boubane Studio Card)
+  const boubaneCard = document.getElementById('boubaneCard3d');
+  const cardStage = document.querySelector('.boubane-card-stage');
+  const cardGlare = boubaneCard?.querySelector('.card-glare');
+
+  if (boubaneCard && cardStage && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    let bounds;
+    function rotateToMouse(e) {
+      bounds = boubaneCard.getBoundingClientRect();
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const leftX = mouseX - bounds.x;
+      const topY = mouseY - bounds.y;
+      const center = {
+        x: leftX - bounds.width / 2,
+        y: topY - bounds.height / 2
+      };
+
+      const maxRotate = 14;
+      const rotateX = (center.y / (bounds.height / 2)) * -maxRotate;
+      const rotateY = (center.x / (bounds.width / 2)) * maxRotate;
+
+      boubaneCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+
+      if (cardGlare) {
+        const glareX = (leftX / bounds.width) * 100;
+        const glareY = (topY / bounds.height) * 100;
+        cardGlare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 65%)`;
+      }
+    }
+
+    cardStage.addEventListener('mouseenter', () => {
+      boubaneCard.style.transition = 'transform 0.1s ease-out';
+    });
+
+    cardStage.addEventListener('mousemove', rotateToMouse);
+
+    cardStage.addEventListener('mouseleave', () => {
+      boubaneCard.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+      boubaneCard.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)';
+      if (cardGlare) {
+        cardGlare.style.background = 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 60%)';
+      }
+    });
+  }
+
+  // 3D Tilt sur les cellules de la Bento Grid Ramp et cartes piliers
+  const tiltCards = document.querySelectorAll('.cs-cell--windowed, .pillar-card, .pricing-plan-card');
   if (tiltCards.length > 0 && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
     tiltCards.forEach(card => {
       card.addEventListener('mousemove', (e) => {
@@ -221,8 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -3.5;
-        const rotateY = ((x - centerX) / centerX) * 3.5;
+        const rotateX = ((y - centerY) / centerY) * -2.5;
+        const rotateY = ((x - centerX) / centerX) * 2.5;
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
       });
 
@@ -237,4 +283,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 
