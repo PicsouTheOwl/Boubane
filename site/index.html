@@ -172,8 +172,76 @@
     <script src="tracker.js" defer></script>
 </head>
 <body>
-    <!-- Overlay sombre flouté pour le mode plein écran -->
-    <div id="mockupFullscreenOverlay" class="cs-mockup-fullscreen-overlay" onclick="closeFullscreenMockup()" aria-hidden="true"></div>
+    <!-- Portail Plein Écran Universel pour visiter les sites réalisés (Au niveau racine de body) -->
+    <div id="mockupFullscreenPortal" class="mockup-fullscreen-portal" aria-hidden="true">
+        <div class="mockup-portal-backdrop" onclick="closeFullscreenMockup()" title="Cliquer pour fermer la vue pleine"></div>
+
+        <div class="mockup-portal-window" role="dialog" aria-modal="true" aria-label="Vitrine plein écran">
+            <!-- Barre de Fenêtre macOS Élite -->
+            <div class="cs-window-bar">
+                <div class="cs-window-bar-left">
+                    <div class="cs-dots">
+                        <span class="cs-dot cs-dot--red" onclick="closeFullscreenMockup()" title="Fermer la vue pleine (Échap)"></span>
+                        <span class="cs-dot cs-dot--yellow" onclick="closeFullscreenMockup()" title="Réduire"></span>
+                        <span class="cs-dot cs-dot--green" onclick="toggleNativeFullscreen()" title="Basculer plein écran navigateur"></span>
+                    </div>
+
+                    <!-- Sélecteur rapide des projets dans la vue pleine -->
+                    <div class="cs-portal-site-switch" id="portalSiteSwitch">
+                        <button type="button" class="cs-portal-tab-btn active" id="portalTabAstra" onclick="switchPortalSite('astra')" title="Afficher Astravacances">
+                            <img src="assets/astra-logo.png" alt="" class="cs-portal-tab-icon">
+                            <span>Astravacances.fr</span>
+                        </button>
+                        <button type="button" class="cs-portal-tab-btn" id="portalTabAchille" onclick="switchPortalSite('achille')" title="Afficher Achille.ai">
+                            <img src="assets/achille-logo.png" alt="" class="cs-portal-tab-icon cs-portal-tab-icon--achille">
+                            <span>Achille.ai</span>
+                        </button>
+                        <button type="button" class="cs-portal-tab-btn" id="portalTabValmy" onclick="switchPortalSite('valmy')" title="Afficher Cabinet Valmy">
+                            <span class="cs-portal-seal">V</span>
+                            <span>Cabinet Valmy</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cs-url-bar" id="portalUrlBar">
+                    <span class="cs-url-lock">🔒</span>
+                    <span class="cs-url-text" id="portalUrlText">astravacances.fr/audit-operationnel</span>
+                    <div class="cs-url-actions">
+                        <button type="button" class="cs-url-icon-btn" onclick="reloadPortalIframe()" title="Recharger la page" aria-label="Recharger">↻</button>
+                        <a href="showcase-astra.html" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" id="portalExtLink" title="Ouvrir dans un nouvel onglet" aria-label="Ouvrir dans un nouvel onglet">↗</a>
+                    </div>
+                </div>
+
+                <div class="cs-window-bar-right">
+                    <button type="button" class="cs-btn-close-win" style="display: inline-flex;" onclick="closeFullscreenMockup()" title="Quitter la vue pleine (Échap)" aria-label="Quitter la vue pleine">
+                        ✕ Quitter la vue pleine
+                    </button>
+                </div>
+            </div>
+
+            <!-- Corps de la fenêtre Plein Écran -->
+            <div class="mockup-portal-body" id="portalBody">
+                <iframe id="portalIframe" src="showcase-astra.html" class="mockup-portal-iframe" title="Vitrine Réalisée en Vue Pleine" loading="eager"></iframe>
+                <div id="portalInlineContainer" class="mockup-portal-inline" style="display: none;"></div>
+            </div>
+
+            <!-- Pied de la fenêtre macOS avec actions rapides -->
+            <div class="cs-cap mockup-portal-cap">
+                <div class="cs-cap__left">
+                    <span class="cs-cap__dot" id="portalCapDot" style="background: #2B9BBD;"></span>
+                    <span class="cs-cap__t" id="portalCapTitle">Astravacances.fr — Vitrine Réalisée par Studio Boubane (Vitesse &lt; 0.3s)</span>
+                </div>
+                <div class="cs-cap__actions">
+                    <a href="showcase-astra.html" target="_blank" rel="noopener noreferrer" class="cs-cap-visit-btn" id="portalCapVisitBtn">
+                        Ouvrir en pleine page ↗
+                    </a>
+                    <a href="#tarifs" onclick="closeFullscreenMockup()" class="cs-cap-visit-btn cs-cap-visit-btn--order" style="background: var(--ramp-yellow); color: #0C0A08; border-color: var(--ramp-yellow); font-weight: 700;">
+                        Commander mon site (0 €) ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Header Flottant Capsule Ramp Design (v2-top-nav) -->
     <header class="header">

@@ -1754,7 +1754,7 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 /* ==========================================================================
-   Dock Flottant macOS Centré sur toute la page (Barre des tâches & Lanceur)
+   Dock Flottant macOS Centré sur toute la page — Verre Dépoli Nacré Haute Autorité
    ========================================================================== */
 .hero-dock-wrap {
   width: 100%;
@@ -1762,7 +1762,7 @@ body.mockup-modal-open .hero-card-slide.active {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: clamp(36px, 5.2vh, 64px) auto 0 auto; /* Rebaissée généreusement pour une aération parfaite */
+  margin: clamp(40px, 5.8vh, 72px) auto 0 auto; /* Parfaitement abaissée pour respirer */
   position: relative;
   z-index: 10;
   padding: 0 clamp(16px, 3vw, 48px);
@@ -1773,31 +1773,41 @@ body.mockup-modal-open .hero-card-slide.active {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(14, 15, 20, 0.88);
-  backdrop-filter: blur(32px) saturate(210%);
-  -webkit-backdrop-filter: blur(32px) saturate(210%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  border: 1px solid rgba(12, 10, 8, 0.12);
   border-radius: var(--radius-pill);
-  padding: 4px 10px;
+  padding: 5px 12px;
   margin: 0 auto;
   box-shadow: 
-    0 14px 36px -4px rgba(0, 0, 0, 0.48),
-    0 2px 8px rgba(0, 0, 0, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
-  gap: 8px;
+    0 20px 48px -8px rgba(12, 10, 8, 0.14),
+    0 4px 14px rgba(12, 10, 8, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  gap: 10px;
   user-select: none;
   animation: csDockSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: all 0.25s ease;
+}
+
+.cs-floating-dock:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(12, 10, 8, 0.18);
+  box-shadow: 
+    0 24px 54px -8px rgba(12, 10, 8, 0.18),
+    0 6px 18px rgba(12, 10, 8, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 @keyframes csDockSlideUp {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .cs-dock-items-wrap {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
 }
 
 .cs-dock-app-btn {
@@ -1807,52 +1817,57 @@ body.mockup-modal-open .hero-card-slide.active {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: 3px 8px 4px;
-  border-radius: 9px;
+  padding: 4px 9px 5px;
+  border-radius: 11px;
   cursor: pointer;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, opacity 0.2s ease;
   position: relative;
 }
 
 .cs-dock-app-btn:hover {
-  transform: translateY(-2px) scale(1.06);
-  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-3px) scale(1.08);
+  background: rgba(12, 10, 8, 0.06);
 }
 
 .cs-dock-icon-box {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 7px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 2px 8px rgba(12, 10, 8, 0.08);
   overflow: hidden;
   transition: all 0.2s ease;
 }
 
+.cs-dock-app-btn:hover .cs-dock-icon-box {
+  box-shadow: 0 4px 12px rgba(12, 10, 8, 0.16);
+  border-color: rgba(12, 10, 8, 0.25);
+}
+
 .cs-dock-app-btn.active .cs-dock-icon-box {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.22);
+  background: #FFFFFF;
+  border-color: #0C0A08;
+  box-shadow: 0 0 0 2px rgba(12, 10, 8, 0.15), 0 4px 14px rgba(12, 10, 8, 0.2);
 }
 
 .cs-dock-img {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
   object-fit: contain;
 }
 
 .cs-dock-img--achille {
-  width: 19px;
-  height: 14px;
+  width: 20px;
+  height: 15px;
 }
 
 .cs-dock-icon-box--valmy {
-  background: linear-gradient(135deg, #241A12, #16110B);
-  border-color: rgba(245, 158, 11, 0.4);
+  background: linear-gradient(135deg, #1C1917, #0C0A08);
+  border-color: rgba(245, 158, 11, 0.5);
 }
 
 .cs-dock-seal {
@@ -1864,21 +1879,26 @@ body.mockup-modal-open .hero-card-slide.active {
 
 .cs-dock-title {
   font-family: var(--font-body);
-  font-size: 0.64rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #383533;
   white-space: nowrap;
   letter-spacing: 0.015em;
+  transition: color 0.2s ease;
+}
+
+.cs-dock-app-btn:hover .cs-dock-title {
+  color: #0C0A08;
 }
 
 .cs-dock-app-btn.active .cs-dock-title {
-  color: #FFFFFF;
-  font-weight: 600;
+  color: #0C0A08;
+  font-weight: 700;
 }
 
 .cs-dock-indicator {
-  width: 3px;
-  height: 3px;
+  width: 3.5px;
+  height: 3.5px;
   border-radius: 50%;
   background: transparent;
   transition: all 0.2s ease;
@@ -1886,33 +1906,30 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 .cs-dock-app-btn.active .cs-dock-indicator {
-  background: var(--ramp-yellow);
-  box-shadow: 0 0 5px var(--ramp-yellow);
+  background: #0C0A08;
+  box-shadow: 0 0 4px rgba(12, 10, 8, 0.5);
 }
 
 /* Séparateur vertical macOS */
 .cs-dock-divider {
   width: 1px;
-  height: 22px;
-  background: rgba(255, 255, 255, 0.18);
-  margin: 0 3px;
+  height: 24px;
+  background: rgba(12, 10, 8, 0.12);
+  margin: 0 2px;
 }
 
 /* Actions rapides Dock (Vue Pleine & Visiter) */
 .cs-dock-actions-wrap {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .cs-dock-action-pill {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #FFFFFF;
-  padding: 4px 10px;
+  gap: 6px;
+  padding: 5px 12px;
   border-radius: var(--radius-pill);
   font-family: var(--font-body);
   font-size: 0.68rem;
@@ -1924,34 +1941,221 @@ body.mockup-modal-open .hero-card-slide.active {
   line-height: 1;
 }
 
-.cs-dock-action-pill:hover {
-  background: var(--ramp-yellow);
-  color: #0C0A08;
-  border-color: var(--ramp-yellow);
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 4px 12px rgba(238, 248, 90, 0.32);
+/* Bouton Vue Pleine : Capsule Haute Autorité Noir Ébène & Accent Jaune Ramp */
+.cs-dock-action-pill--fullscreen {
+  background: #0C0A08;
+  border: 1px solid #0C0A08;
+  color: #FFFFFF;
+  box-shadow: 0 3px 10px rgba(12, 10, 8, 0.25);
 }
 
-.cs-dock-action-pill--fullscreen {
-  background: rgba(238, 248, 90, 0.12);
-  border-color: rgba(238, 248, 90, 0.28);
+.cs-dock-action-pill--fullscreen .cs-dock-action-icon {
   color: var(--ramp-yellow);
 }
 
 .cs-dock-action-pill--fullscreen:hover {
   background: var(--ramp-yellow);
   color: #0C0A08;
+  border-color: var(--ramp-yellow);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(238, 248, 90, 0.45);
+}
+
+.cs-dock-action-pill--fullscreen:hover .cs-dock-action-icon {
+  color: #0C0A08;
+}
+
+/* Bouton Visiter : Capsule Blanche Nette & Contrastée */
+.cs-dock-action-pill--visit {
+  background: rgba(12, 10, 8, 0.05);
+  border: 1px solid rgba(12, 10, 8, 0.12);
+  color: #0C0A08;
+}
+
+.cs-dock-action-pill--visit:hover {
+  background: rgba(12, 10, 8, 0.12);
+  border-color: rgba(12, 10, 8, 0.22);
+  transform: translateY(-2px);
 }
 
 .cs-dock-action-icon {
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
 
 .cs-dock-action-label {
   font-family: var(--font-body);
-  font-size: 0.66rem;
+  font-size: 0.67rem;
   font-weight: 600;
+}
+
+/* ==========================================================================
+   Portail Plein Écran Universel (Immersion Vitrines Web — Sans Stacking Bug)
+   ========================================================================== */
+.mockup-fullscreen-portal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999999 !important;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(10px, 2vw, 24px);
+  box-sizing: border-box;
+}
+
+.mockup-fullscreen-portal.active {
+  display: flex !important;
+}
+
+.mockup-portal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 7, 10, 0.88);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  z-index: 1;
+  cursor: pointer;
+  animation: portalBackdropFade 0.25s ease-out forwards;
+}
+
+@keyframes portalBackdropFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mockup-portal-window {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1720px;
+  height: 100%;
+  max-height: calc(100vh - 2 * clamp(10px, 2vw, 24px));
+  display: flex;
+  flex-direction: column;
+  background: #08090C;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 
+    0 32px 140px -10px rgba(0, 0, 0, 0.98),
+    0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 0 120px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  animation: portalWindowScale 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes portalWindowScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.mockup-portal-window .cs-window-bar {
+  flex: 0 0 auto;
+  border-radius: 20px 20px 0 0;
+  padding: 12px 24px;
+  background: linear-gradient(180deg, #1C1E24 0%, #121317 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Sélecteur de projets dans la vue pleine */
+.cs-portal-site-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 3px 6px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-left: 14px;
+}
+
+.cs-portal-tab-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.cs-portal-tab-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cs-portal-tab-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.cs-portal-tab-icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.cs-portal-tab-icon--achille {
+  width: 16px;
+  height: 12px;
+}
+
+.cs-portal-seal {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 10px;
+  color: #F59E0B;
+}
+
+/* Corps de la fenêtre portail */
+.mockup-portal-body {
+  flex: 1 1 0px;
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  background: #FFFFFF;
+}
+
+.mockup-portal-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #FFFFFF;
+}
+
+.mockup-portal-inline {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #08090C;
+}
+
+.mockup-portal-cap {
+  flex: 0 0 auto;
+  border-radius: 0 0 20px 20px;
+  background: #141519;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 24px;
 }
 
 

@@ -392,72 +392,134 @@ function setAchilleTickets(btn, volume, economy, hours) {
   }
 }
 
-// 9b. Gestion de l'agrandissement immersif plein écran des maquettes
+// 9b. Gestion du Portail Plein Écran Universel (Immersion Vitrines Web)
 let activeFullscreenSite = null;
 
 function toggleFullscreenMockup(site) {
-  const siteKey = (site === 'astra' || site === 'achille' || site === 'valmy') ? site : 'astra';
-  const siteIndex = siteKey === 'astra' ? 0 : (siteKey === 'achille' ? 1 : 2);
-  const containerId = siteKey === 'astra' ? 'mockupAstra' : (siteKey === 'achille' ? 'mockupAchille' : 'mockupValmy');
-  const targetCell = document.getElementById(containerId);
-  if (!targetCell) return;
+  openPortalFullscreen(site || 'astra');
+}
 
-  const isAlreadyFs = targetCell.classList.contains('is-fullscreen');
+function openActiveFullscreen() {
+  const sites = ['astra', 'achille', 'valmy', 'studio'];
+  const siteKey = sites[currentHeroCardIndex] || 'astra';
+  openPortalFullscreen(siteKey === 'studio' ? 'astra' : siteKey);
+}
 
-  if (isAlreadyFs) {
-    closeFullscreenMockup();
-    return;
-  }
+function openPortalFullscreen(siteKey) {
+  const portal = document.getElementById('mockupFullscreenPortal');
+  if (!portal) return;
 
-  // S'assurer que le slide parent est affiché et actif
-  const slides = document.querySelectorAll('.hero-card-slide');
-  slides.forEach(s => s.classList.remove('active'));
-  const targetSlide = document.getElementById(`heroSlide${siteIndex}`);
-  if (targetSlide) {
-    targetSlide.classList.add('active');
-  }
-  currentHeroCardIndex = siteIndex;
-  isWindowMinimized = false;
+  const validKey = (siteKey === 'astra' || siteKey === 'achille' || siteKey === 'valmy') ? siteKey : 'astra';
+  switchPortalSite(validKey);
 
-  // Mettre à jour l'état du dock
-  const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
-  dockBtns.forEach((btn, i) => {
-    const isActive = (i === siteIndex);
-    btn.classList.toggle('active', isActive);
-    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-  });
-
-  // Nettoyer les classes d'animation résiduelles sur toutes les fenêtres
-  const allFs = document.querySelectorAll('.cs-cell--windowed');
-  allFs.forEach(el => {
-    el.classList.remove('is-fullscreen', 'animating-minimize', 'animating-restore');
-  });
-
-  // Activer le plein écran sur la fenêtre ciblée
-  targetCell.classList.add('is-fullscreen');
+  portal.classList.add('active');
+  portal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('mockup-modal-open');
-  activeFullscreenSite = siteKey;
-  stopHeroCardTimer(); // Arrêt impératif du timer pendant la visite
-
-  // Synchroniser les onglets de switch rapide en mode plein écran
-  const fsTabs = targetCell.querySelectorAll('.cs-fs-tab-pill');
-  if (fsTabs.length >= 3) {
-    fsTabs.forEach((tab, idx) => {
-      const match = (idx === 0 && siteKey === 'astra') || (idx === 1 && siteKey === 'achille') || (idx === 2 && siteKey === 'valmy');
-      tab.classList.toggle('active', match);
-    });
-  }
-
+  activeFullscreenSite = validKey;
+  stopHeroCardTimer();
   document.addEventListener('keydown', handleMockupKeydown);
 }
 
 function closeFullscreenMockup() {
-  const allFs = document.querySelectorAll('.cs-cell--windowed.is-fullscreen');
-  allFs.forEach(el => el.classList.remove('is-fullscreen'));
+  const portal = document.getElementById('mockupFullscreenPortal');
+  if (portal) {
+    portal.classList.remove('active');
+    portal.setAttribute('aria-hidden', 'true');
+  }
+  document.querySelectorAll('.cs-cell--windowed.is-fullscreen').forEach(el => el.classList.remove('is-fullscreen'));
   document.body.classList.remove('mockup-modal-open');
   activeFullscreenSite = null;
   document.removeEventListener('keydown', handleMockupKeydown);
-  startHeroCardTimer(); // Reprise normale du carrousel
+  startHeroCardTimer();
+}
+
+function switchPortalSite(siteKey) {
+  const key = (siteKey === 'astra' || siteKey === 'achille' || siteKey === 'valmy') ? siteKey : 'astra';
+  activeFullscreenSite = key;
+
+  // Mettre à jour les onglets de switch dans la fenêtre portail
+  const tabAstra = document.getElementById('portalTabAstra');
+  const tabAchille = document.getElementById('portalTabAchille');
+  const tabValmy = document.getElementById('portalTabValmy');
+  if (tabAstra) tabAstra.classList.toggle('active', key === 'astra');
+  if (tabAchille) tabAchille.classList.toggle('active', key === 'achille');
+  if (tabValmy) tabValmy.classList.toggle('active', key === 'valmy');
+
+  const iframe = document.getElementById('portalIframe');
+  const inlineContainer = document.getElementById('portalInlineContainer');
+  const urlText = document.getElementById('portalUrlText');
+  const extLink = document.getElementById('portalExtLink');
+  const capDot = document.getElementById('portalCapDot');
+  const capTitle = document.getElementById('portalCapTitle');
+  const capVisitBtn = document.getElementById('portalCapVisitBtn');
+
+  if (key === 'astra') {
+    if (iframe) {
+      iframe.style.display = 'block';
+      if (!iframe.src || !iframe.src.includes('showcase-astra.html')) {
+        iframe.src = 'showcase-astra.html';
+      }
+    }
+    if (inlineContainer) inlineContainer.style.display = 'none';
+    if (urlText) urlText.textContent = 'astravacances.fr/audit-operationnel';
+    if (extLink) extLink.href = 'showcase-astra.html';
+    if (capDot) capDot.style.background = '#2B9BBD';
+    if (capTitle) capTitle.textContent = 'Astravacances.fr — Vitrine Réalisée par Studio Boubane (Vitesse < 0.3s)';
+    if (capVisitBtn) {
+      capVisitBtn.href = 'showcase-astra.html';
+      capVisitBtn.textContent = 'Ouvrir en pleine page ↗';
+    }
+  } else if (key === 'achille') {
+    if (iframe) iframe.style.display = 'none';
+    if (inlineContainer) {
+      inlineContainer.style.display = 'block';
+      const origViewport = document.querySelector('#mockupAchille .cs-viewport');
+      if (origViewport && inlineContainer.innerHTML.trim() === '') {
+        inlineContainer.innerHTML = origViewport.innerHTML;
+      }
+    }
+    if (urlText) urlText.textContent = 'achille.ai/automation';
+    if (extLink) extLink.href = 'https://achille.ai';
+    if (capDot) capDot.style.background = '#6366F1';
+    if (capTitle) capTitle.textContent = 'Achille.ai — Support Client AI-First (Latence 18ms)';
+    if (capVisitBtn) {
+      capVisitBtn.href = 'https://achille.ai';
+      capVisitBtn.textContent = 'Visiter achille.ai ↗';
+    }
+  } else if (key === 'valmy') {
+    if (iframe) iframe.style.display = 'none';
+    if (inlineContainer) {
+      inlineContainer.style.display = 'block';
+      const origViewport = document.querySelector('#mockupValmy .cs-viewport');
+      if (origViewport && inlineContainer.innerHTML.trim() === '') {
+        inlineContainer.innerHTML = origViewport.innerHTML;
+      }
+    }
+    if (urlText) urlText.textContent = 'cabinet-valmy.com/mandats';
+    if (extLink) extLink.href = 'https://cabinet-valmy.com';
+    if (capDot) capDot.style.background = '#F59E0B';
+    if (capTitle) capTitle.textContent = 'Cabinet Valmy — Barreau d\'affaires M&A & Cession d\'entreprises';
+    if (capVisitBtn) {
+      capVisitBtn.href = 'https://cabinet-valmy.com';
+      capVisitBtn.textContent = 'Visiter cabinet-valmy.com ↗';
+    }
+  }
+}
+
+function reloadPortalIframe() {
+  const iframe = document.getElementById('portalIframe');
+  if (iframe && iframe.style.display !== 'none') {
+    iframe.src = iframe.src;
+    showBoubaneToast('↻ Page rechargée (< 0.3s)');
+  }
+}
+
+function toggleNativeFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
 }
 
 function handleMockupKeydown(e) {
@@ -467,34 +529,12 @@ function handleMockupKeydown(e) {
     const sites = ['astra', 'achille', 'valmy'];
     const currentIdx = sites.indexOf(activeFullscreenSite);
     const nextIdx = (currentIdx + 1) % sites.length;
-    selectHeroCard(nextIdx);
-    toggleFullscreenMockup(sites[nextIdx]);
+    switchPortalSite(sites[nextIdx]);
   } else if (e.key === 'ArrowLeft') {
     const sites = ['astra', 'achille', 'valmy'];
     const currentIdx = sites.indexOf(activeFullscreenSite);
     const prevIdx = (currentIdx - 1 + sites.length) % sites.length;
-    selectHeroCard(prevIdx);
-    toggleFullscreenMockup(sites[prevIdx]);
-  }
-}
-
-// 9c. Ouverture directe de la vitrine active en Vue Pleine & Visite externe
-function openActiveFullscreen() {
-  const sites = ['astra', 'achille', 'valmy', 'studio'];
-  const siteKey = sites[currentHeroCardIndex] || 'astra';
-
-  if (siteKey === 'studio') {
-    // Basculer sur la vitrine Astra Vacances
-    restoreMockupAnimated(0);
-    setTimeout(() => toggleFullscreenMockup('astra'), 250);
-    return;
-  }
-
-  if (isWindowMinimized) {
-    restoreMockupAnimated(currentHeroCardIndex);
-    setTimeout(() => toggleFullscreenMockup(siteKey), 250);
-  } else {
-    toggleFullscreenMockup(siteKey);
+    switchPortalSite(sites[prevIdx]);
   }
 }
 
