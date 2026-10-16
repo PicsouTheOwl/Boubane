@@ -280,9 +280,6 @@
                         </div>
                     </div>
 
-                    <!-- Overlay sombre flouté pour le mode plein écran -->
-                    <div id="mockupBackdrop" class="cs-mockup-backdrop" onclick="closeFullscreenMockup()" aria-hidden="true"></div>
-
                     <!-- Viewport des cartes de sites web sur la Hero -->
                     <div class="hero-cards-viewport" id="heroCardsViewport">
                         <!-- Slide 0 : Astravacances.fr (Maquette Navigable) -->
@@ -1301,6 +1298,14 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal Plein Écran Universel des Vitrines Web (Portail Indépendant sous Body) -->
+    <div id="mockupFullscreenPortal" class="mockup-fullscreen-portal" aria-hidden="true">
+        <div class="mockup-portal-backdrop" onclick="closeFullscreenMockup()" aria-hidden="true"></div>
+        <div class="mockup-portal-dialog" id="mockupPortalDialog">
+            <!-- Emplacement d'accueil temporaire de la maquette agrandie -->
+        </div>
+    </div>
 
     <!-- Script des interactions -->
     <script src="komponent.js"></script>

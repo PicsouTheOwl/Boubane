@@ -1237,22 +1237,9 @@ p.lead {
    ========================================================================== */
 
 /* Overlay sombre flouté de fond lors de l'agrandissement */
-.cs-mockup-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(6, 6, 8, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  z-index: 999990;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.cs-mockup-backdrop.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+/* ==========================================================================
+   Portail Plein Écran Universel des Maquettes Web (Architecture Sans Conflit)
+   ========================================================================== */
 
 /* Verrouillage du scroll principal quand une fenêtre est agrandie */
 body.mockup-modal-open {
@@ -1260,10 +1247,55 @@ body.mockup-modal-open {
   touch-action: none;
 }
 
-/* Neutralisation des contextes d'empilement (transforms) pendant le plein écran */
-body.mockup-modal-open .hero-cards-viewport,
-body.mockup-modal-open .hero-card-slide.active {
-  transform: none !important;
+.mockup-fullscreen-portal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: clamp(12px, 2.5vw, 28px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mockup-fullscreen-portal.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mockup-portal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 6, 8, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  cursor: pointer;
+}
+
+.mockup-portal-dialog {
+  position: relative;
+  z-index: 2;
+  width: min(1380px, 100%);
+  height: min(92vh, 920px);
+  display: flex;
+  flex-direction: column;
+  animation: portalZoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes portalZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .cs-cell--windowed {
@@ -1273,39 +1305,27 @@ body.mockup-modal-open .hero-card-slide.active {
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* Mode Agrandissement Plein Écran Immersif */
+/* Quand la cellule est dans le portail plein écran */
+.mockup-portal-dialog .cs-cell--windowed,
 .cs-cell--windowed.is-fullscreen {
-  position: fixed !important;
-  inset: clamp(12px, 2.5vw, 32px) !important;
-  max-width: 1440px !important;
-  margin: auto !important;
-  z-index: 999999 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
   border-radius: 20px !important;
   border: 1px solid rgba(255, 255, 255, 0.22) !important;
   box-shadow: 
     0 32px 100px -10px rgba(0, 0, 0, 0.95),
     0 0 0 1px rgba(255, 255, 255, 0.12),
     0 0 80px rgba(0, 0, 0, 0.8) !important;
-  animation: mockupWindowExpand 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  height: calc(100vh - 2 * clamp(12px, 2.5vw, 32px)) !important;
-  max-height: none !important;
-  min-height: 0 !important;
-  background: #0C0A08;
+  background: #0C0A08 !important;
   display: flex !important;
   flex-direction: column !important;
+  margin: 0 !important;
+  transform: none !important;
 }
 
-@keyframes mockupWindowExpand {
-  0% {
-    opacity: 0;
-    transform: scale(0.95) translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
+.mockup-portal-dialog .cs-cell--windowed .cs-viewport,
 .cs-cell--windowed.is-fullscreen .cs-viewport {
   max-height: none !important;
   height: calc(100% - 50px) !important;
@@ -1314,17 +1334,20 @@ body.mockup-modal-open .hero-card-slide.active {
   -webkit-overflow-scrolling: touch;
 }
 
+.mockup-portal-dialog .cs-cell--windowed .cs-window-bar,
 .cs-cell--windowed.is-fullscreen .cs-window-bar {
   border-radius: 20px 20px 0 0;
   padding: 12px 24px;
 }
 
+.mockup-portal-dialog .cs-cell--windowed .cs-cap,
 .cs-cell--windowed.is-fullscreen .cs-cap {
   border-radius: 0 0 20px 20px;
   background: #15161A;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.mockup-portal-dialog .cs-cell--windowed .cs-cap__t,
 .cs-cell--windowed.is-fullscreen .cs-cap__t {
   color: #FFFFFF;
 }
@@ -2384,9 +2407,7 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 .cs-cell--windowed.is-fullscreen .cs-cap-expand-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
+  display: none !important;
 }
 
 .cs-cap-expand-btn:hover {
@@ -3184,12 +3205,23 @@ body.mockup-modal-open .hero-card-slide.active {
   }
 
   /* Plein écran des maquettes en mobile */
-  .cs-cell--windowed.is-fullscreen {
-    inset: 8px !important;
-    border-radius: 14px !important;
-    height: calc(100vh - 16px) !important;
+  .mockup-fullscreen-portal {
+    padding: 6px !important;
   }
 
+  .mockup-portal-dialog {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100vh !important;
+  }
+
+  .mockup-portal-dialog .cs-cell--windowed,
+  .cs-cell--windowed.is-fullscreen {
+    border-radius: 14px !important;
+    height: 100% !important;
+  }
+
+  .mockup-portal-dialog .cs-cell--windowed .cs-window-bar,
   .cs-cell--windowed.is-fullscreen .cs-window-bar {
     padding: 8px 12px;
     gap: 8px;
