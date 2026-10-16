@@ -1235,10 +1235,98 @@ p.lead {
 /* ==========================================================================
    Maquettes de Sites Web Navigables Élite (Interactive Web Mockups)
    ========================================================================== */
+
+/* Overlay sombre flouté de fond lors de l'agrandissement */
+.cs-mockup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 6, 8, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 999990;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cs-mockup-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Verrouillage du scroll principal quand une fenêtre est agrandie */
+body.mockup-modal-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+/* Neutralisation des contextes d'empilement (transforms) pendant le plein écran */
+body.mockup-modal-open .hero-cards-viewport,
+body.mockup-modal-open .hero-card-slide.active {
+  transform: none !important;
+}
+
 .cs-cell--windowed {
   min-height: clamp(480px, 62vh, 600px);
   display: flex;
   flex-direction: column;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Mode Agrandissement Plein Écran Immersif */
+.cs-cell--windowed.is-fullscreen {
+  position: fixed !important;
+  inset: clamp(12px, 2.5vw, 32px) !important;
+  max-width: 1440px !important;
+  margin: auto !important;
+  z-index: 999999 !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 
+    0 32px 100px -10px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 0 80px rgba(0, 0, 0, 0.8) !important;
+  animation: mockupWindowExpand 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  height: calc(100vh - 2 * clamp(12px, 2.5vw, 32px)) !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  background: #0C0A08;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+@keyframes mockupWindowExpand {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.cs-cell--windowed.is-fullscreen .cs-viewport {
+  max-height: none !important;
+  height: calc(100% - 50px) !important;
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cs-cell--windowed.is-fullscreen .cs-window-bar {
+  border-radius: 20px 20px 0 0;
+  padding: 12px 24px;
+}
+
+.cs-cell--windowed.is-fullscreen .cs-cap {
+  border-radius: 0 0 20px 20px;
+  background: #15161A;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cs-cell--windowed.is-fullscreen .cs-cap__t {
+  color: #FFFFFF;
 }
 
 /* Barre de navigation macOS intégrée (Browser Header Pro) */
@@ -1346,6 +1434,28 @@ p.lead {
   transition: all 0.2s ease;
 }
 
+.cs-url-ext-link {
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  font-size: 0.82rem;
+  padding: 0 4px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.cs-url-ext-link:hover {
+  color: var(--ramp-yellow);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(1px, -1px);
+}
+
+.cs-window-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .cs-speed-pill {
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -1359,6 +1469,69 @@ p.lead {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+/* Bouton Agrandir / Plein Écran */
+.cs-btn-expand-win {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.cs-btn-expand-win:hover {
+  background: var(--ramp-yellow);
+  color: #0C0A08;
+  border-color: var(--ramp-yellow);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(238, 248, 90, 0.3);
+}
+
+.cs-btn-expand-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+/* Bouton Réduire visible uniquement en mode fullscreen */
+.cs-btn-close-win {
+  display: none;
+  background: rgba(255, 95, 86, 0.15);
+  border: 1px solid rgba(255, 95, 86, 0.4);
+  color: #FF5F56;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.cs-btn-close-win:hover {
+  background: #FF5F56;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(255, 95, 86, 0.4);
+}
+
+.cs-cell--windowed.is-fullscreen .cs-btn-expand-win {
+  display: none !important;
+}
+
+.cs-cell--windowed.is-fullscreen .cs-btn-close-win {
+  display: inline-flex !important;
 }
 
 /* Viewport du mini-site navigable (Scrollable Mockup Viewport) */
@@ -1661,6 +1834,66 @@ p.lead {
   color: #5C5B56;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.cs-cap__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cs-cap-expand-btn {
+  background: rgba(12, 10, 8, 0.08);
+  border: 1px solid rgba(12, 10, 8, 0.16);
+  color: #0C0A08;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.cs-cell--windowed.is-fullscreen .cs-cap-expand-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.cs-cap-expand-btn:hover {
+  background: var(--ramp-yellow);
+  color: #0C0A08;
+  border-color: var(--ramp-yellow);
+  transform: translateY(-1px);
+}
+
+.cs-cap-visit-btn {
+  color: #5C5B56;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+}
+
+.cs-cell--windowed.is-fullscreen .cs-cap-visit-btn {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.cs-cap-visit-btn:hover {
+  color: #0C0A08;
+}
+
+.cs-cell--windowed.is-fullscreen .cs-cap-visit-btn:hover {
+  color: var(--ramp-yellow);
 }
 
 .cs-cap__arrow {
@@ -2425,6 +2658,32 @@ p.lead {
 
   .hero-site-meta-left {
     font-size: 0.78rem;
+  }
+
+  /* Plein écran des maquettes en mobile */
+  .cs-cell--windowed.is-fullscreen {
+    inset: 8px !important;
+    border-radius: 14px !important;
+    height: calc(100vh - 16px) !important;
+  }
+
+  .cs-cell--windowed.is-fullscreen .cs-window-bar {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .cs-url-bar {
+    max-width: 170px;
+    padding: 4px 8px;
+    font-size: 0.68rem;
+  }
+
+  .cs-btn-expand-text {
+    display: none;
+  }
+
+  .cs-btn-expand-win {
+    padding: 5px 8px;
   }
 }
 

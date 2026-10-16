@@ -392,6 +392,54 @@ function setAchilleTickets(btn, volume, economy, hours) {
   }
 }
 
+// 9b. Gestion de l'agrandissement immersif plein écran des maquettes
+let activeFullscreenMockupId = null;
+
+function toggleFullscreenMockup(site) {
+  const containerId = site === 'astra' ? 'mockupAstra' : (site === 'achille' ? 'mockupAchille' : (site === 'valmy' ? 'mockupValmy' : site));
+  const container = document.getElementById(containerId);
+  const backdrop = document.getElementById('mockupBackdrop');
+  if (!container) return;
+
+  const isAlreadyFullscreen = container.classList.contains('is-fullscreen');
+
+  if (isAlreadyFullscreen) {
+    closeFullscreenMockup();
+  } else {
+    // Si une autre maquette était ouverte, la refermer d'abord
+    closeFullscreenMockup();
+
+    container.classList.add('is-fullscreen');
+    document.body.classList.add('mockup-modal-open');
+    if (backdrop) backdrop.classList.add('active');
+    activeFullscreenMockupId = containerId;
+    isHeroInteracting = true; // Suspendre l'auto-rotation pour permettre la visite tranquille
+
+    // Écouteur pour la touche Échap
+    document.addEventListener('keydown', handleMockupKeydown);
+  }
+}
+
+function closeFullscreenMockup() {
+  const allFullscreen = document.querySelectorAll('.cs-cell--windowed.is-fullscreen');
+  allFullscreen.forEach(el => el.classList.remove('is-fullscreen'));
+
+  const backdrop = document.getElementById('mockupBackdrop');
+  if (backdrop) backdrop.classList.remove('active');
+
+  document.body.classList.remove('mockup-modal-open');
+  activeFullscreenMockupId = null;
+  isHeroInteracting = false;
+
+  document.removeEventListener('keydown', handleMockupKeydown);
+}
+
+function handleMockupKeydown(e) {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    closeFullscreenMockup();
+  }
+}
+
 // 10. Contrôleur du Hero Showcase : Défilement et sélection des cartes de sites sur la Hero
 let currentHeroCardIndex = 0;
 let heroCardTimer = null;
@@ -417,6 +465,11 @@ const heroSiteMetadata = [
 ];
 
 function selectHeroCard(index) {
+  // Refermer toute fenêtre qui serait en plein écran lors du changement de slide
+  if (activeFullscreenMockupId) {
+    closeFullscreenMockup();
+  }
+
   const slides = document.querySelectorAll('.hero-card-slide');
   const pills = document.querySelectorAll('.hero-pill-btn');
   if (!slides.length) return;
@@ -445,7 +498,7 @@ function cycleHeroCard(direction) {
   selectHeroCard(currentHeroCardIndex + direction);
 }
 
-function openHeroProject(index) {
+function openHeroProject(index, autoExpand = false) {
   selectHeroCard(index);
   const heroShowcase = document.getElementById('heroShowcase');
   if (heroShowcase) {
@@ -454,6 +507,15 @@ function openHeroProject(index) {
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
   isHeroInteracting = true;
+
+  if (autoExpand) {
+    setTimeout(() => {
+      const siteNames = ['astra', 'achille', 'valmy'];
+      if (siteNames[index]) {
+        toggleFullscreenMockup(siteNames[index]);
+      }
+    }, 400);
+  }
 }
 
 function startHeroCardTimer() {

@@ -282,6 +282,9 @@
                         </div>
                     </div>
 
+                    <!-- Overlay sombre flouté pour le mode plein écran -->
+                    <div id="mockupBackdrop" class="cs-mockup-backdrop" onclick="closeFullscreenMockup()" aria-hidden="true"></div>
+
                     <!-- Viewport des cartes de sites web sur la Hero -->
                     <div class="hero-cards-viewport" id="heroCardsViewport">
                         <!-- Slide 0 : Astravacances.fr (Maquette Navigable) -->
@@ -290,9 +293,9 @@
                                 <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red" title="Fermer la vue"></span>
-                                            <span class="cs-dot cs-dot--yellow" title="Réduire"></span>
-                                            <span class="cs-dot cs-dot--green" title="Mode immersif"></span>
+                                            <span class="cs-dot cs-dot--red" onclick="closeFullscreenMockup()" title="Fermer / Réduire (Échap)"></span>
+                                            <span class="cs-dot cs-dot--yellow" onclick="closeFullscreenMockup()" title="Réduire"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('astra')" title="Agrandir la fenêtre du site (Plein écran)"></span>
                                         </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('astra', -1)" title="Page précédente">‹</button>
@@ -303,9 +306,19 @@
                                     <div class="cs-url-bar">
                                         <span class="cs-url-lock">🔒</span>
                                         <span class="cs-url-text">astravacances.fr<span id="astraUrlPath" class="cs-url-path">/audit-operationnel</span></span>
+                                        <a href="https://astravacances.fr" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir astravacances.fr dans un nouvel onglet" aria-label="Visiter astravacances.fr">↗</a>
                                     </div>
 
-                                    <span class="cs-speed-pill" id="astraSpeedBadge" style="color: #2B9BBD; border-color: rgba(43, 155, 189, 0.35);">⚡ 0.27s</span>
+                                    <div class="cs-window-bar-right">
+                                        <span class="cs-speed-pill" id="astraSpeedBadge" style="color: #2B9BBD; border-color: rgba(43, 155, 189, 0.35);">⚡ 0.27s</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('astra')" title="Agrandir la fenêtre pour visiter" aria-label="Agrandir la fenêtre">
+                                            <span class="cs-btn-expand-icon">⤢</span>
+                                            <span class="cs-btn-expand-text">Agrandir</span>
+                                        </button>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
+                                            ✕ Réduire
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="cs-viewport">
@@ -410,7 +423,14 @@
                                         <span class="cs-cap__dot" style="background: #2B9BBD;"></span>
                                         <span class="cs-cap__t">Astravacances.fr — Maquette Navigable sur la Hero</span>
                                     </div>
-                                    <span class="cs-cap__tag">⚡ Cliquez sur les onglets pour tester</span>
+                                    <div class="cs-cap__actions">
+                                        <button type="button" class="cs-cap-expand-btn" onclick="toggleFullscreenMockup('astra')">
+                                            ⤢ Agrandir pour visiter
+                                        </button>
+                                        <a href="https://astravacances.fr" target="_blank" rel="noopener noreferrer" class="cs-cap-visit-btn">
+                                            Visiter le vrai site ↗
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -421,9 +441,9 @@
                                 <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red"></span>
-                                            <span class="cs-dot cs-dot--yellow"></span>
-                                            <span class="cs-dot cs-dot--green"></span>
+                                            <span class="cs-dot cs-dot--red" onclick="closeFullscreenMockup()" title="Fermer / Réduire (Échap)"></span>
+                                            <span class="cs-dot cs-dot--yellow" onclick="closeFullscreenMockup()" title="Réduire"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('achille')" title="Agrandir la fenêtre du site (Plein écran)"></span>
                                         </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('achille', -1)" title="Page précédente">‹</button>
@@ -434,9 +454,19 @@
                                     <div class="cs-url-bar">
                                         <span class="cs-url-lock">🔒</span>
                                         <span class="cs-url-text">achille.ai<span id="achilleUrlPath" class="cs-url-path">/automation</span></span>
+                                        <a href="https://achille.ai" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir achille.ai dans un nouvel onglet" aria-label="Visiter achille.ai">↗</a>
                                     </div>
 
-                                    <span class="cs-speed-pill" id="achilleSpeedBadge" style="color: #818CF8; border-color: rgba(99, 102, 241, 0.35);">⚡ 0.24s</span>
+                                    <div class="cs-window-bar-right">
+                                        <span class="cs-speed-pill" id="achilleSpeedBadge" style="color: #818CF8; border-color: rgba(99, 102, 241, 0.35);">⚡ 0.24s</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('achille')" title="Agrandir la fenêtre pour visiter" aria-label="Agrandir la fenêtre">
+                                            <span class="cs-btn-expand-icon">⤢</span>
+                                            <span class="cs-btn-expand-text">Agrandir</span>
+                                        </button>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
+                                            ✕ Réduire
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="cs-viewport">
@@ -539,7 +569,14 @@
                                         <span class="cs-cap__dot" style="background: #6366F1;"></span>
                                         <span class="cs-cap__t">Achille.ai — Maquette Navigable sur la Hero</span>
                                     </div>
-                                    <span class="cs-cap__tag">⚡ Cliquez sur les onglets pour tester</span>
+                                    <div class="cs-cap__actions">
+                                        <button type="button" class="cs-cap-expand-btn" onclick="toggleFullscreenMockup('achille')">
+                                            ⤢ Agrandir pour visiter
+                                        </button>
+                                        <a href="https://achille.ai" target="_blank" rel="noopener noreferrer" class="cs-cap-visit-btn">
+                                            Visiter le vrai site ↗
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -550,9 +587,9 @@
                                 <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red"></span>
-                                            <span class="cs-dot cs-dot--yellow"></span>
-                                            <span class="cs-dot cs-dot--green"></span>
+                                            <span class="cs-dot cs-dot--red" onclick="closeFullscreenMockup()" title="Fermer / Réduire (Échap)"></span>
+                                            <span class="cs-dot cs-dot--yellow" onclick="closeFullscreenMockup()" title="Réduire"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('valmy')" title="Agrandir la fenêtre du site (Plein écran)"></span>
                                         </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('valmy', -1)" title="Page précédente">‹</button>
@@ -563,9 +600,19 @@
                                     <div class="cs-url-bar" style="max-width: 480px;">
                                         <span class="cs-url-lock">🔒</span>
                                         <span class="cs-url-text">cabinet-valmy.com<span id="valmyUrlPath" class="cs-url-path">/mandats</span></span>
+                                        <a href="https://cabinet-valmy.com" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir cabinet-valmy.com dans un nouvel onglet" aria-label="Visiter cabinet-valmy.com">↗</a>
                                     </div>
 
-                                    <span class="cs-speed-pill" id="valmySpeedBadge">⚡ 0.26s</span>
+                                    <div class="cs-window-bar-right">
+                                        <span class="cs-speed-pill" id="valmySpeedBadge">⚡ 0.26s</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('valmy')" title="Agrandir la fenêtre pour visiter" aria-label="Agrandir la fenêtre">
+                                            <span class="cs-btn-expand-icon">⤢</span>
+                                            <span class="cs-btn-expand-text">Agrandir</span>
+                                        </button>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
+                                            ✕ Réduire
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="cs-viewport">
@@ -679,7 +726,14 @@
                                         <span class="cs-cap__dot" style="background: #F59E0B;"></span>
                                         <span class="cs-cap__t">Cabinet Valmy — Maquette Navigable sur la Hero</span>
                                     </div>
-                                    <span class="cs-cap__tag">⚡ Cliquez sur les onglets pour explorer</span>
+                                    <div class="cs-cap__actions">
+                                        <button type="button" class="cs-cap-expand-btn" onclick="toggleFullscreenMockup('valmy')">
+                                            ⤢ Agrandir pour visiter
+                                        </button>
+                                        <a href="https://cabinet-valmy.com" target="_blank" rel="noopener noreferrer" class="cs-cap-visit-btn">
+                                            Visiter le vrai site ↗
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -774,10 +828,11 @@
                                 </div>
                             </div>
                             <div class="cs-case-actions">
-                                <button type="button" class="btn-case-hero-trigger" onclick="openHeroProject(0)">
-                                    <span>Tester la maquette sur la Hero</span>
+                                <button type="button" class="btn-case-hero-trigger" onclick="openHeroProject(0, true)" title="Agrandir la maquette interactive en plein écran">
+                                    <span>⤢ Visiter en grand format</span>
                                     <span aria-hidden="true">↗</span>
                                 </button>
+                                <a href="https://astravacances.fr" target="_blank" rel="noopener noreferrer" class="btn-case-order-link" style="text-decoration: none;">Voir astravacances.fr ↗</a>
                                 <a href="/commander" class="btn-case-order-link">Commander ce profil (0 €)</a>
                             </div>
                         </div>
@@ -807,10 +862,11 @@
                                 </div>
                             </div>
                             <div class="cs-case-actions">
-                                <button type="button" class="btn-case-hero-trigger" onclick="openHeroProject(1)">
-                                    <span>Tester la maquette sur la Hero</span>
+                                <button type="button" class="btn-case-hero-trigger" onclick="openHeroProject(1, true)" title="Agrandir la maquette interactive en plein écran">
+                                    <span>⤢ Visiter en grand format</span>
                                     <span aria-hidden="true">↗</span>
                                 </button>
+                                <a href="https://achille.ai" target="_blank" rel="noopener noreferrer" class="btn-case-order-link" style="text-decoration: none;">Voir achille.ai ↗</a>
                                 <a href="/commander" class="btn-case-order-link">Commander ce profil (0 €)</a>
                             </div>
                         </div>
@@ -844,10 +900,11 @@
                                         </div>
                                     </div>
                                     <div class="cs-case-actions" style="margin-top: 24px;">
-                                        <button type="button" class="btn-case-hero-trigger" onclick="openHeroProject(2)">
-                                            <span>Tester la maquette sur la Hero</span>
+                                        <button type="button" class="btn-case-hero-trigger" onclick="openHeroProject(2, true)" title="Agrandir la maquette interactive en plein écran">
+                                            <span>⤢ Visiter en grand format</span>
                                             <span aria-hidden="true">↗</span>
                                         </button>
+                                        <a href="https://cabinet-valmy.com" target="_blank" rel="noopener noreferrer" class="btn-case-order-link" style="text-decoration: none;">Voir cabinet-valmy.com ↗</a>
                                         <a href="/commander" class="btn-case-order-link">Commander ce profil (0 €)</a>
                                     </div>
                                 </div>
