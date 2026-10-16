@@ -703,18 +703,19 @@ const heroSiteMetadata = [
   }
 ];
 
-// État des onglets mis de côté (Dock)
-let minimizedTabs = new Set();
+// État de la fenêtre active et du Dock macOS
+let isWindowMinimized = false;
+let isDockTransitioning = false;
 
-// Déclenchement de l'animation signature sur la pastille Orange (Mettre de côté)
+// 1. Déclenchement de l'animation de minimisation macOS (Pastille orange/jaune, bouton rouge ou clic Dock sur l'application active)
 function minimizeMockupAnimated(targetIndex, event) {
   if (event) {
     event.stopPropagation();
     event.preventDefault();
   }
+  if (isDockTransitioning || isWindowMinimized) return;
 
   const idx = (typeof targetIndex === 'number') ? targetIndex : currentHeroCardIndex;
-  const siteData = heroSiteMetadata[idx];
   const activeSlide = document.getElementById(`heroSlide${idx}`) || document.querySelector('.hero-card-slide.active');
 
   // Si la fenêtre est en plein écran, fermer d'abord le mode plein écran
@@ -723,29 +724,99 @@ function minimizeMockupAnimated(targetIndex, event) {
   }
 
   if (activeSlide) {
+    isDockTransitioning = true;
     const windowCell = activeSlide.querySelector('.cs-cell--windowed') || activeSlide;
 
-    // Déclencher une onde de choc lumineuse orange
+    // Onde de choc lumineuse orange sur la pastille
     const orangeDot = windowCell.querySelector('.cs-dot--orange, .cs-dot--yellow');
     if (orangeDot) {
       const shockwave = document.createElement('div');
       shockwave.className = 'cs-orange-shockwave';
       orangeDot.appendChild(shockwave);
-      setTimeout(() => shockwave.remove(), 500);
+      setTimeout(() => shockwave.remove(), 450);
     }
 
-    // Animation 3D de glissement et retrait sur le côté
+    // Animation macOS Échelle / Génie vers le bas (Dock)
+    windowCell.classList.remove('animating-restore');
     windowCell.classList.add('animating-minimize');
+
+    // Mettre à jour visuellement le Dock : l'application se referme dans la barre
+    const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+    dockBtns.forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
+    });
 
     setTimeout(() => {
       windowCell.classList.remove('animating-minimize');
-      setTabMinimized(idx, true);
-    }, 360);
+      activeSlide.classList.remove('active');
+      isWindowMinimized = true;
+      isDockTransitioning = false;
+    }, 400);
   } else {
-    setTabMinimized(idx, true);
+    isWindowMinimized = true;
   }
+}
 
-  showBoubaneToast(`⚡ ${siteData?.name || 'Site'} mis de côté · Retrouvez-le dans le dock ci-dessous`);
+// 2. Restauration / Déploiement de la fenêtre depuis le Dock (animation macOS vers le haut)
+function restoreMockupAnimated(targetIndex) {
+  if (isDockTransitioning) return;
+  const idx = (typeof targetIndex === 'number') ? targetIndex : currentHeroCardIndex;
+  currentHeroCardIndex = idx;
+
+  const slides = document.querySelectorAll('.hero-card-slide');
+  const targetSlide = document.getElementById(`heroSlide${idx}`);
+  if (!targetSlide) return;
+
+  isDockTransitioning = true;
+
+  // Masquer les autres slides
+  slides.forEach(s => {
+    s.classList.remove('active');
+    const cell = s.querySelector('.cs-cell--windowed');
+    if (cell) cell.classList.remove('animating-minimize', 'animating-restore');
+  });
+
+  targetSlide.classList.add('active');
+
+  const windowCell = targetSlide.querySelector('.cs-cell--windowed') || targetSlide;
+  windowCell.classList.remove('animating-minimize');
+  windowCell.classList.add('animating-restore');
+
+  // Mettre à jour les boutons du Dock : l'application sélectionnée brille
+  const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+  dockBtns.forEach((btn, i) => {
+    const isActive = (i === idx);
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+
+  isWindowMinimized = false;
+
+  setTimeout(() => {
+    windowCell.classList.remove('animating-restore');
+    isDockTransitioning = false;
+  }, 460);
+}
+
+// 3. Comportement authentique Barre des Tâches / Dock Mac :
+// Si la fenêtre est déjà ouverte sur cette app -> la refermer dans le dock
+// Si la fenêtre est fermée ou sur une autre app -> l'ouvrir / restaurer depuis le dock
+function toggleDockApp(index) {
+  if (isDockTransitioning) return;
+
+  if (!isWindowMinimized && currentHeroCardIndex === index) {
+    // La fenêtre est actuellement affichée : on la referme dans la barre comme sur un Mac !
+    minimizeMockupAnimated(index);
+  } else {
+    // La fenêtre était fermée ou on change d'app : on la déploie
+    restoreMockupAnimated(index);
+  }
+}
+
+// Rétrocompatibilité : selectHeroCard appelle toggleDockApp
+function selectHeroCard(index) {
+  toggleDockApp(index);
 }
 
 // Fermeture de l'onglet actif (bouton rouge ou raccourci)
@@ -753,212 +824,10 @@ function closeActiveTabAnimated(event) {
   minimizeMockupAnimated(currentHeroCardIndex, event);
 }
 
-// Mise en état "Mis de côté" ou "Restauré"
-function setTabMinimized(index, isMinimized) {
-  if (isMinimized) {
-    minimizedTabs.add(index);
-  } else {
-    minimizedTabs.delete(index);
-  }
-
-  // Mettre à jour l'affichage des onglets superposés et du dock
-  updateTabsDisplay();
-  renderMinimizedDock();
-
-  // Si on a minimisé l'onglet actif, basculer vers le premier onglet encore disponible
-  if (isMinimized && currentHeroCardIndex === index) {
-    const total = heroSiteMetadata.length;
-    let nextIndex = -1;
-    for (let offset = 1; offset < total; offset++) {
-      const candidate = (index + offset) % total;
-      if (!minimizedTabs.has(candidate)) {
-        nextIndex = candidate;
-        break;
-      }
-    }
-
-    if (nextIndex !== -1) {
-      selectHeroCard(nextIndex);
-    } else {
-      // Tous les onglets sont mis de côté : afficher l'état vide stylé
-      const slides = document.querySelectorAll('.hero-card-slide');
-      slides.forEach(s => s.classList.remove('active'));
-    }
-  }
-}
-
-// Restaurer un onglet précis
-function restoreTab(index) {
-  minimizedTabs.delete(index);
-  updateTabsDisplay();
-  renderMinimizedDock();
-  selectHeroCard(index);
-
-  const siteData = heroSiteMetadata[index];
-  showBoubaneToast(`✦ ${siteData?.name || 'Site'} restauré au premier plan`);
-}
-
-// Restaurer tous les onglets d'un coup
-function restoreAllTabs() {
-  minimizedTabs.clear();
-  updateTabsDisplay();
-  renderMinimizedDock();
-  selectHeroCard(0);
-  showBoubaneToast('✦ Tous les sites web ont été restaurés');
-}
-
-// Mise à jour visuelle des onglets superposés dans toutes les fenêtres
-function updateTabsDisplay() {
-  heroSiteMetadata.forEach((data, i) => {
-    const isMinimized = minimizedTabs.has(i);
-
-    // Mettre à jour les onglets superposés
-    const allWinTabs = document.querySelectorAll(`.cs-win-tab[data-tab-index="${i}"], #winTab_${i}`);
-    allWinTabs.forEach(tab => {
-      tab.style.display = isMinimized ? 'none' : 'inline-flex';
-      tab.classList.toggle('active', i === currentHeroCardIndex && !isMinimized);
-    });
-
-    // Mettre à jour les pills dans le texte à gauche
-    const pill = document.getElementById(`heroTab${i}`);
-    if (pill) {
-      pill.classList.toggle('is-minimized', isMinimized);
-      if (isMinimized) {
-        pill.setAttribute('title', `${data.name} (Mis de côté - Cliquez pour rouvrir)`);
-      }
-    }
-  });
-
-  // Bouton "Restaurer" dans l'en-tête de fenêtre
-  const restoreBtns = document.querySelectorAll('.cs-btn-restore-tabs');
-  restoreBtns.forEach(btn => {
-    btn.style.display = minimizedTabs.size > 0 ? 'inline-flex' : 'none';
-    btn.textContent = `↺ Restaurer (${minimizedTabs.size})`;
-  });
-}
-
-// Rendu du Dock miniature des vitrines et sites mis de côté
-function renderMinimizedDock() {
-  const dockAsideZone = document.getElementById('dockAsideZone');
-  const dockAsideItems = document.getElementById('dockAsideItems');
-  const oldDock = document.getElementById('heroMinimizedDock');
-  const oldDockItems = document.getElementById('heroDockItems');
-
-  // Mettre à jour les boutons d'applications du Dock en bas
-  const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
-  dockBtns.forEach((btn, i) => {
-    const isMin = minimizedTabs.has(i);
-    btn.classList.toggle('is-minimized', isMin);
-    btn.style.opacity = isMin ? '0.45' : '1';
-  });
-
-  if (minimizedTabs.size === 0) {
-    if (dockAsideZone) dockAsideZone.style.display = 'none';
-    if (dockAsideItems) dockAsideItems.innerHTML = '';
-    if (oldDock) oldDock.style.display = 'none';
-    return;
-  }
-
-  if (dockAsideZone) dockAsideZone.style.display = 'flex';
-  if (dockAsideItems) dockAsideItems.innerHTML = '';
-  if (oldDock) oldDock.style.display = 'flex';
-  if (oldDockItems) oldDockItems.innerHTML = '';
-
-  minimizedTabs.forEach(idx => {
-    const site = heroSiteMetadata[idx];
-    if (!site) return;
-
-    let iconHtml = '';
-    if (site.logo) {
-      iconHtml = `<img src="${site.logo}" alt="" class="cs-dock-img" style="width:14px;height:14px;object-fit:contain;">`;
-    } else if (site.seal) {
-      iconHtml = `<span class="cs-dock-seal" style="font-size:9px;line-height:1;">${site.seal}</span>`;
-    }
-
-    if (dockAsideItems) {
-      const pill = document.createElement('button');
-      pill.type = 'button';
-      pill.className = 'cs-dock-aside-pill';
-      pill.title = `Restaurer ${site.name}`;
-      pill.onclick = () => restoreTab(idx);
-      pill.innerHTML = `${iconHtml} <span>${site.name}</span> <span style="opacity:0.8;">↺</span>`;
-      dockAsideItems.appendChild(pill);
-    }
-
-    if (oldDockItems) {
-      const pill = document.createElement('button');
-      pill.type = 'button';
-      pill.className = 'cs-dock-pill';
-      pill.title = `Restaurer ${site.name}`;
-      pill.onclick = () => restoreTab(idx);
-      pill.innerHTML = `${iconHtml} <span>${site.name}</span> <span style="color:#FFBD2E; font-size:11px;">↺</span>`;
-      oldDockItems.appendChild(pill);
-    }
-  });
-}
-
-function selectHeroCard(index) {
-  // Si l'onglet demandé était minimisé, le restaurer d'office
-  if (minimizedTabs.has(index)) {
-    minimizedTabs.delete(index);
-    renderMinimizedDock();
-  }
-
-  // Si une fenêtre est déjà en plein écran, basculer proprement vers le nouveau site
-  if (activeFullscreenSite) {
-    const sites = ['astra', 'achille', 'valmy'];
-    if (sites[index]) {
-      toggleFullscreenMockup(sites[index]);
-    } else {
-      closeFullscreenMockup();
-    }
-  }
-
-  const slides = document.querySelectorAll('.hero-card-slide');
-  const pills = document.querySelectorAll('.hero-pill-btn');
-  if (!slides.length) return;
-
-  currentHeroCardIndex = (index + slides.length) % slides.length;
-
-  slides.forEach((slide, i) => {
-    slide.classList.toggle('active', i === currentHeroCardIndex);
-  });
-
-  pills.forEach((pill, i) => {
-    const isActive = i === currentHeroCardIndex;
-    pill.classList.toggle('active', isActive);
-    pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
-  });
-
-  // Mettre à jour les boutons du Dock en bas
-  const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
-  dockBtns.forEach((btn, i) => {
-    const isActive = (i === currentHeroCardIndex);
-    btn.classList.toggle('active', isActive);
-    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-  });
-
-  // Mettre à jour les onglets superposés (s'ils existent)
-  updateTabsDisplay();
-
-  const metaKpi = document.getElementById('heroMetaKpi');
-  const metaDesc = document.getElementById('heroMetaDesc');
-  if (metaKpi && metaDesc && heroSiteMetadata[currentHeroCardIndex]) {
-    metaKpi.textContent = heroSiteMetadata[currentHeroCardIndex].kpi;
-    metaDesc.textContent = heroSiteMetadata[currentHeroCardIndex].desc;
-  }
-}
-
 function cycleHeroCard(direction) {
   const total = heroSiteMetadata.length;
-  // Trouver le prochain onglet non minimisé
-  for (let offset = 1; offset <= total; offset++) {
-    const nextIdx = (currentHeroCardIndex + direction * offset + total) % total;
-    if (!minimizedTabs.has(nextIdx)) {
-      selectHeroCard(nextIdx);
-      return;
-    }
-  }
+  const nextIdx = (currentHeroCardIndex + direction + total) % total;
+  restoreMockupAnimated(nextIdx);
 }
 
 function openHeroProject(index, autoExpand = false) {

@@ -245,7 +245,7 @@
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
                                             <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
-                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(0, event)" title="Mettre de côté (Animation fluide dans la barre du bas)"></span>
+                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(0, event)" title="Minimiser dans le dock (animation Mac)"></span>
                                             <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('astra')" title="Agrandir en plein écran"></span>
                                         </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
@@ -426,7 +426,7 @@
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
                                             <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
-                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(1, event)" title="Mettre de côté (Animation fluide dans la barre du bas)"></span>
+                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(1, event)" title="Minimiser dans le dock (animation Mac)"></span>
                                             <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('achille')" title="Agrandir en plein écran"></span>
                                         </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
@@ -635,7 +635,7 @@
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
                                             <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
-                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(2, event)" title="Mettre de côté (Animation fluide dans la barre du bas)"></span>
+                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(2, event)" title="Minimiser dans le dock (animation Mac)"></span>
                                             <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('valmy')" title="Agrandir en plein écran"></span>
                                         </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
@@ -829,7 +829,7 @@
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
                                             <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
-                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(3, event)" title="Mettre de côté (Animation fluide dans la barre du bas)"></span>
+                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(3, event)" title="Minimiser dans le dock (animation Mac)"></span>
                                             <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('studio')" title="Agrandir en plein écran"></span>
                                         </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
@@ -900,11 +900,11 @@
                         </div>
                     </div>
 
-                        <!-- Dock Flottant macOS en Bas (Barre Temporaire Magnifiée) -->
-                        <nav class="cs-floating-dock" id="heroFloatingDock" aria-label="Sélecteur de vitrines et barre temporaire">
+                        <!-- Dock Flottant macOS en Bas (Barre des tâches interactive) -->
+                        <nav class="cs-floating-dock" id="heroFloatingDock" aria-label="Dock d'applications macOS et sélecteur de vitrines">
                             <!-- Applications / Vitrines principales -->
                             <div class="cs-dock-items-wrap">
-                                <button type="button" class="cs-dock-app-btn active" id="dockBtn0" onclick="selectHeroCard(0)" title="Astravacances.fr — Audit &amp; Hôtellerie">
+                                <button type="button" class="cs-dock-app-btn active" id="dockBtn0" onclick="toggleDockApp(0)" title="Astravacances.fr — Audit &amp; Hôtellerie">
                                     <div class="cs-dock-icon-box">
                                         <img src="assets/astra-logo.png" alt="" class="cs-dock-img">
                                     </div>
@@ -912,7 +912,7 @@
                                     <span class="cs-dock-indicator"></span>
                                 </button>
 
-                                <button type="button" class="cs-dock-app-btn" id="dockBtn1" onclick="selectHeroCard(1)" title="Achille.ai — Support Client AI-First">
+                                <button type="button" class="cs-dock-app-btn" id="dockBtn1" onclick="toggleDockApp(1)" title="Achille.ai — Support Client AI-First">
                                     <div class="cs-dock-icon-box">
                                         <img src="assets/achille-logo.png" alt="" class="cs-dock-img cs-dock-img--achille">
                                     </div>
@@ -920,7 +920,7 @@
                                     <span class="cs-dock-indicator"></span>
                                 </button>
 
-                                <button type="button" class="cs-dock-app-btn" id="dockBtn2" onclick="selectHeroCard(2)" title="Cabinet Valmy — Avocats M&amp;A">
+                                <button type="button" class="cs-dock-app-btn" id="dockBtn2" onclick="toggleDockApp(2)" title="Cabinet Valmy — Avocats M&amp;A">
                                     <div class="cs-dock-icon-box cs-dock-icon-box--valmy">
                                         <span class="cs-dock-seal">V</span>
                                     </div>
@@ -928,20 +928,13 @@
                                     <span class="cs-dock-indicator"></span>
                                 </button>
 
-                                <button type="button" class="cs-dock-app-btn" id="dockBtn3" onclick="selectHeroCard(3)" title="Studio Boubane — Carte Membre 3D">
+                                <button type="button" class="cs-dock-app-btn" id="dockBtn3" onclick="toggleDockApp(3)" title="Studio Boubane — Carte Membre 3D">
                                     <div class="cs-dock-icon-box">
                                         <img src="assets/boubane-logo.png" alt="" class="cs-dock-img">
                                     </div>
                                     <span class="cs-dock-title">Studio</span>
                                     <span class="cs-dock-indicator"></span>
                                 </button>
-                            </div>
-
-                            <!-- Zone temporaire : Sites mis de côté (animation orange) -->
-                            <div class="cs-dock-aside-zone" id="dockAsideZone" style="display: none;">
-                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #FFBD2E; font-weight: 700;">📁 Mis de côté :</span>
-                                <div class="cs-dock-aside-items" id="dockAsideItems"></div>
-                                <button type="button" class="cs-dock-restore-all" onclick="restoreAllTabs()" title="Restaurer tous les sites mis de côté">↺ Tout rouvrir</button>
                             </div>
                         </nav>
                     </div>

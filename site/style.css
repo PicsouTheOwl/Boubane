@@ -1614,28 +1614,69 @@ body.mockup-modal-open .hero-card-slide {
 }
 
 /* ==========================================================================
-   Animation de Mise de Côté Déclenchée par la Pastille Orange
+   Animations Authentiques macOS : Minimisation & Restauration dans le Dock
+   (Effet Échelle / Génie physique réaliste avec point d'ancrage en bas)
    ========================================================================== */
-@keyframes csOrangeSlideAside {
+@keyframes csMacMinimize {
   0% {
-    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    transform: translate3d(0, 0, 0) scale(1, 1);
     opacity: 1;
-    filter: brightness(1);
+    transform-origin: 50% 100%;
+    filter: blur(0);
   }
-  30% {
-    transform: translate3d(24px, -12px, 0) scale(0.97) rotate(1deg);
-    filter: brightness(1.25) drop-shadow(0 0 25px rgba(255, 189, 46, 0.7));
+  25% {
+    transform: translate3d(0, 18px, 0) scale(0.92, 0.96);
+    opacity: 0.95;
+    transform-origin: 50% 100%;
+    filter: blur(0);
+  }
+  65% {
+    transform: translate3d(0, 60px, 0) scale(0.42, 0.28);
+    opacity: 0.55;
+    transform-origin: 50% 100%;
+    filter: blur(2px);
   }
   100% {
-    transform: translate3d(140px, 80px, 0) scale(0.72) rotate(5deg);
+    transform: translate3d(0, 100px, 0) scale(0.08, 0.02);
     opacity: 0;
-    filter: brightness(0.6) blur(4px);
+    transform-origin: 50% 100%;
+    filter: blur(6px);
+  }
+}
+
+@keyframes csMacRestore {
+  0% {
+    transform: translate3d(0, 90px, 0) scale(0.1, 0.02);
+    opacity: 0;
+    transform-origin: 50% 100%;
+    filter: blur(6px);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) scale(1.03, 1.02);
+    opacity: 1;
+    transform-origin: 50% 100%;
+    filter: blur(0);
+  }
+  75% {
+    transform: translate3d(0, 3px, 0) scale(0.995, 0.995);
+    opacity: 1;
+    transform-origin: 50% 100%;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+    opacity: 1;
+    transform-origin: 50% 100%;
+    filter: blur(0);
   }
 }
 
 .cs-cell--windowed.animating-minimize {
-  animation: csOrangeSlideAside 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+  animation: csMacMinimize 0.42s cubic-bezier(0.25, 1, 0.35, 1) forwards !important;
   pointer-events: none;
+}
+
+.cs-cell--windowed.animating-restore {
+  animation: csMacRestore 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
 .cs-orange-shockwave {
@@ -1781,57 +1822,7 @@ body.mockup-modal-open .hero-card-slide {
   box-shadow: 0 0 5px var(--ramp-yellow);
 }
 
-/* Zone temporaire des sites mis de côté */
-.cs-dock-aside-zone {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding-left: 7px;
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
-}
 
-.cs-dock-aside-items {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.cs-dock-aside-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(255, 189, 46, 0.14);
-  border: 1px solid rgba(255, 189, 46, 0.38);
-  color: #FFBD2E;
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: var(--radius-pill);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.cs-dock-aside-pill:hover {
-  background: rgba(255, 189, 46, 0.26);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(255, 189, 46, 0.28);
-}
-
-.cs-dock-restore-all {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.5);
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  cursor: pointer;
-  padding: 1px 4px;
-  transition: color 0.15s ease;
-}
-
-.cs-dock-restore-all:hover {
-  color: #FFBD2E;
-}
 
 /* Sélecteur d'appareil interactif (Desktop / Tablette / Mobile) */
 .cs-device-switch {
