@@ -18,6 +18,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "commander.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "mentions-legales.html",
       "use": "@vercel/static"
     },
@@ -80,6 +84,10 @@
     {
       "src": "/dashboard",
       "dest": "/dashboard.html"
+    },
+    {
+      "src": "/commander",
+      "dest": "/commander.html"
     },
     {
       "src": "/site.webmanifest",
