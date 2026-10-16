@@ -1355,21 +1355,91 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 .cs-dot {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 900;
+  color: transparent;
+  line-height: 1;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, color 0.15s ease;
+  user-select: none;
 }
 
 .cs-dot:hover {
   transform: scale(1.15);
 }
 
+.cs-dots:hover .cs-dot {
+  color: rgba(0, 0, 0, 0.65);
+}
+
 .cs-dot--red { background: #FF5F56; }
+.cs-dot--red::after { content: '×'; }
+
 .cs-dot--yellow { background: #FFBD2E; }
+.cs-dot--yellow::after { content: '−'; }
+
 .cs-dot--green { background: #27C93F; }
+.cs-dot--green::after { content: '+'; }
+
+/* Sélecteur d'appareil interactif (Desktop / Tablette / Mobile) */
+.cs-device-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px 4px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cs-device-btn {
+  background: none;
+  border: none;
+  padding: 3px 6px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font-size: 0.72rem;
+  opacity: 0.55;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.cs-device-btn:hover {
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cs-device-btn.active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Redimensionnement adaptatif du viewport quand le device switch est activé */
+.cs-cell--windowed.device-tablet .cs-viewport {
+  max-width: 768px !important;
+  margin: 0 auto !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+  transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cs-cell--windowed.device-mobile .cs-viewport {
+  max-width: 390px !important;
+  margin: 0 auto !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.75);
+  transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 .cs-nav-arrows {
   display: flex;
@@ -1534,7 +1604,444 @@ body.mockup-modal-open .hero-card-slide.active {
   display: inline-flex !important;
 }
 
-/* Viewport du mini-site navigable (Scrollable Mockup Viewport) */
+/* Boutons d'actions rapides dans la barre d'adresse (Recharger / Copier) */
+.cs-url-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 6px;
+}
+
+.cs-url-icon-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-url-icon-btn:hover {
+  color: var(--ramp-yellow);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cs-url-icon-btn.spinning {
+  animation: csSpin 0.5s ease-in-out;
+}
+
+@keyframes csSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Onglets de switch rapide entre sites en mode Plein Écran */
+.cs-fullscreen-tabs {
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+
+.cs-cell--windowed.is-fullscreen .cs-fullscreen-tabs {
+  display: inline-flex;
+}
+
+.cs-fs-tab-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.cs-fs-tab-pill:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.cs-fs-tab-pill.active {
+  color: #0C0A08;
+  background: var(--ramp-yellow);
+  border-color: var(--ramp-yellow);
+  font-weight: 700;
+}
+
+/* Notification Toast discrète */
+.boubane-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(24px);
+  background: #18191E;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+  z-index: 10000000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.boubane-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Range Slider interactif pour le simulateur Astravacances */
+.cs-mock-slider-box {
+  background: rgba(43, 155, 189, 0.08);
+  border: 1px solid rgba(43, 155, 189, 0.2);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cs-mock-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cs-mock-slider-val {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #45B7D9;
+}
+
+.cs-mock-range-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  cursor: pointer;
+}
+
+.cs-mock-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #2B9BBD;
+  box-shadow: 0 0 12px rgba(43, 155, 189, 0.9);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.cs-mock-range-input::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Simulateur de Chat IA Achille.ai en temps réel */
+.cs-mock-chat-box {
+  background: rgba(12, 13, 20, 0.7);
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-mock-chat-msgs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 110px;
+}
+
+.cs-mock-chat-msg {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  animation: csChatFade 0.25s ease-out forwards;
+}
+
+@keyframes csChatFade {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.cs-mock-chat-msg--user {
+  flex-direction: row-reverse;
+}
+
+.cs-mock-chat-bubble {
+  padding: 8px 14px;
+  border-radius: 14px;
+  max-width: 82%;
+}
+
+.cs-mock-chat-msg--bot .cs-mock-chat-bubble {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cs-mock-chat-msg--user .cs-mock-chat-bubble {
+  background: #6366F1;
+  color: #FFFFFF;
+}
+
+.cs-mock-chat-prompts-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4px;
+}
+
+.cs-mock-chat-prompts {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cs-mock-chat-prompt-btn {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #A5B4FC;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cs-mock-chat-prompt-btn:hover {
+  background: #6366F1;
+  color: #FFFFFF;
+  border-color: #6366F1;
+  transform: translateY(-1px);
+}
+
+/* Filtres de Mandats Valmy */
+.cs-valmy-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+/* Formulaire d'envoi libre de questions au Chatbot IA Achille */
+.cs-mock-chat-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-pill);
+  padding: 4px 6px 4px 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cs-mock-chat-input-row:focus-within {
+  border-color: #818CF8;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cs-mock-chat-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 0.78rem;
+}
+
+.cs-mock-chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.cs-mock-chat-send-btn {
+  background: #6366F1;
+  color: #FFFFFF;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cs-mock-chat-send-btn:hover {
+  background: #4F46E5;
+  transform: scale(1.02);
+}
+
+/* Connecteurs E-commerce Achille.ai */
+.cs-mock-connectors-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 6px;
+}
+
+.cs-connector-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cs-connector-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.cs-connector-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #27C93F;
+  box-shadow: 0 0 6px rgba(39, 201, 63, 0.8);
+}
+
+/* Boutons segmentés de sélection d'établissement Astravacances */
+.cs-mock-segment-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cs-mock-segment-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cs-mock-segment-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+}
+
+.cs-mock-segment-btn.active {
+  background: #2B9BBD;
+  border-color: #2B9BBD;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* Simulateur de valorisation M&A Cabinet Valmy */
+.cs-valmy-val-calc {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* Bandeau d'aide ergonomique en mode Plein Écran */
+.cs-fs-helper-bar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 20px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.cs-cell--windowed.is-fullscreen .cs-fs-helper-bar {
+  display: flex;
+}
+
+.cs-fs-helper-key {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  margin: 0 2px;
+}
+
+.cs-valmy-filter-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cs-valmy-filter-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.cs-valmy-filter-btn.active {
+  background: #F59E0B;
+  color: #0C0A08;
+  font-weight: 700;
+  border-color: #F59E0B;
+}
+
 .cs-viewport {
   flex: 1;
   position: relative;
@@ -1545,6 +2052,22 @@ body.mockup-modal-open .hero-card-slide.active {
   display: flex;
   flex-direction: column;
   background: #0C0A08;
+}
+
+/* iframe intégrée pour afficher le vrai site client à 100% */
+.cs-mockup-iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  flex: 1;
+  border: none;
+  background: #FFFFFF;
+  display: block;
+}
+
+.cs-cell--windowed.is-fullscreen .cs-mockup-iframe {
+  height: 100%;
+  min-height: 100%;
 }
 
 .cs-viewport::-webkit-scrollbar {

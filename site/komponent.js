@@ -415,7 +415,7 @@ function toggleFullscreenMockup(site) {
     activeFullscreenMockupId = containerId;
     isHeroInteracting = true; // Suspendre l'auto-rotation pour permettre la visite tranquille
 
-    // Écouteur pour la touche Échap
+    // Écouteur pour touches clavier
     document.addEventListener('keydown', handleMockupKeydown);
   }
 }
@@ -437,7 +437,229 @@ function closeFullscreenMockup() {
 function handleMockupKeydown(e) {
   if (e.key === 'Escape' || e.key === 'Esc') {
     closeFullscreenMockup();
+  } else if (e.key === 'ArrowRight') {
+    cycleHeroCard(1);
+    if (activeFullscreenMockupId) {
+      // Rebasculer le fullscreen sur la nouvelle slide
+      const sites = ['astra', 'achille', 'valmy'];
+      if (sites[currentHeroCardIndex]) {
+        toggleFullscreenMockup(sites[currentHeroCardIndex]);
+      }
+    }
+  } else if (e.key === 'ArrowLeft') {
+    cycleHeroCard(-1);
+    if (activeFullscreenMockupId) {
+      const sites = ['astra', 'achille', 'valmy'];
+      if (sites[currentHeroCardIndex]) {
+        toggleFullscreenMockup(sites[currentHeroCardIndex]);
+      }
+    }
   }
+}
+
+// Sélecteur Responsive Device (Desktop / Tablette / Mobile)
+function setMockupDevice(site, device, btn) {
+  const containerId = site === 'astra' ? 'mockupAstra' : (site === 'achille' ? 'mockupAchille' : 'mockupValmy');
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.classList.remove('device-tablet', 'device-mobile');
+  if (device === 'tablet') {
+    container.classList.add('device-tablet');
+    showBoubaneToast('📱 Vue Tablette activée (768px)');
+  } else if (device === 'mobile') {
+    container.classList.add('device-mobile');
+    showBoubaneToast('📲 Vue Mobile activée (390px)');
+  } else {
+    showBoubaneToast('🖥️ Vue Plein Écran Desktop rétablie');
+  }
+
+  // Activer le bouton cliqué
+  const parent = btn.closest('.cs-device-switch');
+  if (parent) {
+    parent.querySelectorAll('.cs-device-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
+
+// Simulation de rechargement éclair
+function reloadMockup(site, btn) {
+  if (btn) {
+    btn.classList.add('spinning');
+    setTimeout(() => btn.classList.remove('spinning'), 500);
+  }
+
+  const containerId = site === 'astra' ? 'mockupAstra' : (site === 'achille' ? 'mockupAchille' : 'mockupValmy');
+  const container = document.getElementById(containerId);
+  if (container) {
+    const vp = container.querySelector('.cs-viewport');
+    if (vp) {
+      vp.style.opacity = '0.35';
+      setTimeout(() => {
+        vp.style.opacity = '1';
+      }, 160);
+    }
+  }
+  showBoubaneToast('⚡ Rechargé en 0.22s · Cache Cloudflare Edge Actif');
+}
+
+// Copie de l'URL dans le presse-papier
+function copyMockupUrl(url, btn) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      showBoubaneToast(`📋 Lien copié : ${url}`);
+    }).catch(() => {
+      showBoubaneToast(`Lien : ${url}`);
+    });
+  } else {
+    showBoubaneToast(`Lien : ${url}`);
+  }
+}
+
+// Toast notification
+let toastTimer = null;
+function showBoubaneToast(message) {
+  let toast = document.getElementById('boubaneToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'boubaneToast';
+    toast.className = 'boubane-toast';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = message;
+  toast.classList.add('show');
+
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2400);
+}
+
+// Slider interactif d'emplacements Astravacances
+let astraMultiplier = 160;
+
+function setAstraStructure(multiplier, name, btn) {
+  astraMultiplier = multiplier;
+  const parent = btn.closest('.cs-mock-segment-row');
+  if (parent) {
+    parent.querySelectorAll('.cs-mock-segment-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const slider = document.getElementById('astraRangeInput');
+  const val = slider ? slider.value : 150;
+  updateAstraSlider(val);
+  showBoubaneToast(`✦ Profil appliqué : ${name}`);
+}
+
+function updateAstraSlider(val) {
+  const lbl = document.getElementById('astraSliderVal');
+  const priceDisplay = document.getElementById('astraPriceDisplay');
+  if (lbl) lbl.textContent = `${val} emplacements`;
+
+  // Formule de calcul réaliste HPA selon le multiplicateur sélectionné
+  const gain = Math.round((val * astraMultiplier) / 500) * 500;
+  if (priceDisplay) {
+    priceDisplay.textContent = `+${gain.toLocaleString('fr-FR')} € / saison`;
+  }
+}
+
+// Chatbot interactif Achille.ai
+function sendAchillePrompt(question, answer) {
+  const msgsContainer = document.getElementById('achilleChatMsgs');
+  if (!msgsContainer) return;
+
+  // Ajout du message utilisateur
+  const userMsg = document.createElement('div');
+  userMsg.className = 'cs-mock-chat-msg cs-mock-chat-msg--user';
+  userMsg.innerHTML = `<div class="cs-mock-chat-bubble">${question}</div>`;
+  msgsContainer.appendChild(userMsg);
+
+  // Indicateur de frappe temporaire
+  const typingMsg = document.createElement('div');
+  typingMsg.className = 'cs-mock-chat-msg cs-mock-chat-msg--bot typing';
+  typingMsg.innerHTML = `<div class="cs-mock-chat-bubble" style="opacity: 0.6; font-style: italic;">✦ Achille IA analyse... (18ms)</div>`;
+  msgsContainer.appendChild(typingMsg);
+  msgsContainer.scrollTop = msgsContainer.scrollHeight;
+
+  setTimeout(() => {
+    typingMsg.remove();
+    const botMsg = document.createElement('div');
+    botMsg.className = 'cs-mock-chat-msg cs-mock-chat-msg--bot';
+    botMsg.innerHTML = `
+      <div class="cs-mock-chat-bubble">
+        <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #818CF8; margin-bottom: 4px;">✦ ACHILLE IA · 18ms</div>
+        <div>${answer}</div>
+      </div>
+    `;
+    msgsContainer.appendChild(botMsg);
+    msgsContainer.scrollTop = msgsContainer.scrollHeight;
+  }, 220);
+}
+
+// Soumission libre du formulaire de chat Achille
+function handleAchilleChatSubmit(event) {
+  event.preventDefault();
+  const input = document.getElementById('achilleUserInput');
+  if (!input) return;
+  const q = input.value.trim();
+  if (!q) return;
+
+  input.value = '';
+  const lower = q.toLowerCase();
+  let answer = "Votre demande a été prise en charge en 18ms. Une confirmation vous a été transmise par e-mail et synchronisée dans votre CRM Shopify.";
+
+  if (lower.includes('colis') || lower.includes('suivi') || lower.includes('livraison') || lower.includes('où')) {
+    answer = "Votre commande est expédiée via Colissimo Expert (n° 6A91024). Arrivée programmée demain entre 09h et 12h à votre domicile !";
+  } else if (lower.includes('retour') || lower.includes('échange') || lower.includes('remboursement') || lower.includes('taille')) {
+    answer = "Étiquette Mondial Relay prépayée générée instantanément. Le remboursement de 89,00 € sera automatiquement recrédité sous 24h ouvrées.";
+  } else if (lower.includes('suisse') || lower.includes('belgique') || lower.includes('international') || lower.includes('délais')) {
+    answer = "Livraison express assurée sous 48h ouvrées avec suivi temps réel et formalités douanières automatisées sans frais annexes.";
+  } else if (lower.includes('prix') || lower.includes('tarif') || lower.includes('cout') || lower.includes('coût')) {
+    answer = "Achille s'amortit dès 150 tickets mensuels. Essai gratuit 14 jours sans engagement avec configuration clé en main en 15 minutes.";
+  } else if (lower.includes('bonjour') || lower.includes('salut') || lower.includes('hello')) {
+    answer = "Bonjour ! Je suis l'IA Achille, conçue pour automatiser 50% de vos tickets clients e-commerce en 18ms. Que puis-je faire pour vous ?";
+  }
+
+  sendAchillePrompt(q, answer);
+}
+
+// Simulateur de valorisation M&A Cabinet Valmy
+function updateValmyValuation(caValue) {
+  const ca = parseFloat(caValue);
+  const caValLabel = document.getElementById('valmyCaVal');
+  const priceDisplay = document.getElementById('valmyPriceDisplay');
+
+  if (caValLabel) {
+    caValLabel.textContent = `${ca.toFixed(1)} M€`;
+  }
+
+  // Formule M&A : Marge EBITDA estimée ~18%, Multiple moyen de 5.5x à 7.5x
+  const ebitda = ca * 0.18;
+  const valLow = (ebitda * 5.5).toFixed(1);
+  const valHigh = (ebitda * 7.5).toFixed(1);
+
+  if (priceDisplay) {
+    priceDisplay.textContent = `${valLow} M€ — ${valHigh} M€`;
+  }
+}
+
+// Filtre des mandats Cabinet Valmy
+function filterValmyDeals(category, btn) {
+  const cards = document.querySelectorAll('.cs-valmy-deal-card');
+  const buttons = document.querySelectorAll('.cs-valmy-filter-btn');
+
+  buttons.forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  cards.forEach(card => {
+    const cardCat = card.getAttribute('data-sector');
+    if (category === 'all' || cardCat === category) {
+      card.style.display = 'flex';
+      card.style.animation = 'csChatFade 0.2s ease-out forwards';
+    } else {
+      card.style.display = 'none';
+    }
+  });
 }
 
 // 10. Contrôleur du Hero Showcase : Défilement et sélection des cartes de sites sur la Hero

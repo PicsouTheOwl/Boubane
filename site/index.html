@@ -299,17 +299,34 @@
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('astra', -1)" title="Page précédente">‹</button>
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('astra', 1)" title="Page suivante">›</button>
                                         </div>
+                                        <!-- Sélecteur de format d'écran interactif -->
+                                        <div class="cs-device-switch" aria-label="Format d'affichage">
+                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('astra', 'desktop', this)" title="Vue Ordinateur (Desktop)">🖥️</button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('astra', 'tablet', this)" title="Vue Tablette (768px)">📱</button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('astra', 'mobile', this)" title="Vue Mobile (390px)">📲</button>
+                                        </div>
                                     </div>
 
                                     <div class="cs-url-bar">
                                         <span class="cs-url-lock">🔒</span>
                                         <span class="cs-url-text">astravacances.fr<span id="astraUrlPath" class="cs-url-path">/audit-operationnel</span></span>
-                                        <a href="https://astravacances.fr" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir astravacances.fr dans un nouvel onglet" aria-label="Visiter astravacances.fr">↗</a>
+                                        <div class="cs-url-actions">
+                                          <button type="button" class="cs-url-icon-btn" onclick="reloadMockup('astra', this)" title="Recharger la page (simulé < 0.3s)" aria-label="Recharger">↻</button>
+                                          <button type="button" class="cs-url-icon-btn" onclick="copyMockupUrl('https://astravacances.fr', this)" title="Copier le lien" aria-label="Copier le lien">📋</button>
+                                          <a href="https://astravacances.fr" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir astravacances.fr dans un nouvel onglet" aria-label="Visiter astravacances.fr">↗</a>
+                                        </div>
                                     </div>
 
                                     <div class="cs-window-bar-right">
+                                        <!-- Onglets de passage d'un projet à l'autre en mode Plein Écran -->
+                                        <div class="cs-fullscreen-tabs">
+                                          <button type="button" class="cs-fs-tab-pill active" onclick="selectHeroCard(0)">✦ Astra</button>
+                                          <button type="button" class="cs-fs-tab-pill" onclick="selectHeroCard(1); toggleFullscreenMockup('achille');">● Achille</button>
+                                          <button type="button" class="cs-fs-tab-pill" onclick="selectHeroCard(2); toggleFullscreenMockup('valmy');">◆ Valmy</button>
+                                        </div>
+
                                         <span class="cs-speed-pill" id="astraSpeedBadge" style="color: #2B9BBD; border-color: rgba(43, 155, 189, 0.35);">⚡ 0.27s</span>
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('astra')" title="Agrandir la fenêtre pour visiter" aria-label="Agrandir la fenêtre">
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('astra')" title="Agrandir la fenêtre pour visiter en grand" aria-label="Agrandir la fenêtre">
                                             <span class="cs-btn-expand-icon">⤢</span>
                                             <span class="cs-btn-expand-text">Agrandir</span>
                                         </button>
@@ -317,6 +334,12 @@
                                             ✕ Réduire
                                         </button>
                                     </div>
+                                </div>
+
+                                <!-- Bandeau d'aide ergonomique pour le mode plein écran -->
+                                <div class="cs-fs-helper-bar">
+                                    <span><span>✦</span> Mode Vitrine Plein Écran · Expérience Client Interactive</span>
+                                    <span>Navigation : <kbd class="cs-fs-helper-key">←</kbd> <kbd class="cs-fs-helper-key">→</kbd> Changer de site · <kbd class="cs-fs-helper-key">Échap</kbd> Réduire</span>
                                 </div>
 
                                 <div class="cs-viewport">
@@ -384,7 +407,7 @@
                                         <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #27C93F; margin-bottom: 8px;">// GESTION DÉLÉGUÉE &amp; DIRECTION DE SITE</div>
                                         <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 8px;">Pilotage Opérationnel sans Faille</h4>
                                         <p style="color: rgba(255,255,255,0.7); font-size: 0.84rem; line-height: 1.5; margin-bottom: 12px;">
-                                            Prise en charge de la direction d'exploitation, recrutement et coordination des saisonniers, protocoles de sécurité ERP et conformité réglementaire.
+                                             Prise en charge de la direction d'exploitation, recrutement et coordination des saisonniers, protocoles de sécurité ERP et conformité réglementaire.
                                         </p>
                                         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                             <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Hôtellerie de Plein Air</span>
@@ -393,24 +416,43 @@
                                         </div>
                                     </div>
 
-                                    <!-- Vue 4 : Simulateur ROI -->
+                                    <!-- Vue 4 : Simulateur ROI avec Range Slider Interactif & Type de Structure -->
                                     <div id="astraView_calc" class="cs-page-view" style="background: #0C1822;">
                                         <div class="cs-mock-calc">
                                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                                 <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #45B7D9;">ESTIMATION DU GAIN D'EXPLOITATION PARC</span>
-                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">SIMULATEUR DIRECT</span>
+                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">SIMULATEUR DIRECT ✦</span>
                                             </div>
-                                            <div class="cs-mock-calc-row">
-                                                <button type="button" class="cs-mock-calc-btn selected" onclick="setAstraProject(this, 'Camping 3★ (80 à 150 emplacements)', '+22 500 €')">Camping 3★</button>
-                                                <button type="button" class="cs-mock-calc-btn" onclick="setAstraProject(this, 'Camping 4★/5★ (150 à 350 emplacements)', '+48 000 €')">Camping 4/5★</button>
-                                                <button type="button" class="cs-mock-calc-btn" onclick="setAstraProject(this, 'Résidence ou Domaine Touristique', '+72 000 €')">Résidence de Tourisme</button>
+
+                                            <!-- Sélecteur de type d'établissement -->
+                                            <div>
+                                                <div style="font-size: 0.74rem; color: rgba(255,255,255,0.6); margin-bottom: 6px;">Type d'établissement :</div>
+                                                <div class="cs-mock-segment-row">
+                                                    <button type="button" class="cs-mock-segment-btn" onclick="setAstraStructure(120, 'Camping 3★ Nature', this)">Camping 3★ (Nature)</button>
+                                                    <button type="button" class="cs-mock-segment-btn active" onclick="setAstraStructure(160, 'Camping 4-5★ Parc Club', this)">Camping 4★ / 5★ (Club)</button>
+                                                    <button type="button" class="cs-mock-segment-btn" onclick="setAstraStructure(210, 'Domaine &amp; Résidence', this)">Domaine &amp; Résidence</button>
+                                                </div>
                                             </div>
+
+                                            <div class="cs-mock-slider-box">
+                                                <div class="cs-mock-slider-header">
+                                                    <span style="font-size: 0.78rem; color: rgba(255,255,255,0.7);">Capacité de votre établissement :</span>
+                                                    <span id="astraSliderVal" class="cs-mock-slider-val">150 emplacements</span>
+                                                </div>
+                                                <input type="range" class="cs-mock-range-input" id="astraRangeInput" min="60" max="380" step="10" value="150" oninput="updateAstraSlider(this.value)" aria-label="Capacité en emplacements">
+                                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.62rem; color: rgba(255,255,255,0.4);">
+                                                    <span>60 emp. (Petit camping)</span>
+                                                    <span>200 emp. (Moyen)</span>
+                                                    <span>380 emp. (Grand parc 5★)</span>
+                                                </div>
+                                            </div>
+
                                             <div class="cs-mock-calc-res">
                                                 <div>
                                                     <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">GAIN DE MARGE NETTE ESTIMÉ :</div>
-                                                    <div id="astraPriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #45B7D9;">+22 500 € / saison</div>
+                                                    <div id="astraPriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #45B7D9;">+24 000 € / saison</div>
                                                 </div>
-                                                <button type="button" class="cs-mockup-cta-btn" style="background: #2B9BBD; color: #ffffff;" onclick="alert('Demande d\'étude transmise aux consultants Astra Vacances.')">Réserver un audit</button>
+                                                <button type="button" class="cs-mockup-cta-btn" style="background: #2B9BBD; color: #ffffff;" onclick="showBoubaneToast('✦ Demande d\'audit transmise à Astra Vacances')">Réserver un audit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -447,17 +489,34 @@
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('achille', -1)" title="Page précédente">‹</button>
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('achille', 1)" title="Page suivante">›</button>
                                         </div>
+                                        <!-- Sélecteur de format d'écran interactif -->
+                                        <div class="cs-device-switch" aria-label="Format d'affichage">
+                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('achille', 'desktop', this)" title="Vue Ordinateur (Desktop)">🖥️</button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('achille', 'tablet', this)" title="Vue Tablette (768px)">📱</button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('achille', 'mobile', this)" title="Vue Mobile (390px)">📲</button>
+                                        </div>
                                     </div>
 
                                     <div class="cs-url-bar">
                                         <span class="cs-url-lock">🔒</span>
                                         <span class="cs-url-text">achille.ai<span id="achilleUrlPath" class="cs-url-path">/automation</span></span>
-                                        <a href="https://achille.ai" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir achille.ai dans un nouvel onglet" aria-label="Visiter achille.ai">↗</a>
+                                        <div class="cs-url-actions">
+                                          <button type="button" class="cs-url-icon-btn" onclick="reloadMockup('achille', this)" title="Recharger la page (simulé < 0.3s)" aria-label="Recharger">↻</button>
+                                          <button type="button" class="cs-url-icon-btn" onclick="copyMockupUrl('https://achille.ai', this)" title="Copier le lien" aria-label="Copier le lien">📋</button>
+                                          <a href="https://achille.ai" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir achille.ai dans un nouvel onglet" aria-label="Visiter achille.ai">↗</a>
+                                        </div>
                                     </div>
 
                                     <div class="cs-window-bar-right">
+                                        <!-- Onglets de passage d'un projet à l'autre en mode Plein Écran -->
+                                        <div class="cs-fullscreen-tabs">
+                                          <button type="button" class="cs-fs-tab-pill" onclick="selectHeroCard(0); toggleFullscreenMockup('astra');">✦ Astra</button>
+                                          <button type="button" class="cs-fs-tab-pill active" onclick="selectHeroCard(1)">● Achille</button>
+                                          <button type="button" class="cs-fs-tab-pill" onclick="selectHeroCard(2); toggleFullscreenMockup('valmy');">◆ Valmy</button>
+                                        </div>
+
                                         <span class="cs-speed-pill" id="achilleSpeedBadge" style="color: #818CF8; border-color: rgba(99, 102, 241, 0.35);">⚡ 0.24s</span>
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('achille')" title="Agrandir la fenêtre pour visiter" aria-label="Agrandir la fenêtre">
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('achille')" title="Agrandir la fenêtre pour visiter en grand" aria-label="Agrandir la fenêtre">
                                             <span class="cs-btn-expand-icon">⤢</span>
                                             <span class="cs-btn-expand-text">Agrandir</span>
                                         </button>
@@ -465,6 +524,12 @@
                                             ✕ Réduire
                                         </button>
                                     </div>
+                                </div>
+
+                                <!-- Bandeau d'aide ergonomique pour le mode plein écran -->
+                                <div class="cs-fs-helper-bar">
+                                    <span><span>●</span> Mode Vitrine Plein Écran · Expérience Client Interactive</span>
+                                    <span>Navigation : <kbd class="cs-fs-helper-key">←</kbd> <kbd class="cs-fs-helper-key">→</kbd> Changer de site · <kbd class="cs-fs-helper-key">Échap</kbd> Réduire</span>
                                 </div>
 
                                 <div class="cs-viewport">
@@ -481,21 +546,70 @@
                                         </ul>
                                     </nav>
 
-                                    <!-- Vue 1 : IA Automate -->
+                                    <!-- Vue 1 : IA Automate avec Démo de Chat Interactif Libre & Rapide -->
                                     <div id="achilleView_auto" class="cs-page-view active" style="background: radial-gradient(circle at 60% 40%, #15132A 0%, #0A0914 100%);">
                                         <div class="cs-mock-hero">
                                             <span class="cs-mock-badge-inline" style="background: rgba(99, 102, 241, 0.2); color: #A5B4FC;">[ AUTOMATISATION SERVICE CLIENT E-COMMERCE &amp; SAAS ]</span>
-                                            <h3 class="cs-mock-title">50% de vos tickets de support automatisés en un mois</h3>
-                                            <p class="cs-mock-dek">WISMO, retours, échanges, facturation : Achille répond et exécute l'action côté Shopify, Gorgias et Zendesk en respectant scrupuleusement votre ton de marque.</p>
+                                            <h3 class="cs-mock-title">50% de vos tickets de support résolus en 18ms</h3>
+                                            <p class="cs-mock-dek">WISMO, retours, échanges, facturation : Achille exécute l'action côté Shopify, Gorgias et Zendesk dans le ton exact de votre marque.</p>
                                         </div>
-                                        <div class="cs-mock-kpi-bar">
+
+                                        <!-- Connecteurs E-commerce en Direct -->
+                                        <div class="cs-mock-connectors-bar">
+                                            <span style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-right: 4px;">Connecteurs actifs :</span>
+                                            <button type="button" class="cs-connector-pill" onclick="showBoubaneToast('🟢 API Shopify Connectée · Webhooks temps réel')">
+                                                <span class="cs-connector-dot"></span> Shopify
+                                            </button>
+                                            <button type="button" class="cs-connector-pill" onclick="showBoubaneToast('🟢 API Gorgias Connectée · Macros synchronisées')">
+                                                <span class="cs-connector-dot"></span> Gorgias
+                                            </button>
+                                            <button type="button" class="cs-connector-pill" onclick="showBoubaneToast('🟢 API Zendesk Connectée · Résolution instantanée')">
+                                                <span class="cs-connector-dot"></span> Zendesk
+                                            </button>
+                                            <button type="button" class="cs-connector-pill" onclick="showBoubaneToast('🟢 Stripe Connecté · Remboursements sécurisés')">
+                                                <span class="cs-connector-dot"></span> Stripe
+                                            </button>
+                                        </div>
+
+                                        <!-- Démo Chatbot Interactif en Direct -->
+                                        <div class="cs-mock-chat-box">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                                                <span style="font-family: var(--font-mono); font-size: 0.72rem; color: #818CF8; font-weight: 700;">DÉMO INTERACTIVE · TESTEZ L'IA EN DIRECT</span>
+                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">● EN LIGNE (18ms)</span>
+                                            </div>
+                                            <div class="cs-mock-chat-msgs" id="achilleChatMsgs">
+                                                <div class="cs-mock-chat-msg cs-mock-chat-msg--bot">
+                                                    <div class="cs-mock-chat-bubble">
+                                                        <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #818CF8; margin-bottom: 3px;">✦ ACHILLE IA</div>
+                                                        Bonjour ! Je résous 50% des requêtes clients en 18ms. Cliquez sur un scénario ou tapez votre question ci-dessous.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Saisie libre de message par le visiteur -->
+                                            <form class="cs-mock-chat-input-row" onsubmit="handleAchilleChatSubmit(event)">
+                                                <input type="text" class="cs-mock-chat-input" id="achilleUserInput" placeholder="Posez une question (ex: où est mon colis, remboursement, délais...)" autocomplete="off">
+                                                <button type="submit" class="cs-mock-chat-send-btn">Envoyer ↗</button>
+                                            </form>
+
+                                            <div>
+                                                <div class="cs-mock-chat-prompts-label">Ou testez en 1 clic :</div>
+                                                <div class="cs-mock-chat-prompts">
+                                                    <button type="button" class="cs-mock-chat-prompt-btn" onclick="sendAchillePrompt('Où est mon colis #7492 ?', 'Votre colis est en cours de livraison par Colissimo (n° 6A20491). Arrivée prévue demain avant 13h !')">📦 Suivi colis #7492</button>
+                                                    <button type="button" class="cs-mock-chat-prompt-btn" onclick="sendAchillePrompt('Je souhaite échanger mon article', 'Étiquette retour prépayée générée et envoyée par email. Vous avez 30 jours pour déposer le colis en point relais.')">🔄 Retour &amp; Échange</button>
+                                                    <button type="button" class="cs-mock-chat-prompt-btn" onclick="sendAchillePrompt('Quels sont vos délais vers la Suisse ?', 'Nos livraisons vers la Suisse s\'effectuent en 48h ouvrées via DHL Express, taxes de douane incluses.')">⏱️ Délais Suisse</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="cs-mock-kpi-bar" style="margin-top: 14px;">
                                             <div>
                                                 <div class="cs-mock-kpi-val" style="color: #818CF8;">50%</div>
                                                 <div class="cs-mock-kpi-lbl">Tickets Résolus Auto</div>
                                             </div>
                                             <div>
-                                                <div class="cs-mock-kpi-val">150+</div>
-                                                <div class="cs-mock-kpi-lbl">Intégrations Natives</div>
+                                                <div class="cs-mock-kpi-val">18 ms</div>
+                                                <div class="cs-mock-kpi-lbl">Latence Réponse</div>
                                             </div>
                                             <div>
                                                 <div class="cs-mock-kpi-val">0.24s</div>
@@ -593,17 +707,34 @@
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('valmy', -1)" title="Page précédente">‹</button>
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('valmy', 1)" title="Page suivante">›</button>
                                         </div>
+                                        <!-- Sélecteur de format d'écran interactif -->
+                                        <div class="cs-device-switch" aria-label="Format d'affichage">
+                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('valmy', 'desktop', this)" title="Vue Ordinateur (Desktop)">🖥️</button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('valmy', 'tablet', this)" title="Vue Tablette (768px)">📱</button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('valmy', 'mobile', this)" title="Vue Mobile (390px)">📲</button>
+                                        </div>
                                     </div>
 
                                     <div class="cs-url-bar" style="max-width: 480px;">
                                         <span class="cs-url-lock">🔒</span>
                                         <span class="cs-url-text">cabinet-valmy.com<span id="valmyUrlPath" class="cs-url-path">/mandats</span></span>
-                                        <a href="https://cabinet-valmy.com" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir cabinet-valmy.com dans un nouvel onglet" aria-label="Visiter cabinet-valmy.com">↗</a>
+                                        <div class="cs-url-actions">
+                                          <button type="button" class="cs-url-icon-btn" onclick="reloadMockup('valmy', this)" title="Recharger la page (simulé < 0.3s)" aria-label="Recharger">↻</button>
+                                          <button type="button" class="cs-url-icon-btn" onclick="copyMockupUrl('https://cabinet-valmy.com', this)" title="Copier le lien" aria-label="Copier le lien">📋</button>
+                                          <a href="https://cabinet-valmy.com" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir cabinet-valmy.com dans un nouvel onglet" aria-label="Visiter cabinet-valmy.com">↗</a>
+                                        </div>
                                     </div>
 
                                     <div class="cs-window-bar-right">
+                                        <!-- Onglets de passage d'un projet à l'autre en mode Plein Écran -->
+                                        <div class="cs-fullscreen-tabs">
+                                          <button type="button" class="cs-fs-tab-pill" onclick="selectHeroCard(0); toggleFullscreenMockup('astra');">✦ Astra</button>
+                                          <button type="button" class="cs-fs-tab-pill" onclick="selectHeroCard(1); toggleFullscreenMockup('achille');">● Achille</button>
+                                          <button type="button" class="cs-fs-tab-pill active" onclick="selectHeroCard(2)">◆ Valmy</button>
+                                        </div>
+
                                         <span class="cs-speed-pill" id="valmySpeedBadge">⚡ 0.26s</span>
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('valmy')" title="Agrandir la fenêtre pour visiter" aria-label="Agrandir la fenêtre">
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('valmy')" title="Agrandir la fenêtre pour visiter en grand" aria-label="Agrandir la fenêtre">
                                             <span class="cs-btn-expand-icon">⤢</span>
                                             <span class="cs-btn-expand-text">Agrandir</span>
                                         </button>
@@ -611,6 +742,12 @@
                                             ✕ Réduire
                                         </button>
                                     </div>
+                                </div>
+
+                                <!-- Bandeau d'aide ergonomique pour le mode plein écran -->
+                                <div class="cs-fs-helper-bar">
+                                    <span><span>◆</span> Mode Vitrine Plein Écran · Expérience Client Interactive</span>
+                                    <span>Navigation : <kbd class="cs-fs-helper-key">←</kbd> <kbd class="cs-fs-helper-key">→</kbd> Changer de site · <kbd class="cs-fs-helper-key">Échap</kbd> Réduire</span>
                                 </div>
 
                                 <div class="cs-viewport">
@@ -623,31 +760,40 @@
                                             <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('valmy', 'deals', '/mandats', this)">Mandats Clôturés</button></li>
                                             <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'method', '/methode', this)">Méthode Confidentielle</button></li>
                                             <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'team', '/associes', this)">Associés</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'audit', '/audit-préalable', this)">Audit Confidentiel 0 €</button></li>
+                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'audit', '/simulateur-valorisation', this)">Simulateur M&amp;A</button></li>
                                         </ul>
                                     </nav>
 
-                                    <!-- Vue 1 : Mandats M&A Clôturés -->
+                                    <!-- Vue 1 : Mandats M&A Clôturés avec Filtres -->
                                     <div id="valmyView_deals" class="cs-page-view active" style="background: radial-gradient(circle at 70% 30%, #201712 0%, #0C0A08 80%);">
                                         <div class="cs-mock-hero" style="max-width: 720px;">
                                             <span class="cs-mock-badge-inline" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">[ M&amp;A · CESSION &amp; TRANSMISSION D'ENTREPRISES ]</span>
                                             <h3 class="cs-mock-title" style="font-size: clamp(1.8rem, 3.2vw, 2.6rem);">L'Excellence Financière &amp; Souveraine</h3>
                                             <p class="cs-mock-dek" style="max-width: 620px;">Accompagnement exclusif de dirigeants et actionnaires fondateurs dans la transmission confidentielle de PME et ETI à forte rentabilité.</p>
                                         </div>
+
+                                        <!-- Filtres de Secteurs Interactifs -->
+                                        <div class="cs-valmy-filters">
+                                            <button type="button" class="cs-valmy-filter-btn active" onclick="filterValmyDeals('all', this)">Tous les secteurs</button>
+                                            <button type="button" class="cs-valmy-filter-btn" onclick="filterValmyDeals('tech', this)">💻 SaaS &amp; Fintech</button>
+                                            <button type="button" class="cs-valmy-filter-btn" onclick="filterValmyDeals('industry', this)">🏭 Industrie</button>
+                                            <button type="button" class="cs-valmy-filter-btn" onclick="filterValmyDeals('bio', this)">🌿 Bio &amp; Agro</button>
+                                        </div>
+
                                         <div class="cs-mock-grid-cards">
-                                            <div class="cs-mock-card-item">
+                                            <div class="cs-mock-card-item cs-valmy-deal-card" data-sector="tech">
                                                 <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #F59E0B;">CESSION 100% CAPITAL</div>
-                                                <strong style="color: #fff; font-size: 0.9rem;">Groupe Saas Fintech</strong>
+                                                <strong style="color: #fff; font-size: 0.9rem;">Groupe SaaS Fintech</strong>
                                                 <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff;">18.5 M€</div>
                                                 <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Repreneur : Fonds Européen</span>
                                             </div>
-                                            <div class="cs-mock-card-item">
+                                            <div class="cs-mock-card-item cs-valmy-deal-card" data-sector="industry">
                                                 <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #F59E0B;">FUSION INDUSTRIELLE</div>
                                                 <strong style="color: #fff; font-size: 0.9rem;">Précision Mécanique</strong>
                                                 <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff;">29.0 M€</div>
                                                 <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Repreneur : Leader Français</span>
                                             </div>
-                                            <div class="cs-mock-card-item">
+                                            <div class="cs-mock-card-item cs-valmy-deal-card" data-sector="bio">
                                                 <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #F59E0B;">LBO TRANSMISSION</div>
                                                 <strong style="color: #fff; font-size: 0.9rem;">Agro-alimentaire Bio</strong>
                                                 <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff;">14.2 M€</div>
@@ -692,7 +838,7 @@
                                                 </div>
                                             </div>
                                             <div class="cs-mock-card-item" style="flex-direction: row; gap: 14px; align-items: center;">
-                                                <div style="width: 44px; height: 44px; border-radius: 50%; background: #261D15; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #F59E0B;">Sophie Courcelle</div>
+                                                <div style="width: 44px; height: 44px; border-radius: 50%; background: #261D15; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #F59E0B;">SC</div>
                                                 <div>
                                                     <strong style="color: #fff; font-size: 0.85rem;">Sophie Courcelle</strong>
                                                     <div style="color: rgba(255,255,255,0.5); font-size: 0.7rem;">Avocate Fiscaliste &amp; Structuration Patrimoniale</div>
@@ -701,19 +847,33 @@
                                         </div>
                                     </div>
 
-                                    <!-- Vue 4 : Audit Confidentiel -->
+                                    <!-- Vue 4 : Simulateur M&A de Valorisation d'Entreprise -->
                                     <div id="valmyView_audit" class="cs-page-view" style="background: #141210;">
                                         <div class="cs-mock-calc" style="max-width: 680px;">
                                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #F59E0B;">RÉSERVATION D'UN AUDIT STRATÉGIQUE PRÉALABLE</span>
+                                                <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #F59E0B;">SIMULATEUR DE VALORISATION CONFIDENTIELLE (MULTIPLE EBITDA)</span>
                                                 <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">SECRET PROFESSIONNEL</span>
                                             </div>
-                                            <p style="color: rgba(255,255,255,0.7); font-size: 0.8rem; line-height: 1.5; margin: 0;">
-                                                Échange direct de 45 minutes avec un associé pour évaluer la valorisation actuelle de votre entreprise sur le marché.
-                                            </p>
+
+                                            <div class="cs-valmy-val-calc">
+                                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                    <span style="font-size: 0.78rem; color: rgba(255,255,255,0.7);">Chiffre d'Affaires annuel :</span>
+                                                    <span id="valmyCaVal" style="font-family: var(--font-mono); font-size: 0.95rem; font-weight: 700; color: #F59E0B;">5.0 M€</span>
+                                                </div>
+                                                <input type="range" class="cs-mock-range-input" id="valmyCaInput" min="1" max="25" step="0.5" value="5" oninput="updateValmyValuation(this.value)" aria-label="Chiffre d'affaires en millions d'euros">
+                                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.62rem; color: rgba(255,255,255,0.4);">
+                                                    <span>1.0 M€ (PME)</span>
+                                                    <span>10.0 M€</span>
+                                                    <span>25.0 M€ (ETI)</span>
+                                                </div>
+                                            </div>
+
                                             <div class="cs-mock-calc-res">
-                                                <span style="font-family: var(--font-mono); font-size: 0.85rem; color: #fff;">Honoraires de valorisation initiale : <strong>0 € Offert</strong></span>
-                                                <button type="button" class="cs-mockup-cta-btn" style="background: #F59E0B; color: #0C0A08;" onclick="alert('Demande d\'audit confidentiel transmise.')">Planifier l'entretien</button>
+                                                <div>
+                                                    <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">FOURCHETTE DE VALORISATION ESTIMÉE :</div>
+                                                    <div id="valmyPriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #F59E0B;">3.6 M€ — 4.8 M€</div>
+                                                </div>
+                                                <button type="button" class="cs-mockup-cta-btn" style="background: #F59E0B; color: #0C0A08;" onclick="showBoubaneToast('✦ Demande d\'audit confidentiel transmise aux associés')">Planifier l'entretien</button>
                                             </div>
                                         </div>
                                     </div>
