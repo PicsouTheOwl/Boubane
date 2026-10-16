@@ -388,4 +388,102 @@ function setApexRoute(btn, route, price) {
   }
 }
 
+// 10. Contrôleur du Hero Showcase : Défilement et sélection des cartes de sites sur la Hero
+let currentHeroCardIndex = 0;
+let heroCardTimer = null;
+let isHeroInteracting = false;
+
+const heroSiteMetadata = [
+  {
+    kpi: "⚡ Vitesse : 0.28s · PageSpeed 100/100",
+    desc: "Atelier Vaneau — Vitrine d'ébénisterie d'art haute précision avec configurateur de devis instantané et navigation sans rechargement."
+  },
+  {
+    kpi: "⚡ Vitesse : 0.31s · API 12ms",
+    desc: "Apex Solutions — Portail corporate de transport & fret avec télémétrie de flotte en direct et calculateur kilométrique B2B."
+  },
+  {
+    kpi: "⚡ Vitesse : 0.26s · Audit 0 €",
+    desc: "Cabinet Valmy — Barreau d'affaires M&A, transmission d'entreprises confidentielle et simulateur d'audit préalable."
+  },
+  {
+    kpi: "⚡ Vitesse < 0.3s · Carte Membre",
+    desc: "Boubane Studio — Passeport digital haute autorité avec puce dorée gravée, effet gyroscopique 3D et zéro frais d'agence."
+  }
+];
+
+function selectHeroCard(index) {
+  const slides = document.querySelectorAll('.hero-card-slide');
+  const pills = document.querySelectorAll('.hero-pill-btn');
+  if (!slides.length) return;
+
+  currentHeroCardIndex = (index + slides.length) % slides.length;
+
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === currentHeroCardIndex);
+  });
+
+  pills.forEach((pill, i) => {
+    const isActive = i === currentHeroCardIndex;
+    pill.classList.toggle('active', isActive);
+    pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+
+  const metaKpi = document.getElementById('heroMetaKpi');
+  const metaDesc = document.getElementById('heroMetaDesc');
+  if (metaKpi && metaDesc && heroSiteMetadata[currentHeroCardIndex]) {
+    metaKpi.textContent = heroSiteMetadata[currentHeroCardIndex].kpi;
+    metaDesc.textContent = heroSiteMetadata[currentHeroCardIndex].desc;
+  }
+}
+
+function cycleHeroCard(direction) {
+  selectHeroCard(currentHeroCardIndex + direction);
+}
+
+function openHeroProject(index) {
+  selectHeroCard(index);
+  const heroShowcase = document.getElementById('heroShowcase');
+  if (heroShowcase) {
+    const yOffset = -90;
+    const y = heroShowcase.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+  isHeroInteracting = true;
+}
+
+function startHeroCardTimer() {
+  stopHeroCardTimer();
+  heroCardTimer = setInterval(() => {
+    if (!isHeroInteracting) {
+      cycleHeroCard(1);
+    }
+  }, 7000);
+}
+
+function stopHeroCardTimer() {
+  if (heroCardTimer) {
+    clearInterval(heroCardTimer);
+    heroCardTimer = null;
+  }
+}
+
+// Initialisation des écouteurs de survol sur le Hero Showcase
+document.addEventListener('DOMContentLoaded', () => {
+  const showcase = document.getElementById('heroShowcase');
+  if (showcase) {
+    showcase.addEventListener('mouseenter', () => {
+      isHeroInteracting = true;
+    });
+    showcase.addEventListener('mouseleave', () => {
+      isHeroInteracting = false;
+    });
+    showcase.addEventListener('touchstart', () => {
+      isHeroInteracting = true;
+    }, { passive: true });
+  }
+  startHeroCardTimer();
+});
+
+
 
