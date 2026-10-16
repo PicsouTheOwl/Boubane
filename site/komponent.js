@@ -392,8 +392,18 @@ function setAchilleTickets(btn, volume, economy, hours) {
   }
 }
 
-// 9b. Gestion du Portail Plein Écran Universel (Immersion Vitrines Web)
+// 9b. Gestion du Portail Plein Écran Universel (Immersion Vitrines Web Sans Conflit)
 let activeFullscreenSite = null;
+let reparentedViewport = null;
+let reparentedOriginalParent = null;
+
+function restoreReparentedViewport() {
+  if (reparentedViewport && reparentedOriginalParent) {
+    reparentedOriginalParent.appendChild(reparentedViewport);
+    reparentedViewport = null;
+    reparentedOriginalParent = null;
+  }
+}
 
 function toggleFullscreenMockup(site) {
   openPortalFullscreen(site || 'astra');
@@ -412,7 +422,7 @@ function openPortalFullscreen(siteKey) {
   const validKey = (siteKey === 'astra' || siteKey === 'achille' || siteKey === 'valmy') ? siteKey : 'astra';
   switchPortalSite(validKey);
 
-  portal.classList.add('active');
+  portal.classList.add('active', 'is-active');
   portal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('mockup-modal-open');
   activeFullscreenSite = validKey;
@@ -423,9 +433,13 @@ function openPortalFullscreen(siteKey) {
 function closeFullscreenMockup() {
   const portal = document.getElementById('mockupFullscreenPortal');
   if (portal) {
-    portal.classList.remove('active');
+    portal.classList.remove('active', 'is-active');
     portal.setAttribute('aria-hidden', 'true');
   }
+  
+  // Rétablir le viewport déplacé dans son parent d'origine sur la hero
+  restoreReparentedViewport();
+
   document.querySelectorAll('.cs-cell--windowed.is-fullscreen').forEach(el => el.classList.remove('is-fullscreen'));
   document.body.classList.remove('mockup-modal-open');
   activeFullscreenSite = null;
@@ -436,6 +450,9 @@ function closeFullscreenMockup() {
 function switchPortalSite(siteKey) {
   const key = (siteKey === 'astra' || siteKey === 'achille' || siteKey === 'valmy') ? siteKey : 'astra';
   activeFullscreenSite = key;
+
+  // Rétablir d'abord un éventuel viewport reparenté
+  restoreReparentedViewport();
 
   // Mettre à jour les onglets de switch dans la fenêtre portail
   const tabAstra = document.getElementById('portalTabAstra');
@@ -460,7 +477,10 @@ function switchPortalSite(siteKey) {
         iframe.src = 'showcase-astra.html';
       }
     }
-    if (inlineContainer) inlineContainer.style.display = 'none';
+    if (inlineContainer) {
+      inlineContainer.style.display = 'none';
+      inlineContainer.innerHTML = '';
+    }
     if (urlText) urlText.textContent = 'astravacances.fr/audit-operationnel';
     if (extLink) extLink.href = 'showcase-astra.html';
     if (capDot) capDot.style.background = '#2B9BBD';
@@ -474,8 +494,10 @@ function switchPortalSite(siteKey) {
     if (inlineContainer) {
       inlineContainer.style.display = 'block';
       const origViewport = document.querySelector('#mockupAchille .cs-viewport');
-      if (origViewport && inlineContainer.innerHTML.trim() === '') {
-        inlineContainer.innerHTML = origViewport.innerHTML;
+      if (origViewport) {
+        reparentedOriginalParent = origViewport.parentElement;
+        reparentedViewport = origViewport;
+        inlineContainer.appendChild(origViewport);
       }
     }
     if (urlText) urlText.textContent = 'achille.ai/automation';
@@ -491,8 +513,10 @@ function switchPortalSite(siteKey) {
     if (inlineContainer) {
       inlineContainer.style.display = 'block';
       const origViewport = document.querySelector('#mockupValmy .cs-viewport');
-      if (origViewport && inlineContainer.innerHTML.trim() === '') {
-        inlineContainer.innerHTML = origViewport.innerHTML;
+      if (origViewport) {
+        reparentedOriginalParent = origViewport.parentElement;
+        reparentedViewport = origViewport;
+        inlineContainer.appendChild(origViewport);
       }
     }
     if (urlText) urlText.textContent = 'cabinet-valmy.com/mandats';
@@ -811,7 +835,7 @@ const heroSiteMetadata = [
 let isWindowMinimized = false;
 let isDockTransitioning = false;
 
-// 1. Déclenchement de l'animation de minimisation macOS (Pastille orange/jaune, bouton rouge ou clic Dock sur l'application active)
+// 1. Déclenchement de l'animation de minimisation macOS (Pastille jaune ou clic Dock sur l'application active)
 function minimizeMockupAnimated(targetIndex, event) {
   if (event) {
     event.stopPropagation();
@@ -831,17 +855,8 @@ function minimizeMockupAnimated(targetIndex, event) {
     isDockTransitioning = true;
     const windowCell = activeSlide.querySelector('.cs-cell--windowed') || activeSlide;
 
-    // Onde de choc lumineuse orange sur la pastille
-    const orangeDot = windowCell.querySelector('.cs-dot--orange, .cs-dot--yellow');
-    if (orangeDot) {
-      const shockwave = document.createElement('div');
-      shockwave.className = 'cs-orange-shockwave';
-      orangeDot.appendChild(shockwave);
-      setTimeout(() => shockwave.remove(), 450);
-    }
-
-    // Animation macOS Échelle / Génie vers le bas (Dock)
-    windowCell.classList.remove('animating-restore');
+    // Animation macOS fluide vers le bas (Dock)
+    windowCell.classList.remove('animating-restore', 'animating-close');
     windowCell.classList.add('animating-minimize');
 
     // Mettre à jour visuellement le Dock : l'application se referme dans la barre
@@ -856,7 +871,7 @@ function minimizeMockupAnimated(targetIndex, event) {
       activeSlide.classList.remove('active');
       isWindowMinimized = true;
       isDockTransitioning = false;
-    }, 400);
+    }, 280);
   } else {
     isWindowMinimized = true;
   }
@@ -878,13 +893,13 @@ function restoreMockupAnimated(targetIndex) {
   slides.forEach(s => {
     s.classList.remove('active');
     const cell = s.querySelector('.cs-cell--windowed');
-    if (cell) cell.classList.remove('animating-minimize', 'animating-restore');
+    if (cell) cell.classList.remove('animating-minimize', 'animating-restore', 'animating-close');
   });
 
   targetSlide.classList.add('active');
 
   const windowCell = targetSlide.querySelector('.cs-cell--windowed') || targetSlide;
-  windowCell.classList.remove('animating-minimize');
+  windowCell.classList.remove('animating-minimize', 'animating-close');
   windowCell.classList.add('animating-restore');
 
   // Mettre à jour les boutons du Dock : l'application sélectionnée brille
@@ -900,7 +915,7 @@ function restoreMockupAnimated(targetIndex) {
   setTimeout(() => {
     windowCell.classList.remove('animating-restore');
     isDockTransitioning = false;
-  }, 460);
+  }, 320);
 }
 
 // 3. Comportement authentique Barre des Tâches / Dock Mac :
@@ -923,9 +938,35 @@ function selectHeroCard(index) {
   toggleDockApp(index);
 }
 
-// Fermeture de l'onglet actif (bouton rouge ou raccourci)
+// Fermeture pure macOS de la fenêtre active (Pastille rouge) : disparition douce et nette
 function closeActiveTabAnimated(event) {
-  minimizeMockupAnimated(currentHeroCardIndex, event);
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  if (isDockTransitioning || isWindowMinimized) return;
+
+  const idx = currentHeroCardIndex;
+  const activeSlide = document.getElementById(`heroSlide${idx}`) || document.querySelector('.hero-card-slide.active');
+  if (activeSlide) {
+    isDockTransitioning = true;
+    const windowCell = activeSlide.querySelector('.cs-cell--windowed') || activeSlide;
+    windowCell.classList.remove('animating-restore', 'animating-minimize');
+    windowCell.classList.add('animating-close');
+
+    const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+    dockBtns.forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
+    });
+
+    setTimeout(() => {
+      windowCell.classList.remove('animating-close');
+      activeSlide.classList.remove('active');
+      isWindowMinimized = true;
+      isDockTransitioning = false;
+    }, 220);
+  }
 }
 
 function cycleHeroCard(direction) {

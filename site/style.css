@@ -1348,82 +1348,10 @@ p.lead {
    Portail Plein Écran Universel des Maquettes Web (Architecture Sans Conflit)
    ========================================================================== */
 
-/* Verrouillage du scroll principal quand une fenêtre est agrandie */
+/* Verrouillage du scroll principal quand une vitrine est en plein écran */
 body.mockup-modal-open {
   overflow: hidden !important;
   touch-action: none;
-}
-
-.mockup-fullscreen-portal {
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 99999999 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: clamp(12px, 2.5vw, 28px);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.mockup-fullscreen-portal.is-active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-/* ==========================================================================
-   Mode Plein Écran Universel Direct des Vitrines Web
-   ========================================================================== */
-
-/* Overlay sombre flouté de fond */
-.cs-mockup-fullscreen-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(4, 5, 8, 0.92);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  z-index: 9999998;
-  cursor: pointer;
-  animation: csFadeInOverlay 0.22s ease-out forwards;
-}
-
-@keyframes csFadeInOverlay {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-body.mockup-modal-open .cs-mockup-fullscreen-overlay {
-  display: block;
-}
-
-/* Verrouillage du scroll principal */
-body.mockup-modal-open {
-  overflow: hidden !important;
-  touch-action: none;
-}
-
-/* Neutralisation totale de l'overflow et des transforms qui bloquaient le fixed */
-body.mockup-modal-open .ssg-hero {
-  overflow: visible !important;
-}
-
-body.mockup-modal-open .hero-split-grid,
-body.mockup-modal-open .hero-split-col,
-body.mockup-modal-open .hero-showcase-stage-inner,
-body.mockup-modal-open .hero-cards-viewport,
-body.mockup-modal-open .hero-card-slide {
-  transform: none !important;
-  will-change: auto !important;
-  filter: none !important;
-  perspective: none !important;
-  contain: none !important;
 }
 
 body.mockup-modal-open .hero-card-slide.active {
@@ -1672,86 +1600,61 @@ body.mockup-modal-open .hero-card-slide.active {
 
 /* ==========================================================================
    Animations Authentiques macOS : Minimisation & Restauration dans le Dock
-   (Effet Échelle / Génie physique réaliste avec point d'ancrage en bas)
+   (Animation GPU-accélérée 60fps — Zéro lag, sans blur software lourd)
    ========================================================================== */
 @keyframes csMacMinimize {
   0% {
-    transform: translate3d(0, 0, 0) scale(1, 1);
+    transform: translate3d(0, 0, 0) scale(1);
     opacity: 1;
     transform-origin: 50% 100%;
-    filter: blur(0);
-  }
-  25% {
-    transform: translate3d(0, 18px, 0) scale(0.92, 0.96);
-    opacity: 0.95;
-    transform-origin: 50% 100%;
-    filter: blur(0);
-  }
-  65% {
-    transform: translate3d(0, 60px, 0) scale(0.42, 0.28);
-    opacity: 0.55;
-    transform-origin: 50% 100%;
-    filter: blur(2px);
   }
   100% {
-    transform: translate3d(0, 100px, 0) scale(0.08, 0.02);
+    transform: translate3d(0, 36px, 0) scale(0.9);
     opacity: 0;
     transform-origin: 50% 100%;
-    filter: blur(6px);
   }
 }
 
 @keyframes csMacRestore {
   0% {
-    transform: translate3d(0, 90px, 0) scale(0.1, 0.02);
+    transform: translate3d(0, 28px, 0) scale(0.92);
     opacity: 0;
-    transform-origin: 50% 100%;
-    filter: blur(6px);
-  }
-  50% {
-    transform: translate3d(0, -10px, 0) scale(1.03, 1.02);
-    opacity: 1;
-    transform-origin: 50% 100%;
-    filter: blur(0);
-  }
-  75% {
-    transform: translate3d(0, 3px, 0) scale(0.995, 0.995);
-    opacity: 1;
     transform-origin: 50% 100%;
   }
   100% {
-    transform: translate3d(0, 0, 0) scale(1, 1);
+    transform: translate3d(0, 0, 0) scale(1);
     opacity: 1;
     transform-origin: 50% 100%;
-    filter: blur(0);
   }
 }
 
+@keyframes csMacClose {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.96) translateY(6px);
+    opacity: 0;
+  }
+}
+
+.cs-cell--windowed {
+  will-change: transform, opacity;
+}
+
 .cs-cell--windowed.animating-minimize {
-  animation: csMacMinimize 0.42s cubic-bezier(0.25, 1, 0.35, 1) forwards !important;
+  animation: csMacMinimize 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
   pointer-events: none;
 }
 
 .cs-cell--windowed.animating-restore {
-  animation: csMacRestore 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  animation: csMacRestore 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
-.cs-orange-shockwave {
-  position: absolute;
-  top: 14px;
-  left: 28px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 189, 46, 0.9) 0%, rgba(237, 91, 4, 0) 75%);
+.cs-cell--windowed.animating-close {
+  animation: csMacClose 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
   pointer-events: none;
-  z-index: 99;
-  animation: csShockwaveExpand 0.45s ease-out forwards;
-}
-
-@keyframes csShockwaveExpand {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(18); opacity: 0; }
 }
 
 /* ==========================================================================
@@ -2008,8 +1911,12 @@ body.mockup-modal-open .hero-card-slide.active {
   box-sizing: border-box;
 }
 
-.mockup-fullscreen-portal.active {
+.mockup-fullscreen-portal.active,
+.mockup-fullscreen-portal.is-active {
   display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 .mockup-portal-backdrop {
@@ -2236,6 +2143,22 @@ body.mockup-modal-open .hero-card-slide.active {
   margin: 0 auto !important;
 }
 
+/* Mode Tablette : Le châssis prend les dimensions et le ratio d'un iPad */
+.cs-cell--windowed.device-tablet {
+  max-width: 768px !important;
+  width: 100% !important;
+  height: clamp(540px, 68vh, 720px) !important;
+  aspect-ratio: 4 / 3 !important;
+  border-radius: 28px !important;
+  border: 3px solid #1C1E24 !important;
+  outline: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 
+    0 24px 70px -10px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+  margin: 0 auto !important;
+}
+
 .cs-cell--windowed.device-tablet .cs-viewport {
   width: 100% !important;
   max-width: 100% !important;
@@ -2252,40 +2175,84 @@ body.mockup-modal-open .hero-card-slide.active {
   display: block;
 }
 
+.cs-cell--windowed.device-tablet .cs-mock-calc-grid,
+.cs-cell--windowed.device-tablet .cs-valmy-deals-grid,
+.cs-cell--windowed.device-tablet .cs-mock-grid-cards {
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 10px !important;
+}
+
 /* Mode Mobile : Le châssis prend les dimensions et le ratio d'un véritable Smartphone iPhone */
 .cs-cell--windowed.device-mobile {
   max-width: 390px !important;
   width: 100% !important;
-  height: clamp(600px, 78vh, 760px) !important;
+  height: clamp(620px, 80vh, 760px) !important;
   aspect-ratio: 9 / 18.5 !important;
   border-radius: 44px !important;
-  border: 4px solid #1A1C22 !important;
+  border: 5px solid #1A1C22 !important;
   outline: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 
-    0 32px 84px -12px rgba(0, 0, 0, 0.9),
+    0 32px 84px -12px rgba(0, 0, 0, 0.95),
     0 0 0 1px rgba(255, 255, 255, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
   margin: 0 auto !important;
 }
 
+/* Barre de fenêtre optimisée pour la largeur smartphone */
 .cs-cell--windowed.device-mobile .cs-window-bar {
-  padding: 10px 16px;
-  min-height: 42px;
-  border-radius: 40px 40px 0 0;
-  gap: 8px;
+  padding: 8px 12px !important;
+  min-height: 40px !important;
+  border-radius: 38px 38px 0 0 !important;
+  gap: 6px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-nav-arrows {
+  display: none !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-dots {
+  gap: 5px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-dot {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-device-switch {
+  padding: 2px 4px !important;
+  gap: 2px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-device-btn {
+  padding: 3px 5px !important;
 }
 
 .cs-cell--windowed.device-mobile .cs-url-bar {
-  max-width: 175px !important;
-  padding: 4px 10px;
-  font-size: 0.68rem;
+  max-width: 135px !important;
+  padding: 3px 8px !important;
+  font-size: 0.64rem !important;
+  gap: 5px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-url-actions,
+.cs-cell--windowed.device-mobile .cs-url-path {
+  display: none !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-btn-expand-win {
+  padding: 4px 8px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-btn-expand-win span {
+  display: none !important;
 }
 
 .cs-cell--windowed.device-mobile .cs-viewport {
   width: 100% !important;
   max-width: 100% !important;
-  height: calc(100% - 42px) !important;
-  border-radius: 0 0 40px 40px;
+  height: calc(100% - 40px) !important;
+  border-radius: 0 0 38px 38px !important;
   overflow-y: auto !important;
   box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.4);
 }
@@ -2296,6 +2263,119 @@ body.mockup-modal-open .hero-card-slide.active {
   min-height: 100% !important;
   border: none;
   display: block;
+}
+
+/* Adaptation du contenu interne des maquettes sous mode mobile */
+.cs-cell--windowed.device-mobile .cs-mockup-navbar {
+  padding: 8px 12px !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mockup-brand {
+  justify-content: center !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mockup-tabs {
+  display: flex !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  gap: 4px !important;
+  padding: 2px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mockup-tab-btn {
+  padding: 3px 8px !important;
+  font-size: 0.62rem !important;
+  white-space: nowrap !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-page-view {
+  padding: 14px 12px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-hero {
+  margin-bottom: 12px !important;
+  text-align: center !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-title {
+  font-size: 1.12rem !important;
+  line-height: 1.25 !important;
+  margin-bottom: 6px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-dek {
+  font-size: 0.72rem !important;
+  line-height: 1.4 !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-connectors-bar {
+  padding: 6px 8px !important;
+  gap: 4px !important;
+  justify-content: center !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-connector-pill {
+  font-size: 0.6rem !important;
+  padding: 2px 6px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-chat-box {
+  padding: 10px !important;
+  gap: 8px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-chat-bubble {
+  font-size: 0.72rem !important;
+  padding: 6px 10px !important;
+  max-width: 90% !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-chat-prompts {
+  gap: 4px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-chat-prompt-btn {
+  font-size: 0.6rem !important;
+  padding: 4px 8px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-chat-input-row {
+  padding: 3px 4px 3px 10px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-chat-input {
+  font-size: 0.72rem !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-chat-send-btn {
+  padding: 5px 10px !important;
+  font-size: 0.62rem !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-mock-calc-grid,
+.cs-cell--windowed.device-mobile .cs-valmy-deals-grid,
+.cs-cell--windowed.device-mobile .cs-mock-grid-cards,
+.cs-cell--windowed.device-mobile .cs-mock-kpi-bar {
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-valmy-hero {
+  padding: 12px 10px !important;
+  text-align: center !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-valmy-filters {
+  justify-content: center !important;
+  gap: 4px !important;
+}
+
+.cs-cell--windowed.device-mobile .cs-valmy-filter-btn {
+  font-size: 0.62rem !important;
+  padding: 3px 8px !important;
 }
 
 .cs-nav-arrows {
