@@ -397,6 +397,7 @@ let activeFullscreenSite = null;
 
 function toggleFullscreenMockup(site) {
   const siteKey = (site === 'astra' || site === 'achille' || site === 'valmy') ? site : 'astra';
+  const siteIndex = siteKey === 'astra' ? 0 : (siteKey === 'achille' ? 1 : 2);
   const containerId = siteKey === 'astra' ? 'mockupAstra' : (siteKey === 'achille' ? 'mockupAchille' : 'mockupValmy');
   const targetCell = document.getElementById(containerId);
   if (!targetCell) return;
@@ -408,9 +409,29 @@ function toggleFullscreenMockup(site) {
     return;
   }
 
-  // Refermer toute autre fenêtre
-  const allFs = document.querySelectorAll('.cs-cell--windowed.is-fullscreen');
-  allFs.forEach(el => el.classList.remove('is-fullscreen'));
+  // S'assurer que le slide parent est affiché et actif
+  const slides = document.querySelectorAll('.hero-card-slide');
+  slides.forEach(s => s.classList.remove('active'));
+  const targetSlide = document.getElementById(`heroSlide${siteIndex}`);
+  if (targetSlide) {
+    targetSlide.classList.add('active');
+  }
+  currentHeroCardIndex = siteIndex;
+  isWindowMinimized = false;
+
+  // Mettre à jour l'état du dock
+  const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+  dockBtns.forEach((btn, i) => {
+    const isActive = (i === siteIndex);
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+
+  // Nettoyer les classes d'animation résiduelles sur toutes les fenêtres
+  const allFs = document.querySelectorAll('.cs-cell--windowed');
+  allFs.forEach(el => {
+    el.classList.remove('is-fullscreen', 'animating-minimize', 'animating-restore');
+  });
 
   // Activer le plein écran sur la fenêtre ciblée
   targetCell.classList.add('is-fullscreen');
@@ -465,13 +486,13 @@ function openActiveFullscreen() {
   if (siteKey === 'studio') {
     // Basculer sur la vitrine Astra Vacances
     restoreMockupAnimated(0);
-    setTimeout(() => toggleFullscreenMockup('astra'), 320);
+    setTimeout(() => toggleFullscreenMockup('astra'), 250);
     return;
   }
 
   if (isWindowMinimized) {
     restoreMockupAnimated(currentHeroCardIndex);
-    setTimeout(() => toggleFullscreenMockup(siteKey), 350);
+    setTimeout(() => toggleFullscreenMockup(siteKey), 250);
   } else {
     toggleFullscreenMockup(siteKey);
   }

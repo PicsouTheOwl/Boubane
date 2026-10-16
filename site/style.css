@@ -424,7 +424,7 @@ p.lead {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(8px, 1.8vh, 18px) var(--spacing-lg) clamp(10px, 2vh, 20px);
+  padding: clamp(8px, 1.8vh, 18px) var(--spacing-lg) clamp(22px, 3.6vh, 44px);
   text-align: center;
   overflow: hidden;
   background: radial-gradient(ellipse 70% 60% at 50% 25%, rgba(238, 248, 90, 0.09) 0%, rgba(250, 248, 245, 0) 70%);
@@ -1383,12 +1383,14 @@ body.mockup-modal-open {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(6, 6, 8, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(4, 5, 8, 0.92);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   z-index: 9999998;
   cursor: pointer;
-  animation: csFadeInOverlay 0.25s ease-out forwards;
+  animation: csFadeInOverlay 0.22s ease-out forwards;
 }
 
 @keyframes csFadeInOverlay {
@@ -1413,11 +1415,18 @@ body.mockup-modal-open .ssg-hero {
 
 body.mockup-modal-open .hero-split-grid,
 body.mockup-modal-open .hero-split-col,
+body.mockup-modal-open .hero-showcase-stage-inner,
 body.mockup-modal-open .hero-cards-viewport,
 body.mockup-modal-open .hero-card-slide {
   transform: none !important;
   will-change: auto !important;
   filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+}
+
+body.mockup-modal-open .hero-card-slide.active {
+  display: block !important;
 }
 
 .cs-cell--windowed {
@@ -1445,32 +1454,34 @@ body.mockup-modal-open .hero-card-slide {
 /* Mode Plein Écran Actif sur la Fenêtre */
 .cs-cell--windowed.is-fullscreen {
   position: fixed !important;
-  inset: clamp(12px, 2.5vw, 32px) !important;
-  width: calc(100vw - 2 * clamp(12px, 2.5vw, 32px)) !important;
-  max-width: 1440px !important;
-  height: calc(100vh - 2 * clamp(12px, 2.5vw, 32px)) !important;
-  max-height: 940px !important;
+  inset: clamp(8px, 1.6vw, 20px) !important;
+  width: calc(100vw - 2 * clamp(8px, 1.6vw, 20px)) !important;
+  max-width: 1760px !important;
+  height: calc(100vh - 2 * clamp(8px, 1.6vw, 20px)) !important;
+  max-height: calc(100vh - 2 * clamp(8px, 1.6vw, 20px)) !important;
   aspect-ratio: auto !important;
   margin: auto !important;
   z-index: 99999999 !important;
-  border-radius: 20px !important;
+  border-radius: 18px !important;
   border: 1px solid rgba(255, 255, 255, 0.28) !important;
   box-shadow: 
-    0 32px 120px -10px rgba(0, 0, 0, 0.98),
-    0 0 0 1px rgba(255, 255, 255, 0.18),
-    0 0 120px rgba(0, 0, 0, 0.95),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    0 32px 140px -10px rgba(0, 0, 0, 0.98),
+    0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 0 140px rgba(0, 0, 0, 0.95),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
   background: #08090C !important;
   display: flex !important;
   flex-direction: column !important;
+  overflow: hidden !important;
   transform: none !important;
-  animation: csFullscreenScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-sizing: border-box !important;
+  animation: csFullscreenScale 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes csFullscreenScale {
   0% {
     opacity: 0;
-    transform: scale(0.96) translateY(12px);
+    transform: scale(0.97) translateY(8px);
   }
   100% {
     opacity: 1;
@@ -1478,27 +1489,54 @@ body.mockup-modal-open .hero-card-slide {
   }
 }
 
+.cs-cell--windowed.is-fullscreen .cs-window-bar {
+  flex: 0 0 auto !important;
+  border-radius: 18px 18px 0 0 !important;
+  padding: 12px 24px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.cs-cell--windowed.is-fullscreen .cs-fs-helper-bar {
+  flex: 0 0 auto !important;
+  display: flex !important;
+}
+
 .cs-cell--windowed.is-fullscreen .cs-viewport {
+  flex: 1 1 0px !important;
+  height: auto !important;
+  min-height: 0 !important;
   max-height: none !important;
-  height: calc(100% - 50px) !important;
-  flex: 1 1 auto !important;
+  overflow: hidden !important;
+  position: relative !important;
+  background: #FFFFFF !important;
+}
+
+.cs-cell--windowed.is-fullscreen #mockupAchille .cs-viewport,
+.cs-cell--windowed.is-fullscreen #mockupValmy .cs-viewport {
   overflow-y: auto !important;
+  background: #08090C !important;
   -webkit-overflow-scrolling: touch;
 }
 
-.cs-cell--windowed.is-fullscreen .cs-window-bar {
-  border-radius: 20px 20px 0 0;
-  padding: 12px 24px;
+.cs-cell--windowed.is-fullscreen .cs-mockup-iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  border: none !important;
+  display: block !important;
+  background: #FFFFFF !important;
 }
 
 .cs-cell--windowed.is-fullscreen .cs-cap {
-  border-radius: 0 0 20px 20px;
-  background: #15161A;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex: 0 0 auto !important;
+  border-radius: 0 0 18px 18px !important;
+  background: #15161A !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 10px 24px !important;
 }
 
 .cs-cell--windowed.is-fullscreen .cs-cap__t {
-  color: #FFFFFF;
+  color: #FFFFFF !important;
 }
 
 /* ==========================================================================
@@ -1724,7 +1762,7 @@ body.mockup-modal-open .hero-card-slide {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: clamp(14px, 2.2vh, 26px) auto 0 auto;
+  margin: clamp(36px, 5.2vh, 64px) auto 0 auto; /* Rebaissée généreusement pour une aération parfaite */
   position: relative;
   z-index: 10;
   padding: 0 clamp(16px, 3vw, 48px);
