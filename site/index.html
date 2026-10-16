@@ -307,102 +307,410 @@
                 <div class="cs-grid cs-grid--pairs">
                     <!-- Ligne 1 : Paire Asymétrique (1fr - 1fr) -->
                     <div class="cs-grid__row cs-grid__row--1-1">
-                        <!-- Projet 01 : Atelier Vaneau -->
-                        <div class="cs-cell cs-cell--windowed reveal-on-scroll reveal-delay-1">
+                        <!-- Projet 01 : Atelier Vaneau (Maquette Navigable) -->
+                        <div class="cs-cell cs-cell--windowed reveal-on-scroll reveal-delay-1" id="mockupVaneau">
+                            <!-- Barre macOS avec URL dynamique et navigation -->
                             <div class="cs-window-bar">
-                                <div class="cs-dots">
-                                    <span class="cs-dot cs-dot--red"></span>
-                                    <span class="cs-dot cs-dot--yellow"></span>
-                                    <span class="cs-dot cs-dot--green"></span>
+                                <div class="cs-window-bar-left">
+                                    <div class="cs-dots">
+                                        <span class="cs-dot cs-dot--red" title="Fermer la vue"></span>
+                                        <span class="cs-dot cs-dot--yellow" title="Réduire"></span>
+                                        <span class="cs-dot cs-dot--green" title="Mode immersif"></span>
+                                    </div>
+                                    <div class="cs-nav-arrows" aria-hidden="true">
+                                        <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('vaneau', -1)" title="Page précédente">‹</button>
+                                        <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('vaneau', 1)" title="Page suivante">›</button>
+                                    </div>
                                 </div>
-                                <span class="cs-url-pill">atelier-vaneau.fr</span>
-                                <span class="cs-speed-pill">⚡ 0.28s</span>
+
+                                <div class="cs-url-bar">
+                                    <span class="cs-url-lock">🔒</span>
+                                    <span class="cs-url-text">atelier-vaneau.fr<span id="vaneauUrlPath" class="cs-url-path">/accueil</span></span>
+                                </div>
+
+                                <span class="cs-speed-pill" id="vaneauSpeedBadge">⚡ 0.28s</span>
                             </div>
 
-                            <div class="cs-stage" style="background: radial-gradient(circle at 60% 40%, #1E1A17 0%, #0C0A08 100%);">
-                                <div class="cs-mock-nav">
-                                    <span>ATELIER VANEAU</span>
-                                    <span>Créations · Matières · Devis</span>
-                                </div>
-                                <div class="cs-mock-body">
-                                    <div class="cs-mock-eyebrow" style="color: var(--ramp-yellow);">[ ÉBÉNISTERIE D'ART &amp; AGENCEMENT ]</div>
-                                    <h3 class="cs-mock-title">Matières Nobles &amp; Précision du Geste</h3>
-                                    <p class="cs-mock-dek">Vitrine haute couture valorisant les réalisations de prestige auprès d'architectes d'intérieur.</p>
-                                </div>
-                                <div class="cs-cap">
-                                    <div class="cs-cap__left">
-                                        <span class="cs-cap__dot"></span>
-                                        <span class="cs-cap__t">Atelier Vaneau — Mobilier d'Exception</span>
+                            <!-- Viewport du mini-site navigable -->
+                            <div class="cs-viewport">
+                                <!-- Navigation interne du site Atelier Vaneau -->
+                                <nav class="cs-mockup-navbar">
+                                    <div class="cs-mockup-brand">
+                                        <span style="color: var(--ramp-yellow);">✦</span>
+                                        <span>ATELIER VANEAU</span>
                                     </div>
-                                    <span class="cs-cap__tag">PageSpeed 100/100</span>
+                                    <ul class="cs-mockup-tabs">
+                                        <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('vaneau', 'home', '/accueil', this)">Accueil</button></li>
+                                        <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('vaneau', 'creations', '/creations', this)">Créations</button></li>
+                                        <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('vaneau', 'atelier', '/savoir-faire', this)">L'Atelier</button></li>
+                                        <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('vaneau', 'calc', '/devis-express', this)">Devis 0 €</button></li>
+                                    </ul>
+                                </nav>
+
+                                <!-- Vue 1 : Accueil -->
+                                <div id="vaneauView_home" class="cs-page-view active" style="background: radial-gradient(circle at 60% 40%, #1E1A17 0%, #0C0A08 100%);">
+                                    <div class="cs-mock-hero">
+                                        <span class="cs-mock-badge-inline" style="background: rgba(238, 248, 90, 0.15); color: var(--ramp-yellow);">[ ÉBÉNISTERIE D'ART &amp; AGENCEMENT ]</span>
+                                        <h3 class="cs-mock-title">Matières Nobles &amp; Précision du Geste</h3>
+                                        <p class="cs-mock-dek">Conception artisanale de mobilier haut de gamme et d'agencements sur-mesure pour appartements parisiens et villas d'exception.</p>
+                                    </div>
+                                    <div class="cs-mock-kpi-bar">
+                                        <div>
+                                            <div class="cs-mock-kpi-val">100%</div>
+                                            <div class="cs-mock-kpi-lbl">Bois Éco-certifiés</div>
+                                        </div>
+                                        <div>
+                                            <div class="cs-mock-kpi-val">40 Ans</div>
+                                            <div class="cs-mock-kpi-lbl">Savoir-Faire Maître</div>
+                                        </div>
+                                        <div>
+                                            <div class="cs-mock-kpi-val">&lt; 0.3s</div>
+                                            <div class="cs-mock-kpi-lbl">Vitesse Vitrine</div>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <!-- Vue 2 : Créations (Galerie interactive) -->
+                                <div id="vaneauView_creations" class="cs-page-view" style="background: #111114;">
+                                    <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--ramp-yellow); margin-bottom: 8px;">// SÉLECTION DE RÉALISATIONS</div>
+                                    <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 12px;">Mobilier Contemporain d'Exception</h4>
+                                    <div class="cs-mock-grid-cards">
+                                        <div class="cs-mock-card-item">
+                                            <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #3A2E26, #1A1512);">TABLE NOYER</div>
+                                            <strong style="color: #fff; font-size: 0.8rem;">Table Monolithe</strong>
+                                            <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Noyer d'Amérique &amp; Laiton</span>
+                                        </div>
+                                        <div class="cs-mock-card-item">
+                                            <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #262D3A, #12151A);">AGENCEMENT</div>
+                                            <strong style="color: #fff; font-size: 0.8rem;">Bibliothèque Valmy</strong>
+                                            <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Chêne Fumé sur 4 mètres</span>
+                                        </div>
+                                        <div class="cs-mock-card-item">
+                                            <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #3A3626, #1A1812);">CONSOLE</div>
+                                            <strong style="color: #fff; font-size: 0.8rem;">Console Minimaliste</strong>
+                                            <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Frêne Brut &amp; Verre Fumé</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vue 3 : L'Atelier -->
+                                <div id="vaneauView_atelier" class="cs-page-view" style="background: #0E0F12;">
+                                    <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #27C93F; margin-bottom: 8px;">// SOUVERAINETÉ ARTISANALE</div>
+                                    <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 8px;">L'Exigence des Essences Nobles</h4>
+                                    <p style="color: rgba(255,255,255,0.7); font-size: 0.84rem; line-height: 1.5; margin-bottom: 12px;">
+                                        Chaque planche est séchée en atmosphère contrôlée pendant 18 mois avant d'être usinée au dixième de millimètre. Assemblages traditionnels à queue d'aronde.
+                                    </p>
+                                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                        <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Chêne Français PEFC</span>
+                                        <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Noyer Massif</span>
+                                        <span class="cs-mock-badge-inline" style="background: rgba(255,255,255,0.08); color: #fff;">Finition Cire Végétale</span>
+                                    </div>
+                                </div>
+
+                                <!-- Vue 4 : Simulateur Devis Express -->
+                                <div id="vaneauView_calc" class="cs-page-view" style="background: #131418;">
+                                    <div class="cs-mock-calc">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: var(--ramp-yellow);">SIMULATEUR DE PROJET ATELIER</span>
+                                            <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">EN DIRECT</span>
+                                        </div>
+                                        <div class="cs-mock-calc-row">
+                                            <button type="button" class="cs-mock-calc-btn selected" onclick="setVaneauProject(this, 'Table à manger', '3 400 €')">Table à manger</button>
+                                            <button type="button" class="cs-mock-calc-btn" onclick="setVaneauProject(this, 'Bibliothèque murale', '5 800 €')">Bibliothèque</button>
+                                            <button type="button" class="cs-mock-calc-btn" onclick="setVaneauProject(this, 'Agencement complet', '12 500 €')">Agencement</button>
+                                        </div>
+                                        <div class="cs-mock-calc-res">
+                                            <div>
+                                                <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">ESTIMATION INDICATIVE :</div>
+                                                <div id="vaneauPriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #fff;">3 400 € HT</div>
+                                            </div>
+                                            <button type="button" class="cs-mockup-cta-btn" onclick="alert('Module de contact Atelier Vaneau : transmis avec succès.')">Transmettre l'étude</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cartouche Bas Ramp -->
+                            <div class="cs-cap">
+                                <div class="cs-cap__left">
+                                    <span class="cs-cap__dot"></span>
+                                    <span class="cs-cap__t">Atelier Vaneau — Maquette Navigable</span>
+                                </div>
+                                <span class="cs-cap__tag">⚡ Cliquez sur les onglets pour tester</span>
                             </div>
                         </div>
 
-                        <!-- Projet 02 : Apex Solutions -->
-                        <div class="cs-cell cs-cell--windowed reveal-on-scroll reveal-delay-2">
+                        <!-- Projet 02 : Apex Solutions (Maquette Navigable) -->
+                        <div class="cs-cell cs-cell--windowed reveal-on-scroll reveal-delay-2" id="mockupApex">
+                            <!-- Barre macOS avec URL dynamique et navigation -->
                             <div class="cs-window-bar">
-                                <div class="cs-dots">
-                                    <span class="cs-dot cs-dot--red"></span>
-                                    <span class="cs-dot cs-dot--yellow"></span>
-                                    <span class="cs-dot cs-dot--green"></span>
+                                <div class="cs-window-bar-left">
+                                    <div class="cs-dots">
+                                        <span class="cs-dot cs-dot--red"></span>
+                                        <span class="cs-dot cs-dot--yellow"></span>
+                                        <span class="cs-dot cs-dot--green"></span>
+                                    </div>
+                                    <div class="cs-nav-arrows" aria-hidden="true">
+                                        <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('apex', -1)" title="Page précédente">‹</button>
+                                        <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('apex', 1)" title="Page suivante">›</button>
+                                    </div>
                                 </div>
-                                <span class="cs-url-pill">apex-solutions.fr</span>
-                                <span class="cs-speed-pill">⚡ 0.31s</span>
+
+                                <div class="cs-url-bar">
+                                    <span class="cs-url-lock">🔒</span>
+                                    <span class="cs-url-text">apex-solutions.fr<span id="apexUrlPath" class="cs-url-path">/dashboard</span></span>
+                                </div>
+
+                                <span class="cs-speed-pill" id="apexSpeedBadge">⚡ 0.31s</span>
                             </div>
 
-                            <div class="cs-stage" style="background: radial-gradient(circle at 60% 40%, #101B17 0%, #0C0A08 100%);">
-                                <div class="cs-mock-nav">
-                                    <span style="color: #27C93F;">APEX SOLUTIONS</span>
-                                    <span>Logistique · Flotte · Webhooks</span>
-                                </div>
-                                <div class="cs-mock-body">
-                                    <div class="cs-mock-eyebrow" style="color: #27C93F;">[ TRANSPORT &amp; LOGISTIQUE INDUSTRIELLE ]</div>
-                                    <h3 class="cs-mock-title">L'Infrastructure Logistique d'Envergure</h3>
-                                    <p class="cs-mock-dek">Capture instantanée de devis B2B et synchronisation directe des leads par API.</p>
-                                </div>
-                                <div class="cs-cap">
-                                    <div class="cs-cap__left">
-                                        <span class="cs-cap__dot" style="background: #27C93F;"></span>
-                                        <span class="cs-cap__t">Apex Solutions — B2B Corporate</span>
+                            <!-- Viewport du mini-site navigable -->
+                            <div class="cs-viewport">
+                                <!-- Navigation interne du site Apex Solutions -->
+                                <nav class="cs-mockup-navbar">
+                                    <div class="cs-mockup-brand">
+                                        <span style="color: #27C93F;">●</span>
+                                        <span>APEX LOGISTICS</span>
                                     </div>
-                                    <span class="cs-cap__tag">Lead Sync CRM</span>
+                                    <ul class="cs-mockup-tabs">
+                                        <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('apex', 'dash', '/dashboard', this)">Dashboard</button></li>
+                                        <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('apex', 'fleet', '/flotte', this)">Flotte</button></li>
+                                        <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('apex', 'calc', '/cotation-express', this)">Cotation</button></li>
+                                        <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('apex', 'api', '/webhooks', this)">API Live</button></li>
+                                    </ul>
+                                </nav>
+
+                                <!-- Vue 1 : Dashboard Télémétrie -->
+                                <div id="apexView_dash" class="cs-page-view active" style="background: radial-gradient(circle at 60% 40%, #101B17 0%, #0C0A08 100%);">
+                                    <div class="cs-mock-hero">
+                                        <span class="cs-mock-badge-inline" style="background: rgba(39, 201, 63, 0.15); color: #27C93F;">[ TRANSPORT INDUSTRIEL &amp; FRET ]</span>
+                                        <h3 class="cs-mock-title">Supervision Logistique en Temps Réel</h3>
+                                        <p class="cs-mock-dek">Portail corporate B2B assurant la traçabilité continue des convois industriels et le dispatching automatique.</p>
+                                    </div>
+                                    <div class="cs-mock-kpi-bar">
+                                        <div>
+                                            <div class="cs-mock-kpi-val" style="color: #27C93F;">99.4%</div>
+                                            <div class="cs-mock-kpi-lbl">Ponctualité DDU</div>
+                                        </div>
+                                        <div>
+                                            <div class="cs-mock-kpi-val">142</div>
+                                            <div class="cs-mock-kpi-lbl">Camions en Transit</div>
+                                        </div>
+                                        <div>
+                                            <div class="cs-mock-kpi-val">0.31s</div>
+                                            <div class="cs-mock-kpi-lbl">API Latency</div>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <!-- Vue 2 : Flotte -->
+                                <div id="apexView_fleet" class="cs-page-view" style="background: #0E1210;">
+                                    <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #27C93F; margin-bottom: 8px;">// PARC ROULANT EURO 6 &amp; BIO-GNV</div>
+                                    <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 12px;">Unités de Fret Spécialisées</h4>
+                                    <div class="cs-mock-grid-cards">
+                                        <div class="cs-mock-card-item">
+                                            <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #1C3325, #0E1812);">44 TONNES</div>
+                                            <strong style="color: #fff; font-size: 0.8rem;">Tautliner Standard</strong>
+                                            <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">33 Palettes Européennes</span>
+                                        </div>
+                                        <div class="cs-mock-card-item">
+                                            <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #1A2E35, #0E181C);">FRIGORIFIQUE</div>
+                                            <strong style="color: #fff; font-size: 0.8rem;">Frigo Bi-température</strong>
+                                            <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">-25°C à +18°C Télémétré</span>
+                                        </div>
+                                        <div class="cs-mock-card-item">
+                                            <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #33271C, #18130E);">CONVOI</div>
+                                            <strong style="color: #fff; font-size: 0.8rem;">Plateau Extensible</strong>
+                                            <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Charges Lourdes &amp; Cuves</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vue 3 : Cotation Express -->
+                                <div id="apexView_calc" class="cs-page-view" style="background: #111413;">
+                                    <div class="cs-mock-calc">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #27C93F;">CALCULATEUR KILOMÉTRIQUE B2B</span>
+                                            <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">DISPATCH AUTO</span>
+                                        </div>
+                                        <div class="cs-mock-calc-row">
+                                            <button type="button" class="cs-mock-calc-btn selected" onclick="setApexRoute(this, 'Paris → Lyon (460 km)', '680 €')">Paris → Lyon</button>
+                                            <button type="button" class="cs-mock-calc-btn" onclick="setApexRoute(this, 'Lille → Marseille (980 km)', '1 340 €')">Lille → Marseille</button>
+                                            <button type="button" class="cs-mock-calc-btn" onclick="setApexRoute(this, 'Bordeaux → Francfort (1 120 km)', '1 690 €')">Bordeaux → Francfort</button>
+                                        </div>
+                                        <div class="cs-mock-calc-res">
+                                            <div>
+                                                <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">TARIF ESTIMÉ EN DIRECT :</div>
+                                                <div id="apexPriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #27C93F;">680 € HT</div>
+                                            </div>
+                                            <button type="button" class="cs-mockup-cta-btn" onclick="alert('Réservation Apex Logistics transmise aux dispatcheurs.')">Affréter le convoi</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vue 4 : API & Webhooks -->
+                                <div id="apexView_api" class="cs-page-view" style="background: #0D0F0E; font-family: var(--font-mono); font-size: 0.72rem;">
+                                    <div style="color: #27C93F; margin-bottom: 8px;">// WEBHOOK LOGS (STATUS 200 OK)</div>
+                                    <div style="background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; color: rgba(255,255,255,0.8); line-height: 1.6;">
+                                        <div><span style="color: #27C93F;">POST</span> /api/v1/shipments/create</div>
+                                        <div style="color: rgba(255,255,255,0.5);">{ "carrier": "APEX", "fleet_id": "TRK-842", "status": "IN_TRANSIT" }</div>
+                                        <div style="color: #27C93F; margin-top: 4px;">✔ Synchronisé en 12ms avec le CRM client</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cartouche Bas Ramp -->
+                            <div class="cs-cap">
+                                <div class="cs-cap__left">
+                                    <span class="cs-cap__dot" style="background: #27C93F;"></span>
+                                    <span class="cs-cap__t">Apex Solutions — Maquette Navigable</span>
+                                </div>
+                                <span class="cs-cap__tag">⚡ Cliquez sur les onglets pour tester</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Ligne 2 : Projet Panoramique Solo 16/9 (cs-grid__row--solo) -->
+                    <!-- Ligne 2 : Projet Panoramique Solo 16/9 (Cabinet Valmy) -->
                     <div class="cs-grid__row cs-grid__row--solo cs-grid__row--native-aspect">
-                        <!-- Projet 03 : Cabinet Valmy -->
-                        <div class="cs-cell cs-cell--windowed reveal-on-scroll reveal-delay-1">
+                        <!-- Projet 03 : Cabinet Valmy (Maquette Navigable Panoramique) -->
+                        <div class="cs-cell cs-cell--windowed reveal-on-scroll reveal-delay-1" id="mockupValmy">
+                            <!-- Barre macOS avec URL dynamique et navigation -->
                             <div class="cs-window-bar">
-                                <div class="cs-dots">
-                                    <span class="cs-dot cs-dot--red"></span>
-                                    <span class="cs-dot cs-dot--yellow"></span>
-                                    <span class="cs-dot cs-dot--green"></span>
+                                <div class="cs-window-bar-left">
+                                    <div class="cs-dots">
+                                        <span class="cs-dot cs-dot--red"></span>
+                                        <span class="cs-dot cs-dot--yellow"></span>
+                                        <span class="cs-dot cs-dot--green"></span>
+                                    </div>
+                                    <div class="cs-nav-arrows" aria-hidden="true">
+                                        <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('valmy', -1)" title="Page précédente">‹</button>
+                                        <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('valmy', 1)" title="Page suivante">›</button>
+                                    </div>
                                 </div>
-                                <span class="cs-url-pill">cabinet-valmy.com</span>
-                                <span class="cs-speed-pill">⚡ 0.26s</span>
+
+                                <div class="cs-url-bar" style="max-width: 480px;">
+                                    <span class="cs-url-lock">🔒</span>
+                                    <span class="cs-url-text">cabinet-valmy.com<span id="valmyUrlPath" class="cs-url-path">/mandats</span></span>
+                                </div>
+
+                                <span class="cs-speed-pill" id="valmySpeedBadge">⚡ 0.26s</span>
                             </div>
 
-                            <div class="cs-stage" style="background: radial-gradient(circle at 70% 30%, #201712 0%, #0C0A08 80%);">
-                                <div class="cs-mock-nav">
-                                    <span style="color: #F59E0B;">CABINET VALMY</span>
-                                    <span>Conseil M&amp;A · Cessions · Mandats Sécurisés</span>
-                                </div>
-                                <div class="cs-mock-body" style="max-width: 620px;">
-                                    <div class="cs-mock-eyebrow" style="color: #F59E0B;">[ CONSEIL STRATÉGIQUE &amp; FINANCE M&amp;A ]</div>
-                                    <h3 class="cs-mock-title" style="font-size: clamp(1.8rem, 3.4vw, 2.8rem);">L'Excellence Financière &amp; Souveraine</h3>
-                                    <p class="cs-mock-dek" style="max-width: 540px;">Une vitrine institutionnelle confidentielle et sobre, chargeant en moins de 280 millisecondes avec prise de rendez-vous chiffrée de bout en bout.</p>
-                                </div>
-                                <div class="cs-cap">
-                                    <div class="cs-cap__left">
-                                        <span class="cs-cap__dot" style="background: #F59E0B;"></span>
-                                        <span class="cs-cap__t">Cabinet Valmy — Cession &amp; Transmission d'Entreprises</span>
+                            <!-- Viewport du mini-site navigable -->
+                            <div class="cs-viewport">
+                                <!-- Navigation interne du site Cabinet Valmy -->
+                                <nav class="cs-mockup-navbar">
+                                    <div class="cs-mockup-brand">
+                                        <span style="color: #F59E0B;">✦</span>
+                                        <span>CABINET VALMY · CONSEIL EN CESSION M&amp;A</span>
                                     </div>
-                                    <span class="cs-cap__tag">Vitesse &lt; 0.26s</span>
+                                    <ul class="cs-mockup-tabs">
+                                        <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('valmy', 'deals', '/mandats', this)">Mandats Clôturés</button></li>
+                                        <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'method', '/methode', this)">Méthode Confidentielle</button></li>
+                                        <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'team', '/associes', this)">Associés</button></li>
+                                        <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'audit', '/audit-préalable', this)">Audit Confidentiel 0 €</button></li>
+                                    </ul>
+                                </nav>
+
+                                <!-- Vue 1 : Mandats M&A Clôturés -->
+                                <div id="valmyView_deals" class="cs-page-view active" style="background: radial-gradient(circle at 70% 30%, #201712 0%, #0C0A08 80%);">
+                                    <div class="cs-mock-hero" style="max-width: 720px;">
+                                        <span class="cs-mock-badge-inline" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">[ M&amp;A · CESSION &amp; TRANSMISSION D'ENTREPRISES ]</span>
+                                        <h3 class="cs-mock-title" style="font-size: clamp(1.8rem, 3.2vw, 2.6rem);">L'Excellence Financière &amp; Souveraine</h3>
+                                        <p class="cs-mock-dek" style="max-width: 620px;">Accompagnement exclusif de dirigeants et actionnaires fondateurs dans la transmission confidentielle de PME et ETI à forte rentabilité.</p>
+                                    </div>
+                                    <div class="cs-mock-grid-cards">
+                                        <div class="cs-mock-card-item">
+                                            <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #F59E0B;">CESSION 100% CAPITAL</div>
+                                            <strong style="color: #fff; font-size: 0.9rem;">Groupe Saas Fintech</strong>
+                                            <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff;">18.5 M€</div>
+                                            <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Repreneur : Fonds Européen</span>
+                                        </div>
+                                        <div class="cs-mock-card-item">
+                                            <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #F59E0B;">FUSION INDUSTRIELLE</div>
+                                            <strong style="color: #fff; font-size: 0.9rem;">Précision Mécanique</strong>
+                                            <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff;">29.0 M€</div>
+                                            <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Repreneur : Leader Français</span>
+                                        </div>
+                                        <div class="cs-mock-card-item">
+                                            <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #F59E0B;">LBO TRANSMISSION</div>
+                                            <strong style="color: #fff; font-size: 0.9rem;">Agro-alimentaire Bio</strong>
+                                            <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff;">14.2 M€</div>
+                                            <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Management Buy-In</span>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <!-- Vue 2 : Méthode -->
+                                <div id="valmyView_method" class="cs-page-view" style="background: #11100F;">
+                                    <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #F59E0B; margin-bottom: 8px;">// PROTOCOLE DE VALORISATION EN 4 ÉTAPES</div>
+                                    <h4 style="color: #fff; font-size: 1.25rem; margin-bottom: 12px;">Une Méthode Éprouvée Sans Fuite d'Information</h4>
+                                    <div class="cs-mock-grid-cards">
+                                        <div class="cs-mock-card-item">
+                                            <span style="color: #F59E0B; font-family: var(--font-mono); font-weight: 700;">Étape 01</span>
+                                            <strong style="color: #fff; font-size: 0.85rem;">Audit &amp; Normalisation EBITDA</strong>
+                                            <p style="color: rgba(255,255,255,0.6); font-size: 0.7rem; line-height: 1.4;">Retraitement précis de la rentabilité réelle.</p>
+                                        </div>
+                                        <div class="cs-mock-card-item">
+                                            <span style="color: #F59E0B; font-family: var(--font-mono); font-weight: 700;">Étape 02</span>
+                                            <strong style="color: #fff; font-size: 0.85rem;">Mémorandum d'Information</strong>
+                                            <p style="color: rgba(255,255,255,0.6); font-size: 0.7rem; line-height: 1.4;">Dossier d'investissement haute couture chiffré.</p>
+                                        </div>
+                                        <div class="cs-mock-card-item">
+                                            <span style="color: #F59E0B; font-family: var(--font-mono); font-weight: 700;">Étape 03</span>
+                                            <strong style="color: #fff; font-size: 0.85rem;">Enchères Compétitives</strong>
+                                            <p style="color: rgba(255,255,255,0.6); font-size: 0.7rem; line-height: 1.4;">Mise en concurrence d'acquéreurs qualifiés sous NDA.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vue 3 : Équipe -->
+                                <div id="valmyView_team" class="cs-page-view" style="background: #0F0E0D;">
+                                    <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #F59E0B; margin-bottom: 8px;">// SENIOR PARTNERS</div>
+                                    <h4 style="color: #fff; font-size: 1.25rem; margin-bottom: 14px;">Associés Dédiés à Votre Opération</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                        <div class="cs-mock-card-item" style="flex-direction: row; gap: 14px; align-items: center;">
+                                            <div style="width: 44px; height: 44px; border-radius: 50%; background: #261D15; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #F59E0B;">MB</div>
+                                            <div>
+                                                <strong style="color: #fff; font-size: 0.85rem;">Marc de Belleval</strong>
+                                                <div style="color: rgba(255,255,255,0.5); font-size: 0.7rem;">Ancien Banquier Lazard · 22 ans M&amp;A</div>
+                                            </div>
+                                        </div>
+                                        <div class="cs-mock-card-item" style="flex-direction: row; gap: 14px; align-items: center;">
+                                            <div style="width: 44px; height: 44px; border-radius: 50%; background: #261D15; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #F59E0B;">SC</div>
+                                            <div>
+                                                <strong style="color: #fff; font-size: 0.85rem;">Sophie Courcelle</strong>
+                                                <div style="color: rgba(255,255,255,0.5); font-size: 0.7rem;">Avocate Fiscaliste &amp; Structuration Patrimoniale</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vue 4 : Audit Confidentiel -->
+                                <div id="valmyView_audit" class="cs-page-view" style="background: #141210;">
+                                    <div class="cs-mock-calc" style="max-width: 680px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #F59E0B;">RÉSERVATION D'UN AUDIT STRATÉGIQUE PRÉALABLE</span>
+                                            <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">SECRET PROFESSIONNEL</span>
+                                        </div>
+                                        <p style="color: rgba(255,255,255,0.7); font-size: 0.8rem; line-height: 1.5; margin: 0;">
+                                            Échange direct de 45 minutes avec un associé pour évaluer la valorisation actuelle de votre entreprise sur le marché.
+                                        </p>
+                                        <div class="cs-mock-calc-res">
+                                            <span style="font-family: var(--font-mono); font-size: 0.85rem; color: #fff;">Honoraires de valorisation initiale : <strong>0 € Offert</strong></span>
+                                            <button type="button" class="cs-mockup-cta-btn" style="background: #F59E0B; color: #0C0A08;" onclick="alert('Demande d\'audit confidentiel transmise à l\'associé gérant.')">Planifier l'entretien</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cartouche Bas Ramp -->
+                            <div class="cs-cap">
+                                <div class="cs-cap__left">
+                                    <span class="cs-cap__dot" style="background: #F59E0B;"></span>
+                                    <span class="cs-cap__t">Cabinet Valmy — Maquette Navigable Panoramique</span>
+                                </div>
+                                <span class="cs-cap__tag">⚡ Cliquez sur les onglets pour explorer</span>
                             </div>
                         </div>
                     </div>

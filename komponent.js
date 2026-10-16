@@ -277,11 +277,115 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.transition = 'transform 0.4s ease';
       });
 
-      card.addEventListener('mouseenter', () => {
-        card.style.transition = 'none';
-      });
     });
   }
 });
+
+// 9. Moteur de Navigation des Maquettes Interactives de Sites Web
+const mockupState = {
+  vaneau: {
+    views: ['home', 'creations', 'atelier', 'calc'],
+    paths: ['/accueil', '/creations', '/savoir-faire', '/devis-express'],
+    current: 0
+  },
+  apex: {
+    views: ['dash', 'fleet', 'calc', 'api'],
+    paths: ['/dashboard', '/flotte', '/cotation-express', '/webhooks'],
+    current: 0
+  },
+  valmy: {
+    views: ['deals', 'method', 'team', 'audit'],
+    paths: ['/mandats', '/methode', '/associes', '/audit-préalable'],
+    current: 0
+  }
+};
+
+function switchMockupPage(site, viewKey, path, btnElement) {
+  const container = document.getElementById(site === 'vaneau' ? 'mockupVaneau' : (site === 'apex' ? 'mockupApex' : 'mockupValmy'));
+  if (!container) return;
+
+  // Mise à jour de l'état
+  if (mockupState[site]) {
+    const idx = mockupState[site].views.indexOf(viewKey);
+    if (idx !== -1) mockupState[site].current = idx;
+  }
+
+  // Activer l'onglet cliqué
+  const tabs = container.querySelectorAll('.cs-mockup-tab-btn');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  if (btnElement) {
+    btnElement.classList.add('active');
+  }
+
+  // Basculer la vue visible
+  const views = container.querySelectorAll('.cs-page-view');
+  views.forEach(v => v.classList.remove('active'));
+  const targetView = document.getElementById(`${site}View_${viewKey}`);
+  if (targetView) {
+    targetView.classList.add('active');
+  }
+
+  // Mettre à jour l'URL path
+  const urlPath = document.getElementById(`${site}UrlPath`);
+  if (urlPath) {
+    urlPath.textContent = path;
+  }
+
+  // Micro-flash sur le badge de vitesse (< 0.28s)
+  const speedBadge = document.getElementById(`${site}SpeedBadge`);
+  if (speedBadge) {
+    speedBadge.style.opacity = '0.3';
+    setTimeout(() => {
+      speedBadge.style.opacity = '1';
+    }, 120);
+  }
+
+  // Scroll to top of viewport
+  const viewport = container.querySelector('.cs-viewport');
+  if (viewport) {
+    viewport.scrollTop = 0;
+  }
+}
+
+function navigateMockup(site, direction) {
+  const state = mockupState[site];
+  if (!state) return;
+
+  state.current = (state.current + direction + state.views.length) % state.views.length;
+  const viewKey = state.views[state.current];
+  const path = state.paths[state.current];
+
+  const container = document.getElementById(site === 'vaneau' ? 'mockupVaneau' : (site === 'apex' ? 'mockupApex' : 'mockupValmy'));
+  if (!container) return;
+
+  const tabs = container.querySelectorAll('.cs-mockup-tab-btn');
+  const targetTab = tabs[state.current];
+  switchMockupPage(site, viewKey, path, targetTab);
+}
+
+// Interactions des simulateurs intégrés
+function setVaneauProject(btn, name, price) {
+  const parent = btn.closest('.cs-mock-calc-row');
+  if (parent) {
+    parent.querySelectorAll('.cs-mock-calc-btn').forEach(b => b.classList.remove('selected'));
+  }
+  btn.classList.add('selected');
+  const priceDisplay = document.getElementById('vaneauPriceDisplay');
+  if (priceDisplay) {
+    priceDisplay.textContent = `${price} HT`;
+  }
+}
+
+function setApexRoute(btn, route, price) {
+  const parent = btn.closest('.cs-mock-calc-row');
+  if (parent) {
+    parent.querySelectorAll('.cs-mock-calc-btn').forEach(b => b.classList.remove('selected'));
+  }
+  btn.classList.add('selected');
+  const priceDisplay = document.getElementById('apexPriceDisplay');
+  if (priceDisplay) {
+    priceDisplay.textContent = `${price} HT`;
+  }
+}
 
 

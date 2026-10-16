@@ -899,16 +899,32 @@ p.lead {
     0 28px 64px -12px rgba(12, 10, 8, 0.2);
 }
 
-/* Barre de navigation macOS intégrée (Browser Header) */
+/* ==========================================================================
+   Maquettes de Sites Web Navigables Élite (Interactive Web Mockups)
+   ========================================================================== */
+.cs-cell--windowed {
+  min-height: clamp(480px, 62vh, 600px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Barre de navigation macOS intégrée (Browser Header Pro) */
 .cs-window-bar {
-  background: #18191E;
-  padding: 12px 18px;
+  background: #15161A;
+  padding: 10px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
-  z-index: 5;
+  z-index: 10;
+  gap: 12px;
+}
+
+.cs-window-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .cs-dots {
@@ -922,21 +938,79 @@ p.lead {
   height: 10px;
   border-radius: 50%;
   display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cs-dot:hover {
+  transform: scale(1.15);
 }
 
 .cs-dot--red { background: #FF5F56; }
 .cs-dot--yellow { background: #FFBD2E; }
 .cs-dot--green { background: #27C93F; }
 
-.cs-url-pill {
-  background: rgba(0, 0, 0, 0.4);
-  color: rgba(255, 255, 255, 0.72);
+.cs-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.cs-nav-arrow-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+.cs-nav-arrow-btn:hover {
+  color: #FFFFFF;
+}
+
+/* Barre d'adresse avec cadenas et URL dynamique */
+.cs-url-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-pill);
+  padding: 5px 16px;
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  padding: 4px 16px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
   letter-spacing: 0.02em;
+  flex: 1;
+  max-width: 380px;
+  justify-content: center;
+  transition: border-color 0.2s ease;
+}
+
+.cs-url-bar:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cs-url-lock {
+  color: #27C93F;
+  display: flex;
+  align-items: center;
+}
+
+.cs-url-text {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-url-path {
+  color: var(--ramp-yellow);
+  transition: all 0.2s ease;
 }
 
 .cs-speed-pill {
@@ -946,87 +1020,279 @@ p.lead {
   color: #27C93F;
   background: rgba(39, 201, 63, 0.14);
   border: 1px solid rgba(39, 201, 63, 0.28);
-  padding: 3px 10px;
+  padding: 4px 10px;
   border-radius: var(--radius-pill);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-/* Corps d'affichage immersif (Visual Stage) */
-.cs-stage {
+/* Viewport du mini-site navigable (Scrollable Mockup Viewport) */
+.cs-viewport {
   flex: 1;
   position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: clamp(380px, 52vh, 520px);
+  scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(20px, 3vw, 36px);
-  overflow: hidden;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #0C0A08;
 }
 
-.cs-cell:hover .cs-stage {
-  transform: scale(1.02);
+.cs-viewport::-webkit-scrollbar {
+  width: 5px;
 }
 
-.cs-mock-nav {
+.cs-viewport::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.cs-viewport::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.cs-viewport::-webkit-scrollbar-thumb:hover {
+  background: var(--ramp-yellow);
+}
+
+/* Barre de navigation interne du site réalisé */
+.cs-mockup-navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.6);
-  padding-bottom: 12px;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: rgba(18, 19, 24, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  position: relative;
-  z-index: 2;
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  gap: 12px;
 }
 
-.cs-mock-body {
-  position: relative;
-  z-index: 2;
-  margin: auto 0;
-  color: #FFFFFF;
-}
-
-.cs-mock-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+.cs-mockup-brand {
+  font-family: var(--font-heading);
   font-weight: 700;
+  font-size: 0.82rem;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.cs-mock-title {
-  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+.cs-mockup-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cs-mockup-tab-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.cs-mockup-tab-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cs-mockup-tab-btn.active {
+  color: #0C0A08;
+  background: var(--ramp-yellow);
   font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(238, 248, 90, 0.3);
+}
+
+.cs-mockup-cta-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.cs-mockup-cta-btn:hover {
+  background: #FFFFFF;
+  color: #0C0A08;
+}
+
+/* Vues de pages commutables dans le mini-site */
+.cs-page-view {
+  display: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 24px 28px;
+  flex: 1;
+}
+
+.cs-page-view.active {
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Styles des cartes et composants internes aux maquettes */
+.cs-mock-hero {
+  margin-bottom: 20px;
+}
+
+.cs-mock-badge-inline {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+
+.cs-mock-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.cs-mock-card-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.cs-mock-card-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.cs-mock-card-thumb {
+  height: 68px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 4px;
+}
+
+.cs-mock-kpi-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 12px;
+}
+
+.cs-mock-kpi-val {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
   color: #FFFFFF;
 }
 
-.cs-mock-dek {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.7);
-  max-width: 420px;
-  line-height: 1.5;
+.cs-mock-kpi-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+/* Simulateur interactif de devis dans Atelier Vaneau */
+.cs-mock-calc {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-mock-calc-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cs-mock-calc-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cs-mock-calc-btn.selected {
+  background: var(--ramp-yellow);
+  color: #0C0A08;
+  font-weight: 700;
+  border-color: var(--ramp-yellow);
+}
+
+.cs-mock-calc-res {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Cartouche Flottant Bas Ramp (cs-cap) */
 .cs-cap {
   position: relative;
-  z-index: 4;
+  z-index: 10;
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(12, 10, 8, 0.1);
-  border-radius: var(--radius-pill);
-  padding: 10px 18px;
+  border-top: 1px solid rgba(12, 10, 8, 0.1);
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   margin-top: auto;
 }
 
