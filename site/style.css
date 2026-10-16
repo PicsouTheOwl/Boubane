@@ -2176,13 +2176,24 @@ body.mockup-modal-open .hero-card-slide.active {
 .cs-device-btn {
   background: none;
   border: none;
-  padding: 3px 6px;
+  padding: 4px 7px;
   border-radius: var(--radius-pill);
   cursor: pointer;
   font-size: 0.72rem;
-  opacity: 0.6;
+  opacity: 0.7;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-device-icon {
+  display: inline-block;
+  vertical-align: middle;
+  stroke: rgba(255, 255, 255, 0.65);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
 }
 
 .cs-device-btn:hover {
@@ -2190,10 +2201,19 @@ body.mockup-modal-open .hero-card-slide.active {
   background: rgba(255, 255, 255, 0.12);
 }
 
+.cs-device-btn:hover .cs-device-icon {
+  stroke: #FFFFFF;
+  transform: scale(1.1);
+}
+
 .cs-device-btn.active {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cs-device-btn.active .cs-device-icon {
+  stroke: #FFFFFF;
 }
 
 /* ==========================================================================
@@ -2338,8 +2358,25 @@ body.mockup-modal-open .hero-card-slide.active {
 
 .cs-url-lock {
   color: #27C93F;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.cs-url-lock-svg {
+  display: inline-block;
+  vertical-align: middle;
+  stroke: #27C93F;
+  filter: drop-shadow(0 0 4px rgba(39, 201, 63, 0.45));
+}
+
+.cs-icon-svg {
+  display: inline-block;
+  vertical-align: middle;
+  stroke: currentColor;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s ease;
 }
 
 .cs-url-text {
@@ -2355,12 +2392,15 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 .cs-url-ext-link {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.45);
   text-decoration: none;
   font-size: 0.82rem;
-  padding: 0 4px;
+  padding: 3px 5px;
   line-height: 1;
   border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s ease;
 }
 
@@ -2417,6 +2457,10 @@ body.mockup-modal-open .hero-card-slide.active {
   box-shadow: 0 4px 12px rgba(238, 248, 90, 0.3);
 }
 
+.cs-btn-expand-win:hover .cs-icon-svg {
+  transform: scale(1.12);
+}
+
 .cs-btn-expand-icon {
   font-size: 0.85rem;
   line-height: 1;
@@ -2446,6 +2490,10 @@ body.mockup-modal-open .hero-card-slide.active {
   box-shadow: 0 4px 14px rgba(255, 95, 86, 0.4);
 }
 
+.cs-btn-close-win:hover .cs-icon-svg {
+  transform: rotate(90deg);
+}
+
 .cs-cell--windowed.is-fullscreen .cs-btn-expand-win {
   display: none !important;
 }
@@ -2467,7 +2515,7 @@ body.mockup-modal-open .hero-card-slide.active {
   border: none;
   color: rgba(255, 255, 255, 0.45);
   cursor: pointer;
-  padding: 2px 5px;
+  padding: 3px 5px;
   border-radius: 4px;
   font-size: 0.72rem;
   line-height: 1;
