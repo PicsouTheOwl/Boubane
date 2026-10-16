@@ -1455,6 +1455,7 @@ body.mockup-modal-open .hero-card-slide {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1;
 }
 
 .cs-dots {
@@ -1537,8 +1538,7 @@ body.mockup-modal-open .hero-card-slide {
   font-size: 0.74rem;
   color: rgba(255, 255, 255, 0.85);
   letter-spacing: 0.02em;
-  flex: 1;
-  max-width: 440px;
+  flex: 0 1 440px;
   justify-content: center;
   transition: border-color 0.2s ease;
 }
@@ -1550,7 +1550,9 @@ body.mockup-modal-open .hero-card-slide {
 .cs-window-bar-right {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 10px;
+  flex: 1;
 }
 
 /* ==========================================================================
