@@ -413,12 +413,12 @@ p.lead {
    ========================================================================== */
 .ssg-hero {
   position: relative;
-  min-height: auto;
+  min-height: calc(100vh - 72px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(3rem, 6vh, 5.5rem) var(--spacing-lg) clamp(3.5rem, 7vh, 6rem);
+  padding: clamp(2rem, 4vh, 3.2rem) var(--spacing-lg) clamp(2rem, 4.5vh, 3.8rem);
   text-align: center;
   overflow: hidden;
   background: radial-gradient(ellipse 70% 60% at 50% 25%, rgba(238, 248, 90, 0.09) 0%, rgba(250, 248, 245, 0) 70%);
@@ -447,7 +447,7 @@ p.lead {
 .hero-split-grid {
   display: grid;
   grid-template-columns: 1fr 1.25fr;
-  gap: clamp(24px, 3.5vw, 44px);
+  gap: clamp(24px, 3.2vw, 44px);
   align-items: center;
   width: 100%;
   max-width: 1480px;
@@ -511,7 +511,7 @@ p.lead {
 
 .hero-split-col--mockup .cs-cell--windowed {
   min-height: 520px;
-  height: clamp(500px, 64vh, 580px);
+  height: clamp(520px, 64vh, 600px);
 }
 
 /* Badge Éditorial Ramp [ 01 ] */
@@ -1407,34 +1407,35 @@ body.mockup-modal-open .hero-card-slide {
   color: #FFFFFF;
 }
 
-/* Barre de navigation macOS intégrée (Browser Header Pro) */
-.cs-window-bar {
-  background: #15161A;
-  padding: 10px 18px;
+/* ==========================================================================
+   Barre de Fenêtre macOS Élite à Double Rangée (Onglets Superposés + Navigation)
+   ========================================================================== */
+
+/* Rangée 1 : Header d'Onglets Superposés (Safari / Arc Browser Style) */
+.cs-window-tabs-bar {
+  background: #111015;
+  padding: 8px 16px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   position: relative;
-  z-index: 10;
+  z-index: 12;
   gap: 12px;
+  overflow: hidden;
 }
 
-.cs-window-bar-left {
+.cs-window-dots-box {
   display: flex;
   align-items: center;
-  gap: 14px;
-}
-
-.cs-dots {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  gap: 7px;
+  padding-bottom: 8px;
+  flex-shrink: 0;
 }
 
 .cs-dot {
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -1444,26 +1445,371 @@ body.mockup-modal-open .hero-card-slide {
   color: transparent;
   line-height: 1;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease, color 0.15s ease;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, filter 0.22s ease;
   user-select: none;
+  position: relative;
 }
 
 .cs-dot:hover {
+  transform: scale(1.18);
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.cs-dot--red { 
+  background: #FF5F56; 
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+.cs-dot--red::after { content: '×'; }
+
+/* Pastille Orange : Animation spectaculaire demandée par le client */
+.cs-dot--orange,
+.cs-dot--yellow { 
+  background: #FFBD2E;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  animation: csOrangeBreath 2.6s infinite ease-in-out;
+}
+.cs-dot--orange::after,
+.cs-dot--yellow::after { content: '−'; }
+
+.cs-dot--orange:hover,
+.cs-dot--yellow:hover {
+  transform: scale(1.3) !important;
+  background: #FF9F0A !important;
+  box-shadow: 0 0 12px #FFBD2E, 0 0 24px rgba(237, 91, 4, 0.8) !important;
+  filter: brightness(1.15);
+}
+
+@keyframes csOrangeBreath {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 189, 46, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 8px 2px rgba(255, 189, 46, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.cs-dot--green { 
+  background: #27C93F; 
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+.cs-dot--green::after { content: '+'; }
+
+/* Rangée d'Onglets Superposés (Stacked Tabs Shelf) */
+.cs-tabs-shelf {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  flex: 1;
+  max-width: 760px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 6px;
+}
+
+.cs-tabs-shelf::-webkit-scrollbar {
+  display: none;
+}
+
+/* Onglet Individuel Superposé */
+.cs-win-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px 7px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: none;
+  border-radius: 9px 9px 0 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+  max-width: 170px;
+  min-width: 120px;
+}
+
+.cs-win-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+/* Onglet Actif au Premier Plan */
+.cs-win-tab.active {
+  background: #181920;
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.45);
+  font-weight: 600;
+  z-index: 2;
+}
+
+.cs-win-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #181920;
+}
+
+/* Logo officiel miniature dans l'onglet */
+.cs-win-tab-fav {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 2px;
+}
+
+.cs-win-tab-fav--achille {
+  width: 16px;
+  height: 12px;
+}
+
+.cs-win-tab-seal {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F59E0B, #B45309);
+  color: #0C0A08;
+  font-family: var(--font-heading);
+  font-size: 8px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cs-win-tab-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* Bouton de Fermeture / Mise de côté sur l'onglet */
+.cs-win-tab-close {
+  background: none;
+  border: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  margin-left: 2px;
+  padding: 0;
+}
+
+.cs-win-tab:hover .cs-win-tab-close {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cs-win-tab-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
   transform: scale(1.15);
 }
 
-.cs-dots:hover .cs-dot {
-  color: rgba(0, 0, 0, 0.65);
+/* Actions à droite du header d'onglets */
+.cs-window-tabs-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 6px;
+  flex-shrink: 0;
 }
 
-.cs-dot--red { background: #FF5F56; }
-.cs-dot--red::after { content: '×'; }
+.cs-btn-restore-tabs {
+  background: rgba(255, 189, 46, 0.12);
+  border: 1px solid rgba(255, 189, 46, 0.35);
+  color: #FFBD2E;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
 
-.cs-dot--yellow { background: #FFBD2E; }
-.cs-dot--yellow::after { content: '−'; }
+.cs-btn-restore-tabs:hover {
+  background: rgba(255, 189, 46, 0.22);
+  transform: translateY(-1px);
+}
 
-.cs-dot--green { background: #27C93F; }
-.cs-dot--green::after { content: '+'; }
+/* Rangée 2 : Barre d'outils et d'adresse URL */
+.cs-window-nav-bar {
+  background: #181920;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 10;
+  gap: 12px;
+}
+
+/* Rétro-compatibilité pour l'ancien conteneur */
+.cs-window-bar {
+  display: contents;
+}
+
+/* ==========================================================================
+   Animation de Mise de Côté Déclenchée par la Pastille Orange
+   ========================================================================== */
+@keyframes csOrangeSlideAside {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  30% {
+    transform: translate3d(24px, -12px, 0) scale(0.97) rotate(1deg);
+    filter: brightness(1.25) drop-shadow(0 0 25px rgba(255, 189, 46, 0.7));
+  }
+  100% {
+    transform: translate3d(140px, 80px, 0) scale(0.72) rotate(5deg);
+    opacity: 0;
+    filter: brightness(0.6) blur(4px);
+  }
+}
+
+.cs-cell--windowed.animating-minimize {
+  animation: csOrangeSlideAside 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+  pointer-events: none;
+}
+
+/* Onde de choc lumineuse orange */
+.cs-orange-shockwave {
+  position: absolute;
+  top: 14px;
+  left: 28px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 189, 46, 0.9) 0%, rgba(237, 91, 4, 0) 75%);
+  pointer-events: none;
+  z-index: 99;
+  animation: csShockwaveExpand 0.45s ease-out forwards;
+}
+
+@keyframes csShockwaveExpand {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(18);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Dock des Sites Web Mis de Côté (Pill Dock)
+   ========================================================================== */
+.cs-minimized-dock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(18, 19, 24, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 189, 46, 0.25);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  margin-top: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  animation: csDockSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes csDockSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cs-dock-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #FFBD2E;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cs-dock-items {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cs-dock-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cs-dock-pill:hover {
+  background: rgba(255, 189, 46, 0.2);
+  border-color: #FFBD2E;
+  transform: translateY(-1px);
+}
+
+.cs-dock-pill-img {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+}
+
+.cs-dock-restore-all {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.cs-dock-restore-all:hover {
+  color: #FFBD2E;
+  text-decoration: underline;
+}
 
 /* Sélecteur d'appareil interactif (Desktop / Tablette / Mobile) */
 .cs-device-switch {
@@ -2183,13 +2529,62 @@ body.mockup-modal-open .hero-card-slide {
 
 .cs-mockup-brand {
   font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
-  color: #FFFFFF;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.cs-mockup-brand-img {
+  height: 24px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+  flex-shrink: 0;
+}
+
+.cs-mockup-brand-img--achille {
+  height: 22px;
+  max-width: 130px;
+}
+
+.cs-valmy-gold-seal {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F59E0B, #B45309);
+  color: #0C0A08;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.cs-mockup-brand-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.15;
+}
+
+.cs-mockup-brand-name {
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+}
+
+.cs-mockup-brand-sub {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
 }
 
 .cs-mockup-tabs {

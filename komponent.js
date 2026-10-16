@@ -669,25 +669,219 @@ let isHeroInteracting = false;
 
 const heroSiteMetadata = [
   {
+    key: "astra",
+    name: "Astravacances.fr",
+    badge: "Tourisme",
+    logo: "assets/astra-logo.png",
     kpi: "⚡ Vitesse : 0.27s · PageSpeed 100/100",
     desc: "Astravacances.fr — Plateforme d'audit et gestion opérationnelle pour campings et résidences avec simulateur de gain d'EBITDA."
   },
   {
+    key: "achille",
+    name: "Achille.ai",
+    badge: "IA SaaS",
+    logo: "assets/achille-logo.png",
     kpi: "⚡ Vitesse : 0.24s · IA 18ms",
     desc: "Achille.ai — Support client e-commerce & SaaS AI-first automatisant 50% des tickets avec synchronisation Shopify et Gorgias."
   },
   {
+    key: "valmy",
+    name: "Cabinet Valmy",
+    badge: "M&A",
+    logo: null,
+    seal: "V",
     kpi: "⚡ Vitesse : 0.26s · Audit 0 €",
     desc: "Cabinet Valmy — Barreau d'affaires M&A, transmission d'entreprises confidentielle et simulateur d'audit préalable."
   },
   {
+    key: "studio",
+    name: "Studio",
+    badge: "Carte 3D",
+    logo: "assets/boubane-logo.png",
     kpi: "⚡ Vitesse < 0.3s · Carte Membre",
     desc: "Boubane Studio — Passeport digital haute autorité avec puce dorée gravée, effet gyroscopique 3D et zéro frais d'agence."
   }
 ];
 
+// État des onglets mis de côté (Dock)
+let minimizedTabs = new Set();
+
+// Déclenchement de l'animation signature sur la pastille Orange (Mettre de côté)
+function minimizeMockupAnimated(targetIndex, event) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  const idx = (typeof targetIndex === 'number') ? targetIndex : currentHeroCardIndex;
+  const siteData = heroSiteMetadata[idx];
+  const activeSlide = document.getElementById(`heroSlide${idx}`) || document.querySelector('.hero-card-slide.active');
+
+  // Si la fenêtre est en plein écran, fermer d'abord le mode plein écran
+  if (activeFullscreenSite) {
+    closeFullscreenMockup();
+  }
+
+  if (activeSlide) {
+    const windowCell = activeSlide.querySelector('.cs-cell--windowed') || activeSlide;
+
+    // Déclencher une onde de choc lumineuse orange
+    const orangeDot = windowCell.querySelector('.cs-dot--orange, .cs-dot--yellow');
+    if (orangeDot) {
+      const shockwave = document.createElement('div');
+      shockwave.className = 'cs-orange-shockwave';
+      orangeDot.appendChild(shockwave);
+      setTimeout(() => shockwave.remove(), 500);
+    }
+
+    // Animation 3D de glissement et retrait sur le côté
+    windowCell.classList.add('animating-minimize');
+
+    setTimeout(() => {
+      windowCell.classList.remove('animating-minimize');
+      setTabMinimized(idx, true);
+    }, 360);
+  } else {
+    setTabMinimized(idx, true);
+  }
+
+  showBoubaneToast(`⚡ ${siteData?.name || 'Site'} mis de côté · Retrouvez-le dans le dock ci-dessous`);
+}
+
+// Fermeture de l'onglet actif (bouton rouge ou raccourci)
+function closeActiveTabAnimated(event) {
+  minimizeMockupAnimated(currentHeroCardIndex, event);
+}
+
+// Mise en état "Mis de côté" ou "Restauré"
+function setTabMinimized(index, isMinimized) {
+  if (isMinimized) {
+    minimizedTabs.add(index);
+  } else {
+    minimizedTabs.delete(index);
+  }
+
+  // Mettre à jour l'affichage des onglets superposés et du dock
+  updateTabsDisplay();
+  renderMinimizedDock();
+
+  // Si on a minimisé l'onglet actif, basculer vers le premier onglet encore disponible
+  if (isMinimized && currentHeroCardIndex === index) {
+    const total = heroSiteMetadata.length;
+    let nextIndex = -1;
+    for (let offset = 1; offset < total; offset++) {
+      const candidate = (index + offset) % total;
+      if (!minimizedTabs.has(candidate)) {
+        nextIndex = candidate;
+        break;
+      }
+    }
+
+    if (nextIndex !== -1) {
+      selectHeroCard(nextIndex);
+    } else {
+      // Tous les onglets sont mis de côté : afficher l'état vide stylé
+      const slides = document.querySelectorAll('.hero-card-slide');
+      slides.forEach(s => s.classList.remove('active'));
+    }
+  }
+}
+
+// Restaurer un onglet précis
+function restoreTab(index) {
+  minimizedTabs.delete(index);
+  updateTabsDisplay();
+  renderMinimizedDock();
+  selectHeroCard(index);
+
+  const siteData = heroSiteMetadata[index];
+  showBoubaneToast(`✦ ${siteData?.name || 'Site'} restauré au premier plan`);
+}
+
+// Restaurer tous les onglets d'un coup
+function restoreAllTabs() {
+  minimizedTabs.clear();
+  updateTabsDisplay();
+  renderMinimizedDock();
+  selectHeroCard(0);
+  showBoubaneToast('✦ Tous les sites web ont été restaurés');
+}
+
+// Mise à jour visuelle des onglets superposés dans toutes les fenêtres
+function updateTabsDisplay() {
+  heroSiteMetadata.forEach((data, i) => {
+    const isMinimized = minimizedTabs.has(i);
+
+    // Mettre à jour les onglets superposés
+    const allWinTabs = document.querySelectorAll(`.cs-win-tab[data-tab-index="${i}"], #winTab_${i}`);
+    allWinTabs.forEach(tab => {
+      tab.style.display = isMinimized ? 'none' : 'inline-flex';
+      tab.classList.toggle('active', i === currentHeroCardIndex && !isMinimized);
+    });
+
+    // Mettre à jour les pills dans le texte à gauche
+    const pill = document.getElementById(`heroTab${i}`);
+    if (pill) {
+      pill.classList.toggle('is-minimized', isMinimized);
+      if (isMinimized) {
+        pill.setAttribute('title', `${data.name} (Mis de côté - Cliquez pour rouvrir)`);
+      }
+    }
+  });
+
+  // Bouton "Restaurer" dans l'en-tête de fenêtre
+  const restoreBtns = document.querySelectorAll('.cs-btn-restore-tabs');
+  restoreBtns.forEach(btn => {
+    btn.style.display = minimizedTabs.size > 0 ? 'inline-flex' : 'none';
+    btn.textContent = `↺ Restaurer (${minimizedTabs.size})`;
+  });
+}
+
+// Rendu du Dock miniature des onglets mis de côté
+function renderMinimizedDock() {
+  const dock = document.getElementById('heroMinimizedDock');
+  const dockItems = document.getElementById('heroDockItems');
+  if (!dock || !dockItems) return;
+
+  if (minimizedTabs.size === 0) {
+    dock.style.display = 'none';
+    dockItems.innerHTML = '';
+    return;
+  }
+
+  dock.style.display = 'flex';
+  dockItems.innerHTML = '';
+
+  minimizedTabs.forEach(idx => {
+    const site = heroSiteMetadata[idx];
+    if (!site) return;
+
+    const pill = document.createElement('button');
+    pill.type = 'button';
+    pill.className = 'cs-dock-pill';
+    pill.title = `Restaurer ${site.name}`;
+    pill.onclick = () => restoreTab(idx);
+
+    let iconHtml = '';
+    if (site.logo) {
+      iconHtml = `<img src="${site.logo}" alt="" class="cs-dock-pill-img">`;
+    } else if (site.seal) {
+      iconHtml = `<span class="cs-win-tab-seal" style="width:12px;height:12px;font-size:7px;">${site.seal}</span>`;
+    }
+
+    pill.innerHTML = `${iconHtml} <span>${site.name}</span> <span style="color:#FFBD2E; font-size:11px;">+</span>`;
+    dockItems.appendChild(pill);
+  });
+}
+
 function selectHeroCard(index) {
-  // Si une fenêtre est déjà dans le portail plein écran, basculer proprement vers le nouveau site
+  // Si l'onglet demandé était minimisé, le restaurer d'office
+  if (minimizedTabs.has(index)) {
+    minimizedTabs.delete(index);
+    renderMinimizedDock();
+  }
+
+  // Si une fenêtre est déjà en plein écran, basculer proprement vers le nouveau site
   if (activeFullscreenSite) {
     const sites = ['astra', 'achille', 'valmy'];
     if (sites[index]) {
@@ -713,6 +907,9 @@ function selectHeroCard(index) {
     pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
   });
 
+  // Mettre à jour les onglets superposés
+  updateTabsDisplay();
+
   const metaKpi = document.getElementById('heroMetaKpi');
   const metaDesc = document.getElementById('heroMetaDesc');
   if (metaKpi && metaDesc && heroSiteMetadata[currentHeroCardIndex]) {
@@ -722,7 +919,15 @@ function selectHeroCard(index) {
 }
 
 function cycleHeroCard(direction) {
-  selectHeroCard(currentHeroCardIndex + direction);
+  const total = heroSiteMetadata.length;
+  // Trouver le prochain onglet non minimisé
+  for (let offset = 1; offset <= total; offset++) {
+    const nextIdx = (currentHeroCardIndex + direction * offset + total) % total;
+    if (!minimizedTabs.has(nextIdx)) {
+      selectHeroCard(nextIdx);
+      return;
+    }
+  }
 }
 
 function openHeroProject(index, autoExpand = false) {
