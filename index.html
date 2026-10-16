@@ -206,79 +206,78 @@
             <!-- Filigrane monumental d'arrière-plan signature Ramp -->
             <div class="card-marquee__title" aria-hidden="true">boubane.studio</div>
 
-            <div class="ssg-hero-content">
-                <div class="ssg-eyebrow reveal-on-scroll">
-                    <span class="ssg-eyebrow-num">[ 01 ]</span>
-                    <span>STUDIO D'ARTISANAT WEB SUR-MESURE</span>
-                </div>
+            <!-- Hero Split Grid : Texte d'Accroche + Vitrine Navigable au même niveau -->
+            <div class="hero-split-grid">
+                <!-- Colonne Gauche : Texte de Présentation, CTA & Pills -->
+                <div class="hero-split-col hero-split-col--text">
+                    <div class="ssg-eyebrow">
+                        <span class="ssg-eyebrow-num">[ 01 ]</span>
+                        <span>STUDIO D'ARTISANAT WEB SUR-MESURE</span>
+                    </div>
 
-                <h1 class="reveal-on-scroll reveal-delay-1">
-                    Des vitrines d'exception.<br>
-                    Sans agence. Sans compromis<span class="dot-accent">.</span>
-                </h1>
+                    <h1 class="hero-split-title">
+                        Des vitrines d'exception.<br>
+                        Sans agence. Sans compromis<span class="dot-accent">.</span>
+                    </h1>
 
-                <p class="lead reveal-on-scroll reveal-delay-2">
-                    Je conçois et développe des vitrines sur-mesure d'une vitesse et d'une finesse graphique rares. <strong>100% de la conception et du code sont offerts à mes frais</strong> : vous ne réglez que votre hébergement direct. Zéro frais d'agence, zéro abonnement masqué, souveraineté totale.
-                </p>
+                    <p class="hero-split-lead">
+                        Je conçois et développe des vitrines sur-mesure d'une vitesse et d'une finesse graphique rares. <strong>100% de la conception et du code sont offerts à mes frais</strong> : vous ne réglez que votre hébergement direct. Zéro frais d'agence, zéro abonnement masqué, souveraineté totale.
+                    </p>
 
-                <!-- Actions Ramp CTA -->
-                <div class="ssg-hero-actions reveal-on-scroll reveal-delay-3">
-                    <a href="/commander" class="btn-ramp-cta" aria-label="Commander mon site offert (0 €)">
-                        <span>Commander mon site offert (0 €)</span>
-                        <span class="btn-arrow-double" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    <!-- Actions Ramp CTA -->
+                    <div class="hero-split-actions">
+                        <a href="/commander" class="btn-ramp-cta" aria-label="Commander mon site offert (0 €)">
+                            <span>Commander mon site offert (0 €)</span>
+                            <span class="btn-arrow-double" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                            </span>
+                        </a>
+                        <span class="hero-split-speed-pill">
+                            ⚡ PageSpeed 100/100 · &lt; 0.3s
                         </span>
-                    </a>
-                    <a href="#heroShowcase" class="btn-ramp-secondary" aria-label="Explorer les maquettes">
-                        <span>Explorer le portfolio</span>
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-                    </a>
-                </div>
+                    </div>
 
-                <!-- HERO SHOWCASE STAGE : Le texte et les cartes de sites web passent sur la Hero -->
-                <div class="hero-showcase-stage reveal-on-scroll reveal-delay-3" id="heroShowcase">
                     <!-- Sélecteur de sites en capsules Ramp (Hero Project Pills) -->
-                    <div class="hero-switcher-bar">
+                    <div class="hero-switcher-bar" style="margin-top: 18px; width: 100%;">
                         <div class="hero-switcher-pills" role="tablist" aria-label="Sélection des sites web réalisés">
                             <button type="button" class="hero-pill-btn active" role="tab" id="heroTab0" aria-selected="true" onclick="selectHeroCard(0)">
                                 <span class="hero-pill-dot" style="background: #2B9BBD;"></span>
                                 <span class="hero-pill-title">Astravacances.fr</span>
-                                <span class="hero-pill-badge">Tourisme &amp; Audit</span>
+                                <span class="hero-pill-badge">Tourisme</span>
                             </button>
                             <button type="button" class="hero-pill-btn" role="tab" id="heroTab1" aria-selected="false" onclick="selectHeroCard(1)">
                                 <span class="hero-pill-dot" style="background: #6366F1;"></span>
                                 <span class="hero-pill-title">Achille.ai</span>
-                                <span class="hero-pill-badge">IA Support SaaS</span>
+                                <span class="hero-pill-badge">IA SaaS</span>
                             </button>
                             <button type="button" class="hero-pill-btn" role="tab" id="heroTab2" aria-selected="false" onclick="selectHeroCard(2)">
                                 <span class="hero-pill-dot" style="background: #F59E0B;"></span>
                                 <span class="hero-pill-title">Cabinet Valmy</span>
-                                <span class="hero-pill-badge">Fusions M&amp;A</span>
+                                <span class="hero-pill-badge">M&amp;A</span>
                             </button>
                             <button type="button" class="hero-pill-btn" role="tab" id="heroTab3" aria-selected="false" onclick="selectHeroCard(3)">
                                 <span class="hero-pill-dot" style="background: #FFFFFF;"></span>
-                                <span class="hero-pill-title">Studio Boubane</span>
+                                <span class="hero-pill-title">Studio</span>
                                 <span class="hero-pill-badge">Carte 3D</span>
                             </button>
-                        </div>
-                        <div class="hero-switcher-nav" aria-label="Contrôles de défilement">
-                            <button type="button" class="hero-nav-arrow" onclick="cycleHeroCard(-1)" aria-label="Site précédent">‹</button>
-                            <button type="button" class="hero-nav-arrow" onclick="cycleHeroCard(1)" aria-label="Site suivant">›</button>
                         </div>
                     </div>
 
                     <!-- Cartouche descriptif contextuel du site affiché sur la Hero -->
-                    <div class="hero-site-meta-banner">
+                    <div class="hero-site-meta-banner" style="margin-top: 12px; width: 100%;">
                         <div class="hero-site-meta-left">
                             <span class="hero-meta-kpi" id="heroMetaKpi">⚡ Vitesse : 0.27s · PageSpeed 100/100</span>
                             <span class="hero-meta-sep">•</span>
                             <span class="hero-meta-desc" id="heroMetaDesc">Astravacances.fr — Plateforme d'audit et gestion opérationnelle pour campings et résidences avec simulateur de gain d'EBITDA.</span>
                         </div>
-                        <div class="hero-site-meta-right">
-                            <span class="hero-meta-badge-interactive">✦ Maquette navigable en direct ci-dessous</span>
-                        </div>
                     </div>
+                </div>
+
+                <!-- Colonne Droite : Vitrine macOS Navigable en Direct -->
+                <div class="hero-split-col hero-split-col--mockup" id="heroShowcase">
+                    <!-- Overlay sombre flouté pour le mode plein écran -->
+                    <div id="mockupFullscreenOverlay" class="cs-mockup-fullscreen-overlay" onclick="closeFullscreenMockup()" aria-hidden="true"></div>
 
                     <!-- Viewport des cartes de sites web sur la Hero -->
                     <div class="hero-cards-viewport" id="heroCardsViewport">
@@ -918,7 +917,15 @@
                                             <div class="card-holder-name">LÉO SAILLOUR</div>
                                         </div>
                                         <div class="card-nfc-wave" aria-hidden="true">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1            </div>
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Bandeau Marquee Infini (Ramp Design Continuous Marquee) -->
@@ -1298,14 +1305,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Modal Plein Écran Universel des Vitrines Web (Portail Indépendant sous Body) -->
-    <div id="mockupFullscreenPortal" class="mockup-fullscreen-portal" aria-hidden="true">
-        <div class="mockup-portal-backdrop" onclick="closeFullscreenMockup()" aria-hidden="true"></div>
-        <div class="mockup-portal-dialog" id="mockupPortalDialog">
-            <!-- Emplacement d'accueil temporaire de la maquette agrandie -->
-        </div>
-    </div>
 
     <!-- Script des interactions -->
     <script src="komponent.js"></script>

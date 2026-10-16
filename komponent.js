@@ -392,49 +392,33 @@ function setAchilleTickets(btn, volume, economy, hours) {
   }
 }
 
-// 9b. Gestion de l'agrandissement immersif plein écran des maquettes (Architecture Portail Universel)
+// 9b. Gestion de l'agrandissement immersif plein écran des maquettes
 let activeFullscreenSite = null;
-let mockupOriginalParent = null;
-let mockupPlaceholder = null;
 
 function toggleFullscreenMockup(site) {
-  const portal = document.getElementById('mockupFullscreenPortal');
-  const dialog = document.getElementById('mockupPortalDialog');
-  if (!portal || !dialog) return;
-
   const siteKey = (site === 'astra' || site === 'achille' || site === 'valmy') ? site : 'astra';
   const containerId = siteKey === 'astra' ? 'mockupAstra' : (siteKey === 'achille' ? 'mockupAchille' : 'mockupValmy');
   const targetCell = document.getElementById(containerId);
   if (!targetCell) return;
 
-  // Si on reclique sur le même site déjà en plein écran -> refermer
-  if (activeFullscreenSite === siteKey && portal.classList.contains('is-active')) {
+  const isAlreadyFs = targetCell.classList.contains('is-fullscreen');
+
+  if (isAlreadyFs) {
     closeFullscreenMockup();
     return;
   }
 
-  // Si un autre site était déjà dans le portail, le replacer d'abord
-  if (activeFullscreenSite && activeFullscreenSite !== siteKey) {
-    closeFullscreenMockup(false);
-  }
+  // Refermer toute autre fenêtre
+  const allFs = document.querySelectorAll('.cs-cell--windowed.is-fullscreen');
+  allFs.forEach(el => el.classList.remove('is-fullscreen'));
 
-  // Créer un placeholder invisible pour réserver la hauteur et l'emplacement exact dans la slide
-  mockupPlaceholder = document.createElement('div');
-  mockupPlaceholder.id = 'mockupGhostPlaceholder';
-  mockupPlaceholder.style.minHeight = `${targetCell.offsetHeight || 520}px`;
-  mockupPlaceholder.style.width = '100%';
-  mockupPlaceholder.style.visibility = 'hidden';
-
-  mockupOriginalParent = targetCell.parentNode;
-  mockupOriginalParent.insertBefore(mockupPlaceholder, targetCell);
-
-  // Déplacer targetCell dans le portail indépendant
-  dialog.innerHTML = '';
-  dialog.appendChild(targetCell);
+  // Activer le plein écran sur la fenêtre ciblée
   targetCell.classList.add('is-fullscreen');
-  targetCell.style.transform = 'none';
+  document.body.classList.add('mockup-modal-open');
+  activeFullscreenSite = siteKey;
+  stopHeroCardTimer(); // Arrêt impératif du timer pendant la visite
 
-  // Synchroniser les onglets de passage de projet dans la modale
+  // Synchroniser les onglets de switch rapide en mode plein écran
   const fsTabs = targetCell.querySelectorAll('.cs-fs-tab-pill');
   if (fsTabs.length >= 3) {
     fsTabs.forEach((tab, idx) => {
@@ -443,37 +427,16 @@ function toggleFullscreenMockup(site) {
     });
   }
 
-  portal.classList.add('is-active');
-  document.body.classList.add('mockup-modal-open');
-  activeFullscreenSite = siteKey;
-  isHeroInteracting = true; // Suspendre l'auto-rotation de la Hero
-
   document.addEventListener('keydown', handleMockupKeydown);
 }
 
-function closeFullscreenMockup(fullClose = true) {
-  const portal = document.getElementById('mockupFullscreenPortal');
-  const dialog = document.getElementById('mockupPortalDialog');
-
-  if (dialog && mockupOriginalParent && mockupPlaceholder) {
-    const currentCell = dialog.querySelector('.cs-cell--windowed');
-    if (currentCell) {
-      currentCell.classList.remove('is-fullscreen');
-      currentCell.style.transform = '';
-      mockupOriginalParent.insertBefore(currentCell, mockupPlaceholder);
-    }
-    mockupPlaceholder.remove();
-    mockupPlaceholder = null;
-    mockupOriginalParent = null;
-  }
-
-  if (fullClose) {
-    if (portal) portal.classList.remove('is-active');
-    document.body.classList.remove('mockup-modal-open');
-    activeFullscreenSite = null;
-    isHeroInteracting = false;
-    document.removeEventListener('keydown', handleMockupKeydown);
-  }
+function closeFullscreenMockup() {
+  const allFs = document.querySelectorAll('.cs-cell--windowed.is-fullscreen');
+  allFs.forEach(el => el.classList.remove('is-fullscreen'));
+  document.body.classList.remove('mockup-modal-open');
+  activeFullscreenSite = null;
+  document.removeEventListener('keydown', handleMockupKeydown);
+  startHeroCardTimer(); // Reprise normale du carrousel
 }
 
 function handleMockupKeydown(e) {

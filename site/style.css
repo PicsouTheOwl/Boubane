@@ -443,15 +443,75 @@ p.lead {
   line-height: 0.82;
 }
 
-.ssg-hero-content {
+/* Hero Split Grid : Texte d'Accroche + Vitrine Navigable au même niveau */
+.hero-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: clamp(24px, 3.5vw, 44px);
+  align-items: center;
+  width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
   position: relative;
   z-index: 2;
-  max-width: 1220px;
-  width: 100%;
-  margin: 0 auto;
+  text-align: left;
+}
+
+.hero-split-col--text {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero-split-title {
+  font-size: clamp(2.3rem, 4.4vw, 3.8rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  margin-bottom: 16px;
+  color: #0C0A08;
+}
+
+.hero-split-title .dot-accent {
+  color: var(--color-primary);
+}
+
+.hero-split-lead {
+  font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+  color: #5C5B56;
+  max-width: 580px;
+  margin-bottom: 22px;
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+}
+
+.hero-split-actions {
+  display: flex;
   align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-split-speed-pill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0C0A08;
+  background: rgba(12, 10, 8, 0.05);
+  border: 1px solid rgba(12, 10, 8, 0.1);
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+}
+
+.hero-split-col--mockup {
+  position: relative;
+  width: 100%;
+}
+
+.hero-split-col--mockup .cs-cell--windowed {
+  min-height: 520px;
+  height: clamp(500px, 64vh, 580px);
 }
 
 /* Badge Éditorial Ramp [ 01 ] */
@@ -465,7 +525,7 @@ p.lead {
   border: 1px solid rgba(12, 10, 8, 0.08);
   padding: 6px 18px;
   border-radius: var(--radius-pill);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: 16px;
   box-shadow: 0 2px 8px rgba(12, 10, 8, 0.04);
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -478,37 +538,6 @@ p.lead {
 .ssg-eyebrow-num {
   color: #0C0A08;
   opacity: 0.5;
-}
-
-.ssg-hero h1 {
-  font-size: clamp(2.8rem, 7.5vw, 5.6rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 0.96;
-  margin-bottom: var(--spacing-md);
-  color: #0C0A08;
-}
-
-.ssg-hero h1 .dot-accent {
-  color: var(--color-primary);
-}
-
-.ssg-hero p.lead {
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  color: #5C5B56;
-  max-width: 680px;
-  margin: 0 auto var(--spacing-xl);
-  line-height: 1.55;
-  letter-spacing: -0.015em;
-}
-
-.ssg-hero-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-2xl);
-  flex-wrap: wrap;
 }
 
 /* Bouton Pill Noir Ramp avec flèche animée */
@@ -1268,34 +1297,50 @@ body.mockup-modal-open {
   pointer-events: auto;
 }
 
-.mockup-portal-backdrop {
-  position: absolute;
+/* ==========================================================================
+   Mode Plein Écran Universel Direct des Vitrines Web
+   ========================================================================== */
+
+/* Overlay sombre flouté de fond */
+.cs-mockup-fullscreen-overlay {
+  display: none;
+  position: fixed;
   inset: 0;
   background: rgba(6, 6, 8, 0.88);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 9999998;
   cursor: pointer;
+  animation: csFadeInOverlay 0.25s ease-out forwards;
 }
 
-.mockup-portal-dialog {
-  position: relative;
-  z-index: 2;
-  width: min(1380px, 100%);
-  height: min(92vh, 920px);
-  display: flex;
-  flex-direction: column;
-  animation: portalZoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes csFadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@keyframes portalZoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+body.mockup-modal-open .cs-mockup-fullscreen-overlay {
+  display: block;
+}
+
+/* Verrouillage du scroll principal */
+body.mockup-modal-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+/* Neutralisation totale de l'overflow et des transforms qui bloquaient le fixed */
+body.mockup-modal-open .ssg-hero {
+  overflow: visible !important;
+}
+
+body.mockup-modal-open .hero-split-grid,
+body.mockup-modal-open .hero-split-col,
+body.mockup-modal-open .hero-cards-viewport,
+body.mockup-modal-open .hero-card-slide {
+  transform: none !important;
+  will-change: auto !important;
+  filter: none !important;
 }
 
 .cs-cell--windowed {
@@ -1305,27 +1350,40 @@ body.mockup-modal-open {
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* Quand la cellule est dans le portail plein écran */
-.mockup-portal-dialog .cs-cell--windowed,
+/* Mode Plein Écran Actif sur la Fenêtre */
 .cs-cell--windowed.is-fullscreen {
-  width: 100% !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  min-height: 0 !important;
+  position: fixed !important;
+  inset: clamp(12px, 2.5vw, 32px) !important;
+  width: calc(100vw - 2 * clamp(12px, 2.5vw, 32px)) !important;
+  max-width: 1440px !important;
+  height: calc(100vh - 2 * clamp(12px, 2.5vw, 32px)) !important;
+  max-height: 940px !important;
+  margin: auto !important;
+  z-index: 99999999 !important;
   border-radius: 20px !important;
-  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
   box-shadow: 
-    0 32px 100px -10px rgba(0, 0, 0, 0.95),
-    0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 0 80px rgba(0, 0, 0, 0.8) !important;
+    0 32px 120px -10px rgba(0, 0, 0, 0.98),
+    0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 0 100px rgba(0, 0, 0, 0.9) !important;
   background: #0C0A08 !important;
   display: flex !important;
   flex-direction: column !important;
-  margin: 0 !important;
   transform: none !important;
+  animation: csFullscreenScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.mockup-portal-dialog .cs-cell--windowed .cs-viewport,
+@keyframes csFullscreenScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 .cs-cell--windowed.is-fullscreen .cs-viewport {
   max-height: none !important;
   height: calc(100% - 50px) !important;
@@ -1334,20 +1392,17 @@ body.mockup-modal-open {
   -webkit-overflow-scrolling: touch;
 }
 
-.mockup-portal-dialog .cs-cell--windowed .cs-window-bar,
 .cs-cell--windowed.is-fullscreen .cs-window-bar {
   border-radius: 20px 20px 0 0;
   padding: 12px 24px;
 }
 
-.mockup-portal-dialog .cs-cell--windowed .cs-cap,
 .cs-cell--windowed.is-fullscreen .cs-cap {
   border-radius: 0 0 20px 20px;
   background: #15161A;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.mockup-portal-dialog .cs-cell--windowed .cs-cap__t,
 .cs-cell--windowed.is-fullscreen .cs-cap__t {
   color: #FFFFFF;
 }
