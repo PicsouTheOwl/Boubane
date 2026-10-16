@@ -114,6 +114,14 @@
       "dest": "/robots.txt"
     },
     {
+      "src": "/showcase-astra.html",
+      "dest": "/showcase-astra.html"
+    },
+    {
+      "src": "/showcase/astra/?(.*)",
+      "dest": "/showcase/astra/index.html"
+    },
+    {
       "src": "/site",
       "dest": "/site/index.html"
     },

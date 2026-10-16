@@ -26,6 +26,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "showcase-astra.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "site.webmanifest",
       "use": "@vercel/static"
     },
@@ -55,6 +59,10 @@
     },
     {
       "src": "assets/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "showcase/**",
       "use": "@vercel/static"
     },
     {
@@ -106,12 +114,24 @@
       "dest": "/robots.txt"
     },
     {
+      "src": "/showcase-astra.html",
+      "dest": "/showcase-astra.html"
+    },
+    {
+      "src": "/showcase/astra/?(.*)",
+      "dest": "/showcase/astra/index.html"
+    },
+    {
       "src": "/site",
       "dest": "/site/index.html"
     },
     {
       "src": "/site/(.*)",
       "dest": "/site/$1"
+    },
+    {
+      "src": "/showcase/(.*)",
+      "dest": "/showcase/$1"
     },
     {
       "src": "/assets/(.*)",
