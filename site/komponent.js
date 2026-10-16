@@ -837,40 +837,63 @@ function updateTabsDisplay() {
   });
 }
 
-// Rendu du Dock miniature des onglets mis de côté
+// Rendu du Dock miniature des vitrines et sites mis de côté
 function renderMinimizedDock() {
-  const dock = document.getElementById('heroMinimizedDock');
-  const dockItems = document.getElementById('heroDockItems');
-  if (!dock || !dockItems) return;
+  const dockAsideZone = document.getElementById('dockAsideZone');
+  const dockAsideItems = document.getElementById('dockAsideItems');
+  const oldDock = document.getElementById('heroMinimizedDock');
+  const oldDockItems = document.getElementById('heroDockItems');
+
+  // Mettre à jour les boutons d'applications du Dock en bas
+  const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+  dockBtns.forEach((btn, i) => {
+    const isMin = minimizedTabs.has(i);
+    btn.classList.toggle('is-minimized', isMin);
+    btn.style.opacity = isMin ? '0.45' : '1';
+  });
 
   if (minimizedTabs.size === 0) {
-    dock.style.display = 'none';
-    dockItems.innerHTML = '';
+    if (dockAsideZone) dockAsideZone.style.display = 'none';
+    if (dockAsideItems) dockAsideItems.innerHTML = '';
+    if (oldDock) oldDock.style.display = 'none';
     return;
   }
 
-  dock.style.display = 'flex';
-  dockItems.innerHTML = '';
+  if (dockAsideZone) dockAsideZone.style.display = 'flex';
+  if (dockAsideItems) dockAsideItems.innerHTML = '';
+  if (oldDock) oldDock.style.display = 'flex';
+  if (oldDockItems) oldDockItems.innerHTML = '';
 
   minimizedTabs.forEach(idx => {
     const site = heroSiteMetadata[idx];
     if (!site) return;
 
-    const pill = document.createElement('button');
-    pill.type = 'button';
-    pill.className = 'cs-dock-pill';
-    pill.title = `Restaurer ${site.name}`;
-    pill.onclick = () => restoreTab(idx);
-
     let iconHtml = '';
     if (site.logo) {
-      iconHtml = `<img src="${site.logo}" alt="" class="cs-dock-pill-img">`;
+      iconHtml = `<img src="${site.logo}" alt="" class="cs-dock-img" style="width:14px;height:14px;object-fit:contain;">`;
     } else if (site.seal) {
-      iconHtml = `<span class="cs-win-tab-seal" style="width:12px;height:12px;font-size:7px;">${site.seal}</span>`;
+      iconHtml = `<span class="cs-dock-seal" style="font-size:9px;line-height:1;">${site.seal}</span>`;
     }
 
-    pill.innerHTML = `${iconHtml} <span>${site.name}</span> <span style="color:#FFBD2E; font-size:11px;">+</span>`;
-    dockItems.appendChild(pill);
+    if (dockAsideItems) {
+      const pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'cs-dock-aside-pill';
+      pill.title = `Restaurer ${site.name}`;
+      pill.onclick = () => restoreTab(idx);
+      pill.innerHTML = `${iconHtml} <span>${site.name}</span> <span style="opacity:0.8;">↺</span>`;
+      dockAsideItems.appendChild(pill);
+    }
+
+    if (oldDockItems) {
+      const pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'cs-dock-pill';
+      pill.title = `Restaurer ${site.name}`;
+      pill.onclick = () => restoreTab(idx);
+      pill.innerHTML = `${iconHtml} <span>${site.name}</span> <span style="color:#FFBD2E; font-size:11px;">↺</span>`;
+      oldDockItems.appendChild(pill);
+    }
   });
 }
 
@@ -907,7 +930,15 @@ function selectHeroCard(index) {
     pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
   });
 
-  // Mettre à jour les onglets superposés
+  // Mettre à jour les boutons du Dock en bas
+  const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+  dockBtns.forEach((btn, i) => {
+    const isActive = (i === currentHeroCardIndex);
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+
+  // Mettre à jour les onglets superposés (s'ils existent)
   updateTabsDisplay();
 
   const metaKpi = document.getElementById('heroMetaKpi');

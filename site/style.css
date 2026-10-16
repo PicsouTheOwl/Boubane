@@ -443,14 +443,14 @@ p.lead {
   line-height: 0.82;
 }
 
-/* Hero Split Grid : Texte d'Accroche Compact à Gauche + Vitrine Navigable Maximisée à Droite */
+/* Hero Split Grid : Texte d'Accroche Compact à Gauche + Vitrine Navigable Maximisée Décalée à Droite */
 .hero-split-grid {
   display: grid;
-  grid-template-columns: minmax(300px, 380px) 1fr;
-  gap: clamp(20px, 2.5vw, 40px);
+  grid-template-columns: minmax(260px, 320px) 1fr;
+  gap: clamp(32px, 5vw, 64px);
   align-items: center;
   width: 100%;
-  max-width: 1560px;
+  max-width: 1640px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
@@ -462,12 +462,12 @@ p.lead {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  max-width: 380px;
+  max-width: 320px;
   flex-shrink: 0;
 }
 
 .hero-split-title {
-  font-size: clamp(1.75rem, 2.4vw, 2.4rem);
+  font-size: clamp(1.75rem, 2.3vw, 2.35rem);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1.08;
@@ -482,7 +482,7 @@ p.lead {
 .hero-split-lead {
   font-size: clamp(0.84rem, 0.95vw, 0.92rem);
   color: #5C5B56;
-  max-width: 380px;
+  max-width: 320px;
   margin-bottom: 14px;
   line-height: 1.48;
   letter-spacing: -0.015em;
@@ -512,12 +512,26 @@ p.lead {
   width: 100%;
   min-width: 0;
   display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Décalage net vers la droite */
   justify-content: center;
+}
+
+.hero-showcase-stage-inner {
+  width: 100%;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-split-col--mockup .cs-cell--windowed {
   width: 100%;
-  max-width: 900px;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: 0;
   aspect-ratio: 16 / 10;
   height: auto;
   max-height: calc(100vh - 120px);
@@ -1455,26 +1469,32 @@ body.mockup-modal-open .hero-card-slide {
    Barre de Fenêtre macOS Élite à Double Rangée (Onglets Superposés + Navigation)
    ========================================================================== */
 
-/* Rangée 1 : Header d'Onglets Superposés (Safari / Arc Browser Style) */
-.cs-window-tabs-bar {
-  background: #111015;
-  padding: 8px 16px 0;
+/* ==========================================================================
+   Barre de Fenêtre macOS Classique Pure (Single Bar, Pas d'onglets au sommet)
+   ========================================================================== */
+
+.cs-window-bar {
+  background: #15161A;
+  padding: 10px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
-  z-index: 12;
+  z-index: 10;
   gap: 12px;
-  overflow: hidden;
 }
 
-.cs-window-dots-box {
+.cs-window-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cs-dots {
   display: flex;
   align-items: center;
   gap: 7px;
-  padding-bottom: 8px;
-  flex-shrink: 0;
 }
 
 .cs-dot {
@@ -1505,7 +1525,7 @@ body.mockup-modal-open .hero-card-slide {
 }
 .cs-dot--red::after { content: '×'; }
 
-/* Pastille Orange : Animation spectaculaire demandée par le client */
+/* Pastille Orange : Animation spectaculaire au survol et pulsation */
 .cs-dot--orange,
 .cs-dot--yellow { 
   background: #FFBD2E;
@@ -1538,183 +1558,33 @@ body.mockup-modal-open .hero-card-slide {
 }
 .cs-dot--green::after { content: '+'; }
 
-/* Rangée d'Onglets Superposés (Stacked Tabs Shelf) */
-.cs-tabs-shelf {
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  flex: 1;
-  max-width: 760px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  padding-right: 6px;
-}
-
-.cs-tabs-shelf::-webkit-scrollbar {
-  display: none;
-}
-
-/* Onglet Individuel Superposé */
-.cs-win-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 12px 7px 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: none;
-  border-radius: 9px 9px 0 0;
-  color: rgba(255, 255, 255, 0.6);
-  font-family: var(--font-body);
-  font-size: 0.74rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  user-select: none;
-  white-space: nowrap;
-  max-width: 170px;
-  min-width: 120px;
-}
-
-.cs-win-tab:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
-  transform: translateY(-1px);
-}
-
-/* Onglet Actif au Premier Plan */
-.cs-win-tab.active {
-  background: #181920;
-  color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.16);
-  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.45);
-  font-weight: 600;
-  z-index: 2;
-}
-
-.cs-win-tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #181920;
-}
-
-/* Logo officiel miniature dans l'onglet */
-.cs-win-tab-fav {
-  width: 14px;
-  height: 14px;
-  object-fit: contain;
-  flex-shrink: 0;
-  border-radius: 2px;
-}
-
-.cs-win-tab-fav--achille {
-  width: 16px;
-  height: 12px;
-}
-
-.cs-win-tab-seal {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #F59E0B, #B45309);
-  color: #0C0A08;
-  font-family: var(--font-heading);
-  font-size: 8px;
-  font-weight: 800;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.cs-win-tab-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 1;
-}
-
-/* Bouton de Fermeture / Mise de côté sur l'onglet */
-.cs-win-tab-close {
-  background: none;
-  border: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 11px;
-  line-height: 1;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  margin-left: 2px;
-  padding: 0;
-}
-
-.cs-win-tab:hover .cs-win-tab-close {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.cs-win-tab-close:hover {
-  background: rgba(255, 255, 255, 0.18);
-  color: #FFFFFF;
-  transform: scale(1.15);
-}
-
-/* Actions à droite du header d'onglets */
-.cs-window-tabs-actions {
+/* Barre d'adresse avec cadenas et URL dynamique */
+.cs-url-bar {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding-bottom: 6px;
-  flex-shrink: 0;
-}
-
-.cs-btn-restore-tabs {
-  background: rgba(255, 189, 46, 0.12);
-  border: 1px solid rgba(255, 189, 46, 0.35);
-  color: #FFBD2E;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-pill);
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.2s ease;
+  padding: 5px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.02em;
+  flex: 1;
+  max-width: 440px;
+  justify-content: center;
+  transition: border-color 0.2s ease;
 }
 
-.cs-btn-restore-tabs:hover {
-  background: rgba(255, 189, 46, 0.22);
-  transform: translateY(-1px);
+.cs-url-bar:hover {
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Rangée 2 : Barre d'outils et d'adresse URL */
-.cs-window-nav-bar {
-  background: #181920;
-  padding: 8px 18px;
+.cs-window-bar-right {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  position: relative;
-  z-index: 10;
-  gap: 12px;
-}
-
-/* Rétro-compatibilité pour l'ancien conteneur */
-.cs-window-bar {
-  display: contents;
+  gap: 10px;
 }
 
 /* ==========================================================================
@@ -1742,7 +1612,6 @@ body.mockup-modal-open .hero-card-slide {
   pointer-events: none;
 }
 
-/* Onde de choc lumineuse orange */
 .cs-orange-shockwave {
   position: absolute;
   top: 14px;
@@ -1757,102 +1626,183 @@ body.mockup-modal-open .hero-card-slide {
 }
 
 @keyframes csShockwaveExpand {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(18);
-    opacity: 0;
-  }
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(18); opacity: 0; }
 }
 
 /* ==========================================================================
-   Dock des Sites Web Mis de Côté (Pill Dock)
+   Dock Flottant macOS en Bas (La Barre Temporaire Magnifiée)
    ========================================================================== */
-.cs-minimized-dock {
-  display: flex;
+.cs-floating-dock {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(18, 19, 24, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 189, 46, 0.25);
+  background: rgba(18, 19, 24, 0.85);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-pill);
   padding: 6px 14px;
-  margin-top: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-  animation: csDockSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  margin-top: 12px;
+  box-shadow: 
+    0 16px 36px -6px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  gap: 8px;
+  user-select: none;
+  align-self: center;
+  animation: csDockSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes csDockSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.cs-dock-label {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #FFBD2E;
+.cs-dock-items-wrap {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
 
-.cs-dock-items {
+.cs-dock-app-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 8px 5px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, opacity 0.2s ease;
+  position: relative;
+}
+
+.cs-dock-app-btn:hover {
+  transform: translateY(-3px) scale(1.08);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cs-dock-icon-box {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.cs-dock-app-btn.active .cs-dock-icon-box {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.25);
+}
+
+.cs-dock-img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.cs-dock-img--achille {
+  width: 22px;
+  height: 16px;
+}
+
+.cs-dock-icon-box--valmy {
+  background: linear-gradient(135deg, #241A12, #16110B);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.cs-dock-seal {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 12px;
+  color: #F59E0B;
+}
+
+.cs-dock-title {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.cs-dock-app-btn.active .cs-dock-title {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.cs-dock-indicator {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.cs-dock-app-btn.active .cs-dock-indicator {
+  background: var(--ramp-yellow);
+  box-shadow: 0 0 6px var(--ramp-yellow);
+}
+
+/* Zone temporaire des sites mis de côté */
+.cs-dock-aside-zone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 6px;
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.cs-dock-aside-items {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-wrap: wrap;
 }
 
-.cs-dock-pill {
+.cs-dock-aside-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  gap: 5px;
+  background: rgba(255, 189, 46, 0.15);
+  border: 1px solid rgba(255, 189, 46, 0.4);
+  color: #FFBD2E;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 3px 9px;
   border-radius: var(--radius-pill);
-  padding: 3px 10px;
-  color: #FFFFFF;
-  font-size: 0.7rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.cs-dock-pill:hover {
-  background: rgba(255, 189, 46, 0.2);
-  border-color: #FFBD2E;
-  transform: translateY(-1px);
-}
-
-.cs-dock-pill-img {
-  width: 13px;
-  height: 13px;
-  object-fit: contain;
+.cs-dock-aside-pill:hover {
+  background: rgba(255, 189, 46, 0.28);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 189, 46, 0.3);
 }
 
 .cs-dock-restore-all {
-  margin-left: auto;
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.5);
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   cursor: pointer;
+  padding: 2px 5px;
   transition: color 0.15s ease;
 }
 
 .cs-dock-restore-all:hover {
   color: #FFBD2E;
-  text-decoration: underline;
 }
 
 /* Sélecteur d'appareil interactif (Desktop / Tablette / Mobile) */

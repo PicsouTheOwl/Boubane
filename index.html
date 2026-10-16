@@ -252,58 +252,21 @@
                     <!-- Overlay sombre flouté pour le mode plein écran -->
                     <div id="mockupFullscreenOverlay" class="cs-mockup-fullscreen-overlay" onclick="closeFullscreenMockup()" aria-hidden="true"></div>
 
-                    <!-- Viewport des cartes de sites web sur la Hero -->
-                    <div class="hero-cards-viewport" id="heroCardsViewport">
+                    <!-- Conteneur centré et calé à droite de la maquette et du dock -->
+                    <div class="hero-showcase-stage-inner">
+                        <!-- Viewport des cartes de sites web sur la Hero -->
+                        <div class="hero-cards-viewport" id="heroCardsViewport">
                         <!-- Slide 0 : Astravacances.fr (Maquette Navigable) -->
                         <div class="hero-card-slide active" id="heroSlide0">
                             <div class="cs-cell cs-cell--windowed" id="mockupAstra">
-                                <!-- Rangée 1 : Header d'Onglets Superposés macOS -->
-                                <div class="cs-window-tabs-bar">
-                                    <div class="cs-window-dots-box">
-                                        <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer l'onglet actif"></span>
-                                        <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(0, event)" title="Mettre de côté (Animation fluide)"></span>
-                                        <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('astra')" title="Agrandir en plein écran"></span>
-                                    </div>
-
-                                    <!-- Barre d'onglets superposés (Tabs Shelf) -->
-                                    <div class="cs-tabs-shelf" role="tablist" aria-label="Onglets des vitrines web">
-                                        <div class="cs-win-tab active" data-tab-index="0" onclick="selectHeroCard(0)" role="tab" aria-selected="true" title="Astravacances.fr">
-                                            <img src="assets/astra-logo.png" alt="" class="cs-win-tab-fav">
-                                            <span class="cs-win-tab-name">Astravacances.fr</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(0, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab" data-tab-index="1" onclick="selectHeroCard(1)" role="tab" aria-selected="false" title="Achille.ai">
-                                            <img src="assets/achille-logo.png" alt="" class="cs-win-tab-fav cs-win-tab-fav--achille">
-                                            <span class="cs-win-tab-name">Achille.ai</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(1, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab" data-tab-index="2" onclick="selectHeroCard(2)" role="tab" aria-selected="false" title="Cabinet Valmy">
-                                            <span class="cs-win-tab-seal">V</span>
-                                            <span class="cs-win-tab-name">Cabinet Valmy</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(2, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab" data-tab-index="3" onclick="selectHeroCard(3)" role="tab" aria-selected="false" title="Studio Boubane">
-                                            <img src="assets/boubane-logo.png" alt="" class="cs-win-tab-fav">
-                                            <span class="cs-win-tab-name">Studio</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(3, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="cs-window-tabs-actions">
-                                        <button type="button" class="cs-btn-restore-tabs" onclick="restoreAllTabs()" title="Restaurer les onglets mis de côté">↺ Restaurer</button>
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('astra')" title="Agrandir la fenêtre pour visiter en grand" aria-label="Agrandir la fenêtre">
-                                            <span class="cs-btn-expand-icon">⤢</span>
-                                            <span class="cs-btn-expand-text">Agrandir</span>
-                                        </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
-                                            ✕ Réduire
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Rangée 2 : Barre d'outils et d'adresse URL -->
-                                <div class="cs-window-nav-bar">
+                                <!-- Barre de Fenêtre macOS Élite Classique Pure (Single Bar, Pas d'onglets au sommet) -->
+                                <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
+                                        <div class="cs-dots">
+                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
+                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(0, event)" title="Mettre de côté (Animation fluide dans la barre du bas)"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('astra')" title="Agrandir en plein écran"></span>
+                                        </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('astra', -1)" title="Page précédente">‹</button>
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('astra', 1)" title="Page suivante">›</button>
@@ -325,8 +288,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="cs-nav-bar-right">
+                                    <div class="cs-window-bar-right">
                                         <span class="cs-speed-pill" id="astraSpeedBadge" style="color: #2B9BBD; border-color: rgba(43, 155, 189, 0.35);">⚡ 0.27s</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('astra')" title="Agrandir la fenêtre" aria-label="Agrandir la fenêtre">
+                                            <span class="cs-btn-expand-icon">⤢</span>
+                                            <span class="cs-btn-expand-text">Agrandir</span>
+                                        </button>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
+                                            ✕ Réduire
+                                        </button>
                                     </div>
                                 </div>
 
@@ -475,53 +445,14 @@
                         <!-- Slide 1 : Achille.ai (Maquette Navigable) -->
                         <div class="hero-card-slide" id="heroSlide1">
                             <div class="cs-cell cs-cell--windowed" id="mockupAchille">
-                                <!-- Rangée 1 : Header d'Onglets Superposés macOS -->
-                                <div class="cs-window-tabs-bar">
-                                    <div class="cs-window-dots-box">
-                                        <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer l'onglet actif"></span>
-                                        <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(1, event)" title="Mettre de côté (Animation fluide)"></span>
-                                        <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('achille')" title="Agrandir en plein écran"></span>
-                                    </div>
-
-                                    <!-- Barre d'onglets superposés (Tabs Shelf) -->
-                                    <div class="cs-tabs-shelf" role="tablist" aria-label="Onglets des vitrines web">
-                                        <div class="cs-win-tab" data-tab-index="0" onclick="selectHeroCard(0)" role="tab" aria-selected="false" title="Astravacances.fr">
-                                            <img src="assets/astra-logo.png" alt="" class="cs-win-tab-fav">
-                                            <span class="cs-win-tab-name">Astravacances.fr</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(0, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab active" data-tab-index="1" onclick="selectHeroCard(1)" role="tab" aria-selected="true" title="Achille.ai">
-                                            <img src="assets/achille-logo.png" alt="" class="cs-win-tab-fav cs-win-tab-fav--achille">
-                                            <span class="cs-win-tab-name">Achille.ai</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(1, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab" data-tab-index="2" onclick="selectHeroCard(2)" role="tab" aria-selected="false" title="Cabinet Valmy">
-                                            <span class="cs-win-tab-seal">V</span>
-                                            <span class="cs-win-tab-name">Cabinet Valmy</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(2, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab" data-tab-index="3" onclick="selectHeroCard(3)" role="tab" aria-selected="false" title="Studio Boubane">
-                                            <img src="assets/boubane-logo.png" alt="" class="cs-win-tab-fav">
-                                            <span class="cs-win-tab-name">Studio</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(3, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="cs-window-tabs-actions">
-                                        <button type="button" class="cs-btn-restore-tabs" onclick="restoreAllTabs()" title="Restaurer les onglets mis de côté">↺ Restaurer</button>
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('achille')" title="Agrandir la fenêtre pour visiter en grand" aria-label="Agrandir la fenêtre">
-                                            <span class="cs-btn-expand-icon">⤢</span>
-                                            <span class="cs-btn-expand-text">Agrandir</span>
-                                        </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
-                                            ✕ Réduire
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Rangée 2 : Barre d'outils et d'adresse URL -->
-                                <div class="cs-window-nav-bar">
+                                <!-- Barre de Fenêtre macOS Élite Classique Pure (Single Bar, Pas d'onglets au sommet) -->
+                                <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
+                                        <div class="cs-dots">
+                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
+                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(1, event)" title="Mettre de côté (Animation fluide dans la barre du bas)"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('achille')" title="Agrandir en plein écran"></span>
+                                        </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('achille', -1)" title="Page précédente">‹</button>
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('achille', 1)" title="Page suivante">›</button>
@@ -543,8 +474,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="cs-nav-bar-right">
+                                    <div class="cs-window-bar-right">
                                         <span class="cs-speed-pill" id="achilleSpeedBadge" style="color: #818CF8; border-color: rgba(99, 102, 241, 0.35);">⚡ 0.24s</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('achille')" title="Agrandir la fenêtre" aria-label="Agrandir la fenêtre">
+                                            <span class="cs-btn-expand-icon">⤢</span>
+                                            <span class="cs-btn-expand-text">Agrandir</span>
+                                        </button>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
+                                            ✕ Réduire
+                                        </button>
                                     </div>
                                 </div>
 
@@ -721,53 +659,14 @@
                         <!-- Slide 2 : Cabinet Valmy (Maquette Navigable Panoramique) -->
                         <div class="hero-card-slide" id="heroSlide2">
                             <div class="cs-cell cs-cell--windowed" id="mockupValmy">
-                                <!-- Rangée 1 : Header d'Onglets Superposés macOS -->
-                                <div class="cs-window-tabs-bar">
-                                    <div class="cs-window-dots-box">
-                                        <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer l'onglet actif"></span>
-                                        <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(2, event)" title="Mettre de côté (Animation fluide)"></span>
-                                        <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('valmy')" title="Agrandir en plein écran"></span>
-                                    </div>
-
-                                    <!-- Barre d'onglets superposés (Tabs Shelf) -->
-                                    <div class="cs-tabs-shelf" role="tablist" aria-label="Onglets des vitrines web">
-                                        <div class="cs-win-tab" data-tab-index="0" onclick="selectHeroCard(0)" role="tab" aria-selected="false" title="Astravacances.fr">
-                                            <img src="assets/astra-logo.png" alt="" class="cs-win-tab-fav">
-                                            <span class="cs-win-tab-name">Astravacances.fr</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(0, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab" data-tab-index="1" onclick="selectHeroCard(1)" role="tab" aria-selected="false" title="Achille.ai">
-                                            <img src="assets/achille-logo.png" alt="" class="cs-win-tab-fav cs-win-tab-fav--achille">
-                                            <span class="cs-win-tab-name">Achille.ai</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(1, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab active" data-tab-index="2" onclick="selectHeroCard(2)" role="tab" aria-selected="true" title="Cabinet Valmy">
-                                            <span class="cs-win-tab-seal">V</span>
-                                            <span class="cs-win-tab-name">Cabinet Valmy</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(2, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab" data-tab-index="3" onclick="selectHeroCard(3)" role="tab" aria-selected="false" title="Studio Boubane">
-                                            <img src="assets/boubane-logo.png" alt="" class="cs-win-tab-fav">
-                                            <span class="cs-win-tab-name">Studio</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(3, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="cs-window-tabs-actions">
-                                        <button type="button" class="cs-btn-restore-tabs" onclick="restoreAllTabs()" title="Restaurer les onglets mis de côté">↺ Restaurer</button>
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('valmy')" title="Agrandir la fenêtre pour visiter en grand" aria-label="Agrandir la fenêtre">
-                                            <span class="cs-btn-expand-icon">⤢</span>
-                                            <span class="cs-btn-expand-text">Agrandir</span>
-                                        </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
-                                            ✕ Réduire
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Rangée 2 : Barre d'outils et d'adresse URL -->
-                                <div class="cs-window-nav-bar">
+                                <!-- Barre de Fenêtre macOS Élite Classique Pure (Single Bar, Pas d'onglets au sommet) -->
+                                <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
+                                        <div class="cs-dots">
+                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
+                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(2, event)" title="Mettre de côté (Animation fluide dans la barre du bas)"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('valmy')" title="Agrandir en plein écran"></span>
+                                        </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('valmy', -1)" title="Page précédente">‹</button>
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('valmy', 1)" title="Page suivante">›</button>
@@ -789,8 +688,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="cs-nav-bar-right">
-                                        <span class="cs-speed-pill" id="valmySpeedBadge">⚡ 0.26s</span>
+                                    <div class="cs-window-bar-right">
+                                        <span class="cs-speed-pill" id="valmySpeedBadge" style="color: #F59E0B; border-color: rgba(245, 158, 11, 0.35);">⚡ 0.26s</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('valmy')" title="Agrandir la fenêtre" aria-label="Agrandir la fenêtre">
+                                            <span class="cs-btn-expand-icon">⤢</span>
+                                            <span class="cs-btn-expand-text">Agrandir</span>
+                                        </button>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
+                                            ✕ Réduire
+                                        </button>
                                     </div>
                                 </div>
 
@@ -952,53 +858,14 @@
                         <!-- Slide 3 : Studio Boubane (Carte 3D Ramp sous Fenêtre macOS) -->
                         <div class="hero-card-slide" id="heroSlide3">
                             <div class="cs-cell cs-cell--windowed" id="mockupStudio">
-                                <!-- Rangée 1 : Header d'Onglets Superposés macOS -->
-                                <div class="cs-window-tabs-bar">
-                                    <div class="cs-window-dots-box">
-                                        <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer l'onglet actif"></span>
-                                        <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(3, event)" title="Mettre de côté (Animation fluide)"></span>
-                                        <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('studio')" title="Agrandir en plein écran"></span>
-                                    </div>
-
-                                    <!-- Barre d'onglets superposés (Tabs Shelf) -->
-                                    <div class="cs-tabs-shelf" role="tablist" aria-label="Onglets des vitrines web">
-                                        <div class="cs-win-tab" data-tab-index="0" onclick="selectHeroCard(0)" role="tab" aria-selected="false" title="Astravacances.fr">
-                                            <img src="assets/astra-logo.png" alt="" class="cs-win-tab-fav">
-                                            <span class="cs-win-tab-name">Astravacances.fr</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(0, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab" data-tab-index="1" onclick="selectHeroCard(1)" role="tab" aria-selected="false" title="Achille.ai">
-                                            <img src="assets/achille-logo.png" alt="" class="cs-win-tab-fav cs-win-tab-fav--achille">
-                                            <span class="cs-win-tab-name">Achille.ai</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(1, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab" data-tab-index="2" onclick="selectHeroCard(2)" role="tab" aria-selected="false" title="Cabinet Valmy">
-                                            <span class="cs-win-tab-seal">V</span>
-                                            <span class="cs-win-tab-name">Cabinet Valmy</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(2, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                        <div class="cs-win-tab active" data-tab-index="3" onclick="selectHeroCard(3)" role="tab" aria-selected="true" title="Studio Boubane">
-                                            <img src="assets/boubane-logo.png" alt="" class="cs-win-tab-fav">
-                                            <span class="cs-win-tab-name">Studio</span>
-                                            <button type="button" class="cs-win-tab-close" onclick="event.stopPropagation(); minimizeMockupAnimated(3, event)" title="Mettre de côté cet onglet">×</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="cs-window-tabs-actions">
-                                        <button type="button" class="cs-btn-restore-tabs" onclick="restoreAllTabs()" title="Restaurer les onglets mis de côté">↺ Restaurer</button>
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('studio')" title="Agrandir la fenêtre pour visiter en grand" aria-label="Agrandir la fenêtre">
-                                            <span class="cs-btn-expand-icon">⤢</span>
-                                            <span class="cs-btn-expand-text">Agrandir</span>
-                                        </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
-                                            ✕ Réduire
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Rangée 2 : Barre d'outils et d'adresse URL -->
-                                <div class="cs-window-nav-bar">
+                                <!-- Barre de Fenêtre macOS Élite Classique Pure (Single Bar, Pas d'onglets au sommet) -->
+                                <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
+                                        <div class="cs-dots">
+                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
+                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(3, event)" title="Mettre de côté (Animation fluide dans la barre du bas)"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('studio')" title="Agrandir en plein écran"></span>
+                                        </div>
                                         <div class="cs-nav-arrows" aria-hidden="true">
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('studio', -1)" title="Page précédente">‹</button>
                                             <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('studio', 1)" title="Page suivante">›</button>
@@ -1014,8 +881,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="cs-nav-bar-right">
+                                    <div class="cs-window-bar-right">
                                         <span class="cs-speed-pill" style="color: #EEF85A; border-color: rgba(238, 248, 90, 0.35);">⚡ &lt; 0.3s</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('studio')" title="Agrandir la fenêtre" aria-label="Agrandir la fenêtre">
+                                            <span class="cs-btn-expand-icon">⤢</span>
+                                            <span class="cs-btn-expand-text">Agrandir</span>
+                                        </button>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
+                                            ✕ Réduire
+                                        </button>
                                     </div>
                                 </div>
 
@@ -1065,11 +939,50 @@
                         </div>
                     </div>
 
-                    <!-- Dock miniature des sites web mis de côté (animation orange) -->
-                    <div class="cs-minimized-dock" id="heroMinimizedDock" style="display: none;">
-                        <div class="cs-dock-label">📁 Mis de côté :</div>
-                        <div class="cs-dock-items" id="heroDockItems"></div>
-                        <button type="button" class="cs-dock-restore-all" onclick="restoreAllTabs()">Tout restaurer ↺</button>
+                        <!-- Dock Flottant macOS en Bas (Barre Temporaire Magnifiée) -->
+                        <nav class="cs-floating-dock" id="heroFloatingDock" aria-label="Sélecteur de vitrines et barre temporaire">
+                            <!-- Applications / Vitrines principales -->
+                            <div class="cs-dock-items-wrap">
+                                <button type="button" class="cs-dock-app-btn active" id="dockBtn0" onclick="selectHeroCard(0)" title="Astravacances.fr — Audit &amp; Hôtellerie">
+                                    <div class="cs-dock-icon-box">
+                                        <img src="assets/astra-logo.png" alt="" class="cs-dock-img">
+                                    </div>
+                                    <span class="cs-dock-title">Astravacances</span>
+                                    <span class="cs-dock-indicator"></span>
+                                </button>
+
+                                <button type="button" class="cs-dock-app-btn" id="dockBtn1" onclick="selectHeroCard(1)" title="Achille.ai — Support Client AI-First">
+                                    <div class="cs-dock-icon-box">
+                                        <img src="assets/achille-logo.png" alt="" class="cs-dock-img cs-dock-img--achille">
+                                    </div>
+                                    <span class="cs-dock-title">Achille.ai</span>
+                                    <span class="cs-dock-indicator"></span>
+                                </button>
+
+                                <button type="button" class="cs-dock-app-btn" id="dockBtn2" onclick="selectHeroCard(2)" title="Cabinet Valmy — Avocats M&amp;A">
+                                    <div class="cs-dock-icon-box cs-dock-icon-box--valmy">
+                                        <span class="cs-dock-seal">V</span>
+                                    </div>
+                                    <span class="cs-dock-title">Cabinet Valmy</span>
+                                    <span class="cs-dock-indicator"></span>
+                                </button>
+
+                                <button type="button" class="cs-dock-app-btn" id="dockBtn3" onclick="selectHeroCard(3)" title="Studio Boubane — Carte Membre 3D">
+                                    <div class="cs-dock-icon-box">
+                                        <img src="assets/boubane-logo.png" alt="" class="cs-dock-img">
+                                    </div>
+                                    <span class="cs-dock-title">Studio</span>
+                                    <span class="cs-dock-indicator"></span>
+                                </button>
+                            </div>
+
+                            <!-- Zone temporaire : Sites mis de côté (animation orange) -->
+                            <div class="cs-dock-aside-zone" id="dockAsideZone" style="display: none;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #FFBD2E; font-weight: 700;">📁 Mis de côté :</span>
+                                <div class="cs-dock-aside-items" id="dockAsideItems"></div>
+                                <button type="button" class="cs-dock-restore-all" onclick="restoreAllTabs()" title="Restaurer tous les sites mis de côté">↺ Tout rouvrir</button>
+                            </div>
+                        </nav>
                     </div>
                 </div>
             </div>
