@@ -424,33 +424,19 @@ p.lead {
   background: radial-gradient(ellipse 70% 60% at 50% 25%, rgba(238, 248, 90, 0.09) 0%, rgba(250, 248, 245, 0) 70%);
 }
 
-/* Filigrane géant d'arrière-plan signature Ramp (card-marquee__title) */
+/* Filigrane d'arrière-plan masqué */
 .card-marquee__title {
-  position: absolute;
-  top: 32%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--font-heading);
-  font-size: clamp(3.8rem, 13vw, 11rem);
-  font-weight: 300;
-  letter-spacing: -0.05em;
-  color: rgba(12, 10, 8, 0.035);
-  text-align: center;
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
-  line-height: 0.82;
+  display: none !important;
 }
 
-/* Hero Split Grid : Texte d'Accroche Compact à Gauche + Vitrine Navigable Maximisée Décalée à Droite */
+/* Hero Split Grid : Texte d'Accroche Élégant à Gauche + Vitrine Navigable Harmonieuse à Droite */
 .hero-split-grid {
   display: grid;
-  grid-template-columns: minmax(260px, 320px) 1fr;
-  gap: clamp(28px, 4vw, 56px);
+  grid-template-columns: minmax(320px, 420px) 1fr;
+  gap: clamp(32px, 5vw, 68px);
   align-items: center;
   width: 100%;
-  max-width: 1480px;
+  max-width: 1420px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
@@ -462,16 +448,16 @@ p.lead {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  max-width: 320px;
+  max-width: 420px;
   flex-shrink: 0;
 }
 
 .hero-split-title {
-  font-size: clamp(1.75rem, 2.3vw, 2.35rem);
+  font-size: clamp(2rem, 2.7vw, 2.85rem);
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
   line-height: 1.08;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   color: #0C0A08;
 }
 
@@ -480,31 +466,24 @@ p.lead {
 }
 
 .hero-split-lead {
-  font-size: clamp(0.84rem, 0.95vw, 0.92rem);
+  font-size: clamp(0.92rem, 1vw, 1.02rem);
   color: #5C5B56;
-  max-width: 320px;
-  margin-bottom: 14px;
-  line-height: 1.48;
+  max-width: 400px;
+  margin-bottom: 24px;
+  line-height: 1.54;
   letter-spacing: -0.015em;
 }
 
 .hero-split-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
 .hero-split-speed-pill {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #0C0A08;
-  background: rgba(12, 10, 8, 0.05);
-  border: 1px solid rgba(12, 10, 8, 0.1);
-  padding: 6px 12px;
-  border-radius: var(--radius-pill);
+  display: none !important;
 }
 
 .hero-split-col--mockup {
@@ -519,7 +498,7 @@ p.lead {
 
 .hero-showcase-stage-inner {
   width: 100%;
-  max-width: 860px; /* Réduction subtile pour une proportion idéale et raffinée */
+  max-width: 800px; /* Proportion bijou idéale équilibrée avec le texte */
   margin-left: auto;
   margin-right: 0;
   display: flex;
@@ -529,7 +508,7 @@ p.lead {
 
 .hero-split-col--mockup .cs-cell--windowed {
   width: 100%;
-  max-width: 860px; /* Conserve scrupuleusement le ratio 16 / 10 */
+  max-width: 800px; /* Conserve scrupuleusement le ratio classique 16 / 10 */
   margin-left: auto;
   margin-right: 0;
   aspect-ratio: 16 / 10;
@@ -770,24 +749,9 @@ p.lead {
   transform: scale(1.05);
 }
 
-/* Cartouche descriptif contextuel du site */
+/* Cartouche descriptif contextuel du site masqué */
 .hero-site-meta-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(12, 10, 8, 0.08);
-  border-radius: 14px;
-  padding: 10px 18px;
-  font-size: 0.84rem;
-  color: #5C5B56;
-  box-shadow: 0 2px 8px rgba(12, 10, 8, 0.03);
-  gap: 14px;
-  flex-wrap: wrap;
-  width: 100%;
-  box-sizing: border-box;
+  display: none !important;
 }
 
 .hero-site-meta-left {
