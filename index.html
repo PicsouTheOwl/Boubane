@@ -205,17 +205,9 @@
 
                 <div class="cs-url-bar" id="portalUrlBar">
                     <span class="cs-url-lock" aria-hidden="true">
-                        <svg class="cs-url-lock-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <svg class="cs-url-lock-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     </span>
-                    <span class="cs-url-text" id="portalUrlText">astravacances.fr/audit-operationnel</span>
-                    <div class="cs-url-actions">
-                        <button type="button" class="cs-url-icon-btn" onclick="reloadPortalIframe()" title="Recharger la page" aria-label="Recharger">
-                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.3L2.5 16"/></svg>
-                        </button>
-                        <a href="showcase-astra.html" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" id="portalExtLink" title="Ouvrir dans un nouvel onglet" aria-label="Ouvrir dans un nouvel onglet">
-                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
-                        </a>
-                    </div>
+                    <span class="cs-url-text" id="portalUrlText">astravacances.fr</span>
                 </div>
 
                 <div class="cs-window-bar-right">
@@ -319,46 +311,34 @@
                                 <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
-                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(0, event)" title="Minimiser dans le dock (animation Mac)"></span>
-                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('astra')" title="Agrandir en plein écran"></span>
-                                        </div>
-                                        <div class="cs-nav-arrows" aria-hidden="true">
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('astra', -1)" title="Page précédente">‹</button>
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('astra', 1)" title="Page suivante">›</button>
+                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer"></span>
+                                            <span class="cs-dot cs-dot--yellow" onclick="minimizeMockupAnimated(0, event)" title="Minimiser"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('astra')" title="Plein écran"></span>
                                         </div>
                                         <div class="cs-device-switch" aria-label="Format d'affichage">
-                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('astra', 'desktop', this)" title="Vue Ordinateur (Desktop)"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('astra', 'tablet', this)" title="Vue Tablette (768px)"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('astra', 'mobile', this)" title="Vue Mobile (390px)"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('astra', 'desktop', this)" title="Ordinateur"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('astra', 'tablet', this)" title="Tablette"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('astra', 'mobile', this)" title="Mobile"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
                                         </div>
                                     </div>
 
                                     <div class="cs-url-bar">
-                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-                                        <span class="cs-url-text">astravacances.fr<span id="astraUrlPath" class="cs-url-path">/audit-operationnel</span></span>
-                                        <div class="cs-url-actions">
-                                          <button type="button" class="cs-url-icon-btn" onclick="reloadMockup('astra', this)" title="Recharger la page (simulé < 0.3s)" aria-label="Recharger"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.3L2.5 16"/></svg></button>
-                                          <button type="button" class="cs-url-icon-btn" onclick="copyMockupUrl('https://astravacances.fr', this)" title="Copier le lien" aria-label="Copier le lien"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-                                          <a href="https://astravacances.fr" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir astravacances.fr dans un nouvel onglet" aria-label="Visiter astravacances.fr"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-                                        </div>
+                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                                        <span class="cs-url-text">astravacances.fr</span>
                                     </div>
 
                                     <div class="cs-window-bar-right">
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('astra')" title="Agrandir la vitrine en vue pleine écran">
-                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Vue Pleine</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('astra')" title="Plein écran">
+                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Plein écran</span>
                                         </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
-                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire" aria-label="Réduire">
+                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
                                         </button>
                                     </div>
                                 </div>
 
                                 <!-- Bandeau d'aide ergonomique pour le mode plein écran -->
-                                <div class="cs-fs-helper-bar">
-                                    <span><span>✦</span> Mode Vitrine Plein Écran · Expérience Client Interactive</span>
-                                    <span>Navigation : <kbd class="cs-fs-helper-key">←</kbd> <kbd class="cs-fs-helper-key">→</kbd> Changer de site · <kbd class="cs-fs-helper-key">Échap</kbd> Réduire</span>
-                                </div>
+                                
 
                                 <div class="cs-viewport">
                                     <iframe src="showcase-astra.html" class="cs-mockup-iframe" id="astraIframe" title="Astra Vacances — Audit &amp; Gestion Opérationnelle" loading="eager"></iframe>
@@ -384,50 +364,38 @@
                         <!-- Slide 1 : Achille.ai (Maquette Navigable) -->
                         <div class="hero-card-slide" id="heroSlide1">
                             <div class="cs-cell cs-cell--windowed" id="mockupAchille">
-                                <!-- Barre de Fenêtre macOS Élite Classique Pure (Single Bar, Pas d'onglets au sommet) -->
+                                <!-- Barre de Fenêtre macOS Élite Épurée -->
                                 <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
-                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(1, event)" title="Minimiser dans le dock (animation Mac)"></span>
-                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('achille')" title="Agrandir en plein écran"></span>
-                                        </div>
-                                        <div class="cs-nav-arrows" aria-hidden="true">
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('achille', -1)" title="Page précédente">‹</button>
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('achille', 1)" title="Page suivante">›</button>
+                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer"></span>
+                                            <span class="cs-dot cs-dot--yellow" onclick="minimizeMockupAnimated(1, event)" title="Minimiser"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('achille')" title="Plein écran"></span>
                                         </div>
                                         <div class="cs-device-switch" aria-label="Format d'affichage">
-                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('achille', 'desktop', this)" title="Vue Ordinateur (Desktop)"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('achille', 'tablet', this)" title="Vue Tablette (768px)"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('achille', 'mobile', this)" title="Vue Mobile (390px)"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('achille', 'desktop', this)" title="Ordinateur"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('achille', 'tablet', this)" title="Tablette"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('achille', 'mobile', this)" title="Mobile"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
                                         </div>
                                     </div>
 
                                     <div class="cs-url-bar">
-                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-                                        <span class="cs-url-text">achille.ai<span id="achilleUrlPath" class="cs-url-path">/automation</span></span>
-                                        <div class="cs-url-actions">
-                                          <button type="button" class="cs-url-icon-btn" onclick="reloadMockup('achille', this)" title="Recharger la page (simulé < 0.3s)" aria-label="Recharger"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.3L2.5 16"/></svg></button>
-                                          <button type="button" class="cs-url-icon-btn" onclick="copyMockupUrl('https://achille.ai', this)" title="Copier le lien" aria-label="Copier le lien"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-                                          <a href="https://achille.ai" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir achille.ai dans un nouvel onglet" aria-label="Visiter achille.ai"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-                                        </div>
+                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                                        <span class="cs-url-text">achille.ai</span>
                                     </div>
 
                                     <div class="cs-window-bar-right">
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('achille')" title="Agrandir la vitrine en vue pleine écran">
-                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Vue Pleine</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('achille')" title="Plein écran">
+                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Plein écran</span>
                                         </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
-                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire" aria-label="Réduire">
+                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
                                         </button>
                                     </div>
                                 </div>
 
                                 <!-- Bandeau d'aide ergonomique pour le mode plein écran -->
-                                <div class="cs-fs-helper-bar">
-                                    <span><span>●</span> Mode Vitrine Plein Écran · Expérience Client Interactive</span>
-                                    <span>Navigation : <kbd class="cs-fs-helper-key">←</kbd> <kbd class="cs-fs-helper-key">→</kbd> Changer de site · <kbd class="cs-fs-helper-key">Échap</kbd> Réduire</span>
-                                </div>
+                                
 
                                 <div class="cs-viewport">
                                     <nav class="cs-mockup-navbar">
@@ -435,7 +403,7 @@
                                             <img src="assets/achille-logo.png" alt="Achille.ai" class="cs-mockup-brand-img cs-mockup-brand-img--achille">
                                             <div class="cs-mockup-brand-text">
                                                 <span class="cs-mockup-brand-name">ACHILLE.AI</span>
-                                                <span class="cs-mockup-brand-sub">SUPPORT AI-FIRST · STATION F</span>
+                                                <span class="cs-mockup-brand-sub">Service Client Automatisé</span>
                                             </div>
                                         </div>
                                         <ul class="cs-mockup-tabs">
@@ -449,7 +417,7 @@
                                     <!-- Vue 1 : IA Automate avec Démo de Chat Interactif Libre & Rapide -->
                                     <div id="achilleView_auto" class="cs-page-view active" style="background: radial-gradient(circle at 60% 40%, #15132A 0%, #0A0914 100%);">
                                         <div class="cs-mock-hero">
-                                            <span class="cs-mock-badge-inline" style="background: rgba(99, 102, 241, 0.2); color: #A5B4FC;">[ AUTOMATISATION SERVICE CLIENT E-COMMERCE &amp; SAAS ]</span>
+                                            <span class="cs-mock-badge-inline" style="background: rgba(99, 102, 241, 0.2); color: #A5B4FC;">Service Client E-commerce</span>
                                             <h3 class="cs-mock-title">50% de vos tickets de support résolus en 18ms</h3>
                                             <p class="cs-mock-dek">WISMO, retours, échanges, facturation : Achille exécute l'action côté Shopify, Gorgias et Zendesk dans le ton exact de votre marque.</p>
                                         </div>
@@ -596,50 +564,38 @@
                         <!-- Slide 2 : Cabinet Valmy (Maquette Navigable Panoramique) -->
                         <div class="hero-card-slide" id="heroSlide2">
                             <div class="cs-cell cs-cell--windowed" id="mockupValmy">
-                                <!-- Barre de Fenêtre macOS Élite Classique Pure (Single Bar, Pas d'onglets au sommet) -->
+                                <!-- Barre de Fenêtre macOS Élite Épurée -->
                                 <div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
-                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(2, event)" title="Minimiser dans le dock (animation Mac)"></span>
-                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('valmy')" title="Agrandir en plein écran"></span>
-                                        </div>
-                                        <div class="cs-nav-arrows" aria-hidden="true">
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('valmy', -1)" title="Page précédente">‹</button>
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('valmy', 1)" title="Page suivante">›</button>
+                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer"></span>
+                                            <span class="cs-dot cs-dot--yellow" onclick="minimizeMockupAnimated(2, event)" title="Minimiser"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('valmy')" title="Plein écran"></span>
                                         </div>
                                         <div class="cs-device-switch" aria-label="Format d'affichage">
-                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('valmy', 'desktop', this)" title="Vue Ordinateur (Desktop)"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('valmy', 'tablet', this)" title="Vue Tablette (768px)"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('valmy', 'mobile', this)" title="Vue Mobile (390px)"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('valmy', 'desktop', this)" title="Ordinateur"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('valmy', 'tablet', this)" title="Tablette"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('valmy', 'mobile', this)" title="Mobile"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
                                         </div>
                                     </div>
 
-                                    <div class="cs-url-bar" style="max-width: 480px;">
-                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-                                        <span class="cs-url-text">cabinet-valmy.com<span id="valmyUrlPath" class="cs-url-path">/mandats</span></span>
-                                        <div class="cs-url-actions">
-                                          <button type="button" class="cs-url-icon-btn" onclick="reloadMockup('valmy', this)" title="Recharger la page (simulé < 0.3s)" aria-label="Recharger"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.3L2.5 16"/></svg></button>
-                                          <button type="button" class="cs-url-icon-btn" onclick="copyMockupUrl('https://cabinet-valmy.com', this)" title="Copier le lien" aria-label="Copier le lien"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-                                          <a href="https://cabinet-valmy.com" target="_blank" rel="noopener noreferrer" class="cs-url-ext-link" title="Ouvrir cabinet-valmy.com dans un nouvel onglet" aria-label="Visiter cabinet-valmy.com"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-                                        </div>
+                                    <div class="cs-url-bar">
+                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                                        <span class="cs-url-text">cabinet-valmy.com</span>
                                     </div>
 
                                     <div class="cs-window-bar-right">
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('valmy')" title="Agrandir la vitrine en vue pleine écran">
-                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Vue Pleine</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('valmy')" title="Plein écran">
+                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Plein écran</span>
                                         </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
-                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire" aria-label="Réduire">
+                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
                                         </button>
                                     </div>
                                 </div>
 
                                 <!-- Bandeau d'aide ergonomique pour le mode plein écran -->
-                                <div class="cs-fs-helper-bar">
-                                    <span><span>◆</span> Mode Vitrine Plein Écran · Expérience Client Interactive</span>
-                                    <span>Navigation : <kbd class="cs-fs-helper-key">←</kbd> <kbd class="cs-fs-helper-key">→</kbd> Changer de site · <kbd class="cs-fs-helper-key">Échap</kbd> Réduire</span>
-                                </div>
+                                
 
                                 <div class="cs-viewport">
                                     <nav class="cs-mockup-navbar">
@@ -793,37 +749,35 @@
                         <!-- Slide 3 : Studio Boubane (Carte 3D Ramp sous Fenêtre macOS) -->
                         <div class="hero-card-slide" id="heroSlide3">
                             <div class="cs-cell cs-cell--windowed" id="mockupStudio">
-                                <!-- Barre de Fenêtre macOS Élite Classique Pure (Single Bar, Pas d'onglets au sommet) -->
-                                <div class="cs-window-bar">
+<div class="cs-window-bar">
                                     <div class="cs-window-bar-left">
                                         <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer la vue"></span>
-                                            <span class="cs-dot cs-dot--yellow cs-dot--orange" onclick="minimizeMockupAnimated(3, event)" title="Minimiser dans le dock (animation Mac)"></span>
-                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('studio')" title="Agrandir en plein écran"></span>
+                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer"></span>
+                                            <span class="cs-dot cs-dot--yellow" onclick="minimizeMockupAnimated(3, event)" title="Minimiser"></span>
+                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('studio')" title="Plein écran"></span>
                                         </div>
-                                        <div class="cs-nav-arrows" aria-hidden="true">
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('studio', -1)" title="Page précédente">‹</button>
-                                            <button type="button" class="cs-nav-arrow-btn" onclick="navigateMockup('studio', 1)" title="Page suivante">›</button>
+                                        <div class="cs-device-switch" aria-label="Format d'affichage">
+                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('studio', 'desktop', this)" title="Ordinateur"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('studio', 'tablet', this)" title="Tablette"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('studio', 'mobile', this)" title="Mobile"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
                                         </div>
                                     </div>
 
                                     <div class="cs-url-bar">
-                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-                                        <span class="cs-url-text">boubane.com<span class="cs-url-path">/carte-membre-3d</span></span>
-                                        <div class="cs-url-actions">
-                                          <button type="button" class="cs-url-icon-btn" onclick="reloadMockup('studio', this)" title="Recharger" aria-label="Recharger"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.3L2.5 16"/></svg></button>
-                                          <button type="button" class="cs-url-icon-btn" onclick="copyMockupUrl('https://boubane.com', this)" title="Copier le lien" aria-label="Copier le lien"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-                                        </div>
+                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                                        <span class="cs-url-text">boubane.com/carte-membre-3d</span>
                                     </div>
 
                                     <div class="cs-window-bar-right">
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire la fenêtre (Échap)" aria-label="Réduire la fenêtre">
-                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
+                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('studio')" title="Plein écran">
+                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Plein écran</span>
+                                        </button>
+                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire" aria-label="Réduire">
+                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
                                         </button>
                                     </div>
                                 </div>
-
-                                <div class="cs-viewport" style="display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(circle at 50% 50%, #17161E 0%, #0C0A08 90%);">
+<div class="cs-viewport" style="display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(circle at 50% 50%, #17161E 0%, #0C0A08 90%);">
                                     <div class="boubane-card-stage" style="margin: 0; max-width: 440px;">
                                         <div id="boubaneCard3d" class="boubane-card-3d" title="Carte Studio Boubane — Déplacez la souris pour incliner">
                                             <div class="card-glare"></div>

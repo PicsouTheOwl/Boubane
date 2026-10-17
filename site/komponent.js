@@ -481,7 +481,7 @@ function switchPortalSite(siteKey) {
       inlineContainer.style.display = 'none';
       inlineContainer.innerHTML = '';
     }
-    if (urlText) urlText.textContent = 'astravacances.fr/audit-operationnel';
+    if (urlText) urlText.textContent = 'astravacances.fr';
     if (extLink) extLink.href = 'showcase-astra.html';
     if (capDot) capDot.style.background = '#2B9BBD';
     if (capTitle) capTitle.textContent = 'Astravacances.fr — Vitrine Réalisée par Studio Boubane (Vitesse < 0.3s)';
@@ -500,10 +500,10 @@ function switchPortalSite(siteKey) {
         inlineContainer.appendChild(origViewport);
       }
     }
-    if (urlText) urlText.textContent = 'achille.ai/automation';
+    if (urlText) urlText.textContent = 'achille.ai';
     if (extLink) extLink.href = 'https://achille.ai';
     if (capDot) capDot.style.background = '#6366F1';
-    if (capTitle) capTitle.textContent = 'Achille.ai — Support Client AI-First (Latence 18ms)';
+    if (capTitle) capTitle.textContent = 'Achille.ai — Solution Service Client E-commerce & SaaS';
     if (capVisitBtn) {
       capVisitBtn.href = 'https://achille.ai';
       capVisitBtn.textContent = 'Visiter achille.ai ↗';
@@ -519,10 +519,10 @@ function switchPortalSite(siteKey) {
         inlineContainer.appendChild(origViewport);
       }
     }
-    if (urlText) urlText.textContent = 'cabinet-valmy.com/mandats';
+    if (urlText) urlText.textContent = 'cabinet-valmy.com';
     if (extLink) extLink.href = 'https://cabinet-valmy.com';
     if (capDot) capDot.style.background = '#F59E0B';
-    if (capTitle) capTitle.textContent = 'Cabinet Valmy — Barreau d\'affaires M&A & Cession d\'entreprises';
+    if (capTitle) capTitle.textContent = 'Cabinet Valmy — Barreau d\'affaires M&A & Transmission d\'entreprises';
     if (capVisitBtn) {
       capVisitBtn.href = 'https://cabinet-valmy.com';
       capVisitBtn.textContent = 'Visiter cabinet-valmy.com ↗';
