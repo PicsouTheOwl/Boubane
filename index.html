@@ -839,37 +839,37 @@
             <!-- Dock Flottant macOS Centré sur toute la page (Barre des tâches interactive & sélecteur de vitrines) -->
             <div class="hero-dock-wrap">
                 <nav class="cs-floating-dock" id="heroFloatingDock" aria-label="Dock d'applications macOS et sélecteur de vitrines">
-                    <!-- Applications / Vitrines principales -->
+                    <!-- Applications / Vitrines principales macOS -->
                     <div class="cs-dock-items-wrap">
-                        <button type="button" class="cs-dock-app-btn active" id="dockBtn0" onclick="toggleDockApp(0)" title="Astravacances.fr — Audit &amp; Hôtellerie" aria-selected="true">
+                        <button type="button" class="cs-dock-app-btn active" id="dockBtn0" onclick="toggleDockApp(0)" aria-label="Astravacances" aria-selected="true">
+                            <span class="cs-dock-tooltip">Astravacances.fr</span>
                             <div class="cs-dock-icon-box">
-                                <img src="assets/astra-logo.png" alt="" class="cs-dock-img">
+                                <img src="assets/astra-logo.png" alt="Astravacances" class="cs-dock-img">
                             </div>
-                            <span class="cs-dock-title">Astravacances</span>
                             <span class="cs-dock-indicator"></span>
                         </button>
 
-                        <button type="button" class="cs-dock-app-btn" id="dockBtn1" onclick="toggleDockApp(1)" title="Achille.ai — Support Client AI-First" aria-selected="false">
+                        <button type="button" class="cs-dock-app-btn" id="dockBtn1" onclick="toggleDockApp(1)" aria-label="Achille.ai" aria-selected="false">
+                            <span class="cs-dock-tooltip">Achille.ai</span>
                             <div class="cs-dock-icon-box">
-                                <img src="assets/achille-logo.png" alt="" class="cs-dock-img cs-dock-img--achille">
+                                <img src="assets/achille-logo.png" alt="Achille.ai" class="cs-dock-img cs-dock-img--achille">
                             </div>
-                            <span class="cs-dock-title">Achille.ai</span>
                             <span class="cs-dock-indicator"></span>
                         </button>
 
-                        <button type="button" class="cs-dock-app-btn" id="dockBtn2" onclick="toggleDockApp(2)" title="Cabinet Valmy — Avocats M&amp;A" aria-selected="false">
+                        <button type="button" class="cs-dock-app-btn" id="dockBtn2" onclick="toggleDockApp(2)" aria-label="Cabinet Valmy" aria-selected="false">
+                            <span class="cs-dock-tooltip">Cabinet Valmy</span>
                             <div class="cs-dock-icon-box cs-dock-icon-box--valmy">
                                 <span class="cs-dock-seal">V</span>
                             </div>
-                            <span class="cs-dock-title">Cabinet Valmy</span>
                             <span class="cs-dock-indicator"></span>
                         </button>
 
-                        <button type="button" class="cs-dock-app-btn" id="dockBtn3" onclick="toggleDockApp(3)" title="Studio Boubane — Carte Membre 3D" aria-selected="false">
+                        <button type="button" class="cs-dock-app-btn" id="dockBtn3" onclick="toggleDockApp(3)" aria-label="Studio Boubane" aria-selected="false">
+                            <span class="cs-dock-tooltip">Studio Boubane</span>
                             <div class="cs-dock-icon-box">
-                                <img src="assets/boubane-logo.png" alt="" class="cs-dock-img">
+                                <img src="assets/boubane-logo.png" alt="Studio Boubane" class="cs-dock-img">
                             </div>
-                            <span class="cs-dock-title">Studio</span>
                             <span class="cs-dock-indicator"></span>
                         </button>
                     </div>
@@ -877,15 +877,21 @@
                     <!-- Séparateur vertical macOS -->
                     <div class="cs-dock-divider" aria-hidden="true"></div>
 
-                    <!-- Actions Rapides : Vue Pleine & Visite Réelle -->
+                    <!-- Actions Rapides macOS (Vue Pleine & Visite Réelle) -->
                     <div class="cs-dock-actions-wrap">
-                        <button type="button" class="cs-dock-action-pill cs-dock-action-pill--fullscreen" onclick="openActiveFullscreen()" title="Ouvrir la vitrine active en plein écran immersif (Échap pour quitter)" aria-label="Agrandir en plein écran">
-                            <span class="cs-dock-action-icon"><svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
-                            <span class="cs-dock-action-label">Vue Pleine</span>
+                        <button type="button" class="cs-dock-app-btn cs-dock-app-btn--action" onclick="openActiveFullscreen()" aria-label="Agrandir en plein écran">
+                            <span class="cs-dock-tooltip">Vue Pleine (Plein Écran)</span>
+                            <div class="cs-dock-icon-box cs-dock-icon-box--action">
+                                <svg class="cs-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            </div>
+                            <span class="cs-dock-indicator" style="opacity: 0;"></span>
                         </button>
-                        <button type="button" class="cs-dock-action-pill cs-dock-action-pill--visit" onclick="openActiveSiteExternal()" title="Ouvrir le site réalisé dans un nouvel onglet" aria-label="Visiter le site réalisé">
-                            <span class="cs-dock-action-icon"><svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></span>
-                            <span class="cs-dock-action-label">Visiter</span>
+                        <button type="button" class="cs-dock-app-btn cs-dock-app-btn--action" onclick="openActiveSiteExternal()" aria-label="Visiter le vrai site">
+                            <span class="cs-dock-tooltip">Visiter le site en direct ↗</span>
+                            <div class="cs-dock-icon-box cs-dock-icon-box--action">
+                                <svg class="cs-icon-svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                            </div>
+                            <span class="cs-dock-indicator" style="opacity: 0;"></span>
                         </button>
                     </div>
                 </nav>

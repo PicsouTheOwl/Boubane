@@ -893,6 +893,22 @@ const heroSiteMetadata = [
 let isWindowMinimized = false;
 let isDockTransitioning = false;
 
+// Calcule la coordonnée horizontale relative (%) du bouton cliqué par rapport au conteneur de la vitrine
+function getDockButtonOrigin(idx) {
+  const btn = document.getElementById(`dockBtn${idx}`);
+  const stage = document.getElementById('heroCardsViewport') || document.getElementById('heroShowcase');
+  if (btn && stage) {
+    const btnRect = btn.getBoundingClientRect();
+    const stageRect = stage.getBoundingClientRect();
+    if (stageRect.width > 0) {
+      const btnCenter = btnRect.left + btnRect.width / 2;
+      const originPct = ((btnCenter - stageRect.left) / stageRect.width) * 100;
+      return Math.max(6, Math.min(94, originPct));
+    }
+  }
+  return 50;
+}
+
 // 1. Déclenchement de l'animation de minimisation macOS (Pastille jaune ou clic Dock sur l'application active)
 function minimizeMockupAnimated(targetIndex, event) {
   if (event) {
@@ -913,7 +929,11 @@ function minimizeMockupAnimated(targetIndex, event) {
     isDockTransitioning = true;
     const windowCell = activeSlide.querySelector('.cs-cell--windowed') || activeSlide;
 
-    // Animation macOS fluide vers le bas (Dock)
+    // Calculer le point d'ancrage vers l'onglet du dock d'où elle provient
+    const originX = getDockButtonOrigin(idx);
+    windowCell.style.transformOrigin = `${originX.toFixed(1)}% 100%`;
+
+    // Animation macOS fluide qui s'aspire vers le bas dans l'onglet
     windowCell.classList.remove('animating-restore', 'animating-close');
     windowCell.classList.add('animating-minimize');
 
@@ -935,7 +955,7 @@ function minimizeMockupAnimated(targetIndex, event) {
   }
 }
 
-// 2. Restauration / Déploiement de la fenêtre depuis le Dock (animation macOS vers le haut)
+// 2. Restauration / Déploiement de la fenêtre depuis le Dock (animation macOS : jaillit depuis son onglet !)
 function restoreMockupAnimated(targetIndex) {
   if (isDockTransitioning) return;
   const idx = (typeof targetIndex === 'number') ? targetIndex : currentHeroCardIndex;
@@ -957,10 +977,26 @@ function restoreMockupAnimated(targetIndex) {
   targetSlide.classList.add('active');
 
   const windowCell = targetSlide.querySelector('.cs-cell--windowed') || targetSlide;
+
+  // Calcul dynamique du point d'émergence depuis l'icône cliquée dans le Dock
+  const originX = getDockButtonOrigin(idx);
+  windowCell.style.transformOrigin = `${originX.toFixed(1)}% 100%`;
+
   windowCell.classList.remove('animating-minimize', 'animating-close');
   windowCell.classList.add('animating-restore');
 
-  // Mettre à jour les boutons du Dock : l'application sélectionnée brille
+  // Animation de rebond authentique macOS de l'icône cliquée dans le Dock
+  const clickedBtn = document.getElementById(`dockBtn${idx}`);
+  if (clickedBtn) {
+    clickedBtn.classList.remove('is-bouncing');
+    void clickedBtn.offsetWidth; // Force reflow
+    clickedBtn.classList.add('is-bouncing');
+    setTimeout(() => {
+      clickedBtn.classList.remove('is-bouncing');
+    }, 650);
+  }
+
+  // Mettre à jour les boutons du Dock : l'application sélectionnée allume son indicateur LED
   const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
   dockBtns.forEach((btn, i) => {
     const isActive = (i === idx);
@@ -973,20 +1009,20 @@ function restoreMockupAnimated(targetIndex) {
   setTimeout(() => {
     windowCell.classList.remove('animating-restore');
     isDockTransitioning = false;
-  }, 320);
+  }, 380);
 }
 
 // 3. Comportement authentique Barre des Tâches / Dock Mac :
-// Si la fenêtre est déjà ouverte sur cette app -> la refermer dans le dock
-// Si la fenêtre est fermée ou sur une autre app -> l'ouvrir / restaurer depuis le dock
+// Si la fenêtre est déjà ouverte sur cette app -> la refermer dans son onglet
+// Si la fenêtre est fermée ou sur une autre app -> la faire sortir de son onglet
 function toggleDockApp(index) {
   if (isDockTransitioning) return;
 
   if (!isWindowMinimized && currentHeroCardIndex === index) {
-    // La fenêtre est actuellement affichée : on la referme dans la barre comme sur un Mac !
+    // La fenêtre est actuellement affichée : on la referme dans son onglet comme sur un Mac !
     minimizeMockupAnimated(index);
   } else {
-    // La fenêtre était fermée ou on change d'app : on la déploie
+    // La fenêtre était fermée ou on change d'app : elle sort de son onglet
     restoreMockupAnimated(index);
   }
 }
@@ -996,7 +1032,7 @@ function selectHeroCard(index) {
   toggleDockApp(index);
 }
 
-// Fermeture pure macOS de la fenêtre active (Pastille rouge) : disparition douce et nette
+// Fermeture pure macOS de la fenêtre active (Pastille rouge) : disparition douce et rétraction vers l'onglet
 function closeActiveTabAnimated(event) {
   if (event) {
     event.stopPropagation();
@@ -1009,6 +1045,8 @@ function closeActiveTabAnimated(event) {
   if (activeSlide) {
     isDockTransitioning = true;
     const windowCell = activeSlide.querySelector('.cs-cell--windowed') || activeSlide;
+    const originX = getDockButtonOrigin(idx);
+    windowCell.style.transformOrigin = `${originX.toFixed(1)}% 100%`;
     windowCell.classList.remove('animating-restore', 'animating-minimize');
     windowCell.classList.add('animating-close');
 
