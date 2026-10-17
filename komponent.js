@@ -641,13 +641,22 @@ function setMockupDevice(site, device, btn) {
   if (!container) return;
 
   container.style.transform = '';
+
+  // Déclenchement de la transition cinématique de morphing hardware
+  container.classList.remove('is-morphing-device');
+  void container.offsetWidth; // Force reflow
+  container.classList.add('is-morphing-device');
+  setTimeout(() => {
+    container.classList.remove('is-morphing-device');
+  }, 480);
+
   container.classList.remove('device-tablet', 'device-mobile');
   if (device === 'tablet') {
     container.classList.add('device-tablet');
-    showBoubaneToast('📱 Vue Tablette activée (Format iPad)');
+    showBoubaneToast('📱 Vue Tablette activée (Format iPad Pro)');
   } else if (device === 'mobile') {
     container.classList.add('device-mobile');
-    showBoubaneToast('📲 Vue Smartphone activée (Format iPhone Compact)');
+    showBoubaneToast('📲 Vue Smartphone activée (Format iPhone Pro)');
   } else {
     showBoubaneToast('🖥️ Vue Ordinateur rétablie');
   }
