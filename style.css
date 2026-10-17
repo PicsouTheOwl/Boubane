@@ -553,14 +553,15 @@ p.lead {
   height: clamp(520px, 64vh, 750px);
   max-height: calc(100vh - 140px);
   overflow: hidden;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #18191E 0%, #0C0A08 55%, #141312 100%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 22px;
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.12);
   box-shadow: 
-    0 24px 60px -12px rgba(12, 10, 8, 0.45),
-    0 8px 24px -4px rgba(12, 10, 8, 0.25),
-    inset 0 1px 1px rgba(255, 255, 255, 0.22),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.6);
+    0 28px 70px -12px rgba(12, 10, 8, 0.18),
+    0 10px 24px -4px rgba(12, 10, 8, 0.1),
+    0 2px 6px rgba(12, 10, 8, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   transform-style: preserve-3d;
@@ -575,11 +576,12 @@ p.lead {
 }
 
 .hero-split-col--mockup .cs-cell--windowed:hover {
-  border-color: rgba(255, 255, 255, 0.24);
+  border-color: rgba(12, 10, 8, 0.2);
   box-shadow: 
-    0 32px 80px -16px rgba(12, 10, 8, 0.55),
-    0 12px 32px -4px rgba(238, 248, 90, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.32);
+    0 38px 90px -16px rgba(12, 10, 8, 0.24),
+    0 14px 32px -4px rgba(12, 10, 8, 0.12),
+    0 4px 10px rgba(12, 10, 8, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 1);
 }
 
 /* Masquer le cartouche bas sur la Hero pour garder 100% de surface pour le site web pur */
@@ -1361,35 +1363,37 @@ body.mockup-modal-open .hero-card-slide.active {
   max-height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #18191E 0%, #0C0A08 55%, #141312 100%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 22px;
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.12);
   box-shadow: 
-    0 24px 60px -12px rgba(12, 10, 8, 0.45),
-    0 8px 24px -4px rgba(12, 10, 8, 0.25),
-    inset 0 1px 1px rgba(255, 255, 255, 0.22),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.6);
+    0 28px 70px -12px rgba(12, 10, 8, 0.18),
+    0 10px 24px -4px rgba(12, 10, 8, 0.1),
+    0 2px 6px rgba(12, 10, 8, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.06);
   overflow: hidden;
   transform-style: preserve-3d;
   transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cs-cell--windowed:hover {
-  border-color: rgba(255, 255, 255, 0.24);
+  border-color: rgba(12, 10, 8, 0.2);
   box-shadow: 
-    0 32px 80px -16px rgba(12, 10, 8, 0.55),
-    0 12px 32px -4px rgba(238, 248, 90, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.32);
+    0 38px 90px -16px rgba(12, 10, 8, 0.24),
+    0 14px 32px -4px rgba(12, 10, 8, 0.12),
+    0 4px 10px rgba(12, 10, 8, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 1);
 }
 
 /* Lueur holographique spéculaire de carte Ramp appliquée sur la fenêtre */
 .cs-window-glare {
   position: absolute;
   inset: -60%;
-  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 65%);
+  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 65%);
   pointer-events: none;
   transform: translateZ(2px);
-  mix-blend-mode: overlay;
+  mix-blend-mode: soft-light;
   opacity: 0.6;
   transition: opacity 0.3s ease;
   z-index: 15;
@@ -1435,9 +1439,10 @@ body.mockup-modal-open .hero-card-slide.active {
 
 .cs-cell--windowed.is-fullscreen .cs-window-bar {
   flex: 0 0 auto !important;
-  border-radius: 18px 18px 0 0 !important;
+  border-radius: 22px 22px 0 0 !important;
   padding: 12px 24px !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: #F2F2F5 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
 }
 
 
@@ -1489,23 +1494,24 @@ body.mockup-modal-open .hero-card-slide.active {
    ========================================================================== */
 
 .cs-window-bar {
-  background: #14161B;
-  padding: 9px 16px;
+  background: #F2F2F5;
+  padding: 9px 18px;
   min-height: 42px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   position: relative;
   z-index: 10;
   gap: 12px;
   user-select: none;
+  border-radius: 22px 22px 0 0;
 }
 
 .cs-window-bar-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex: 1;
 }
 
@@ -1528,7 +1534,7 @@ body.mockup-modal-open .hero-card-slide.active {
   line-height: 1;
   cursor: pointer;
   border: none;
-  opacity: 0.85;
+  opacity: 0.9;
   transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease;
   user-select: none;
   position: relative;
@@ -1537,50 +1543,51 @@ body.mockup-modal-open .hero-card-slide.active {
 .cs-dot:hover {
   transform: scale(1.12);
   opacity: 1;
-  color: rgba(0, 0, 0, 0.75);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .cs-dot--red { 
   background: #FF5F56; 
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.15);
 }
 .cs-dot--red::after { content: '×'; }
 
 .cs-dot--orange,
 .cs-dot--yellow { 
   background: #FFBD2E;
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.15);
 }
 .cs-dot--orange::after,
 .cs-dot--yellow::after { content: '−'; }
 
 .cs-dot--green { 
   background: #27C93F; 
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.15);
 }
 .cs-dot--green::after { content: '+'; }
 
-/* Barre d'adresse épurée type Apple Safari native */
+/* Barre d'adresse épurée type Apple Safari claire native */
 .cs-url-bar {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   border-radius: var(--radius-pill);
-  padding: 4px 14px;
+  padding: 4px 16px;
   font-family: var(--font-mono);
   font-size: 0.73rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: #0F172A;
   letter-spacing: 0.015em;
   flex: 0 1 420px;
   justify-content: center;
   transition: all 0.2s ease;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .cs-url-bar:hover {
-  border-color: rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.065);
+  border-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 .cs-window-bar-right {
@@ -1937,14 +1944,13 @@ body.mockup-modal-open .hero-card-slide.active {
   max-height: calc(100vh - 2 * clamp(10px, 2vw, 24px));
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #18191E 0%, #0C0A08 55%, #141312 100%);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: #FFFFFF;
+  border-radius: 22px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
   box-shadow: 
-    0 32px 140px -10px rgba(0, 0, 0, 0.98),
-    0 0 0 1px rgba(255, 255, 255, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.22),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.6);
+    0 36px 140px -10px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
   overflow: hidden;
   animation: portalWindowScale 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -1962,10 +1968,10 @@ body.mockup-modal-open .hero-card-slide.active {
 
 .mockup-portal-window .cs-window-bar {
   flex: 0 0 auto;
-  border-radius: 20px 20px 0 0;
+  border-radius: 22px 22px 0 0;
   padding: 12px 24px;
-  background: linear-gradient(180deg, #1C1E24 0%, #121317 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #F2F2F5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /* Sélecteur de projets dans la vue pleine */
@@ -1973,17 +1979,17 @@ body.mockup-modal-open .hero-card-slide.active {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.05);
   padding: 3px 6px;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.07);
   margin-left: 14px;
 }
 
 .cs-portal-tab-btn {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.65);
+  color: #64748B;
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 500;
@@ -1997,15 +2003,15 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 .cs-portal-tab-btn:hover {
-  color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.1);
+  color: #0F172A;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .cs-portal-tab-btn.active {
-  background: rgba(255, 255, 255, 0.16);
-  color: #FFFFFF;
-  font-weight: 600;
-  box-shadow: none;
+  background: #FFFFFF;
+  color: #0F172A;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .cs-portal-tab-icon {
@@ -2054,10 +2060,15 @@ body.mockup-modal-open .hero-card-slide.active {
 
 .mockup-portal-cap {
   flex: 0 0 auto;
-  border-radius: 0 0 20px 20px;
-  background: #141519;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 22px 22px;
+  background: #F2F2F5;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
   padding: 10px 24px;
+}
+
+.mockup-portal-cap .cs-cap__t {
+  color: #1E293B;
+  font-weight: 600;
 }
 
 
@@ -2066,12 +2077,11 @@ body.mockup-modal-open .hero-card-slide.active {
 .cs-device-switch {
   display: flex;
   align-items: center;
-  gap: 3px;
-  background: rgba(255, 255, 255, 0.045);
-  padding: 3px 6px;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 3px 4px;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .cs-device-btn {
@@ -2081,7 +2091,8 @@ body.mockup-modal-open .hero-card-slide.active {
   border-radius: var(--radius-pill);
   cursor: pointer;
   font-size: 0.72rem;
-  opacity: 0.7;
+  color: #64748B;
+  opacity: 0.85;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   line-height: 1;
   display: inline-flex;
@@ -2092,29 +2103,31 @@ body.mockup-modal-open .hero-card-slide.active {
 .cs-device-icon {
   display: inline-block;
   vertical-align: middle;
-  stroke: rgba(255, 255, 255, 0.65);
+  stroke: currentColor;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
 }
 
 .cs-device-btn:hover {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.12);
+  color: #0F172A;
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .cs-device-btn:hover .cs-device-icon {
-  stroke: #FFFFFF;
-  transform: scale(1.1);
+  stroke: currentColor;
+  transform: scale(1.08);
 }
 
 .cs-device-btn.active {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: none;
+  background: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .cs-device-btn.active .cs-device-icon {
-  stroke: #FFFFFF;
+  stroke: currentColor;
 }
 
 /* ==========================================================================
@@ -2403,7 +2416,7 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 .cs-url-lock {
-  color: rgba(255, 255, 255, 0.45);
+  color: #64748B;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2413,7 +2426,7 @@ body.mockup-modal-open .hero-card-slide.active {
 .cs-url-lock-svg {
   display: inline-block;
   vertical-align: middle;
-  stroke: rgba(255, 255, 255, 0.38);
+  stroke: #64748B;
 }
 
 .cs-icon-svg {
@@ -2429,7 +2442,7 @@ body.mockup-modal-open .hero-card-slide.active {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: rgba(255, 255, 255, 0.85);
+  color: #0F172A;
 }
 
 .cs-window-bar-right {
@@ -2438,30 +2451,31 @@ body.mockup-modal-open .hero-card-slide.active {
   gap: 10px;
 }
 
-/* Bouton Agrandir / Plein Écran Épuré (Zéro brillance, mat Apple Safari) */
+/* Bouton Agrandir / Plein Écran Épuré (Barre Claire Safari) */
 .cs-btn-expand-win {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.75);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #334155;
   font-family: var(--font-body);
   font-size: 0.69rem;
-  font-weight: 500;
+  font-weight: 600;
   padding: 4px 11px;
   border-radius: var(--radius-pill);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .cs-btn-expand-win:hover {
-  background: rgba(255, 255, 255, 0.09);
-  color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.15);
+  background: #F8FAFC;
+  color: #0F172A;
+  border-color: rgba(0, 0, 0, 0.2);
   transform: none;
-  box-shadow: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
 .cs-btn-expand-win:hover .cs-icon-svg {
@@ -2473,15 +2487,15 @@ body.mockup-modal-open .hero-card-slide.active {
   line-height: 1;
 }
 
-/* Bouton Réduire épuré (Zéro lueur néon rouge, sobre et mat) */
+/* Bouton Réduire épuré */
 .cs-btn-close-win {
   display: none;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.75);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #DC2626;
   font-family: var(--font-body);
   font-size: 0.72rem;
-  font-weight: 500;
+  font-weight: 600;
   padding: 4px 12px;
   border-radius: var(--radius-pill);
   cursor: pointer;
@@ -2492,9 +2506,9 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 .cs-btn-close-win:hover {
-  background: rgba(255, 95, 86, 0.15);
-  border-color: rgba(255, 95, 86, 0.35);
-  color: #FF7B73;
+  background: #DC2626;
+  border-color: #DC2626;
+  color: #FFFFFF;
   box-shadow: none;
 }
 
