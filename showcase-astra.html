@@ -557,11 +557,104 @@
       .cta-card { padding: 36px 18px; border-radius: 20px; }
       .cta-title { font-size: 1.6rem !important; }
       .cta-text { font-size: 0.95rem; margin-bottom: 26px; }
-      .btn { width: 100%; padding: 14px 20px; font-size: 0.95rem; }
+    /* --- NAVBAR SUPÉRIEURE ÉLITE --- */
+    .astra-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 10px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+    .astra-nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .astra-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .astra-brand-logo {
+      height: 26px;
+      width: auto;
+      object-fit: contain;
+    }
+    .astra-brand-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--dark);
+      letter-spacing: -0.01em;
+    }
+    .astra-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .astra-nav-link {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .astra-nav-link:hover,
+    .astra-nav-link.active {
+      color: var(--primary);
+    }
+    .astra-nav-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 15px;
+      background: var(--primary);
+      color: #FFFFFF !important;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 3px 10px rgba(43, 155, 189, 0.22);
+      transition: all 0.2s ease;
+    }
+    .astra-nav-cta:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    @media (max-width: 768px) {
+      .astra-nav-links { display: none; }
+      .astra-navbar { padding: 8px 0; }
+      .astra-brand-name { font-size: 0.95rem; }
     }
   </style>
 </head>
 <body>
+
+  <!-- TOP NAVBAR ASTRA VACANCES ÉLITE -->
+  <header class="astra-navbar">
+    <div class="container astra-nav-container">
+      <a href="#" class="astra-brand">
+        <img src="assets/astra-logo.png" alt="Astra Vacances" class="astra-brand-logo" onerror="this.onerror=null; this.src='https://astravacances.fr/wp-content/uploads/2026/09/cropped-logo-astra-1.png';">
+        <span class="astra-brand-name">Astra Vacances</span>
+      </a>
+      <nav class="astra-nav-links">
+        <a href="#services" class="astra-nav-link active">Services</a>
+        <a href="#methode" class="astra-nav-link">Méthode</a>
+        <a href="#partenaires" class="astra-nav-link">Partenaires</a>
+        <a href="#temoignages" class="astra-nav-link">Avis</a>
+      </nav>
+      <div class="astra-nav-actions">
+        <a href="https://astravacances.fr/contact/" target="_blank" rel="noopener noreferrer" class="astra-nav-cta">
+          <i class="fas fa-phone-alt" style="font-size: 0.72rem; margin-right: 5px;"></i> Contact Expert
+        </a>
+      </div>
+    </div>
+  </header>
 
   <!-- HERO SECTION -->
   <section class="hero-section">
