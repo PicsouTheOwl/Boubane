@@ -591,7 +591,7 @@ function reloadPortalIframe() {
   const iframe = document.getElementById('portalIframe');
   if (iframe && iframe.style.display !== 'none') {
     iframe.src = iframe.src;
-    showBoubaneToast('↻ Page rechargée (< 0.3s)');
+    showBoubaneToast('Page rechargée (< 0.3s)');
   }
 }
 
@@ -653,12 +653,12 @@ function setMockupDevice(site, device, btn) {
   container.classList.remove('device-tablet', 'device-mobile');
   if (device === 'tablet') {
     container.classList.add('device-tablet');
-    showBoubaneToast('📱 Vue Tablette activée (Format iPad Pro)');
+    showBoubaneToast('Format iPad Pro activé');
   } else if (device === 'mobile') {
     container.classList.add('device-mobile');
-    showBoubaneToast('📲 Vue Smartphone activée (Format iPhone Pro)');
+    showBoubaneToast('Format iPhone Pro activé');
   } else {
-    showBoubaneToast('🖥️ Vue Ordinateur rétablie');
+    showBoubaneToast('Format Ordinateur rétabli');
   }
 
   // Activer le bouton cliqué
@@ -695,14 +695,14 @@ function reloadMockup(site, btn) {
       }, 160);
     }
   }
-  showBoubaneToast('⚡ Rechargé en 0.22s · Cache Cloudflare Edge Actif');
+  showBoubaneToast('Rechargé en 0.22s · Cache Cloudflare Edge Actif');
 }
 
 // Copie de l'URL dans le presse-papier
 function copyMockupUrl(url, btn) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(url).then(() => {
-      showBoubaneToast(`📋 Lien copié : ${url}`);
+      showBoubaneToast(`Lien copié : ${url}`);
     }).catch(() => {
       showBoubaneToast(`Lien : ${url}`);
     });
