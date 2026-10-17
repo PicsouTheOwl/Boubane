@@ -644,12 +644,12 @@ function setMockupDevice(site, device, btn) {
   container.classList.remove('device-tablet', 'device-mobile');
   if (device === 'tablet') {
     container.classList.add('device-tablet');
-    showBoubaneToast('📱 Vue Tablette activée (768px)');
+    showBoubaneToast('📱 Vue Tablette activée (Format iPad)');
   } else if (device === 'mobile') {
     container.classList.add('device-mobile');
-    showBoubaneToast('📲 Vue Mobile activée (390px)');
+    showBoubaneToast('📲 Vue Smartphone activée (Format iPhone Compact)');
   } else {
-    showBoubaneToast('🖥️ Vue Plein Écran Desktop rétablie');
+    showBoubaneToast('🖥️ Vue Ordinateur rétablie');
   }
 
   // Activer le bouton cliqué
