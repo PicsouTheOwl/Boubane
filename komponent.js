@@ -257,6 +257,63 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 8 bis. Effet Carte Ramp Appliqué sur la Fenêtre au Global (Physique 3D + Glare Holographique)
+  const heroViewport = document.getElementById('heroCardsViewport');
+  if (heroViewport && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    let rafId = null;
+
+    heroViewport.addEventListener('mousemove', (e) => {
+      const activeSlide = heroViewport.querySelector('.hero-card-slide.active');
+      if (!activeSlide) return;
+      const activeWin = activeSlide.querySelector('.cs-cell--windowed');
+      if (!activeWin || activeWin.classList.contains('is-fullscreen')) return;
+
+      const bounds = activeWin.getBoundingClientRect();
+      const leftX = e.clientX - bounds.left;
+      const topY = e.clientY - bounds.top;
+
+      // Micro-angle subtil et prestigieux (max 2°) pour garantir une ergonomie et clics parfaits
+      const maxRotate = 2.0;
+      const rotateX = ((topY - bounds.height / 2) / (bounds.height / 2)) * -maxRotate;
+      const rotateY = ((leftX - bounds.width / 2) / (bounds.width / 2)) * maxRotate;
+
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        activeWin.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(4px)`;
+        const glare = activeWin.querySelector('.cs-window-glare');
+        if (glare) {
+          const glareX = Math.max(0, Math.min(100, (leftX / bounds.width) * 100));
+          const glareY = Math.max(0, Math.min(100, (topY / bounds.height) * 100));
+          glare.style.background = `radial-gradient(circle at ${glareX.toFixed(1)}% ${glareY.toFixed(1)}%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 65%)`;
+          glare.style.opacity = '0.7';
+        }
+      });
+    });
+
+    heroViewport.addEventListener('mouseenter', () => {
+      const activeSlide = heroViewport.querySelector('.hero-card-slide.active');
+      const activeWin = activeSlide?.querySelector('.cs-cell--windowed');
+      if (activeWin && !activeWin.classList.contains('is-fullscreen')) {
+        activeWin.style.transition = 'transform 0.12s ease-out, box-shadow 0.3s ease';
+      }
+    });
+
+    heroViewport.addEventListener('mouseleave', () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      const activeSlide = heroViewport.querySelector('.hero-card-slide.active');
+      const activeWin = activeSlide?.querySelector('.cs-cell--windowed');
+      if (activeWin && !activeWin.classList.contains('is-fullscreen')) {
+        activeWin.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease';
+        activeWin.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)';
+        const glare = activeWin.querySelector('.cs-window-glare');
+        if (glare) {
+          glare.style.background = 'radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 65%)';
+          glare.style.opacity = '0.55';
+        }
+      }
+    });
+  }
+
   // 3D Tilt sur les cartes piliers et cartes tarifs (les maquettes sont exemptées pour la précision des clics)
   const tiltCards = document.querySelectorAll('.pillar-card, .pricing-plan-card');
   if (tiltCards.length > 0 && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
@@ -579,10 +636,11 @@ function openActiveSiteExternal() {
 
 // Sélecteur Responsive Device (Desktop / Tablette / Mobile)
 function setMockupDevice(site, device, btn) {
-  const containerId = site === 'astra' ? 'mockupAstra' : (site === 'achille' ? 'mockupAchille' : 'mockupValmy');
+  const containerId = site === 'astra' ? 'mockupAstra' : (site === 'achille' ? 'mockupAchille' : (site === 'valmy' ? 'mockupValmy' : 'mockupStudio'));
   const container = document.getElementById(containerId);
   if (!container) return;
 
+  container.style.transform = '';
   container.classList.remove('device-tablet', 'device-mobile');
   if (device === 'tablet') {
     container.classList.add('device-tablet');
