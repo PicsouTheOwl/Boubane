@@ -254,7 +254,7 @@
 
             <nav aria-label="Navigation principale">
                 <ul class="nav-links">
-                    <li><a href="#bureau" class="nav-link">Réalisations</a></li>
+                    <li><a href="#heroShowcase" class="nav-link">Réalisations</a></li>
                     <li><a href="#tarifs" class="nav-link">Offre 0 €</a></li>
                     <li><a href="#livrables" class="nav-link">Standards</a></li>
                 </ul>
@@ -304,538 +304,173 @@
 
                     <!-- Conteneur centré et calé à droite de la maquette et du dock -->
                     <div class="hero-showcase-stage-inner">
-                        <!-- Viewport des cartes de sites web sur la Hero -->
-                        <div class="hero-cards-viewport" id="heroCardsViewport">
-                        <!-- Slide 0 : Astravacances.fr (Maquette Navigable) -->
-                        <div class="hero-card-slide active" id="heroSlide0">
-                            <div class="cs-cell cs-cell--windowed" id="mockupAstra" style="transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); transform: rotateX(0deg) rotateY(0deg) translateZ(0px);">
-                                <!-- Reflet spéculaire holographique style carte Ramp -->
-                                <div class="cs-window-glare" aria-hidden="true"></div>
-                                <!-- Barre de Fenêtre macOS Élite Classique Pure (Single Bar, Pas d'onglets au sommet) -->
-                                <div class="cs-window-bar">
-                                    <div class="cs-window-bar-left">
-                                        <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer"></span>
-                                            <span class="cs-dot cs-dot--yellow" onclick="minimizeMockupAnimated(0, event)" title="Minimiser"></span>
-                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('astra')" title="Plein écran"></span>
-                                        </div>
-                                        <div class="cs-device-switch" aria-label="Format d'affichage">
-                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('astra', 'desktop', this)" title="Ordinateur"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('astra', 'tablet', this)" title="Tablette"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('astra', 'mobile', this)" title="Mobile"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                        </div>
-                                    </div>
+                        <!-- Toolbar d'actions rapides du Bureau Virtuel de la Hero -->
+                        <div class="hero-bureau-toolbar">
+                            <span class="hero-bureau-hint">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24"></path><path d="m14.83 9.17 4.24-4.24"></path><path d="m14.83 14.83 4.24 4.24"></path><path d="m9.17 14.83-4.24 4.24"></path></svg>
+                                Bureau en bordel créatif · Glissez les fenêtres
+                            </span>
+                            <div class="hero-bureau-btns">
+                                <button type="button" class="bureau-btn" id="btnBureauBordel" title="Disposer en bureau en bordel créatif">
+                                    <span>🎲</span> Bordel
+                                </button>
+                                <button type="button" class="bureau-btn" id="btnBureauRanger" title="Aligner proprement les fenêtres">
+                                    <span>✨</span> Ranger
+                                </button>
+                                <button type="button" class="bureau-btn" id="btnBureauCascade" title="Superposer les fenêtres en cascade macOS">
+                                    <span>📑</span> Cascade
+                                </button>
+                            </div>
+                        </div>
 
+                        <!-- Canvas interactif du Bureau Virtuel de la Hero -->
+                        <div id="bureauCanvas" class="bureau-canvas hero-bureau-canvas" aria-label="Espace de travail interactif multi-fenêtres">
+                            
+                            <!-- Fenêtre 1 : Astravacances.fr -->
+                            <div id="bureauWinAstra" class="bureau-window" style="top: 30px; left: 20px; width: clamp(320px, 58%, 560px); height: clamp(260px, 48vh, 370px); transform: rotate(-2deg); z-index: 12;">
+                                <div class="bureau-window-bar">
+                                    <div class="cs-traffic-lights">
+                                        <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                        <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                        <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="astra" aria-label="Plein écran"></button>
+                                    </div>
                                     <div class="cs-url-bar">
-                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                                        <span class="cs-url-lock">🔒</span>
                                         <span class="cs-url-text">astravacances.fr</span>
+                                        <span class="cs-url-badge">EN LIGNE</span>
                                     </div>
-
-                                    <div class="cs-window-bar-right">
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('astra')" title="Plein écran">
-                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Plein écran</span>
-                                        </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire" aria-label="Réduire">
-                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
-                                        </button>
-                                    </div>
+                                    <button type="button" class="bureau-expand-pill" data-site="astra">Agrandir ⤢</button>
                                 </div>
-
-                                <!-- Bandeau d'aide ergonomique pour le mode plein écran -->
-                                
-
-                                <div class="cs-viewport">
-                                    <iframe src="showcase-astra.html" class="cs-mockup-iframe" id="astraIframe" title="Astra Vacances — Audit &amp; Gestion Opérationnelle" loading="eager"></iframe>
+                                <div class="bureau-window-body">
+                                    <div class="bureau-window-iframe-shield"></div>
+                                    <iframe src="showcase-astra.html" title="Aperçu interactif Astra Vacances" loading="eager"></iframe>
                                 </div>
-
-                                <div class="cs-cap">
-                                    <div class="cs-cap__left">
-                                        <span class="cs-cap__dot" style="background: #2B9BBD;"></span>
-                                        <span class="cs-cap__t">Astravacances.fr — Maquette Navigable sur la Hero</span>
-                                    </div>
-                                    <div class="cs-cap__actions">
-                                        <button type="button" class="cs-cap-expand-btn" onclick="toggleFullscreenMockup('astra')">
-                                            ⤢ Agrandir pour visiter
-                                        </button>
-                                        <a href="https://astravacances.fr" target="_blank" rel="noopener noreferrer" class="cs-cap-visit-btn">
-                                            Visiter le vrai site ↗
-                                        </a>
-                                    </div>
+                                <div class="bureau-window-footer">
+                                    <span>🌴 Villa d'Exception &amp; Conciergerie</span>
+                                    <span style="font-family: var(--font-mono); font-weight: 600; color: #16A34A;">⚡ 100/100 PageSpeed</span>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Slide 1 : Achille.ai (Maquette Navigable) -->
-                        <div class="hero-card-slide" id="heroSlide1">
-                            <div class="cs-cell cs-cell--windowed" id="mockupAchille" style="transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); transform: rotateX(0deg) rotateY(0deg) translateZ(0px);">
-                                <!-- Reflet spéculaire holographique style carte Ramp -->
-                                <div class="cs-window-glare" aria-hidden="true"></div>
-                                <!-- Barre de Fenêtre macOS Élite Épurée -->
-                                <div class="cs-window-bar">
-                                    <div class="cs-window-bar-left">
-                                        <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer"></span>
-                                            <span class="cs-dot cs-dot--yellow" onclick="minimizeMockupAnimated(1, event)" title="Minimiser"></span>
-                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('achille')" title="Plein écran"></span>
-                                        </div>
-                                        <div class="cs-device-switch" aria-label="Format d'affichage">
-                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('achille', 'desktop', this)" title="Ordinateur"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('achille', 'tablet', this)" title="Tablette"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('achille', 'mobile', this)" title="Mobile"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                        </div>
+                            <!-- Fenêtre 2 : Achille.ai -->
+                            <div id="bureauWinAchille" class="bureau-window" style="top: 15px; right: 15px; width: clamp(300px, 52%, 490px); height: clamp(250px, 44vh, 350px); transform: rotate(2deg); z-index: 13;">
+                                <div class="bureau-window-bar">
+                                    <div class="cs-traffic-lights">
+                                        <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                        <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                        <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="achille" aria-label="Plein écran"></button>
                                     </div>
-
                                     <div class="cs-url-bar">
-                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                                        <span class="cs-url-lock">🔒</span>
                                         <span class="cs-url-text">achille.ai</span>
+                                        <span class="cs-url-badge" style="background: rgba(99,102,241,0.12); color: #6366F1;">IA LIVE</span>
                                     </div>
-
-                                    <div class="cs-window-bar-right">
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('achille')" title="Plein écran">
-                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Plein écran</span>
-                                        </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire" aria-label="Réduire">
-                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
-                                        </button>
-                                    </div>
+                                    <button type="button" class="bureau-expand-pill" data-site="achille">Agrandir ⤢</button>
                                 </div>
-
-                                <!-- Bandeau d'aide ergonomique pour le mode plein écran -->
-                                
-
-                                <div class="cs-viewport">
-                                    <nav class="cs-mockup-navbar">
-                                        <div class="cs-mockup-brand">
-                                            <img src="assets/achille-logo.png" alt="Achille.ai" class="cs-mockup-brand-img cs-mockup-brand-img--achille">
-                                            <div class="cs-mockup-brand-text">
-                                                <span class="cs-mockup-brand-name">ACHILLE.AI</span>
-                                                <span class="cs-mockup-brand-sub">Service Client Automatisé</span>
-                                            </div>
-                                        </div>
-                                        <ul class="cs-mockup-tabs">
-                                            <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('achille', 'auto', '/automation', this)">IA Automate</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('achille', 'copilot', '/mode-copilote', this)">Mode Copilote</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('achille', 'insights', '/insights-racine', this)">Insights</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('achille', 'calc', '/simulateur-economie', this)">Simulateur ROI</button></li>
-                                        </ul>
-                                    </nav>
-
-                                    <!-- Vue 1 : IA Automate avec Démo de Chat Interactif Libre & Rapide -->
-                                    <div id="achilleView_auto" class="cs-page-view active" style="background: radial-gradient(circle at 60% 40%, #15132A 0%, #0A0914 100%);">
-                                        <div class="cs-mock-hero">
-                                            <span class="cs-mock-badge-inline" style="background: rgba(99, 102, 241, 0.2); color: #A5B4FC;">Service Client E-commerce</span>
-                                            <h3 class="cs-mock-title">50% de vos tickets de support résolus en 18ms</h3>
-                                            <p class="cs-mock-dek">WISMO, retours, échanges, facturation : Achille exécute l'action côté Shopify, Gorgias et Zendesk dans le ton exact de votre marque.</p>
-                                        </div>
-
-                                        <!-- Connecteurs E-commerce en Direct -->
-                                        <div class="cs-mock-connectors-bar">
-                                            <span style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-right: 4px;">Connecteurs actifs :</span>
-                                            <button type="button" class="cs-connector-pill" onclick="showBoubaneToast('API Shopify connectée · Webhooks temps réel')">
-                                                <span class="cs-connector-dot"></span> Shopify
-                                            </button>
-                                            <button type="button" class="cs-connector-pill" onclick="showBoubaneToast('API Gorgias connectée · Macros synchronisées')">
-                                                <span class="cs-connector-dot"></span> Gorgias
-                                            </button>
-                                            <button type="button" class="cs-connector-pill" onclick="showBoubaneToast('API Zendesk connectée · Résolution instantanée')">
-                                                <span class="cs-connector-dot"></span> Zendesk
-                                            </button>
-                                            <button type="button" class="cs-connector-pill" onclick="showBoubaneToast('Stripe connecté · Remboursements sécurisés')">
-                                                <span class="cs-connector-dot"></span> Stripe
-                                            </button>
-                                        </div>
-
-                                        <!-- Démo Chatbot Interactif en Direct -->
-                                        <div class="cs-mock-chat-box">
-                                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
-                                                <span style="font-family: var(--font-mono); font-size: 0.72rem; color: #818CF8; font-weight: 700;">DÉMO INTERACTIVE · TESTEZ L'IA EN DIRECT</span>
-                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">● EN LIGNE (18ms)</span>
-                                            </div>
-                                            <div class="cs-mock-chat-msgs" id="achilleChatMsgs">
-                                                <div class="cs-mock-chat-msg cs-mock-chat-msg--bot">
-                                                    <div class="cs-mock-chat-bubble">
-                                                        <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #818CF8; margin-bottom: 3px;">✦ ACHILLE IA</div>
-                                                        Bonjour ! Je résous 50% des requêtes clients en 18ms. Cliquez sur un scénario ou tapez votre question ci-dessous.
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Saisie libre de message par le visiteur -->
-                                            <form class="cs-mock-chat-input-row" onsubmit="handleAchilleChatSubmit(event)">
-                                                <input type="text" class="cs-mock-chat-input" id="achilleUserInput" placeholder="Posez une question (ex: où est mon colis, remboursement, délais...)" autocomplete="off">
-                                                <button type="submit" class="cs-mock-chat-send-btn">Envoyer ↗</button>
-                                            </form>
-
-                                            <div>
-                                                <div class="cs-mock-chat-prompts-label">Ou testez en 1 clic :</div>
-                                                <div class="cs-mock-chat-prompts">
-                                                    <button type="button" class="cs-mock-chat-prompt-btn" onclick="sendAchillePrompt('Où est mon colis #7492 ?', 'Votre colis est en cours de livraison par Colissimo (n° 6A20491). Arrivée prévue demain avant 13h !')">📦 Suivi colis #7492</button>
-                                                    <button type="button" class="cs-mock-chat-prompt-btn" onclick="sendAchillePrompt('Je souhaite échanger mon article', 'Étiquette retour prépayée générée et envoyée par email. Vous avez 30 jours pour déposer le colis en point relais.')">🔄 Retour &amp; Échange</button>
-                                                    <button type="button" class="cs-mock-chat-prompt-btn" onclick="sendAchillePrompt('Quels sont vos délais vers la Suisse ?', 'Nos livraisons vers la Suisse s\'effectuent en 48h ouvrées via DHL Express, taxes de douane incluses.')">⏱️ Délais Suisse</button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="cs-mock-kpi-bar" style="margin-top: 14px;">
-                                            <div>
-                                                <div class="cs-mock-kpi-val" style="color: #818CF8;">50%</div>
-                                                <div class="cs-mock-kpi-lbl">Tickets Résolus Auto</div>
-                                            </div>
-                                            <div>
-                                                <div class="cs-mock-kpi-val">18 ms</div>
-                                                <div class="cs-mock-kpi-lbl">Latence Réponse</div>
-                                            </div>
-                                            <div>
-                                                <div class="cs-mock-kpi-val">0.24s</div>
-                                                <div class="cs-mock-kpi-lbl">Vitesse Vitrine</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Vue 2 : Mode Copilote -->
-                                    <div id="achilleView_copilot" class="cs-page-view" style="background: #0E0D1B;">
-                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #818CF8; margin-bottom: 8px;">// ASSISTANCE AUGMENTÉE AGENTS SUPPORT</div>
-                                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 12px;">Réponses Prêtes à Valider en 1 Clic</h4>
-                                        <div class="cs-mock-grid-cards">
-                                            <div class="cs-mock-card-item">
-                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #2D275A, #14112E);">ÉBAUCHE AUTO</div>
-                                                <strong style="color: #fff; font-size: 0.8rem;">Réponse Copilote</strong>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Génération selon historique client</span>
-                                            </div>
-                                            <div class="cs-mock-card-item">
-                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #1C384A, #0C1A22);">SHOPIFY ACTION</div>
-                                                <strong style="color: #fff; font-size: 0.8rem;">Remboursement / Retour</strong>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Exécution déclenchée sans quitter le chat</span>
-                                            </div>
-                                            <div class="cs-mock-card-item">
-                                                <div class="cs-mock-card-thumb" style="background: linear-gradient(135deg, #4A1C44, #220C20);">MULTILINGUE</div>
-                                                <strong style="color: #fff; font-size: 0.8rem;">+ 30 Langues</strong>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Support international immédiat</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Vue 3 : Insights -->
-                                    <div id="achilleView_insights" class="cs-page-view" style="background: #0B0A16;">
-                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #27C93F; margin-bottom: 8px;">// ANALYSE DES CAUSES RACINES</div>
-                                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 8px;">Réduction du Volume Entrant à la Source</h4>
-                                        <p style="color: rgba(255,255,255,0.7); font-size: 0.84rem; line-height: 1.5; margin-bottom: 12px;">
-                                            Achille analyse l'historique complet des conversations pour identifier les blocages produits et pages de tracking, réduisant le volume entrant de 50%.
-                                        </p>
-                                        <div style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 14px; font-family: var(--font-mono); font-size: 0.72rem; color: #A5B4FC;">
-                                            ✔ Détection auto : 34% des tickets concernent la taille du produit X → Recommandation guide des tailles générée.
-                                        </div>
-                                    </div>
-
-                                    <!-- Vue 4 : Simulateur ROI Tickets -->
-                                    <div id="achilleView_calc" class="cs-page-view" style="background: #111022;">
-                                        <div class="cs-mock-calc">
-                                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #818CF8;">SIMULATEUR DE GAIN SUPPORT CLIENT</span>
-                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">ROI IMMÉDIAT</span>
-                                            </div>
-                                            <div class="cs-mock-calc-row">
-                                                <button type="button" class="cs-mock-calc-btn selected" onclick="setAchilleTickets(this, '1 000 tickets / mois', '2 400 € / mois', '140 heures')">1 000 tickets</button>
-                                                <button type="button" class="cs-mock-calc-btn" onclick="setAchilleTickets(this, '5 000 tickets / mois', '11 800 € / mois', '680 heures')">5 000 tickets</button>
-                                                <button type="button" class="cs-mock-calc-btn" onclick="setAchilleTickets(this, '15 000 tickets / mois', '34 500 € / mois', '2 100 heures')">15 000 tickets</button>
-                                            </div>
-                                            <div class="cs-mock-calc-res">
-                                                <div>
-                                                    <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">ÉCONOMIE NETTE ESTIMÉE :</div>
-                                                    <div id="achillePriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #818CF8;">2 400 € / mois · 140 h gagnées</div>
-                                                </div>
-                                                <button type="button" class="cs-mockup-cta-btn" style="background: #6366F1; color: #ffffff;" onclick="alert('Réservation de démo Achille.ai (15 min avec un expert).')">Demander une démo</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="bureau-window-body">
+                                    <div class="bureau-window-iframe-shield"></div>
+                                    <iframe src="showcase-achille.html" title="Aperçu interactif Achille.ai" loading="lazy"></iframe>
                                 </div>
-
-                                <div class="cs-cap">
-                                    <div class="cs-cap__left">
-                                        <span class="cs-cap__dot" style="background: #6366F1;"></span>
-                                        <span class="cs-cap__t">Achille.ai — Maquette Navigable sur la Hero</span>
-                                    </div>
-                                    <div class="cs-cap__actions">
-                                        <button type="button" class="cs-cap-expand-btn" onclick="toggleFullscreenMockup('achille')">
-                                            ⤢ Agrandir pour visiter
-                                        </button>
-                                        <a href="https://achille.ai" target="_blank" rel="noopener noreferrer" class="cs-cap-visit-btn">
-                                            Visiter le vrai site ↗
-                                        </a>
-                                    </div>
+                                <div class="bureau-window-footer">
+                                    <span>🤖 Support IA Autonome &amp; Qualification</span>
+                                    <span style="font-family: var(--font-mono); font-weight: 600; color: #6366F1;">✦ GPT-4o</span>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Slide 2 : Cabinet Valmy (Maquette Navigable Panoramique) -->
-                        <div class="hero-card-slide" id="heroSlide2">
-                            <div class="cs-cell cs-cell--windowed" id="mockupValmy" style="transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); transform: rotateX(0deg) rotateY(0deg) translateZ(0px);">
-                                <!-- Reflet spéculaire holographique style carte Ramp -->
-                                <div class="cs-window-glare" aria-hidden="true"></div>
-                                <!-- Barre de Fenêtre macOS Élite Épurée -->
-                                <div class="cs-window-bar">
-                                    <div class="cs-window-bar-left">
-                                        <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer"></span>
-                                            <span class="cs-dot cs-dot--yellow" onclick="minimizeMockupAnimated(2, event)" title="Minimiser"></span>
-                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('valmy')" title="Plein écran"></span>
-                                        </div>
-                                        <div class="cs-device-switch" aria-label="Format d'affichage">
-                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('valmy', 'desktop', this)" title="Ordinateur"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('valmy', 'tablet', this)" title="Tablette"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('valmy', 'mobile', this)" title="Mobile"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                        </div>
+                            <!-- Fenêtre 3 : Cabinet Valmy -->
+                            <div id="bureauWinValmy" class="bureau-window" style="bottom: 25px; left: 35px; width: clamp(310px, 54%, 510px); height: clamp(240px, 42vh, 340px); transform: rotate(1.2deg); z-index: 14;">
+                                <div class="bureau-window-bar">
+                                    <div class="cs-traffic-lights">
+                                        <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                        <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                        <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="valmy" aria-label="Plein écran"></button>
                                     </div>
-
                                     <div class="cs-url-bar">
-                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                                        <span class="cs-url-lock">🔒</span>
                                         <span class="cs-url-text">cabinet-valmy.com</span>
+                                        <span class="cs-url-badge">ÉTABLI</span>
                                     </div>
-
-                                    <div class="cs-window-bar-right">
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('valmy')" title="Plein écran">
-                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Plein écran</span>
-                                        </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire" aria-label="Réduire">
-                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
-                                        </button>
-                                    </div>
+                                    <button type="button" class="bureau-expand-pill" data-site="valmy">Agrandir ⤢</button>
                                 </div>
-
-                                <!-- Bandeau d'aide ergonomique pour le mode plein écran -->
-                                
-
-                                <div class="cs-viewport">
-                                    <nav class="cs-mockup-navbar">
-                                        <div class="cs-mockup-brand">
-                                            <div class="cs-valmy-gold-seal">V</div>
-                                            <div class="cs-mockup-brand-text">
-                                                <span class="cs-mockup-brand-name">CABINET VALMY</span>
-                                                <span class="cs-mockup-brand-sub">AVOCATS D'AFFAIRES &amp; M&amp;A</span>
-                                            </div>
-                                        </div>
-                                        <ul class="cs-mockup-tabs">
-                                            <li><button type="button" class="cs-mockup-tab-btn active" onclick="switchMockupPage('valmy', 'deals', '/mandats', this)">Mandats Clôturés</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'method', '/methode', this)">Méthode Confidentielle</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'team', '/associes', this)">Associés</button></li>
-                                            <li><button type="button" class="cs-mockup-tab-btn" onclick="switchMockupPage('valmy', 'audit', '/simulateur-valorisation', this)">Simulateur M&amp;A</button></li>
-                                        </ul>
-                                    </nav>
-
-                                    <!-- Vue 1 : Mandats M&A Clôturés avec Filtres -->
-                                    <div id="valmyView_deals" class="cs-page-view active" style="background: radial-gradient(circle at 70% 30%, #201712 0%, #0C0A08 80%);">
-                                        <div class="cs-mock-hero" style="max-width: 720px;">
-                                            <span class="cs-mock-badge-inline" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">[ M&amp;A · CESSION &amp; TRANSMISSION D'ENTREPRISES ]</span>
-                                            <h3 class="cs-mock-title" style="font-size: clamp(1.8rem, 3.2vw, 2.6rem);">L'Excellence Financière &amp; Souveraine</h3>
-                                            <p class="cs-mock-dek" style="max-width: 620px;">Accompagnement exclusif de dirigeants et actionnaires fondateurs dans la transmission confidentielle de PME et ETI à forte rentabilité.</p>
-                                        </div>
-
-                                        <!-- Filtres de Secteurs Interactifs -->
-                                        <div class="cs-valmy-filters">
-                                            <button type="button" class="cs-valmy-filter-btn active" onclick="filterValmyDeals('all', this)">Tous les secteurs</button>
-                                            <button type="button" class="cs-valmy-filter-btn" onclick="filterValmyDeals('tech', this)">💻 SaaS &amp; Fintech</button>
-                                            <button type="button" class="cs-valmy-filter-btn" onclick="filterValmyDeals('industry', this)">🏭 Industrie</button>
-                                            <button type="button" class="cs-valmy-filter-btn" onclick="filterValmyDeals('bio', this)">🌿 Bio &amp; Agro</button>
-                                        </div>
-
-                                        <div class="cs-mock-grid-cards">
-                                            <div class="cs-mock-card-item cs-valmy-deal-card" data-sector="tech">
-                                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #F59E0B;">CESSION 100% CAPITAL</div>
-                                                <strong style="color: #fff; font-size: 0.9rem;">Groupe SaaS Fintech</strong>
-                                                <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff;">18.5 M€</div>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Repreneur : Fonds Européen</span>
-                                            </div>
-                                            <div class="cs-mock-card-item cs-valmy-deal-card" data-sector="industry">
-                                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #F59E0B;">FUSION INDUSTRIELLE</div>
-                                                <strong style="color: #fff; font-size: 0.9rem;">Précision Mécanique</strong>
-                                                <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff;">29.0 M€</div>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Repreneur : Leader Français</span>
-                                            </div>
-                                            <div class="cs-mock-card-item cs-valmy-deal-card" data-sector="bio">
-                                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #F59E0B;">LBO TRANSMISSION</div>
-                                                <strong style="color: #fff; font-size: 0.9rem;">Agro-alimentaire Bio</strong>
-                                                <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff;">14.2 M€</div>
-                                                <span style="color: rgba(255,255,255,0.5); font-size: 0.68rem;">Management Buy-In</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Vue 2 : Méthode -->
-                                    <div id="valmyView_method" class="cs-page-view" style="background: #11100F;">
-                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #F59E0B; margin-bottom: 8px;">// PROTOCOLE DE VALORISATION EN 4 ÉTAPES</div>
-                                        <h4 style="color: #fff; font-size: 1.25rem; margin-bottom: 12px;">Une Méthode Éprouvée Sans Fuite d'Information</h4>
-                                        <div class="cs-mock-grid-cards">
-                                            <div class="cs-mock-card-item">
-                                                <span style="color: #F59E0B; font-family: var(--font-mono); font-weight: 700;">Étape 01</span>
-                                                <strong style="color: #fff; font-size: 0.85rem;">Audit &amp; Normalisation EBITDA</strong>
-                                                <p style="color: rgba(255,255,255,0.6); font-size: 0.7rem; line-height: 1.4;">Retraitement précis de la rentabilité réelle.</p>
-                                            </div>
-                                            <div class="cs-mock-card-item">
-                                                <span style="color: #F59E0B; font-family: var(--font-mono); font-weight: 700;">Étape 02</span>
-                                                <strong style="color: #fff; font-size: 0.85rem;">Mémorandum d'Information</strong>
-                                                <p style="color: rgba(255,255,255,0.6); font-size: 0.7rem; line-height: 1.4;">Dossier d'investissement haute couture chiffré.</p>
-                                            </div>
-                                            <div class="cs-mock-card-item">
-                                                <span style="color: #F59E0B; font-family: var(--font-mono); font-weight: 700;">Étape 03</span>
-                                                <strong style="color: #fff; font-size: 0.85rem;">Enchères Compétitives</strong>
-                                                <p style="color: rgba(255,255,255,0.6); font-size: 0.7rem; line-height: 1.4;">Mise en concurrence d'acquéreurs qualifiés sous NDA.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Vue 3 : Équipe -->
-                                    <div id="valmyView_team" class="cs-page-view" style="background: #0F0E0D;">
-                                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #F59E0B; margin-bottom: 8px;">// SENIOR PARTNERS</div>
-                                        <h4 style="color: #fff; font-size: 1.25rem; margin-bottom: 14px;">Associés Dédiés à Votre Opération</h4>
-                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                                            <div class="cs-mock-card-item" style="flex-direction: row; gap: 14px; align-items: center;">
-                                                <div style="width: 44px; height: 44px; border-radius: 50%; background: #261D15; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #F59E0B;">MB</div>
-                                                <div>
-                                                    <strong style="color: #fff; font-size: 0.85rem;">Marc de Belleval</strong>
-                                                    <div style="color: rgba(255,255,255,0.5); font-size: 0.7rem;">Ancien Banquier Lazard · 22 ans M&amp;A</div>
-                                                </div>
-                                            </div>
-                                            <div class="cs-mock-card-item" style="flex-direction: row; gap: 14px; align-items: center;">
-                                                <div style="width: 44px; height: 44px; border-radius: 50%; background: #261D15; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #F59E0B;">SC</div>
-                                                <div>
-                                                    <strong style="color: #fff; font-size: 0.85rem;">Sophie Courcelle</strong>
-                                                    <div style="color: rgba(255,255,255,0.5); font-size: 0.7rem;">Avocate Fiscaliste &amp; Structuration Patrimoniale</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Vue 4 : Simulateur M&A de Valorisation d'Entreprise -->
-                                    <div id="valmyView_audit" class="cs-page-view" style="background: #141210;">
-                                        <div class="cs-mock-calc" style="max-width: 680px;">
-                                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #F59E0B;">SIMULATEUR DE VALORISATION CONFIDENTIELLE (MULTIPLE EBITDA)</span>
-                                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27C93F;">SECRET PROFESSIONNEL</span>
-                                            </div>
-
-                                            <div class="cs-valmy-val-calc">
-                                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                    <span style="font-size: 0.78rem; color: rgba(255,255,255,0.7);">Chiffre d'Affaires annuel :</span>
-                                                    <span id="valmyCaVal" style="font-family: var(--font-mono); font-size: 0.95rem; font-weight: 700; color: #F59E0B;">5.0 M€</span>
-                                                </div>
-                                                <input type="range" class="cs-mock-range-input" id="valmyCaInput" min="1" max="25" step="0.5" value="5" oninput="updateValmyValuation(this.value)" aria-label="Chiffre d'affaires en millions d'euros">
-                                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.62rem; color: rgba(255,255,255,0.4);">
-                                                    <span>1.0 M€ (PME)</span>
-                                                    <span>10.0 M€</span>
-                                                    <span>25.0 M€ (ETI)</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="cs-mock-calc-res">
-                                                <div>
-                                                    <div style="font-size: 0.68rem; color: rgba(255,255,255,0.5);">FOURCHETTE DE VALORISATION ESTIMÉE :</div>
-                                                    <div id="valmyPriceDisplay" style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: #F59E0B;">3.6 M€ — 4.8 M€</div>
-                                                </div>
-                                                <button type="button" class="cs-mockup-cta-btn" style="background: #F59E0B; color: #0C0A08;" onclick="showBoubaneToast('✦ Demande d\'audit confidentiel transmise aux associés')">Planifier l'entretien</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="bureau-window-body">
+                                    <div class="bureau-window-iframe-shield"></div>
+                                    <iframe src="showcase-valmy.html" title="Aperçu interactif Cabinet Valmy" loading="lazy"></iframe>
                                 </div>
-
-                                <div class="cs-cap">
-                                    <div class="cs-cap__left">
-                                        <span class="cs-cap__dot" style="background: #F59E0B;"></span>
-                                        <span class="cs-cap__t">Cabinet Valmy — Maquette Navigable sur la Hero</span>
-                                    </div>
-                                    <div class="cs-cap__actions">
-                                        <button type="button" class="cs-cap-expand-btn" onclick="toggleFullscreenMockup('valmy')">
-                                            ⤢ Agrandir pour visiter
-                                        </button>
-                                        <a href="https://cabinet-valmy.com" target="_blank" rel="noopener noreferrer" class="cs-cap-visit-btn">
-                                            Visiter le vrai site ↗
-                                        </a>
-                                    </div>
+                                <div class="bureau-window-footer">
+                                    <span>⚖️ Droit des Affaires &amp; M&amp;A</span>
+                                    <span style="font-family: var(--font-mono); font-weight: 600; color: #0C0A08;">Paris 8e</span>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Slide 3 : Studio Boubane (Carte 3D Ramp sous Fenêtre macOS) -->
-                        <div class="hero-card-slide" id="heroSlide3">
-                            <div class="cs-cell cs-cell--windowed" id="mockupStudio" style="transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); transform: rotateX(0deg) rotateY(0deg) translateZ(0px);">
-                                <!-- Reflet spéculaire holographique style carte Ramp -->
-                                <div class="cs-window-glare" aria-hidden="true"></div>
-                                <div class="cs-window-bar">
-                                    <div class="cs-window-bar-left">
-                                        <div class="cs-dots">
-                                            <span class="cs-dot cs-dot--red" onclick="closeActiveTabAnimated(event)" title="Fermer"></span>
-                                            <span class="cs-dot cs-dot--yellow" onclick="minimizeMockupAnimated(3, event)" title="Minimiser"></span>
-                                            <span class="cs-dot cs-dot--green" onclick="toggleFullscreenMockup('studio')" title="Plein écran"></span>
-                                        </div>
-                                        <div class="cs-device-switch" aria-label="Format d'affichage">
-                                          <button type="button" class="cs-device-btn active" onclick="setMockupDevice('studio', 'desktop', this)" title="Ordinateur"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('studio', 'tablet', this)" title="Tablette"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                          <button type="button" class="cs-device-btn" onclick="setMockupDevice('studio', 'mobile', this)" title="Mobile"><svg class="cs-device-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
-                                        </div>
+                            <!-- Fenêtre 4 : Carte Visite Studio Boubane 3D -->
+                            <div id="bureauWinStudio" class="bureau-window" style="bottom: 35px; right: 25px; width: clamp(280px, 42%, 390px); height: clamp(200px, 32vh, 260px); transform: rotate(-2.5deg); z-index: 15;">
+                                <div class="bureau-window-bar">
+                                    <div class="cs-traffic-lights">
+                                        <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                        <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                        <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="astra" aria-label="Plein écran"></button>
                                     </div>
-
                                     <div class="cs-url-bar">
-                                        <span class="cs-url-lock" aria-hidden="true"><svg class="cs-url-lock-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-                                        <span class="cs-url-text">boubane.com/carte-membre-3d</span>
+                                        <span class="cs-url-lock">🔒</span>
+                                        <span class="cs-url-text">boubane.fr/identite</span>
                                     </div>
-
-                                    <div class="cs-window-bar-right">
-                                        <button type="button" class="cs-btn-expand-win" onclick="toggleFullscreenMockup('studio')" title="Plein écran">
-                                            <svg class="cs-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> <span>Plein écran</span>
-                                        </button>
-                                        <button type="button" class="cs-btn-close-win" onclick="closeFullscreenMockup()" title="Réduire" aria-label="Réduire">
-                                            <svg class="cs-icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg> <span>Réduire</span>
-                                        </button>
-                                    </div>
+                                    <span style="font-size: 0.68rem; font-weight: 600; color: #F59E0B;">✦ STUDIO</span>
                                 </div>
-<div class="cs-viewport" style="display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(circle at 50% 50%, #17161E 0%, #0C0A08 90%);">
-                                    <div class="boubane-card-stage" style="margin: 0; max-width: 440px;">
-                                        <div id="boubaneCard3d" class="boubane-card-3d" title="Carte Studio Boubane — Déplacez la souris pour incliner">
-                                            <div class="card-glare"></div>
-                                            <div class="card-topbar">
-                                                <div class="card-brand">
-                                                    <img src="assets/boubane-logo.png" alt="Boubane Studio Logo" class="card-brand-logo" width="26" height="26">
-                                                    <span class="card-brand-name">BOUBANE</span>
-                                                </div>
-                                                <span class="card-speed-badge">⚡ SPEED &lt; 0.3s</span>
+                                <div class="bureau-window-body" style="background: linear-gradient(135deg, #0C0A08 0%, #1c1917 100%); color: #FAF8F5; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
+                                    <div>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <img src="assets/boubane-logo.png" alt="Boubane" style="width: 22px; height: 22px; border-radius: 6px;">
+                                                <span style="font-family: var(--font-serif); font-size: 1.05rem; font-weight: 700; letter-spacing: 0.04em;">BOUBANE</span>
                                             </div>
-
-                                            <div class="card-chip">
-                                                <div class="card-chip-inner"></div>
-                                            </div>
-
-                                            <div class="card-number">0000 2026 0000 0001</div>
-
-                                            <div class="card-bottombar">
-                                                <div>
-                                                    <div class="card-holder-label">CONCEPTEUR &amp; FONDATEUR</div>
-                                                    <div class="card-holder-name">LÉO SAILLOUR</div>
-                                                </div>
-                                                <div class="card-nfc-wave" aria-hidden="true">
-                                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                                                </div>
-                                            </div>
+                                            <span style="font-family: var(--font-mono); font-size: 0.65rem; background: rgba(255,255,255,0.12); padding: 2px 7px; border-radius: 999px; color: #4ADE80;">100% ARTISANAT</span>
                                         </div>
+                                        <p style="font-size: 0.76rem; line-height: 1.35; color: #D4D4D8; margin-bottom: 0;">
+                                            Zéro acompte. Création offerte sans engagement. Code propriétaire livré sur GitHub.
+                                        </p>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 10px;">
+                                        <span style="font-family: var(--font-mono); font-size: 0.70rem; color: #A1A1AA;">FCP &lt; 0.3s</span>
+                                        <a href="#tarifs" class="bureau-expand-pill" style="text-decoration: none;">Voir l'offre →</a>
                                     </div>
                                 </div>
-
-                                <div class="cs-cap">
-                                    <div class="cs-cap__left">
-                                        <span class="cs-cap__dot" style="background: #EEF85A;"></span>
-                                        <span class="cs-cap__t">Boubane Studio — Carte Digitale Membre Fondateur</span>
-                                    </div>
-                                    <div class="cs-cap__actions">
-                                        <a href="#tarifs" class="cs-cap-visit-btn">
-                                            Commander mon site (0 €) ↗
-                                        </a>
-                                    </div>
+                                <div class="bureau-window-footer">
+                                    <span>Carte Studio Boubane</span>
+                                    <span>Authentique &amp; Indépendant</span>
                                 </div>
                             </div>
+
+                            <!-- Fenêtre 5 : Terminal Studio Boubane Live -->
+                            <div id="bureauWinTerminal" class="bureau-window bureau-window--terminal" style="top: 15px; left: 26%; width: clamp(280px, 42%, 400px); height: auto; transform: rotate(0.8deg); z-index: 16;">
+                                <div class="bureau-window-bar">
+                                    <div class="cs-traffic-lights">
+                                        <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                        <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                        <button type="button" class="cs-dot cs-dot--green bureau-win-min" aria-label="Agrandir"></button>
+                                    </div>
+                                    <div class="cs-url-bar">
+                                        <span class="cs-url-text">zsh — boubane-cli v3.4</span>
+                                    </div>
+                                    <span style="font-family: var(--font-mono); font-size: 0.66rem; color: #4ADE80;">● IDLE</span>
+                                </div>
+                                <div class="bureau-terminal-code">
+                                    <div><span class="bureau-terminal-highlight">boubane@studio</span>:<span class="bureau-terminal-amber">~</span>$ audit --production</div>
+                                    <div style="color: #94A3B8; margin-top: 3px;">▸ Analyzing 3 client deployments...</div>
+                                    <div style="color: #4ADE80;">✔ astravacances.fr : 100/100 (0.28s)</div>
+                                    <div style="color: #4ADE80;">✔ achille.ai       : 99/100  (0.31s)</div>
+                                    <div style="color: #4ADE80;">✔ cabinet-valmy.com: 100/100 (0.29s)</div>
+                                    <div style="margin-top: 5px; color: #38BDF8;">✨ Vanilla zero-bloat stack active.</div>
+                                </div>
+                                <div class="bureau-window-footer" style="background: #141312; border-color: rgba(255,255,255,0.08); color: #71717A;">
+                                    <span>Boubane CLI</span>
+                                    <span class="bureau-terminal-highlight">99.8% Core Web Vitals</span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
+            
             <!-- Dock Flottant macOS Centré sur toute la page (Barre des tâches interactive & sélecteur de vitrines) -->
             <div class="hero-dock-wrap">
                 <nav class="cs-floating-dock" id="heroFloatingDock" aria-label="Dock d'applications macOS et sélecteur de vitrines">
@@ -921,187 +556,12 @@
             </div>
         </section>
 
-        <!-- Section Bureau Virtuel — Espace Multi-Fenêtres "Bureau en Bordel Créatif" macOS Draggable -->
-        <section id="bureau" class="bureau-section">
-            <div class="bureau-header reveal-on-scroll">
-                <div class="hero-editorial-badge" style="justify-content: center; margin-bottom: var(--spacing-sm);">
-                    <span class="editorial-num">[ 02 ]</span>
-                    <span class="editorial-text">ESPACE CRÉATIF &amp; RÉALISATIONS</span>
-                </div>
-                <h2>Le Bureau Virtuel du Studio</h2>
-                <p class="lead" style="max-width: 680px; margin: 0 auto; color: #52525B;">
-                    Chaque création vit dans sa propre fenêtre macOS. Déplacez, superposez, réorganisez ou agrandissez les fenêtres comme sur votre propre bureau de travail.
-                </p>
-                <div class="bureau-toolbar">
-                    <span class="bureau-hint-badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24"></path><path d="m14.83 9.17 4.24-4.24"></path><path d="m14.83 14.83 4.24 4.24"></path><path d="m9.17 14.83-4.24 4.24"></path></svg>
-                        Glissez les fenêtres par leur barre supérieure
-                    </span>
-                    <button type="button" class="bureau-btn" id="btnBureauBordel" title="Disposer en bureau en bordel créatif">
-                        <span>🎲</span> Bordel créatif
-                    </button>
-                    <button type="button" class="bureau-btn" id="btnBureauRanger" title="Aligner proprement les fenêtres">
-                        <span>✨</span> Ranger le bureau
-                    </button>
-                    <button type="button" class="bureau-btn" id="btnBureauCascade" title="Superposer les fenêtres en cascade macOS">
-                        <span>📑</span> Cascade macOS
-                    </button>
-                </div>
-            </div>
-
-            <div class="bureau-canvas-wrapper">
-                <div id="bureauCanvas" class="bureau-canvas" aria-label="Espace de travail interactif multi-fenêtres">
-                    
-                    <!-- Fenêtre 1 : Astravacances.fr -->
-                    <div id="bureauWinAstra" class="bureau-window" style="top: 35px; left: 40px; width: clamp(340px, 45vw, 580px); height: clamp(280px, 42vh, 390px); transform: rotate(-2deg); z-index: 10;">
-                        <div class="bureau-window-bar">
-                            <div class="cs-traffic-lights">
-                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
-                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
-                                <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="astra" aria-label="Plein écran"></button>
-                            </div>
-                            <div class="cs-url-bar">
-                                <span class="cs-url-lock">🔒</span>
-                                <span class="cs-url-text">astravacances.fr</span>
-                                <span class="cs-url-badge">EN LIGNE</span>
-                            </div>
-                            <button type="button" class="bureau-expand-pill" data-site="astra">Agrandir ⤢</button>
-                        </div>
-                        <div class="bureau-window-body">
-                            <div class="bureau-window-iframe-shield"></div>
-                            <iframe src="showcase-astra.html" title="Aperçu interactif Astra Vacances" loading="lazy"></iframe>
-                        </div>
-                        <div class="bureau-window-footer">
-                            <span>🌴 Villa d'Exception &amp; Conciergerie • Guadeloupe</span>
-                            <span style="font-family: var(--font-mono); font-weight: 600; color: #16A34A;">⚡ 100/100 PageSpeed</span>
-                        </div>
-                    </div>
-
-                    <!-- Fenêtre 2 : Achille.ai -->
-                    <div id="bureauWinAchille" class="bureau-window" style="top: 75px; right: 40px; width: clamp(320px, 43vw, 540px); height: clamp(270px, 40vh, 380px); transform: rotate(1.8deg); z-index: 11;">
-                        <div class="bureau-window-bar">
-                            <div class="cs-traffic-lights">
-                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
-                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
-                                <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="achille" aria-label="Plein écran"></button>
-                            </div>
-                            <div class="cs-url-bar">
-                                <span class="cs-url-lock">🔒</span>
-                                <span class="cs-url-text">achille.ai</span>
-                                <span class="cs-url-badge" style="background: rgba(99,102,241,0.12); color: #6366F1;">IA LIVE</span>
-                            </div>
-                            <button type="button" class="bureau-expand-pill" data-site="achille">Agrandir ⤢</button>
-                        </div>
-                        <div class="bureau-window-body">
-                            <div class="bureau-window-iframe-shield"></div>
-                            <iframe src="showcase-achille.html" title="Aperçu interactif Achille.ai" loading="lazy"></iframe>
-                        </div>
-                        <div class="bureau-window-footer">
-                            <span>🤖 Agent IA Immobilier Autonome &amp; Qualification</span>
-                            <span style="font-family: var(--font-mono); font-weight: 600; color: #6366F1;">✦ GPT-4o Ready</span>
-                        </div>
-                    </div>
-
-                    <!-- Fenêtre 3 : Cabinet Valmy -->
-                    <div id="bureauWinValmy" class="bureau-window" style="bottom: 45px; left: 85px; width: clamp(330px, 44vw, 560px); height: clamp(260px, 38vh, 360px); transform: rotate(1.2deg); z-index: 12;">
-                        <div class="bureau-window-bar">
-                            <div class="cs-traffic-lights">
-                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
-                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
-                                <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="valmy" aria-label="Plein écran"></button>
-                            </div>
-                            <div class="cs-url-bar">
-                                <span class="cs-url-lock">🔒</span>
-                                <span class="cs-url-text">cabinet-valmy.com</span>
-                                <span class="cs-url-badge">ÉTABLI</span>
-                            </div>
-                            <button type="button" class="bureau-expand-pill" data-site="valmy">Agrandir ⤢</button>
-                        </div>
-                        <div class="bureau-window-body">
-                            <div class="bureau-window-iframe-shield"></div>
-                            <iframe src="showcase-valmy.html" title="Aperçu interactif Cabinet Valmy" loading="lazy"></iframe>
-                        </div>
-                        <div class="bureau-window-footer">
-                            <span>⚖️ Droit des Affaires &amp; Contentieux Stratégique</span>
-                            <span style="font-family: var(--font-mono); font-weight: 600; color: #0C0A08;">Paris 8e</span>
-                        </div>
-                    </div>
-
-                    <!-- Fenêtre 4 : Carte Visite Studio Boubane 3D -->
-                    <div id="bureauWinStudio" class="bureau-window" style="bottom: 55px; right: 70px; width: clamp(290px, 34vw, 420px); height: clamp(230px, 32vh, 290px); transform: rotate(-2.6deg); z-index: 13;">
-                        <div class="bureau-window-bar">
-                            <div class="cs-traffic-lights">
-                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
-                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
-                                <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="astra" aria-label="Plein écran"></button>
-                            </div>
-                            <div class="cs-url-bar">
-                                <span class="cs-url-lock">🔒</span>
-                                <span class="cs-url-text">boubane.fr/identite</span>
-                            </div>
-                            <span style="font-size: 0.68rem; font-weight: 600; color: #F59E0B;">✦ STUDIO</span>
-                        </div>
-                        <div class="bureau-window-body" style="background: linear-gradient(135deg, #0C0A08 0%, #1c1917 100%); color: #FAF8F5; padding: 22px; display: flex; flex-direction: column; justify-content: space-between;">
-                            <div>
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <img src="assets/boubane-logo.png" alt="Boubane" style="width: 24px; height: 24px; border-radius: 6px;">
-                                        <span style="font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.04em;">BOUBANE</span>
-                                    </div>
-                                    <span style="font-family: var(--font-mono); font-size: 0.68rem; background: rgba(255,255,255,0.12); padding: 2px 8px; border-radius: 999px; color: #4ADE80;">100% ARTISANAT</span>
-                                </div>
-                                <p style="font-size: 0.8rem; line-height: 1.4; color: #D4D4D8; margin-bottom: 0;">
-                                    Zéro acompte. Création offerte sans engagement. Code propriétaire livré sur GitHub avec vitesse chirurgicale.
-                                </p>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 12px;">
-                                <span style="font-family: var(--font-mono); font-size: 0.72rem; color: #A1A1AA;">FCP &lt; 0.3s</span>
-                                <a href="#tarifs" class="bureau-expand-pill" style="text-decoration: none;">Voir l'offre →</a>
-                            </div>
-                        </div>
-                        <div class="bureau-window-footer">
-                            <span>Carte Studio Boubane</span>
-                            <span>Authentique &amp; Indépendant</span>
-                        </div>
-                    </div>
-
-                    <!-- Fenêtre 5 : Terminal Studio Boubane Live -->
-                    <div id="bureauWinTerminal" class="bureau-window bureau-window--terminal" style="top: 25px; left: 34%; width: clamp(300px, 32vw, 430px); height: auto; transform: rotate(0.8deg); z-index: 14;">
-                        <div class="bureau-window-bar">
-                            <div class="cs-traffic-lights">
-                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
-                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
-                                <button type="button" class="cs-dot cs-dot--green bureau-win-min" aria-label="Agrandir"></button>
-                            </div>
-                            <div class="cs-url-bar">
-                                <span class="cs-url-text">zsh — boubane-cli v3.4</span>
-                            </div>
-                            <span style="font-family: var(--font-mono); font-size: 0.66rem; color: #4ADE80;">● IDLE</span>
-                        </div>
-                        <div class="bureau-terminal-code">
-                            <div><span class="bureau-terminal-highlight">boubane@studio</span>:<span class="bureau-terminal-amber">~</span>$ boubane audit --production</div>
-                            <div style="color: #94A3B8; margin-top: 4px;">▸ Analyzing 3 client deployments...</div>
-                            <div style="color: #4ADE80;">✔ astravacances.fr : 100/100 (0.28s)</div>
-                            <div style="color: #4ADE80;">✔ achille.ai       : 99/100  (0.31s)</div>
-                            <div style="color: #4ADE80;">✔ cabinet-valmy.com: 100/100 (0.29s)</div>
-                            <div style="margin-top: 6px; color: #38BDF8;">✨ All systems running pure vanilla zero-bloat stack.</div>
-                        </div>
-                        <div class="bureau-window-footer" style="background: #141312; border-color: rgba(255,255,255,0.08); color: #71717A;">
-                            <span>Boubane CLI</span>
-                            <span class="bureau-terminal-highlight">99.8% Core Web Vitals</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
         <!-- Module Toggle Tarifaire Pulsor-Style (Switch Interactif) -->
         <section id="tarifs" class="pricing-toggle-section">
             <div class="container">
                 <div class="section-title-wrap center reveal-on-scroll">
                     <div class="hero-editorial-badge" style="justify-content: center; margin-bottom: var(--spacing-sm);">
-                        <span class="editorial-num">[ 03 ]</span>
+                        <span class="editorial-num">[ 02 ]</span>
                         <span class="editorial-text">RUPTURE ÉCONOMIQUE</span>
                     </div>
                     <h2>Comparez le Modèle Agence Classique vs Boubane Studio</h2>
@@ -1436,7 +896,7 @@
             </div>
 
             <ul class="footer-links">
-                <li><a href="#bureau" class="footer-link">Réalisations</a></li>
+                <li><a href="#heroShowcase" class="footer-link">Réalisations</a></li>
                 <li><a href="#livrables" class="footer-link">Standards</a></li>
                 <li><a href="#tarifs" class="footer-link">Tarifs 0 €</a></li>
                 <li><a href="/blog" class="footer-link">Journal &amp; SEO</a></li>

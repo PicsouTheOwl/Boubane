@@ -1123,19 +1123,39 @@ function restoreMockupAnimated(targetIndex) {
   }, 380);
 }
 
-// 3. Comportement authentique Barre des Tâches / Dock Mac :
-// Si la fenêtre est déjà ouverte sur cette app -> la refermer dans son onglet
-// Si la fenêtre est fermée ou sur une autre app -> la faire sortir de son onglet
+// 3. Comportement du Dock macOS connecté au Bureau Virtuel :
 function toggleDockApp(index) {
-  if (isDockTransitioning) return;
+  currentHeroCardIndex = index;
+  
+  // Mettre à jour l'état visuel du Dock
+  const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+  dockBtns.forEach((btn, i) => {
+    btn.classList.toggle('active', i === index);
+    btn.setAttribute('aria-selected', i === index ? 'true' : 'false');
+  });
 
-  if (!isWindowMinimized && currentHeroCardIndex === index) {
-    // La fenêtre est actuellement affichée : on la referme dans son onglet comme sur un Mac !
-    minimizeMockupAnimated(index);
-  } else {
-    // La fenêtre était fermée ou on change d'app : elle sort de son onglet
-    restoreMockupAnimated(index);
-  }
+  const winIds = ['bureauWinAstra', 'bureauWinAchille', 'bureauWinValmy', 'bureauWinStudio'];
+  const targetId = winIds[index];
+  if (!targetId) return;
+
+  const targetWin = document.getElementById(targetId);
+  if (!targetWin) return;
+
+  // Rendre visible si fermée
+  targetWin.style.opacity = '1';
+  targetWin.style.pointerEvents = '';
+  
+  // Amener au premier plan absolu
+  highestBureauZIndex += 1;
+  targetWin.style.zIndex = highestBureauZIndex;
+
+  // Micro-focus animation macOS
+  targetWin.classList.add('is-transitioning');
+  targetWin.style.boxShadow = '0 35px 90px -10px rgba(12, 10, 8, 0.42), 0 16px 36px -4px rgba(12, 10, 8, 0.25)';
+  setTimeout(() => {
+    targetWin.classList.remove('is-transitioning');
+    targetWin.style.boxShadow = '';
+  }, 450);
 }
 
 // Rétrocompatibilité : selectHeroCard appelle toggleDockApp
@@ -1204,11 +1224,6 @@ function openHeroProject(index, autoExpand = false) {
 
 function startHeroCardTimer() {
   stopHeroCardTimer();
-  heroCardTimer = setInterval(() => {
-    if (!isHeroInteracting) {
-      cycleHeroCard(1);
-    }
-  }, 7000);
 }
 
 function stopHeroCardTimer() {

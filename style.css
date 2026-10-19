@@ -4742,6 +4742,43 @@ body.mockup-modal-open .hero-card-slide.active {
   border: 1px dashed rgba(12, 10, 8, 0.16);
 }
 
+/* Toolbar du Bureau Virtuel de la Hero */
+.hero-bureau-toolbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 0 4px;
+}
+
+.hero-bureau-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #71717A;
+  background: rgba(12, 10, 8, 0.04);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px dashed rgba(12, 10, 8, 0.16);
+}
+
+.hero-bureau-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-bureau-canvas {
+  width: 100% !important;
+  height: clamp(520px, 66vh, 740px) !important;
+  border-radius: 22px !important;
+}
+
 /* Le Canvas du Bureau macOS */
 .bureau-canvas-wrapper {
   max-width: 1400px;
