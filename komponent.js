@@ -1233,7 +1233,314 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
   startHeroCardTimer();
+  initBureauCanvas();
 });
+
+/* ==========================================================================
+   Module Bureau Virtuel Multi-Fenêtres — macOS Messy Desk & Drag Engine
+   ========================================================================== */
+
+let highestBureauZIndex = 20;
+
+function initBureauCanvas() {
+  const canvas = document.getElementById('bureauCanvas');
+  if (!canvas) return;
+
+  const windows = Array.from(canvas.querySelectorAll('.bureau-window'));
+  if (!windows.length) return;
+
+  // Amener au premier plan au clic ou touch
+  function bringToFront(win) {
+    highestBureauZIndex += 1;
+    win.style.zIndex = highestBureauZIndex;
+  }
+
+  windows.forEach((win) => {
+    win.addEventListener('pointerdown', () => {
+      bringToFront(win);
+    }, { passive: true });
+
+    const bar = win.querySelector('.bureau-window-bar');
+    if (!bar) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let initialLeft = 0;
+    let initialTop = 0;
+
+    bar.addEventListener('pointerdown', (e) => {
+      // Ignorer si clic sur un bouton ou lien
+      if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.cs-dot')) {
+        return;
+      }
+
+      isDragging = true;
+      bringToFront(win);
+      win.classList.add('is-dragging');
+      win.classList.remove('is-transitioning');
+
+      startX = e.clientX;
+      startY = e.clientY;
+
+      // Position absolue relative au canvas
+      const canvasRect = canvas.getBoundingClientRect();
+      const winRect = win.getBoundingClientRect();
+
+      initialLeft = winRect.left - canvasRect.left;
+      initialTop = winRect.top - canvasRect.top;
+
+      // Fixer left & top en px pour éviter les sauts si c'était en right ou bottom
+      win.style.right = 'auto';
+      win.style.bottom = 'auto';
+      win.style.left = initialLeft + 'px';
+      win.style.top = initialTop + 'px';
+
+      if (bar.setPointerCapture) {
+        try {
+          bar.setPointerCapture(e.pointerId);
+        } catch (_) {}
+      }
+
+      e.preventDefault();
+    });
+
+    bar.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      let newLeft = initialLeft + dx;
+      let newTop = initialTop + dy;
+
+      // Contraintes pour garder la fenêtre visible dans le canvas
+      const minVisibleX = 60;
+      const minVisibleY = 40;
+      const canvasWidth = canvas.clientWidth;
+      const canvasHeight = canvas.clientHeight;
+      const winWidth = win.offsetWidth;
+
+      const minLeft = -winWidth + minVisibleX;
+      const maxLeft = canvasWidth - minVisibleX;
+      const minTop = 0;
+      const maxTop = canvasHeight - minVisibleY;
+
+      newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
+      newTop = Math.max(minTop, Math.min(newTop, maxTop));
+
+      win.style.left = newLeft + 'px';
+      win.style.top = newTop + 'px';
+    });
+
+    const stopDrag = (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      win.classList.remove('is-dragging');
+      if (bar.releasePointerCapture && e && e.pointerId) {
+        try {
+          bar.releasePointerCapture(e.pointerId);
+        } catch (_) {}
+      }
+    };
+
+    bar.addEventListener('pointerup', stopDrag);
+    bar.addEventListener('pointercancel', stopDrag);
+
+    // Boutons de la barre : fermer, minimiser, agrandir
+    const closeBtn = win.querySelector('.bureau-win-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        win.classList.add('is-transitioning');
+        win.style.opacity = '0';
+        win.style.transform = 'scale(0.85) translateY(20px)';
+        win.style.pointerEvents = 'none';
+        setTimeout(() => {
+          win.classList.remove('is-transitioning');
+        }, 300);
+      });
+    }
+
+    const minBtn = win.querySelector('.bureau-win-min');
+    if (minBtn) {
+      minBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const body = win.querySelector('.bureau-window-body');
+        const footer = win.querySelector('.bureau-window-footer');
+        if (body) {
+          const isHidden = body.style.display === 'none';
+          body.style.display = isHidden ? '' : 'none';
+          if (footer) footer.style.display = isHidden ? '' : 'none';
+          win.style.height = isHidden ? '' : 'auto';
+        }
+      });
+    }
+
+    const maxBtns = win.querySelectorAll('.bureau-win-max, .bureau-expand-pill');
+    maxBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const siteKey = btn.getAttribute('data-site');
+        if (siteKey && typeof openPortalFullscreen === 'function') {
+          e.stopPropagation();
+          openPortalFullscreen(siteKey);
+        }
+      });
+    });
+  });
+
+  // Restaurer l'affichage de toutes les fenêtres (si fermées)
+  function restoreAllWindows() {
+    windows.forEach((win) => {
+      win.style.opacity = '1';
+      win.style.pointerEvents = '';
+      const body = win.querySelector('.bureau-window-body');
+      const footer = win.querySelector('.bureau-window-footer');
+      if (body) body.style.display = '';
+      if (footer) footer.style.display = '';
+      win.style.height = '';
+    });
+  }
+
+  // Action : Bordel créatif (angles vivants, légères dispersions dynamiques)
+  const btnBordel = document.getElementById('btnBureauBordel');
+  if (btnBordel) {
+    btnBordel.addEventListener('click', () => {
+      restoreAllWindows();
+      windows.forEach((win) => {
+        win.classList.add('is-transitioning');
+      });
+
+      const canvasWidth = canvas.clientWidth;
+      const canvasHeight = canvas.clientHeight;
+      const isMobile = canvasWidth < 768;
+
+      const presets = [
+        { left: isMobile ? 15 : 40, top: 30, rot: -2.8 },
+        { left: isMobile ? 30 : (canvasWidth - 560), top: isMobile ? 120 : 65, rot: 2.2 },
+        { left: isMobile ? 20 : 90, top: isMobile ? 260 : (canvasHeight - 390), rot: 1.4 },
+        { left: isMobile ? 35 : (canvasWidth - 460), top: isMobile ? 380 : (canvasHeight - 330), rot: -2.6 },
+        { left: isMobile ? 25 : Math.max(120, (canvasWidth / 2) - 210), top: 35, rot: 1.1 }
+      ];
+
+      windows.forEach((win, i) => {
+        const p = presets[i % presets.length];
+        win.style.right = 'auto';
+        win.style.bottom = 'auto';
+        win.style.left = Math.max(10, p.left) + 'px';
+        win.style.top = Math.max(15, p.top) + 'px';
+        win.style.transform = `rotate(${p.rot}deg)`;
+        bringToFront(win);
+      });
+
+      setTimeout(() => {
+        windows.forEach(w => w.classList.remove('is-transitioning'));
+      }, 550);
+    });
+  }
+
+  // Action : Ranger le bureau (alignement impeccable sans rotation)
+  const btnRanger = document.getElementById('btnBureauRanger');
+  if (btnRanger) {
+    btnRanger.addEventListener('click', () => {
+      restoreAllWindows();
+      windows.forEach(w => w.classList.add('is-transitioning'));
+
+      const canvasWidth = canvas.clientWidth;
+      const canvasHeight = canvas.clientHeight;
+      const isMobile = canvasWidth < 768;
+
+      if (isMobile) {
+        // En mobile : liste empilée verticale propre
+        windows.forEach((win, i) => {
+          win.style.right = 'auto';
+          win.style.bottom = 'auto';
+          win.style.left = '16px';
+          win.style.top = (20 + i * 110) + 'px';
+          win.style.transform = 'rotate(0deg)';
+          win.style.zIndex = 10 + i;
+        });
+      } else {
+        // En desktop : grille raffinée
+        const col1 = 35;
+        const col2 = Math.max(480, canvasWidth - 580);
+        const row1 = 30;
+        const row2 = Math.max(340, canvasHeight - 380);
+
+        if (windows[0]) { // Astra
+          windows[0].style.right = 'auto';
+          windows[0].style.bottom = 'auto';
+          windows[0].style.left = col1 + 'px';
+          windows[0].style.top = row1 + 'px';
+          windows[0].style.transform = 'rotate(0deg)';
+        }
+        if (windows[1]) { // Achille
+          windows[1].style.right = 'auto';
+          windows[1].style.bottom = 'auto';
+          windows[1].style.left = col2 + 'px';
+          windows[1].style.top = row1 + 'px';
+          windows[1].style.transform = 'rotate(0deg)';
+        }
+        if (windows[2]) { // Valmy
+          windows[2].style.right = 'auto';
+          windows[2].style.bottom = 'auto';
+          windows[2].style.left = col1 + 'px';
+          windows[2].style.top = row2 + 'px';
+          windows[2].style.transform = 'rotate(0deg)';
+        }
+        if (windows[3]) { // Carte Studio
+          windows[3].style.right = 'auto';
+          windows[3].style.bottom = 'auto';
+          windows[3].style.left = col2 + 'px';
+          windows[3].style.top = row2 + 'px';
+          windows[3].style.transform = 'rotate(0deg)';
+        }
+        if (windows[4]) { // Terminal
+          windows[4].style.right = 'auto';
+          windows[4].style.bottom = 'auto';
+          windows[4].style.left = Math.max(40, (canvasWidth / 2) - 215) + 'px';
+          windows[4].style.top = '160px';
+          windows[4].style.transform = 'rotate(0deg)';
+          bringToFront(windows[4]);
+        }
+      }
+
+      setTimeout(() => {
+        windows.forEach(w => w.classList.remove('is-transitioning'));
+      }, 550);
+    });
+  }
+
+  // Action : Cascade macOS (escalier diagonal)
+  const btnCascade = document.getElementById('btnBureauCascade');
+  if (btnCascade) {
+    btnCascade.addEventListener('click', () => {
+      restoreAllWindows();
+      windows.forEach(w => w.classList.add('is-transitioning'));
+
+      const canvasWidth = canvas.clientWidth;
+      const isMobile = canvasWidth < 768;
+      const stepX = isMobile ? 18 : 42;
+      const stepY = isMobile ? 32 : 40;
+      const startLeft = isMobile ? 16 : 45;
+      const startTop = 30;
+
+      windows.forEach((win, i) => {
+        win.style.right = 'auto';
+        win.style.bottom = 'auto';
+        win.style.left = (startLeft + i * stepX) + 'px';
+        win.style.top = (startTop + i * stepY) + 'px';
+        win.style.transform = 'rotate(0deg)';
+        highestBureauZIndex += 1;
+        win.style.zIndex = highestBureauZIndex;
+      });
+
+      setTimeout(() => {
+        windows.forEach(w => w.classList.remove('is-transitioning'));
+      }, 550);
+    });
+  }
+}
 
 
 

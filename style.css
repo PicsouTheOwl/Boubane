@@ -4675,4 +4675,278 @@ body.mockup-modal-open .hero-card-slide.active {
   }
 }
 
+/* ==========================================================================
+   Section Bureau Virtuel Studio Boubane — Canvas Multi-Fenêtres Draggable
+   (Bureau en bordel créatif macOS : fenêtres superposables, mobiles et interactives)
+   ========================================================================== */
+
+.bureau-section {
+  padding: clamp(60px, 8vh, 110px) 0;
+  background: #FAF8F5;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(12, 10, 8, 0.08);
+}
+
+.bureau-header {
+  text-align: center;
+  max-width: 840px;
+  margin: 0 auto clamp(24px, 4vh, 44px);
+  padding: 0 20px;
+}
+
+.bureau-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.bureau-btn {
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.12);
+  color: #18181B;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 550;
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 1px 3px rgba(12, 10, 8, 0.05);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bureau-btn:hover {
+  background: #0C0A08;
+  color: #FFFFFF;
+  border-color: #0C0A08;
+  box-shadow: 0 4px 14px rgba(12, 10, 8, 0.18);
+  transform: translateY(-1px);
+}
+
+.bureau-hint-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(12, 10, 8, 0.04);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #52525B;
+  border: 1px dashed rgba(12, 10, 8, 0.16);
+}
+
+/* Le Canvas du Bureau macOS */
+.bureau-canvas-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 2.5vw, 32px);
+  perspective: 1600px;
+}
+
+.bureau-canvas {
+  position: relative;
+  width: 100%;
+  height: clamp(680px, 82vh, 940px);
+  background: 
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.85), rgba(240, 240, 244, 0.95)),
+    linear-gradient(135deg, #F3F3F6 0%, #E8E8EE 100%);
+  border-radius: 28px;
+  border: 1px solid rgba(12, 10, 8, 0.14);
+  box-shadow: 
+    0 24px 70px -15px rgba(12, 10, 8, 0.18),
+    0 4px 16px rgba(12, 10, 8, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 1),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+
+/* Texture de grille subtile de studio de création */
+.bureau-canvas::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(12, 10, 8, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(12, 10, 8, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Fenêtre Déplaçable (Draggable Window) */
+.bureau-window {
+  position: absolute;
+  background: #FFFFFF;
+  border-radius: 18px;
+  border: 1px solid rgba(12, 10, 8, 0.15);
+  box-shadow: 
+    0 20px 50px -10px rgba(12, 10, 8, 0.22),
+    0 8px 20px -4px rgba(12, 10, 8, 0.12),
+    inset 0 1px 1.5px rgba(255, 255, 255, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform-origin: center center;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease;
+  will-change: transform, left, top;
+  touch-action: none;
+  cursor: grab;
+}
+
+.bureau-window.is-dragging {
+  cursor: grabbing !important;
+  transition: none !important;
+  box-shadow: 
+    0 38px 90px -12px rgba(12, 10, 8, 0.38),
+    0 16px 36px -4px rgba(12, 10, 8, 0.20),
+    inset 0 1px 1.5px rgba(255, 255, 255, 1) !important;
+}
+
+.bureau-window.is-transitioning {
+  transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1), top 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease !important;
+}
+
+/* Barre de Fenêtre du Bureau */
+.bureau-window-bar {
+  background: rgba(247, 247, 249, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 7px 14px;
+  height: 38px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(12, 10, 8, 0.08);
+  gap: 10px;
+  user-select: none;
+  cursor: grab;
+}
+
+.bureau-window.is-dragging .bureau-window-bar {
+  cursor: grabbing !important;
+}
+
+.bureau-window-body {
+  flex: 1 1 auto;
+  position: relative;
+  background: #FFFFFF;
+  overflow: hidden;
+  min-height: 180px;
+}
+
+/* Miniature Iframe avec protection de drag */
+.bureau-window-iframe-shield {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: transparent;
+  pointer-events: none;
+}
+
+.bureau-window.is-dragging .bureau-window-iframe-shield {
+  pointer-events: auto !important;
+}
+
+.bureau-window-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Contenu Mockup dans la fenêtre */
+.bureau-mock-inner {
+  padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Fenêtre Terminal Studio Boubane */
+.bureau-window--terminal {
+  background: #0C0A08 !important;
+  color: #38BDF8 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.bureau-window--terminal .bureau-window-bar {
+  background: #141312 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+.bureau-window--terminal .cs-url-bar {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  color: #A1A1AA !important;
+}
+
+.bureau-terminal-code {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.6;
+  padding: 16px 20px;
+  color: #E2E8F0;
+}
+
+.bureau-terminal-highlight {
+  color: #4ADE80;
+}
+
+.bureau-terminal-amber {
+  color: #FBBF24;
+}
+
+/* Pied de fenêtre avec action rapide */
+.bureau-window-footer {
+  background: rgba(247, 247, 249, 0.95);
+  border-top: 1px solid rgba(12, 10, 8, 0.07);
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.70rem;
+  color: #64748B;
+}
+
+.bureau-expand-pill {
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.10);
+  border-radius: var(--radius-pill);
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #18181B;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.18s ease;
+}
+
+.bureau-expand-pill:hover {
+  background: #0C0A08;
+  color: #FFFFFF;
+  border-color: #0C0A08;
+}
+
+@media (max-width: 768px) {
+  .bureau-canvas {
+    height: 720px;
+  }
+  .bureau-window {
+    max-width: 90vw !important;
+  }
+}
+
 

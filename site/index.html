@@ -254,7 +254,7 @@
 
             <nav aria-label="Navigation principale">
                 <ul class="nav-links">
-                    <li><a href="#heroShowcase" class="nav-link">Réalisations</a></li>
+                    <li><a href="#bureau" class="nav-link">Réalisations</a></li>
                     <li><a href="#tarifs" class="nav-link">Offre 0 €</a></li>
                     <li><a href="#livrables" class="nav-link">Standards</a></li>
                 </ul>
@@ -918,6 +918,178 @@
                 <span class="ramp-marquee-item">Hébergement Direct à Votre Nom <span class="ramp-marquee-star">✦</span></span>
                 <span class="ramp-marquee-item">Design Haute Autorité <span class="ramp-marquee-star">✦</span></span>
                 <span class="ramp-marquee-item">Artisanat Web Français <span class="ramp-marquee-star">✦</span></span>
+        <!-- Section Bureau Virtuel — Espace Multi-Fenêtres "Bureau en Bordel Créatif" macOS Draggable -->
+        <section id="bureau" class="bureau-section">
+            <div class="bureau-header reveal-on-scroll">
+                <div class="hero-editorial-badge" style="justify-content: center; margin-bottom: var(--spacing-sm);">
+                    <span class="editorial-num">[ 02 ]</span>
+                    <span class="editorial-text">ESPACE CRÉATIF &amp; RÉALISATIONS</span>
+                </div>
+                <h2>Le Bureau Virtuel du Studio</h2>
+                <p class="lead" style="max-width: 680px; margin: 0 auto; color: #52525B;">
+                    Chaque création vit dans sa propre fenêtre macOS. Déplacez, superposez, réorganisez ou agrandissez les fenêtres comme sur votre propre bureau de travail.
+                </p>
+                <div class="bureau-toolbar">
+                    <span class="bureau-hint-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24"></path><path d="m14.83 9.17 4.24-4.24"></path><path d="m14.83 14.83 4.24 4.24"></path><path d="m9.17 14.83-4.24 4.24"></path></svg>
+                        Glissez les fenêtres par leur barre supérieure
+                    </span>
+                    <button type="button" class="bureau-btn" id="btnBureauBordel" title="Disposer en bureau en bordel créatif">
+                        <span>🎲</span> Bordel créatif
+                    </button>
+                    <button type="button" class="bureau-btn" id="btnBureauRanger" title="Aligner proprement les fenêtres">
+                        <span>✨</span> Ranger le bureau
+                    </button>
+                    <button type="button" class="bureau-btn" id="btnBureauCascade" title="Superposer les fenêtres en cascade macOS">
+                        <span>📑</span> Cascade macOS
+                    </button>
+                </div>
+            </div>
+
+            <div class="bureau-canvas-wrapper">
+                <div id="bureauCanvas" class="bureau-canvas" aria-label="Espace de travail interactif multi-fenêtres">
+                    
+                    <!-- Fenêtre 1 : Astravacances.fr -->
+                    <div id="bureauWinAstra" class="bureau-window" style="top: 35px; left: 40px; width: clamp(340px, 45vw, 580px); height: clamp(280px, 42vh, 390px); transform: rotate(-2deg); z-index: 10;">
+                        <div class="bureau-window-bar">
+                            <div class="cs-traffic-lights">
+                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="astra" aria-label="Plein écran"></button>
+                            </div>
+                            <div class="cs-url-bar">
+                                <span class="cs-url-lock">🔒</span>
+                                <span class="cs-url-text">astravacances.fr</span>
+                                <span class="cs-url-badge">EN LIGNE</span>
+                            </div>
+                            <button type="button" class="bureau-expand-pill" data-site="astra">Agrandir ⤢</button>
+                        </div>
+                        <div class="bureau-window-body">
+                            <div class="bureau-window-iframe-shield"></div>
+                            <iframe src="showcase-astra.html" title="Aperçu interactif Astra Vacances" loading="lazy"></iframe>
+                        </div>
+                        <div class="bureau-window-footer">
+                            <span>🌴 Villa d'Exception &amp; Conciergerie • Guadeloupe</span>
+                            <span style="font-family: var(--font-mono); font-weight: 600; color: #16A34A;">⚡ 100/100 PageSpeed</span>
+                        </div>
+                    </div>
+
+                    <!-- Fenêtre 2 : Achille.ai -->
+                    <div id="bureauWinAchille" class="bureau-window" style="top: 75px; right: 40px; width: clamp(320px, 43vw, 540px); height: clamp(270px, 40vh, 380px); transform: rotate(1.8deg); z-index: 11;">
+                        <div class="bureau-window-bar">
+                            <div class="cs-traffic-lights">
+                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="achille" aria-label="Plein écran"></button>
+                            </div>
+                            <div class="cs-url-bar">
+                                <span class="cs-url-lock">🔒</span>
+                                <span class="cs-url-text">achille.ai</span>
+                                <span class="cs-url-badge" style="background: rgba(99,102,241,0.12); color: #6366F1;">IA LIVE</span>
+                            </div>
+                            <button type="button" class="bureau-expand-pill" data-site="achille">Agrandir ⤢</button>
+                        </div>
+                        <div class="bureau-window-body">
+                            <div class="bureau-window-iframe-shield"></div>
+                            <iframe src="showcase-achille.html" title="Aperçu interactif Achille.ai" loading="lazy"></iframe>
+                        </div>
+                        <div class="bureau-window-footer">
+                            <span>🤖 Agent IA Immobilier Autonome &amp; Qualification</span>
+                            <span style="font-family: var(--font-mono); font-weight: 600; color: #6366F1;">✦ GPT-4o Ready</span>
+                        </div>
+                    </div>
+
+                    <!-- Fenêtre 3 : Cabinet Valmy -->
+                    <div id="bureauWinValmy" class="bureau-window" style="bottom: 45px; left: 85px; width: clamp(330px, 44vw, 560px); height: clamp(260px, 38vh, 360px); transform: rotate(1.2deg); z-index: 12;">
+                        <div class="bureau-window-bar">
+                            <div class="cs-traffic-lights">
+                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="valmy" aria-label="Plein écran"></button>
+                            </div>
+                            <div class="cs-url-bar">
+                                <span class="cs-url-lock">🔒</span>
+                                <span class="cs-url-text">cabinet-valmy.com</span>
+                                <span class="cs-url-badge">ÉTABLI</span>
+                            </div>
+                            <button type="button" class="bureau-expand-pill" data-site="valmy">Agrandir ⤢</button>
+                        </div>
+                        <div class="bureau-window-body">
+                            <div class="bureau-window-iframe-shield"></div>
+                            <iframe src="showcase-valmy.html" title="Aperçu interactif Cabinet Valmy" loading="lazy"></iframe>
+                        </div>
+                        <div class="bureau-window-footer">
+                            <span>⚖️ Droit des Affaires &amp; Contentieux Stratégique</span>
+                            <span style="font-family: var(--font-mono); font-weight: 600; color: #0C0A08;">Paris 8e</span>
+                        </div>
+                    </div>
+
+                    <!-- Fenêtre 4 : Carte Visite Studio Boubane 3D -->
+                    <div id="bureauWinStudio" class="bureau-window" style="bottom: 55px; right: 70px; width: clamp(290px, 34vw, 420px); height: clamp(230px, 32vh, 290px); transform: rotate(-2.6deg); z-index: 13;">
+                        <div class="bureau-window-bar">
+                            <div class="cs-traffic-lights">
+                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                <button type="button" class="cs-dot cs-dot--green bureau-win-max" data-site="astra" aria-label="Plein écran"></button>
+                            </div>
+                            <div class="cs-url-bar">
+                                <span class="cs-url-lock">🔒</span>
+                                <span class="cs-url-text">boubane.fr/identite</span>
+                            </div>
+                            <span style="font-size: 0.68rem; font-weight: 600; color: #F59E0B;">✦ STUDIO</span>
+                        </div>
+                        <div class="bureau-window-body" style="background: linear-gradient(135deg, #0C0A08 0%, #1c1917 100%); color: #FAF8F5; padding: 22px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <img src="assets/boubane-logo.png" alt="Boubane" style="width: 24px; height: 24px; border-radius: 6px;">
+                                        <span style="font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.04em;">BOUBANE</span>
+                                    </div>
+                                    <span style="font-family: var(--font-mono); font-size: 0.68rem; background: rgba(255,255,255,0.12); padding: 2px 8px; border-radius: 999px; color: #4ADE80;">100% ARTISANAT</span>
+                                </div>
+                                <p style="font-size: 0.8rem; line-height: 1.4; color: #D4D4D8; margin-bottom: 0;">
+                                    Zéro acompte. Création offerte sans engagement. Code propriétaire livré sur GitHub avec vitesse chirurgicale.
+                                </p>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 12px;">
+                                <span style="font-family: var(--font-mono); font-size: 0.72rem; color: #A1A1AA;">FCP &lt; 0.3s</span>
+                                <a href="#tarifs" class="bureau-expand-pill" style="text-decoration: none;">Voir l'offre →</a>
+                            </div>
+                        </div>
+                        <div class="bureau-window-footer">
+                            <span>Carte Studio Boubane</span>
+                            <span>Authentique &amp; Indépendant</span>
+                        </div>
+                    </div>
+
+                    <!-- Fenêtre 5 : Terminal Studio Boubane Live -->
+                    <div id="bureauWinTerminal" class="bureau-window bureau-window--terminal" style="top: 25px; left: 34%; width: clamp(300px, 32vw, 430px); height: auto; transform: rotate(0.8deg); z-index: 14;">
+                        <div class="bureau-window-bar">
+                            <div class="cs-traffic-lights">
+                                <button type="button" class="cs-dot cs-dot--red bureau-win-close" aria-label="Fermer"></button>
+                                <button type="button" class="cs-dot cs-dot--yellow bureau-win-min" aria-label="Minimiser"></button>
+                                <button type="button" class="cs-dot cs-dot--green bureau-win-min" aria-label="Agrandir"></button>
+                            </div>
+                            <div class="cs-url-bar">
+                                <span class="cs-url-text">zsh — boubane-cli v3.4</span>
+                            </div>
+                            <span style="font-family: var(--font-mono); font-size: 0.66rem; color: #4ADE80;">● IDLE</span>
+                        </div>
+                        <div class="bureau-terminal-code">
+                            <div><span class="bureau-terminal-highlight">boubane@studio</span>:<span class="bureau-terminal-amber">~</span>$ boubane audit --production</div>
+                            <div style="color: #94A3B8; margin-top: 4px;">▸ Analyzing 3 client deployments...</div>
+                            <div style="color: #4ADE80;">✔ astravacances.fr : 100/100 (0.28s)</div>
+                            <div style="color: #4ADE80;">✔ achille.ai       : 99/100  (0.31s)</div>
+                            <div style="color: #4ADE80;">✔ cabinet-valmy.com: 100/100 (0.29s)</div>
+                            <div style="margin-top: 6px; color: #38BDF8;">✨ All systems running pure vanilla zero-bloat stack.</div>
+                        </div>
+                        <div class="bureau-window-footer" style="background: #141312; border-color: rgba(255,255,255,0.08); color: #71717A;">
+                            <span>Boubane CLI</span>
+                            <span class="bureau-terminal-highlight">99.8% Core Web Vitals</span>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </section>
 
@@ -926,7 +1098,7 @@
             <div class="container">
                 <div class="section-title-wrap center reveal-on-scroll">
                     <div class="hero-editorial-badge" style="justify-content: center; margin-bottom: var(--spacing-sm);">
-                        <span class="editorial-num">[ 02 ]</span>
+                        <span class="editorial-num">[ 03 ]</span>
                         <span class="editorial-text">RUPTURE ÉCONOMIQUE</span>
                     </div>
                     <h2>Comparez le Modèle Agence Classique vs Boubane Studio</h2>
@@ -1261,7 +1433,7 @@
             </div>
 
             <ul class="footer-links">
-                <li><a href="#heroShowcase" class="footer-link">Réalisations</a></li>
+                <li><a href="#bureau" class="footer-link">Réalisations</a></li>
                 <li><a href="#livrables" class="footer-link">Standards</a></li>
                 <li><a href="#tarifs" class="footer-link">Tarifs 0 €</a></li>
                 <li><a href="/blog" class="footer-link">Journal &amp; SEO</a></li>
