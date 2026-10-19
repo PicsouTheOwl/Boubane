@@ -85,7 +85,7 @@
             "@type": "Person",
             "name": "Léo Saillour",
             "jobTitle": "Fondateur & Développeur Web",
-            "url": "https://www.boubane.com/#qui-suis-je"
+            "url": "https://www.boubane.com"
           },
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
@@ -233,7 +233,7 @@
                     <a href="showcase-astra.html" target="_blank" rel="noopener noreferrer" class="cs-cap-visit-btn" id="portalCapVisitBtn">
                         Ouvrir en pleine page ↗
                     </a>
-                    <a href="#tarifs" onclick="closeFullscreenMockup()" class="cs-cap-visit-btn cs-cap-visit-btn--order" style="background: var(--ramp-yellow); color: #0C0A08; border-color: var(--ramp-yellow); font-weight: 700;">
+                    <a href="/commander" onclick="closeFullscreenMockup()" class="cs-cap-visit-btn cs-cap-visit-btn--order" style="background: var(--ramp-yellow); color: #0C0A08; border-color: var(--ramp-yellow); font-weight: 700;">
                         Commander mon site (0 €) ↗
                     </a>
                 </div>
@@ -251,8 +251,7 @@
 
             <nav aria-label="Navigation principale">
                 <ul class="nav-links">
-                    <li><a href="#tarifs" class="nav-link">Offre 0 €</a></li>
-                    <li><a href="#livrables" class="nav-link">Standards</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
                 </ul>
             </nav>
 
@@ -436,173 +435,11 @@
             </div>
         </section>
 
-        <!-- Module Toggle Tarifaire Pulsor-Style (Switch Interactif) -->
-        <section id="tarifs" class="pricing-toggle-section">
-            <div class="container">
-                <div class="section-title-wrap center reveal-on-scroll">
-                    <div class="hero-editorial-badge" style="justify-content: center; margin-bottom: var(--spacing-sm);">
-                        <span class="editorial-num">[ 02 ]</span>
-                        <span class="editorial-text">RUPTURE ÉCONOMIQUE</span>
-                    </div>
-                    <h2>Comparez le Modèle Agence Classique vs Boubane Studio</h2>
-                    <p class="lead mx-auto">
-                        Basculez entre les deux modèles pour comprendre la rupture économique de notre offre.
-                    </p>
-
-                    <!-- Interactive Switch Pulsor -->
-                    <div class="pricing-toggle-wrap">
-                        <span id="labelAgency" class="pricing-toggle-label">Agence Traditionnelle</span>
-                        <div id="pricingSwitch" class="pricing-switch" role="switch" aria-checked="true" aria-label="Basculer entre Agence et Boubane">
-                            <div class="pricing-switch-handle"></div>
-                        </div>
-                        <span id="labelBoubane" class="pricing-toggle-label active">Boubane Studio (Offert)</span>
-                    </div>
-                </div>
-
-                <div class="pricing-cards-grid reveal-on-scroll reveal-delay-1">
-                    <!-- Carte 1 : Agence Classique -->
-                    <div id="cardAgency" class="pricing-plan-card">
-                        <div>
-                            <span class="font-mono text-s" style="color: #A32626; font-weight: 700; text-transform: uppercase;">MODÈLE TRADITIONNEL</span>
-                            <h3 style="font-size: 1.6rem; margin-top: 8px; margin-bottom: 8px;">Agence Web Classique</h3>
-                            <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: #A32626; margin-bottom: 16px;">
-                                3 500 € à 5 000 €
-                                <span style="font-size: 0.9rem; color: var(--color-text-muted); display: block; font-weight: 500;">+ 80 € à 150 € / mois d'engagement</span>
-                            </div>
-                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; font-size: 0.95rem;">
-                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Frais de création élevés et souvent opaques</span></li>
-                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>CMS lourd imposé (WordPress, plugins obsolètes)</span></li>
-                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Engagement contractuel de 12 à 36 mois</span></li>
-                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text-muted);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Code et nom de domaine souvent captifs de l'agence</span></li>
-                            </ul>
-                        </div>
-                        <p style="font-size: 0.85rem; color: var(--color-text-muted); border-top: 1px solid var(--color-border-subtle); padding-top: 14px;">
-                            Un coût récurrent lourd qui pénalise votre trésorerie dès le démarrage.
-                        </p>
-                    </div>
-
-                    <!-- Carte 2 : Boubane Studio (Offre Rupture) -->
-                    <div id="cardBoubane" class="pricing-plan-card highlight">
-                        <div>
-                            <span class="font-mono text-s" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase;">PARTENARIAT 2026</span>
-                            <h3 style="font-size: 1.6rem; margin-top: 8px; margin-bottom: 8px;">Boubane Studio</h3>
-                            <div style="font-family: var(--font-mono); font-size: 2.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 16px;">
-                                0 € <span style="font-size: 1rem; color: var(--color-success); font-weight: 700; background: var(--color-success-bg); padding: 4px 10px; border-radius: var(--radius-pill); vertical-align: middle;">OFFERT À VIE</span>
-                                <span style="font-size: 0.85rem; color: var(--color-text-muted); display: block; font-weight: 500; margin-top: 4px;">Vous ne réglez que votre hébergeur direct (~5 €/mois)</span>
-                            </div>
-                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; font-size: 0.95rem;">
-                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>100% de la conception et du code pris en charge à mes frais</span></li>
-                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Vitesse chirurgicale &lt; 0.4s (Google PageSpeed 100/100)</span></li>
-                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Zéro engagement · Nom de domaine directement à votre nom</span></li>
-                                <li style="display: flex; align-items: center; gap: 8px; color: var(--color-text); font-weight: 600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Code source complet livré sur votre compte GitHub</span></li>
-                            </ul>
-                        </div>
-                        <a href="/commander" class="btn btn-primary" style="width: 100%;" aria-label="Réclamer mon site offert">
-                            <span>Réclamer mon site offert (0 €)</span>
-                            <span class="btn-arrow-double" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section Standards Studio / Philosophie Ramp Design (How we build.) -->
-        <section id="livrables" class="section">
-            <div class="container">
-                <div class="section-title-wrap center reveal-on-scroll">
-                    <span class="cs-eyebrow" style="justify-content: center;">[ 03 ] PHILOSOPHY</span>
-                    <h2 class="cs-title">How we build<span class="cs-title__dot">.</span></h2>
-                    <p class="cs-lead mx-auto">
-                        Nous refusons les templates jetables et les usines à gaz. Chaque site est pensé comme un actif commercial pérenne : ultra-rapide, percutant et totalement libre de toute dépendance.
-                    </p>
-                </div>
-
-                <div class="pillars-editorial-grid">
-                    <div class="pillar-card reveal-on-scroll reveal-delay-1">
-                        <div class="pillar-num">[ 01 ]</div>
-                        <h3 class="pillar-title">Vitesse Chirurgicale &amp; SEO Pur<span class="cs-title__dot">.</span></h3>
-                        <p class="pillar-text">
-                            Aucun CMS obèse, zéro plugin inutile. Nous écrivons un code ultra-propre qui charge en moins de 300 millisecondes et décroche une autorité maximale sur Google. Vous surclassez vos concurrents dès la mise en ligne.
-                        </p>
-                        <div class="pillar-detail">
-                            <span class="pillar-bullet">Chargement &lt; 0.3s</span>
-                            <span class="pillar-bullet">Balisage Hn &amp; Schema.org</span>
-                        </div>
-                    </div>
-
-                    <div class="pillar-card reveal-on-scroll reveal-delay-2">
-                        <div class="pillar-num">[ 02 ]</div>
-                        <h3 class="pillar-title">Direction Artistique &amp; Conversion<span class="cs-title__dot">.</span></h3>
-                        <p class="pillar-text">
-                            Une esthétique ciselée construite autour de votre singularité métier. Chaque écran guide naturellement le regard de votre prospect vers l'action : prise de contact, demande de devis ou appel direct.
-                        </p>
-                        <div class="pillar-detail">
-                            <span class="pillar-bullet">Design suisse haute autorité</span>
-                            <span class="pillar-bullet">Responsive fluide Mobile &amp; 4K</span>
-                        </div>
-                    </div>
-
-                    <div class="pillar-card reveal-on-scroll reveal-delay-3">
-                        <div class="pillar-num">[ 03 ]</div>
-                        <h3 class="pillar-title">Souveraineté &amp; 0 € d'Acompte<span class="cs-title__dot">.</span></h3>
-                        <p class="pillar-text">
-                            Vous êtes 100% propriétaire légal de votre nom de domaine et de votre code source livré sur votre compte GitHub. Aucune agence ne détient vos accès. Votre hébergement direct est à votre nom, sans redevance.
-                        </p>
-                        <div class="pillar-detail">
-                            <span class="pillar-bullet">Code source complet sur GitHub</span>
-                            <span class="pillar-bullet">Zéro redevance d'agence</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section L'Architecte — Ramp Style (Beyond the work.) -->
-        <section id="qui-suis-je" class="section" style="background: #FFFFFF;">
-            <div class="container">
-                <div class="architect-grid reveal-on-scroll">
-                    <div>
-                        <span class="cs-eyebrow">[ 04 ] TEAM &amp; VISION</span>
-                        <h2 class="cs-title">Beyond the work<span class="cs-title__dot">.</span></h2>
-                        <p style="font-size: var(--font-size-body-lg); margin-bottom: var(--spacing-md); line-height: 1.6; color: #0C0A08;">
-                            Je m'appelle <strong>Léo Saillour</strong>, fondateur de Boubane. Je conçois, développe et optimise chaque projet de bout en bout sans sous-traitance ni commercial intermédiaire.
-                        </p>
-                        <p style="color: var(--color-text-muted); margin-bottom: var(--spacing-lg); line-height: 1.65;">
-                            Pas de discours commercial trompeur, pas d'usine à templates indienne ou de stagiaire caché derrière un chef de projet débordé : vous échangez directement avec le créateur de votre infrastructure. Rigueur, transparence et obsession absolue du détail.
-                        </p>
-                        <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap;">
-                            <a href="/commander" class="btn-ramp-cta" aria-label="Échanger directement avec Léo">
-                                <span>Échanger directement avec moi</span>
-                                <span class="btn-arrow-double" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="card architect-card">
-                        <img src="assets/boubane-logo.png" alt="Boubane Studio" style="width: 100px; height: 100px; object-fit: contain; margin-bottom: var(--spacing-md); border-radius: 18px;">
-                        <h3 style="margin-bottom: var(--spacing-xs); font-size: 1.5rem;">Léo Saillour</h3>
-                        <p style="color: var(--color-primary); font-family: var(--font-mono); font-weight: 700; font-size: var(--font-size-caption); margin-bottom: var(--spacing-md); text-transform: uppercase;">
-                            Fondateur · Artisan &amp; Concepteur Web Sur-Mesure
-                        </p>
-                        <p style="font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: 1.6;">
-                            Accompagnement France entière (Paris, Lyon, Marseille, Bordeaux, Lille, Nantes, Toulouse) &amp; International. Disponibilité par visioconférence et ligne directe.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section FAQ — Format Minimaliste Ramp Design (Questions.) -->
+        <!-- Section FAQ (Questions.) -->
         <section id="faq" class="section">
             <div class="container">
                 <div class="section-title-wrap center reveal-on-scroll">
-                    <span class="cs-eyebrow" style="justify-content: center;">[ 05 ] FAQ</span>
+                    <span class="cs-eyebrow" style="justify-content: center;">[ 02 ] FAQ</span>
                     <h2 class="cs-title">Questions<span class="cs-title__dot">.</span></h2>
                     <p class="cs-lead mx-auto">Tout ce que vous devez savoir avant de lancer votre projet.</p>
                 </div>
@@ -662,7 +499,7 @@
         <!-- Section CTA Finale — Ramp Design Style (Ready to build something iconic?) -->
         <section class="section" style="background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(238, 248, 90, 0.08) 0%, rgba(250, 248, 245, 0) 70%); text-align: center; padding: clamp(4rem, 8vh, 7rem) 0;">
             <div class="container" style="max-width: 820px;">
-                <span class="cs-eyebrow" style="justify-content: center; margin-bottom: var(--spacing-sm);">[ 06 ] READY TO BUILD SOMETHING ICONIC?</span>
+                <span class="cs-eyebrow" style="justify-content: center; margin-bottom: var(--spacing-sm);">[ 03 ] CONCEPTION SUR-MESURE</span>
                 <h2 class="cs-title" style="margin-inline: auto; max-width: 15ch;">Votre vitrine d'exception peut être en ligne la semaine prochaine<span class="cs-title__dot">.</span></h2>
                 <p class="cs-lead mx-auto" style="margin: var(--spacing-md) auto var(--spacing-2xl);">
                     Réservez votre créneau de conception. 100% de la création et du code sont offerts à nos frais. Zéro discours commercial, zéro engagement captif.
@@ -880,8 +717,7 @@
 
             <ul class="footer-links">
                 <li><a href="#heroShowcase" class="footer-link">Réalisations</a></li>
-                <li><a href="#livrables" class="footer-link">Standards</a></li>
-                <li><a href="#tarifs" class="footer-link">Tarifs 0 €</a></li>
+                <li><a href="/commander" class="footer-link">Commander (0 €)</a></li>
                 <li><a href="/blog" class="footer-link">Journal &amp; SEO</a></li>
                 <li><a href="#faq" class="footer-link">FAQ</a></li>
                 <li><a href="#mentions-legales" onclick="openModal('legalModal'); return false;" class="footer-link" style="color: var(--color-primary); font-weight: 700;">Mentions Légales</a></li>
