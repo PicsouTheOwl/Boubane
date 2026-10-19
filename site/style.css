@@ -4916,61 +4916,6 @@ body.mockup-modal-open .hero-card-slide.active {
   pointer-events: none;
 }
 
-/* Contenu Mockup dans la fenêtre */
-.bureau-mock-inner {
-  padding: 16px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* Fenêtre Terminal Studio Boubane */
-.bureau-window--terminal {
-  background: #0C0A08 !important;
-  color: #38BDF8 !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
-}
-
-.bureau-window--terminal .bureau-window-bar {
-  background: #141312 !important;
-  border-bottom-color: rgba(255, 255, 255, 0.10) !important;
-}
-
-.bureau-window--terminal .cs-url-bar {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border-color: rgba(255, 255, 255, 0.10) !important;
-  color: #A1A1AA !important;
-}
-
-.bureau-terminal-code {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  line-height: 1.6;
-  padding: 16px 20px;
-  color: #E2E8F0;
-}
-
-.bureau-terminal-highlight {
-  color: #4ADE80;
-}
-
-.bureau-terminal-amber {
-  color: #FBBF24;
-}
-
-/* Pied de fenêtre avec action rapide */
-.bureau-window-footer {
-  background: rgba(247, 247, 249, 0.95);
-  border-top: 1px solid rgba(12, 10, 8, 0.07);
-  padding: 6px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.70rem;
-  color: #64748B;
-}
-
 .bureau-expand-pill {
   background: #FFFFFF;
   border: 1px solid rgba(12, 10, 8, 0.10);

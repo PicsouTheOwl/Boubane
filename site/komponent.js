@@ -989,14 +989,6 @@ const heroSiteMetadata = [
     seal: "V",
     kpi: "⚡ Vitesse : 0.26s · Audit 0 €",
     desc: "Cabinet Valmy — Barreau d'affaires M&A, transmission d'entreprises confidentielle et simulateur d'audit préalable."
-  },
-  {
-    key: "studio",
-    name: "Studio",
-    badge: "Carte 3D",
-    logo: "assets/boubane-logo.png",
-    kpi: "⚡ Vitesse < 0.3s · Carte Membre",
-    desc: "Boubane Studio — Passeport digital haute autorité avec puce dorée gravée, effet gyroscopique 3D et zéro frais d'agence."
   }
 ];
 
