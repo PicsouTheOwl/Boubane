@@ -1609,45 +1609,68 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 .cs-dot--green::after { content: '+'; }
 
-/* Barre d'adresse centrale épurée type Apple Safari native */
+/* Barre d'adresse centrale ultra-raffinée style Apple Safari Sequoia */
 .cs-url-bar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.90);
-  border: 1px solid rgba(12, 10, 8, 0.08);
-  box-shadow: 0 1px 3px rgba(12, 10, 8, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  border-radius: var(--radius-pill);
-  padding: 4.5px 16px;
-  font-family: var(--font-body);
-  font-size: 0.73rem;
-  font-weight: 500;
-  color: #1E293B;
-  letter-spacing: -0.01em;
-  flex: 0 1 340px;
-  max-width: 360px;
   justify-content: center;
-  transition: all 0.2s ease;
+  gap: 7px;
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.09);
+  box-shadow: 
+    0 1px 2.5px rgba(12, 10, 8, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  border-radius: 9px;
+  height: 28px;
+  padding: 0 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: #18181B;
+  letter-spacing: -0.012em;
+  flex: 0 1 350px;
+  max-width: 390px;
   margin: 0 auto;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
 }
 
 .cs-url-bar:hover {
   background: #FFFFFF;
-  border-color: rgba(12, 10, 8, 0.16);
-  box-shadow: 0 2px 8px rgba(12, 10, 8, 0.06);
+  border-color: rgba(12, 10, 8, 0.22);
+  box-shadow: 
+    0 2px 8px rgba(12, 10, 8, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 .cs-url-lock {
   display: inline-flex;
   align-items: center;
-  color: #64748B;
-  opacity: 0.85;
+  justify-content: center;
+  color: #71717A;
+  transition: color 0.18s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.cs-url-bar:hover .cs-url-lock {
+  color: #18181B;
+}
+
+.cs-url-lock-svg {
+  display: block;
+  stroke: currentColor;
 }
 
 .cs-url-text {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: #18181B;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.012em;
 }
 
 .cs-window-bar-right {
@@ -2048,14 +2071,14 @@ body.mockup-modal-open .hero-card-slide.active {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
-/* Sélecteur de projets dans la vue pleine */
+/* Sélecteur de projets dans la vue pleine type Apple Segmented Control */
 .cs-portal-site-switch {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  background: rgba(12, 10, 8, 0.04);
-  padding: 2.5px 4px;
-  border-radius: var(--radius-pill);
+  background: rgba(12, 10, 8, 0.05);
+  padding: 2.5px;
+  border-radius: 8px;
   border: 1px solid rgba(12, 10, 8, 0.06);
   margin-left: 12px;
 }
@@ -2063,29 +2086,29 @@ body.mockup-modal-open .hero-card-slide.active {
 .cs-portal-tab-btn {
   background: none;
   border: none;
-  color: #64748B;
-  font-family: var(--font-body);
+  color: #71717A;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
   font-size: 0.70rem;
   font-weight: 500;
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
+  padding: 3.5px 9px;
+  border-radius: 6px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cs-portal-tab-btn:hover {
-  color: #0F172A;
+  color: #18181B;
   background: rgba(12, 10, 8, 0.04);
 }
 
 .cs-portal-tab-btn.active {
   background: #FFFFFF;
-  color: #0F172A;
+  color: #0C0A08;
   font-weight: 600;
-  box-shadow: 0 1px 3px rgba(12, 10, 8, 0.12);
+  box-shadow: 0 1px 2.5px rgba(12, 10, 8, 0.12);
 }
 
 .cs-portal-tab-icon {
@@ -2147,27 +2170,26 @@ body.mockup-modal-open .hero-card-slide.active {
 
 
 
-/* Sélecteur d'appareil interactif (Desktop / Tablette / Mobile) */
+/* Sélecteur d'appareil interactif (Desktop / Tablette / Mobile) type Apple Segmented Control */
 .cs-device-switch {
   display: flex;
   align-items: center;
   gap: 2px;
-  background: rgba(12, 10, 8, 0.04);
-  padding: 2px 3px;
-  border-radius: var(--radius-pill);
+  background: rgba(12, 10, 8, 0.05);
+  padding: 2.5px;
+  border-radius: 8px;
   border: 1px solid rgba(12, 10, 8, 0.06);
 }
 
 .cs-device-btn {
   background: none;
   border: none;
-  padding: 3.5px 7px;
-  border-radius: var(--radius-pill);
+  padding: 3px 6px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 0.70rem;
-  color: #64748B;
-  opacity: 0.85;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #71717A;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   line-height: 1;
   display: inline-flex;
   align-items: center;
@@ -2178,30 +2200,27 @@ body.mockup-modal-open .hero-card-slide.active {
   display: inline-block;
   vertical-align: middle;
   stroke: currentColor;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
 }
 
 .cs-device-btn:hover {
-  opacity: 1;
-  color: #0F172A;
+  color: #18181B;
   background: rgba(12, 10, 8, 0.04);
 }
 
 .cs-device-btn:hover .cs-device-icon {
-  stroke: currentColor;
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .cs-device-btn.active {
-  opacity: 1;
   background: #FFFFFF;
-  color: #0F172A;
-  box-shadow: 0 1px 3px rgba(12, 10, 8, 0.12);
+  color: #0C0A08;
+  box-shadow: 0 1px 2.5px rgba(12, 10, 8, 0.12);
 }
 
 .cs-device-btn.active .cs-device-icon {
-  stroke: currentColor;
+  stroke: #0C0A08;
 }
 
 /* ==========================================================================
@@ -2531,48 +2550,6 @@ body.mockup-modal-open .hero-card-slide.active {
 
 
 
-/* Barre d'adresse épurée type Safari / Arc Browser */
-.cs-url-bar {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
-  border-radius: var(--radius-pill);
-  padding: 4px 14px;
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
-  letter-spacing: 0.01em;
-  flex: 0 1 360px;
-  justify-content: center;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.cs-url-bar:hover {
-  border-color: rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.065);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 0 10px rgba(255, 255, 255, 0.04);
-}
-
-.cs-url-lock {
-  color: #64748B;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-.cs-url-lock-svg {
-  display: inline-block;
-  vertical-align: middle;
-  stroke: #64748B;
-}
-
 .cs-icon-svg {
   display: inline-block;
   vertical-align: middle;
@@ -2581,30 +2558,23 @@ body.mockup-modal-open .hero-card-slide.active {
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s ease;
 }
 
-.cs-url-text {
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #0F172A;
-}
-
 .cs-window-bar-right {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Bouton Agrandir / Plein Écran Épuré (Barre Claire Safari) */
+/* Bouton Agrandir / Plein Écran Épuré (Barre Claire Safari Sequoia) */
 .cs-btn-expand-win {
-  background: rgba(255, 255, 255, 0.85);
+  background: #FFFFFF;
   border: 1px solid rgba(12, 10, 8, 0.10);
-  color: #1E293B;
-  font-family: var(--font-body);
-  font-size: 0.70rem;
-  font-weight: 600;
-  padding: 4.5px 12px;
-  border-radius: var(--radius-pill);
+  color: #18181B;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  height: 28px;
+  padding: 0 11px;
+  border-radius: 8px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -2622,7 +2592,7 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 .cs-btn-expand-win:hover .cs-icon-svg {
-  color: #FFFFFF;
+  stroke: #FFFFFF;
   transform: scale(1.08);
 }
 
