@@ -1129,6 +1129,9 @@ const BUREAU_WIN_DOCK_MAP = {
 // Replier une fenêtre dans la barre des tâches avec effet macOS Genie
 function minimizeBureauWindow(win) {
   if (!win) return;
+  if (typeof win._cancelFling === 'function') {
+    win._cancelFling();
+  }
   const idx = BUREAU_WIN_DOCK_MAP[win.id];
   const dockBtn = (typeof idx === 'number') ? document.getElementById(`dockBtn${idx}`) : null;
 
@@ -1174,6 +1177,9 @@ function minimizeBureauWindow(win) {
 // Déplier / Restaurer une fenêtre depuis la barre des tâches (Dock)
 function restoreBureauWindow(win) {
   if (!win) return;
+  if (typeof win._cancelFling === 'function') {
+    win._cancelFling();
+  }
   const idx = BUREAU_WIN_DOCK_MAP[win.id];
   const dockBtn = (typeof idx === 'number') ? document.getElementById(`dockBtn${idx}`) : null;
 
@@ -1377,6 +1383,12 @@ function initBureauCanvas() {
     });
   }
 
+  const DEFAULT_ANGLES = {
+    'bureauWinAstra': -1.5,
+    'bureauWinAchille': 1.8,
+    'bureauWinValmy': -0.8
+  };
+
   windows.forEach((win) => {
     win.addEventListener('pointerdown', () => {
       bringToFront(win);
@@ -1386,10 +1398,30 @@ function initBureauCanvas() {
     if (!bar) return;
 
     let isDragging = false;
-    let startX = 0;
-    let startY = 0;
     let initialLeft = 0;
     let initialTop = 0;
+    let currentLeft = 0;
+    let currentTop = 0;
+
+    // Métriques physiques et cinétiques
+    let lastPointerX = 0;
+    let lastPointerY = 0;
+    let lastTime = 0;
+    let vx = 0;
+    let vy = 0;
+    let smoothedTilt = 0;
+    let flingAnimId = null;
+
+    const baseAngle = (typeof DEFAULT_ANGLES[win.id] === 'number') ? DEFAULT_ANGLES[win.id] : 0;
+
+    function cancelFling() {
+      if (flingAnimId) {
+        cancelAnimationFrame(flingAnimId);
+        flingAnimId = null;
+      }
+      win.classList.remove('is-flying');
+    }
+    win._cancelFling = cancelFling;
 
     bar.addEventListener('pointerdown', (e) => {
       // Ignorer si clic sur un bouton ou lien
@@ -1397,13 +1429,18 @@ function initBureauCanvas() {
         return;
       }
 
+      cancelFling();
       isDragging = true;
       bringToFront(win);
       win.classList.add('is-dragging');
       win.classList.remove('is-transitioning');
 
-      startX = e.clientX;
-      startY = e.clientY;
+      lastPointerX = e.clientX;
+      lastPointerY = e.clientY;
+      lastTime = performance.now();
+      vx = 0;
+      vy = 0;
+      smoothedTilt = 0;
 
       // Position absolue relative au canvas
       const canvasRect = canvas.getBoundingClientRect();
@@ -1411,12 +1448,17 @@ function initBureauCanvas() {
 
       initialLeft = winRect.left - canvasRect.left;
       initialTop = winRect.top - canvasRect.top;
+      currentLeft = initialLeft;
+      currentTop = initialTop;
 
       // Fixer left & top en px pour éviter les sauts si c'était en right ou bottom
       win.style.right = 'auto';
       win.style.bottom = 'auto';
-      win.style.left = initialLeft + 'px';
-      win.style.top = initialTop + 'px';
+      win.style.left = currentLeft + 'px';
+      win.style.top = currentTop + 'px';
+
+      // Effet d'élévation physique immédiat lors de la prise en main
+      win.style.transform = `scale(1.025) rotate(${baseAngle}deg)`;
 
       if (bar.setPointerCapture) {
         try {
@@ -1430,13 +1472,26 @@ function initBureauCanvas() {
     bar.addEventListener('pointermove', (e) => {
       if (!isDragging) return;
 
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
+      const now = performance.now();
+      const dt = Math.max(1, now - lastTime);
 
-      let newLeft = initialLeft + dx;
-      let newTop = initialTop + dy;
+      const dx = e.clientX - lastPointerX;
+      const dy = e.clientY - lastPointerY;
 
-      // Contraintes ultra-souples : autorise le débordement libre sur les bords et vers le bas (survoler le dock)
+      // Calcul de vitesse filtrée
+      const instVx = dx / dt;
+      const instVy = dy / dt;
+      vx = vx * 0.4 + instVx * 0.6;
+      vy = vy * 0.4 + instVy * 0.6;
+
+      currentLeft += dx;
+      currentTop += dy;
+
+      lastPointerX = e.clientX;
+      lastPointerY = e.clientY;
+      lastTime = now;
+
+      // Contraintes ultra-souples
       const minVisibleX = 60;
       const canvasWidth = canvas.clientWidth;
       const canvasHeight = canvas.clientHeight;
@@ -1445,23 +1500,103 @@ function initBureauCanvas() {
       const minLeft = -winWidth + minVisibleX;
       const maxLeft = canvasWidth - minVisibleX;
       const minTop = -60;
-      const maxTop = canvasHeight + 350; // Permet de glisser librement sur et sous le dock sans blocage
+      const maxTop = canvasHeight + 350;
 
-      newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
-      newTop = Math.max(minTop, Math.min(newTop, maxTop));
+      currentLeft = Math.max(minLeft, Math.min(currentLeft, maxLeft));
+      currentTop = Math.max(minTop, Math.min(currentTop, maxTop));
 
-      win.style.left = newLeft + 'px';
-      win.style.top = newTop + 'px';
+      // Physique d'inclinaison inertielle (Swing dynamique selon la vitesse et l'accélération)
+      const targetTilt = Math.max(-8, Math.min(8, vx * 14));
+      smoothedTilt += (targetTilt - smoothedTilt) * 0.28;
+
+      // Léger tangage 3D perspective
+      const pitch = Math.max(-5, Math.min(5, -vy * 8));
+
+      win.style.transform = `scale(1.028) rotate(${(baseAngle + smoothedTilt).toFixed(2)}deg) perspective(650px) rotateX(${pitch.toFixed(1)}deg)`;
+      win.style.left = currentLeft.toFixed(1) + 'px';
+      win.style.top = currentTop.toFixed(1) + 'px';
     });
 
     const stopDrag = (e) => {
       if (!isDragging) return;
       isDragging = false;
       win.classList.remove('is-dragging');
+
       if (bar.releasePointerCapture && e && e.pointerId) {
         try {
           bar.releasePointerCapture(e.pointerId);
         } catch (_) {}
+      }
+
+      const minVisibleX = 60;
+      const canvasWidth = canvas.clientWidth;
+      const canvasHeight = canvas.clientHeight;
+      const winWidth = win.offsetWidth;
+      const minLeft = -winWidth + minVisibleX;
+      const maxLeft = canvasWidth - minVisibleX;
+      const minTop = -60;
+      const maxTop = canvasHeight + 350;
+
+      const speed = Math.hypot(vx, vy);
+
+      // Si l'utilisateur donne un élan (impulsion de lancer avec glisse physique)
+      if (speed > 0.05) {
+        win.classList.add('is-flying');
+        let currentTilt = smoothedTilt;
+
+        function physicsStep() {
+          // Décélération par friction soyeuse
+          vx *= 0.92;
+          vy *= 0.92;
+          currentTilt *= 0.88;
+
+          currentLeft += vx * 16;
+          currentTop += vy * 16;
+
+          // Rebond souple sur les bords du bureau
+          if (currentLeft <= minLeft) {
+            currentLeft = minLeft;
+            vx = -vx * 0.38;
+          } else if (currentLeft >= maxLeft) {
+            currentLeft = maxLeft;
+            vx = -vx * 0.38;
+          }
+
+          if (currentTop <= minTop) {
+            currentTop = minTop;
+            vy = -vy * 0.38;
+          } else if (currentTop >= maxTop) {
+            currentTop = maxTop;
+            vy = -vy * 0.38;
+          }
+
+          win.style.left = currentLeft.toFixed(1) + 'px';
+          win.style.top = currentTop.toFixed(1) + 'px';
+          win.style.transform = `scale(1) rotate(${(baseAngle + currentTilt).toFixed(2)}deg)`;
+
+          const currentSpeed = Math.hypot(vx, vy);
+          if (currentSpeed > 0.012) {
+            flingAnimId = requestAnimationFrame(physicsStep);
+          } else {
+            cancelFling();
+            win.classList.add('is-transitioning');
+            win.style.transform = `rotate(${baseAngle}deg)`;
+            win.setAttribute('data-saved-transform', `rotate(${baseAngle}deg)`);
+            setTimeout(() => {
+              win.classList.remove('is-transitioning');
+            }, 300);
+          }
+        }
+
+        flingAnimId = requestAnimationFrame(physicsStep);
+      } else {
+        // Dépose douce au repos
+        win.classList.add('is-transitioning');
+        win.style.transform = `rotate(${baseAngle}deg)`;
+        win.setAttribute('data-saved-transform', `rotate(${baseAngle}deg)`);
+        setTimeout(() => {
+          win.classList.remove('is-transitioning');
+        }, 280);
       }
     };
 

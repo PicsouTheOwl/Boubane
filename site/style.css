@@ -4885,10 +4885,17 @@ body.mockup-modal-open .hero-card-slide.active {
   cursor: grabbing !important;
   transition: none !important;
   box-shadow: 
-    0 36px 85px -12px rgba(12, 10, 8, 0.32),
-    0 14px 28px -4px rgba(12, 10, 8, 0.16),
-    0 0 0 1px rgba(12, 10, 8, 0.10) !important;
-  transform: scale(1.02) !important;
+    0 38px 90px -12px rgba(12, 10, 8, 0.35),
+    0 16px 36px -4px rgba(12, 10, 8, 0.20),
+    0 0 0 1px rgba(12, 10, 8, 0.12) !important;
+  z-index: 100 !important;
+}
+
+.bureau-window.is-flying {
+  transition: none !important;
+  box-shadow: 
+    0 26px 65px -10px rgba(12, 10, 8, 0.25),
+    0 10px 22px -4px rgba(12, 10, 8, 0.12) !important;
 }
 
 .bureau-window.is-transitioning {
