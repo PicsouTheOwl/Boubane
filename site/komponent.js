@@ -1595,7 +1595,7 @@ function acceptAllCookies() {
     closeModal('cookieModal');
   }
   if (typeof showBoubaneToast === 'function') {
-    showBoubaneToast('✨ Vos préférences de confidentialité ont été enregistrées.');
+    showBoubaneToast('Vos préférences de confidentialité ont été enregistrées.');
   }
 }
 
@@ -1606,7 +1606,7 @@ function rejectAllCookies() {
     closeModal('cookieModal');
   }
   if (typeof showBoubaneToast === 'function') {
-    showBoubaneToast('🔒 Seuls les cookies strictement nécessaires restent actifs.');
+    showBoubaneToast('Seuls les cookies strictement nécessaires restent actifs.');
   }
 }
 
@@ -1640,7 +1640,7 @@ function saveCustomCookies() {
     closeModal('cookieModal');
   }
   if (typeof showBoubaneToast === 'function') {
-    showBoubaneToast('✨ Vos préférences personnalisées ont été enregistrées.');
+    showBoubaneToast('Vos préférences personnalisées ont été enregistrées.');
   }
 }
 
