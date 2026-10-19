@@ -4933,7 +4933,10 @@ body.mockup-modal-open .hero-card-slide.active {
   gap: 5px !important;
 }
 
-.bureau-window.is-dragging .bureau-window-bar {
+.bureau-window.is-dragging,
+.bureau-window.is-dragging .bureau-window-bar,
+.bureau-window.is-dragging .bureau-window-body,
+.bureau-window.is-dragging .bureau-window-iframe-shield {
   cursor: grabbing !important;
 }
 
@@ -4943,19 +4946,19 @@ body.mockup-modal-open .hero-card-slide.active {
   background: #FFFFFF;
   overflow: hidden;
   min-height: 160px;
+  cursor: grab;
+  user-select: none;
 }
 
-/* Miniature Iframe avec protection de drag */
+/* Bouclier protecteur sur toute la surface pour déplacement universel de la fenêtre */
 .bureau-window-iframe-shield {
   position: absolute;
   inset: 0;
   z-index: 5;
   background: transparent;
-  pointer-events: none;
-}
-
-.bureau-window.is-dragging .bureau-window-iframe-shield {
-  pointer-events: auto !important;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
 }
 
 .bureau-window-body iframe {

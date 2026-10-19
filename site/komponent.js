@@ -1390,13 +1390,6 @@ function initBureauCanvas() {
   };
 
   windows.forEach((win) => {
-    win.addEventListener('pointerdown', () => {
-      bringToFront(win);
-    }, { passive: true });
-
-    const bar = win.querySelector('.bureau-window-bar');
-    if (!bar) return;
-
     let isDragging = false;
     let initialLeft = 0;
     let initialTop = 0;
@@ -1423,15 +1416,17 @@ function initBureauCanvas() {
     }
     win._cancelFling = cancelFling;
 
-    bar.addEventListener('pointerdown', (e) => {
-      // Ignorer si clic sur un bouton ou lien
+    win.addEventListener('pointerdown', (e) => {
+      // Toujours amener la fenêtre au premier plan
+      bringToFront(win);
+
+      // Ignorer si clic sur un bouton d'action ou lien ou pastille macOS
       if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.cs-dot')) {
         return;
       }
 
       cancelFling();
       isDragging = true;
-      bringToFront(win);
       win.classList.add('is-dragging');
       win.classList.remove('is-transitioning');
 
@@ -1460,16 +1455,16 @@ function initBureauCanvas() {
       // Effet d'élévation physique immédiat lors de la prise en main
       win.style.transform = `scale(1.025) rotate(${baseAngle}deg)`;
 
-      if (bar.setPointerCapture) {
+      if (win.setPointerCapture) {
         try {
-          bar.setPointerCapture(e.pointerId);
+          win.setPointerCapture(e.pointerId);
         } catch (_) {}
       }
 
       e.preventDefault();
     });
 
-    bar.addEventListener('pointermove', (e) => {
+    win.addEventListener('pointermove', (e) => {
       if (!isDragging) return;
 
       const now = performance.now();
@@ -1522,9 +1517,9 @@ function initBureauCanvas() {
       isDragging = false;
       win.classList.remove('is-dragging');
 
-      if (bar.releasePointerCapture && e && e.pointerId) {
+      if (win.releasePointerCapture && e && e.pointerId) {
         try {
-          bar.releasePointerCapture(e.pointerId);
+          win.releasePointerCapture(e.pointerId);
         } catch (_) {}
       }
 
@@ -1600,8 +1595,8 @@ function initBureauCanvas() {
       }
     };
 
-    bar.addEventListener('pointerup', stopDrag);
-    bar.addEventListener('pointercancel', stopDrag);
+    win.addEventListener('pointerup', stopDrag);
+    win.addEventListener('pointercancel', stopDrag);
 
     // Boutons de la barre macOS : fermer (rouge) et minimiser (jaune) replient dans la barre des tâches
     const closeBtn = win.querySelector('.bureau-win-close');
