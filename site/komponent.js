@@ -1255,6 +1255,18 @@ function initBureauCanvas() {
     win.style.zIndex = highestBureauZIndex;
   }
 
+  // Si petit écran mobile au chargement, ranger harmonieusement pour éviter tout chevauchement
+  if (window.innerWidth < 768) {
+    windows.forEach((win, i) => {
+      win.style.right = 'auto';
+      win.style.bottom = 'auto';
+      win.style.left = '12px';
+      win.style.top = (16 + i * 65) + 'px';
+      win.style.transform = 'rotate(0deg)';
+      win.style.zIndex = 10 + i;
+    });
+  }
+
   windows.forEach((win) => {
     win.addEventListener('pointerdown', () => {
       bringToFront(win);

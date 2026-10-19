@@ -4858,6 +4858,9 @@ body.mockup-modal-open .hero-card-slide.active {
 }
 
 .bureau-window-body iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border: none;
@@ -4942,10 +4945,19 @@ body.mockup-modal-open .hero-card-slide.active {
 
 @media (max-width: 768px) {
   .bureau-canvas {
-    height: 720px;
+    height: 640px;
+    border-radius: 20px;
   }
   .bureau-window {
-    max-width: 90vw !important;
+    max-width: calc(100% - 24px) !important;
+    width: calc(100% - 24px) !important;
+  }
+  .bureau-toolbar {
+    gap: 8px;
+  }
+  .bureau-btn {
+    font-size: 0.72rem;
+    padding: 6px 12px;
   }
 }
 

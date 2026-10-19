@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cabinet Valmy — Avocats d'Affaires & M&A Paris</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', serif;
+      background: radial-gradient(circle at 70% 30%, #1e1713 0%, #0c0a09 100%);
+      color: #FAF8F5;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    .header {
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+      background: rgba(12, 10, 9, 0.85);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #FAF8F5;
+    }
+    .brand-seal {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #d97706, #b45309);
+      color: #FFFFFF;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      border: 1px solid rgba(251, 191, 36, 0.4);
+    }
+    .brand-name {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      color: #FDE68A;
+    }
+    .badge-paris {
+      font-size: 0.65rem;
+      color: #D4D4D8;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 3px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hero {
+      padding: clamp(24px, 5vh, 44px) 20px;
+      max-width: 660px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #F59E0B;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      color: #FAF8F5;
+    }
+    p.dek {
+      color: #A1A1AA;
+      font-size: clamp(0.82rem, 1.8vw, 0.92rem);
+      margin-bottom: 24px;
+    }
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      text-align: left;
+      margin-top: 20px;
+    }
+    .deal-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .deal-sector {
+      font-size: 0.65rem;
+      color: #F59E0B;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .deal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      color: #FFFFFF;
+      margin: 4px 0;
+    }
+    .deal-vol {
+      font-size: 0.75rem;
+      color: #71717A;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="brand-seal">V</div>
+      <span class="brand-name">CABINET VALMY</span>
+    </div>
+    <div class="badge-paris">Paris 8e · Barreau de Paris</div>
+  </header>
+
+  <main class="hero">
+    <div class="tag">[ Cession, Acquisition & M&A Stratégique ]</div>
+    <h1>L'Excellence Juridique au Service des Dirigeants</h1>
+    <p class="dek">Accompagnement exclusif et confidentiel dans la transmission de PME & ETI à forte valeur ajoutée.</p>
+
+    <div class="deals-grid">
+      <div class="deal-card">
+        <div class="deal-sector">Fintech & SaaS</div>
+        <div class="deal-title">Cession Groupe Altis</div>
+        <div class="deal-vol">Mandat exclusif vendeur · 18 M€</div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-sector">Industrie & Défense</div>
+        <div class="deal-title">Acquisition MécaPrecision</div>
+        <div class="deal-vol">Conseil acquéreur · 32 M€</div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
