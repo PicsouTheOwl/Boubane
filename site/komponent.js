@@ -1115,17 +1115,103 @@ function restoreMockupAnimated(targetIndex) {
   }, 380);
 }
 
-// 3. Comportement du Dock macOS connecté au Bureau Virtuel :
+// Dictionnaire d'association entre fenêtres du bureau et boutons de la barre des tâches (Dock)
+const BUREAU_WIN_DOCK_MAP = {
+  'bureauWinAstra': 0,
+  'bureauWinAchille': 1,
+  'bureauWinValmy': 2
+};
+
+// Replier une fenêtre dans la barre des tâches avec effet macOS Genie
+function minimizeBureauWindow(win) {
+  if (!win) return;
+  const idx = BUREAU_WIN_DOCK_MAP[win.id];
+  const dockBtn = (typeof idx === 'number') ? document.getElementById(`dockBtn${idx}`) : null;
+
+  // Sauvegarder la transformation actuelle pour pouvoir la restaurer fidèlement
+  if (win.getAttribute('data-minimized') !== 'true') {
+    win.setAttribute('data-saved-transform', win.style.transform || '');
+  }
+  win.setAttribute('data-minimized', 'true');
+
+  if (dockBtn) {
+    const winRect = win.getBoundingClientRect();
+    const btnRect = dockBtn.getBoundingClientRect();
+    const deltaX = (btnRect.left + btnRect.width / 2) - (winRect.left + winRect.width / 2);
+    const deltaY = (btnRect.top + btnRect.height / 2) - (winRect.top + winRect.height / 2);
+
+    win.classList.add('is-transitioning');
+    win.style.transform = `translate(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px) scale(0.06)`;
+    win.style.opacity = '0';
+    win.style.pointerEvents = 'none';
+
+    dockBtn.classList.remove('active');
+    dockBtn.setAttribute('aria-selected', 'false');
+
+    // Rebond sur l'icône du Dock pour confirmer la réception de la fenêtre
+    dockBtn.classList.remove('is-bouncing');
+    void dockBtn.offsetWidth;
+    dockBtn.classList.add('is-bouncing');
+    setTimeout(() => {
+      dockBtn.classList.remove('is-bouncing');
+    }, 600);
+  } else {
+    win.classList.add('is-transitioning');
+    win.style.transform = 'translateY(120px) scale(0.2)';
+    win.style.opacity = '0';
+    win.style.pointerEvents = 'none';
+  }
+
+  setTimeout(() => {
+    win.classList.remove('is-transitioning');
+  }, 450);
+}
+
+// Déplier / Restaurer une fenêtre depuis la barre des tâches (Dock)
+function restoreBureauWindow(win) {
+  if (!win) return;
+  const idx = BUREAU_WIN_DOCK_MAP[win.id];
+  const dockBtn = (typeof idx === 'number') ? document.getElementById(`dockBtn${idx}`) : null;
+
+  highestBureauZIndex += 1;
+  win.style.zIndex = highestBureauZIndex;
+  win.removeAttribute('data-minimized');
+  win.style.pointerEvents = '';
+
+  const savedTransform = win.getAttribute('data-saved-transform');
+  const defaultTransforms = {
+    'bureauWinAstra': 'rotate(-1.5deg)',
+    'bureauWinAchille': 'rotate(1.8deg)',
+    'bureauWinValmy': 'rotate(-0.8deg)'
+  };
+  const targetTransform = savedTransform || defaultTransforms[win.id] || 'rotate(0deg)';
+
+  win.classList.add('is-transitioning');
+  win.style.transform = targetTransform;
+  win.style.opacity = '1';
+
+  if (dockBtn) {
+    dockBtn.classList.add('active');
+    dockBtn.setAttribute('aria-selected', 'true');
+    dockBtn.classList.remove('is-bouncing');
+    void dockBtn.offsetWidth;
+    dockBtn.classList.add('is-bouncing');
+    setTimeout(() => {
+      dockBtn.classList.remove('is-bouncing');
+    }, 600);
+  }
+
+  // Micro-focus visuel
+  win.style.boxShadow = '0 32px 85px -10px rgba(12, 10, 8, 0.35), 0 14px 30px -4px rgba(12, 10, 8, 0.20)';
+  setTimeout(() => {
+    win.classList.remove('is-transitioning');
+    win.style.boxShadow = '';
+  }, 460);
+}
+
+// 3. Comportement du Dock macOS connecté au Bureau Virtuel (Repli & Déploiement) :
 function toggleDockApp(index) {
   currentHeroCardIndex = index;
-  
-  // Mettre à jour l'état visuel du Dock
-  const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
-  dockBtns.forEach((btn, i) => {
-    btn.classList.toggle('active', i === index);
-    btn.setAttribute('aria-selected', i === index ? 'true' : 'false');
-  });
-
   const winIds = ['bureauWinAstra', 'bureauWinAchille', 'bureauWinValmy'];
   const targetId = winIds[index];
   if (!targetId) return;
@@ -1133,21 +1219,34 @@ function toggleDockApp(index) {
   const targetWin = document.getElementById(targetId);
   if (!targetWin) return;
 
-  // Rendre visible si fermée
-  targetWin.style.opacity = '1';
-  targetWin.style.pointerEvents = '';
-  
-  // Amener au premier plan absolu
-  highestBureauZIndex += 1;
-  targetWin.style.zIndex = highestBureauZIndex;
+  const isMinimized = targetWin.getAttribute('data-minimized') === 'true' || targetWin.style.opacity === '0';
 
-  // Micro-focus animation macOS
-  targetWin.classList.add('is-transitioning');
-  targetWin.style.boxShadow = '0 35px 90px -10px rgba(12, 10, 8, 0.42), 0 16px 36px -4px rgba(12, 10, 8, 0.25)';
-  setTimeout(() => {
-    targetWin.classList.remove('is-transitioning');
-    targetWin.style.boxShadow = '';
-  }, 450);
+  if (isMinimized) {
+    // Déplier la fenêtre depuis la barre des tâches
+    restoreBureauWindow(targetWin);
+  } else {
+    // Si la fenêtre est déjà ouverte et au premier plan : un clic sur son icône la replie dans la barre des tâches
+    const currentZ = parseInt(targetWin.style.zIndex || '0', 10);
+    if (currentZ === highestBureauZIndex) {
+      minimizeBureauWindow(targetWin);
+    } else {
+      // Sinon l'amener au premier plan absolu
+      highestBureauZIndex += 1;
+      targetWin.style.zIndex = highestBureauZIndex;
+      targetWin.classList.add('is-transitioning');
+      targetWin.style.boxShadow = '0 32px 85px -10px rgba(12, 10, 8, 0.35), 0 14px 30px -4px rgba(12, 10, 8, 0.20)';
+      setTimeout(() => {
+        targetWin.classList.remove('is-transitioning');
+        targetWin.style.boxShadow = '';
+      }, 450);
+
+      const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+      dockBtns.forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+        btn.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      });
+    }
+  }
 }
 
 // Rétrocompatibilité : selectHeroCard appelle toggleDockApp
@@ -1365,18 +1464,12 @@ function initBureauCanvas() {
     bar.addEventListener('pointerup', stopDrag);
     bar.addEventListener('pointercancel', stopDrag);
 
-    // Boutons de la barre : fermer, minimiser, agrandir
+    // Boutons de la barre macOS : fermer (rouge) et minimiser (jaune) replient dans la barre des tâches
     const closeBtn = win.querySelector('.bureau-win-close');
     if (closeBtn) {
       closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        win.classList.add('is-transitioning');
-        win.style.opacity = '0';
-        win.style.transform = 'scale(0.85) translateY(20px)';
-        win.style.pointerEvents = 'none';
-        setTimeout(() => {
-          win.classList.remove('is-transitioning');
-        }, 300);
+        minimizeBureauWindow(win);
       });
     }
 
@@ -1384,12 +1477,7 @@ function initBureauCanvas() {
     if (minBtn) {
       minBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const body = win.querySelector('.bureau-window-body');
-        if (body) {
-          const isHidden = body.style.display === 'none';
-          body.style.display = isHidden ? '' : 'none';
-          win.style.height = isHidden ? '' : 'auto';
-        }
+        minimizeBureauWindow(win);
       });
     }
 
@@ -1405,14 +1493,24 @@ function initBureauCanvas() {
     });
   });
 
-  // Restaurer l'affichage de toutes les fenêtres (si fermées)
+  // Restaurer l'affichage de toutes les fenêtres (si repliées ou fermées)
   function restoreAllWindows() {
     windows.forEach((win) => {
+      win.removeAttribute('data-minimized');
       win.style.opacity = '1';
       win.style.pointerEvents = '';
       const body = win.querySelector('.bureau-window-body');
       if (body) body.style.display = '';
       win.style.height = '';
+      const saved = win.getAttribute('data-saved-transform');
+      if (saved && (win.style.transform === '' || win.style.transform.includes('translate'))) {
+        win.style.transform = saved;
+      }
+    });
+    const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+    dockBtns.forEach(btn => {
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
     });
   }
 
