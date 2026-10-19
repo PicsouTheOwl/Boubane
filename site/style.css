@@ -4750,8 +4750,10 @@ body.mockup-modal-open .hero-card-slide.active {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 14px;
-  padding: 0 4px;
+  margin-bottom: 12px;
+  padding: 0 6px;
+  position: relative;
+  z-index: 5;
 }
 
 .hero-bureau-hint {
@@ -4759,76 +4761,61 @@ body.mockup-modal-open .hero-card-slide.active {
   align-items: center;
   gap: 6px;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.70rem;
   color: #71717A;
-  background: rgba(12, 10, 8, 0.04);
+  background: rgba(12, 10, 8, 0.035);
   padding: 4px 12px;
   border-radius: var(--radius-pill);
-  border: 1px dashed rgba(12, 10, 8, 0.16);
+  border: 1px dashed rgba(12, 10, 8, 0.14);
 }
 
 .hero-bureau-btns {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
 }
 
+/* Zone ouverte sans boîte fermée : les fenêtres flottent directement sur la Hero */
 .hero-bureau-canvas {
   width: 100% !important;
-  height: clamp(520px, 66vh, 740px) !important;
-  border-radius: 22px !important;
-}
-
-/* Le Canvas du Bureau macOS */
-.bureau-canvas-wrapper {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 clamp(16px, 2.5vw, 32px);
-  perspective: 1600px;
-}
-
-.bureau-canvas {
-  position: relative;
-  width: 100%;
-  height: clamp(680px, 82vh, 940px);
-  background: 
-    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.85), rgba(240, 240, 244, 0.95)),
-    linear-gradient(135deg, #F3F3F6 0%, #E8E8EE 100%);
-  border-radius: 28px;
-  border: 1px solid rgba(12, 10, 8, 0.14);
-  box-shadow: 
-    0 24px 70px -15px rgba(12, 10, 8, 0.18),
-    0 4px 16px rgba(12, 10, 8, 0.06),
-    inset 0 1px 1px rgba(255, 255, 255, 1),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.04);
-  overflow: hidden;
+  height: clamp(520px, 64vh, 680px) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  border-radius: 0 !important;
   user-select: none;
   touch-action: none;
+  position: relative;
 }
 
-/* Texture de grille subtile de studio de création */
-.bureau-canvas::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(to right, rgba(12, 10, 8, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(12, 10, 8, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-  z-index: 0;
+.hero-bureau-canvas::before {
+  display: none !important; /* supprime toute texture de grille lourde */
 }
 
-/* Fenêtre Déplaçable (Draggable Window) */
+/* Permettre aux fenêtres de déborder librement de la scène et survoler le dock */
+.hero-showcase-stage-inner {
+  overflow: visible !important;
+}
+
+.hero-split-col--mockup {
+  overflow: visible !important;
+}
+
+.ssg-hero {
+  overflow: visible !important;
+}
+
+/* Fenêtre Déplaçable (Draggable Window) Élite & Épurée */
 .bureau-window {
   position: absolute;
   background: #FFFFFF;
-  border-radius: 18px;
-  border: 1px solid rgba(12, 10, 8, 0.15);
+  border-radius: 15px;
+  border: 1px solid rgba(12, 10, 8, 0.10);
   box-shadow: 
-    0 20px 50px -10px rgba(12, 10, 8, 0.22),
-    0 8px 20px -4px rgba(12, 10, 8, 0.12),
-    inset 0 1px 1.5px rgba(255, 255, 255, 1);
+    0 18px 45px -10px rgba(12, 10, 8, 0.15),
+    0 4px 14px -3px rgba(12, 10, 8, 0.06),
+    0 0 0 1px rgba(12, 10, 8, 0.04);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -4839,34 +4826,56 @@ body.mockup-modal-open .hero-card-slide.active {
   cursor: grab;
 }
 
+.bureau-window:hover {
+  box-shadow: 
+    0 24px 55px -10px rgba(12, 10, 8, 0.20),
+    0 8px 18px -4px rgba(12, 10, 8, 0.08),
+    0 0 0 1px rgba(12, 10, 8, 0.06);
+}
+
 .bureau-window.is-dragging {
   cursor: grabbing !important;
   transition: none !important;
   box-shadow: 
-    0 38px 90px -12px rgba(12, 10, 8, 0.38),
-    0 16px 36px -4px rgba(12, 10, 8, 0.20),
-    inset 0 1px 1.5px rgba(255, 255, 255, 1) !important;
+    0 36px 85px -12px rgba(12, 10, 8, 0.32),
+    0 14px 28px -4px rgba(12, 10, 8, 0.16),
+    0 0 0 1px rgba(12, 10, 8, 0.10) !important;
+  transform: scale(1.02) !important;
 }
 
 .bureau-window.is-transitioning {
   transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1), top 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease !important;
 }
 
-/* Barre de Fenêtre du Bureau */
+/* Barre de Fenêtre du Bureau Fine et Épurée (32px) */
 .bureau-window-bar {
-  background: rgba(247, 247, 249, 0.96);
+  background: rgba(250, 249, 252, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 7px 14px;
-  height: 38px;
-  min-height: 38px;
+  padding: 0 12px;
+  height: 32px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(12, 10, 8, 0.08);
-  gap: 10px;
+  border-bottom: 1px solid rgba(12, 10, 8, 0.06);
+  gap: 8px;
   user-select: none;
   cursor: grab;
+}
+
+.bureau-window-bar .cs-url-bar {
+  background: rgba(12, 10, 8, 0.035) !important;
+  border: 1px solid rgba(12, 10, 8, 0.06) !important;
+  border-radius: 999px !important;
+  padding: 2px 10px !important;
+  height: 22px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.68rem !important;
+  color: #52525B !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
 }
 
 .bureau-window.is-dragging .bureau-window-bar {
@@ -4878,7 +4887,7 @@ body.mockup-modal-open .hero-card-slide.active {
   position: relative;
   background: #FFFFFF;
   overflow: hidden;
-  min-height: 180px;
+  min-height: 160px;
 }
 
 /* Miniature Iframe avec protection de drag */
@@ -4898,10 +4907,13 @@ body.mockup-modal-open .hero-card-slide.active {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 180%;
+  height: 180%;
+  transform: scale(0.5555);
+  transform-origin: 0 0;
   border: none;
   display: block;
+  pointer-events: none;
 }
 
 /* Contenu Mockup dans la fenêtre */

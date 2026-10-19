@@ -1134,7 +1134,7 @@ function toggleDockApp(index) {
     btn.setAttribute('aria-selected', i === index ? 'true' : 'false');
   });
 
-  const winIds = ['bureauWinAstra', 'bureauWinAchille', 'bureauWinValmy', 'bureauWinStudio'];
+  const winIds = ['bureauWinAstra', 'bureauWinAchille', 'bureauWinValmy'];
   const targetId = winIds[index];
   if (!targetId) return;
 
@@ -1341,17 +1341,16 @@ function initBureauCanvas() {
       let newLeft = initialLeft + dx;
       let newTop = initialTop + dy;
 
-      // Contraintes pour garder la fenêtre visible dans le canvas
+      // Contraintes ultra-souples : autorise le débordement libre sur les bords et vers le bas (survoler le dock)
       const minVisibleX = 60;
-      const minVisibleY = 40;
       const canvasWidth = canvas.clientWidth;
       const canvasHeight = canvas.clientHeight;
       const winWidth = win.offsetWidth;
 
       const minLeft = -winWidth + minVisibleX;
       const maxLeft = canvasWidth - minVisibleX;
-      const minTop = 0;
-      const maxTop = canvasHeight - minVisibleY;
+      const minTop = -60;
+      const maxTop = canvasHeight + 350; // Permet de glisser librement sur et sous le dock sans blocage
 
       newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
       newTop = Math.max(minTop, Math.min(newTop, maxTop));
@@ -1394,11 +1393,9 @@ function initBureauCanvas() {
       minBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         const body = win.querySelector('.bureau-window-body');
-        const footer = win.querySelector('.bureau-window-footer');
         if (body) {
           const isHidden = body.style.display === 'none';
           body.style.display = isHidden ? '' : 'none';
-          if (footer) footer.style.display = isHidden ? '' : 'none';
           win.style.height = isHidden ? '' : 'auto';
         }
       });
@@ -1422,14 +1419,12 @@ function initBureauCanvas() {
       win.style.opacity = '1';
       win.style.pointerEvents = '';
       const body = win.querySelector('.bureau-window-body');
-      const footer = win.querySelector('.bureau-window-footer');
       if (body) body.style.display = '';
-      if (footer) footer.style.display = '';
       win.style.height = '';
     });
   }
 
-  // Action : Bordel créatif (angles vivants, légères dispersions dynamiques)
+  // Action : Bordel naturel (angles vivants, disposition aérée et dynamique)
   const btnBordel = document.getElementById('btnBureauBordel');
   if (btnBordel) {
     btnBordel.addEventListener('click', () => {
@@ -1439,23 +1434,20 @@ function initBureauCanvas() {
       });
 
       const canvasWidth = canvas.clientWidth;
-      const canvasHeight = canvas.clientHeight;
       const isMobile = canvasWidth < 768;
 
       const presets = [
-        { left: isMobile ? 15 : 40, top: 30, rot: -2.8 },
-        { left: isMobile ? 30 : (canvasWidth - 560), top: isMobile ? 120 : 65, rot: 2.2 },
-        { left: isMobile ? 20 : 90, top: isMobile ? 260 : (canvasHeight - 390), rot: 1.4 },
-        { left: isMobile ? 35 : (canvasWidth - 460), top: isMobile ? 380 : (canvasHeight - 330), rot: -2.6 },
-        { left: isMobile ? 25 : Math.max(120, (canvasWidth / 2) - 210), top: 35, rot: 1.1 }
+        { left: isMobile ? 10 : 25, top: isMobile ? 15 : 25, rot: -1.6 },
+        { left: isMobile ? 18 : Math.max(260, canvasWidth - 510), top: isMobile ? 130 : 15, rot: 1.8 },
+        { left: isMobile ? 14 : Math.max(60, Math.floor(canvasWidth * 0.16)), top: isMobile ? 250 : 220, rot: -0.9 }
       ];
 
       windows.forEach((win, i) => {
         const p = presets[i % presets.length];
         win.style.right = 'auto';
         win.style.bottom = 'auto';
-        win.style.left = Math.max(10, p.left) + 'px';
-        win.style.top = Math.max(15, p.top) + 'px';
+        win.style.left = Math.max(5, p.left) + 'px';
+        win.style.top = Math.max(10, p.top) + 'px';
         win.style.transform = `rotate(${p.rot}deg)`;
         bringToFront(win);
       });
@@ -1474,61 +1466,42 @@ function initBureauCanvas() {
       windows.forEach(w => w.classList.add('is-transitioning'));
 
       const canvasWidth = canvas.clientWidth;
-      const canvasHeight = canvas.clientHeight;
       const isMobile = canvasWidth < 768;
 
       if (isMobile) {
-        // En mobile : liste empilée verticale propre
         windows.forEach((win, i) => {
           win.style.right = 'auto';
           win.style.bottom = 'auto';
-          win.style.left = '16px';
-          win.style.top = (20 + i * 110) + 'px';
+          win.style.left = '10px';
+          win.style.top = (15 + i * 85) + 'px';
           win.style.transform = 'rotate(0deg)';
           win.style.zIndex = 10 + i;
         });
       } else {
-        // En desktop : grille raffinée
-        const col1 = 35;
-        const col2 = Math.max(480, canvasWidth - 580);
-        const row1 = 30;
-        const row2 = Math.max(340, canvasHeight - 380);
+        const col1 = 20;
+        const col2 = Math.max(300, canvasWidth - 510);
+        const center = Math.max(40, Math.floor((canvasWidth - 480) / 2));
 
         if (windows[0]) { // Astra
           windows[0].style.right = 'auto';
           windows[0].style.bottom = 'auto';
           windows[0].style.left = col1 + 'px';
-          windows[0].style.top = row1 + 'px';
+          windows[0].style.top = '20px';
           windows[0].style.transform = 'rotate(0deg)';
         }
         if (windows[1]) { // Achille
           windows[1].style.right = 'auto';
           windows[1].style.bottom = 'auto';
           windows[1].style.left = col2 + 'px';
-          windows[1].style.top = row1 + 'px';
+          windows[1].style.top = '20px';
           windows[1].style.transform = 'rotate(0deg)';
         }
         if (windows[2]) { // Valmy
           windows[2].style.right = 'auto';
           windows[2].style.bottom = 'auto';
-          windows[2].style.left = col1 + 'px';
-          windows[2].style.top = row2 + 'px';
+          windows[2].style.left = center + 'px';
+          windows[2].style.top = '210px';
           windows[2].style.transform = 'rotate(0deg)';
-        }
-        if (windows[3]) { // Carte Studio
-          windows[3].style.right = 'auto';
-          windows[3].style.bottom = 'auto';
-          windows[3].style.left = col2 + 'px';
-          windows[3].style.top = row2 + 'px';
-          windows[3].style.transform = 'rotate(0deg)';
-        }
-        if (windows[4]) { // Terminal
-          windows[4].style.right = 'auto';
-          windows[4].style.bottom = 'auto';
-          windows[4].style.left = Math.max(40, (canvasWidth / 2) - 215) + 'px';
-          windows[4].style.top = '160px';
-          windows[4].style.transform = 'rotate(0deg)';
-          bringToFront(windows[4]);
         }
       }
 
