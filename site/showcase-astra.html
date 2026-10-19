@@ -557,79 +557,129 @@
       .cta-card { padding: 36px 18px; border-radius: 20px; }
       .cta-title { font-size: 1.6rem !important; }
       .cta-text { font-size: 0.95rem; margin-bottom: 26px; }
-    /* --- NAVBAR SUPÉRIEURE ÉLITE --- */
+    /* --- NAVBAR SUPÉRIEURE ÉLITE ASTRA VACANCES --- */
     .astra-navbar {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.85);
       padding: 10px 0;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     }
     .astra-nav-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
     }
     .astra-brand {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
       text-decoration: none;
+      flex-shrink: 0;
     }
     .astra-brand-logo {
-      height: 26px;
+      height: 28px;
+      max-height: 28px;
       width: auto;
+      max-width: 140px;
       object-fit: contain;
+      display: block;
+      transition: opacity 0.2s ease;
     }
-    .astra-brand-name {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--dark);
-      letter-spacing: -0.01em;
+    .astra-brand-logo:hover {
+      opacity: 0.85;
     }
     .astra-nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
     .astra-nav-link {
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       font-weight: 600;
-      color: var(--text-light);
+      color: #475569;
       text-decoration: none;
-      transition: color 0.2s ease;
+      transition: color 0.18s ease;
+      white-space: nowrap;
     }
     .astra-nav-link:hover,
     .astra-nav-link.active {
       color: var(--primary);
     }
+    .astra-nav-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
     .astra-nav-cta {
       display: inline-flex;
       align-items: center;
-      padding: 6px 15px;
+      gap: 6px;
+      padding: 6px 14px;
       background: var(--primary);
       color: #FFFFFF !important;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 700;
       border-radius: 50px;
       text-decoration: none;
-      box-shadow: 0 3px 10px rgba(43, 155, 189, 0.22);
+      box-shadow: 0 2px 8px rgba(43, 155, 189, 0.25);
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
     .astra-nav-cta:hover {
       background: var(--primary-hover);
       transform: translateY(-1px);
     }
-    @media (max-width: 768px) {
+    .astra-nav-burger {
+      display: none;
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: var(--dark);
+      font-size: 1.1rem;
+    }
+    .astra-mobile-dropdown {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 24px 16px;
+      background: rgba(255, 255, 255, 0.98);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      animation: astraMenuFade 0.2s ease-out;
+    }
+    .astra-mobile-dropdown.is-open {
+      display: flex;
+    }
+    .astra-mobile-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(241, 245, 249, 0.8);
+    }
+    .astra-mobile-link:hover {
+      color: var(--primary);
+    }
+    @keyframes astraMenuFade {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 520px) {
       .astra-nav-links { display: none; }
-      .astra-navbar { padding: 8px 0; }
-      .astra-brand-name { font-size: 0.95rem; }
+      .astra-nav-burger { display: block; }
+      .astra-brand-logo { height: 24px; max-width: 120px; }
+      .astra-nav-cta span { display: none; }
+      .astra-nav-cta { padding: 6px 10px; }
     }
   </style>
 </head>
@@ -638,21 +688,33 @@
   <!-- TOP NAVBAR ASTRA VACANCES ÉLITE -->
   <header class="astra-navbar">
     <div class="container astra-nav-container">
-      <a href="#" class="astra-brand">
-        <img src="assets/astra-logo.png" alt="Astra Vacances" class="astra-brand-logo" onerror="this.onerror=null; this.src='https://astravacances.fr/wp-content/uploads/2026/09/cropped-logo-astra-1.png';">
-        <span class="astra-brand-name">Astra Vacances</span>
+      <a href="#" class="astra-brand" title="Astra Vacances — Accueil">
+        <img src="assets/astra-logo-full.png" alt="Astra Vacances" class="astra-brand-logo" onerror="this.onerror=null; this.src='https://astravacances.fr/wp-content/uploads/2024/11/Logo-V1-Texte-.png';">
       </a>
       <nav class="astra-nav-links">
         <a href="#services" class="astra-nav-link active">Services</a>
         <a href="#methode" class="astra-nav-link">Méthode</a>
+        <a href="#avantages" class="astra-nav-link">Avantages</a>
         <a href="#partenaires" class="astra-nav-link">Partenaires</a>
-        <a href="#temoignages" class="astra-nav-link">Avis</a>
       </nav>
       <div class="astra-nav-actions">
-        <a href="https://astravacances.fr/contact/" target="_blank" rel="noopener noreferrer" class="astra-nav-cta">
-          <i class="fas fa-phone-alt" style="font-size: 0.72rem; margin-right: 5px;"></i> Contact Expert
+        <a href="#contact" class="astra-nav-cta">
+          <i class="fas fa-phone-alt" style="font-size: 0.70rem;"></i> <span>Contact</span>
         </a>
+        <button type="button" class="astra-nav-burger" onclick="toggleAstraMobileMenu()" aria-label="Menu de navigation">
+          <i class="fas fa-bars"></i>
+        </button>
       </div>
+    </div>
+    <!-- Menu déroulant pour mobile -->
+    <div class="astra-mobile-dropdown" id="astraMobileDropdown">
+      <a href="#services" class="astra-mobile-link" onclick="toggleAstraMobileMenu()">Services & Expertises</a>
+      <a href="#methode" class="astra-mobile-link" onclick="toggleAstraMobileMenu()">Méthode en 5 étapes</a>
+      <a href="#avantages" class="astra-mobile-link" onclick="toggleAstraMobileMenu()">Avantages Rentabilité</a>
+      <a href="#partenaires" class="astra-mobile-link" onclick="toggleAstraMobileMenu()">Partenaires de Confiance</a>
+      <a href="#contact" class="astra-mobile-link" style="color: var(--primary); font-weight: 700;" onclick="toggleAstraMobileMenu()">
+        <i class="fas fa-phone-alt" style="margin-right: 6px;"></i> Réserver un appel découverte
+      </a>
     </div>
   </header>
 
@@ -694,7 +756,7 @@
   </section>
 
   <!-- EXPERTISES SECTION -->
-  <section class="section-padding">
+  <section class="section-padding" id="services">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Nos expertises opérationnelles</h2>
@@ -724,7 +786,7 @@
   </section>
 
   <!-- TIMELINE SECTION -->
-  <section class="section-padding" style="background: #ffffff; border-top: 1px solid var(--border);">
+  <section class="section-padding" id="methode" style="background: #ffffff; border-top: 1px solid var(--border);">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Votre parcours avec Astra Vacances</h2>
@@ -801,7 +863,7 @@
   </section>
 
   <!-- AVANTAGES SECTION -->
-  <section class="section-padding">
+  <section class="section-padding" id="avantages">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Les avantages pour votre établissement</h2>
@@ -831,7 +893,7 @@
   </section>
 
   <!-- PARTNERS -->
-  <section class="partners-section">
+  <section class="partners-section" id="partenaires">
     <div class="container">
       <p class="partners-title">Ils nous font confiance</p>
       <div class="partners-flex">
@@ -842,7 +904,7 @@
   </section>
 
   <!-- CTA BANNER -->
-  <section class="section-padding">
+  <section class="section-padding" id="contact">
     <div class="container">
       <div class="cta-card">
         <div class="cta-badge">
@@ -861,5 +923,11 @@
     </div>
   </section>
 
+  <script>
+    function toggleAstraMobileMenu() {
+      const dropdown = document.getElementById('astraMobileDropdown');
+      if (dropdown) dropdown.classList.toggle('is-open');
+    }
+  </script>
 </body>
 </html>
