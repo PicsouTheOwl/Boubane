@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8 bis. Moteur Physique 3D Haute Fidélité (LERP 60/120fps type Apple / Linear)
+  // 8 bis. Moteur Physique 3D Hyper-Premium (LERP 60/120fps + Ombres Portées Dynamiques + Z-Lift)
   const heroViewport = document.getElementById('heroCardsViewport');
   if (heroViewport && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
     let bounds = null;
@@ -265,6 +265,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let targetRotateY = 0;
     let currentRotateX = 0;
     let currentRotateY = 0;
+    let targetLift = 0;
+    let currentLift = 0;
+    let targetScale = 1.0;
+    let currentScale = 1.0;
     let targetGlareX = 50;
     let targetGlareY = 50;
     let currentGlareX = 50;
@@ -294,29 +298,59 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Amorti physique soyeux (Linear Interpolation LERP)
-      const ease = isHovering ? 0.085 : 0.06;
+      // Amorti cinématique ultra-soyeux (Spring-LERP)
+      const ease = isHovering ? 0.08 : 0.055;
       currentRotateX += (targetRotateX - currentRotateX) * ease;
       currentRotateY += (targetRotateY - currentRotateY) * ease;
+      currentLift += (targetLift - currentLift) * ease;
+      currentScale += (targetScale - currentScale) * ease;
       currentGlareX += (targetGlareX - currentGlareX) * ease;
       currentGlareY += (targetGlareY - currentGlareY) * ease;
 
-      const diff = Math.abs(targetRotateX - currentRotateX) + Math.abs(targetRotateY - currentRotateY);
+      const diff = Math.abs(targetRotateX - currentRotateX) + Math.abs(targetRotateY - currentRotateY) + Math.abs(targetLift - currentLift);
 
-      // Application directe du transform sans conflit CSS
-      active.win.style.transform = `perspective(1400px) rotateX(${currentRotateX.toFixed(3)}deg) rotateY(${currentRotateY.toFixed(3)}deg) translateZ(8px)`;
+      // Application du transform 3D spatial (Rotation + Élévation Z + Micro-scale)
+      active.win.style.transform = `perspective(1400px) rotateX(${currentRotateX.toFixed(3)}deg) rotateY(${currentRotateY.toFixed(3)}deg) translateZ(${currentLift.toFixed(2)}px) scale(${currentScale.toFixed(4)})`;
 
+      // Ombre portée tridimensionnelle calculée en temps réel (l'ombre réagit physiquement à la lumière)
+      const shadowOffsetX = (-currentRotateY * 4.2).toFixed(1);
+      const shadowOffsetY = (28 + currentRotateX * 3.4 + currentLift * 0.9).toFixed(1);
+      const shadowBlur = (65 + Math.abs(currentRotateX) * 2.5 + Math.abs(currentRotateY) * 2.5 + currentLift * 1.4).toFixed(1);
+      const shadowSpread = (-14 + currentLift * 0.35).toFixed(1);
+      const shadowAlpha = (0.24 + (currentLift / 12) * 0.08).toFixed(2);
+      const innerHighlight = (0.90 + (currentRotateX < 0 ? 0.15 : -0.10)).toFixed(2);
+
+      active.win.style.boxShadow = `
+        ${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowSpread}px rgba(12, 10, 8, ${shadowAlpha}),
+        ${(shadowOffsetX * 0.35).toFixed(1)}px ${(shadowOffsetY * 0.4).toFixed(1)}px 22px -4px rgba(12, 10, 8, 0.15),
+        0 2px 6px rgba(12, 10, 8, 0.05),
+        inset 0 1px 1.5px rgba(255, 255, 255, ${innerHighlight}),
+        inset 0 -1px 1.5px rgba(0, 0, 0, 0.08)
+      `;
+
+      // Reflet spéculaire double-couche façon verre antireflet Apple Pro Display
       if (active.glare) {
-        active.glare.style.background = `radial-gradient(circle at ${currentGlareX.toFixed(1)}% ${currentGlareY.toFixed(1)}%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 65%)`;
-        active.glare.style.opacity = isHovering ? '0.7' : '0.4';
+        const glareAngle = (118 + currentRotateY * 2.2).toFixed(1);
+        active.glare.style.background = `
+          radial-gradient(circle at ${currentGlareX.toFixed(1)}% ${currentGlareY.toFixed(1)}%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.08) 35%, rgba(255, 255, 255, 0) 68%),
+          linear-gradient(${glareAngle}deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.04) 100%)
+        `;
+        active.glare.style.opacity = isHovering ? '0.75' : '0.35';
       }
 
-      // Si le mouvement est presque arrêté et qu'on ne survole plus, stabiliser et couper la boucle
-      if (!isHovering && diff < 0.01) {
-        active.win.style.transform = 'perspective(1400px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      // Repos complet : stabilisation parfaite et extinction de la boucle
+      if (!isHovering && diff < 0.015) {
+        active.win.style.transform = 'perspective(1400px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)';
+        active.win.style.boxShadow = `
+          0 32px 75px -14px rgba(12, 10, 8, 0.25),
+          0 12px 28px -4px rgba(12, 10, 8, 0.14),
+          0 2px 6px rgba(12, 10, 8, 0.05),
+          inset 0 1px 1.5px rgba(255, 255, 255, 0.95),
+          inset 0 -1px 1.5px rgba(0, 0, 0, 0.10)
+        `;
         if (active.glare) {
           active.glare.style.background = 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 60%)';
-          active.glare.style.opacity = '0.4';
+          active.glare.style.opacity = '0.35';
         }
         rafId = null;
         return;
@@ -333,10 +367,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     heroViewport.addEventListener('mouseenter', () => {
       isHovering = true;
+      targetLift = 12; // Élévation aérienne de 12px
+      targetScale = 1.008; // Micro-scale de prestance
       updateBounds();
       const active = getActiveElements();
       if (active) {
-        active.win.style.transition = 'none'; // Désactivation du lag CSS pendant l'interpolation LERP
+        active.win.style.transition = 'none'; // Fluidité native 120fps sans conflit
       }
       startLoop();
     });
@@ -350,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const leftX = mouseX - bounds.left;
       const topY = mouseY - bounds.top;
 
-      // Amplitude professionnelle calibrée : 4.8° max (relief 3D subtil et luxueux)
+      // Amplitude calibrée haute autorité (4.8° max)
       const maxRotate = 4.8;
       const centerX = bounds.width / 2;
       const centerY = bounds.height / 2;
@@ -368,6 +404,8 @@ document.addEventListener('DOMContentLoaded', () => {
       isHovering = false;
       targetRotateX = 0;
       targetRotateY = 0;
+      targetLift = 0;
+      targetScale = 1.0;
       targetGlareX = 50;
       targetGlareY = 50;
       startLoop();
