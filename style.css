@@ -2622,33 +2622,52 @@ body.mockup-modal-open .hero-card-slide.active {
   line-height: 1;
 }
 
-/* Bouton Réduire épuré */
+/* Bouton Fermer Vue Pleine discret & élégant (style macOS Quick Look) */
 .cs-btn-close-win {
-  display: none;
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  color: #DC2626;
+  display: inline-flex;
+  background: rgba(12, 10, 8, 0.04);
+  border: 1px solid rgba(12, 10, 8, 0.08);
+  color: #52525B;
   font-family: var(--font-body);
   font-size: 0.72rem;
-  font-weight: 600;
-  padding: 4px 12px;
+  font-weight: 500;
+  padding: 3px 9px 3px 8px;
   border-radius: var(--radius-pill);
   cursor: pointer;
   align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
+  gap: 5px;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
+  user-select: none;
 }
 
 .cs-btn-close-win:hover {
-  background: #DC2626;
-  border-color: #DC2626;
-  color: #FFFFFF;
-  box-shadow: none;
+  background: rgba(12, 10, 8, 0.08);
+  border-color: rgba(12, 10, 8, 0.14);
+  color: #0C0A08;
+  transform: translateY(-0.5px);
+}
+
+.cs-btn-close-win .cs-icon-svg {
+  transition: transform 0.2s ease;
+  color: inherit;
 }
 
 .cs-btn-close-win:hover .cs-icon-svg {
-  transform: rotate(90deg);
+  transform: scale(1.1);
+}
+
+.cs-esc-kbd {
+  font-family: var(--font-mono);
+  font-size: 0.60rem;
+  background: rgba(12, 10, 8, 0.05);
+  color: #71717A;
+  padding: 1px 4px;
+  border-radius: 4px;
+  border: 1px solid rgba(12, 10, 8, 0.08);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .cs-cell--windowed.is-fullscreen .cs-btn-expand-win {
