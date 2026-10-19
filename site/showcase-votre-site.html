@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votre Prochain Site — Studio Boubane</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0C0A08;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.10);
+      --text: #FAF8F5;
+      --text-muted: #A1A1AA;
+      --accent: #EEF85A;
+      --accent-soft: rgba(238, 248, 90, 0.12);
+      --amber: #F59E0B;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: radial-gradient(ellipse 90% 70% at 50% 20%, #1c1815 0%, #0C0A08 100%);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .header {
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(12, 10, 8, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #FAF8F5 0%, #D4D4D8 100%);
+      color: #0C0A08;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(255,255,255,0.15);
+    }
+    .brand-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: -0.01em;
+    }
+    .badge-offert {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(238, 248, 90, 0.28);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .hero {
+      flex: 1;
+      padding: clamp(28px, 6vh, 52px) 24px;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: #FAF8F5;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+    h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: #FFFFFF;
+    }
+    h1 em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+      padding: 0 2px;
+    }
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: clamp(0.85rem, 1.8vw, 0.96rem);
+      line-height: 1.5;
+      max-width: 580px;
+      margin: 0 auto 26px auto;
+    }
+    .grid-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      text-align: left;
+      margin-top: 6px;
+      margin-bottom: 26px;
+    }
+    .pillar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px 12px;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+    }
+    .pillar-card:hover {
+      border-color: rgba(238, 248, 90, 0.35);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .pillar-kpi {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .pillar-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+    .pillar-desc {
+      font-size: 0.68rem;
+      color: #71717A;
+      line-height: 1.35;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #0C0A08;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 750;
+      font-size: 0.84rem;
+      padding: 11px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px -4px rgba(238, 248, 90, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px -4px rgba(238, 248, 90, 0.5);
+    }
+    @media (max-width: 640px) {
+      .grid-pillars {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon">✦</div>
+      <span class="brand-title">Votre Entreprise</span>
+    </div>
+    <div class="badge-offert">CONCEPTION OFFERTE · 0 €</div>
+  </header>
+
+  <main class="hero">
+    <div class="pill-tag">
+      <span class="pill-dot"></span>
+      <span>Ce template est réservé pour vous</span>
+    </div>
+    <h1>Votre Marque. Votre Vision.<br>Votre <em>Prochain Site</em>.</h1>
+    <p class="subtitle">
+      Conçu sur-mesure de A à Z par Studio Boubane. Zéro acompte demandé, code propriétaire livré sur GitHub avec une vitesse garantie &lt; 0.3s.
+    </p>
+
+    <div class="grid-pillars">
+      <div class="pillar-card">
+        <div class="pillar-kpi">&lt; 0.3s</div>
+        <div class="pillar-title">Vitesse Pure</div>
+        <div class="pillar-desc">Score 100/100 Google PageSpeed, zéro framework lourd.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-kpi">Sur-Mesure</div>
+        <div class="pillar-title">Haute Autorité</div>
+        <div class="pillar-desc">Design d'artisanat web unique qui convertit immédiatement.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-kpi">0 € Acompte</div>
+        <div class="pillar-title">100% Souverain</div>
+        <div class="pillar-desc">Propriété totale de votre code, hébergement direct à votre nom.</div>
+      </div>
+    </div>
+
+    <a href="index.html#tarifs" target="_top" class="cta-btn">
+      <span>Réserver ma maquette offerte</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </main>
+</body>
+</html>

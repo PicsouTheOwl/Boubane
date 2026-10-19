@@ -578,7 +578,7 @@ function openPortalFullscreen(siteKey) {
   const portal = document.getElementById('mockupFullscreenPortal');
   if (!portal) return;
 
-  const validKey = (siteKey === 'astra' || siteKey === 'achille' || siteKey === 'valmy') ? siteKey : 'astra';
+  const validKey = (siteKey === 'astra' || siteKey === 'achille' || siteKey === 'valmy' || siteKey === 'votresite') ? siteKey : 'astra';
   switchPortalSite(validKey);
 
   portal.classList.add('active', 'is-active');
@@ -607,7 +607,7 @@ function closeFullscreenMockup() {
 }
 
 function switchPortalSite(siteKey) {
-  const key = (siteKey === 'astra' || siteKey === 'achille' || siteKey === 'valmy') ? siteKey : 'astra';
+  const key = (siteKey === 'astra' || siteKey === 'achille' || siteKey === 'valmy' || siteKey === 'votresite') ? siteKey : 'astra';
   activeFullscreenSite = key;
 
   // Rétablir d'abord un éventuel viewport reparenté
@@ -619,7 +619,7 @@ function switchPortalSite(siteKey) {
   const tabValmy = document.getElementById('portalTabValmy');
   if (tabAstra) tabAstra.classList.toggle('active', key === 'astra');
   if (tabAchille) tabAchille.classList.toggle('active', key === 'achille');
-  if (tabValmy) tabValmy.classList.toggle('active', key === 'valmy');
+  if (tabValmy) tabValmy.classList.toggle('active', key === 'valmy' || key === 'votresite');
 
   const iframe = document.getElementById('portalIframe');
   const inlineContainer = document.getElementById('portalInlineContainer');
@@ -667,24 +667,25 @@ function switchPortalSite(siteKey) {
       capVisitBtn.href = 'https://achille.ai';
       capVisitBtn.textContent = 'Visiter achille.ai ↗';
     }
-  } else if (key === 'valmy') {
-    if (iframe) iframe.style.display = 'none';
-    if (inlineContainer) {
-      inlineContainer.style.display = 'block';
-      const origViewport = document.querySelector('#mockupValmy .cs-viewport');
-      if (origViewport) {
-        reparentedOriginalParent = origViewport.parentElement;
-        reparentedViewport = origViewport;
-        inlineContainer.appendChild(origViewport);
+  } else if (key === 'valmy' || key === 'votresite') {
+    if (iframe) {
+      iframe.style.display = 'block';
+      if (!iframe.src || !iframe.src.includes('showcase-votre-site.html')) {
+        iframe.src = 'showcase-votre-site.html';
       }
     }
-    if (urlText) urlText.textContent = 'cabinet-valmy.com';
-    if (extLink) extLink.href = 'https://cabinet-valmy.com';
-    if (capDot) capDot.style.background = '#F59E0B';
-    if (capTitle) capTitle.textContent = 'Cabinet Valmy — Barreau d\'affaires M&A & Transmission d\'entreprises';
+    if (inlineContainer) {
+      inlineContainer.style.display = 'none';
+      inlineContainer.innerHTML = '';
+    }
+    if (urlText) urlText.textContent = 'votre-prochain-site.fr';
+    if (extLink) extLink.href = '#tarifs';
+    if (capDot) capDot.style.background = '#EEF85A';
+    if (capTitle) capTitle.textContent = 'Votre Prochain Site — Conception 100% Offerte par Studio Boubane (< 0.3s)';
     if (capVisitBtn) {
-      capVisitBtn.href = 'https://cabinet-valmy.com';
-      capVisitBtn.textContent = 'Visiter cabinet-valmy.com ↗';
+      capVisitBtn.href = '#tarifs';
+      capVisitBtn.textContent = 'Commander mon site (0 €) ↗';
+      capVisitBtn.onclick = () => { closeFullscreenMockup(); };
     }
   }
 }
@@ -982,13 +983,13 @@ const heroSiteMetadata = [
     desc: "Achille.ai — Support client e-commerce & SaaS AI-first automatisant 50% des tickets avec synchronisation Shopify et Gorgias."
   },
   {
-    key: "valmy",
-    name: "Cabinet Valmy",
-    badge: "M&A",
+    key: "votresite",
+    name: "Votre prochain site",
+    badge: "Sur-Mesure",
     logo: null,
-    seal: "V",
-    kpi: "⚡ Vitesse : 0.26s · Audit 0 €",
-    desc: "Cabinet Valmy — Barreau d'affaires M&A, transmission d'entreprises confidentielle et simulateur d'audit préalable."
+    seal: "✦",
+    kpi: "⚡ Vitesse : < 0.3s · 0 € d'acompte",
+    desc: "Votre prochain site — Conception sur-mesure offerte livrée sur GitHub sous 7 jours."
   }
 ];
 
