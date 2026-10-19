@@ -257,62 +257,124 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8 bis. Mouvement 3D Exact de la Carte Boubane Appliqué sur la Fenêtre des Réalisations Web
+  // 8 bis. Moteur Physique 3D Haute Fidélité (LERP 60/120fps type Apple / Linear)
   const heroViewport = document.getElementById('heroCardsViewport');
   if (heroViewport && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    let bounds;
-    function rotateWindowToMouse(e) {
+    let bounds = null;
+    let targetRotateX = 0;
+    let targetRotateY = 0;
+    let currentRotateX = 0;
+    let currentRotateY = 0;
+    let targetGlareX = 50;
+    let targetGlareY = 50;
+    let currentGlareX = 50;
+    let currentGlareY = 50;
+    let isHovering = false;
+    let rafId = null;
+
+    function getActiveElements() {
       const activeSlide = heroViewport.querySelector('.hero-card-slide.active');
-      if (!activeSlide) return;
+      if (!activeSlide) return null;
       const activeWin = activeSlide.querySelector('.cs-cell--windowed');
-      if (!activeWin || activeWin.classList.contains('is-fullscreen') || document.body.classList.contains('mockup-modal-open')) return;
+      if (!activeWin || activeWin.classList.contains('is-fullscreen') || document.body.classList.contains('mockup-modal-open')) return null;
+      return { win: activeWin, glare: activeWin.querySelector('.cs-window-glare') };
+    }
 
-      bounds = activeWin.getBoundingClientRect();
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-      const leftX = mouseX - bounds.left;
-      const topY = mouseY - bounds.top;
-      const center = {
-        x: leftX - bounds.width / 2,
-        y: topY - bounds.height / 2
-      };
+    function updateBounds() {
+      const active = getActiveElements();
+      if (active) {
+        bounds = active.win.getBoundingClientRect();
+      }
+    }
 
-      // Mouvement 3D dynamique identique à la Carte Studio Boubane
-      const maxRotate = 14;
-      const rotateX = (center.y / (bounds.height / 2)) * -maxRotate;
-      const rotateY = (center.x / (bounds.width / 2)) * maxRotate;
+    function renderLoop() {
+      const active = getActiveElements();
+      if (!active) {
+        rafId = null;
+        return;
+      }
 
-      activeWin.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(10px)`;
+      // Amorti physique soyeux (Linear Interpolation LERP)
+      const ease = isHovering ? 0.085 : 0.06;
+      currentRotateX += (targetRotateX - currentRotateX) * ease;
+      currentRotateY += (targetRotateY - currentRotateY) * ease;
+      currentGlareX += (targetGlareX - currentGlareX) * ease;
+      currentGlareY += (targetGlareY - currentGlareY) * ease;
 
-      const glare = activeWin.querySelector('.cs-window-glare');
-      if (glare) {
-        const glareX = (leftX / bounds.width) * 100;
-        const glareY = (topY / bounds.height) * 100;
-        glare.style.background = `radial-gradient(circle at ${glareX.toFixed(1)}% ${glareY.toFixed(1)}%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 65%)`;
+      const diff = Math.abs(targetRotateX - currentRotateX) + Math.abs(targetRotateY - currentRotateY);
+
+      // Application directe du transform sans conflit CSS
+      active.win.style.transform = `perspective(1400px) rotateX(${currentRotateX.toFixed(3)}deg) rotateY(${currentRotateY.toFixed(3)}deg) translateZ(8px)`;
+
+      if (active.glare) {
+        active.glare.style.background = `radial-gradient(circle at ${currentGlareX.toFixed(1)}% ${currentGlareY.toFixed(1)}%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 65%)`;
+        active.glare.style.opacity = isHovering ? '0.7' : '0.4';
+      }
+
+      // Si le mouvement est presque arrêté et qu'on ne survole plus, stabiliser et couper la boucle
+      if (!isHovering && diff < 0.01) {
+        active.win.style.transform = 'perspective(1400px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+        if (active.glare) {
+          active.glare.style.background = 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 60%)';
+          active.glare.style.opacity = '0.4';
+        }
+        rafId = null;
+        return;
+      }
+
+      rafId = requestAnimationFrame(renderLoop);
+    }
+
+    function startLoop() {
+      if (!rafId) {
+        rafId = requestAnimationFrame(renderLoop);
       }
     }
 
     heroViewport.addEventListener('mouseenter', () => {
-      const activeSlide = heroViewport.querySelector('.hero-card-slide.active');
-      const activeWin = activeSlide?.querySelector('.cs-cell--windowed');
-      if (activeWin && !activeWin.classList.contains('is-fullscreen') && !document.body.classList.contains('mockup-modal-open')) {
-        activeWin.style.transition = 'transform 0.1s ease-out';
+      isHovering = true;
+      updateBounds();
+      const active = getActiveElements();
+      if (active) {
+        active.win.style.transition = 'none'; // Désactivation du lag CSS pendant l'interpolation LERP
       }
+      startLoop();
     });
 
-    heroViewport.addEventListener('mousemove', rotateWindowToMouse);
+    heroViewport.addEventListener('mousemove', (e) => {
+      if (!bounds) updateBounds();
+      if (!bounds) return;
+
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const leftX = mouseX - bounds.left;
+      const topY = mouseY - bounds.top;
+
+      // Amplitude professionnelle calibrée : 4.8° max (relief 3D subtil et luxueux)
+      const maxRotate = 4.8;
+      const centerX = bounds.width / 2;
+      const centerY = bounds.height / 2;
+
+      targetRotateX = ((topY - centerY) / centerY) * -maxRotate;
+      targetRotateY = ((leftX - centerX) / centerX) * maxRotate;
+
+      targetGlareX = Math.max(0, Math.min(100, (leftX / bounds.width) * 100));
+      targetGlareY = Math.max(0, Math.min(100, (topY / bounds.height) * 100));
+
+      startLoop();
+    });
 
     heroViewport.addEventListener('mouseleave', () => {
-      const activeSlide = heroViewport.querySelector('.hero-card-slide.active');
-      const activeWin = activeSlide?.querySelector('.cs-cell--windowed');
-      if (activeWin && !activeWin.classList.contains('is-fullscreen') && !document.body.classList.contains('mockup-modal-open')) {
-        activeWin.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-        activeWin.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
-        const glare = activeWin.querySelector('.cs-window-glare');
-        if (glare) {
-          glare.style.background = 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 60%)';
-        }
-      }
+      isHovering = false;
+      targetRotateX = 0;
+      targetRotateY = 0;
+      targetGlareX = 50;
+      targetGlareY = 50;
+      startLoop();
+    });
+
+    window.addEventListener('resize', () => {
+      bounds = null;
     });
   }
 
