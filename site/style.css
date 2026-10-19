@@ -1796,10 +1796,11 @@ body.mockup-modal-open .hero-card-slide.active {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: clamp(36px, 5.2vh, 68px) auto 0 auto;
+  margin-top: auto !important;
+  margin-bottom: 0 !important;
+  padding: clamp(24px, 4vh, 48px) clamp(16px, 3vw, 48px) 0 clamp(16px, 3vw, 48px);
   position: relative;
   z-index: 10;
-  padding: 0 clamp(16px, 3vw, 48px);
   box-sizing: border-box;
 }
 
@@ -4850,6 +4851,7 @@ body.mockup-modal-open .hero-card-slide.active {
 
 .ssg-hero {
   overflow: visible !important;
+  padding-bottom: clamp(8px, 1.4vh, 16px) !important;
 }
 
 /* Fenêtre Déplaçable (Draggable Window) Élite & Épurée */
