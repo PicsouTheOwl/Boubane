@@ -541,7 +541,7 @@ p.lead {
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 1600px;
+  perspective: 1200px;
 }
 
 .hero-split-col--mockup .cs-cell--windowed {
@@ -1410,14 +1410,29 @@ body.mockup-modal-open .hero-card-slide.active {
 /* Lueur holographique spéculaire de carte Ramp appliquée sur la fenêtre */
 .cs-window-glare {
   position: absolute;
-  inset: -60%;
-  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 65%);
+  inset: -100%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 60%);
   pointer-events: none;
   transform: translateZ(2px);
-  mix-blend-mode: soft-light;
+  mix-blend-mode: overlay;
   opacity: 0.6;
   transition: opacity 0.3s ease;
   z-index: 15;
+}
+
+/* Sur la vitrine Hero : l'iframe laisse passer la souris pour permettre le mouvement 3D fluide */
+.hero-cards-viewport .cs-mockup-iframe {
+  pointer-events: none;
+}
+
+.hero-cards-viewport .cs-viewport {
+  cursor: pointer;
+}
+
+/* En plein écran et dans le portail modal : interactions complètes rétablies */
+.mockup-fullscreen-portal .cs-mockup-iframe,
+.cs-cell--windowed.is-fullscreen .cs-mockup-iframe {
+  pointer-events: auto !important;
 }
 
 /* Mode Plein Écran Actif sur la Fenêtre */

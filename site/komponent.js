@@ -257,58 +257,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8 bis. Effet Carte Ramp Appliqué sur la Fenêtre au Global (Physique 3D + Glare Holographique)
+  // 8 bis. Mouvement 3D Exact de la Carte Boubane Appliqué sur la Fenêtre des Réalisations Web
   const heroViewport = document.getElementById('heroCardsViewport');
   if (heroViewport && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    let rafId = null;
-
-    heroViewport.addEventListener('mousemove', (e) => {
+    let bounds;
+    function rotateWindowToMouse(e) {
       const activeSlide = heroViewport.querySelector('.hero-card-slide.active');
       if (!activeSlide) return;
       const activeWin = activeSlide.querySelector('.cs-cell--windowed');
-      if (!activeWin || activeWin.classList.contains('is-fullscreen')) return;
+      if (!activeWin || activeWin.classList.contains('is-fullscreen') || document.body.classList.contains('mockup-modal-open')) return;
 
-      const bounds = activeWin.getBoundingClientRect();
-      const leftX = e.clientX - bounds.left;
-      const topY = e.clientY - bounds.top;
+      bounds = activeWin.getBoundingClientRect();
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const leftX = mouseX - bounds.left;
+      const topY = mouseY - bounds.top;
+      const center = {
+        x: leftX - bounds.width / 2,
+        y: topY - bounds.height / 2
+      };
 
-      // Micro-angle subtil et prestigieux (max 2°) pour garantir une ergonomie et clics parfaits
-      const maxRotate = 2.0;
-      const rotateX = ((topY - bounds.height / 2) / (bounds.height / 2)) * -maxRotate;
-      const rotateY = ((leftX - bounds.width / 2) / (bounds.width / 2)) * maxRotate;
+      // Mouvement 3D dynamique identique à la Carte Studio Boubane
+      const maxRotate = 14;
+      const rotateX = (center.y / (bounds.height / 2)) * -maxRotate;
+      const rotateY = (center.x / (bounds.width / 2)) * maxRotate;
 
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        activeWin.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(4px)`;
-        const glare = activeWin.querySelector('.cs-window-glare');
-        if (glare) {
-          const glareX = Math.max(0, Math.min(100, (leftX / bounds.width) * 100));
-          const glareY = Math.max(0, Math.min(100, (topY / bounds.height) * 100));
-          glare.style.background = `radial-gradient(circle at ${glareX.toFixed(1)}% ${glareY.toFixed(1)}%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 65%)`;
-          glare.style.opacity = '0.7';
-        }
-      });
-    });
+      activeWin.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(10px)`;
+
+      const glare = activeWin.querySelector('.cs-window-glare');
+      if (glare) {
+        const glareX = (leftX / bounds.width) * 100;
+        const glareY = (topY / bounds.height) * 100;
+        glare.style.background = `radial-gradient(circle at ${glareX.toFixed(1)}% ${glareY.toFixed(1)}%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 65%)`;
+      }
+    }
 
     heroViewport.addEventListener('mouseenter', () => {
       const activeSlide = heroViewport.querySelector('.hero-card-slide.active');
       const activeWin = activeSlide?.querySelector('.cs-cell--windowed');
-      if (activeWin && !activeWin.classList.contains('is-fullscreen')) {
-        activeWin.style.transition = 'transform 0.12s ease-out, box-shadow 0.3s ease';
+      if (activeWin && !activeWin.classList.contains('is-fullscreen') && !document.body.classList.contains('mockup-modal-open')) {
+        activeWin.style.transition = 'transform 0.1s ease-out';
       }
     });
 
+    heroViewport.addEventListener('mousemove', rotateWindowToMouse);
+
     heroViewport.addEventListener('mouseleave', () => {
-      if (rafId) cancelAnimationFrame(rafId);
       const activeSlide = heroViewport.querySelector('.hero-card-slide.active');
       const activeWin = activeSlide?.querySelector('.cs-cell--windowed');
-      if (activeWin && !activeWin.classList.contains('is-fullscreen')) {
-        activeWin.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease';
-        activeWin.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)';
+      if (activeWin && !activeWin.classList.contains('is-fullscreen') && !document.body.classList.contains('mockup-modal-open')) {
+        activeWin.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        activeWin.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
         const glare = activeWin.querySelector('.cs-window-glare');
         if (glare) {
-          glare.style.background = 'radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 65%)';
-          glare.style.opacity = '0.55';
+          glare.style.background = 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 60%)';
         }
       }
     });
