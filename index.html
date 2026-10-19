@@ -766,6 +766,105 @@
         </div>
     </div>
 
+    <!-- Bannière de Confidentialité & Gestion des Cookies Conforme RGPD / CNIL -->
+    <aside id="cookieBanner" class="cookie-banner" aria-label="Gestion des cookies et confidentialité" style="display: none;">
+        <div class="cookie-banner-inner">
+            <div class="cookie-banner-head">
+                <div class="cookie-banner-title-box">
+                    <span class="cookie-banner-icon" aria-hidden="true">🍪</span>
+                    <strong class="cookie-banner-title">Gestion de la confidentialité</strong>
+                </div>
+                <span class="cookie-banner-badge">RGPD &amp; CNIL</span>
+            </div>
+            <p class="cookie-banner-text">
+                Nous utilisons des cookies essentiels à la sécurité et, avec votre accord, des mesures d'audience anonymisées garantissant notre vitesse chirurgicale (&lt; 0.3s). Zéro pistage publicitaire.
+            </p>
+            <div class="cookie-banner-actions">
+                <button type="button" class="cookie-btn cookie-btn--accept" onclick="acceptAllCookies()">Tout accepter</button>
+                <button type="button" class="cookie-btn cookie-btn--reject" onclick="rejectAllCookies()">Refuser</button>
+                <button type="button" class="cookie-btn cookie-btn--settings" onclick="openCookieSettings()">Personnaliser</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Modale Centre de Préférences Cookies & Confidentialité -->
+    <div id="cookieModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="cookieModalTitle">
+        <div class="modal-dialog cookie-modal-dialog" style="max-width: 600px;">
+            <button type="button" class="modal-close" onclick="closeModal('cookieModal')" aria-label="Fermer les préférences cookies">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            
+            <div class="cookie-modal-header">
+                <div class="cookie-modal-icon-badge">🍪</div>
+                <div>
+                    <h3 id="cookieModalTitle" style="color: var(--color-text); margin-bottom: 4px; font-size: 1.25rem;">Préférences de Confidentialité</h3>
+                    <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0;">Gérez vos choix traceur par traceur. Modifiable à tout moment.</p>
+                </div>
+            </div>
+
+            <div class="cookie-categories-list">
+                <!-- Catégorie 1 : Cookies Essentiels -->
+                <div class="cookie-cat-item">
+                    <div class="cookie-cat-main">
+                        <div>
+                            <div class="cookie-cat-title-row">
+                                <span class="cookie-cat-name">Cookies strictement nécessaires</span>
+                                <span class="cookie-status-badge cookie-status-badge--locked">Toujours actif</span>
+                            </div>
+                            <p class="cookie-cat-desc">
+                                Indispensables au fonctionnement sécurisé du site, à la protection CSRF et à la fluidité du bureau virtuel multi-fenêtres. Ne peuvent pas être désactivés.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catégorie 2 : Mesures d'Audience -->
+                <div class="cookie-cat-item">
+                    <div class="cookie-cat-main">
+                        <div style="flex: 1; padding-right: 12px;">
+                            <div class="cookie-cat-title-row">
+                                <span class="cookie-cat-name">Mesure d'audience &amp; Vitesse pure</span>
+                            </div>
+                            <p class="cookie-cat-desc">
+                                Télémétrie anonymisée souveraine hébergée en Europe. Permet d'optimiser les temps de réponse pour garantir des affichages sous 0.3s. Zéro revente de données.
+                            </p>
+                        </div>
+                        <label class="cookie-switch" aria-label="Activer ou désactiver la mesure d'audience">
+                            <input type="checkbox" id="cookieSwitchAnalytics" checked>
+                            <span class="cookie-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Catégorie 3 : Préférences Visuelles -->
+                <div class="cookie-cat-item">
+                    <div class="cookie-cat-main">
+                        <div style="flex: 1; padding-right: 12px;">
+                            <div class="cookie-cat-title-row">
+                                <span class="cookie-cat-name">Confort &amp; Personnalisation visuelle</span>
+                            </div>
+                            <p class="cookie-cat-desc">
+                                Mémorise la disposition de vos fenêtres sur la Hero, l'état de minimisation dans la barre des tâches et vos interactions interactives.
+                            </p>
+                        </div>
+                        <label class="cookie-switch" aria-label="Activer ou désactiver les préférences d'affichage">
+                            <input type="checkbox" id="cookieSwitchPreferences" checked>
+                            <span class="cookie-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cookie-modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="rejectAllCookies()" style="font-size: 0.8rem; padding: 8px 14px;">Tout refuser</button>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-secondary" onclick="saveCustomCookies()" style="font-size: 0.8rem; padding: 8px 14px;">Enregistrer mes choix</button>
+                    <button type="button" class="btn btn-primary" onclick="acceptAllCookies()" style="font-size: 0.8rem; padding: 8px 16px;">Tout accepter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-content">
@@ -782,6 +881,7 @@
                 <li><a href="/blog" class="footer-link">Journal &amp; SEO</a></li>
                 <li><a href="#faq" class="footer-link">FAQ</a></li>
                 <li><a href="#mentions-legales" onclick="openModal('legalModal'); return false;" class="footer-link" style="color: var(--color-primary); font-weight: 700;">Mentions Légales</a></li>
+                <li><a href="#cookies" onclick="openCookieSettings(); return false;" class="footer-link">Gestion des cookies</a></li>
                 <li><a href="/dashboard" class="footer-link" style="opacity: 0.75;" title="Accès Dashboard Télémétrie &amp; Leads">Dashboard</a></li>
             </ul>
 

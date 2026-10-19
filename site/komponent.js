@@ -205,11 +205,14 @@ document.addEventListener('DOMContentLoaded', () => {
     openModal('contactModal');
   } else if (window.location.hash === '#mentions-legales') {
     openModal('legalModal');
+  } else if (window.location.hash === '#cookies') {
+    openCookieSettings();
   }
 
   initReviewRotator();
   initPricingToggle();
   initScrollReveal();
+  initCookieConsent();
 
   // 8. Interaction 3D Interactive Ramp Card (The Boubane Studio Card)
   const boubaneCard = document.getElementById('boubaneCard3d');
@@ -1514,7 +1517,143 @@ function initBureauCanvas() {
       btn.setAttribute('aria-selected', 'true');
     });
   }
+}
 
+/* ==========================================================================
+   11. Gestion Professionnelle des Cookies & Confidentialité (RGPD & CNIL)
+   ========================================================================== */
+
+const COOKIE_STORAGE_KEY = 'boubane_cookie_consent';
+
+function getStoredCookieConsent() {
+  try {
+    const raw = localStorage.getItem(COOKIE_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveCookieConsent(consent) {
+  try {
+    const data = {
+      essential: true,
+      analytics: Boolean(consent.analytics),
+      preferences: Boolean(consent.preferences),
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem(COOKIE_STORAGE_KEY, JSON.stringify(data));
+    applyCookiePreferences(data);
+    return data;
+  } catch (e) {
+    console.warn("Impossible d'enregistrer le consentement cookies:", e);
+    return null;
+  }
+}
+
+function applyCookiePreferences(consent) {
+  // Respect des choix de l'utilisateur : métriques anonymisées & télémétrie de vitesse
+  if (consent.analytics) {
+    window['boubane_analytics_enabled'] = true;
+  } else {
+    window['boubane_analytics_enabled'] = false;
+  }
+  if (consent.preferences) {
+    window['boubane_preferences_enabled'] = true;
+  } else {
+    window['boubane_preferences_enabled'] = false;
+  }
+}
+
+function showCookieBanner() {
+  const banner = document.getElementById('cookieBanner');
+  if (!banner) return;
+  banner.style.opacity = '0';
+  banner.style.transform = 'translateY(24px) scale(0.96)';
+  banner.style.display = 'block';
+  void banner.offsetWidth; // Force reflow
+  banner.style.transition = 'opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+  banner.style.opacity = '1';
+  banner.style.transform = 'translateY(0) scale(1)';
+}
+
+function hideCookieBanner() {
+  const banner = document.getElementById('cookieBanner');
+  if (!banner) return;
+  banner.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+  banner.style.opacity = '0';
+  banner.style.transform = 'translateY(16px) scale(0.96)';
+  setTimeout(() => {
+    banner.style.display = 'none';
+  }, 250);
+}
+
+function acceptAllCookies() {
+  saveCookieConsent({ analytics: true, preferences: true });
+  hideCookieBanner();
+  if (typeof closeModal === 'function') {
+    closeModal('cookieModal');
+  }
+  if (typeof showBoubaneToast === 'function') {
+    showBoubaneToast('✨ Vos préférences de confidentialité ont été enregistrées.');
+  }
+}
+
+function rejectAllCookies() {
+  saveCookieConsent({ analytics: false, preferences: false });
+  hideCookieBanner();
+  if (typeof closeModal === 'function') {
+    closeModal('cookieModal');
+  }
+  if (typeof showBoubaneToast === 'function') {
+    showBoubaneToast('🔒 Seuls les cookies strictement nécessaires restent actifs.');
+  }
+}
+
+function openCookieSettings() {
+  const current = getStoredCookieConsent();
+  const analyticsSwitch = document.getElementById('cookieSwitchAnalytics');
+  const preferencesSwitch = document.getElementById('cookieSwitchPreferences');
+
+  if (analyticsSwitch) {
+    analyticsSwitch.checked = current ? Boolean(current.analytics) : false;
+  }
+  if (preferencesSwitch) {
+    preferencesSwitch.checked = current ? Boolean(current.preferences) : true;
+  }
+
+  if (typeof openModal === 'function') {
+    openModal('cookieModal');
+  }
+}
+
+function saveCustomCookies() {
+  const analyticsSwitch = document.getElementById('cookieSwitchAnalytics');
+  const preferencesSwitch = document.getElementById('cookieSwitchPreferences');
+
+  const analytics = analyticsSwitch ? analyticsSwitch.checked : false;
+  const preferences = preferencesSwitch ? preferencesSwitch.checked : false;
+
+  saveCookieConsent({ analytics, preferences });
+  hideCookieBanner();
+  if (typeof closeModal === 'function') {
+    closeModal('cookieModal');
+  }
+  if (typeof showBoubaneToast === 'function') {
+    showBoubaneToast('✨ Vos préférences personnalisées ont été enregistrées.');
+  }
+}
+
+function initCookieConsent() {
+  const stored = getStoredCookieConsent();
+  if (stored) {
+    applyCookiePreferences(stored);
+  } else {
+    // Affichage délicat et fluide après 900ms
+    setTimeout(() => {
+      showCookieBanner();
+    }, 900);
+  }
 }
 
 
