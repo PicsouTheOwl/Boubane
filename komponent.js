@@ -1371,17 +1371,57 @@ function initBureauCanvas() {
     win.style.zIndex = highestBureauZIndex;
   }
 
-  // Si petit écran mobile au chargement, ranger harmonieusement pour éviter tout chevauchement
-  if (window.innerWidth < 768) {
+  // Disposition optimisée selon la largeur d'écran (Mobile vs Desktop)
+  function layoutMobileWindows() {
     windows.forEach((win, i) => {
       win.style.right = 'auto';
       win.style.bottom = 'auto';
-      win.style.left = '12px';
-      win.style.top = (16 + i * 65) + 'px';
+      win.style.left = '10px';
+      win.style.top = (12 + i * 26) + 'px';
       win.style.transform = 'rotate(0deg)';
       win.style.zIndex = 10 + i;
     });
   }
+
+  function layoutDesktopWindows() {
+    const desktopPositions = {
+      'bureauWinAstra': { top: '25px', left: '15px', right: 'auto', transform: 'rotate(-1.5deg)', zIndex: '12' },
+      'bureauWinAchille': { top: '15px', left: 'auto', right: '20px', transform: 'rotate(1.8deg)', zIndex: '13' },
+      'bureauWinValmy': { top: '220px', left: '80px', right: 'auto', transform: 'rotate(-0.8deg)', zIndex: '14' }
+    };
+    windows.forEach((win) => {
+      const pos = desktopPositions[win.id];
+      if (pos) {
+        win.style.top = pos.top;
+        win.style.left = pos.left;
+        win.style.right = pos.right;
+        win.style.bottom = 'auto';
+        win.style.transform = pos.transform;
+        win.style.zIndex = pos.zIndex;
+      }
+    });
+  }
+
+  let wasMobile = window.innerWidth < 768;
+  if (wasMobile) {
+    layoutMobileWindows();
+  }
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const isMobile = window.innerWidth < 768;
+      if (isMobile !== wasMobile) {
+        wasMobile = isMobile;
+        if (isMobile) {
+          layoutMobileWindows();
+        } else {
+          layoutDesktopWindows();
+        }
+      }
+    }, 150);
+  }, { passive: true });
 
   const DEFAULT_ANGLES = {
     'bureauWinAstra': -1.5,
@@ -1420,8 +1460,24 @@ function initBureauCanvas() {
       // Toujours amener la fenêtre au premier plan
       bringToFront(win);
 
+      // Synchroniser l'icône active dans le Dock
+      const dockIdx = BUREAU_WIN_DOCK_MAP[win.id];
+      if (typeof dockIdx === 'number') {
+        const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+        dockBtns.forEach((btn, i) => {
+          btn.classList.toggle('active', i === dockIdx);
+          btn.setAttribute('aria-selected', i === dockIdx ? 'true' : 'false');
+        });
+      }
+
       // Ignorer si clic sur un bouton d'action ou lien ou pastille macOS
       if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.cs-dot')) {
+        return;
+      }
+
+      // SUR ÉCRAN TACTILE (mobile/tablette) : si le contact n'est pas sur la barre supérieure,
+      // on laisse le scroll vertical natif de la page défiler sans aucun blocage !
+      if (e.pointerType === 'touch' && !e.target.closest('.bureau-window-bar')) {
         return;
       }
 
@@ -1453,7 +1509,8 @@ function initBureauCanvas() {
       win.style.top = currentTop + 'px';
 
       // Effet d'élévation physique immédiat lors de la prise en main
-      win.style.transform = `scale(1.025) rotate(${baseAngle}deg)`;
+      const currentRotate = (window.innerWidth < 768) ? 0 : baseAngle;
+      win.style.transform = `scale(1.025) rotate(${currentRotate}deg)`;
 
       if (win.setPointerCapture) {
         try {
