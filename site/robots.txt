@@ -3,7 +3,11 @@
 
 User-agent: *
 Allow: /
+
+# Pages et répertoires strictement privés / non indexables
 Disallow: /dashboard
+Disallow: /dashboard.html
+Disallow: /site/dashboard.html
 
 # Sitemaps
 Sitemap: https://www.boubane.com/sitemap.xml
