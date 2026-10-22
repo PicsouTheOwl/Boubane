@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Création de Site Internet à Segré (49500) · Studio Web Sur-Mesure | Boubane</title>
-    <meta name="description" content="Création de sites vitrines d'exception à Segré-en-Anjou Bleu (49500). Vitesse < 0.3s, Google 100/100, 0 € d'acompte création pour artisans, PME et commerçants d'Anjou. 100% propriétaire.">
+    <meta name="description" content="Studio d'artisanat web d'exception à Segré-en-Anjou Bleu (49500). Vitesse chirurgicale < 0.3s, Google 100/100, 0 € de création d'agence pour artisans, PME et commerces du Segréen et Haut-Anjou. 100% propriétaire.">
     
     <!-- SEO Canonique & Indexation -->
     <link rel="canonical" href="https://www.boubane.com/creation-site-internet-segre">
@@ -20,7 +20,7 @@
     <meta property="og:locale" content="fr_FR">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.boubane.com/creation-site-internet-segre">
-    <meta property="og:site_name" content="Boubane Studio Segré">
+    <meta property="og:site_name" content="Boubane Studio · Segré-en-Anjou Bleu">
     <meta property="og:title" content="Création de Site Internet à Segré (49500) · Studio Web Sur-Mesure | Boubane">
     <meta property="og:description" content="Artisanat web de haute précision à Segré-en-Anjou Bleu. Conception 100% offerte à nos frais, vitesse chirurgicale < 0.3s et souveraineté totale.">
     <meta property="og:image" content="https://www.boubane.com/assets/boubane-logo.png">
@@ -39,7 +39,7 @@
     <!-- Google Fonts Premium (Geist, Plus Jakarta Sans, Geist Mono) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Feuille de styles principale -->
     <link rel="stylesheet" href="style.css">
@@ -159,65 +159,479 @@
     }
     </script>
 
+    <!-- Styles Haute Couture Exclusifs à la Page Segré -->
     <style>
-        .hero-geo {
-            padding: clamp(3.5rem, 8vh, 6.5rem) 0 clamp(2.5rem, 5vh, 4rem);
-            background: 
-                radial-gradient(circle at 10% 15%, rgba(237, 91, 4, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 90% 85%, rgba(238, 248, 90, 0.05) 0%, transparent 40%),
-                var(--color-background);
-            border-bottom: 1px solid var(--color-border-subtle);
+        /* Variables Spécifiques Segré Haute Précision */
+        :root {
+            --segre-dark: #0B0A09;
+            --segre-surface: #141312;
+            --segre-surface-hover: #1C1A18;
+            --segre-border: rgba(237, 91, 4, 0.2);
+            --segre-border-subtle: rgba(255, 255, 255, 0.08);
+            --segre-text-bright: #FAF8F5;
+            --segre-text-muted: #8F8B85;
+            --segre-orange: #ED5B04;
+            --segre-orange-soft: rgba(237, 91, 4, 0.12);
+            --segre-gold: #E5A83B;
+            --segre-green: #10B981;
         }
-        .geo-badge-row {
+
+        /* Hero Monumental & Atmosphère Haute Couture */
+        .segre-hero {
+            position: relative;
+            padding: clamp(4rem, 10vh, 7.5rem) 0 clamp(3.5rem, 8vh, 5.5rem);
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(237, 91, 4, 0.14) 0%, transparent 60%),
+                radial-gradient(circle at 85% 60%, rgba(229, 168, 59, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 15% 75%, rgba(16, 185, 129, 0.05) 0%, transparent 45%),
+                var(--segre-dark);
+            color: var(--segre-text-bright);
+            overflow: hidden;
+            border-bottom: 1px solid var(--segre-border-subtle);
+        }
+
+        .segre-hero::before {
+            content: "49500";
+            position: absolute;
+            right: -3%;
+            top: 2%;
+            font-family: var(--font-heading);
+            font-size: clamp(8rem, 24vw, 22rem);
+            font-weight: 900;
+            line-height: 0.8;
+            color: rgba(255, 255, 255, 0.015);
+            pointer-events: none;
+            letter-spacing: -0.06em;
+            user-select: none;
+            z-index: 0;
+        }
+
+        /* Fil d'Ariane Minimaliste Haute Horlogerie */
+        .segre-breadcrumb {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--segre-text-muted);
+            margin-bottom: var(--spacing-lg);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--segre-border-subtle);
+            padding: 4px 12px;
+            border-radius: var(--radius-pill);
+            backdrop-filter: blur(8px);
+        }
+        .segre-breadcrumb a {
+            color: var(--segre-text-muted);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        .segre-breadcrumb a:hover {
+            color: var(--segre-orange);
+        }
+
+        /* Pill Capsule de Statut */
+        .segre-status-capsule {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 14px;
+            background: rgba(237, 91, 4, 0.1);
+            border: 1px solid rgba(237, 91, 4, 0.35);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #FF8736;
+            margin-bottom: var(--spacing-md);
+            letter-spacing: 0.03em;
+        }
+        .segre-pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10B981;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+            animation: segrePulse 2.2s infinite;
+        }
+        @keyframes segrePulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Titre Monumental Hero */
+        .segre-hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.4rem, 6vw, 4.4rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -0.04em;
+            margin-bottom: var(--spacing-lg);
+            text-wrap: balance;
+        }
+        .segre-hero-title-highlight {
+            background: linear-gradient(135deg, #FFFFFF 30%, #FF8736 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .segre-hero-lead {
+            font-size: clamp(1.08rem, 2.1vw, 1.3rem);
+            line-height: 1.62;
+            color: #C8C5BF;
+            max-width: 72ch;
+            margin-bottom: var(--spacing-xl);
+            font-weight: 400;
+        }
+
+        /* Grille des KPIs Directs du Hero */
+        .segre-kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        @media (max-width: 860px) {
+            .segre-kpi-strip {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+        }
+        @media (max-width: 480px) {
+            .segre-kpi-strip {
+                grid-template-columns: 1fr;
+            }
+        }
+        .segre-kpi-item {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-md);
+            padding: 16px 18px;
+            backdrop-filter: blur(8px);
+            transition: all var(--transition-normal);
+        }
+        .segre-kpi-item:hover {
+            border-color: rgba(237, 91, 4, 0.4);
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .segre-kpi-value {
+            font-family: var(--font-heading);
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--segre-text-bright);
+            line-height: 1.1;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+        .segre-kpi-value span {
+            color: var(--segre-orange);
+            font-size: 1.1rem;
+        }
+        .segre-kpi-label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--segre-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* Live Speed & Cost Duel Engine (Composant Interactif) */
+        .segre-duel-box {
+            background: #0E0F12;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: clamp(20px, 4vw, 36px);
+            margin-top: clamp(2rem, 5vh, 4rem);
+            box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+        .segre-duel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .segre-window-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .segre-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+        .segre-dot--red { background: #FF5F56; }
+        .segre-dot--yellow { background: #FFBD2E; }
+        .segre-dot--green { background: #27C93F; }
+
+        .segre-duel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .segre-duel-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .segre-side {
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: all var(--transition-normal);
+        }
+        .segre-side--bad {
+            background: rgba(239, 68, 68, 0.03);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        .segre-side--good {
+            background: linear-gradient(145deg, rgba(237, 91, 4, 0.08) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid rgba(237, 91, 4, 0.45);
+            box-shadow: 0 0 40px -10px rgba(237, 91, 4, 0.25);
+        }
+        .segre-side-tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            display: inline-block;
+            margin-bottom: 14px;
+            width: fit-content;
+        }
+        .segre-side--bad .segre-side-tag {
+            background: rgba(239, 68, 68, 0.15);
+            color: #F87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .segre-side--good .segre-side-tag {
+            background: rgba(237, 91, 4, 0.2);
+            color: #FF9B54;
+            border: 1px solid rgba(237, 91, 4, 0.4);
+        }
+
+        .segre-side-title {
+            font-size: 1.25rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 16px;
+        }
+
+        .segre-metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.88rem;
+        }
+        .segre-metric-row:last-child {
+            border-bottom: none;
+        }
+        .segre-metric-label {
+            color: var(--segre-text-muted);
+            font-size: 0.82rem;
+        }
+        .segre-metric-val {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.88rem;
+        }
+        .segre-side--bad .segre-metric-val {
+            color: #F87171;
+        }
+        .segre-side--good .segre-metric-val {
+            color: #34D399;
+        }
+
+        /* Cartes Métiers Haut-Anjou avec Micro-Bordures Électriques */
+        .segre-sector-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            position: relative;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-low);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .segre-sector-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--segre-orange);
+            box-shadow: var(--shadow-high), 0 0 24px -6px rgba(237, 91, 4, 0.18);
+        }
+        .segre-sector-num {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+        }
+        .segre-sector-title {
+            font-size: 1.3rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+        .segre-sector-desc {
+            font-size: 0.92rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .segre-sector-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.84rem;
+            color: var(--color-text);
+            font-weight: 500;
+            border-top: 1px solid var(--color-border-subtle);
+            padding-top: 16px;
+        }
+        .segre-sector-features li {
             display: flex;
             align-items: center;
             gap: 8px;
-            flex-wrap: wrap;
-            margin: var(--spacing-md) 0 var(--spacing-xl);
         }
-        .geo-badge {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: var(--radius-pill);
+        .segre-sector-features li svg {
+            color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        /* Grille des Communes du Segréen */
+        .segre-communes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: var(--spacing-xl);
+        }
+        .segre-commune-card {
             background: var(--color-surface);
             border: 1px solid var(--color-border-subtle);
-            color: var(--color-text);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .geo-compare-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.92rem;
-            background: var(--color-surface);
             border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-low);
-            border: 1px solid var(--color-border-subtle);
+            padding: 20px;
+            transition: all var(--transition-fast);
         }
-        .geo-compare-table th, .geo-compare-table td {
-            padding: 14px 18px;
-            text-align: left;
-            border-bottom: 1px solid var(--color-border-subtle);
-        }
-        .geo-compare-table th {
+        .segre-commune-card:hover {
+            border-color: var(--color-primary);
             background: var(--color-surface-subtle);
+        }
+        .segre-commune-name {
+            font-size: 1.05rem;
             font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
+            color: var(--color-text);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        @media (max-width: 640px) {
-            .geo-compare-table {
-                font-size: 0.8rem;
-            }
-            .geo-compare-table th, .geo-compare-table td {
-                padding: 10px 12px;
-            }
+        .segre-commune-badge {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--color-primary);
+            background: var(--color-primary-soft);
+            padding: 2px 8px;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+        }
+        .segre-commune-list {
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+
+        /* FAQ Accordéon Ultra Fluide */
+        .segre-faq-item {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color var(--transition-fast);
+        }
+        .segre-faq-item:hover {
+            border-color: rgba(237, 91, 4, 0.4);
+        }
+        .segre-faq-trigger {
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-text);
+            cursor: pointer;
+        }
+        .segre-faq-trigger svg {
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            color: var(--color-primary);
+        }
+        .segre-faq-trigger[aria-expanded="true"] svg {
+            transform: rotate(180deg);
+        }
+        .segre-faq-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            background: var(--color-surface-subtle);
+        }
+        .segre-faq-content {
+            padding: 0 24px 20px;
+            font-size: 0.94rem;
+            color: var(--color-text-muted);
+            line-height: 1.65;
+        }
+
+        /* CTA Monumental Segré */
+        .segre-monumental-cta {
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(237, 91, 4, 0.16) 0%, transparent 70%),
+                var(--segre-dark);
+            color: var(--segre-text-bright);
+            border-radius: var(--radius-xl);
+            padding: clamp(3rem, 7vh, 5rem) clamp(20px, 5vw, 48px);
+            text-align: center;
+            border: 1px solid rgba(237, 91, 4, 0.35);
+            box-shadow: 0 20px 60px -15px rgba(237, 91, 4, 0.25);
+            position: relative;
+            overflow: hidden;
+            margin: clamp(2rem, 5vh, 4rem) 0;
         }
     </style>
 </head>
@@ -226,7 +640,7 @@
     <!-- Barre de Navigation Haute Autorité -->
     <header class="header">
         <div class="container header-container">
-            <a href="/" class="logo" aria-label="Retour à l'accueil Boubane">
+            <a href="/" class="logo" aria-label="Retour à l'accueil Boubane Studio">
                 <img src="assets/boubane-logo.png" alt="Logo Boubane Studio" width="36" height="36" class="logo-img">
                 <span class="logo-text">BOUBANE</span>
                 <span class="badge badge-pill badge-primary" style="font-size: 0.65rem; margin-left: 4px;">SEGRÉ (49)</span>
@@ -237,7 +651,7 @@
                     <li><a href="/#heroShowcase" class="nav-link">Réalisations</a></li>
                     <li><a href="/#philosophie" class="nav-link">Philosophie</a></li>
                     <li><a href="/blog" class="nav-link">Journal SEO</a></li>
-                    <li><a href="/#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="#faq-segre" class="nav-link">FAQ</a></li>
                 </ul>
             </nav>
 
@@ -251,312 +665,483 @@
     </header>
 
     <main>
-        <!-- Fil d'Ariane SEO -->
-        <nav aria-label="Fil d'Ariane" class="container" style="padding-top: 16px;">
-            <ol style="display: flex; gap: 8px; font-size: 0.78rem; font-family: var(--font-mono); color: var(--color-text-muted); list-style: none; flex-wrap: wrap;">
-                <li><a href="/" style="color: var(--color-text-muted); text-decoration: none;">Accueil</a></li>
-                <li aria-hidden="true">/</li>
-                <li style="color: var(--color-primary); font-weight: 600;">Création de site internet Segré (49500)</li>
-            </ol>
-        </nav>
+        <!-- HERO SECTION HAUTE HORLOGERIE : SEGRÉ-EN-ANJOU BLEU -->
+        <section class="segre-hero">
+            <div class="container" style="position: relative; z-index: 1;">
+                
+                <!-- Fil d'Ariane Minimaliste -->
+                <nav aria-label="Fil d'Ariane">
+                    <div class="segre-breadcrumb">
+                        <a href="/">Accueil</a>
+                        <span aria-hidden="true">/</span>
+                        <a href="/blog">Haut-Anjou</a>
+                        <span aria-hidden="true">/</span>
+                        <span style="color: #FF8736; font-weight: 600;">Segré-en-Anjou Bleu (49500)</span>
+                    </div>
+                </nav>
 
-        <!-- HERO SECTION : SEGRÉ-EN-ANJOU BLEU -->
-        <section class="hero-geo">
-            <div class="container" style="max-width: 980px;">
-                <div class="cs-eyebrow" style="margin-bottom: var(--spacing-sm);">
-                    <span class="cs-eyebrow__number">[ 49500 ]</span>
-                    <span>STUDIO WEB LOCAL · SEGRÉ-EN-ANJOU BLEU</span>
+                <div class="segre-status-capsule">
+                    <span class="segre-pulse-dot" aria-hidden="true"></span>
+                    <span>ATELIER NUMÉRIQUE SEGRÉ · CRÉNEAUX DISPONIBLES CETTE SEMAINE</span>
                 </div>
 
-                <h1 class="cs-title" style="font-size: clamp(2.3rem, 5.5vw, 3.8rem); line-height: 1.15; margin-bottom: var(--spacing-md); text-wrap: balance;">
-                    Création de Site Internet à Segré : L'Artisanat Web d'Élite pour les Entreprises d'Anjou<span class="cs-title__dot">.</span>
+                <h1 class="segre-hero-title">
+                    L'Artisanat Web de Haute Précision à Segré<span class="cs-title__dot">.</span><br>
+                    <span class="segre-hero-title-highlight">0 € en Conception. Vitesse &lt; 0.3s.</span>
                 </h1>
 
-                <p class="cs-lead" style="font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--color-text-muted); line-height: 1.6; max-width: 78ch;">
-                    Vous êtes artisan, commerçant, profession libérale ou dirigeant de PME à <strong>Segré-en-Anjou Bleu (49500)</strong> et dans le <strong>Haut-Anjou</strong> ? Arrêtez de payer 4 500 € ou des abonnements captifs auprès des agences d'Angers ou de Nantes. Boubane conçoit votre vitrine sur-mesure d'exception à <strong>0 € d'acompte création</strong>, ultra-rapide (&lt; 0.3s) et 100% propriétaire légal.
+                <p class="segre-hero-lead">
+                    Artisans, cabinets d'expertise, commerces et PME de <strong>Segré-en-Anjou Bleu</strong> et du <strong>Haut-Anjou</strong> : ne payez plus 4 500 € ou des mensualités pièges auprès d'agences urbaines distantes. Boubane conçoit votre site vitrine d'exception <strong>100% à nos frais</strong>, avec une vitesse de chargement divisée par dix et la souveraineté légale absolue de votre code dès le premier jour.
                 </p>
 
-                <!-- Micro-indicateurs de Confiance Locale -->
-                <div class="geo-badge-row">
-                    <span class="geo-badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        <span>Vitesse &lt; 0.3s (Score 100/100)</span>
-                    </span>
-                    <span class="geo-badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span>0 € Frais de Création</span>
-                    </span>
-                    <span class="geo-badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        <span>100% Propriétaire dès J1</span>
-                    </span>
-                    <span class="geo-badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        <span>Interlocuteur Local Direct Segré</span>
-                    </span>
-                </div>
-
-                <!-- Boutons d'Action Rapide -->
-                <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: var(--spacing-lg);">
-                    <a href="/commander" class="btn-ramp-cta" style="font-size: 1.02rem; padding: 15px 32px;" aria-label="Commander mon site offert à Segré">
-                        <span>Commander mon site offert (0 €)</span>
+                <!-- Dual CTA Haut de Gamme -->
+                <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
+                    <a href="/commander" class="btn-ramp-cta" style="font-size: 1.05rem; padding: 16px 36px;" aria-label="Lancer mon projet de site offert à Segré">
+                        <span>Lancer mon projet offert (0 €)</span>
                         <span class="btn-arrow-double" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
                         </span>
                     </a>
 
-                    <a href="https://wa.me/33663934704?text=Bonjour%20L%C3%A9o%2C%20je%20suis%20une%20entreprise%20%C3%A0%20Segr%C3%A9%20et%20je%20souhaite%20%C3%A9changer%20sur%20mon%20site%20web." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 14px 24px; font-size: 0.95rem; color: #16A34A; border-color: rgba(22, 163, 74, 0.35);">
-                        <span>💬 Échange Direct WhatsApp</span>
+                    <a href="tel:+33663934704" class="btn btn-secondary" style="padding: 16px 24px; font-size: 0.95rem; color: #FAF8F5; border-color: rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.04);">
+                        <span>📞 06 63 93 47 04 (Léo Saillour)</span>
+                    </a>
+
+                    <a href="https://wa.me/33663934704?text=Bonjour%20L%C3%A9o%2C%20je%20suis%20une%20entreprise%20de%20Segr%C3%A9%20et%20je%20souhaite%20un%20site%20web%20offert." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 16px 20px; font-size: 0.95rem; color: #34D399; border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.05);" aria-label="Échanger directement par WhatsApp">
+                        <span>💬 WhatsApp Direct</span>
                     </a>
                 </div>
+
+                <!-- Composant Visuel Interactif : The Segré Speed & Cost Engine -->
+                <div class="segre-duel-box">
+                    <div class="segre-duel-header">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <div class="segre-window-dots">
+                                <span class="segre-dot segre-dot--red"></span>
+                                <span class="segre-dot segre-dot--yellow"></span>
+                                <span class="segre-dot segre-dot--green"></span>
+                            </div>
+                            <span style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--segre-text-muted); letter-spacing: 0.04em;">BENCHMARK TERRITORIAL · SEGRÉEN (49500)</span>
+                        </div>
+                        <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #FF9B54; background: rgba(237, 91, 4, 0.15); padding: 3px 10px; border-radius: var(--radius-pill); border: 1px solid rgba(237, 91, 4, 0.3);">
+                            AUDIT EN DIRECT : SCORE GOOGLE
+                        </span>
+                    </div>
+
+                    <div class="segre-duel-grid">
+                        <!-- Côté Agence Traditionnelle -->
+                        <div class="segre-side segre-side--bad">
+                            <div>
+                                <span class="segre-side-tag">Agence Web Classique (Angers / Nantes)</span>
+                                <h3 class="segre-side-title">Modèle Traditionnel Captif</h3>
+                                
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Facturation initiale :</span>
+                                    <span class="segre-metric-val">3 500 € à 6 000 € HT</span>
+                                </div>
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Maintenance mensuelle :</span>
+                                    <span class="segre-metric-val">90 € à 180 € / mois</span>
+                                </div>
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Temps de chargement :</span>
+                                    <span class="segre-metric-val">3.8 à 5.2 secondes</span>
+                                </div>
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Score Google PageSpeed :</span>
+                                    <span class="segre-metric-val">38 / 100 (Pénalisé)</span>
+                                </div>
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Propriété du code :</span>
+                                    <span class="segre-metric-val">Sous licence agence (Captif)</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 18px; font-size: 0.78rem; color: #F87171; font-family: var(--font-mono);">
+                                ✕ Coût cumulé sur 3 ans : ~6 740 €
+                            </div>
+                        </div>
+
+                        <!-- Côté Boubane Segré -->
+                        <div class="segre-side segre-side--good">
+                            <div>
+                                <span class="segre-side-tag">Boubane Studio (Segré-en-Anjou Bleu)</span>
+                                <h3 class="segre-side-title">Artisanat Web Indépendant</h3>
+                                
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Frais de conception &amp; dev :</span>
+                                    <span class="segre-metric-val" style="color: #34D399; font-size: 1rem;">0 € (100% Offert)</span>
+                                </div>
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Frais d'agence mensuels :</span>
+                                    <span class="segre-metric-val">0 € (Zéro abonnement)</span>
+                                </div>
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Temps de chargement :</span>
+                                    <span class="segre-metric-val">&lt; 0.28 seconde (Instant)</span>
+                                </div>
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Score Google PageSpeed :</span>
+                                    <span class="segre-metric-val">100 / 100 (Optimal)</span>
+                                </div>
+                                <div class="segre-metric-row">
+                                    <span class="segre-metric-label">Propriété du code :</span>
+                                    <span class="segre-metric-val">100% à vous (Dépôt GitHub)</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 18px; font-size: 0.78rem; color: #34D399; font-family: var(--font-mono); font-weight: 700;">
+                                ✓ Économie nette constatée : +6 560 €
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 KPI Strips Horlogers -->
+                <div class="segre-kpi-strip">
+                    <div class="segre-kpi-item">
+                        <div class="segre-kpi-value">&lt; 0.3<span>s</span></div>
+                        <div class="segre-kpi-label">Vitesse d'affichage pur</div>
+                    </div>
+                    <div class="segre-kpi-item">
+                        <div class="segre-kpi-value">0<span>€</span></div>
+                        <div class="segre-kpi-label">Acompte de création</div>
+                    </div>
+                    <div class="segre-kpi-item">
+                        <div class="segre-kpi-value">100<span>%</span></div>
+                        <div class="segre-kpi-label">Propriétaire dès J1</div>
+                    </div>
+                    <div class="segre-kpi-item">
+                        <div class="segre-kpi-value">49500</div>
+                        <div class="segre-kpi-label">Ancrage direct en Anjou</div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- SECTION 1 : L'ARBITRAGE FINANCIER (AGENCE CLASSIQUE VS BOUBANE SEGRÉ) -->
-        <section class="section" style="background: var(--color-surface);">
+        <!-- SECTION 1 : LA RUPTURE DU MODÈLE COMMERCIAL -->
+        <section class="section" style="background: var(--color-surface); border-bottom: 1px solid var(--color-border-subtle);">
             <div class="container" style="max-width: 980px;">
                 <div class="section-title-wrap">
-                    <span class="cs-eyebrow">[ 01 ] RUPTURE DU MODÈLE COMMERCIAL</span>
-                    <h2 class="cs-title">Pourquoi une agence web classique n'est plus justifiable à Segré<span class="cs-title__dot">.</span></h2>
-                    <p class="cs-lead">Comparez factuellement les deux approches. Aucun frais caché, transparence chirurgicale.</p>
+                    <span class="cs-eyebrow">[ 01 ] TRANSPARENCE RADICALE</span>
+                    <h2 class="cs-title">Pourquoi payer 5 000 € pour un site web n'a plus aucun sens à Segré<span class="cs-title__dot">.</span></h2>
+                    <p class="cs-lead">Le marché du web est gangréné par deux extrêmes : les agences hors de prix aux charges démesurées et les plateformes automatisées médiocres. Voici la troisième voie.</p>
                 </div>
 
-                <div style="margin-top: var(--spacing-xl); overflow-x: auto;">
-                    <table class="geo-compare-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 35%;">Critère Économique &amp; Technique</th>
-                                <th style="width: 32%; color: #EF4444;">Agence Web Classique (Angers / Nantes)</th>
-                                <th style="width: 33%; color: #10B981; background: rgba(16, 185, 129, 0.06);">Boubane Studio (Segré 49500)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Frais de création initiaux</strong></td>
-                                <td style="color: #EF4444;">3 500 € à 7 000 € d'acompte</td>
-                                <td style="color: #10B981; font-weight: 700; background: rgba(16, 185, 129, 0.04);">0 € (100% pris en charge à nos frais)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Abonnement mensuel imposé</strong></td>
-                                <td style="color: #EF4444;">80 € à 180 € / mois de maintenance</td>
-                                <td style="color: #10B981; font-weight: 700; background: rgba(16, 185, 129, 0.04);">0 € (Seul hébergeur direct ~5 €/mois)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Coût cumulé sur 3 ans</strong></td>
-                                <td style="color: #EF4444; font-weight: 700;">6 380 € à 12 500 €</td>
-                                <td style="color: var(--color-primary); font-weight: 800; background: rgba(16, 185, 129, 0.04); font-size: 1.05rem;">~180 € au total (Économie &gt; 6 000 €)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Vitesse d'affichage (Core Web Vitals)</strong></td>
-                                <td>2.5s à 4.5s (CMS obèses, plugins lents)</td>
-                                <td style="color: #10B981; font-weight: 700; background: rgba(16, 185, 129, 0.04);">&lt; 0.3s (Code pur HTML5/CSS/JS)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Propriété légale du code source</strong></td>
-                                <td>Souvent retenu en otage sous licence</td>
-                                <td style="color: #10B981; font-weight: 700; background: rgba(16, 185, 129, 0.04);">100% à vous, livré sur dépôt GitHub privé</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Relation &amp; Ancrage territorial</strong></td>
-                                <td>Commerciaux commissionnés, gestion distante</td>
-                                <td style="color: #10B981; font-weight: 700; background: rgba(16, 185, 129, 0.04);">Développeur dédié à Segré, contact direct</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="grid grid-3" style="gap: var(--spacing-lg); margin-top: var(--spacing-xl);">
+                    <div class="card" style="background: var(--color-background); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); padding: 28px;">
+                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-primary); font-weight: 700; margin-bottom: 12px;">01 · ZÉRO COMMERCIAUX</div>
+                        <h3 style="font-size: 1.25rem; font-family: var(--font-heading); margin-bottom: 10px; color: var(--color-text);">Directement avec l'Artisan du Code</h3>
+                        <p style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6;">
+                            En agence, 70% de votre facture finance la force commerciale, les chefs de projet et les bureaux d'Angers. Chez Boubane, vous échangez uniquement avec Léo Saillour, développeur et artisan du studio. Zéro intermédiaire, zéro déperdition.
+                        </p>
+                    </div>
+
+                    <div class="card" style="background: var(--color-background); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); padding: 28px;">
+                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-primary); font-weight: 700; margin-bottom: 12px;">02 · VITESSE ABSOLUE</div>
+                        <h3 style="font-size: 1.25rem; font-family: var(--font-heading); margin-bottom: 10px; color: var(--color-text);">Adieu WordPress &amp; CMS Obèses</h3>
+                        <p style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6;">
+                            95% des agences locales installent des thèmes WordPress lourds et vulnérables qui mettent 4 secondes à s'afficher. Nous écrivons un code pur et chirurgical qui charge instantanément, même en 4G sur les routes du Segréen.
+                        </p>
+                    </div>
+
+                    <div class="card" style="background: var(--color-background); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); padding: 28px;">
+                        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-primary); font-weight: 700; margin-bottom: 12px;">03 · SOUVERAINETÉ TOTALE</div>
+                        <h3 style="font-size: 1.25rem; font-family: var(--font-heading); margin-bottom: 10px; color: var(--color-text);">Zéro Rente &amp; Zéro Contrat Piège</h3>
+                        <p style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6;">
+                            Votre nom de domaine et votre hébergement sont contractés directement à votre nom chez les leaders du cloud (~5 €/mois). Vous disposez de la pleine propriété de votre code source sur GitHub. Vous êtes libre pour toujours.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 2 : LES SECTEURS CLÉS DE SEGRÉ ET DE L'ANJOU BLEU -->
-        <section class="section" style="background: var(--color-background); border-top: 1px solid var(--color-border-subtle);">
+        <!-- SECTION 2 : 4 PÔLES D'EXCELLENCE ÉCONOMIQUE DU SEGRÉEN -->
+        <section class="section" style="background: var(--color-background); border-bottom: 1px solid var(--color-border-subtle);">
             <div class="container" style="max-width: 980px;">
                 <div class="section-title-wrap">
-                    <span class="cs-eyebrow">[ 02 ] EXPERTISE MÉTIER DU SEGRÉEN</span>
-                    <h2 class="cs-title">Pour qui nous concevons des vitrines de premier rang à Segré<span class="cs-title__dot">.</span></h2>
-                    <p class="cs-lead">Une approche sur-mesure adaptée aux réalités économiques locales du Maine-et-Loire.</p>
+                    <span class="cs-eyebrow">[ 02 ] ÉCOSYSTÈME ÉCONOMIQUE</span>
+                    <h2 class="cs-title">L'Excellence Numérique au service des Métiers de Segré<span class="cs-title__dot">.</span></h2>
+                    <p class="cs-lead">Une réponse chirurgicale conçue sur-mesure pour les dynamiques économiques du Haut-Anjou.</p>
                 </div>
 
                 <div class="grid grid-2" style="gap: var(--spacing-xl); margin-top: var(--spacing-xl);">
                     <!-- Carte 1 : Artisans BTP & Menuiserie -->
-                    <div class="card" style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); padding: 32px;">
-                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-primary); font-weight: 700; margin-bottom: 10px;">SECTEUR 01</div>
-                        <h3 style="font-size: 1.3rem; font-family: var(--font-heading); margin-bottom: 12px; color: var(--color-text);">Artisans d'Art, Menuisiers &amp; BTP</h3>
-                        <p style="font-size: 0.92rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px;">
-                            Ébénistes, charpentiers, plombiers-chauffagistes, couvreurs et électriciens du 49500 : votre réputation se joue sur vos réalisations. Nous créons des galeries de chantiers ultra-nettes, des formulaires de demande de devis instantanés et un balisage local pour capter tous les chantiers de Segré, Candé et Pouancé.
-                        </p>
-                        <ul style="list-style: none; font-size: 0.85rem; color: var(--color-text); display: flex; flex-direction: column; gap: 6px;">
-                            <li>✓ Galerie avant/après optimisée mobile</li>
-                            <li>✓ Balisage Google My Business &amp; Schema.org</li>
-                            <li>✓ Formulaire de devis avec notification WhatsApp</li>
+                    <div class="segre-sector-card">
+                        <div>
+                            <div class="segre-sector-num">PÔLE 01 · ARTISANAT D'ÉLITE &amp; BTP</div>
+                            <h3 class="segre-sector-title">Menuisiers, Couvreurs, Ébénistes &amp; Bâtiment</h3>
+                            <p class="segre-sector-desc">
+                                À Segré, Candé ou Pouancé, les maîtres d'œuvre et particuliers choisissent un artisan sur la qualité tangible de ses chantiers. Nous concevons une vitrine haute définition qui sublime vos ouvrages, capte les demandes de devis et vous positionne n°1 sur Google face aux concurrents de la région.
+                            </p>
+                        </div>
+                        <ul class="segre-sector-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Galerie de réalisations avant / après optimisée smartphone</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Demande de devis directe acheminée sur votre WhatsApp</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Balisage LocalBusiness Google Maps sur 35 km</span>
+                            </li>
                         </ul>
                     </div>
 
-                    <!-- Carte 2 : Professions Libérales & Cabinets -->
-                    <div class="card" style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); padding: 32px;">
-                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-primary); font-weight: 700; margin-bottom: 10px;">SECTEUR 02</div>
-                        <h3 style="font-size: 1.3rem; font-family: var(--font-heading); margin-bottom: 12px; color: var(--color-text);">Cabinets Juridiques, Santé &amp; Conseil</h3>
-                        <p style="font-size: 0.92rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px;">
-                            Avocats, notaires, experts-comptables, architectes et praticiens de santé de Segré-en-Anjou Bleu : votre vitrine doit inspirer une confiance immédiate. Design suisse épuré, respect scrupuleux du secret professionnel et conformité RGPD absolue.
-                        </p>
-                        <ul style="list-style: none; font-size: 0.85rem; color: var(--color-text); display: flex; flex-direction: column; gap: 6px;">
-                            <li>✓ Typographie d'autorité &amp; sobriété esthétique</li>
-                            <li>✓ Prise de contact fluide sans intermédiaire</li>
-                            <li>✓ Hébergement souverain certifié UE</li>
+                    <!-- Carte 2 : Cabinets Juridiques, Santé & Conseil -->
+                    <div class="segre-sector-card">
+                        <div>
+                            <div class="segre-sector-num">PÔLE 02 · PROFESSIONS LIBÉRALES &amp; SANTÉ</div>
+                            <h3 class="segre-sector-title">Avocats, Notaires, Cabinets &amp; Praticiens</h3>
+                            <p class="segre-sector-desc">
+                                Le secret professionnel et l'austérité rassurante d'un cabinet ne supportent aucun artifice tape-à-l'œil. Nous créons des environnements d'une élégance suisse absolue, sans aucun traceur publicitaire intrusif, hébergés sur des infrastructures européennes sécurisées.
+                            </p>
+                        </div>
+                        <ul class="segre-sector-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Typographie haute distinction &amp; sobriété juridique</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Conformité RGPD et secret médical/professionnel certifié</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Prise de rendez-vous directe sans intermédiaire payant</span>
+                            </li>
                         </ul>
                     </div>
 
-                    <!-- Carte 3 : PME Industrielles & ZI d'Étriché -->
-                    <div class="card" style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); padding: 32px;">
-                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-primary); font-weight: 700; margin-bottom: 10px;">SECTEUR 03</div>
-                        <h3 style="font-size: 1.3rem; font-family: var(--font-heading); margin-bottom: 12px; color: var(--color-text);">PME Industrielles &amp; Sous-Traitance B2B</h3>
-                        <p style="font-size: 0.92rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px;">
-                            Implanté sur la ZI d'Étriché, à Sainte-Gemmes ou dans les parcs d'activités du Segréen ? Valorisez vos capacités techniques, votre parc machine et vos certifications auprès des donneurs d'ordres régionaux et nationaux.
-                        </p>
-                        <ul style="list-style: none; font-size: 0.85rem; color: var(--color-text); display: flex; flex-direction: column; gap: 6px;">
-                            <li>✓ Présentation de process &amp; capacités industrielles</li>
-                            <li>✓ Fiches techniques &amp; catalogues B2B téléchargeables</li>
-                            <li>✓ Sécurité maximale et zéro vulnérabilité plugin</li>
+                    <!-- Carte 3 : PME & ZI d'Étriché -->
+                    <div class="segre-sector-card">
+                        <div>
+                            <div class="segre-sector-num">PÔLE 03 · INDUSTRIE &amp; SOUS-TRAITANCE B2B</div>
+                            <h3 class="segre-sector-title">PME Industrielles &amp; ZI d'Étriché</h3>
+                            <p class="segre-sector-desc">
+                                Implantez votre leadership industriel auprès des donneurs d'ordres du Grand Ouest. Présentez votre parc machines, vos brevets, vos agréments ISO et vos capacités de production avec un temps de réponse instantané et une sécurité sans faille.
+                            </p>
+                        </div>
+                        <ul class="segre-sector-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Fiches techniques et catalogues téléchargeables en 0.2s</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Architecture zéro-faille (aucun plugin piratable)</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Accréditation RSE &amp; éco-conception numérique vérifiée</span>
+                            </li>
                         </ul>
                     </div>
 
-                    <!-- Carte 4 : Commerces & Restauration d'Anjou -->
-                    <div class="card" style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); padding: 32px;">
-                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-primary); font-weight: 700; margin-bottom: 10px;">SECTEUR 04</div>
-                        <h3 style="font-size: 1.3rem; font-family: var(--font-heading); margin-bottom: 12px; color: var(--color-text);">Commerçants, Domaines &amp; Restauration</h3>
-                        <p style="font-size: 0.92rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px;">
-                            Tables gastronomiques, boutiques de centre-ville, cavistes et vignerons d'Anjou : offrez à vos clients un menu ou une carte des vins accessible en 200 ms sur leur smartphone, sans passer par des plateformes tierces prélevant 15% de commission.
-                        </p>
-                        <ul style="list-style: none; font-size: 0.85rem; color: var(--color-text); display: flex; flex-direction: column; gap: 6px;">
-                            <li>✓ Affichage instantané sur mobile en 4G/5G</li>
-                            <li>✓ Module de réservation direct sans commission</li>
-                            <li>✓ Référencement local Google Maps / Pack Local</li>
+                    <!-- Carte 4 : Commerces & Terroir d'Anjou -->
+                    <div class="segre-sector-card">
+                        <div>
+                            <div class="segre-sector-num">PÔLE 04 · COMMERCES &amp; TERROIR ANJOU</div>
+                            <h3 class="segre-sector-title">Boutiques, Domaines Viticoles &amp; Tables</h3>
+                            <p class="segre-sector-desc">
+                                Du vignoble de l'Anjou Bleu aux commerces du centre-ville de Segré : offrez une vitrine qui met en valeur l'authenticité de vos produits. Fini les plateformes tierces qui captent votre clientèle et vous prélèvent des commissions arbitraires.
+                            </p>
+                        </div>
+                        <ul class="segre-sector-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Menu &amp; catalogue accessible en 1 tap en 4G/5G</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Réservation ou commande directe sans commission tierce</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Affichage géolocalisé pour les flux touristiques locaux</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 3 : BASSIN D'INTERVENTION COMPLET (SEGRÉ ET ENVIRONS) -->
-        <section class="section" style="background: var(--color-surface); border-top: 1px solid var(--color-border-subtle);">
+        <!-- SECTION 3 : LE MAILLAGE TERRITORIAL DU SEGRÉEN -->
+        <section class="section" style="background: var(--color-surface); border-bottom: 1px solid var(--color-border-subtle);">
             <div class="container" style="max-width: 980px;">
                 <div class="section-title-wrap center">
-                    <span class="cs-eyebrow" style="justify-content: center;">[ COUVERTURE TERRITORIALE ]</span>
-                    <h2 class="cs-title">Notre zone d'intervention directe en Segréen &amp; Anjou Bleu<span class="cs-title__dot">.</span></h2>
-                    <p class="cs-lead mx-auto">Nous nous déplaçons ou échangeons directement avec les dirigeants et artisans de toutes les communes voisines.</p>
+                    <span class="cs-eyebrow" style="justify-content: center;">[ MATRICE TERRITORIALE ]</span>
+                    <h2 class="cs-title">Notre Rayon d'Intervention Directe en Haut-Anjou<span class="cs-title__dot">.</span></h2>
+                    <p class="cs-lead mx-auto">Basés au cœur du Segréen, nous nous déplaçons directement dans vos ateliers et bureaux sur l'ensemble du bassin.</p>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: var(--spacing-xl);">
-                    <div style="background: var(--color-background); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 20px;">
-                        <strong style="display: block; font-size: 1rem; color: var(--color-text); margin-bottom: 6px;">Segré-en-Anjou Bleu (49500)</strong>
-                        <span style="font-size: 0.82rem; color: var(--color-text-muted);">Sainte-Gemmes-d'Andigné, Nyoiseau, La Ferrière-de-Flée, Châtelais, Noyant-la-Gravoyère.</span>
+                <div class="segre-communes-grid">
+                    <div class="segre-commune-card">
+                        <div class="segre-commune-name">
+                            <span>Segré-en-Anjou Bleu</span>
+                            <span class="segre-commune-badge">49500</span>
+                        </div>
+                        <p class="segre-commune-list">Sainte-Gemmes-d'Andigné, Nyoiseau, Noyant-la-Gravoyère, Châtelais, La Ferrière-de-Flée, Louvaines, Saint-Sauveur-de-Flée, Aviré, Le Bourg-d'Iré.</p>
                     </div>
 
-                    <div style="background: var(--color-background); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 20px;">
-                        <strong style="display: block; font-size: 1rem; color: var(--color-text); margin-bottom: 6px;">Le Lion-d'Angers (49220)</strong>
-                        <span style="font-size: 0.82rem; color: var(--color-text-muted);">Montreuil-sur-Maine, Grez-Neuville, Thorigné-d'Anjou, La Jaille-Yvon.</span>
+                    <div class="segre-commune-card">
+                        <div class="segre-commune-name">
+                            <span>Le Lion-d'Angers</span>
+                            <span class="segre-commune-badge">49220</span>
+                        </div>
+                        <p class="segre-commune-list">Montreuil-sur-Maine, Grez-Neuville, Thorigné-d'Anjou, La Jaille-Yvon, Chambellay, Pruillé.</p>
                     </div>
 
-                    <div style="background: var(--color-background); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 20px;">
-                        <strong style="display: block; font-size: 1rem; color: var(--color-text); margin-bottom: 6px;">Château-Gontier (53200)</strong>
-                        <span style="font-size: 0.82rem; color: var(--color-text-muted);">Haut-Anjou mayennais, Azé, Saint-Fort, Chemazé, Daon, Ménil.</span>
+                    <div class="segre-commune-card">
+                        <div class="segre-commune-name">
+                            <span>Château-Gontier</span>
+                            <span class="segre-commune-badge">53200</span>
+                        </div>
+                        <p class="segre-commune-list">Azé, Saint-Fort, Chemazé, Daon, Ménil, Fromentières, Coudray, Ampoigné.</p>
                     </div>
 
-                    <div style="background: var(--color-background); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 20px;">
-                        <strong style="display: block; font-size: 1rem; color: var(--color-text); margin-bottom: 6px;">Candé &amp; Pouancé (49440/49420)</strong>
-                        <span style="font-size: 0.82rem; color: var(--color-text-muted);">Ombrée d'Anjou, Chazé-sur-Argos, Angrie, Loiré, Combrée.</span>
+                    <div class="segre-commune-card">
+                        <div class="segre-commune-name">
+                            <span>Candé &amp; Loiré</span>
+                            <span class="segre-commune-badge">49440</span>
+                        </div>
+                        <p class="segre-commune-list">Chazé-sur-Argos, Angrie, Freigné, Challain-la-Potherie, Vallons-de-l'Erdre.</p>
                     </div>
 
-                    <div style="background: var(--color-background); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 20px;">
-                        <strong style="display: block; font-size: 1rem; color: var(--color-text); margin-bottom: 6px;">Châteaubriant (44110)</strong>
-                        <span style="font-size: 0.82rem; color: var(--color-text-muted);">Portes de Bretagne et liaison directe Anjou / Loire-Atlantique.</span>
+                    <div class="segre-commune-card">
+                        <div class="segre-commune-name">
+                            <span>Ombrée d'Anjou &amp; Pouancé</span>
+                            <span class="segre-commune-badge">49420</span>
+                        </div>
+                        <p class="segre-commune-list">Combrée, Grugé-l'Hôpital, Vergonnes, La Prévière, Saint-Michel-et-Chanveaux.</p>
                     </div>
 
-                    <div style="background: var(--color-background); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 20px;">
-                        <strong style="display: block; font-size: 1rem; color: var(--color-text); margin-bottom: 6px;">Angers &amp; Maine-et-Loire (49)</strong>
-                        <span style="font-size: 0.82rem; color: var(--color-text-muted);">Avrillé, Beaucouzé, Saint-Barthélemy-d'Anjou, et tout le département 49.</span>
+                    <div class="segre-commune-card">
+                        <div class="segre-commune-name">
+                            <span>Châteaubriant &amp; Angers</span>
+                            <span class="segre-commune-badge">44 / 49</span>
+                        </div>
+                        <p class="segre-commune-list">Liaison directe axe Anjou / Métropole d'Angers et carrefour Loire-Atlantique.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- SECTION 4 : FAQ SPÉCIALE SEGRÉ (GOOGLE RICH SNIPPETS) -->
-        <section class="section" style="background: var(--color-background); border-top: 1px solid var(--color-border-subtle);">
-            <div class="container" style="max-width: 820px;">
+        <section id="faq-segre" class="section" style="background: var(--color-background); border-bottom: 1px solid var(--color-border-subtle);">
+            <div class="container" style="max-width: 840px;">
                 <div class="section-title-wrap center">
                     <span class="cs-eyebrow" style="justify-content: center;">[ FAQ SEGRÉ ]</span>
-                    <h2 class="cs-title">Questions fréquentes des professionnels de Segré<span class="cs-title__dot">.</span></h2>
-                    <p class="cs-lead mx-auto">Toutes les réponses pour aborder votre transition numérique sereinement.</p>
+                    <h2 class="cs-title">Questions Fréquentes des Entreprises du Segréen<span class="cs-title__dot">.</span></h2>
+                    <p class="cs-lead mx-auto">Toutes les réponses pour engager votre vitrine numérique en toute sérénité.</p>
                 </div>
 
-                <div class="faq-list">
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
-                            <span>Pourquoi choisir Boubane Studio à Segré plutôt qu'une agence à Angers ?</span>
-                            <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+                <div class="faq-accordion-wrap" style="margin-top: var(--spacing-xl);">
+                    <!-- FAQ 1 -->
+                    <div class="segre-faq-item">
+                        <button class="segre-faq-trigger" onclick="toggleSegreFaq(this)" aria-expanded="false">
+                            <span>Pourquoi choisir un studio indépendant à Segré plutôt qu'une agence à Angers ou Nantes ?</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                         </button>
-                        <div class="faq-answer">
-                            <p>Les agences traditionnelles d'Angers ou de Nantes vous font payer leurs commerciaux, leurs bureaux de standing et leurs frais de structure sous forme de devis exorbitants (3 500 € à 6 000 €) ou de locations pièges à 150 €/mois. Boubane est un studio d'artisanat web indépendant ancré en Anjou : 0 € d'acompte de création, un interlocuteur unique et une vitesse de chargement divisée par dix.</p>
+                        <div class="segre-faq-body">
+                            <div class="segre-faq-content">
+                                <p>Faire appel à une agence traditionnelle d'Angers ou de Nantes vous impose de payer leurs frais de structure démesurés (bureaux luxueux, commerciaux commissionnés) traduits par des devis de 3 500 € à 7 000 € ou des contrats d'engagement captifs à 150 €/mois. Boubane est un atelier d'artisanat web fondé à Segré : nous concevons votre site à 0 € d'honoraires de création, avec un interlocuteur direct et une vitesse de chargement instantanée (< 0.3s).</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
-                            <span>Le site est-il réellement 100% offert en conception ? Où est le piège ?</span>
-                            <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+                    <!-- FAQ 2 -->
+                    <div class="segre-faq-item">
+                        <button class="segre-faq-trigger" onclick="toggleSegreFaq(this)" aria-expanded="false">
+                            <span>Comment est-il possible que la conception soit réellement à 0 € ? Où est l'astuce ?</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                         </button>
-                        <div class="faq-answer">
-                            <p>Il n'y a strictement aucun piège ni engagement. Nous prenons le pari d'offrir la création à nos frais pour démontrer la supériorité de notre code. Vous ne réglez que les frais techniques incompressibles directement auprès de votre hébergeur (~5 €/mois pour le serveur et ~10 €/an pour votre nom de domaine). Vous êtes l'unique propriétaire légal dès le premier jour.</p>
+                        <div class="segre-faq-body">
+                            <div class="segre-faq-content">
+                                <p>Il n'y a aucun coût masqué ni obligation d'engagement. Nous finançons la création sur nos fonds propres pour prouver la supériorité éclatante de notre modèle face aux agences traditionnelles. Vos seuls frais sont techniques et incompressibles (l'hébergement cloud haute performance ~5 €/mois et votre nom de domaine ~10 €/an), réglés directement et en toute transparence à votre nom chez l'hébergeur.</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
-                            <span>Mon site sera-t-il bien positionné sur Google pour les recherches à Segré ?</span>
-                            <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+                    <!-- FAQ 3 -->
+                    <div class="segre-faq-item">
+                        <button class="segre-faq-trigger" onclick="toggleSegreFaq(this)" aria-expanded="false">
+                            <span>Mon entreprise sera-t-elle première sur Google pour les recherches à Segré ?</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                         </button>
-                        <div class="faq-answer">
-                            <p>Absolument. Nous appliquons un balisage Schema.org LocalBusiness chirurgical géolocalisé sur Segré-en-Anjou Bleu (49500), une structure sémantique Hn optimisée sur votre cœur de métier, et une vitesse de chargement inférieure à 300 millisecondes qui donne un avantage déterminant sur l'algorithme Google PageSpeed face aux sites concurrents lents.</p>
+                        <div class="segre-faq-body">
+                            <div class="segre-faq-content">
+                                <p>Absolument. Nous appliquons un balisage Schema.org LocalBusiness géociblé sur Segré-en-Anjou Bleu (49500), une sémantique Hn méticuleuse et une vitesse de chargement divisée par dix. Dans l'algorithme Google PageSpeed, un site affiché en 0.28s surpasse nettement les sites WordPress concurrents alourdis par 40 plugins.</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
-                            <span>Quel est le délai moyen pour voir mon site en ligne ?</span>
-                            <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+                    <!-- FAQ 4 -->
+                    <div class="segre-faq-item">
+                        <button class="segre-faq-trigger" onclick="toggleSegreFaq(this)" aria-expanded="false">
+                            <span>Quel est le délai de livraison de mon site vitrine ?</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                         </button>
-                        <div class="faq-answer">
-                            <p>La mise en ligne intervient sous 5 à 7 jours ouvrés après la validation de vos photos et informations de présentation. Nous validons chaque détail avec vous avant le déploiement public.</p>
+                        <div class="segre-faq-body">
+                            <div class="segre-faq-content">
+                                <p>Dès transmission de vos éléments de base (photos de réalisations, textes de présentation ou coordonnées), votre vitrine sur-mesure est développée, validée ensemble et mise en ligne sous 5 à 7 jours ouvrés.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 5 -->
+                    <div class="segre-faq-item">
+                        <button class="segre-faq-trigger" onclick="toggleSegreFaq(this)" aria-expanded="false">
+                            <span>Suis-je réellement 100% propriétaire légal de mon site et de mon code ?</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <div class="segre-faq-body">
+                            <div class="segre-faq-content">
+                                <p>Oui, à 100%. Contrairement aux contrats d'agences qui vous louent un site dont vous ne possédez rien, nous déposons l'intégralité du code source sur un dépôt GitHub privé qui vous appartient. Vous êtes libre de modifier, migrer ou faire évoluer votre site avec n'importe quel prestataire, sans aucune pénalité.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 5 : CTA FINAL SEGRÉ -->
-        <section class="section" style="background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(237, 91, 4, 0.1) 0%, rgba(250, 248, 245, 0) 70%); text-align: center; padding: clamp(4.5rem, 8vh, 7rem) 0;">
-            <div class="container" style="max-width: 820px;">
-                <span class="cs-eyebrow" style="justify-content: center; margin-bottom: var(--spacing-sm);">[ RÉSERVATION 0 € · SEGRÉ 49500 ]</span>
-                <h2 class="cs-title" style="margin-inline: auto; max-width: 16ch;">Donnez à votre entreprise de Segré la vitrine qu'elle mérite<span class="cs-title__dot">.</span></h2>
-                <p class="cs-lead mx-auto" style="margin: var(--spacing-md) auto var(--spacing-2xl);">
-                    Réservez votre conception offerte dès cette semaine. Échange direct avec Léo Saillour, sans intermédiaire ni jargon commercial.
-                </p>
+        <!-- SECTION 5 : CTA MONUMENTAL SEGRÉ (L'ÉLITE DU WEB LOCAL) -->
+        <section class="section" style="padding: 0;">
+            <div class="container" style="max-width: 980px;">
+                <div class="segre-monumental-cta">
+                    <span class="cs-eyebrow" style="justify-content: center; color: #FF9B54; margin-bottom: var(--spacing-sm);">
+                        [ CRÉNEAU DE CONCEPTION · SEGRÉ 49500 ]
+                    </span>
+                    <h2 class="cs-title" style="margin-inline: auto; max-width: 18ch; color: #FAF8F5;">
+                        Donnez à Votre Entreprise de Segré la Vitrine Qu'Elle Mérite<span class="cs-title__dot">.</span>
+                    </h2>
+                    <p class="cs-lead mx-auto" style="margin: var(--spacing-md) auto var(--spacing-xl); color: #C8C5BF; max-width: 62ch;">
+                        Prenez rendez-vous cette semaine. Conception 100% offerte à nos frais, zéro discours commercial, zéro risque pour votre trésorerie.
+                    </p>
 
-                <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
-                    <a href="/commander" class="btn-ramp-cta" style="font-size: 1.05rem; padding: 16px 36px;" aria-label="Commander mon site offert maintenant">
-                        <span>Commander mon site offert (0 €)</span>
-                        <span class="btn-arrow-double" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                        </span>
-                    </a>
-                </div>
+                    <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
+                        <a href="/commander" class="btn-ramp-cta" style="font-size: 1.05rem; padding: 16px 38px;" aria-label="Commander mon site offert maintenant">
+                            <span>Commander mon site offert (0 €)</span>
+                            <span class="btn-arrow-double" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                            </span>
+                        </a>
 
-                <div style="margin-top: 24px; font-size: 0.85rem; color: var(--color-text-muted);">
-                    <span>Téléphone direct : </span>
-                    <a href="tel:+33663934704" style="color: var(--color-text); font-weight: 700; text-decoration: none;">06 63 93 47 04</a>
-                    <span> · Email : </span>
-                    <a href="mailto:leosaillour@gmail.com" style="color: var(--color-primary); text-decoration: none;">leosaillour@gmail.com</a>
+                        <a href="https://wa.me/33663934704?text=Bonjour%20L%C3%A9o%2C%20je%20souhaite%20lancer%20mon%20site%20vitrine%20%C3%A0%20Segr%C3%A9." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 16px 24px; font-size: 0.95rem; color: #34D399; border-color: rgba(52, 211, 153, 0.4); background: rgba(52, 211, 153, 0.08);">
+                            <span>💬 Échange Direct WhatsApp</span>
+                        </a>
+                    </div>
+
+                    <div style="font-size: 0.85rem; color: var(--segre-text-muted); font-family: var(--font-mono);">
+                        <span>Téléphone direct : </span>
+                        <a href="tel:+33663934704" style="color: #FAF8F5; font-weight: 700; text-decoration: underline; text-underline-offset: 4px;">06 63 93 47 04</a>
+                        <span> · Email : </span>
+                        <a href="mailto:leosaillour@gmail.com" style="color: var(--segre-orange); text-decoration: underline; text-underline-offset: 4px;">leosaillour@gmail.com</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -581,22 +1166,37 @@
 
             <ul class="footer-links">
                 <li><a href="/" class="footer-link">Accueil</a></li>
-                <li><a href="/creation-site-internet-segre" class="footer-link" style="color: var(--color-primary); font-weight: 600;">Segré (49)</a></li>
+                <li><a href="/creation-site-internet-segre" class="footer-link" style="color: var(--color-primary); font-weight: 700;">Segré (49)</a></li>
                 <li><a href="/commander" class="footer-link">Commander (0 €)</a></li>
                 <li><a href="/blog" class="footer-link">Journal SEO</a></li>
-                <li><a href="/mentions-legales" class="footer-link">Mentions Légales</a></li>
+                <li><a href="/dashboard" class="footer-link" style="opacity: 0.75;">Dashboard</a></li>
             </ul>
+
+            <div style="font-size: var(--font-size-small);">
+                © 2026 Boubane · Léo Saillour. Tous droits réservés.
+            </div>
         </div>
     </footer>
 
-    <!-- Script Accordéon FAQ -->
+    <!-- Script Accordéon FAQ Fluide Segré -->
     <script>
-        function toggleFaq(btn) {
-            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-            btn.setAttribute('aria-expanded', !isExpanded);
-            const answer = btn.nextElementSibling;
-            if (answer) {
-                answer.style.maxHeight = isExpanded ? null : (answer.scrollHeight + 'px');
+        function toggleSegreFaq(trigger) {
+            const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+            
+            // Fermer tous les autres accordéons
+            document.querySelectorAll('.segre-faq-trigger').forEach(btn => {
+                if (btn !== trigger) {
+                    btn.setAttribute('aria-expanded', 'false');
+                    const body = btn.nextElementSibling;
+                    if (body) body.style.maxHeight = null;
+                }
+            });
+
+            // Basculer l'actuel
+            trigger.setAttribute('aria-expanded', !isExpanded);
+            const targetBody = trigger.nextElementSibling;
+            if (targetBody) {
+                targetBody.style.maxHeight = isExpanded ? null : (targetBody.scrollHeight + 'px');
             }
         }
     </script>
