@@ -24,6 +24,13 @@
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
+    <!-- Page Dédiée SEO Local Segré-en-Anjou Bleu (49500) -->
+    <url>
+        <loc>https://www.boubane.com/creation-site-internet-segre</loc>
+        <lastmod>2026-10-22T23:00:00+02:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
     <!-- Page Mentions Légales & Confidentialité -->
     <url>
         <loc>https://www.boubane.com/mentions-legales</loc>

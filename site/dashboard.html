@@ -1403,10 +1403,11 @@
                         <div style="margin-bottom: 14px;">
                             <label style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px;">Bassin Géographique / Ville</label>
                             <select id="geoCitySelect" onchange="generateGeoSeoPack()" style="width: 100%; padding: 8px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; color: var(--text-main); font-size: 0.85rem;">
+                                <option value="segre" selected>📍 Segré-en-Anjou Bleu (Maine-et-Loire - 49)</option>
                                 <option value="bordeaux">Bordeaux (Gironde - 33)</option>
                                 <option value="paris">Paris &amp; Île-de-France (75/92/93)</option>
-                                <option value="lyon">Lyon (Rhône - 69)</option>
                                 <option value="nantes">Nantes (Loire-Atlantique - 44)</option>
+                                <option value="lyon">Lyon (Rhône - 69)</option>
                                 <option value="lille">Lille (Nord - 59)</option>
                                 <option value="marseille">Marseille / Aix (Bouches-du-Rhône - 13)</option>
                                 <option value="toulouse">Toulouse (Haute-Garonne - 31)</option>
@@ -3421,10 +3422,11 @@ Léo Saillour — Boubane Studio
         };
 
         const GEO_CITIES = {
+            segre: { name: "Segré-en-Anjou Bleu", dept: "Maine-et-Loire (49)", region: "Pays de la Loire" },
             bordeaux: { name: "Bordeaux", dept: "Gironde (33)", region: "Nouvelle-Aquitaine" },
             paris: { name: "Paris", dept: "Île-de-France (75)", region: "Île-de-France" },
-            lyon: { name: "Lyon", dept: "Rhône (69)", region: "Auvergne-Rhône-Alpes" },
             nantes: { name: "Nantes", dept: "Loire-Atlantique (44)", region: "Pays de la Loire" },
+            lyon: { name: "Lyon", dept: "Rhône (69)", region: "Auvergne-Rhône-Alpes" },
             lille: { name: "Lille", dept: "Nord (59)", region: "Hauts-de-France" },
             marseille: { name: "Marseille", dept: "Bouches-du-Rhône (13)", region: "PACA" },
             toulouse: { name: "Toulouse", dept: "Haute-Garonne (31)", region: "Occitanie" },
@@ -3435,10 +3437,10 @@ Léo Saillour — Boubane Studio
 
         function generateGeoSeoPack() {
             const tradeKey = document.getElementById('geoTradeSelect')?.value || 'ebeniste';
-            const cityKey = document.getElementById('geoCitySelect')?.value || 'bordeaux';
+            const cityKey = document.getElementById('geoCitySelect')?.value || 'segre';
 
             const trade = GEO_TRADES[tradeKey] || GEO_TRADES.ebeniste;
-            const city = GEO_CITIES[cityKey] || GEO_CITIES.bordeaux;
+            const city = GEO_CITIES[cityKey] || GEO_CITIES.segre;
 
             const title = `Site Web pour ${trade.name} à ${city.name} | Offert sans Agence`;
             const desc = `Découvrez comment équiper votre atelier de ${trade.name.toLowerCase()} à ${city.name} d'un site vitrine sur-mesure d'élite à 0 € en création, sans abonnement captif.`;
