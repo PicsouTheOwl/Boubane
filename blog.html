@@ -253,7 +253,7 @@
         .article-view-container {
             max-width: 840px;
             margin: 0 auto;
-            padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-4xl);
+            padding: clamp(2.5rem, 5vh, 3.8rem) var(--spacing-md) var(--spacing-4xl);
         }
 
         .article-actions-bar {
@@ -596,30 +596,30 @@
     <!-- Toast Notification -->
     <div id="toast">✓ Lien copié dans le presse-papier !</div>
 
-    <!-- Header Flottant Haute Autorité -->
+    <!-- Header Flottant Capsule Ramp Design (Standard Boubane) -->
     <header class="header">
-        <div class="container header-container">
-            <a href="/" class="logo" aria-label="Retour à l'accueil Boubane">
-                <img src="assets/boubane-logo.png" alt="Logo Boubane Studio" width="36" height="36" class="logo-img">
-                <span class="logo-text">BOUBANE</span>
-                <span class="badge badge-pill badge-primary" style="font-size: 0.65rem; margin-left: 4px;">JOURNAL &amp; SEO</span>
+        <div class="nav-pill-wrapper">
+            <a href="/" class="brand" aria-label="Accueil Boubane">
+                <img src="assets/boubane-logo.png" alt="Logo Boubane" class="brand-logo" width="28" height="28">
+                <span>BOUBANE</span>
             </a>
 
-            <nav class="nav" aria-label="Navigation principale">
-                <ul class="nav-list">
-                    <li><a href="/#heroShowcase" class="nav-link">Réalisations</a></li>
+            <nav aria-label="Navigation principale">
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link">Accueil</a></li>
+                    <li><a href="/blog" class="nav-link active" onclick="if(document.getElementById('articleDetailView').style.display !== 'none'){ closeArticleView(); return false; }">Journal</a></li>
                     <li><a href="/creation-site-internet-segre" class="nav-link">Segré (49)</a></li>
-                    <li><a href="/blog" class="nav-link active" style="color: var(--color-primary); font-weight: 700;">Journal &amp; SEO</a></li>
-                    <li><a href="/#faq" class="nav-link">FAQ</a></li>
                 </ul>
             </nav>
 
-            <div class="header-actions">
-                <a href="/commander" class="btn btn-primary btn-sm" aria-label="Commander mon site à 0 €">
-                    <span class="nav-btn-text-full">Commander mon site (0 €)</span>
-                    <span class="nav-btn-text-short">Commander</span>
-                </a>
-            </div>
+            <a href="/commander" class="btn btn-primary" aria-label="Commander mon site offert">
+                <span class="nav-btn-text-full">Commander (0 €)</span>
+                <span class="nav-btn-text-short">Commander</span>
+                <span class="btn-arrow-double" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </span>
+            </a>
         </div>
     </header>
 
