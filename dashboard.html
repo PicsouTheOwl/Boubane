@@ -942,6 +942,7 @@
         <div class="dash-tabs">
             <button class="tab-btn active" onclick="switchTab('tab-vue-generale')">Vue Générale &amp; Trafic</button>
             <button class="tab-btn" onclick="switchTab('tab-seo')">Santé SEO &amp; Google Search</button>
+            <button class="tab-btn" onclick="switchTab('tab-cocon')">🕸️ Cocon Sémantique (<span id="coconCountBadge">20</span>)</button>
             <button class="tab-btn" onclick="switchTab('tab-blog')">Blog &amp; Rédaction SEO (<span id="blogCountBadge">4</span>)</button>
             <button class="tab-btn" onclick="switchTab('tab-config')">Intégrations &amp; Outils</button>
         </div>
@@ -1702,6 +1703,105 @@
                     </div>
                 </div>
             </div>
+        <!-- ONGLET COCON SÉMANTIQUE & MAILLAGE INTERNE -->
+        <section id="tab-cocon" style="display: none;">
+            <!-- En-tête du Cocon & Actions Clés -->
+            <div class="panel-card" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                            <span class="dash-tag" style="background: rgba(237, 91, 4, 0.15); color: var(--primary); font-size: 0.72rem;">STRATÉGIE LAURENT BOURRELLY</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">Architecture Siloing Hermétique</span>
+                        </div>
+                        <h3 class="panel-title">Cocon Sémantique Boubane — Maillage Interne SEO</h3>
+                        <p class="panel-subtitle">20 articles stratégiques (4 Piliers Mères + 16 Pages Filles) pour transférer le PageRank et dominer Google</p>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button onclick="copyCoconForGoogleSheets()" class="btn-dash primary" title="Copier toutes les colonnes pour coller dans Google Sheets">
+                            <span>📋 Copier pour Google Sheets (1-Clic)</span>
+                        </button>
+                        <a href="cocon-semantique-boubane.csv" download class="btn-dash" title="Télécharger le fichier CSV officiel">
+                            <span>📥 Télécharger CSV</span>
+                        </a>
+                        <a href="https://sheets.new" target="_blank" rel="noopener noreferrer" class="btn-dash" title="Créer un Google Sheet neuf instantanément">
+                            <span>🔗 Ouvrir Google Sheets ↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Métriques Clés du Cocon -->
+                <div class="kpi-grid" style="margin-top: 18px; margin-bottom: 18px;">
+                    <div class="kpi-card" style="padding: 14px 18px;">
+                        <span class="kpi-title">Articles Totaux</span>
+                        <div class="kpi-value" style="font-size: 1.8rem;">20</div>
+                        <div class="kpi-sub positive"><span>4 Piliers + 16 Pages Filles</span></div>
+                    </div>
+                    <div class="kpi-card" style="padding: 14px 18px;">
+                        <span class="kpi-title">Piliers Thématiques</span>
+                        <div class="kpi-value" style="font-size: 1.8rem; color: var(--primary);">4</div>
+                        <div class="kpi-sub"><span>Silos étanches 100% isolés</span></div>
+                    </div>
+                    <div class="kpi-card" style="padding: 14px 18px;">
+                        <span class="kpi-title">Liens Internes Programmés</span>
+                        <div class="kpi-value" style="font-size: 1.8rem; color: var(--success);">64+</div>
+                        <div class="kpi-sub positive"><span>Mère ➔ Fille ➔ Sœur</span></div>
+                    </div>
+                    <div class="kpi-card" style="padding: 14px 18px;">
+                        <span class="kpi-title">Objectif de Conversion</span>
+                        <div class="kpi-value" style="font-size: 1.8rem; color: #EEF85A;">0 €</div>
+                        <div class="kpi-sub"><span>Tous les articles ➔ /commander</span></div>
+                    </div>
+                </div>
+
+                <!-- Filtres par Pilier Thématique -->
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border);">
+                    <button class="cat-pill active" id="coconFilterAll" onclick="filterCocon('all')">Tous les Articles (20)</button>
+                    <button class="cat-pill" id="coconFilter1" onclick="filterCocon('Création de site internet vitrine')">1. Création Vitrine (5)</button>
+                    <button class="cat-pill" id="coconFilter2" onclick="filterCocon('Référencement naturel & SEO Local')">2. SEO Local (5)</button>
+                    <button class="cat-pill" id="coconFilter3" onclick="filterCocon('Performance web & Vitesse Google')">3. Vitesse & Core Web Vitals (5)</button>
+                    <button class="cat-pill" id="coconFilter4" onclick="filterCocon('Refonte de site & Taux de conversion')">4. Refonte & Conversion (5)</button>
+                </div>
+            </div>
+
+            <!-- Guide Pédagogique du Maillage Interne -->
+            <div class="panel-card" style="margin-bottom: 24px; background: linear-gradient(145deg, var(--bg-card), rgba(34, 197, 94, 0.05)); border-color: rgba(34, 197, 94, 0.2);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap;">
+                    <div>
+                        <strong style="color: var(--success); font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase;">RÈGLES D'OR DU COCON SÉMANTIQUE</strong>
+                        <h4 style="font-size: 1.05rem; margin-top: 2px;">Comment fonctionne le transfert de PageRank dans ce Cocon :</h4>
+                    </div>
+                    <span class="dash-tag" style="background: rgba(34, 197, 94, 0.12); color: var(--success); border-color: rgba(34, 197, 94, 0.3);">Google E-E-A-T Validé</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 14px;">
+                    <div style="background: var(--bg-surface); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        <strong style="color: var(--primary); font-size: 0.82rem; display: block; margin-bottom: 4px;">1. Liens Descendants (Mère ➔ Filles)</strong>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">Chaque Page Mère traite le sujet global et fait 4 liens vers ses 4 Pages Filles sous chaque H2 correspondant.</p>
+                    </div>
+                    <div style="background: var(--bg-surface); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        <strong style="color: var(--success); font-size: 0.82rem; display: block; margin-bottom: 4px;">2. Liens Ascendants (Fille ➔ Mère)</strong>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">Chaque Page Fille renvoie du jus vers sa Page Mère (fil d'Ariane + lien contextuel au début de l'article).</p>
+                    </div>
+                    <div style="background: var(--bg-surface); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        <strong style="color: #EEF85A; font-size: 0.82rem; display: block; margin-bottom: 4px;">3. Liens Transversaux (Fille ➔ Sœur)</strong>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">La Fille 1 renvoie vers la Fille 2, qui renvoie vers la Fille 3. Zéro lien vers un autre pilier non relié (étanchéité totale).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste Interactive des 20 Articles du Cocon -->
+            <div class="panel-card" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                    <div>
+                        <h3 class="panel-title">Matrice des Articles &amp; Maillage d'Ancres</h3>
+                        <p class="panel-subtitle">Cliquez sur « Rédiger cet article » pour pré-remplir l'éditeur du blog et générer le prompt IA en 1 clic</p>
+                    </div>
+                    <span id="coconVisibleCount" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">20 articles affichés</span>
+                </div>
+
+                <div id="coconArticlesList" style="display: flex; flex-direction: column; gap: 14px;">
+                    <!-- Rempli dynamiquement par renderCoconView() -->
+                </div>
+            </div>
         </section>
 
     </main>
@@ -1743,14 +1843,21 @@
         // 2. Gestion des Onglets
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (event && event.target && event.target.classList.contains('tab-btn')) {
+                event.target.classList.add('active');
+            } else {
+                const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
+                if (btn) btn.classList.add('active');
+            }
 
-            ['tab-vue-generale', 'tab-seo', 'tab-blog', 'tab-config'].forEach(id => {
+            ['tab-vue-generale', 'tab-seo', 'tab-cocon', 'tab-blog', 'tab-config'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = (id === tabId) ? 'block' : 'none';
             });
 
-            if (tabId === 'tab-blog') {
+            if (tabId === 'tab-cocon') {
+                renderCoconView();
+            } else if (tabId === 'tab-blog') {
                 loadBlogArticles();
             }
         }
@@ -3505,6 +3612,466 @@ Léo Saillour — Boubane Studio
                         if (btn) btn.disabled = false;
                     });
             });
+        // =====================================================================
+        // 10. COCON SÉMANTIQUE BOUBANE (20 ARTICLES & MAILLAGE INTERNE)
+        // =====================================================================
+        const COCON_ARTICLES = [
+            // PILIER 1 : CRÉATION DE SITE INTERNET VITRINE
+            {
+                theme: "Création de site internet vitrine",
+                isPillar: true,
+                role: "Page Mère (Pilier 1)",
+                h1: "Comment créer un site internet professionnel performant et rentable ?",
+                slug: "creation-site-internet-professionnel-performant",
+                mother: null,
+                sister: "Comment dominer Google et attirer des clients avec le SEO local ?",
+                h2s: [
+                    "Quel est le vrai prix de création d'un site internet vitrine ?",
+                    "Pourquoi choisir un site codé sur-mesure plutôt qu'un template WordPress ?",
+                    "Quelles sont les étapes indispensables pour concevoir un site web efficace ?",
+                    "Comment être le seul propriétaire de son nom de domaine et de son code source ?"
+                ]
+            },
+            {
+                theme: "Création de site internet vitrine",
+                isPillar: false,
+                role: "Page Fille (1.1)",
+                h1: "Quel est le vrai prix de création d'un site internet vitrine ?",
+                slug: "prix-creation-site-internet-vitrine",
+                mother: "Comment créer un site internet professionnel performant et rentable ?",
+                sister: "Pourquoi choisir un site codé sur-mesure plutôt qu'un template WordPress ?",
+                h2s: [
+                    "Combien coûte un site vitrine en agence web vs freelance ?",
+                    "Quels sont les frais cachés de maintenance, licences et hébergement ?",
+                    "Comment fonctionne la création de site sans aucun honoraire de conception ?",
+                    "Nom de domaine et hébergement : quel budget annuel réel pour une TPE/PME ?"
+                ]
+            },
+            {
+                theme: "Création de site internet vitrine",
+                isPillar: false,
+                role: "Page Fille (1.2)",
+                h1: "Pourquoi choisir un site codé sur-mesure plutôt qu'un template WordPress ?",
+                slug: "site-sur-mesure-vs-wordpress-template",
+                mother: "Comment créer un site internet professionnel performant et rentable ?",
+                sister: "Quelles sont les étapes indispensables pour concevoir un site web efficace ?",
+                h2s: [
+                    "Pourquoi les thèmes et templates WordPress sont-ils souvent trop lents ?",
+                    "Comment le code sur-mesure garantit une vitesse d'affichage inférieure à 0.4s ?",
+                    "Sécurité web : pourquoi le code propriétaire élimine le risque de piratage ?",
+                    "Quel est l'impact de la légèreté du code sur les conversions et les ventes ?"
+                ]
+            },
+            {
+                theme: "Création de site internet vitrine",
+                isPillar: false,
+                role: "Page Fille (1.3)",
+                h1: "Quelles sont les étapes indispensables pour concevoir un site web efficace ?",
+                slug: "etapes-conception-site-web-efficace",
+                mother: "Comment créer un site internet professionnel performant et rentable ?",
+                sister: "Comment être le seul propriétaire de son nom de domaine et de son code source ?",
+                h2s: [
+                    "Comment définir l'arborescence et le profil de ses clients idéaux ?",
+                    "Quelle structure de maquette et de design choisir pour maximiser les prises de contact ?",
+                    "Comment rédiger des textes captivants orientés vente et réassurance ?",
+                    "Quels tests techniques et contrôles qualité réaliser avant la mise en ligne ?"
+                ]
+            },
+            {
+                theme: "Création de site internet vitrine",
+                isPillar: false,
+                role: "Page Fille (1.4)",
+                h1: "Comment être le seul propriétaire de son nom de domaine et de son code source ?",
+                slug: "proprietaire-nom-domaine-code-source-github",
+                mother: "Comment créer un site internet professionnel performant et rentable ?",
+                sister: "Quel est le vrai prix de création d'un site internet vitrine ?",
+                h2s: [
+                    "Pourquoi ne jamais laisser un prestataire détenir la propriété de votre nom de domaine ?",
+                    "Qu'est-ce que la livraison du code source sur GitHub et pourquoi est-ce capital ?",
+                    "Comment changer d'hébergeur en toute indépendance et sans surcoût ?",
+                    "Quels sont les pièges à éviter dans les contrats de location de site web avec engagement ?"
+                ]
+            },
+
+            // PILIER 2 : RÉFÉRENCEMENT NATUREL & SEO LOCAL
+            {
+                theme: "Référencement naturel & SEO Local",
+                isPillar: true,
+                role: "Page Mère (Pilier 2)",
+                h1: "Comment dominer Google et attirer des clients avec le SEO local ?",
+                slug: "dominer-google-seo-local-artisans-pme",
+                mother: null,
+                sister: "Pourquoi la vitesse de votre site web est le critère n°1 de conversion ?",
+                h2s: [
+                    "Comment optimiser sa fiche Google Business Profile pour apparaître dans le pack local ?",
+                    "Quels mots-clés géolocalisés cibler pour générer des devis qualifiés ?",
+                    "Comment structurer une page locale pour ranker sur sa ville et son secteur ?",
+                    "Quel est le rôle des avis clients et de la réputation dans le classement Google ?"
+                ]
+            },
+            {
+                theme: "Référencement naturel & SEO Local",
+                isPillar: false,
+                role: "Page Fille (2.1)",
+                h1: "Comment optimiser sa fiche Google Business Profile pour apparaître dans le pack local ?",
+                slug: "optimiser-fiche-google-business-profile-pack-local",
+                mother: "Comment dominer Google et attirer des clients avec le SEO local ?",
+                sister: "Quels mots-clés géolocalisés cibler pour générer des devis qualifiés ?",
+                h2s: [
+                    "Quelles catégories d'activité et mots-clés choisir sur Google Maps ?",
+                    "Comment rédiger une description d'établissement attractive et optimisée SEO ?",
+                    "À quelle fréquence publier des photos et actualités de réalisations sur sa fiche ?",
+                    "Comment récolter des avis 5 étoiles réguliers et authentiques auprès de ses clients ?"
+                ]
+            },
+            {
+                theme: "Référencement naturel & SEO Local",
+                isPillar: false,
+                role: "Page Fille (2.2)",
+                h1: "Quels mots-clés géolocalisés cibler pour générer des devis qualifiés ?",
+                slug: "mots-cles-geolocalises-devis-qualifies-seo",
+                mother: "Comment dominer Google et attirer des clients avec le SEO local ?",
+                sister: "Comment structurer une page locale pour ranker sur sa ville et son secteur ?",
+                h2s: [
+                    "Qu'est-ce que l'intention de recherche commerciale locale et comment l'exploiter ?",
+                    "Comment identifier les expressions réellement tapées par les prospects de sa zone ?",
+                    "Mots-clés de courte traîne vs longue traîne locale : quelle stratégie adopter ?",
+                    "Quels outils gratuits utiliser pour auditer la concurrence sur sa zone géographique ?"
+                ]
+            },
+            {
+                theme: "Référencement naturel & SEO Local",
+                isPillar: false,
+                role: "Page Fille (2.3)",
+                h1: "Comment structurer une page locale pour ranker sur sa ville et son secteur ?",
+                slug: "structurer-page-locale-referencement-ville",
+                mother: "Comment dominer Google et attirer des clients avec le SEO local ?",
+                sister: "Quel est le rôle des avis clients et de la réputation dans le classement Google ?",
+                h2s: [
+                    "Quelle balise Title et méta-description rédiger pour capter le clic local ?",
+                    "Comment intégrer naturellement les communes voisines et zones d'intervention ?",
+                    "Faut-il insérer des données structurées Schema.org LocalBusiness dans le code ?",
+                    "Comment intégrer un plan d'accès et des repères géographiques reconnus par Google ?"
+                ]
+            },
+            {
+                theme: "Référencement naturel & SEO Local",
+                isPillar: false,
+                role: "Page Fille (2.4)",
+                h1: "Quel est le rôle des avis clients et de la réputation dans le classement Google ?",
+                slug: "avis-clients-reputation-classement-google-seo",
+                mother: "Comment dominer Google et attirer des clients avec le SEO local ?",
+                sister: "Comment optimiser sa fiche Google Business Profile pour apparaître dans le pack local ?",
+                h2s: [
+                    "Comment les mots-clés mentionnés dans les avis boostent le classement local ?",
+                    "Comment répondre avec professionnalisme et élégance aux avis clients ?",
+                    "Faut-il intégrer ses avis Google en direct sur son site vitrine ?",
+                    "Pourquoi la régularité des avis est plus importante que le volume brut pour Google ?"
+                ]
+            },
+
+            // PILIER 3 : PERFORMANCE WEB & VITESSE GOOGLE
+            {
+                theme: "Performance web & Vitesse Google",
+                isPillar: true,
+                role: "Page Mère (Pilier 3)",
+                h1: "Pourquoi la vitesse de votre site web est le critère n°1 de conversion ?",
+                slug: "vitesse-site-web-critere-conversion-google",
+                mother: null,
+                sister: "Comment transformer les visiteurs de son site web en clients réguliers ?",
+                h2s: [
+                    "Qu'est-ce qu'un score Google PageSpeed 100/100 et comment l'atteindre ?",
+                    "Quel est le lien direct entre temps de chargement et taux de rebond ?",
+                    "Comment optimiser les images et typographies pour passer sous les 0.4s ?",
+                    "Quels sont les 3 Core Web Vitals (LCP INP CLS) décisifs pour le référencement ?"
+                ]
+            },
+            {
+                theme: "Performance web & Vitesse Google",
+                isPillar: false,
+                role: "Page Fille (3.1)",
+                h1: "Qu'est-ce qu'un score Google PageSpeed 100/100 et comment l'atteindre ?",
+                slug: "score-google-pagespeed-100-comment-atteindre",
+                mother: "Pourquoi la vitesse de votre site web est le critère n°1 de conversion ?",
+                sister: "Quel est le lien direct entre temps de chargement et taux de rebond ?",
+                h2s: [
+                    "Comment tester gratuitement et précisément la vitesse de son site sur mobile ?",
+                    "Pourquoi le score mobile est-il le seul véritablement pris en compte par Google ?",
+                    "Comment éliminer les ressources JavaScript et CSS qui bloquent le rendu ?",
+                    "Pourquoi un site statique sans base de données SQL charge-t-il 10x plus vite ?"
+                ]
+            },
+            {
+                theme: "Performance web & Vitesse Google",
+                isPillar: false,
+                role: "Page Fille (3.2)",
+                h1: "Quel est le lien direct entre temps de chargement et taux de rebond ?",
+                slug: "temps-chargement-taux-de-rebond-conversions",
+                mother: "Pourquoi la vitesse de votre site web est le critère n°1 de conversion ?",
+                sister: "Comment optimiser les images et typographies pour passer sous les 0.4s ?",
+                h2s: [
+                    "Combien de prospects quittent un site vitrine qui met plus de 3 secondes à charger ?",
+                    "Quel est l'impact de la vitesse sur le coût d'acquisition de vos nouveaux clients ?",
+                    "Comment la fluidité immédiate installe-t-elle une confiance instantanée chez le visiteur ?",
+                    "Études de cas : quel chiffre d'affaires gagne-t-on pour 100 millisecondes économisées ?"
+                ]
+            },
+            {
+                theme: "Performance web & Vitesse Google",
+                isPillar: false,
+                role: "Page Fille (3.3)",
+                h1: "Comment optimiser les images et typographies pour passer sous les 0.4s ?",
+                slug: "optimiser-images-typographies-vitesse-04s",
+                mother: "Pourquoi la vitesse de votre site web est le critère n°1 de conversion ?",
+                sister: "Quels sont les 3 Core Web Vitals (LCP INP CLS) décisifs pour le référencement ?",
+                h2s: [
+                    "Pourquoi convertir impérativement ses images en formats WebP ou AVIF nouvelle génération ?",
+                    "Comment redimensionner les visuels au pixel exact avant toute mise en ligne ?",
+                    "Comment héberger ses polices de caractères en local sans dépendre de Google Fonts ?",
+                    "Pourquoi et comment différer le chargement des scripts analytiques non critiques ?"
+                ]
+            },
+            {
+                theme: "Performance web & Vitesse Google",
+                isPillar: false,
+                role: "Page Fille (3.4)",
+                h1: "Quels sont les 3 Core Web Vitals (LCP INP CLS) décisifs pour le référencement ?",
+                slug: "core-web-vitals-lcp-inp-cls-referencement",
+                mother: "Pourquoi la vitesse de votre site web est le critère n°1 de conversion ?",
+                sister: "Qu'est-ce qu'un score Google PageSpeed 100/100 et comment l'atteindre ?",
+                h2s: [
+                    "Qu'est-ce que le LCP (Largest Contentful Paint) et comment le minimiser ?",
+                    "Qu'est-ce que l'INP (Interaction to Next Paint) qui remplace le First Input Delay ?",
+                    "Comment empêcher les sauts d'affichage indésirables avec la métrique CLS ?",
+                    "Quels outils de diagnostic utiliser pour auditer ses Core Web Vitals réels ?"
+                ]
+            },
+
+            // PILIER 4 : REFONTE DE SITE & TAUX DE CONVERSION
+            {
+                theme: "Refonte de site & Taux de conversion",
+                isPillar: true,
+                role: "Page Mère (Pilier 4)",
+                h1: "Comment transformer les visiteurs de son site web en clients réguliers ?",
+                slug: "transformer-visiteurs-site-en-clients-reguliers",
+                mother: null,
+                sister: "Comment créer un site internet professionnel performant et rentable ?",
+                h2s: [
+                    "Quand et pourquoi est-il urgent de procéder à la refonte de son site internet ?",
+                    "Comment concevoir un appel à l'action (CTA) clair et irrésistible ?",
+                    "Quels éléments de réassurance afficher pour rassurer immédiatement un prospect ?",
+                    "Comment réussir sa refonte de site web sans perdre ses positions historiques sur Google ?"
+                ]
+            },
+            {
+                theme: "Refonte de site & Taux de conversion",
+                isPillar: false,
+                role: "Page Fille (4.1)",
+                h1: "Quand et pourquoi est-il urgent de procéder à la refonte de son site internet ?",
+                slug: "urgences-signes-refonte-site-internet-obsolete",
+                mother: "Comment transformer les visiteurs de son site web en clients réguliers ?",
+                sister: "Comment concevoir un appel à l'action (CTA) clair et irrésistible ?",
+                h2s: [
+                    "Quels sont les signes révélateurs qu'un site vitrine est devenu obsolète ?",
+                    "Pourquoi un site non optimisé pour mobile fait-il fuir 70% de vos visiteurs ?",
+                    "Quel est le manque à gagner d'un site vieillissant face à des concurrents modernes ?",
+                    "Comment réaliser un pré-audit complet de son site actuel avant de lancer sa refonte ?"
+                ]
+            },
+            {
+                theme: "Refonte de site & Taux de conversion",
+                isPillar: false,
+                role: "Page Fille (4.2)",
+                h1: "Comment concevoir un appel à l'action (CTA) clair et irrésistible ?",
+                slug: "concevoir-appel-action-cta-clair-irresistible",
+                mother: "Comment transformer les visiteurs de son site web en clients réguliers ?",
+                sister: "Quels éléments de réassurance afficher pour rassurer immédiatement un prospect ?",
+                h2s: [
+                    "Quels verbes d'action et formules employer pour déclencher la prise de contact ?",
+                    "Où placer stratégiquement ses boutons d'action sur ordinateur et sur mobile ?",
+                    "Formulaire court vs formulaire complet : quel format maximise le nombre de devis ?",
+                    "Pourquoi afficher un tarif indicatif ou une estimation rassure et qualifie le prospect ?"
+                ]
+            },
+            {
+                theme: "Refonte de site & Taux de conversion",
+                isPillar: false,
+                role: "Page Fille (4.3)",
+                h1: "Quels éléments de réassurance afficher pour rassurer immédiatement un prospect ?",
+                slug: "elements-reassurance-indispensables-site-vitrine",
+                mother: "Comment transformer les visiteurs de son site web en clients réguliers ?",
+                sister: "Comment réussir sa refonte de site web sans perdre ses positions historiques sur Google ?",
+                h2s: [
+                    "Pourquoi afficher des réalisations concrètes avec démonstration de vitesse en direct ?",
+                    "Comment mettre en valeur ses labels certifications assurances et garanties professionnelles ?",
+                    "Où et comment positionner les témoignages clients vérifiés sur sa page d'accueil ?",
+                    "Comment présenter l'artisan ou le fondateur pour humaniser la relation commerciale ?"
+                ]
+            },
+            {
+                theme: "Refonte de site & Taux de conversion",
+                isPillar: false,
+                role: "Page Fille (4.4)",
+                h1: "Comment réussir sa refonte de site web sans perdre ses positions historiques sur Google ?",
+                slug: "reussir-refonte-site-sans-perdre-positions-seo",
+                mother: "Comment transformer les visiteurs de son site web en clients réguliers ?",
+                sister: "Quand et pourquoi est-il urgent de procéder à la refonte de son site internet ?",
+                h2s: [
+                    "Pourquoi le plan de redirections 301 est-il strictement obligatoire lors d'une refonte ?",
+                    "Comment préserver scrupuleusement l'arborescence et les URL historiques clés ?",
+                    "Comment enrichir ses contenus existants sans altérer leur pertinence sémantique ?",
+                    "Quelle checklist de contrôle exécuter sur Google Search Console après la mise en ligne ?"
+                ]
+            }
+        ];
+
+        let currentCoconFilter = 'all';
+
+        function filterCocon(theme) {
+            currentCoconFilter = theme;
+            document.querySelectorAll('#tab-cocon .cat-pill').forEach(btn => btn.classList.remove('active'));
+            if (theme === 'all') {
+                const el = document.getElementById('coconFilterAll');
+                if (el) el.classList.add('active');
+            } else if (theme.includes('Création')) {
+                const el = document.getElementById('coconFilter1');
+                if (el) el.classList.add('active');
+            } else if (theme.includes('SEO Local')) {
+                const el = document.getElementById('coconFilter2');
+                if (el) el.classList.add('active');
+            } else if (theme.includes('Performance')) {
+                const el = document.getElementById('coconFilter3');
+                if (el) el.classList.add('active');
+            } else if (theme.includes('Refonte')) {
+                const el = document.getElementById('coconFilter4');
+                if (el) el.classList.add('active');
+            }
+            renderCoconView();
+        }
+
+        function renderCoconView() {
+            const container = document.getElementById('coconArticlesList');
+            if (!container) return;
+
+            const filtered = (currentCoconFilter === 'all')
+                ? COCON_ARTICLES
+                : COCON_ARTICLES.filter(a => a.theme === currentCoconFilter);
+
+            const countEl = document.getElementById('coconVisibleCount');
+            if (countEl) countEl.textContent = `${filtered.length} article${filtered.length > 1 ? 's' : ''} affiché${filtered.length > 1 ? 's' : ''}`;
+
+            container.innerHTML = filtered.map((art, idx) => {
+                const globalIdx = COCON_ARTICLES.indexOf(art);
+                const pillarBadge = art.isPillar
+                    ? `<span style="background: rgba(237, 91, 4, 0.18); color: var(--primary); border: 1px solid rgba(237, 91, 4, 0.4); padding: 3px 8px; border-radius: var(--radius-pill); font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700;">★ PILIER FONDATEUR</span>`
+                    : `<span style="background: rgba(142, 149, 165, 0.12); color: var(--text-muted); border: 1px solid var(--border); padding: 3px 8px; border-radius: var(--radius-pill); font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600;">PAGE FILLE</span>`;
+
+                const h2ListHtml = art.h2s.map((h2, i) => `
+                    <li style="margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px;">
+                        <span style="color: var(--primary); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; background: var(--primary-soft); padding: 1px 6px; border-radius: 4px; flex-shrink: 0;">H2.${i+1}</span>
+                        <span style="color: var(--text-main); font-size: 0.84rem;">${escapeHtml(h2)}</span>
+                    </li>
+                `).join('');
+
+                const linkingInfo = art.isPillar
+                    ? `<div style="font-size: 0.76rem; color: var(--text-muted); background: var(--bg-surface); padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                         <strong>Maillage Interne :</strong> Distribue le PageRank vers ses 4 pages filles sous chaque section H2 · Lien de conversion vers <span style="color: var(--primary);">/commander</span>
+                       </div>`
+                    : `<div style="font-size: 0.76rem; color: var(--text-muted); background: var(--bg-surface); padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px;">
+                         <div><strong style="color: var(--success);">↑ Lien Ascendant (Mère) :</strong> ${escapeHtml(art.mother)}</div>
+                         <div><strong style="color: #EEF85A;">→ Lien Transversal (Sœur) :</strong> ${escapeHtml(art.sister)}</div>
+                         <div><strong style="color: var(--primary);">★ Conversion :</strong> /commander (Conception offerte 0 €)</div>
+                       </div>`;
+
+                return `
+                    <div style="background: var(--bg-card); border: 1px solid ${art.isPillar ? 'rgba(237, 91, 4, 0.35)' : 'var(--border)'}; border-radius: var(--radius-md); padding: 18px 20px; transition: all 0.2s ease;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                ${pillarBadge}
+                                <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); background: var(--bg-surface); padding: 2px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border);">${escapeHtml(art.theme)}</span>
+                                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #71717A;">/${art.slug}</span>
+                            </div>
+                            <button onclick="loadCoconArticleInEditor(${globalIdx})" class="btn-dash primary" style="font-size: 0.75rem; padding: 6px 14px;">
+                                <span>✍️ Charger dans l'Éditeur</span>
+                            </button>
+                        </div>
+
+                        <h4 style="font-size: 1.05rem; font-family: var(--font-heading); color: var(--text-main); margin-bottom: 12px; line-height: 1.35;">
+                            ${escapeHtml(art.h1)}
+                        </h4>
+
+                        <div style="margin-bottom: 12px;">
+                            <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--primary); font-weight: 700; margin-bottom: 6px; text-transform: uppercase;">Structure H2 (4 Sections Stratégiques) :</div>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                ${h2ListHtml}
+                            </ul>
+                        </div>
+
+                        ${linkingInfo}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 11. Exportateur TSV vers Google Sheets en 1 Clic
+        function copyCoconForGoogleSheets() {
+            const header = ["Thématique", "Statut Rédaction", "Rédacteur", "Contenu Publié", "H1 (Titre Page)", "H2.1", "H2.2", "H2.3", "H2.4", "H2.5", "H2.6", "H2.7"];
+            const rows = COCON_ARTICLES.map(art => {
+                const cols = [
+                    art.theme,
+                    "A rédiger",
+                    "Studio Boubane",
+                    "FALSE",
+                    art.h1,
+                    art.h2s[0] || "",
+                    art.h2s[1] || "",
+                    art.h2s[2] || "",
+                    art.h2s[3] || "",
+                    art.h2s[4] || "",
+                    art.h2s[5] || "",
+                    art.h2s[6] || ""
+                ];
+                return cols.join("\t");
+            });
+
+            const tsvContent = [header.join("\t"), ...rows].join("\n");
+
+            navigator.clipboard.writeText(tsvContent).then(() => {
+                showToast("✓ Cocon Copié !", "Tableau prêt pour Google Sheets : ouvrez sheets.new et faites Coller (Cmd+V)", "success");
+            }).catch(() => {
+                alert("Tableau prêt pour le presse-papier !");
+            });
+        }
+
+        // 12. Pré-remplissage de l'Éditeur depuis le Cocon
+        function loadCoconArticleInEditor(index) {
+            const art = COCON_ARTICLES[index];
+            if (!art) return;
+
+            // Switch sur l'onglet Blog
+            switchTab('tab-blog');
+
+            document.getElementById('editorModeTitle').textContent = `Cocon Chargé : ${art.h1}`;
+            document.getElementById('artTitle').value = art.h1;
+            document.getElementById('artCategory').value = art.theme.includes('SEO') ? "Performance & SEO GEO" : (art.theme.includes('Vitesse') ? "Performance & SEO GEO" : "Enquête & Tarifs");
+            document.getElementById('artKeywords').value = `${art.theme}, artisan, PME, France, vitesse 0.4s`;
+            document.getElementById('artReadTime').value = art.isPillar ? "8 min" : "5 min";
+            document.getElementById('artMetaTitle').value = art.h1.slice(0, 60);
+            document.getElementById('artMetaDesc').value = `Découvrez ${art.h1.toLowerCase()} Guide complet sans jargon par Studio Boubane : vitesse < 0.4s et 0 € de frais de création.`.slice(0, 155);
+
+            // Générer le corps avec les H2s structurés
+            const h2Body = art.h2s.map(h2 => `<h2>${h2}</h2>\n<p>Explications détaillées, données chiffrées et recommandations concrètes pour votre entreprise...</p>\n`).join('\n');
+            const linkingBlock = art.isPillar
+                ? `<div class="article-callout">\n<strong>Architecture de ce dossier :</strong> Consultez les 4 volets d'approfondissement ci-dessous pour maîtriser chaque levier technique et commercial.\n</div>`
+                : `<div class="article-callout">\n<strong>Dossier complet :</strong> Cet article s'inscrit dans notre guide de référence <em>${art.mother}</em>.\n</div>`;
+
+            document.getElementById('artContent').value = `${linkingBlock}\n\n<p>Introduction captivante qui pose la réalité du marché et les besoins immédiats des professionnels...</p>\n\n${h2Body}\n<div class="article-callout">\n<strong>Passez à l'action :</strong> Boubane prend en charge 100% de la conception et du code de votre vitrine. <a href="/commander">Commandez votre site offert (0 €)</a>.\n</div>`;
+
+            syncSlugAndSerp();
+            calculateSeoScore();
+            setEditorTab('edit');
+
+            showToast("Article Chargé", `« ${art.h1.slice(0, 35)}... » est prêt dans l'éditeur.`, "success");
         }
 
         // Initialisation
@@ -3514,6 +4081,7 @@ Léo Saillour — Boubane Studio
             updateCommercialPitch();
             generateGeoSeoPack();
             switchSchemaType('LocalBusiness');
+            renderCoconView();
 
             // Pré-remplir la config existante (GA4 + CRM)
             try {
