@@ -14,6 +14,33 @@
     
     <style>
         :root {
+            --bg-body: #F8F9FA;
+            --bg-surface: #FFFFFF;
+            --bg-card: #FFFFFF;
+            --bg-card-hover: #F1F5F9;
+            --border: #E2E8F0;
+            --border-highlight: #CBD5E1;
+            --primary: #ED5B04;
+            --primary-soft: rgba(237, 91, 4, 0.08);
+            --primary-glow: rgba(237, 91, 4, 0.16);
+            --text-main: #0F172A;
+            --text-muted: #475569;
+            --text-subtle: #94A3B8;
+            --success: #16A34A;
+            --success-soft: rgba(22, 163, 74, 0.10);
+            --warning: #D97706;
+            --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+            --font-body: 'Geist', system-ui, sans-serif;
+            --font-mono: 'Geist Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-pill: 9999px;
+            --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+            --shadow-card-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="dark"] {
             --bg-body: #0A0B0E;
             --bg-surface: #111318;
             --bg-card: #16181F;
@@ -21,7 +48,7 @@
             --border: #232733;
             --border-highlight: #343A4D;
             --primary: #ED5B04;
-            --primary-soft: rgba(237, 91, 4, 0.12);
+            --primary-soft: rgba(237, 91, 4, 0.14);
             --primary-glow: rgba(237, 91, 4, 0.25);
             --text-main: #F4F4F6;
             --text-muted: #8E95A5;
@@ -29,14 +56,8 @@
             --success: #22C55E;
             --success-soft: rgba(34, 197, 94, 0.14);
             --warning: #F59E0B;
-            --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
-            --font-body: 'Geist', system-ui, sans-serif;
-            --font-mono: 'Geist Mono', monospace;
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 14px;
-            --radius-pill: 9999px;
             --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --shadow-card-hover: 0 12px 36px -10px rgba(0, 0, 0, 0.6);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -388,7 +409,7 @@
         }
 
         .dash-table th {
-            background: #141720;
+            background: var(--bg-card-hover);
             padding: 12px 16px;
             color: var(--text-muted);
             font-family: var(--font-mono);
@@ -401,12 +422,12 @@
 
         .dash-table td {
             padding: 14px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border);
             color: var(--text-main);
         }
 
         .dash-table tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--bg-card-hover);
         }
 
         .lead-status-pill {
@@ -419,9 +440,9 @@
             cursor: pointer;
         }
 
-        .status-new { background: rgba(237, 91, 4, 0.18); color: var(--primary); border: 1px solid rgba(237, 91, 4, 0.4); }
-        .status-contact { background: rgba(245, 158, 11, 0.18); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.4); }
-        .status-done { background: rgba(34, 197, 94, 0.18); color: var(--success); border: 1px solid rgba(34, 197, 94, 0.4); }
+        .status-new { background: rgba(237, 91, 4, 0.12); color: var(--primary); border: 1px solid rgba(237, 91, 4, 0.3); }
+        .status-contact { background: rgba(245, 158, 11, 0.12); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .status-done { background: rgba(34, 197, 94, 0.12); color: var(--success); border: 1px solid rgba(34, 197, 94, 0.3); }
 
         /* Grille SEO & Core Web Vitals */
         .seo-grid {
@@ -432,10 +453,19 @@
         }
 
         .seo-card {
-            background: var(--bg-surface);
+            background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
-            padding: 18px;
+            padding: 20px;
+            box-shadow: var(--shadow-card);
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .seo-card:hover {
+            border-color: var(--border-highlight);
+            box-shadow: var(--shadow-card-hover);
+            transform: translateY(-2px);
         }
 
         .seo-card-title {
@@ -443,23 +473,30 @@
             font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            margin-bottom: 8px;
+            letter-spacing: 0.04em;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .seo-card-val {
             font-family: var(--font-heading);
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 4px;
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
+            margin-bottom: 6px;
         }
 
         .seo-tag-ok {
+            background: var(--success-soft);
             color: var(--success);
             font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
         }
 
         /* Section Checklist SEO On-Page */
@@ -467,8 +504,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
         }
 
         .checklist-item:last-child { border-bottom: none; }
@@ -490,7 +527,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #08090C;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -498,22 +536,22 @@
         }
 
         .lock-dialog {
-            background: var(--bg-surface);
+            background: var(--bg-card);
             border: 1px solid var(--border);
             padding: 32px;
             border-radius: var(--radius-lg);
             text-align: center;
             max-width: 360px;
             width: 90%;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
         }
 
         .pin-input {
             width: 100%;
             padding: 12px;
-            background: var(--bg-card);
+            background: var(--bg-surface);
             border: 1px solid var(--border);
-            color: #FFFFFF;
+            color: var(--text-main);
             font-family: var(--font-mono);
             font-size: 1.2rem;
             text-align: center;
@@ -653,7 +691,7 @@
         }
 
         .kanban-col {
-            background: #101217;
+            background: var(--bg-card-hover);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             padding: 14px;
@@ -668,7 +706,7 @@
             align-items: center;
             justify-content: space-between;
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid var(--border);
         }
 
         .kanban-col-title {
@@ -703,7 +741,7 @@
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 14px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            box-shadow: var(--shadow-card);
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
         }
@@ -711,7 +749,7 @@
         .kanban-card:hover {
             border-color: var(--border-highlight);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+            box-shadow: var(--shadow-card-hover);
         }
 
         .kanban-card-top {
@@ -763,7 +801,7 @@
             align-items: center;
             justify-content: space-between;
             padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--border);
             gap: 6px;
         }
 
@@ -815,12 +853,12 @@
         /* Barre Visuelle Comparative */
         .sim-compare-bar-wrap {
             height: 14px;
-            background: #232733;
+            background: var(--border);
             border-radius: var(--radius-pill);
             overflow: hidden;
             display: flex;
             margin: 12px 0 6px 0;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
         }
         .sim-bar-agency {
             background: linear-gradient(90deg, #EF4444, #DC2626);
@@ -927,6 +965,9 @@
                     <span>Voir le site</span>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 </a>
+                <button id="themeToggleBtn" onclick="toggleDashboardTheme()" class="btn-dash" title="Changer le mode visuel (Clair / Sombre)">
+                    <span id="themeToggleText">🌙 Sombre</span>
+                </button>
                 <button onclick="lockDashboard()" class="btn-dash" title="Verrouiller l'écran">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     <span>Verrouiller</span>
@@ -1309,7 +1350,7 @@
                         </a>
                     </div>
 
-                    <textarea id="schemaJsonLdOutput" readonly style="width: 100%; height: 210px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; color: #38BDF8; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.45; resize: none;"></textarea>
+                    <textarea id="schemaJsonLdOutput" readonly style="width: 100%; height: 210px; background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; color: #0284C7; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.45; resize: none; font-weight: 500;"></textarea>
                 </div>
 
                 <!-- Simulateur Google SERP & Google Gemini AI Overview -->
@@ -1456,13 +1497,13 @@
 
                     <div style="margin-bottom: 16px;">
                         <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">Identifiant Google Analytics 4 (Optionnel)</label>
-                        <input type="text" id="ga4Input" placeholder="Ex: G-XXXXXXXXXX" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem;">
+                        <input type="text" id="ga4Input" placeholder="Ex: G-XXXXXXXXXX" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem;">
                         <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px;">Si vous avez une propriété Google Analytics, saisissez son ID ici pour envoyer en double les événements.</p>
                     </div>
 
                     <div style="margin-bottom: 18px;">
                         <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">Code PIN d'Accès au Dashboard</label>
-                        <input type="password" id="newPinInput" placeholder="Nouveau code PIN (4 à 6 chiffres)" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem;">
+                        <input type="password" id="newPinInput" placeholder="Nouveau code PIN (4 à 6 chiffres)" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem;">
                     </div>
 
                     <button onclick="saveDashboardSettings()" class="btn-dash primary">Enregistrer les paramètres</button>
@@ -1558,17 +1599,17 @@
                         <div id="editorInputsWrap">
                             <div style="margin-bottom: 14px;">
                                 <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Titre de l'Article (Balise H1) *</label>
-                                <input type="text" id="artTitle" required oninput="syncSlugAndSerp()" placeholder="Ex: Prix d'un Site Vitrine en 2026 : Comparatif Agence vs Studio" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.9rem;">
+                                <input type="text" id="artTitle" required oninput="syncSlugAndSerp()" placeholder="Ex: Prix d'un Site Vitrine en 2026 : Comparatif Agence vs Studio" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.9rem;">
                             </div>
 
                             <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; margin-bottom: 14px;">
                                 <div>
                                     <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Slug URL (/blog#article=...)</label>
-                                    <input type="text" id="artSlug" required placeholder="prix-site-vitrine-2026" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.82rem;">
+                                    <input type="text" id="artSlug" required placeholder="prix-site-vitrine-2026" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.82rem;">
                                 </div>
                                 <div>
                                     <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Catégorie</label>
-                                    <select id="artCategory" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                                    <select id="artCategory" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.82rem;">
                                         <option value="Enquête &amp; Tarifs">Enquête &amp; Tarifs</option>
                                         <option value="Indépendance Numérique">Indépendance Numérique</option>
                                         <option value="Performance &amp; SEO GEO">Performance &amp; SEO GEO</option>
@@ -1580,15 +1621,15 @@
                             <div style="display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 12px; margin-bottom: 14px;">
                                 <div>
                                     <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Mots-Clés Cibles &amp; SEO GEO</label>
-                                    <input type="text" id="artKeywords" oninput="calculateSeoScore()" placeholder="Ex: site vitrine artisan France, Paris" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                                    <input type="text" id="artKeywords" oninput="calculateSeoScore()" placeholder="Ex: site vitrine artisan France, Paris" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.82rem;">
                                 </div>
                                 <div>
                                     <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Temps de lecture</label>
-                                    <input type="text" id="artReadTime" value="4 min" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                                    <input type="text" id="artReadTime" value="4 min" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.82rem;">
                                 </div>
                                 <div>
                                     <label style="display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.8rem;">Statut</label>
-                                    <select id="artStatus" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;">
+                                    <select id="artStatus" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.82rem;">
                                         <option value="Publié">Publié</option>
                                         <option value="Brouillon">Brouillon</option>
                                     </select>
@@ -1600,7 +1641,7 @@
                                     <label style="font-weight: 600; font-size: 0.8rem;">Meta Title SEO Google</label>
                                     <span id="metaTitleCount" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--success);">0 / 60 car.</span>
                                 </div>
-                                <input type="text" id="artMetaTitle" oninput="updateSerpPreview()" placeholder="Titre affiché dans les résultats Google" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                                <input type="text" id="artMetaTitle" oninput="updateSerpPreview()" placeholder="Titre affiché dans les résultats Google" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.85rem;">
                             </div>
 
                             <div style="margin-bottom: 14px;">
@@ -1608,7 +1649,7 @@
                                     <label style="font-weight: 600; font-size: 0.8rem;">Meta Description SEO Google</label>
                                     <span id="metaDescCount" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--success);">0 / 155 car.</span>
                                 </div>
-                                <textarea id="artMetaDesc" rows="2" oninput="updateSerpPreview()" placeholder="Description engageante affichée dans Google sous le titre bleu" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-size: 0.82rem;"></textarea>
+                                <textarea id="artMetaDesc" rows="2" oninput="updateSerpPreview()" placeholder="Description engageante affichée dans Google sous le titre bleu" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.82rem;"></textarea>
                             </div>
 
                             <!-- Barre d'outils de Rédaction Rapide -->
@@ -1621,7 +1662,7 @@
                                     <button type="button" onclick="insertSnippet('cta')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem; color: var(--primary);">+ Bloc CTA Offert (0 €)</button>
                                     <button type="button" onclick="insertSnippet('list')" class="btn-dash" style="padding: 3px 8px; font-size: 0.75rem;">+ Liste à puces</button>
                                 </div>
-                                <textarea id="artContent" rows="12" oninput="calculateSeoScore()" required style="width: 100%; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border); color: #FFF; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5;"></textarea>
+                                <textarea id="artContent" rows="12" oninput="calculateSeoScore()" required style="width: 100%; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5;"></textarea>
                             </div>
                         </div>
 
@@ -1810,6 +1851,31 @@
     <script>
         const PIN_KEY = 'boubane_dash_pin';
         const CONFIG_KEY = 'boubane_analytics_config';
+        const THEME_KEY = 'boubane_dash_theme';
+
+        // 0. Gestion du Thème (Clair épuré par défaut / Sombre)
+        function initTheme() {
+            const savedTheme = localStorage.getItem(THEME_KEY) || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButtonText(savedTheme);
+        }
+
+        function toggleDashboardTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem(THEME_KEY, newTheme);
+            updateThemeButtonText(newTheme);
+            const rawSessions = localStorage.getItem('boubane_analytics_sessions');
+            drawTrafficChart(rawSessions ? JSON.parse(rawSessions) : []);
+        }
+
+        function updateThemeButtonText(theme) {
+            const label = document.getElementById('themeToggleText');
+            if (label) {
+                label.textContent = theme === 'dark' ? '☀️ Clair' : '🌙 Sombre';
+            }
+        }
 
         // 1. Gestion du Verrouillage PIN
         function checkLock() {
@@ -2475,7 +2541,8 @@
             ctx.clearRect(0, 0, width, height);
 
             // Grille subtile
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)';
             ctx.lineWidth = 1;
             for (let i = 1; i <= 3; i++) {
                 const y = (height / 4) * i;
@@ -4076,6 +4143,7 @@ Léo Saillour — Boubane Studio
 
         // Initialisation
         window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
             checkLock();
             loadDashboardData();
             updateCommercialPitch();
