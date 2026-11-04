@@ -1076,6 +1076,161 @@
             color: #10B981;
             border-color: rgba(16, 185, 129, 0.3);
         }
+
+        /* Métriques du Studio */
+        .studio-stat-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 900px) {
+            .studio-stat-strip { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 550px) {
+            .studio-stat-strip { grid-template-columns: 1fr; }
+        }
+        .studio-stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .studio-stat-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .studio-stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+        .studio-stat-sub {
+            font-size: 0.72rem;
+            color: var(--text-subtle);
+        }
+
+        /* Cartes d'accélérateurs templates */
+        .studio-tpl-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 14px;
+        }
+        @media (max-width: 1024px) {
+            .studio-tpl-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .studio-tpl-grid { grid-template-columns: 1fr; }
+        }
+        .studio-tpl-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.18s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .studio-tpl-card:hover {
+            border-color: var(--border-highlight);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            background: var(--bg-card-hover);
+        }
+        .studio-tpl-card-tag {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--text-subtle);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .studio-tpl-card-title {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.35;
+        }
+        .studio-tpl-card-desc {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Jauge visuelle de score SEO */
+        .studio-meter-track {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 9999px;
+            overflow: hidden;
+            margin: 10px 0 16px 0;
+        }
+        .studio-meter-fill {
+            height: 100%;
+            width: 100%;
+            background: #059669;
+            border-radius: 9999px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        [data-theme="dark"] .studio-meter-fill {
+            background: #10B981;
+        }
+
+        /* Télémétrie d'écriture sous le textarea */
+        .studio-telemetry-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-bottom-left-radius: var(--radius-sm);
+            border-bottom-right-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: -1px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* Barre d'outils maillage interne Cocon */
+        .cocon-link-pill {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.74rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .cocon-link-pill:hover {
+            border-color: var(--border-highlight);
+            background: var(--bg-card-hover);
+        }
     </style>
 </head>
 <body>
@@ -1676,14 +1831,39 @@
 
         <!-- ONGLET 5 : BLOG & RÉDACTION SEO -->
         <section id="tab-blog" style="display: none;">
-            <!-- 1. En-tête & Tableau des Articles -->
+            <!-- 1. Bandeau KPIs du Studio Éditorial -->
+            <div class="studio-stat-strip">
+                <div class="studio-stat-card">
+                    <span class="studio-stat-label">Articles Publiés</span>
+                    <span class="studio-stat-value" id="statPublishedCount">3</span>
+                    <span class="studio-stat-sub">Indexables sur Google &amp; moteurs IA</span>
+                </div>
+                <div class="studio-stat-card">
+                    <span class="studio-stat-label">Volume de Mots Global</span>
+                    <span class="studio-stat-value" id="statTotalWords">~1 850</span>
+                    <span class="studio-stat-sub">Masse critique sémantique</span>
+                </div>
+                <div class="studio-stat-card">
+                    <span class="studio-stat-label">Score Qualité Moyen</span>
+                    <span class="studio-stat-value" id="statAvgScore">98 / 100</span>
+                    <span class="studio-stat-sub">Conformité SEO &amp; GEO On-Page</span>
+                </div>
+                <div class="studio-stat-card">
+                    <span class="studio-stat-label">Architecture Cocon</span>
+                    <span class="studio-stat-value">4 Piliers</span>
+                    <span class="studio-stat-sub">Silos hermétiques 0 €</span>
+                </div>
+            </div>
+
+            <!-- 2. Catalogue des Articles & Outils de Gestion -->
             <div class="panel-card" style="margin-bottom: 24px;">
-                <div class="panel-header">
+                <div class="panel-header" style="flex-wrap: wrap; gap: 12px;">
                     <div>
-                        <h3 class="panel-title">Articles de Blog &amp; Stratégie SEO GEO</h3>
+                        <h3 class="panel-title">Catalogue des Articles &amp; Stratégie SEO GEO</h3>
                         <p class="panel-subtitle">Gérez vos publications pour capter des recherches locales et nationales à forte intention d'achat</p>
                     </div>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                        <input type="text" id="artFilterInput" oninput="filterBlogArticlesTable()" placeholder="🔍 Filtrer les articles..." class="studio-input" style="width: 190px; padding: 6px 10px; font-size: 0.78rem;">
                         <button onclick="createNewArticleForm()" class="btn-dash primary">
                             <span>+ Nouvel article</span>
                         </button>
@@ -1716,30 +1896,59 @@
                 </div>
             </div>
 
-            <!-- 2. Barre d'Accélération : Templates Prêts à l'Emploi & Super-Prompt IA -->
+            <!-- 3. Accélérateurs Éditoriaux : Architectures Prêtes au Ranking -->
             <div class="panel-card" style="margin-bottom: 24px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                     <div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                             <span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">ACCÉLÉRATEURS ÉDITORIAUX</span>
                             <span style="width: 4px; height: 4px; border-radius: 50%; background: var(--text-subtle);"></span>
-                            <span style="font-size: 0.78rem; color: var(--text-muted);">Structures prêtes à publier</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted);">Structures prêtes à dominer Google</span>
                         </div>
-                        <h4 style="font-size: 1.02rem; font-weight: 600;">Charger une Structure d'Article Optimisée</h4>
+                        <h4 style="font-size: 1.02rem; font-weight: 600;">Charger une Architecture d'Article Optimisée</h4>
                     </div>
                     <button onclick="generateAiSuperPrompt()" class="btn-dash" style="font-weight: 600;">
                         <span>✨ Générer le Super-Prompt IA (ChatGPT / Claude / Gemini)</span>
                     </button>
                 </div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <button type="button" onclick="applyArticleTemplate('tarifs')" class="studio-tpl-pill">Guide Comparatif de Tarifs</button>
-                    <button type="button" onclick="applyArticleTemplate('arnaque')" class="studio-tpl-pill">Débunking Abonnements Captifs</button>
-                    <button type="button" onclick="applyArticleTemplate('cas-client')" class="studio-tpl-pill">Cas Client &amp; Résultats Métier</button>
-                    <button type="button" onclick="applyArticleTemplate('vitesse-seo')" class="studio-tpl-pill">Vitesse Web &amp; SEO Local</button>
+
+                <div class="studio-tpl-grid">
+                    <button type="button" onclick="applyArticleTemplate('tarifs')" class="studio-tpl-card">
+                        <div>
+                            <span class="studio-tpl-card-tag">Enquête &amp; Tarifs</span>
+                            <div class="studio-tpl-card-title">Comparatif de Tarifs 2026</div>
+                            <div class="studio-tpl-card-desc">Démontre pourquoi 3 500 € en agence est déraisonnable face au 0 € Boubane.</div>
+                        </div>
+                        <span style="font-size: 0.72rem; font-weight: 600; color: var(--text-muted); font-family: var(--font-mono);">Charger ce template →</span>
+                    </button>
+                    <button type="button" onclick="applyArticleTemplate('arnaque')" class="studio-tpl-card">
+                        <div>
+                            <span class="studio-tpl-card-tag">Indépendance</span>
+                            <div class="studio-tpl-card-title">Abonnements Captifs 150€/m</div>
+                            <div class="studio-tpl-card-desc">Décrypte le piège des 7 200 € sur 48 mois et l'absence de propriété du code.</div>
+                        </div>
+                        <span style="font-size: 0.72rem; font-weight: 600; color: var(--text-muted); font-family: var(--font-mono);">Charger ce template →</span>
+                    </button>
+                    <button type="button" onclick="applyArticleTemplate('cas-client')" class="studio-tpl-card">
+                        <div>
+                            <span class="studio-tpl-card-tag">Preuve Sociale</span>
+                            <div class="studio-tpl-card-title">Cas Client : Devis × 2</div>
+                            <div class="studio-tpl-card-desc">Étude de cas concrète sur un artisan d'art qui double ses conversions sans pub.</div>
+                        </div>
+                        <span style="font-size: 0.72rem; font-weight: 600; color: var(--text-muted); font-family: var(--font-mono);">Charger ce template →</span>
+                    </button>
+                    <button type="button" onclick="applyArticleTemplate('vitesse-seo')" class="studio-tpl-card">
+                        <div>
+                            <span class="studio-tpl-card-tag">Vitesse &amp; GEO</span>
+                            <div class="studio-tpl-card-title">Core Web Vitals &amp; Local</div>
+                            <div class="studio-tpl-card-desc">Guide sur l'importance du chargement sous 400ms pour dominer Google localement.</div>
+                        </div>
+                        <span style="font-size: 0.72rem; font-weight: 600; color: var(--text-muted); font-family: var(--font-mono);">Charger ce template →</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- 3. Éditeur d'Article & Simulateur SERP Google -->
+            <!-- 4. Éditeur d'Article & Simulateur SERP Google -->
             <div class="two-cols-grid" id="articleEditorCard">
                 <div class="panel-card">
                     <div class="panel-header" style="align-items: flex-start; padding-bottom: 14px; border-bottom: 1px solid var(--border); margin-bottom: 18px;">
@@ -1822,8 +2031,22 @@
                                 </div>
                             </div>
 
+                            <!-- Assistant Maillage Interne Cocon Sémantique (1-Clic) -->
+                            <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                    <span style="font-size: 0.76rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em;">🔗 Maillage Interne Cocon (1 Clic)</span>
+                                    <span style="font-size: 0.72rem; color: var(--text-subtle);">Transférer le PageRank</span>
+                                </div>
+                                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                    <button type="button" onclick="insertInternalLink('tarifs')" class="cocon-link-pill">+ Lien Tarifs 0 €</button>
+                                    <button type="button" onclick="insertInternalLink('captifs')" class="cocon-link-pill">+ Lien Abonnements Captifs</button>
+                                    <button type="button" onclick="insertInternalLink('vitesse')" class="cocon-link-pill">+ Lien Vitesse Web</button>
+                                    <button type="button" onclick="insertInternalLink('contact')" class="cocon-link-pill">+ Lien Offre Studio</button>
+                                </div>
+                            </div>
+
                             <!-- Zone Contenu & Barre d'outils -->
-                            <div style="margin-bottom: 8px;">
+                            <div>
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
                                     <label class="studio-field-label" style="margin-bottom: 0;">Contenu de l'Article (HTML enrichi)</label>
                                     <div style="display: flex; gap: 6px; flex-wrap: wrap;">
@@ -1834,7 +2057,19 @@
                                         <button type="button" onclick="insertSnippet('list')" class="studio-toolbar-btn">+ Liste</button>
                                     </div>
                                 </div>
-                                <textarea id="artContent" rows="14" oninput="calculateSeoScore()" required class="studio-textarea" style="font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.6; min-height: 340px; resize: vertical;"></textarea>
+                                <textarea id="artContent" rows="14" oninput="calculateSeoScore()" required class="studio-textarea" style="font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.6; min-height: 340px; resize: vertical; border-bottom-left-radius: 0; border-bottom-right-radius: 0;"></textarea>
+                                
+                                <!-- Barre de Télémétrie d'Écriture Live -->
+                                <div class="studio-telemetry-bar">
+                                    <div style="display: flex; gap: 14px;">
+                                        <span id="artLiveWords">0 mot</span>
+                                        <span>·</span>
+                                        <span id="artLiveReadTime">~1 min de lecture</span>
+                                        <span>·</span>
+                                        <span id="artLiveChars">0 caractère</span>
+                                    </div>
+                                    <span id="artLiveSyncStatus" style="color: #059669;">✓ Prêt</span>
+                                </div>
                             </div>
                         </div>
 
@@ -1859,48 +2094,80 @@
                 <div>
                     <!-- Jauge de Score SEO On-Page /100 -->
                     <div class="panel-card" style="margin-bottom: 20px;">
-                        <div class="panel-header" style="margin-bottom: 16px;">
+                        <div class="panel-header" style="margin-bottom: 4px;">
                             <div>
                                 <h3 class="panel-title">Score de Qualité SEO &amp; GEO</h3>
-                                <p class="panel-subtitle">Mesure automatique de la conformité Google &amp; IA</p>
+                                <p class="panel-subtitle">Mesure automatique de conformité Google &amp; moteurs IA</p>
                             </div>
                             <div class="seo-score-compact" id="seoScoreBadge">100 / 100</div>
                         </div>
 
+                        <!-- Barre de progression visuelle de score -->
+                        <div class="studio-meter-track">
+                            <div class="studio-meter-fill" id="seoMeterBar" style="width: 100%;"></div>
+                        </div>
+
                         <div style="display: flex; flex-direction: column; gap: 8px;" id="seoChecklistList">
                             <div class="checklist-item" id="checkH1">
-                                <span style="font-size: 0.82rem; color: var(--text-main);">Titre H1 optimal (35 - 80 car.)</span>
+                                <div>
+                                    <span style="font-size: 0.82rem; color: var(--text-main); display: block;">Titre H1 optimal (35 - 80 car.)</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-subtle);">Ancrage thématique principal</span>
+                                </div>
                                 <span class="studio-check-badge" id="badgeH1">✓ Conforme</span>
                             </div>
                             <div class="checklist-item" id="checkMetaTitle">
-                                <span style="font-size: 0.82rem; color: var(--text-main);">Meta Title Google (40 - 70 car.)</span>
+                                <div>
+                                    <span style="font-size: 0.82rem; color: var(--text-main); display: block;">Meta Title Google (40 - 70 car.)</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-subtle);">Affichage dans les onglets et SERP</span>
+                                </div>
                                 <span class="studio-check-badge" id="badgeMetaTitle">✓ Conforme</span>
                             </div>
                             <div class="checklist-item" id="checkMetaDesc">
-                                <span style="font-size: 0.82rem; color: var(--text-main);">Meta Description (100 - 165 car.)</span>
+                                <div>
+                                    <span style="font-size: 0.82rem; color: var(--text-main); display: block;">Meta Description (100 - 165 car.)</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-subtle);">Optimisation du taux de clic (CTR)</span>
+                                </div>
                                 <span class="studio-check-badge" id="badgeMetaDesc">✓ Conforme</span>
                             </div>
                             <div class="checklist-item" id="checkH2Count">
-                                <span style="font-size: 0.82rem; color: var(--text-main);">Au moins 2 sous-titres H2 sémantiques</span>
+                                <div>
+                                    <span style="font-size: 0.82rem; color: var(--text-main); display: block;">Au moins 2 sous-titres H2 sémantiques</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-subtle);">Structuration pour les moteurs IA</span>
+                                </div>
                                 <span class="studio-check-badge" id="badgeH2Count">✓ Conforme</span>
                             </div>
                             <div class="checklist-item" id="checkCta">
-                                <span style="font-size: 0.82rem; color: var(--text-main);">Présence d'un Call to Action (0 €)</span>
+                                <div>
+                                    <span style="font-size: 0.82rem; color: var(--text-main); display: block;">Présence d'un Call to Action (0 €)</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-subtle);">Conversion commerciale vers le studio</span>
+                                </div>
                                 <span class="studio-check-badge" id="badgeCta">✓ Présent</span>
                             </div>
                             <div class="checklist-item" id="checkLength">
-                                <span style="font-size: 0.82rem; color: var(--text-main);">Volume de contenu (&gt; 200 mots)</span>
+                                <div>
+                                    <span style="font-size: 0.82rem; color: var(--text-main); display: block;">Volume de contenu (&gt; 200 mots)</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-subtle);">Densité minimale pour le ranking</span>
+                                </div>
                                 <span class="studio-check-badge" id="badgeLength">✓ Conforme</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Aperçu Résultat de Recherche Google -->
+                    <!-- Aperçu Résultat de Recherche Google (Desktop & Mobile) -->
                     <div class="panel-card" style="margin-bottom: 20px;">
-                        <div class="panel-header" style="margin-bottom: 14px;">
-                            <h3 class="panel-title">Aperçu Résultat Google (SERP Preview)</h3>
+                        <div class="panel-header" style="margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+                            <div>
+                                <h3 class="panel-title">Aperçu Résultat Google</h3>
+                                <p class="panel-subtitle">Simulateur fidèle d'affichage SERP</p>
+                            </div>
+                            <div class="studio-segmented">
+                                <button type="button" id="serpBtnDesktop" onclick="setSerpDevice('desktop')" class="studio-segmented-btn active">Desktop</button>
+                                <button type="button" id="serpBtnMobile" onclick="setSerpDevice('mobile')" class="studio-segmented-btn">Mobile</button>
+                            </div>
                         </div>
-                        <div style="background: #FFFFFF; color: #1F1F1F; padding: 18px; border-radius: var(--radius-md); font-family: Arial, sans-serif; border: 1px solid #E2E8F0; box-shadow: 0 1px 4px rgba(0,0,0,0.05);">
+
+                        <!-- Card SERP Container -->
+                        <div id="serpPreviewContainer" style="background: #FFFFFF; color: #1F1F1F; padding: 18px; border-radius: var(--radius-md); font-family: Arial, sans-serif; border: 1px solid #E2E8F0; box-shadow: 0 1px 4px rgba(0,0,0,0.05); transition: max-width 0.25s ease;">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; color: #4D5156;">
                                 <img src="assets/boubane-logo.png" style="width: 16px; height: 16px; border-radius: 50%;">
                                 <div>
@@ -3047,8 +3314,19 @@
             const countBadge = document.getElementById('blogCountBadge');
             if (countBadge) countBadge.textContent = articles.length;
 
+            const published = articles.filter(a => (a.status || 'Publié') === 'Publié').length;
+            const totalWords = articles.reduce((acc, art) => {
+                const w = (art.content || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+                return acc + w;
+            }, 0);
+
+            const statPub = document.getElementById('statPublishedCount');
+            if (statPub) statPub.textContent = published;
+            const statWords = document.getElementById('statTotalWords');
+            if (statWords) statWords.textContent = '~' + totalWords.toLocaleString('fr-FR');
+
             tbody.innerHTML = articles.map(art => `
-                <tr>
+                <tr id="row-art-${art.slug}">
                     <td><strong style="color: var(--text-main); font-size: 0.88rem;">${escapeHtml(art.title)}</strong><br><span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-subtle);">/blog#article=${art.slug}</span></td>
                     <td><span style="display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 0.74rem; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted); font-weight: 500;">${escapeHtml(art.category)}</span></td>
                     <td style="font-size: 0.78rem; color: var(--text-muted);">${escapeHtml(art.keywords || 'France')}</td>
@@ -3057,6 +3335,7 @@
                     <td>
                         <div style="display: flex; gap: 4px;">
                             <button onclick="editArticle('${art.slug}')" class="btn-dash" style="padding: 4px 10px; font-size: 0.75rem;">Éditer</button>
+                            <button onclick="copyArticleUrl('${art.slug}')" class="btn-dash" style="padding: 4px 8px; font-size: 0.75rem;" title="Copier le lien public">🔗</button>
                             <button onclick="deleteArticle('${art.slug}')" class="btn-dash" style="padding: 4px 8px; font-size: 0.75rem; color: var(--text-subtle);" title="Supprimer">✕</button>
                         </div>
                     </td>
@@ -3066,6 +3345,61 @@
             // Pré-remplir le premier article si aucun n'est chargé dans l'éditeur
             if (!document.getElementById('artSlug').value && articles.length > 0) {
                 editArticle(articles[0].slug);
+            }
+        }
+
+        function filterBlogArticlesTable() {
+            const query = (document.getElementById('artFilterInput')?.value || '').toLowerCase().trim();
+            const rows = document.querySelectorAll('#blogArticlesTableBody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        function copyArticleUrl(slug) {
+            const url = `https://www.boubane.com/blog#article=${slug}`;
+            navigator.clipboard.writeText(url).then(() => {
+                showToast("Lien Copié", url, "primary");
+            }).catch(() => {
+                prompt("URL de l'article :", url);
+            });
+        }
+
+        function insertInternalLink(type) {
+            const textarea = document.getElementById('artContent');
+            let linkHtml = '';
+            if (type === 'tarifs') {
+                linkHtml = ` <a href="/blog#article=prix-site-vitrine-artisan-2026" style="color: #059669; text-decoration: underline;">consulter notre enquête sur les tarifs de sites vitrines (0 € en création)</a> `;
+            } else if (type === 'captifs') {
+                linkHtml = ` <a href="/blog#article=piege-abonnement-site-internet-150-euros" style="color: #059669; text-decoration: underline;">découvrir les risques des abonnements web à 150 €/mois</a> `;
+            } else if (type === 'vitesse') {
+                linkHtml = ` <a href="/blog#article=vitesse-chargement-site-vitrine-seo" style="color: #059669; text-decoration: underline;">l'impact direct d'un temps de chargement sous 0.4s sur Google</a> `;
+            } else if (type === 'contact') {
+                linkHtml = ` <a href="/#contact" style="color: #059669; font-weight: 700; text-decoration: underline;">demander la création de votre site offert sans engagement</a> `;
+            }
+            textarea.value += linkHtml;
+            textarea.focus();
+            calculateSeoScore();
+            showToast("🔗 Maillage Interne Injecté", "Lien vers le pilier sémantique inséré.", "primary");
+        }
+
+        function setSerpDevice(device) {
+            const container = document.getElementById('serpPreviewContainer');
+            const btnDesk = document.getElementById('serpBtnDesktop');
+            const btnMob = document.getElementById('serpBtnMobile');
+            if (device === 'mobile') {
+                btnMob.classList.add('active');
+                btnDesk.classList.remove('active');
+                container.style.maxWidth = '360px';
+                container.style.margin = '0 auto';
+                container.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)';
+            } else {
+                btnDesk.classList.add('active');
+                btnMob.classList.remove('active');
+                container.style.maxWidth = '100%';
+                container.style.margin = '0';
+                container.style.boxShadow = '0 1px 4px rgba(0,0,0,0.05)';
             }
         }
 
@@ -3097,6 +3431,7 @@
             document.getElementById('artMetaDesc').value = art.metaDesc || '';
             document.getElementById('artContent').value = art.content || '';
             updateSerpPreview();
+            calculateSeoScore();
         }
 
         function handleSaveArticle(e) {
@@ -3434,17 +3769,36 @@ Fournis directement le code HTML propre sans préambule ni balises <html> extern
             if (ctaOk) score += 15;
             setBadge('badgeCta', ctaOk, "✓ Présent", "⚠ Manquant");
 
-            // Longueur
+            // Longueur & Télémétrie d'écriture
             const words = content.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
             const lenOk = words >= 200;
             if (lenOk) score += 10;
             setBadge('badgeLength', lenOk, `✓ ${words} mots`, "⚠ < 200 mots");
 
+            // Jauge de Score & Progress Bar
             const badge = document.getElementById('seoScoreBadge');
             if (badge) {
                 badge.textContent = `${score} / 100`;
                 badge.style.color = score >= 80 ? '#059669' : (score >= 50 ? '#D97706' : '#DC2626');
             }
+
+            const meter = document.getElementById('seoMeterBar');
+            if (meter) {
+                meter.style.width = `${score}%`;
+                meter.style.background = score >= 80 ? '#059669' : (score >= 50 ? '#D97706' : '#DC2626');
+            }
+
+            const statScore = document.getElementById('statAvgScore');
+            if (statScore) statScore.textContent = `${score} / 100`;
+
+            // Télémétrie en temps réel sous l'éditeur
+            const readTimeEst = Math.max(1, Math.ceil(words / 220));
+            const liveWords = document.getElementById('artLiveWords');
+            if (liveWords) liveWords.textContent = `${words} mot${words > 1 ? 's' : ''}`;
+            const liveReadTime = document.getElementById('artLiveReadTime');
+            if (liveReadTime) liveReadTime.textContent = `~${readTimeEst} min de lecture`;
+            const liveChars = document.getElementById('artLiveChars');
+            if (liveChars) liveChars.textContent = `${content.length.toLocaleString('fr-FR')} caractères`;
         }
 
         // 5. Sauvegarde & Restauration JSON de toute la base d'articles
