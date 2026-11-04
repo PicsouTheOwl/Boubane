@@ -22,6 +22,14 @@
       "use": "@vercel/static"
     },
     {
+      "src": "hebergement.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "hebergement-succes.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "mentions-legales.html",
       "use": "@vercel/static"
     },
@@ -100,6 +108,14 @@
     {
       "src": "/commander",
       "dest": "/commander.html"
+    },
+    {
+      "src": "/hebergement",
+      "dest": "/hebergement.html"
+    },
+    {
+      "src": "/hebergement-succes",
+      "dest": "/hebergement-succes.html"
     },
     {
       "src": "/site.webmanifest",
