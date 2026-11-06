@@ -5478,3 +5478,66 @@ body.mockup-modal-open .hero-card-slide.active {
 
 
 
+
+
+/* ==========================================================================
+   TWO26 STUDIO MOTION ENGINE (LENIS, SPLIT-TEXT, MAGNETIC, MARQUEE)
+   ========================================================================== */
+
+/* 1. Configuration Lenis Smooth Scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* 2. Typographie : Masques Split-Text */
+.split-line-mask {
+  overflow: hidden;
+  display: block;
+}
+.split-word-mask {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 0.28em;
+}
+.split-char {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform: translateY(115%) rotate(3deg);
+  opacity: 0;
+}
+
+/* 3. Boutons Magnétiques */
+.btn-magnetic, .btn-ramp-cta {
+  position: relative;
+  will-change: transform;
+}
+
+/* 4. Cartes Projets / Showcase avec Zoom Doux */
+.bento-card, .showcase-card, .motion-card {
+  position: relative;
+  overflow: hidden;
+}
+.bento-card img, .showcase-card img, .motion-card img {
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bento-card:hover img, .showcase-card:hover img, .motion-card:hover img {
+  transform: scale(1.045);
+}
+
+/* 5. Tracés SVG Dashoffset */
+.motion-stroke {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  will-change: stroke-dashoffset;
+}
