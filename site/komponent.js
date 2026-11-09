@@ -974,7 +974,7 @@ const heroSiteMetadata = [
     name: "Astravacances.fr",
     badge: "Tourisme",
     logo: "assets/astra-logo.png",
-    kpi: "⚡ Vitesse : 0.27s · PageSpeed 100/100",
+    kpi: "Réservations directes · Prêt en 48h",
     desc: "Astravacances.fr — Plateforme d'audit et gestion opérationnelle pour campings et résidences avec simulateur de gain d'EBITDA."
   },
   {
@@ -982,7 +982,7 @@ const heroSiteMetadata = [
     name: "Achille.ai",
     badge: "IA SaaS",
     logo: "assets/achille-logo.png",
-    kpi: "⚡ Vitesse : 0.24s · IA 18ms",
+    kpi: "Conversion qualifiée · 0 € de création",
     desc: "Achille.ai — Support client e-commerce & SaaS AI-first automatisant 50% des tickets avec synchronisation Shopify et Gorgias."
   },
   {
@@ -991,7 +991,7 @@ const heroSiteMetadata = [
     badge: "Sur-Mesure",
     logo: null,
     seal: "✦",
-    kpi: "⚡ Vitesse : < 0.3s · 0 € d'acompte",
+    kpi: "Livré sous 48h · 0 € d'acompte",
     desc: "Votre prochain site — Conception sur-mesure offerte livrée sur GitHub sous 7 jours."
   }
 ];
