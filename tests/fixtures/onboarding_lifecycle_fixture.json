@@ -1,0 +1,14 @@
+{
+  "event": "onboarding.triggered",
+  "opportunity_id": "e8a93b4c-9f12-4d2a-8b3e-1a2c3d4e5f60",
+  "client_name": "Michel Dupont",
+  "phone": "0612345678",
+  "channel": "whatsapp",
+  "photo_guidelines_version": "v1.0_4_to_5_photos",
+  "initial_message_sent_at": "2026-11-10T14:25:00Z",
+  "photo_status": "NON_REÇU",
+  "scheduled_reminder": {
+    "scheduled_at": "2026-11-12T14:25:00Z",
+    "status": "PENDING"
+  }
+}

@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initCookieConsent();
 
-  // 8. Interaction 3D Interactive Ramp Card (The Boubane Studio Card)
+  // 8. Interaction 3D Interactive Ramp Card (The Boubane Card)
   const boubaneCard = document.getElementById('boubaneCard3d');
   const cardStage = document.querySelector('.boubane-card-stage');
   const cardGlare = boubaneCard?.querySelector('.card-glare');

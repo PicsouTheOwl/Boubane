@@ -1,0 +1,110 @@
+[
+  {
+    "id": "artisan_segre_01",
+    "trade": "couvreur",
+    "craft_label": "Couverture & Zinguerie",
+    "company_name": "Toiture Segréenne SAS",
+    "contact_name": "Jean-Pierre Martin",
+    "phone": "+33621458790",
+    "email": "contact@toiture-segreenne.fr",
+    "city": "Segré-en-Anjou Bleu",
+    "postal_code": "49500",
+    "has_website": false,
+    "recommended_domain": "toiture-segreenne-segre.fr",
+    "google_rating": 4.7,
+    "google_reviews_count": 8,
+    "google_maps_claimed": false,
+    "competitors": [
+      { "name": "Anjou Bâti Rénov", "rating": 4.5, "reviews": 12 },
+      { "name": "Couverture de l'Oudon", "rating": 4.8, "reviews": 6 }
+    ],
+    "sample_photos": [
+      { "type": "chantier", "filename": "toiture_ardoise_renovation.jpg" },
+      { "type": "chantier", "filename": "gouttiere_zinc_finition.jpg" },
+      { "type": "equipe", "filename": "camion_logo_artisan.jpg" },
+      { "type": "chantier", "filename": "lucarne_pose.jpg" }
+    ],
+    "delivery_url": "https://boubane.com/clients/toiture-segreenne"
+  },
+  {
+    "id": "artisan_chateau_gontier_02",
+    "trade": "macon",
+    "craft_label": "Maçonnerie générale & Rénovation pierre",
+    "company_name": "Maçonnerie Dupont SARL",
+    "contact_name": "Michel Dupont",
+    "phone": "+33612345678",
+    "email": "michel.dupont@maconnerie-dupont.fr",
+    "city": "Château-Gontier",
+    "postal_code": "53200",
+    "has_website": false,
+    "recommended_domain": "maconnerie-dupont-chateau-gontier.fr",
+    "google_rating": 4.9,
+    "google_reviews_count": 5,
+    "google_maps_claimed": false,
+    "competitors": [
+      { "name": "Bâti Mayenne", "rating": 4.4, "reviews": 15 },
+      { "name": "Rénov Pierre 53", "rating": 4.6, "reviews": 9 }
+    ],
+    "sample_photos": [
+      { "type": "chantier", "filename": "mur_pierre_apres.jpg" },
+      { "type": "chantier", "filename": "mur_pierre_avant.jpg" },
+      { "type": "chantier", "filename": "terrasse_dallage.jpg" },
+      { "type": "equipe", "filename": "equipe_chape.jpg" }
+    ],
+    "delivery_url": "https://boubane.com/clients/maconnerie-dupont"
+  },
+  {
+    "id": "artisan_angers_03",
+    "trade": "plombier",
+    "craft_label": "Plomberie Chauffage & Dépannage Sanitaire",
+    "company_name": "Anjou Plomberie Chauffage",
+    "contact_name": "Thomas Leroy",
+    "phone": "+33678901234",
+    "email": "thomas.leroy@anjou-plomberie.fr",
+    "city": "Angers",
+    "postal_code": "49000",
+    "has_website": true,
+    "current_website_url": "http://anjou-plomberie.free.fr",
+    "recommended_domain": "anjou-plomberie-chauffage-angers.fr",
+    "google_rating": 4.6,
+    "google_reviews_count": 21,
+    "google_maps_claimed": true,
+    "competitors": [
+      { "name": "Plomberie d'Anjou", "rating": 4.7, "reviews": 34 },
+      { "name": "Chauffage Express Angers", "rating": 4.2, "reviews": 19 }
+    ],
+    "sample_photos": [
+      { "type": "chantier", "filename": "pompe_a_chaleur_installee.jpg" },
+      { "type": "chantier", "filename": "salle_de_bain_italienne.jpg" },
+      { "type": "chantier", "filename": "chauffe_eau_thermodynamique.jpg" },
+      { "type": "equipe", "filename": "fourgon_outillage.jpg" }
+    ],
+    "delivery_url": "https://boubane.com/clients/anjou-plomberie"
+  },
+  {
+    "id": "artisan_craon_04",
+    "trade": "electricien",
+    "craft_label": "Électricité générale & Domotique tertiaire",
+    "company_name": "Craon Élec Express",
+    "contact_name": "Stéphane Bernard",
+    "phone": "+33699887766",
+    "email": "stephane@craon-elec.fr",
+    "city": "Craon",
+    "postal_code": "53400",
+    "has_website": false,
+    "recommended_domain": "craon-elec-express.fr",
+    "google_rating": 4.8,
+    "google_reviews_count": 7,
+    "google_maps_claimed": false,
+    "competitors": [
+      { "name": "Mayenne Domotique", "rating": 4.5, "reviews": 11 }
+    ],
+    "sample_photos": [
+      { "type": "chantier", "filename": "tableau_electrique_neuf.jpg" },
+      { "type": "chantier", "filename": "eclairage_led_magasin.jpg" },
+      { "type": "chantier", "filename": "borne_recharge_ve.jpg" },
+      { "type": "equipe", "filename": "artisan_au_travail.jpg" }
+    ],
+    "delivery_url": "https://boubane.com/clients/craon-elec-express"
+  }
+]

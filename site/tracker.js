@@ -207,49 +207,58 @@
       localStorage.setItem(STORAGE_KEY_LEADS, JSON.stringify(leads));
       trackEvent('form_lead_submitted', { leadId: leadData.id, name: leadData.name });
 
-      // Synchronisation immédiate vers le CRM si configuré
-      const cfgRaw = localStorage.getItem(STORAGE_KEY_CONFIG);
-      if (cfgRaw) {
-        const cfg = JSON.parse(cfgRaw);
-        if (cfg.crmWebhookUrl && cfg.crmWebhookUrl.trim()) {
-          window.boubaneSendLeadToCrm(leadData, cfg.crmWebhookUrl)
-            .then(() => {
-              leadData.crmSynced = true;
-              localStorage.setItem(STORAGE_KEY_LEADS, JSON.stringify(leads));
-            })
-            .catch(() => {});
+      // Synchronisation immédiate vers le CRM (automatique)
+      const DEFAULT_CRM_WEBHOOK = 'https://crm.boubane.com/api/webhook/lead';
+      let crmTarget = DEFAULT_CRM_WEBHOOK;
+      try {
+        const cfgRaw = localStorage.getItem(STORAGE_KEY_CONFIG);
+        if (cfgRaw) {
+          const cfg = JSON.parse(cfgRaw);
+          if (cfg.crmWebhookUrl && cfg.crmWebhookUrl.trim()) {
+            crmTarget = cfg.crmWebhookUrl.trim();
+          }
         }
-      }
+      } catch (_) {}
+
+      window.boubaneSendLeadToCrm(leadData, crmTarget)
+        .then(() => {
+          leadData.crmSynced = true;
+          localStorage.setItem(STORAGE_KEY_LEADS, JSON.stringify(leads));
+        })
+        .catch(() => {});
     } catch (e) {
       console.error('Lead register error', e);
     }
   };
 
-  // Envoi vers le Webhook CRM externe (HubSpot, Notion, Make, Zapier, Airtable, Brevo)
+  // Envoi vers le Webhook CRM (Twenty CRM Boubane, HubSpot, Make, Zapier, Notion)
   window.boubaneSendLeadToCrm = function(lead, webhookUrl) {
-    if (!webhookUrl) return Promise.reject(new Error('Aucune URL Webhook configurée'));
+    const targetUrl = webhookUrl || 'https://crm.boubane.com/api/webhook/lead';
     
     const payload = {
       event: 'lead_captured',
       timestamp: new Date().toISOString(),
-      source: 'Boubane Studio (boubane.com)',
+      source: 'Boubane (boubane.com)',
       lead: {
         id: lead.id,
         name: lead.name,
+        company: lead.company || lead.name,
         email: lead.email,
+        phone: lead.phone || lead.tel || '',
+        city: lead.city || lead.ville || '',
+        craft: lead.craft || lead.metier || '',
         message: lead.message,
         date: lead.date,
         sourceAcquisition: lead.source || 'Direct'
       }
     };
 
-    return fetch(webhookUrl, {
+    return fetch(targetUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(payload),
-      mode: 'no-cors'
+      body: JSON.stringify(payload)
     });
   };
 

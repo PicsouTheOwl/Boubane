@@ -1,0 +1,28 @@
+{
+  "opportunity": {
+    "id": "e8a93b4c-9f12-4d2a-8b3e-1a2c3d4e5f60",
+    "name": "Maçonnerie Dupont SARL",
+    "stage": "NEW",
+    "amount": { "amountMicros": 0, "currencyCode": "EUR" },
+    "companyId": "c1a2b3c4-d5e6-4a7b-8c9d-0e1f2a3b4c5d",
+    "pointOfContactId": "p1a2b3c4-d5e6-4a7b-8c9d-0e1f2a3b4c5d",
+    "createdAt": "2026-11-10T09:15:00.000Z",
+    "updatedAt": "2026-11-10T09:15:00.000Z"
+  },
+  "person": {
+    "id": "p1a2b3c4-d5e6-4a7b-8c9d-0e1f2a3b4c5d",
+    "nameFirstName": "Michel",
+    "nameLastName": "Dupont",
+    "emailsPrimaryEmail": "michel.dupont@maconnerie-dupont.fr",
+    "phonesPrimaryPhoneNumber": "+33612345678",
+    "city": "Segré-en-Anjou Bleu"
+  },
+  "company": {
+    "id": "c1a2b3c4-d5e6-4a7b-8c9d-0e1f2a3b4c5d",
+    "name": "Maçonnerie Dupont SARL",
+    "addressAddressCity": "Segré-en-Anjou Bleu",
+    "addressAddressStreet1": "Zone Artisanale de l'Éperonnière",
+    "addressAddressPostcode": "49500",
+    "domainNamePrimaryLinkUrl": ""
+  }
+}

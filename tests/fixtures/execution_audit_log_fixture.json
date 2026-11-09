@@ -1,0 +1,44 @@
+[
+  {
+    "timestamp": "2026-11-10T09:15:02Z",
+    "module": "R1_CALCOM_INGESTION",
+    "level": "INFO",
+    "message": "Cal.com booking received for Michel Dupont (Maçonnerie Dupont SARL)",
+    "status": "SUCCESS"
+  },
+  {
+    "timestamp": "2026-11-10T09:15:05Z",
+    "module": "R1_TELEGRAM_DISPATCH",
+    "level": "INFO",
+    "message": "Pre-call diagnosis sent to Telegram chat 8036535453 (Message ID: 10482)",
+    "status": "SUCCESS"
+  },
+  {
+    "timestamp": "2026-11-10T14:25:00Z",
+    "module": "R2_ONBOARDING_TRIGGER",
+    "level": "INFO",
+    "message": "1-click photo onboarding initiated for Michel Dupont. J+2 reminder armed for 2026-11-12T14:25:00Z",
+    "status": "SUCCESS"
+  },
+  {
+    "timestamp": "2026-11-12T14:25:00Z",
+    "module": "R2_J2_REMINDER_WATCHDOG",
+    "level": "INFO",
+    "message": "Photos status is NON_REÇU. Dispatching J+2 reminder via WhatsApp to 0612345678",
+    "status": "REMINDER_SENT"
+  },
+  {
+    "timestamp": "2026-11-12T16:00:00Z",
+    "module": "R4_DELIVERY_NOTIFICATION",
+    "level": "INFO",
+    "message": "Project moved to LIVRÉ. Delivery message sent with URL https://boubane.com/clients/maconnerie-dupont. 48h review armed for 2026-11-14T16:00:00Z",
+    "status": "SUCCESS"
+  },
+  {
+    "timestamp": "2026-11-14T16:00:00Z",
+    "module": "R4_GOOGLE_REVIEW_FOLLOWUP",
+    "level": "INFO",
+    "message": "48h timer reached. No revisions reported. Google 5-star review request sent with URL https://g.page/r/boubane/review",
+    "status": "SUCCESS"
+  }
+]

@@ -1,0 +1,56 @@
+{
+  "triggerEvent": "BOOKING_CREATED",
+  "createdAt": "2026-11-10T09:15:00.000Z",
+  "payload": {
+    "id": 849201,
+    "bookingId": 849201,
+    "type": "15min",
+    "title": "15 min avec Léo Saillour et Michel Dupont",
+    "description": "Échange cadrage site vitrine artisan Boubane",
+    "startTime": "2026-11-10T14:00:00.000Z",
+    "endTime": "2026-11-10T14:15:00.000Z",
+    "organizer": {
+      "id": 1,
+      "name": "Léo Saillour",
+      "email": "leo@boubane.com",
+      "timeZone": "Europe/Paris"
+    },
+    "attendees": [
+      {
+        "name": "Michel Dupont",
+        "email": "michel.dupont@maconnerie-dupont.fr",
+        "timeZone": "Europe/Paris"
+      }
+    ],
+    "responses": {
+      "name": {
+        "label": "Votre Nom & Prénom",
+        "value": "Michel Dupont"
+      },
+      "email": {
+        "label": "Votre Adresse Email",
+        "value": "michel.dupont@maconnerie-dupont.fr"
+      },
+      "phone": {
+        "label": "Téléphone portable",
+        "value": "06 12 34 56 78"
+      },
+      "company": {
+        "label": "Nom de l'entreprise",
+        "value": "Maçonnerie Dupont SARL"
+      },
+      "craft": {
+        "label": "Votre métier / activité",
+        "value": "Maçonnerie générale & Rénovation pierre"
+      },
+      "city": {
+        "label": "Commune principale",
+        "value": "Segré-en-Anjou Bleu (49500)"
+      },
+      "notes": {
+        "label": "Précisions sur votre activité",
+        "value": "Artisan maçon depuis 15 ans. Pas de site web actuellement, uniquement quelques photos de chantiers sur mon téléphone."
+      }
+    }
+  }
+}

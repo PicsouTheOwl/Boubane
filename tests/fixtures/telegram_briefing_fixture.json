@@ -1,0 +1,20 @@
+{
+  "chat_id": 8036535453,
+  "text": "🎯 *NOUVEAU BRIEFING PRÉ-APPEL BOUBANE*\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n📅 *RDV :* Mardi 10 Novembre à 14h00 (15 min)\n\n👤 *PROSPECT & ENTREPRISE*\n• *Contact :* Michel Dupont\n• *Entreprise :* Maçonnerie Dupont SARL\n• *Métier :* Maçonnerie générale & Rénovation pierre\n• *Ville :* Segré-en-Anjou Bleu (49500)\n• *Tél :* `06 12 34 56 78`\n• *Email :* `michel.dupont@maconnerie-dupont.fr`\n\n🌐 *DIAGNOSTIC PRÉSENCE EN LIGNE*\n• *Site web :* ❌ Aucun site web détecté (Priorité 0€ Clé en Main)\n• *Nom de domaine conseillé :* `maconnerie-dupont-segre.fr` (Disponible)\n• *Fiche Google Maps :* ⚠️ Fiche non revendiquée (3 avis, 4.7★)\n• *Photos en ligne :* Uniquement façade Street View floue\n\n⚔️ *CONCURRENTS LOCAUX (SECTEUR SEGRÉ)*\n1. *Anjou Bâti Rénov* : Site WordPress ancien, 12 avis (4.5★)\n2. *Maçonnerie de l'Oudon* : Pas de site web, 5 avis (4.8★)\n\n💡 *STRATÉGIE & ACCROCHE APPEL (10 MIN)*\n1. Rassurer sur le 0€ : Aucune avance de trésorerie, aucun crédit-bail 48 mois (anti-Locam).\n2. Zéro contrainte pour lui : Il envoie 4-5 photos de chantiers par WhatsApp, Boubane s'occupe de tout.\n3. Contrepartie unique demandée : Un avis 5 étoiles Google dès que le site est en ligne sous 48h.\n━━━━━━━━━━━━━━━━━━━━━━━━━━",
+  "parse_mode": "Markdown",
+  "reply_markup": {
+    "inline_keyboard": [
+      [
+        {"text": "📞 Appeler", "url": "tel:+33612345678"},
+        {"text": "💬 WhatsApp", "url": "https://wa.me/33612345678"}
+      ],
+      [
+        {"text": "🏢 Fiche Twenty CRM", "url": "https://crm.boubane.com"},
+        {"text": "🗺️ Google Maps", "url": "https://www.google.com/maps/search/Ma%C3%A7onnerie+Dupont+Segr%C3%A9"}
+      ],
+      [
+        {"text": "📸 Lancer Onboarding Photos", "callback_data": "trigger_onboarding:opp_test_01"}
+      ]
+    ]
+  }
+}

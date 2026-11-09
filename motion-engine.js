@@ -1,5 +1,5 @@
 /**
- * Boubane Studio · Motion Engine (Inspiration Two26 Studio)
+ * Boubane · Motion Engine (Inspiration Two26 Studio)
  * Lead Creative Developer & Motion Designer
  * 
  * Stack: Lenis 1.1 + GSAP 3.12 + ScrollTrigger

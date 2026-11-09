@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Boubane Studio - Moteur de Prospection & Scraping Local
+Boubane - Moteur de Prospection & Scraping Local
 Permet d'extraire des artisans et entreprises locales sans site web sur n'importe quelle commune française.
 """
 
@@ -45,7 +45,7 @@ def generate_accroche(entreprise, metier, ville):
     return (
         f"Bonjour {entreprise}, j'ai repéré votre savoir-faire en {metier.lower()} sur le secteur de {ville}. "
         f"Vous n'avez pas de vitrine web officielle pour présenter vos réalisations. "
-        f"Je lance Boubane Studio : je vous offre la réalisation de votre site vitrine sur-mesure (0 € frais de création). "
+        f"Je lance Boubane : je vous offre la réalisation de votre site vitrine sur-mesure (0 € frais de création). "
         f"Auriez-vous 2 minutes pour jeter un œil à une maquette ?"
     )
 
@@ -134,7 +134,7 @@ def query_overpass(ville, rayon_km=15):
                     "Adresse": adresse,
                     "Situation Web": situation_web,
                     "Statut": "À contacter",
-                    "Notes & Angle d'approche": f"Artisanat {metier} - Offre de lancement Boubane Studio",
+                    "Notes & Angle d'approche": f"Artisanat {metier} - Offre de lancement Boubane",
                     "Message d'Accroche": accroche
                 })
                 
@@ -145,7 +145,7 @@ def query_overpass(ville, rayon_km=15):
     return results
 
 def main():
-    parser = argparse.ArgumentParser(description="Boubane Studio - Scraper d'artisans locaux sans site web")
+    parser = argparse.ArgumentParser(description="Boubane - Scraper d'artisans locaux sans site web")
     parser.add_argument("--ville", required=True, help="Nom de la commune cible (ex: Segré, Château-Gontier, Craon, Châteaubriant)")
     parser.add_argument("--rayon", type=int, default=15, help="Rayon de recherche en km (défaut: 15)")
     parser.add_argument("--output", default=None, help="Fichier CSV de sortie")

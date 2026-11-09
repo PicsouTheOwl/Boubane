@@ -1,4 +1,4 @@
-# 🚀 Boubane Studio · Kit de Prospection & Livraison Express en 48h
+# 🚀 Boubane · Kit de Prospection & Livraison Express en 48h
 
 Ce kit est conçu pour vous permettre de décrocher vos **5 à 10 premiers sites vitrines livrés** et vos **premiers avis Google 5 étoiles** avec le minimum de friction pour vous et pour l'artisan.
 
@@ -16,7 +16,7 @@ J'ai vu vos chantiers de [Métier : ex. maçonnerie / toiture] sur [Ville : ex. 
 
 Vous n'avez pas de vitrine web moderne pour montrer vos réalisations en photo aux particuliers. 
 
-Je lance Boubane Studio dans le Segréen : je vous offre à 100 % la création de votre site vitrine sur-mesure (0 € de frais de création, sans aucun engagement). En échange, je vous demanderai simplement un avis Google une fois le site en ligne.
+Je lance Boubane dans le Segréen : je vous offre à 100 % la création de votre site vitrine sur-mesure (0 € de frais de création, sans aucun engagement). En échange, je vous demanderai simplement un avis Google une fois le site en ligne.
 
 Auriez-vous 2 minutes pour jeter un œil à une maquette sur votre smartphone ?
 ```
@@ -72,7 +72,7 @@ Prenez 2 minutes pour le regarder sur votre téléphone :
 - Les clients peuvent vous appeler directement en 1 clic.
 - Le site se charge à la vitesse de l'éclair (< 0.4 seconde).
 
-Puisque la création vous est offerte à 100 %, pourriez-vous me laisser un avis 5 étoiles pour m'aider à faire connaître Boubane Studio dans la région ?
+Puisque la création vous est offerte à 100 %, pourriez-vous me laisser un avis 5 étoiles pour m'aider à faire connaître Boubane dans la région ?
 👉 [Votre Lien direct d'Avis Google Boubane]
 
 Un grand merci à vous !

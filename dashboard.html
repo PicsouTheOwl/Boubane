@@ -11,6 +11,451 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Moteurs Métier & Compression Client-Side -->
+    <script src="scripts/media_optimizer.js">
+        // =====================================================================
+        // 10. STUDIO MÉDIAS & OPTIMISEUR CANVASP WEBP (< 80 KO) - (R3)
+        // =====================================================================
+        window.currentOptimizedMediaItems = [];
+
+        function initMediaOptimizerTab() {
+            const dropzone = document.getElementById('mediaDropzone');
+            if (dropzone && !dropzone.dataset.initialized) {
+                dropzone.dataset.initialized = 'true';
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropzone.classList.add('dragover');
+                    }, false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropzone.classList.remove('dragover');
+                    }, false);
+                });
+
+                dropzone.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    if (dt && dt.files && dt.files.length) {
+                        handleMediaFilesSelected(dt.files);
+                    }
+                }, false);
+
+                window.addEventListener('paste', (e) => {
+                    const activeTab = document.getElementById('tab-media');
+                    if (activeTab && activeTab.style.display !== 'none' && e.clipboardData && e.clipboardData.files.length) {
+                        handleMediaFilesSelected(e.clipboardData.files);
+                    }
+                });
+            }
+        }
+
+        async function handleMediaFilesSelected(files) {
+            if (!files || !files.length) return;
+            const fileList = Array.from(files);
+
+            const metier = (document.getElementById('optMetier')?.value || 'artisan').trim();
+            const ville = (document.getElementById('optVille')?.value || 'segre').trim();
+            const chantier = (document.getElementById('optChantier')?.value || 'chantier').trim();
+            const maxDimension = parseInt(document.getElementById('optDimension')?.value || '1400', 10);
+
+            const progressWrap = document.getElementById('optimizerProgressWrap');
+            const progressBar = document.getElementById('optimizerProgressBar');
+            const progressLabel = document.getElementById('optimizerProgressLabel');
+            const progressPct = document.getElementById('optimizerProgressPct');
+
+            if (progressWrap) progressWrap.style.display = 'block';
+
+            const optimizer = window.BoubaneMediaOptimizer;
+            if (!optimizer) {
+                showToast("Erreur Moteur", "BoubaneMediaOptimizer n'est pas chargé", "destructive");
+                return;
+            }
+
+            try {
+                const results = await optimizer.processBatch(fileList, {
+                    metier,
+                    ville,
+                    chantier,
+                    maxDimension,
+                    targetMaxBytes: 80000
+                }, (processed, total, currentResult) => {
+                    const pct = Math.round((processed / total) * 100);
+                    if (progressBar) progressBar.style.width = pct + '%';
+                    if (progressPct) progressPct.textContent = pct + '%';
+                    if (progressLabel) progressLabel.textContent = `Optimisation : ${processed} / ${total} photo(s)`;
+                });
+
+                results.forEach(res => {
+                    if (res && res.blob) {
+                        window.currentOptimizedMediaItems.push(res);
+                    }
+                });
+
+                renderOptimizedMediaTable();
+                showToast("Photos optimisées !", `${results.length} image(s) convertie(s) en WebP < 80 Ko`, "success");
+            } catch (err) {
+                showToast("Erreur de compression", err.message, "destructive");
+            } finally {
+                setTimeout(() => {
+                    if (progressWrap) progressWrap.style.display = 'none';
+                }, 800);
+            }
+        }
+
+        function renderOptimizedMediaTable() {
+            const tbody = document.getElementById('mediaResultsTbody');
+            const totalBadge = document.getElementById('optimizedTotalBadge');
+            const zipBtn = document.getElementById('btnDownloadZip');
+            const zipCount = document.getElementById('zipCount');
+            const savingsBadge = document.getElementById('totalSavingsBadge');
+            const items = window.currentOptimizedMediaItems || [];
+
+            if (totalBadge) totalBadge.textContent = `${items.length} fichier(s)`;
+            if (zipCount) zipCount.textContent = items.length;
+            if (zipBtn) zipBtn.disabled = items.length === 0;
+
+            if (!tbody) return;
+
+            if (items.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 36px;">
+                            Aucune image importée pour le moment. Glissez des photos de chantiers pour lancer la compression adaptative instantanée.
+                        </td>
+                    </tr>
+                `;
+                if (savingsBadge) savingsBadge.style.display = 'none';
+                return;
+            }
+
+            let totalOrig = 0;
+            let totalNew = 0;
+
+            tbody.innerHTML = items.map((item, idx) => {
+                totalOrig += (item.originalSize || 0);
+                totalNew += (item.newSize || 0);
+
+                const origKb = ((item.originalSize || 0) / 1024).toFixed(0) + ' Ko';
+                const newKb = ((item.newSize || 0) / 1024).toFixed(1) + ' Ko';
+                const savings = item.savingsPercent || Math.round((1 - (item.newSize / item.originalSize)) * 100);
+                const isUnder80k = (item.newSize || 0) <= 81920;
+
+                const previewUrl = item.previewUrl || (item.blob ? URL.createObjectURL(item.blob) : '');
+                item.previewUrl = previewUrl;
+
+                return `
+                    <tr>
+                        <td>
+                            <img src="${previewUrl}" alt="Aperçu" style="width: 44px; height: 44px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        </td>
+                        <td>
+                            <div style="font-family: var(--font-mono); font-weight: 600; font-size: 0.82rem; color: var(--text-main);">${escapeHtml(item.seoName)}</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Source : ${escapeHtml(item.originalName)}</div>
+                        </td>
+                        <td style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+                            ${item.width} × ${item.height} px
+                        </td>
+                        <td style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+                            ${origKb}
+                        </td>
+                        <td style="font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: ${isUnder80k ? 'var(--success)' : 'var(--warning)'};">
+                            ${newKb}
+                            <span style="font-size: 0.72rem; opacity: 0.85; font-weight: 500;">(-${savings}%)</span>
+                        </td>
+                        <td>
+                            <span class="badge ${isUnder80k ? 'badge-success' : 'badge-warning'}">
+                                ${isUnder80k ? '✓ Conforme < 80 Ko' : 'Optimisé'}
+                            </span>
+                        </td>
+                        <td style="text-align: right;">
+                            <button onclick="downloadSingleOptimized(${idx})" class="btn-dash" style="padding: 2px 8px; font-size: 0.75rem;" title="Télécharger cette image WebP">
+                                ⬇ WebP
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            if (savingsBadge && totalOrig > 0) {
+                const globalSavings = Math.round((1 - (totalNew / totalOrig)) * 100);
+                savingsBadge.textContent = `Gain total bande passante : -${globalSavings}% (${((totalNew)/1024).toFixed(0)} Ko vs ${((totalOrig)/1024).toFixed(0)} Ko)`;
+                savingsBadge.style.display = 'block';
+            }
+        }
+
+        function downloadSingleOptimized(idx) {
+            const item = (window.currentOptimizedMediaItems || [])[idx];
+            if (!item || !item.blob) return;
+            if (window.BoubaneMediaOptimizer && window.BoubaneMediaOptimizer.downloadFile) {
+                window.BoubaneMediaOptimizer.downloadFile(item.blob, item.seoName);
+            }
+        }
+
+        async function downloadAllOptimizedZip() {
+            const items = window.currentOptimizedMediaItems || [];
+            if (!items.length) return;
+
+            const optimizer = window.BoubaneMediaOptimizer;
+            if (optimizer && optimizer.createZipPackage) {
+                showToast("Préparation du ZIP", "Génération de l'archive compressée...", "info");
+                try {
+                    const zipBlob = await optimizer.createZipPackage(items, 'boubane-photos-chantiers.zip');
+                    if (optimizer.downloadFile) {
+                        optimizer.downloadFile(zipBlob, 'boubane-photos-chantiers.zip');
+                        showToast("Téléchargement lancé", "Pack ZIP téléchargé avec succès !", "success");
+                    }
+                } catch (err) {
+                    showToast("Erreur ZIP", err.message, "destructive");
+                }
+            }
+        }
+
+        function clearOptimizedQueue() {
+            window.currentOptimizedMediaItems = [];
+            renderOptimizedMediaTable();
+            showToast("File effacée", "Toutes les images ont été réinitialisées", "info");
+        }
+
+        // =====================================================================
+        // 11. CONSOLE D'AUTOMATISATIONS & DÉCLENCHEURS 1-CLIC (R1, R2, R4)
+        // =====================================================================
+        function getAutoEngine() {
+            if (!window.boubaneAutoEngine && window.BoubaneAutomations) {
+                window.boubaneAutoEngine = new window.BoubaneAutomations();
+            }
+            return window.boubaneAutoEngine;
+        }
+
+        function loadAutomationsDashboard() {
+            const engine = getAutoEngine();
+            if (!engine) return;
+
+            const queue = engine.getScheduledQueue();
+            const logs = engine.getAutomationLogs();
+
+            // Compteurs & Badges
+            const photosQueue = queue.filter(q => q.type === 'PHOTO_REMINDER_J2' && q.status === 'PENDING');
+            const reviewsQueue = queue.filter(q => q.type === 'GOOGLE_REVIEW_48H' && q.status === 'PENDING');
+
+            const countPhotosEl = document.getElementById('kpiQueuePhotosCount');
+            const countReviewsEl = document.getElementById('kpiQueueReviewsCount');
+            const badgePhotosEl = document.getElementById('kpiQueuePhotosBadge');
+            const badgeReviewsEl = document.getElementById('kpiQueueReviewsBadge');
+            const queueTotalEl = document.getElementById('queueTotalBadge');
+
+            if (countPhotosEl) countPhotosEl.textContent = `${photosQueue.length} planifiée(s)`;
+            if (countReviewsEl) countReviewsEl.textContent = `${reviewsQueue.length} planifiée(s)`;
+            if (badgePhotosEl) badgePhotosEl.textContent = `${photosQueue.length} en attente`;
+            if (badgeReviewsEl) badgeReviewsEl.textContent = `${reviewsQueue.length} en attente`;
+            if (queueTotalEl) queueTotalEl.textContent = `${queue.length} tâche(s)`;
+
+            // Rendu File d'Attente
+            const queueTbody = document.getElementById('automationsQueueTbody');
+            if (queueTbody) {
+                if (queue.length === 0) {
+                    queueTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 32px;">Aucune relance en attente dans la file.</td></tr>';
+                } else {
+                    queueTbody.innerHTML = queue.map((t, idx) => {
+                        const dueDate = new Date(t.dueAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+                        let typeLabel = t.type === 'PHOTO_REMINDER_J2' ? '📸 Relance Photos (J+2)' : '⭐ Avis Google (+48h)';
+                        let statusBadge = t.status === 'PENDING'
+                            ? '<span class="badge badge-warning">En attente</span>'
+                            : (t.status === 'CANCELLED_RECEIVED' ? '<span class="badge badge-success">Neutralisé</span>' : '<span class="badge badge-primary">Exécuté</span>');
+
+                        return `
+                            <tr>
+                                <td><strong>${typeLabel}</strong></td>
+                                <td>${escapeHtml(t.leadName || 'Client')}</td>
+                                <td style="font-family: var(--font-mono); font-size: 0.8rem;">${t.channel || 'wa.me'}</td>
+                                <td style="font-family: var(--font-mono); font-size: 0.8rem;">${dueDate}</td>
+                                <td>${statusBadge}</td>
+                                <td style="text-align: right;">
+                                    <button onclick="neutralizeQueueTask('${t.id}')" class="btn-dash" style="padding: 2px 7px; font-size: 0.72rem; color: #EF4444;" title="Annuler ce rappel">Annuler</button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            }
+
+            // Rendu Logs d'Audit
+            const logsTbody = document.getElementById('automationsLogsTbody');
+            if (logsTbody) {
+                if (logs.length === 0) {
+                    logsTbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 32px;">Aucun événement enregistré pour l'instant.</td></tr>';
+                } else {
+                    logsTbody.innerHTML = logs.slice().reverse().map(l => {
+                        const time = new Date(l.timestamp).toLocaleTimeString('fr-FR');
+                        const statusClass = l.status === 'SUCCESS' ? 'badge-success' : 'badge-warning';
+                        return `
+                            <tr>
+                                <td style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">${time}</td>
+                                <td><span style="font-family: var(--font-mono); font-weight: 600; font-size: 0.78rem;">${l.module}</span></td>
+                                <td><span class="badge ${statusClass}">${l.level}</span></td>
+                                <td style="font-size: 0.82rem;">${escapeHtml(l.message)}</td>
+                                <td style="text-align: right;"><span class="badge ${statusClass}">${l.status}</span></td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            }
+        }
+
+        // Action 1-clic : Briefing Telegram (R1)
+        async function triggerBriefingTelegram(idx) {
+            const raw = localStorage.getItem('boubane_leads');
+            const leads = raw ? JSON.parse(raw) : [];
+            const lead = leads[idx];
+            if (!lead) return;
+
+            const engine = getAutoEngine();
+            if (!engine) return;
+
+            showToast("Briefing en cours", "Génération du diagnostic synthétique...", "info");
+            try {
+                const diag = engine.generateProspectDiagnosis(lead);
+                const res = await engine.sendTelegramBriefing(diag);
+                if (res && res.success) {
+                    showToast("Briefing délivré !", "Synthèse envoyée au bot @Boubane_prospect_bot", "success");
+                    lead.briefingSentAt = Date.now();
+                    localStorage.setItem('boubane_leads', JSON.stringify(leads));
+                    loadAutomationsDashboard();
+                } else {
+                    showToast("Envoi Telegram", "Erreur lors de la transmission Bot API", "destructive");
+                }
+            } catch (err) {
+                showToast("Erreur Telegram", err.message, "destructive");
+            }
+        }
+
+        // Action 1-clic : Onboarding Photos & Relance J+2 (R2)
+        function triggerPhotoOnboardingLead(idx, channel = 'whatsapp') {
+            const raw = localStorage.getItem('boubane_leads');
+            const leads = raw ? JSON.parse(raw) : [];
+            const lead = leads[idx];
+            if (!lead) return;
+
+            const engine = getAutoEngine();
+            if (!engine) return;
+
+            try {
+                const res = engine.triggerPhotoOnboarding(lead, channel);
+                lead.photoReminderDueAt = res.reminderDueAt;
+                lead.photoStatus = 'requested';
+                localStorage.setItem('boubane_leads', JSON.stringify(leads));
+
+                if (res.directUrl) {
+                    window.open(res.directUrl, '_blank');
+                }
+
+                showToast("Cadrage Photos envoyé !", "Message généré & Relance automatique J+2 armée.", "success");
+                renderLeads(leads);
+                loadAutomationsDashboard();
+            } catch (err) {
+                showToast("Erreur Onboarding", err.message, "destructive");
+            }
+        }
+
+        // Action 1-clic : Livraison & Avis Google 48h (R4)
+        function triggerDeliveryLead(idx) {
+            const raw = localStorage.getItem('boubane_leads');
+            const leads = raw ? JSON.parse(raw) : [];
+            const lead = leads[idx];
+            if (!lead) return;
+
+            const engine = getAutoEngine();
+            if (!engine) return;
+
+            try {
+                const res = engine.triggerDelivery(lead);
+                lead.status = 'Terminé';
+                lead.deliveredAt = res.deliveredAt;
+                lead.reviewDueAt = res.reviewDueAt;
+                localStorage.setItem('boubane_leads', JSON.stringify(leads));
+
+                showToast("Projet Livré !", `Site en ligne (${res.deliveryUrl}) & Avis Google +48h programmé.`, "success");
+                renderLeads(leads);
+                loadAutomationsDashboard();
+            } catch (err) {
+                showToast("Erreur Livraison", err.message, "destructive");
+            }
+        }
+
+        // Watchdog manuel pour vérifier les relances
+        function runAutomationsWatchdog() {
+            const engine = getAutoEngine();
+            if (!engine) return;
+
+            const photoReports = engine.checkAndTriggerPhotoReminders();
+            const reviewReports = engine.checkAndTriggerReviewRequests();
+
+            const total = photoReports.length + reviewReports.length;
+            if (total > 0) {
+                showToast("Watchdog exécuté", `${total} tâche(s) de relance mise(s) à jour.`, "success");
+            } else {
+                showToast("Watchdog", "Aucune tâche échue à déclencher pour le moment.", "info");
+            }
+            loadAutomationsDashboard();
+        }
+
+        function clearAutomationLogs() {
+            localStorage.removeItem('boubane_automations_log');
+            loadAutomationsDashboard();
+            showToast("Logs effacés", "Historique d'audit remis à zéro.", "info");
+        }
+
+        function neutralizeQueueTask(taskId) {
+            const engine = getAutoEngine();
+            if (!engine) return;
+            const queue = engine.getScheduledQueue();
+            const updated = queue.filter(t => t.id !== taskId);
+            localStorage.setItem('boubane_automations_queue', JSON.stringify(updated));
+            loadAutomationsDashboard();
+            showToast("Tâche annulée", "La relance a été retirée de la file.", "info");
+        }
+
+        // Simulateur Webhook Cal.com
+        function simulateCalcomBookingModal() {
+            const engine = getAutoEngine();
+            if (!engine) return;
+
+            const mockBooking = {
+                bookingId: 994201,
+                startTime: new Date(Date.now() + 86400000).toISOString(),
+                payload: {
+                    responses: {
+                        name: { value: "Jean-Luc Charpente" },
+                        email: { value: "jeanluc.charpente49@gmail.com" },
+                        phone: { value: "06 42 19 88 02" },
+                        company: { value: "Charpente Bois de l'Oudon" },
+                        craft: { value: "Charpentier - Couvreur" },
+                        city: { value: "Segré-en-Anjou Bleu" },
+                        notes: { value: "Souhaite exposer ses chantiers de rénovation de granges et toitures en ardoise." }
+                    }
+                }
+            };
+
+            try {
+                const parsed = engine.parseCalcomBooking(mockBooking);
+                const diag = engine.generateProspectDiagnosis(parsed);
+                engine.sendTelegramBriefing(diag);
+                showToast("Webhook Cal.com simulé", "Charge utile traitée et envoyée sur Telegram !", "success");
+                loadAutomationsDashboard();
+            } catch (err) {
+                showToast("Erreur simulation", err.message, "destructive");
+            }
+        }
+
+    </script>
+    <script src="scripts/boubane_automations.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
     
     <style>
         /* ========================================================
@@ -381,6 +826,84 @@
             box-shadow: var(--shadow-card-hover);
         }
 
+        
+        /* Badges d'onglets & tags */
+        .badge-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 4px;
+            background: var(--muted);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            letter-spacing: -0.01em;
+        }
+        .badge-tag.live {
+            background: var(--success-soft);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+        .badge-count {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 9999px;
+            background: var(--muted);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+        .tab-btn.active .badge-count {
+            background: var(--primary-soft);
+            color: var(--primary);
+            border-color: rgba(237, 91, 4, 0.25);
+        }
+
+        /* Micro-boutons d'action Kanban */
+        .card-btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: var(--font-body);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            user-select: none;
+        }
+        .card-btn-action:hover {
+            background: var(--muted);
+            border-color: var(--border-highlight);
+            color: var(--text-main);
+            transform: translateY(-1px);
+        }
+        .card-btn-action:active { transform: scale(0.97); }
+
+        /* Dropzone Studio Médias */
+        .media-dropzone {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: 42px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            user-select: none;
+        }
+        .media-dropzone:hover, .media-dropzone.dragover {
+            border-color: var(--primary);
+            background: var(--primary-soft);
+        }
+
         /* Badges & Pills */
         .badge {
             display: inline-flex;
@@ -607,6 +1130,14 @@
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     <span>CRM &amp; Pipeline Prospects (Kanban &amp; Table)</span>
                 </div>
+                <div class="command-item" onclick="executeCommand('tab-media')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span>Studio Médias &amp; WebP (&lt; 80 Ko)</span>
+                </div>
+                <div class="command-item" onclick="executeCommand('tab-automations')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span>Console d'Automatisations &amp; Workflows</span>
+                </div>
                 <div class="command-item" onclick="executeCommand('tab-seo')">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
                     <span>SEO &amp; Cocon Sémantique (Google Search)</span>
@@ -692,55 +1223,50 @@
     <header class="app-shell-header">
         <div class="header-inner">
             
-            <!-- Gauche : Workspace & Links -->
-            <div style="display: flex; align-items: center; gap: 28px;">
+            <!-- Gauche : Workspace & Fil d'Ariane -->
+            <div style="display: flex; align-items: center; gap: 20px;">
                 <!-- Workspace Switcher -->
-                <div style="display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-card); cursor: pointer;" onclick="openCommandPalette()">
-                    <img src="assets/boubane-logo.png" alt="Boubane" style="width: 24px; height: 24px; border-radius: 4px;">
-                    <span style="font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem; letter-spacing: -0.02em;">Boubane Studio</span>
-                    <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--primary); background: var(--primary-soft); padding: 1px 6px; border-radius: 4px;">PRO</span>
+                <div style="display: flex; align-items: center; gap: 10px; padding: 5px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-card); cursor: pointer;" onclick="openCommandPalette()">
+                    <img src="assets/boubane-logo.png" alt="Boubane" style="width: 22px; height: 22px; border-radius: 4px;">
+                    <span style="font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem; letter-spacing: -0.02em;">Boubane</span>
+                    <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--primary); background: var(--primary-soft); padding: 1px 5px; border-radius: 4px;">PRO</span>
                 </div>
-
-                <!-- Navigation Links -->
-                <nav class="top-nav-links">
-                    <span class="top-nav-link active" onclick="switchTab('tab-vue-generale')">Vue d'ensemble</span>
-                    <span class="top-nav-link" onclick="switchTab('tab-prospects')">
-                        CRM Prospects
-                        <span id="topNavLeadsBadge" style="font-family: var(--font-mono); font-size: 11px; background: var(--muted); border: 1px solid var(--border); padding: 1px 6px; border-radius: 9999px;">0</span>
-                    </span>
-                    <span class="top-nav-link" onclick="switchTab('tab-seo')">SEO &amp; Cocon</span>
-                    <span class="top-nav-link" onclick="switchTab('tab-blog')">Studio Blog</span>
-                    <span class="top-nav-link" onclick="switchTab('tab-hebergement')">Hébergement &amp; Paramètres</span>
-                </nav>
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--text-muted);">
+                    <span>Cockpit Exécutif</span>
+                    <span style="opacity: 0.4;">/</span>
+                    <span style="color: var(--text-main); font-weight: 600;">Pilotage Global</span>
+                </div>
             </div>
 
-            <!-- Droite : Command ⌘K, Date, Actions, Theme, User -->
+            <!-- Droite : Command ⌘K, Live Clock, Actions, Theme, User -->
             <div style="display: flex; align-items: center; gap: 12px;">
                 <!-- Live Clock -->
-                <div style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); background: var(--bg-card); padding: 6px 12px; border-radius: var(--radius-pill); border: 1px solid var(--border);">
+                <div style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); background: var(--bg-card); padding: 5px 12px; border-radius: var(--radius-pill); border: 1px solid var(--border);">
                     <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success);"></span>
                     <span id="liveClockText">--:--:--</span>
                     <span style="opacity: 0.3;">·</span>
-                    <span style="color: var(--success); font-weight: 700;">Vitesse &lt; 0.28s</span>
+                    <span style="color: var(--success); font-weight: 700;">&lt; 0.28s</span>
                 </div>
 
                 <!-- Search Button ⌘K -->
-                <button onclick="openCommandPalette()" class="btn-dash" style="color: var(--text-muted); width: 170px; justify-content: space-between;">
+                <button onclick="openCommandPalette()" class="btn-dash" style="color: var(--text-muted); width: 160px; justify-content: space-between;">
                     <span style="display: inline-flex; align-items: center; gap: 6px;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                         <span>Rechercher...</span>
                     </span>
-                    <kbd style="font-family: var(--font-mono); font-size: 11px; background: var(--muted); padding: 2px 5px; border-radius: 4px; border: 1px solid var(--border);">⌘K</kbd>
+                    <kbd style="font-family: var(--font-mono); font-size: 10px; background: var(--muted); padding: 1px 4px; border-radius: 3px; border: 1px solid var(--border);">⌘K</kbd>
                 </button>
 
                 <!-- Theme Toggle Button -->
-                <button id="themeToggleBtn" onclick="toggleDashboardTheme()" class="btn-dash" title="Bascule Sombre / Clair">
-                    <span id="themeToggleText">🌙 Sombre</span>
+                <button id="themeToggleBtn" onclick="toggleDashboardTheme()" class="btn-dash" title="Bascule Sombre / Clair" style="padding: 0 10px;">
+                    <svg id="themeToggleIconSun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg id="themeToggleIconMoon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <span id="themeToggleText" style="font-size: 0.82rem;">Sombre</span>
                 </button>
 
-                <!-- User Avatar -->
-                <div style="width: 34px; height: 34px; border-radius: 50%; background: var(--primary); color: #FFFFFF; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; user-select: none;">
-                    SB
+                <!-- User Avatar (Léo Saillour) -->
+                <div style="width: 34px; height: 34px; border-radius: 50%; background: var(--primary); color: #FFFFFF; font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; user-select: none; letter-spacing: 0.05em;" title="Léo Saillour · Fondateur">
+                    LS
                 </div>
             </div>
 
@@ -753,12 +1279,13 @@
         <!-- Dashboard Header & Actions -->
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
             <div>
-                <h1 style="font-family: var(--font-heading); font-size: 1.85rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text-main);">Cockpit Boubane Studio</h1>
+                <h1 style="font-family: var(--font-heading); font-size: 1.85rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text-main);">Cockpit Boubane</h1>
                 <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;">Pilotage stratégique : prospection locale, conversion d'audience et autorité Google.</p>
             </div>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <button onclick="seedFullDemoData()" class="btn-dash" title="Charger des données réalistes de test">
-                    <span>✨ Démo Express</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    <span>Démo Express</span>
                 </button>
                 <button onclick="exportGlobalBackup()" class="btn-dash" title="Sauvegarde complète en JSON">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -771,13 +1298,41 @@
             </div>
         </div>
 
-        <!-- Segmented Tabs Navigation -->
-        <div class="dash-tabs">
-            <button class="tab-btn active" onclick="switchTab('tab-vue-generale')">📊 Vue Générale &amp; Trafic</button>
-            <button class="tab-btn" onclick="switchTab('tab-prospects')">👥 CRM &amp; Pipeline Prospects (<span id="leadsCountBadge">0</span>)</button>
-            <button class="tab-btn" onclick="switchTab('tab-seo')">🌐 SEO &amp; Cocon Sémantique</button>
-            <button class="tab-btn" onclick="switchTab('tab-blog')">✍️ Studio Blog &amp; Rédaction (<span id="blogCountBadge">4</span>)</button>
-            <button class="tab-btn" onclick="switchTab('tab-hebergement')">⚡ Hébergement &amp; Paramètres (<span id="hebergCountBadge">5</span>)</button>
+        <!-- Segmented Tabs Navigation (Unifiée, pure shadcn/Zinc, zéro emoji) -->
+        <div class="dash-tabs" style="margin-bottom: 28px;">
+            <button class="tab-btn active" onclick="switchTab('tab-vue-generale')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                <span>Vue d'ensemble</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-prospects')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>CRM Prospects</span>
+                <span id="leadsCountBadge" class="badge-count">0</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-media')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>Studio Médias &amp; WebP</span>
+                <span class="badge-tag">80 Ko</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-automations')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <span>Automatisations</span>
+                <span id="automationsActiveCount" class="badge-tag live">Actif</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-seo')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>SEO &amp; Cocon</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-blog')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                <span>Studio Blog</span>
+                <span id="blogCountBadge" class="badge-count">4</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-hebergement')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                <span>Hébergement</span>
+                <span id="hebergCountBadge" class="badge-count">5</span>
+            </button>
         </div>
 
         <!-- ========================================================
@@ -947,6 +1502,10 @@
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
                         <span>Sync Webhook</span>
                     </button>
+                    <a href="https://crm.boubane.com/auto-login" target="_blank" class="btn-dash" style="color: #fff; background: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="Accéder directement à Twenty CRM (Connexion Automatique)">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        <span>Ouvrir Twenty CRM</span>
+                    </a>
                     <button onclick="exportLeadsCSV()" class="btn-dash">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         <span>Export CSV</span>
@@ -1162,7 +1721,7 @@
                                 <span>✦ Synthèse IA Google (Gemini)</span>
                             </div>
                             <p style="font-size: 13px; line-height: 1.5; color: #3C4043; margin-bottom: 8px;">
-                                <strong>Boubane Studio</strong> propose une alternative aux agences web pour les entreprises d'Anjou : création de site vitrine sur-mesure sans frais d'entrée, code propriétaire livré sur GitHub et score de performance de 100/100.
+                                <strong>Boubane</strong> propose une alternative aux agences web pour les entreprises d'Anjou : création de site vitrine sur-mesure sans frais d'entrée, code propriétaire livré sur GitHub et score de performance de 100/100.
                             </p>
                             <div style="display: flex; gap: 8px; font-size: 11px;">
                                 <span style="background: #FFFFFF; border: 1px solid #DADCE0; padding: 3px 8px; border-radius: 9999px;">Source : boubane.com</span>
@@ -1655,6 +2214,7 @@
                     <div style="margin-bottom: 16px;">
                         <label style="display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 6px; color: var(--text-muted);">Type de Plateforme CRM</label>
                         <select id="crmTypeSelect" class="input-shadcn">
+                            <option value="twenty" selected>Twenty CRM Boubane (Automatique - https://crm.boubane.com)</option>
                             <option value="custom">Webhook Web Universel (Make / Zapier / n8n)</option>
                             <option value="hubspot">HubSpot CRM (Direct Webhook)</option>
                             <option value="airtable">Airtable Webhook</option>
@@ -1662,7 +2222,7 @@
                     </div>
                     <div style="margin-bottom: 16px;">
                         <label style="display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 6px; color: var(--text-muted);">URL Endpoint du Webhook</label>
-                        <input type="url" id="crmWebhookInput" placeholder="https://hook.eu1.make.com/..." class="input-shadcn" style="font-family: var(--font-mono); font-size: 0.82rem;">
+                        <input type="url" id="crmWebhookInput" placeholder="https://crm.boubane.com/api/webhook/lead" class="input-shadcn" style="font-family: var(--font-mono); font-size: 0.82rem;">
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <button onclick="testCrmWebhookConnection()" class="btn-dash">Tester le Ping Webhook</button>
@@ -1702,6 +2262,223 @@
 
         </section>
 
+    
+        <!-- ========================================================
+             ESPACE 6 : STUDIO MÉDIAS & OPTIMISEUR D'IMAGES (R3)
+             ======================================================== -->
+        <section id="tab-media" style="display: none;">
+            <!-- En-tête de section -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <h2 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em;">Studio d'Optimisation Médias &amp; WebP</h2>
+                    <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">Nettoyeur et compresseur client-side (Canvas 2D) : conversion WebP &lt; 80 Ko, décodage HEIC iPhone et renommage SEO.</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="downloadAllOptimizedZip()" id="btnDownloadZip" class="btn-dash primary" disabled>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>Télécharger le Pack ZIP (<span id="zipCount">0</span>)</span>
+                    </button>
+                    <button onclick="clearOptimizedQueue()" class="btn-dash" title="Effacer la file">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        <span>Effacer tout</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Paramètres SEO & Compression contextuels -->
+            <div class="panel-card" style="margin-bottom: 24px; padding: 20px 24px;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: flex-end;">
+                    <div>
+                        <label style="display: block; font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 6px;">Métier de l'artisan</label>
+                        <input type="text" id="optMetier" value="menuisier" class="dash-input" placeholder="ex: menuisier, couvreur, macon">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 6px;">Commune / Ville</label>
+                        <input type="text" id="optVille" value="segre" class="dash-input" placeholder="ex: segre, chateau-gontier">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 6px;">Description Chantier</label>
+                        <input type="text" id="optChantier" value="renovation-longere" class="dash-input" placeholder="ex: renovation-longere">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 6px;">Format &amp; Contrainte</label>
+                        <div style="display: flex; gap: 8px;">
+                            <select id="optDimension" class="dash-input" style="flex: 1;">
+                                <option value="1400" selected>1400 px (Recommandé)</option>
+                                <option value="1280">1280 px (Ultra compact)</option>
+                                <option value="1600">1600 px (Haute définition)</option>
+                            </select>
+                            <span style="font-family: var(--font-mono); font-size: 0.78rem; background: var(--success-soft); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); padding: 8px 10px; border-radius: var(--radius-sm); white-space: nowrap; display: flex; align-items: center; font-weight: 600;">&lt; 80 Ko</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropzone Studio -->
+            <div id="mediaDropzone" class="media-dropzone" onclick="document.getElementById('mediaFileInput').click()">
+                <input type="file" id="mediaFileInput" multiple accept="image/*,.heic,.heif" style="display: none;" onchange="handleMediaFilesSelected(this.files)">
+                <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--muted); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; color: var(--primary);">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <h3 style="font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; margin-bottom: 4px;">Glissez-déposez vos photos de chantiers ici</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 480px; margin: 0 auto 14px;">
+                    Accepte <strong>JPEG, PNG, WebP</strong> et photos iPhone <strong>HEIC/HEIF</strong>. Traitement 100% exécuté dans votre navigateur, zéro photo transmise à un serveur tiers.
+                </p>
+                <span class="btn-dash" style="pointer-events: none;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    <span>Parcourir vos fichiers ou coller (⌘V)</span>
+                </span>
+            </div>
+
+            <!-- Barre de progression -->
+            <div id="optimizerProgressWrap" style="display: none; margin: 20px 0;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px;">
+                    <span id="optimizerProgressLabel" style="font-weight: 600;">Traitement en cours...</span>
+                    <span id="optimizerProgressPct" style="font-family: var(--font-mono); color: var(--primary); font-weight: 700;">0%</span>
+                </div>
+                <div style="height: 6px; background: var(--muted); border-radius: 9999px; overflow: hidden;">
+                    <div id="optimizerProgressBar" style="height: 100%; width: 0%; background: var(--primary); transition: width 0.2s ease;"></div>
+                </div>
+            </div>
+
+            <!-- Liste / Grille des résultats optimisés -->
+            <div id="mediaResultsSection" style="margin-top: 24px;">
+                <div class="panel-card" style="padding: 0; overflow: hidden;">
+                    <div style="padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700;">Fichiers prêts pour intégration</span>
+                            <span id="optimizedTotalBadge" class="badge badge-muted">0 fichier</span>
+                        </div>
+                        <div id="totalSavingsBadge" style="display: none; font-family: var(--font-mono); font-size: 0.78rem; color: var(--success); font-weight: 700;">
+                            Économie moyenne : -0%
+                        </div>
+                    </div>
+                    <div class="table-wrap" style="border: none; border-radius: 0;">
+                        <table class="dash-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px;">Aperçu</th>
+                                    <th>Nom SEO Normalisé</th>
+                                    <th>Dimensions</th>
+                                    <th>Poids Initial</th>
+                                    <th>Poids WebP</th>
+                                    <th>Statut Cible</th>
+                                    <th style="text-align: right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mediaResultsTbody">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 36px;">
+                                        Aucune image importée pour le moment. Glissez des photos de chantiers pour lancer la compression adaptative instantanée.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================
+             ESPACE 7 : CONSOLE D'AUTOMATISATIONS BOUBANE (R1, R2, R4)
+             ======================================================== -->
+        <section id="tab-automations" style="display: none;">
+            <!-- En-tête -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <h2 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em;">Console d'Automatisations Boubane</h2>
+                    <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">Supervision en temps réel des workflows : Briefing Telegram, Onboarding Photos J+2, et Demandes d'Avis Google 48h.</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="runAutomationsWatchdog()" class="btn-dash" title="Exécuter la vérification des rappels maintenant">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                        <span>Vérifier les rappels (Watchdog)</span>
+                    </button>
+                    <button onclick="simulateCalcomBookingModal()" class="btn-dash primary">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        <span>Tester Webhook Cal.com</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3 Cartes de Statut Connecteurs -->
+            <div class="kpi-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;">
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Bot Telegram (@Boubane_prospect_bot)</span>
+                        <span class="badge badge-success">Connecté</span>
+                    </div>
+                    <div class="kpi-value" style="font-size: 1.3rem;">Chat 8036535453</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Fiches diagnostic et briefing pré-appel instantanés.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Relances Photos Chantier (J+2)</span>
+                        <span id="kpiQueuePhotosBadge" class="badge badge-primary">0 en attente</span>
+                    </div>
+                    <div class="kpi-value" id="kpiQueuePhotosCount" style="font-size: 1.3rem;">0 planifiée(s)</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Neutralisation automatique dès réception des photos.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Demandes d'Avis Google (+48h)</span>
+                        <span id="kpiQueueReviewsBadge" class="badge badge-warning">0 en attente</span>
+                    </div>
+                    <div class="kpi-value" id="kpiQueueReviewsCount" style="font-size: 1.3rem;">0 planifiée(s)</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Déclenchées 48h après mise en ligne du site.</div>
+                </div>
+            </div>
+
+            <!-- File d'attente des tâches programmées -->
+            <div class="panel-card" style="margin-bottom: 24px; padding: 0; overflow: hidden;">
+                <div style="padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700;">File d'Attente des Tâches Programmées</span>
+                    <span id="queueTotalBadge" class="badge badge-muted">0 tâche</span>
+                </div>
+                <div class="table-wrap" style="border: none; border-radius: 0;">
+                    <table class="dash-table">
+                        <thead>
+                            <tr>
+                                <th>Type d'Automatisation</th>
+                                <th>Prospect / Client</th>
+                                <th>Canal</th>
+                                <th>Date de Déclenchement Prévue</th>
+                                <th>Statut</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="automationsQueueTbody">
+                            <tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 32px;">Aucune relance en attente dans la file.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Journal d'Audit & Logs en Direct -->
+            <div class="panel-card" style="padding: 0; overflow: hidden;">
+                <div style="padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700;">Journal d'Exécution &amp; Audit (LocalStorage)</span>
+                    <button onclick="clearAutomationLogs()" class="btn-dash" style="height: 28px; font-size: 0.75rem;">Vider les logs</button>
+                </div>
+                <div class="table-wrap" style="border: none; border-radius: 0;">
+                    <table class="dash-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 160px;">Horodatage</th>
+                                <th>Module</th>
+                                <th>Niveau</th>
+                                <th>Message d'Événement</th>
+                                <th style="text-align: right;">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody id="automationsLogsTbody">
+                            <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 32px;">Aucun événement enregistré pour l'instant.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- SCRIPTS CONSOLIDÉS BOUBANE COCKPIT -->
@@ -1729,9 +2506,17 @@
         }
 
         function updateThemeButtonText(theme) {
+            const sun = document.getElementById('themeToggleIconSun');
+            const moon = document.getElementById('themeToggleIconMoon');
             const label = document.getElementById('themeToggleText');
-            if (label) {
-                label.textContent = theme === 'dark' ? '☀️ Clair' : '🌙 Sombre';
+            if (theme === 'dark') {
+                if (sun) sun.style.display = 'inline-block';
+                if (moon) moon.style.display = 'none';
+                if (label) label.textContent = 'Clair';
+            } else {
+                if (sun) sun.style.display = 'none';
+                if (moon) moon.style.display = 'inline-block';
+                if (label) label.textContent = 'Sombre';
             }
         }
 
@@ -1775,7 +2560,7 @@
             const activeTopLink = Array.from(document.querySelectorAll('.top-nav-link')).find(l => l.getAttribute('onclick') && l.getAttribute('onclick').includes(tabId));
             if (activeTopLink) activeTopLink.classList.add('active');
 
-            const tabSections = ['tab-vue-generale', 'tab-prospects', 'tab-seo', 'tab-blog', 'tab-hebergement', 'tab-config'];
+            const tabSections = ['tab-vue-generale', 'tab-prospects', 'tab-media', 'tab-automations', 'tab-seo', 'tab-blog', 'tab-hebergement', 'tab-config'];
             tabSections.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = (id === tabId) ? 'block' : 'none';
@@ -1792,6 +2577,10 @@
                 const rawLeads = localStorage.getItem('boubane_leads');
                 renderLeads(rawLeads ? JSON.parse(rawLeads) : []);
                 if (typeof updateCommercialPitch === 'function') updateCommercialPitch();
+            } else if (tabId === 'tab-media') {
+                initMediaOptimizerTab();
+            } else if (tabId === 'tab-automations') {
+                loadAutomationsDashboard();
             } else if (tabId === 'tab-hebergement' || tabId === 'tab-config') {
                 renderHostingTable();
             } else if (tabId === 'tab-vue-generale') {
@@ -2064,18 +2853,12 @@
 
             // En-tête badge CRM
             const cfg = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
-            const hasCrm = Boolean(cfg.crmWebhookUrl && cfg.crmWebhookUrl.trim());
+            const crmWebhookUrl = (cfg.crmWebhookUrl && cfg.crmWebhookUrl.trim()) || 'https://crm.boubane.com/api/webhook/lead';
             const badgeHeader = document.getElementById('crmHeaderBadge');
             if (badgeHeader) {
-                if (hasCrm) {
-                    badgeHeader.textContent = "✓ CRM Connecté (Webhook Actif)";
-                    badgeHeader.style.background = "rgba(16, 185, 129, 0.15)";
-                    badgeHeader.style.color = "#10B981";
-                } else {
-                    badgeHeader.textContent = "CRM Non Connecté (Stockage Local)";
-                    badgeHeader.style.background = "rgba(237, 91, 4, 0.1)";
-                    badgeHeader.style.color = "var(--primary)";
-                }
+                badgeHeader.textContent = "✓ Twenty CRM Connecté (Synchro Auto)";
+                badgeHeader.style.background = "rgba(16, 185, 129, 0.15)";
+                badgeHeader.style.color = "#10B981";
             }
 
             renderLeadsKanban(filtered, rawLeads);
@@ -2107,26 +2890,57 @@
                         const excerpt = cleanMsg.length > 95 ? cleanMsg.substring(0, 95) + '…' : cleanMsg;
                         const waText = encodeURIComponent(`Bonjour ${lead.name || ''}, suite à votre demande sur Boubane.com concernant votre projet web, je reste à votre entière disposition.`);
 
+                        let dynamicBadges = '';
+                        if (lead.photoReminderDueAt && !lead.photosReceived) {
+                            dynamicBadges += `<span class="badge badge-primary" style="font-size: 10px; padding: 1px 6px;">📸 Relance J+2</span>`;
+                        }
+                        if (lead.reviewDueAt) {
+                            dynamicBadges += `<span class="badge badge-warning" style="font-size: 10px; padding: 1px 6px;">⭐ Avis +48h</span>`;
+                        }
+                        if (lead.deliveredAt || lead.status === 'Terminé') {
+                            dynamicBadges += `<span class="badge badge-success" style="font-size: 10px; padding: 1px 6px;">🚀 En Ligne</span>`;
+                        }
+
                         return `
                             <div class="kanban-card">
-                                <div class="card-head">
-                                    <span class="card-title">${escapeHtml(lead.name || 'Prospect Sans Nom')}</span>
+                                <div class="card-head" style="margin-bottom: 6px;">
+                                    <span class="card-title" style="font-weight: 700;">${escapeHtml(lead.name || 'Prospect Sans Nom')}</span>
                                     <span class="card-time">${escapeHtml(lead.date || 'Récemment')}</span>
                                 </div>
-                                <div class="card-email">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                                    <a href="mailto:${escapeHtml(lead.email || '')}">${escapeHtml(lead.email || '—')}</a>
+                                <div style="display: flex; flex-direction: column; gap: 3px; margin-bottom: 8px;">
+                                    <div class="card-email">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                        <a href="mailto:${escapeHtml(lead.email || '')}">${escapeHtml(lead.email || '—')}</a>
+                                    </div>
+                                    ${lead.phone ? `<div class="card-email" style="font-family: var(--font-mono); font-size: 11px;">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                        <span>${escapeHtml(lead.phone)}</span>
+                                    </div>` : ''}
                                 </div>
-                                <div class="card-msg" title="${escapeHtml(cleanMsg)}">
+                                <div class="card-msg" title="${escapeHtml(cleanMsg)}" style="margin-bottom: 10px;">
                                     “${escapeHtml(excerpt)}”
                                 </div>
+                                ${dynamicBadges ? `<div style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px;">${dynamicBadges}</div>` : ''}
+                                
+                                <!-- Barre de déclencheurs 1-clic internes (R1, R2, R4) -->
+                                <div style="display: flex; gap: 4px; margin-bottom: 10px; padding: 6px; background: var(--muted); border-radius: var(--radius-sm); border: 1px solid var(--border); justify-content: space-between;">
+                                    <button onclick="triggerBriefingTelegram(${origIdx})" class="card-btn-action" title="⚡ Briefing Telegram automatique (R1)">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                        <span>Briefing</span>
+                                    </button>
+                                    <button onclick="triggerPhotoOnboardingLead(${origIdx}, 'whatsapp')" class="card-btn-action" title="📸 Cadrage Photos + Relance J+2 (R2)">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                        <span>Photos</span>
+                                    </button>
+                                    <button onclick="triggerDeliveryLead(${origIdx})" class="card-btn-action" title="🚀 Livraison + Avis Google 48h (R4)">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                        <span>Livrer</span>
+                                    </button>
+                                </div>
+
                                 <div class="card-actions">
                                     <div style="display: flex; gap: 4px; align-items: center;">
-                                        <a href="https://wa.me/?text=${waText}" target="_blank" class="card-btn" style="color: #22C55E;" title="Ouvrir WhatsApp pour relancer ce prospect">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                                            <span>WA</span>
-                                        </a>
-                                        ${!lead.crmSynced ? `<button onclick="pushLeadToCrm(${origIdx})" class="card-btn" title="Envoyer au CRM externe">↗ CRM</button>` : `<span style="font-size: 0.68rem; color: #10B981; font-weight: 700; padding: 2px 4px;">✓ Synced</span>`}
+                                        ${!lead.crmSynced ? `<button onclick="pushLeadToCrm(${origIdx})" class="card-btn" title="Envoyer au CRM externe">↗ CRM</button>` : `<span style="font-size: 0.68rem; color: #10B981; font-weight: 700; padding: 2px 4px;">✓ Twenty</span>`}
                                     </div>
                                     <div style="display: flex; gap: 4px; align-items: center;">
                                         <button onclick="advanceLeadStage(${origIdx})" class="card-btn" title="Avancer à l'étape suivante du pipeline" style="color: var(--primary);">
@@ -2230,19 +3044,15 @@
             if (!lead) return;
 
             const cfg = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
-            if (!cfg.crmWebhookUrl || !cfg.crmWebhookUrl.trim()) {
-                alert('Aucune URL de Webhook CRM configurée.\n Rendez-vous dans l\'onglet "Intégrations & Outils" pour renseigner l\'URL de votre CRM (HubSpot, Make, Zapier, Notion).');
-                switchTab('tab-config');
-                return;
-            }
+            const crmUrl = (cfg.crmWebhookUrl && cfg.crmWebhookUrl.trim()) || 'https://crm.boubane.com/api/webhook/lead';
 
             if (typeof window.boubaneSendLeadToCrm === 'function') {
-                window.boubaneSendLeadToCrm(lead, cfg.crmWebhookUrl)
+                window.boubaneSendLeadToCrm(lead, crmUrl)
                     .then(() => {
                         lead.crmSynced = true;
                         localStorage.setItem('boubane_leads', JSON.stringify(leads));
                         loadDashboardData();
-                        showToast("✓ Synchronisation CRM", `Lead de "${lead.name}" envoyé avec succès`, "success");
+                        showToast("✓ Synchronisation CRM", `Lead de "${lead.name}" envoyé vers Twenty CRM`, "success");
                     })
                     .catch((err) => {
                         showToast("Erreur CRM", err.message, "error");
@@ -2261,21 +3071,17 @@
             const pending = leads.filter(l => !l.crmSynced);
 
             if (pending.length === 0) {
-                showToast("CRM à jour", "Tous vos prospects sont déjà synchronisés avec votre CRM", "info");
+                showToast("CRM à jour", "Tous vos prospects sont déjà synchronisés avec Twenty CRM", "info");
                 return;
             }
 
             const cfg = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
-            if (!cfg.crmWebhookUrl || !cfg.crmWebhookUrl.trim()) {
-                alert('Veuillez configurer votre URL de Webhook CRM dans l\'onglet "Intégrations & Outils" avant de lancer la synchronisation.');
-                switchTab('tab-config');
-                return;
-            }
+            const crmUrl = (cfg.crmWebhookUrl && cfg.crmWebhookUrl.trim()) || 'https://crm.boubane.com/api/webhook/lead';
 
             let count = 0;
             pending.forEach(lead => {
                 if (typeof window.boubaneSendLeadToCrm === 'function') {
-                    window.boubaneSendLeadToCrm(lead, cfg.crmWebhookUrl);
+                    window.boubaneSendLeadToCrm(lead, crmUrl);
                 }
                 lead.crmSynced = true;
                 count++;
@@ -2283,7 +3089,7 @@
 
             localStorage.setItem('boubane_leads', JSON.stringify(leads));
             loadDashboardData();
-            showToast("✓ Synchronisation Totale", `${count} prospect(s) transmis vers votre CRM externe`, "success");
+            showToast("✓ Synchronisation Twenty CRM", `${count} prospect(s) transmis automatiquement`, "success");
         }
 
         function deleteLead(idx) {
@@ -2617,6 +3423,9 @@
                     id: 'lead_demo_1',
                     name: 'Maison Dujardin — Ébénisterie d\'Art',
                     email: 'contact@dujardin-ebenisterie.fr',
+                    phone: '06 18 42 90 11',
+                    craft: 'Ébéniste',
+                    city: 'Segré-en-Anjou Bleu',
                     message: 'Rénovation complète de notre site vitrine et mise en valeur de nos chantiers sur-mesure pour architectes parisiens.',
                     date: 'Aujourd\'hui 10:42',
                     timestamp: Date.now() - 3600000 * 2,
@@ -2704,7 +3513,7 @@
                 keywords: "prix site vitrine artisan France, devis site web pme, tarif agence web",
                 readTime: "5 min",
                 metaTitle: "Quel est le Vrai Prix d'un Site Vitrine en 2026 ? Comparatif Agence vs Studio",
-                metaDesc: "Pourquoi une agence vous facture 3 500 € à 5 000 € ? Découvrez le modèle de rupture Boubane Studio : 0 € en création et liberté totale.",
+                metaDesc: "Pourquoi une agence vous facture 3 500 € à 5 000 € ? Découvrez le modèle de rupture Boubane : 0 € en création et liberté totale.",
                 status: "Publié",
                 date: "15 Octobre 2026",
                 content: `<h2>1. La décomposition des coûts d'une agence classique</h2><p>Une agence web classique a des coûts de structure incompressibles qui gonflent la facture sans valeur ajoutée pour votre entreprise.</p>`
@@ -2974,7 +3783,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>${escapeHtml(metaTitle)} · Boubane Studio</title>
+    <title>${escapeHtml(metaTitle)} · Boubane</title>
     <meta name="description" content="${escapeHtml(metaDesc)}">
     <meta name="geo.region" content="FR">
     <link rel="canonical" href="https://www.boubane.com/blog#article=${slug}">
@@ -3037,7 +3846,7 @@
                 keywords: "prix site vitrine artisan France, devis site web Paris Lyon, tarif agence",
                 readTime: "5 min",
                 metaTitle: "Prix Site Vitrine Artisan en 2026 : Le Vrai Coût Dévoilé",
-                metaDesc: "Comparatif sans filtre : 4 500 € en agence classique vs 0 € en création chez Boubane Studio. Comprenez pourquoi vous payez trop cher.",
+                metaDesc: "Comparatif sans filtre : 4 500 € en agence classique vs 0 € en création chez Boubane. Comprenez pourquoi vous payez trop cher.",
                 content: `<h2>1. Pourquoi les devis d'agences varient de 1 500 € à 7 000 €</h2>
 <p>Pour un même projet de site vitrine de 5 pages, les propositions tarifaires reçues par les artisans et PME peuvent varier du simple au quintuple.</p>
 <p>La raison est simple : les agences classiques vous font payer leur structure commerciale, leurs commerciaux commissionnés et leurs bureaux physiques.</p>
@@ -3050,7 +3859,7 @@
 <ul>
 <li><strong>Nom de domaine direct :</strong> ~10 € / an réglé directement à votre nom (OVH, IONOS).</li>
 <li><strong>Hébergement cloud ultra-rapide :</strong> ~5 € / mois sans intermédiaire.</li>
-<li><strong>Conception & Code source :</strong> 100% pris en charge à nos frais avec Boubane Studio (0 €).</li>
+<li><strong>Conception & Code source :</strong> 100% pris en charge à nos frais avec Boubane (0 €).</li>
 </ul>
 
 <div style="text-align: center; margin: 24px 0; padding: 20px; background: #FAF8F5; border: 1px solid #E5E1D8; border-radius: 12px;">
@@ -3086,7 +3895,7 @@
                 content: `<h2>1. Le défi : une activité d'exception invisible sur le web</h2>
 <p>L'Atelier Vaneau réalisait des chantiers d'ébénisterie d'art et d'agencement sur-mesure de très haut niveau, mais son ancien site WordPress mettait plus de 4 secondes à s'afficher et dégradait l'image de marque.</p>
 
-<h2>2. La refonte par Boubane Studio</h2>
+<h2>2. La refonte par Boubane</h2>
 <p>En supprimant le CMS obèse pour une architecture sur-mesure ultra-légère (affichage en 280ms) et une mise en page valorisant la noblesse du bois, le taux de conversion a bondi dès le premier mois.</p>`
             },
             'vitesse-seo': {
@@ -3128,7 +3937,7 @@
             const keywords = document.getElementById('artKeywords').value || "artisan, PME, France, vitesse";
             const category = document.getElementById('artCategory').value || "Indépendance Numérique";
 
-            const prompt = `Agis comme le Directeur Éditorial de Boubane Studio (studio d'artisanat web fondé par Léo Saillour, https://www.boubane.com).
+            const prompt = `Agis comme le Directeur Éditorial de Boubane (studio d'artisanat web fondé par Léo Saillour, https://www.boubane.com).
 
 RÈGLES D'OR DU STUDIO :
 - Modèle de rupture : 100% de la création et du code sont offerts (0 €). Le client ne règle que son hébergement direct habituel (~5 €/mois).
@@ -3321,7 +4130,7 @@ Je fais suite à notre échange concernant la réalisation de votre nouveau site
 
 Pour que vous ayez une vision limpide de l'arbitrage financier :
 • Modèle agence classique : ${formatEuro(agencyCreation)} d'acompte création + ${formatEuro(agencyMonthly)}/mois d'engagement, soit ${formatEuro(agencyTotal3y)} décaissés sur 3 ans.
-• Modèle Boubane Studio : Création 100% offerte (0 €) + hébergement direct à votre nom (~${formatEuro(boubaneMonthly)}/mois sans intermédiaire), soit seulement ${formatEuro(boubaneTotal3y)} sur 3 ans.
+• Modèle Boubane : Création 100% offerte (0 €) + hébergement direct à votre nom (~${formatEuro(boubaneMonthly)}/mois sans intermédiaire), soit seulement ${formatEuro(boubaneTotal3y)} sur 3 ans.
 
 Résultat concret : vous préservez exactement ${formatEuro(economyNet)} de trésorerie nette sur 3 ans, directement réinvestissables dans la croissance de votre entreprise.
 
@@ -3330,7 +4139,7 @@ De plus, vous restez propriétaire à 100% de votre nom de domaine et de votre c
 Seriez-vous disponible 10 minutes cette semaine pour valider ensemble le cahier des charges de votre site vitrine offert ?
 
 Bien cordialement,
-Léo Saillour — Boubane Studio
+Léo Saillour — Boubane
 06 63 93 47 04 · https://www.boubane.com`;
 
             const pitchArea = document.getElementById('simPitchContent');
@@ -3446,7 +4255,7 @@ Léo Saillour — Boubane Studio
             const bodySample = `<p>À <strong>${city.name}</strong> et dans toute la région <strong>${city.region}</strong>, les professionnels de type <em>${trade.name.toLowerCase()}</em> font face au même défi : comment présenter un savoir-faire d'excellence sans se faire dépouiller de 4 000 € à 6 000 € par une agence web intermédiaire ?</p>
 
 <h2>Pourquoi une agence web classique n'est plus rentable à ${city.name}</h2>
-<p>Entre les frais d'installation opaques et les redevances mensuelles imposées (100 € à 180 €/mois), un site d'artisan classique coûte près de 9 000 € sur 3 ans. Avec Boubane Studio, la création et le code sur-mesure sont <strong>100% offerts (0 €)</strong>. Vous ne réglez que l'hébergeur direct (~5 €/mois).</p>
+<p>Entre les frais d'installation opaques et les redevances mensuelles imposées (100 € à 180 €/mois), un site d'artisan classique coûte près de 9 000 € sur 3 ans. Avec Boubane, la création et le code sur-mesure sont <strong>100% offerts (0 €)</strong>. Vous ne réglez que l'hébergeur direct (~5 €/mois).</p>
 
 <h2>Ce que votre atelier gagne dès le premier mois</h2>
 <ul>
@@ -3488,7 +4297,7 @@ Léo Saillour — Boubane Studio
                 schemaObj = {
                     "@context": "https://schema.org",
                     "@type": "ProfessionalService",
-                    "name": "Boubane Studio",
+                    "name": "Boubane",
                     "url": "https://www.boubane.com",
                     "logo": "https://www.boubane.com/assets/boubane-logo.png",
                     "description": "Studio d'artisanat web et conception sur-mesure de sites vitrines offerts (0 €) pour artisans, créateurs et PME sans abonnement d'agence.",
@@ -3514,7 +4323,7 @@ Léo Saillour — Boubane Studio
                             "name": "Pourquoi la création de site vitrine est-elle offerte à 0 € ?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "Boubane Studio prend en charge 100% de la conception et du code pour enrichir son portfolio de cas d'excellence. Le client ne règle que ses frais techniques directs d'hébergement (~5 €/mois), sans aucune redevance d'agence."
+                                "text": "Boubane prend en charge 100% de la conception et du code pour enrichir son portfolio de cas d'excellence. Le client ne règle que ses frais techniques directs d'hébergement (~5 €/mois), sans aucune redevance d'agence."
                             }
                         },
                         {
@@ -3539,7 +4348,7 @@ Léo Saillour — Boubane Studio
                     },
                     "publisher": {
                         "@type": "Organization",
-                        "name": "Boubane Studio",
+                        "name": "Boubane",
                         "logo": {
                             "@type": "ImageObject",
                             "url": "https://www.boubane.com/assets/boubane-logo.png"
@@ -4121,11 +4930,11 @@ Léo Saillour — Boubane Studio
                 if (cfg.ga4Id && document.getElementById('ga4Input')) {
                     document.getElementById('ga4Input').value = cfg.ga4Id;
                 }
-                if (cfg.crmWebhookUrl && document.getElementById('crmWebhookInput')) {
-                    document.getElementById('crmWebhookInput').value = cfg.crmWebhookUrl;
+                if (document.getElementById('crmWebhookInput')) {
+                    document.getElementById('crmWebhookInput').value = cfg.crmWebhookUrl || 'https://crm.boubane.com/api/webhook/lead';
                 }
-                if (cfg.crmType && document.getElementById('crmTypeSelect')) {
-                    document.getElementById('crmTypeSelect').value = cfg.crmType;
+                if (document.getElementById('crmTypeSelect')) {
+                    document.getElementById('crmTypeSelect').value = cfg.crmType || 'twenty';
                 }
             } catch (e) {}
 
