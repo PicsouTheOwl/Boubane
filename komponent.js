@@ -1365,10 +1365,19 @@ function initBureauCanvas() {
   const windows = Array.from(canvas.querySelectorAll('.bureau-window'));
   if (!windows.length) return;
 
-  // Amener au premier plan au clic ou touch
+  // Amener au premier plan au clic ou touch avec synchronisation du dock
   function bringToFront(win) {
     highestBureauZIndex += 1;
     win.style.zIndex = highestBureauZIndex;
+    const idMap = { 'bureauWinAstra': 0, 'bureauWinAchille': 1, 'bureauWinValmy': 2 };
+    if (win.id in idMap) {
+      const idx = idMap[win.id];
+      const dockBtns = document.querySelectorAll('.cs-dock-app-btn');
+      dockBtns.forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+        btn.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+      });
+    }
   }
 
   // Disposition optimisée selon la largeur d'écran (Mobile vs Desktop)
