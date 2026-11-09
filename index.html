@@ -171,8 +171,325 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-    <!-- Stylesheet du Système de Design Boubane (#ED5B04) -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Stylesheet du Système de Design Boubane (#ED5B04) avec cache-busting -->
+    <link rel="stylesheet" href="style.css?v=20261109_2215">
+
+    <!-- Styles Critiques Embarqués (Garantie Anti-FOUC & Anti-Cache Stale) -->
+    <style id="critical-atelier-css">
+    /* 1. Conteneur Principal du Laboratoire */
+    .lab-zero-container {
+      background: #FFFFFF;
+      border: 1px solid rgba(12, 10, 8, 0.09);
+      border-radius: clamp(24px, 4vw, 36px);
+      box-shadow: 0 24px 70px -16px rgba(12, 10, 8, 0.06), 0 8px 24px -4px rgba(12, 10, 8, 0.03), inset 0 1px 0 #FFFFFF;
+      padding: clamp(24px, 4vw, 44px);
+      position: relative;
+      overflow: hidden;
+      margin-top: 36px;
+    }
+    .lab-ambient-glow {
+      position: absolute;
+      top: -100px;
+      right: -60px;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(237, 91, 4, 0.08) 0%, rgba(238, 248, 90, 0.03) 50%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(50px);
+      z-index: 0;
+    }
+    .lab-switcher-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 2;
+    }
+    .lab-segmented-pill {
+      display: inline-flex;
+      align-items: center;
+      background: #FAF8F5;
+      border: 1px solid rgba(12, 10, 8, 0.09);
+      border-radius: 9999px;
+      padding: 5px;
+      position: relative;
+      box-shadow: inset 0 2px 4px rgba(12, 10, 8, 0.03);
+    }
+    .lab-switch-btn {
+      font-family: 'Geist', system-ui, sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      border: none;
+      background: transparent;
+      color: #64635E;
+      cursor: pointer;
+      transition: color 0.25s ease, transform 0.15s ease;
+      position: relative;
+      z-index: 2;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lab-switch-btn:active { transform: scale(0.96); }
+    .lab-switch-btn.active { color: #0C0A08; font-weight: 700; }
+    .lab-pill-slider {
+      position: absolute;
+      top: 5px;
+      bottom: 5px;
+      left: 5px;
+      width: calc(50% - 5px);
+      background: #FFFFFF;
+      border-radius: 9999px;
+      box-shadow: 0 4px 14px rgba(12, 10, 8, 0.08), 0 1px 3px rgba(12, 10, 8, 0.04);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1;
+    }
+    .lab-segmented-pill.mode-boubane .lab-pill-slider { transform: translateX(100%); }
+    .lab-dynamic-hud {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: clamp(24px, 3.5vw, 40px);
+      align-items: stretch;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 900px) {
+      .lab-dynamic-hud { grid-template-columns: 1fr; }
+    }
+    .hud-main-card {
+      background: #FAF8F5;
+      border: 1px solid rgba(12, 10, 8, 0.08);
+      border-radius: 24px;
+      padding: clamp(24px, 3.5vw, 36px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .lab-zero-container.state-boubane .hud-main-card {
+      background: linear-gradient(170deg, #FFFFFF 0%, #FFF9F5 100%);
+      border-color: rgba(237, 91, 4, 0.28);
+      box-shadow: 0 14px 40px -10px rgba(237, 91, 4, 0.12);
+    }
+    .hud-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .hud-tag {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      transition: all 0.3s ease;
+    }
+    .lab-zero-container.state-legacy .hud-tag {
+      background: rgba(220, 38, 38, 0.1);
+      color: #DC2626;
+      border: 1px solid rgba(220, 38, 38, 0.2);
+    }
+    .lab-zero-container.state-boubane .hud-tag {
+      background: rgba(237, 91, 4, 0.1);
+      color: #ED5B04;
+      border: 1px solid rgba(237, 91, 4, 0.25);
+    }
+    .hud-price-display {
+      font-size: clamp(3rem, 6vw, 4.4rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin: 16px 0 8px;
+      transition: color 0.3s ease;
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .lab-zero-container.state-legacy .hud-price-display { color: #8C8B85; }
+    .lab-zero-container.state-boubane .hud-price-display { color: #ED5B04; }
+    .hud-price-caption {
+      font-size: 0.94rem;
+      color: #64635E;
+      margin-bottom: 24px;
+    }
+    .hud-meters-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(12, 10, 8, 0.07);
+    }
+    .meter-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .meter-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #1A1816;
+    }
+    .meter-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(12, 10, 8, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .meter-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s ease;
+    }
+    .meter-fill.legacy-meter { background: #A3A199; }
+    .meter-fill.boubane-meter { background: #ED5B04; }
+    .hud-side-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .spec-tile {
+      background: #FAF8F5;
+      border: 1px solid rgba(12, 10, 8, 0.07);
+      border-radius: 18px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .lab-zero-container.state-boubane .spec-tile {
+      background: #FFFFFF;
+      border-color: rgba(12, 10, 8, 0.09);
+      box-shadow: 0 4px 14px rgba(12, 10, 8, 0.02);
+    }
+    .spec-tile:hover {
+      transform: translateY(-2px);
+      border-color: rgba(237, 91, 4, 0.25);
+    }
+    .spec-tile-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: #FFFFFF;
+      border: 1px solid rgba(12, 10, 8, 0.08);
+      color: #ED5B04;
+      transition: all 0.3s ease;
+    }
+    .lab-zero-container.state-legacy .spec-tile-icon { color: #8C8B85; }
+    .spec-tile-text { flex: 1; }
+    .spec-tile-label {
+      font-size: 0.72rem;
+      color: #8C8B85;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+    .spec-tile-value {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #0C0A08;
+      transition: color 0.3s ease;
+    }
+    .network-canvas-wrap {
+      margin-top: 28px;
+      padding: 22px;
+      background: #FAF8F5;
+      border-radius: 20px;
+      border: 1px solid rgba(12, 10, 8, 0.07);
+      position: relative;
+      z-index: 1;
+    }
+    .network-stream-line {
+      stroke-dasharray: 8 6;
+      animation: streamRun 1.2s linear infinite;
+    }
+    @keyframes streamRun {
+      from { stroke-dashoffset: 28; }
+      to { stroke-dashoffset: 0; }
+    }
+    .savings-slider-card {
+      margin-top: 28px;
+      background: linear-gradient(170deg, #161514 0%, #0C0A08 100%);
+      color: #FAF8F5;
+      border-radius: 22px;
+      padding: clamp(22px, 3.5vw, 32px);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px -10px rgba(12, 10, 8, 0.4);
+      z-index: 1;
+    }
+    .savings-slider-card .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .savings-slider-input {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+      cursor: pointer;
+      margin: 14px 0 20px;
+    }
+    .savings-slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ED5B04;
+      border: 3px solid #FFFFFF;
+      box-shadow: 0 4px 12px rgba(237, 91, 4, 0.5);
+      cursor: grab;
+      transition: transform 0.1s ease;
+    }
+    .savings-slider-input::-webkit-slider-thumb:active {
+      transform: scale(1.15);
+      cursor: grabbing;
+    }
+    .savings-meter-display {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .savings-highlight {
+      font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+      font-weight: 800;
+      color: #ED5B04;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    </style>
 
     <!-- Motion Engine (Two26.studio Physics : Lenis + GSAP 3 + ScrollTrigger) -->
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
@@ -1378,7 +1695,7 @@
         </div>
     </footer>
 
-    <!-- Script des interactions -->
-    <script src="komponent.js"></script>
+    <!-- Script des interactions avec cache-busting -->
+    <script src="komponent.js?v=20261109_2215"></script>
 </body>
 </html>
