@@ -253,13 +253,22 @@
         </div>
     </div>
 
-    <!-- Header Flottant Capsule Ramp Design (v2-top-nav) -->
+    <!-- Header Flottant Haute Autorité (960px Équilibré) -->
     <header class="header">
         <div class="nav-pill-wrapper">
             <a href="#top" class="brand" aria-label="Accueil Boubane">
                 <img src="assets/boubane-logo.png" alt="Logo Boubane" class="brand-logo" width="28" height="28">
                 <span>BOUBANE</span>
             </a>
+
+            <nav aria-label="Navigation principale">
+                <ul class="nav-links">
+                    <li><a href="#heroShowcase" class="nav-link">Réalisations</a></li>
+                    <li><a href="/hebergement" class="nav-link">Hébergement</a></li>
+                    <li><a href="/blog" class="nav-link">Journal &amp; SEO</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                </ul>
+            </nav>
 
             <a href="/commander" class="btn btn-primary btn-magnetic" aria-label="Commander mon site offert">
                 <span class="nav-btn-text-full">Commander (0 €)</span>
@@ -420,26 +429,23 @@
             </div>
         </section>
 
-        <!-- Bandeau Marquee Infini (Ramp Design Continuous Marquee) -->
-        <section class="ramp-marquee-wrap" aria-label="Engagements et standards du studio">
-            <div class="ramp-marquee-track">
-                <span class="ramp-marquee-item">Demandes de Devis Directes <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">100% de la Création Offerte <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Code Propriétaire Livré sur GitHub <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Zéro Frais d'Agence <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Prêt en 48h Clé en Main <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Hébergement Direct à Votre Nom <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Design Haute Autorité <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Artisanat Web Français <span class="ramp-marquee-star">✦</span></span>
-                <!-- Duplication boucle infinie -->
-                <span class="ramp-marquee-item">Demandes de Devis Directes <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">100% de la Création Offerte <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Code Propriétaire Livré sur GitHub <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Zéro Frais d'Agence <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Prêt en 48h Clé en Main <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Hébergement Direct à Votre Nom <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Design Haute Autorité <span class="ramp-marquee-star">✦</span></span>
-                <span class="ramp-marquee-item">Artisanat Web Français <span class="ramp-marquee-star">✦</span></span>
+        <!-- Bandeau Courbé en Arche (Curved Ribbon Marquee Style) -->
+        <section class="curved-banner-wrap" aria-label="Engagements et standards du studio">
+            <div class="curved-banner-inner">
+                <svg class="curved-banner-svg" viewBox="0 0 1440 220" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <defs>
+                        <!-- Trajectoire étendue du texte le long de l'arche -->
+                        <path id="archTextCurve" d="M -2000, 1487 Q 720, -1367 3440, 1487" fill="none" />
+                    </defs>
+                    <!-- Ruban orange courbé en arche conforme à la charte -->
+                    <path d="M -40, 165 Q 720, -40 1480, 165" stroke="#ED5B04" stroke-width="84" fill="none" stroke-linecap="square" />
+                    <!-- Typographie majuscule blanche défilant le long de la courbe -->
+                    <text font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="900" font-size="24" fill="#FFFFFF" letter-spacing="0.05em" dominant-baseline="central">
+                        <textPath id="curvedMarqueeText" href="#archTextCurve" startOffset="0">
+                            DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • 
+                        </textPath>
+                    </text>
+                </svg>
             </div>
         </section>
 

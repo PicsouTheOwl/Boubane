@@ -1843,5 +1843,40 @@ function initCookieConsent() {
   }
 }
 
+// 12. Animation continue du Bandeau Courbé en Arche (Signature Boubane)
+(function initCurvedArchMarquee() {
+  function startMarquee() {
+    const textPath = document.getElementById('curvedMarqueeText');
+    if (!textPath) return;
+
+    let offset = 0;
+    const speed = 0.95;
+    let singleLen = 1450;
+
+    try {
+      const totalLen = textPath.getComputedTextLength();
+      if (totalLen > 0) {
+        singleLen = totalLen / 3;
+      }
+    } catch (e) {}
+
+    function tick() {
+      offset -= speed;
+      if (offset <= -singleLen) {
+        offset += singleLen;
+      }
+      textPath.setAttribute('startOffset', offset + 'px');
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startMarquee);
+  } else {
+    startMarquee();
+  }
+})();
+
 
 

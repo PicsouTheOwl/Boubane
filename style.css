@@ -209,18 +209,19 @@ p.lead {
    ========================================================================== */
 .header {
   position: sticky;
-  top: 28px;
+  top: 24px;
   z-index: 100;
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
+  width: min(960px, calc(100% - 32px)) !important;
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
   transition: all var(--transition-normal);
 }
 
 .nav-pill-wrapper {
-  width: 100%;
-  background: rgba(250, 249, 246, 0.88);
+  width: 100% !important;
+  background: rgba(250, 249, 246, 0.92);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
   border: 1px solid rgba(12, 10, 8, 0.09);
@@ -234,6 +235,7 @@ p.lead {
   justify-content: space-between;
   height: 60px;
   padding: 0 10px 0 20px;
+  box-sizing: border-box !important;
   transition: all var(--transition-normal);
 }
 
@@ -1063,6 +1065,35 @@ p.lead {
   color: rgba(255, 255, 255, 0.75);
   display: flex;
   align-items: center;
+}
+
+/* ==========================================================================
+   Bandeau Courbé en Arche (Curved Orange Ribbon Banner)
+   ========================================================================== */
+.curved-banner-wrap {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background: transparent;
+  padding: clamp(24px, 4vw, 52px) 0 clamp(10px, 2vw, 32px);
+  user-select: none;
+  pointer-events: none;
+}
+
+.curved-banner-inner {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.curved-banner-svg {
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+  display: block;
 }
 
 /* ==========================================================================
