@@ -1843,15 +1843,19 @@ function initCookieConsent() {
   }
 }
 
-// 12. Animation continue du Bandeau Courbé en Arche (Signature Boubane)
+// 12. Animation continue du Bandeau Courbé en Arche (Signature Boubane Dynamique & Interactive)
 (function initCurvedArchMarquee() {
   function startMarquee() {
     const textPath = document.getElementById('curvedMarqueeText');
+    const banner = document.querySelector('.curved-banner-wrap');
     if (!textPath) return;
 
     let offset = 0;
-    const speed = 0.95;
+    const baseSpeed = 1.1;
+    let targetSpeed = baseSpeed;
+    let currentSpeed = baseSpeed;
     let singleLen = 1450;
+    let lastScrollY = window.scrollY;
 
     try {
       const totalLen = textPath.getComputedTextLength();
@@ -1860,6 +1864,30 @@ function initCookieConsent() {
       }
     } catch (e) {}
 
+    // Accélération dynamique réactive au défilement (effet cinétique de souffle)
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      const deltaY = window.scrollY - lastScrollY;
+      lastScrollY = window.scrollY;
+      if (Math.abs(deltaY) > 2) {
+        targetSpeed = baseSpeed + Math.min(Math.abs(deltaY) * 0.15, 4.2);
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          targetSpeed = baseSpeed;
+        }, 120);
+      }
+    }, { passive: true });
+
+    // Interaction au survol : boost de vitesse fluide
+    if (banner) {
+      banner.addEventListener('mouseenter', () => {
+        targetSpeed = baseSpeed * 2.2;
+      });
+      banner.addEventListener('mouseleave', () => {
+        targetSpeed = baseSpeed;
+      });
+    }
+
     function tick() {
       if (singleLen === 1450) {
         try {
@@ -1867,7 +1895,9 @@ function initCookieConsent() {
           if (l > 0) singleLen = l / 3;
         } catch (e) {}
       }
-      offset -= speed;
+      // Amortissement dynamique ultra-fluide (damped spring)
+      currentSpeed += (targetSpeed - currentSpeed) * 0.08;
+      offset -= currentSpeed;
       if (offset <= -singleLen) {
         offset += singleLen;
       }
