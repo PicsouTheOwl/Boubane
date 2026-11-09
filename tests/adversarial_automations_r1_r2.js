@@ -120,8 +120,8 @@ class AdversarialHarness {
  * Ensures entities like *, _, `, [ are correctly paired and not leaving unclosed spans
  */
 function validateTelegramMarkdownSyntax(text) {
-  // Check code spans `` ` ``
-  const backticks = (text.match(/`/g) || []).length;
+  // Check code spans `` ` `` (ignoring escaped backticks)
+  const backticks = (text.match(/(?<!\\)`/g) || []).length;
   if (backticks % 2 !== 0) {
     return { valid: false, reason: `Unbalanced backticks: count=${backticks}` };
   }
@@ -129,14 +129,14 @@ function validateTelegramMarkdownSyntax(text) {
   // Remove code spans before checking *, _ and [
   const strippedCode = text.replace(/`[^`]*`/g, '');
 
-  // Check asterisks * (bold)
-  const asterisks = (strippedCode.match(/\*/g) || []).length;
+  // Check asterisks * (bold) (ignoring escaped asterisks)
+  const asterisks = (strippedCode.match(/(?<!\\)\*/g) || []).length;
   if (asterisks % 2 !== 0) {
     return { valid: false, reason: `Unbalanced bold asterisks: count=${asterisks}` };
   }
 
-  // Check underscores _ (italic)
-  const underscores = (strippedCode.match(/_/g) || []).length;
+  // Check underscores _ (italic) (ignoring escaped underscores)
+  const underscores = (strippedCode.match(/(?<!\\)_/g) || []).length;
   if (underscores % 2 !== 0) {
     return { valid: false, reason: `Unbalanced italic underscores: count=${underscores}` };
   }
@@ -144,8 +144,8 @@ function validateTelegramMarkdownSyntax(text) {
   // Check unescaped brackets [ without closing ]
   let bracketDepth = 0;
   for (let i = 0; i < strippedCode.length; i++) {
-    if (strippedCode[i] === '[') bracketDepth++;
-    if (strippedCode[i] === ']') bracketDepth--;
+    if (strippedCode[i] === '[' && (i === 0 || strippedCode[i - 1] !== '\\')) bracketDepth++;
+    if (strippedCode[i] === ']' && (i === 0 || strippedCode[i - 1] !== '\\')) bracketDepth--;
     if (bracketDepth < 0) {
       return { valid: false, reason: 'Unmatched closing bracket ]' };
     }

@@ -214,9 +214,12 @@
         throw new Error('Invalid Cal.com payload: payload must be a non-null object');
       }
 
-      const payload = rawPayload.payload || rawPayload;
-      const responses = payload.responses || {};
-      const attendee = (payload.attendees && payload.attendees[0]) || {};
+      const payload = (rawPayload && typeof rawPayload === 'object' && !Array.isArray(rawPayload) && rawPayload.payload && typeof rawPayload.payload === 'object')
+        ? rawPayload.payload
+        : (rawPayload || {});
+
+      const responses = (payload && typeof payload.responses === 'object' && payload.responses !== null) ? payload.responses : {};
+      const attendee = (Array.isArray(payload.attendees) && payload.attendees[0] && typeof payload.attendees[0] === 'object') ? payload.attendees[0] : {};
 
       let name = (responses.name && responses.name.value) || attendee.name || payload.name || 'Prospect Inconnu';
       let email = (responses.email && responses.email.value) || attendee.email || payload.email || '';
@@ -224,50 +227,72 @@
       let company = (responses.company && responses.company.value) || payload.company || '';
       let craft = (responses.craft && responses.craft.value) || payload.craft || '';
       let city = (responses.city && responses.city.value) || payload.city || '';
-      let rawNotes = (responses.notes && responses.notes.value !== undefined)
-        ? responses.notes.value
-        : (payload.description !== undefined ? payload.description : (payload.additionalNotes !== undefined ? payload.additionalNotes : ''));
 
+      // Defensive type coercion for core fields
+      if (name && typeof name !== 'string') name = String(name);
+      if (email && typeof email !== 'string') email = String(email);
+      if (phone && typeof phone !== 'string') phone = String(phone);
+      if (company && typeof company !== 'string') company = String(company);
+      if (craft && typeof craft !== 'string') craft = String(craft);
+      if (city && typeof city !== 'string') city = String(city);
+
+      // Extract rawNotes from responses or payload
+      let rawNotes = '';
+      if (responses && responses.notes !== undefined && responses.notes !== null) {
+        if (typeof responses.notes === 'object' && !Array.isArray(responses.notes) && responses.notes.value !== undefined && responses.notes.value !== null) {
+          rawNotes = responses.notes.value;
+        } else {
+          rawNotes = responses.notes;
+        }
+      } else if (payload && payload.description !== undefined && payload.description !== null) {
+        rawNotes = payload.description;
+      } else if (payload && payload.additionalNotes !== undefined && payload.additionalNotes !== null) {
+        rawNotes = payload.additionalNotes;
+      }
+
+      // Robust coercion to string: objects/arrays via JSON.stringify, primitives via String()
       let notes = '';
       if (typeof rawNotes === 'string') {
         notes = rawNotes;
-      } else if (rawNotes !== null && rawNotes !== undefined) {
+      } else if (rawNotes !== null && typeof rawNotes === 'object') {
         try {
-          notes = typeof rawNotes === 'object' ? JSON.stringify(rawNotes) : String(rawNotes);
+          notes = JSON.stringify(rawNotes);
         } catch {
           notes = String(rawNotes);
         }
-      }
-      if (notes.length > 5000) {
-        notes = notes.slice(0, 5000);
+      } else if (rawNotes !== null && rawNotes !== undefined) {
+        notes = String(rawNotes);
       }
 
-      // Fallback regex extraction from notes / description when specific fields are empty
-      if (!email && notes) {
-        const m = notes.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+      // Safe bounding: scan at most 4,000 characters to prevent ReDoS / event loop freezing
+      const notesScan = notes.slice(0, 4000);
+
+      // Fallback regex extraction from notesScan when specific fields are empty
+      if (!email && notesScan) {
+        const m = notesScan.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
         if (m) email = m[0];
       }
-      if (!phone && notes) {
-        const m = notes.match(/(?:(?:\+|00)33\s*(?:\(0\)\s*)?|0)[1-9](?:[\s.-]?\d{2}){4}/);
+      if (!phone && notesScan) {
+        const m = notesScan.match(/(?:(?:\+|00)33\s*(?:\(0\)\s*)?|0)[1-9](?:[\s.-]?\d{2}){4}/);
         if (m) phone = m[0].trim();
       }
       if (!company) {
-        if (notes) {
-          const m = notes.match(/(?:entreprise|soci[ée]t[ée]|ets|sarl|sas)\s*[:=]?\s*([^\n\r,;.]+)/i);
+        if (notesScan) {
+          const m = notesScan.match(/(?:entreprise|soci[ée]t[ée]|ets|sarl|sas)\s*[:=]?\s*([^\n\r,;.]+)/i);
           if (m) company = m[1].trim();
         }
         if (!company) company = `${name} Entreprise`;
       }
       if (!craft) {
-        if (notes) {
-          const m = notes.match(/(?:m[ée]tier|activit[ée]|secteur|prestation)\s*[:=]?\s*([^\n\r,;.]+)/i);
+        if (notesScan) {
+          const m = notesScan.match(/(?:m[ée]tier|activit[ée]|secteur|prestation)\s*[:=]?\s*([^\n\r,;.]+)/i);
           if (m) craft = m[1].trim();
         }
         if (!craft) craft = 'Artisan du Bâtiment';
       }
       if (!city) {
-        if (notes) {
-          const m = notes.match(/(?:ville|commune|secteur|situ[ée]\s*[àa])\s*[:=]?\s*([^\n\r,;.]+)/i);
+        if (notesScan) {
+          const m = notesScan.match(/(?:ville|commune|secteur|situ[ée]\s*[àa])\s*[:=]?\s*([^\n\r,;.]+)/i);
           if (m) city = m[1].trim();
         }
         if (!city) city = 'Segré-en-Anjou Bleu (49500)';
@@ -383,50 +408,36 @@
         ? diagnostic.meetingTime.formatted
         : 'En attente de cadrage';
 
-      const sanitize = (val) => {
-        if (!val || typeof val !== 'string') return '';
-        return val
-          .replace(/`/g, "'")
-          .replace(/[*_]/g, ' ')
-          .replace(/\[/g, '(')
-          .replace(/\]/g, ')')
-          .replace(/\s+/g, ' ')
-          .trim();
-      };
-
-      const name = sanitize(c.name) || 'Prospect';
-      const company = sanitize(c.company) || 'Entreprise';
-      const craft = sanitize(c.craft) || 'Artisan';
-      const city = sanitize(c.city) || 'Secteur';
-      const phone = sanitize(c.phone || 'Non renseigné');
-      const email = sanitize(c.email || 'Non renseigné');
+      // Helpers for Telegram Markdown escaping
+      const escMd = (t) => String(t || '').replace(/\\/g, '\\\\').replace(/([_*\[\]`])/g, '\\$1');
+      const escCode = (t) => String(t || '').replace(/`/g, "'");
 
       let competitorsText = '';
       if (Array.isArray(d.competitors)) {
         d.competitors.forEach((comp, idx) => {
-          competitorsText += `${idx + 1}. *${sanitize(comp.name)}* : ${comp.reviews} avis (${comp.rating}★)\n`;
+          competitorsText += `${idx + 1}. *${escMd(comp.name)}* : ${comp.reviews} avis (${comp.rating}★)\n`;
         });
       }
 
       const pitchText = Array.isArray(diagnostic.pitchPoints)
-        ? diagnostic.pitchPoints.map(p => sanitize(p)).join('\n')
+        ? diagnostic.pitchPoints.join('\n')
         : '';
 
-      let msg = `🎯 *NOUVEAU BRIEFING PRÉ-APPEL BOUBANE*
+      let text = `🎯 *NOUVEAU BRIEFING PRÉ-APPEL BOUBANE*
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 📅 *RDV :* ${meetingFormatted}
 
 👤 *PROSPECT & ENTREPRISE*
-• *Contact :* ${name}
-• *Entreprise :* ${company}
-• *Métier :* ${craft}
-• *Ville :* ${city}
-• *Tél :* \`${phone}\`
-• *Email :* \`${email}\`
+• *Contact :* ${escMd(c.name || 'Prospect')}
+• *Entreprise :* ${escMd(c.company || 'Entreprise')}
+• *Métier :* ${escMd(c.craft || 'Artisan')}
+• *Ville :* ${escMd(c.city || 'Secteur')}
+• *Tél :* \`${escCode(c.phone || 'Non renseigné')}\`
+• *Email :* \`${escCode(c.email || 'Non renseigné')}\`
 
 🌐 *DIAGNOSTIC PRÉSENCE EN LIGNE*
 • *Site web :* ${d.websiteStatus || 'Non renseigné'}
-• *Nom de domaine conseillé :* \`${d.recommendedDomain || 'boubane.com'}\` (Disponible)
+• *Nom de domaine conseillé :* \`${escCode(d.recommendedDomain || 'boubane.com')}\` (Disponible)
 • *Fiche Google Maps :* ${(d.googleMaps && d.googleMaps.label) || 'Non renseigné'}
 
 ⚔️ *CONCURRENTS LOCAUX*
@@ -436,29 +447,51 @@ ${competitorsText.trim()}
 ${pitchText}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
-      if (msg.length > 4096) {
-        const trailer = '\n━━━━━━━━━━━━━━━━━━━━━━━━━━';
-        msg = msg.slice(0, 4096 - trailer.length - 4) + '...\n' + trailer;
+      // Telegram strict 4,096-character limit enforcement with entity balance protection
+      if (text.length > 4096) {
+        let truncated = text.slice(0, 4090);
+        if (truncated.endsWith('\\')) truncated = truncated.slice(0, -1);
+        const backticks = (truncated.match(/(?<!\\)`/g) || []).length;
+        if (backticks % 2 !== 0) truncated += '`';
+        const stripped = truncated.replace(/`[^`]*`/g, '');
+        const asterisks = (stripped.match(/(?<!\\)\*/g) || []).length;
+        if (asterisks % 2 !== 0) truncated += '*';
+        const underscores = (stripped.match(/(?<!\\)_/g) || []).length;
+        if (underscores % 2 !== 0) truncated += '_';
+        truncated += '...';
+        if (truncated.length > 4096) truncated = truncated.slice(0, 4093) + '...';
+        text = truncated;
       }
-      return msg;
+
+      return text;
     }
 
     /**
      * R1: Send Telegram briefing via Bot API
      */
-    async sendTelegramBriefing(diagnostic, options = {}) {
+    async sendTelegramBriefing(diagnostic, rawOptions = {}) {
+      const options = (rawOptions && typeof rawOptions === 'object') ? rawOptions : {};
       const chatId = options.chatId || this.defaultChatId;
-      const text = this.formatTelegramMessage(diagnostic);
-      const rawPhone = diagnostic.contact.phone || '';
-      const phoneClean = rawPhone.replace(/[^0-9+]/g, '');
+      let text = this.formatTelegramMessage(diagnostic);
+      if (text.length > 4096) {
+        text = text.slice(0, 4090) + '...';
+      }
 
-      // Format WhatsApp digits: convert leading 0 to French international 33
-      let waDigits = rawPhone.replace(/[^0-9]/g, '');
-      if (waDigits.startsWith('0') && waDigits.length === 10) {
+      const rawPhone = (diagnostic.contact && diagnostic.contact.phone) || '';
+      const phoneClean = rawPhone.replace(/\(0\)/g, '').replace(/[^0-9+]/g, '');
+
+      // Format WhatsApp digits: handle leading 00, 330, and national 0
+      let waDigits = rawPhone.replace(/\(0\)/g, '').replace(/[^0-9]/g, '');
+      if (waDigits.startsWith('00')) waDigits = waDigits.slice(2);
+      if (waDigits.startsWith('330') && waDigits.length === 12) {
+        waDigits = '33' + waDigits.slice(3);
+      } else if (waDigits.startsWith('0') && waDigits.length === 10) {
         waDigits = '33' + waDigits.slice(1);
       }
 
-      const mapsQuery = encodeURIComponent(`${diagnostic.contact.company} ${diagnostic.contact.city}`);
+      const company = (diagnostic.contact && diagnostic.contact.company) || '';
+      const city = (diagnostic.contact && diagnostic.contact.city) || '';
+      const mapsQuery = encodeURIComponent(`${company} ${city}`.trim());
 
       const replyMarkup = {
         inline_keyboard: [
@@ -471,7 +504,7 @@ ${pitchText}
             { text: '🗺️ Google Maps', url: `https://www.google.com/maps/search/${mapsQuery}` }
           ],
           [
-            { text: '📸 Lancer Onboarding Photos', callback_data: `trigger_onboarding:${diagnostic.contact.name}` }
+            { text: '📸 Lancer Onboarding Photos', callback_data: `trigger_onboarding:${(diagnostic.contact && diagnostic.contact.name) || 'Client'}` }
           ]
         ]
       };
@@ -554,14 +587,21 @@ Dès réception, nous traitons vos photos et assemblons votre site sous 48h !`;
      * R2: Format multi-channel direct dispatch URL (WhatsApp, SMS, Telegram)
      */
     formatMultiChannelUrl(channel, rawPhone, message) {
-      const phoneClean = (rawPhone || '').replace(/[^0-9+]/g, '');
-      let phoneDigits = (rawPhone || '').replace(/[^0-9]/g, '');
+      const sanitizedPhone = (rawPhone || '').replace(/\(0\)/g, '');
+      const phoneClean = sanitizedPhone.replace(/[^0-9+]/g, '');
+      let phoneDigits = sanitizedPhone.replace(/[^0-9]/g, '');
 
-      // Format WhatsApp international: 0033 -> 33, 0612345678 -> 33612345678
+      // Format WhatsApp international:
+      // 1. Strip leading international call prefix: 0033... -> 33..., 0044... -> 44...
       let waDigits = phoneDigits;
       if (waDigits.startsWith('00')) {
         waDigits = waDigits.slice(2);
       }
+      // 2. Strip redundant French trunk zero: 3306... -> 336... (12 digits)
+      if (waDigits.startsWith('330') && waDigits.length === 12) {
+        waDigits = '33' + waDigits.slice(3);
+      }
+      // 3. Convert French national format: 0612345678 -> 33612345678
       if (waDigits.startsWith('0') && waDigits.length === 10) {
         waDigits = '33' + waDigits.slice(1);
       }
@@ -581,12 +621,13 @@ Dès réception, nous traitons vos photos et assemblons votre site sous 48h !`;
     /**
      * R2: Trigger 1-click photo onboarding message and schedule J+2 reminder
      */
-    triggerPhotoOnboarding(lead, channel = 'whatsapp', options = {}) {
+    triggerPhotoOnboarding(lead, channel = 'whatsapp', rawOptions = {}) {
       if (!lead) throw new Error('Lead object required for photo onboarding');
+      const options = (rawOptions && typeof rawOptions === 'object') ? rawOptions : {};
 
       const name = lead.name || lead.contact_name || 'Client';
       const rawPhone = lead.phone || '';
-      const phoneClean = rawPhone.replace(/[^0-9+]/g, '');
+      const phoneClean = rawPhone.replace(/\(0\)/g, '').replace(/[^0-9+]/g, '');
       const now = options.currentTime || Date.now();
       const reminderDueAt = options.dueAt || (now + (48 * 3600 * 1000)); // Exactly J+2 (+48h)
 
@@ -599,25 +640,32 @@ Dès réception, nous traitons vos photos et assemblons votre site sous 48h !`;
         telegram: this.formatMultiChannelUrl('telegram', rawPhone, message)
       };
 
+      // Idempotency check: find any active pending reminder task for this lead and channel
+      const leadIdStr = String(lead.id || name);
       const queue = this._getQueue();
       const existingTask = queue.find(t =>
+        t && typeof t === 'object' &&
         t.type === 'PHOTO_REMINDER_J2' &&
-        String(t.leadId) === String(lead.id || name) &&
+        String(t.leadId) === leadIdStr &&
         t.channel === channel &&
         t.status === 'PENDING'
       );
 
-      let task = null;
-      let taskId = null;
-      if (existingTask && !options.force) {
-        task = existingTask;
-        taskId = task.id;
+      let taskId;
+      if (existingTask && options.force !== true) {
+        // Reuse existing pending task: update dueAt, phone, and persist
+        existingTask.dueAt = reminderDueAt;
+        if (phoneClean) existingTask.phone = phoneClean;
+        taskId = existingTask.id;
+        this._saveQueue(queue);
+        this._logAutomation('R2_ONBOARDING_TRIGGER', 'INFO', `1-click photo onboarding updated for ${name} (channel: ${channel}). Active reminder updated.`);
       } else {
-        taskId = `reminder_photos_${lead.id || name}_${now}`;
-        task = {
+        // Create and enqueue new task
+        taskId = `reminder_photos_${leadIdStr}_${now}`;
+        const task = {
           id: taskId,
           type: 'PHOTO_REMINDER_J2',
-          leadId: String(lead.id || name),
+          leadId: leadIdStr,
           leadName: name,
           company: lead.company || lead.company_name || '',
           phone: phoneClean,
@@ -626,9 +674,10 @@ Dès réception, nous traitons vos photos et assemblons votre site sous 48h !`;
           dueAt: reminderDueAt,
           status: 'PENDING'
         };
+
         this._enqueueTask(task);
+        this._logAutomation('R2_ONBOARDING_TRIGGER', 'INFO', `1-click photo onboarding initiated for ${name}. J+2 reminder scheduled.`);
       }
-      this._logAutomation('R2_ONBOARDING_TRIGGER', 'INFO', `1-click photo onboarding initiated for ${name}. J+2 reminder scheduled.`);
 
       return {
         success: true,
@@ -644,21 +693,40 @@ Dès réception, nous traitons vos photos et assemblons votre site sous 48h !`;
     /**
      * R2: Arm a photo reminder task directly
      */
-    schedulePhotoReminder(lead, dueAt, options = {}) {
+    schedulePhotoReminder(lead, dueAt, rawOptions = {}) {
       if (!lead) throw new Error('Lead object required to schedule photo reminder');
+      const options = (rawOptions && typeof rawOptions === 'object') ? rawOptions : {};
       const name = lead.name || lead.contact_name || 'Client';
       const now = options.currentTime || Date.now();
       const targetDueAt = dueAt || (now + (48 * 3600 * 1000));
       const channel = options.channel || 'whatsapp';
+      const leadIdStr = String(lead.id || name);
 
-      const taskId = `reminder_photos_${lead.id || name}_${now}`;
+      const queue = this._getQueue();
+      const existingTask = queue.find(t =>
+        t && typeof t === 'object' &&
+        t.type === 'PHOTO_REMINDER_J2' &&
+        String(t.leadId) === leadIdStr &&
+        t.channel === channel &&
+        t.status === 'PENDING'
+      );
+
+      if (existingTask && options.force !== true) {
+        existingTask.dueAt = targetDueAt;
+        if (lead.phone) existingTask.phone = (lead.phone || '').replace(/\(0\)/g, '').replace(/[^0-9+]/g, '');
+        this._saveQueue(queue);
+        this._logAutomation('R2_ONBOARDING_TRIGGER', 'INFO', `Photo reminder updated for ${name} at ${new Date(targetDueAt).toISOString()}`);
+        return existingTask;
+      }
+
+      const taskId = `reminder_photos_${leadIdStr}_${now}`;
       const task = {
         id: taskId,
         type: 'PHOTO_REMINDER_J2',
-        leadId: String(lead.id || name),
+        leadId: leadIdStr,
         leadName: name,
         company: lead.company || lead.company_name || '',
-        phone: (lead.phone || '').replace(/[^0-9+]/g, ''),
+        phone: (lead.phone || '').replace(/\(0\)/g, '').replace(/[^0-9+]/g, ''),
         channel,
         scheduledAt: now,
         dueAt: targetDueAt,
@@ -680,6 +748,7 @@ Dès réception, nous traitons vos photos et assemblons votre site sous 48h !`;
       let updatedCount = 0;
 
       queue.forEach(task => {
+        if (!task || typeof task !== 'object') return;
         if (task.type === 'PHOTO_REMINDER_J2' && String(task.leadId) === targetStr && task.status === 'PENDING') {
           task.status = 'CANCELLED_RECEIVED';
           task.cancelledAt = Date.now();
@@ -697,12 +766,14 @@ Dès réception, nous traitons vos photos et assemblons votre site sous 48h !`;
     /**
      * R2: Watchdog for J+2 photo reminders (triggers reminder if not received, auto-neutralized if received)
      */
-    checkAndTriggerPhotoReminders(options = {}) {
+    checkAndTriggerPhotoReminders(rawOptions = {}) {
+      const options = (rawOptions && typeof rawOptions === 'object') ? rawOptions : {};
       const now = options.currentTime || Date.now();
       const queue = this._getQueue();
       const reports = [];
 
       queue.forEach(task => {
+        if (!task || typeof task !== 'object') return;
         if (task.type === 'PHOTO_REMINDER_J2' && task.status === 'PENDING') {
           // Check photo status in options map, task state, or fallback
           let photoStatus = null;
@@ -737,12 +808,12 @@ Dès réception, nous traitons vos photos et assemblons votre site sous 48h !`;
      * R4: Trigger delivery message when project moves to LIVRÉ
      */
     triggerDelivery(lead, deliveryUrl, rawOptions = {}) {
-      const options = rawOptions || {};
+      const options = (rawOptions && typeof rawOptions === 'object') ? rawOptions : {};
       if (!lead) throw new Error('Lead object required for delivery trigger');
       const name = lead.name || lead.contact_name || 'Client';
       const city = lead.city || 'votre secteur';
       const rawPhone = lead.phone || '';
-      const phoneClean = rawPhone.replace(/[^0-9+]/g, '');
+      const phoneClean = rawPhone.replace(/\(0\)/g, '').replace(/[^0-9+]/g, '');
       const now = options.currentTime || Date.now();
       const reviewDueAt = options.reviewDueAt || (now + (48 * 3600 * 1000)); // Exactly +48h later
       const channel = options.channel || 'whatsapp';
@@ -778,15 +849,18 @@ Prenez le temps de le découvrir !`;
       const reviewTaskId = `review_followup_${lead.id || name}_${now}`;
       const existingQueue = this._getQueue();
       const alreadyPending = existingQueue.find(t =>
+        t && typeof t === 'object' &&
         t.type === 'GOOGLE_REVIEW_48H' &&
         String(t.leadId) === String(lead.id || name) &&
         (t.status === 'PENDING' || t.status === 'PAUSED_REVISIONS' || t.status === 'REVIEW_SENT')
       );
 
-      if (alreadyPending && alreadyPending.status === 'PAUSED_REVISIONS') {
+      if (alreadyPending && alreadyPending.status === 'PAUSED_REVISIONS' && !options.force) {
+        // Automatically resume and re-arm existing paused task on re-delivery
         alreadyPending.status = 'PENDING';
         alreadyPending.dueAt = reviewDueAt;
         alreadyPending.resumedAt = now;
+        alreadyPending.siteUrl = finalUrl;
         this._saveQueue(existingQueue);
         this._logAutomation('R4_DELIVERY_NOTIFICATION', 'INFO', `Review followup resumed on delivery re-trigger for ${name}`);
       } else if (!alreadyPending || options.force === true) {
@@ -825,8 +899,9 @@ Prenez le temps de le découvrir !`;
     /**
      * R4: Arm a review request task directly
      */
-    scheduleReviewRequest(lead, dueAt, options = {}) {
+    scheduleReviewRequest(lead, dueAt, rawOptions = {}) {
       if (!lead) throw new Error('Lead object required to schedule review request');
+      const options = (rawOptions && typeof rawOptions === 'object') ? rawOptions : {};
       const name = lead.name || lead.contact_name || 'Client';
       const now = options.currentTime || Date.now();
       const targetDueAt = dueAt || (now + (48 * 3600 * 1000));
@@ -839,7 +914,7 @@ Prenez le temps de le découvrir !`;
         leadId: String(lead.id || name),
         leadName: name,
         company: lead.company || lead.company_name || '',
-        phone: (lead.phone || '').replace(/[^0-9+]/g, ''),
+        phone: (lead.phone || '').replace(/\(0\)/g, '').replace(/[^0-9+]/g, ''),
         channel,
         siteUrl: options.siteUrl || `https://boubane.com/clients/${slugify(lead.company || name)}`,
         reviewUrl: 'https://g.page/r/boubane/review',
@@ -856,12 +931,14 @@ Prenez le temps de le découvrir !`;
     /**
      * R4: Watchdog for Google 5-star review followup at 48h (with pause on revisions and auto-neutralization)
      */
-    checkAndTriggerReviewRequests(options = {}) {
+    checkAndTriggerReviewRequests(rawOptions = {}) {
+      const options = (rawOptions && typeof rawOptions === 'object') ? rawOptions : {};
       const now = options.currentTime || Date.now();
       const queue = this._getQueue();
       const reports = [];
 
       queue.forEach(task => {
+        if (!task || typeof task !== 'object') return;
         if (task.type === 'GOOGLE_REVIEW_48H' && task.status === 'PENDING') {
           const hasRevisions = options.revisionReportedMap
             ? Boolean(options.revisionReportedMap[task.leadId])
@@ -905,13 +982,14 @@ Merci de votre confiance !`;
     /**
      * R4: Resume a paused review timer after revisions are settled
      */
-    resumeReviewTimer(taskIdOrLeadId, options = {}) {
+    resumeReviewTimer(taskIdOrLeadId, rawOptions = {}) {
       const queue = this._getQueue();
       const targetStr = String(taskIdOrLeadId);
+      const options = (rawOptions && typeof rawOptions === 'object') ? rawOptions : {};
       const now = options.currentTime || Date.now();
       const delayMs = options.delayMs || (48 * 3600 * 1000);
 
-      const task = queue.find(t => (t.id === targetStr || String(t.leadId) === targetStr) && t.status === 'PAUSED_REVISIONS');
+      const task = queue.find(t => t && typeof t === 'object' && (t.id === targetStr || String(t.leadId) === targetStr) && t.status === 'PAUSED_REVISIONS');
       if (!task) {
         return null;
       }
@@ -943,13 +1021,15 @@ Merci de votre confiance !`;
 
     _saveQueue(queue) {
       try {
-        this.storage.setItem('boubane_automations_queue', JSON.stringify(queue));
+        const safeQueue = Array.isArray(queue) ? queue.filter(t => t && typeof t === 'object') : [];
+        this.storage.setItem('boubane_automations_queue', JSON.stringify(safeQueue));
       } catch {}
     }
 
     _enqueueTask(task) {
+      if (!task || typeof task !== 'object' || !task.id) return;
       const queue = this._getQueue();
-      const idx = queue.findIndex(t => t.id === task.id);
+      const idx = queue.findIndex(t => t && typeof t === 'object' && t.id === task.id);
       if (idx >= 0) {
         queue[idx] = task;
       } else {
@@ -964,6 +1044,7 @@ Merci de votre confiance !`;
         return queue;
       }
       return queue.filter(item => {
+        if (!item || typeof item !== 'object') return false;
         for (const [key, val] of Object.entries(filter)) {
           if (item[key] !== val) return false;
         }
@@ -972,8 +1053,9 @@ Merci de votre confiance !`;
     }
 
     updateTaskStatus(taskId, status, metadata = {}) {
+      if (!taskId) return false;
       const queue = this._getQueue();
-      const task = queue.find(t => t.id === taskId);
+      const task = queue.find(t => t && typeof t === 'object' && t.id === taskId);
       if (!task) return false;
 
       task.status = status;
@@ -985,9 +1067,10 @@ Merci de votre confiance !`;
     }
 
     removeTask(taskId) {
+      if (!taskId) return false;
       let queue = this._getQueue();
       const initialLength = queue.length;
-      queue = queue.filter(t => t.id !== taskId);
+      queue = queue.filter(t => t && typeof t === 'object' && t.id !== taskId);
       if (queue.length !== initialLength) {
         this._saveQueue(queue);
         return true;
@@ -1016,7 +1099,7 @@ Merci de votre confiance !`;
           try {
             const parsed = JSON.parse(raw);
             if (Array.isArray(parsed)) {
-              logs = parsed;
+              logs = parsed.filter(l => l && typeof l === 'object');
             }
           } catch {
             logs = [];
@@ -1026,9 +1109,9 @@ Merci de votre confiance !`;
         const entry = {
           id: `log_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
           timestamp: new Date().toISOString(),
-          module,
-          level,
-          message,
+          module: String(module || 'UNKNOWN'),
+          level: String(level || 'INFO'),
+          message: String(message || ''),
           status: level === 'ERROR' ? 'FAILURE' : 'SUCCESS'
         };
         if (details && typeof details === 'object') {
@@ -1052,15 +1135,25 @@ Merci de votre confiance !`;
     getAutomationLogs(filter = null) {
       try {
         const raw = this.storage.getItem('boubane_automations_log');
-        let logs = raw ? JSON.parse(raw) : [];
-        if (!Array.isArray(logs)) return [];
+        let logs = [];
+        if (raw) {
+          try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+              logs = parsed.filter(l => l && typeof l === 'object');
+            }
+          } catch {
+            logs = [];
+          }
+        }
 
         if (!filter || typeof filter !== 'object') {
           return logs;
         }
 
         return logs.filter(log => {
-          if (filter.modulePrefix && !log.module.startsWith(filter.modulePrefix)) {
+          if (!log || typeof log !== 'object') return false;
+          if (filter.modulePrefix && (!log.module || !log.module.startsWith(filter.modulePrefix))) {
             return false;
           }
           if (filter.module && log.module !== filter.module) {
