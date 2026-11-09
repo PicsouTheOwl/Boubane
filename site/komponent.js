@@ -662,13 +662,13 @@ function switchPortalSite(siteKey) {
         inlineContainer.appendChild(origViewport);
       }
     }
-    if (urlText) urlText.textContent = 'achille.ai';
-    if (extLink) extLink.href = 'https://achille.ai';
-    if (capDot) capDot.style.background = '#6366F1';
-    if (capTitle) capTitle.textContent = 'Achille.ai — Solution Service Client E-commerce & SaaS';
+    if (urlText) urlText.textContent = 'artisan-haut-anjou.fr';
+    if (extLink) extLink.href = 'showcase-votre-site.html';
+    if (capDot) capDot.style.background = '#ED5B04';
+    if (capTitle) capTitle.textContent = 'Vitrine Artisanale — Rénovation & Savoir-faire d\'Anjou';
     if (capVisitBtn) {
-      capVisitBtn.href = 'https://achille.ai';
-      capVisitBtn.textContent = 'Visiter achille.ai ↗';
+      capVisitBtn.href = 'showcase-votre-site.html';
+      capVisitBtn.textContent = 'Ouvrir en pleine page ↗';
     }
   } else if (key === 'valmy' || key === 'votresite') {
     if (iframe) {
