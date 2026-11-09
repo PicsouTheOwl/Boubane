@@ -404,7 +404,7 @@ p.lead {
 }
 
 .editorial-num {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--color-primary);
@@ -412,7 +412,7 @@ p.lead {
 }
 
 .editorial-text {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.76rem;
   font-weight: 700;
   color: var(--color-text);
@@ -609,7 +609,7 @@ p.lead {
   }
 }
 
-/* Badge Éditorial Ramp [ 01 ] */
+/* Badge Éditorial Ramp */
 .ssg-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -622,10 +622,10 @@ p.lead {
   border-radius: var(--radius-pill);
   margin-bottom: 16px;
   box-shadow: 0 2px 8px rgba(12, 10, 8, 0.04);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #0C0A08;
 }
@@ -1235,17 +1235,47 @@ p.lead {
   margin-bottom: clamp(1.8rem, 4vw, 3rem);
 }
 
-.cs-eyebrow {
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #5C5B56;
-  margin-bottom: 0.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
+.section-tag-wrap {
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.cs-eyebrow {
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #1A1816;
+  margin-bottom: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(12, 10, 8, 0.08);
+  border-radius: var(--radius-pill);
+  padding: 6px 15px;
+  box-shadow: 0 2px 8px rgba(12, 10, 8, 0.04);
+  transition: all 0.25s ease;
+}
+
+.cs-eyebrow:hover {
+  border-color: rgba(237, 91, 4, 0.25);
+  box-shadow: 0 4px 12px rgba(237, 91, 4, 0.08);
+}
+
+.cs-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 91, 4, 0.18);
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .cs-title {

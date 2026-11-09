@@ -101,13 +101,25 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--color-text-muted);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(12, 10, 8, 0.08);
+            border-radius: var(--radius-pill);
+            padding: 5px 14px;
+            font-family: var(--font-sans);
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #1A1816;
             text-transform: uppercase;
             letter-spacing: 0.06em;
             margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(12, 10, 8, 0.04);
+            transition: all 0.25s ease;
+        }
+        .cmd-eyebrow:hover {
+            border-color: rgba(237, 91, 4, 0.25);
+            box-shadow: 0 4px 12px rgba(237, 91, 4, 0.08);
         }
         .cmd-section-title {
             font-family: var(--font-heading);
@@ -1069,7 +1081,7 @@
                  ============================================ -->
             <section class="proof-section" id="resultats">
                 <div class="cmd-section-header reveal">
-                    <span class="cmd-eyebrow">[ 01 ] Vos Garanties</span>
+                    <span class="cmd-eyebrow"><span class="cs-eyebrow-dot" aria-hidden="true"></span>Vos Garanties</span>
                     <h2 class="cmd-section-title">Des résultats concrets pour votre activité<span class="dot-accent">.</span></h2>
                     <p class="cmd-section-lead">Chaque vitrine est conçue pour capter des chantiers dans votre secteur et rassurer vos futurs clients. Zéro discours technique, zéro intermédiaire.</p>
                 </div>
@@ -1127,7 +1139,7 @@
                  ============================================ -->
             <section class="compare-section">
                 <div class="cmd-section-header reveal">
-                    <span class="cmd-eyebrow">[ 02 ] Comparer</span>
+                    <span class="cmd-eyebrow"><span class="cs-eyebrow-dot" aria-hidden="true"></span>Comparatif</span>
                     <h2 class="cmd-section-title">Agence classique vs. Boubane<span class="dot-accent">.</span></h2>
                     <p class="cmd-section-lead">Pourquoi continuer à payer une agence quand vous pouvez avoir mieux, plus vite, et sans frais de conception ?</p>
                 </div>
@@ -1228,7 +1240,7 @@
                  ============================================ -->
             <section class="process-section">
                 <div class="cmd-section-header reveal">
-                    <span class="cmd-eyebrow">[ 03 ] Processus</span>
+                    <span class="cmd-eyebrow"><span class="cs-eyebrow-dot" aria-hidden="true"></span>Processus</span>
                     <h2 class="cmd-section-title">3 étapes. 5 jours. Votre site en ligne<span class="dot-accent">.</span></h2>
                 </div>
 
@@ -1273,7 +1285,7 @@
                  ============================================ -->
             <section class="form-section" id="formulaire">
                 <div class="cmd-section-header reveal">
-                    <span class="cmd-eyebrow">[ 04 ] Réserver</span>
+                    <span class="cmd-eyebrow"><span class="cs-eyebrow-dot" aria-hidden="true"></span>Réservation</span>
                     <h2 class="cmd-section-title">Votre réservation en 3 clics<span class="dot-accent">.</span></h2>
                 </div>
 
@@ -1543,7 +1555,7 @@
                  ============================================ -->
             <section class="testimonials-section">
                 <div class="cmd-section-header reveal">
-                    <span class="cmd-eyebrow">[ 05 ] Témoignages</span>
+                    <span class="cmd-eyebrow"><span class="cs-eyebrow-dot" aria-hidden="true"></span>Témoignages</span>
                     <h2 class="cmd-section-title">Ce que disent nos clients<span class="dot-accent">.</span></h2>
                 </div>
 
@@ -1591,7 +1603,7 @@
                  ============================================ -->
             <section class="commander-faq">
                 <div class="cmd-section-header reveal">
-                    <span class="cmd-eyebrow">[ 06 ] Questions</span>
+                    <span class="cmd-eyebrow"><span class="cs-eyebrow-dot" aria-hidden="true"></span>Questions fréquentes</span>
                     <h2 class="cmd-section-title">Dernières questions avant de se lancer<span class="dot-accent">.</span></h2>
                 </div>
 
