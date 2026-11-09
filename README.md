@@ -15,6 +15,9 @@
 
 </div>
 
+
+> 📖 **Documentation Technique & Guide LLM** : Consultez [PROJECT.md](PROJECT.md) pour la documentation exhaustive de l'architecture, des automatisations internes (R1 à R5), des endpoints VPS et de la suite de tests.
+
 ---
 
 ## ✦ L'Offre Boubane : Site Web Offert à Vie
