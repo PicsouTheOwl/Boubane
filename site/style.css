@@ -5698,3 +5698,591 @@ body.mockup-modal-open .hero-card-slide.active {
 
 
 
+
+
+/* ==========================================================================
+   ATELIER D'ORFÈVRERIE NUMÉRIQUE & INGÉNIERIE TACTILE (STUDIO BOUBANE)
+   Direction Artistique Haute Facture : Architecture, Horlogerie & Matières
+   ========================================================================== */
+
+/* 1. Grain Photographique Subtil en Overlay */
+.architect-grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* 2. Repères de Coupe d'Architecte & Lignes Techniques */
+.architect-section {
+  position: relative;
+  padding: clamp(4.5rem, 8.5vh, 7.5rem) 0;
+  border-top: 1px solid rgba(12, 10, 8, 0.06);
+}
+
+.architect-crosshair {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  color: rgba(12, 10, 8, 0.28);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+  user-select: none;
+  z-index: 3;
+}
+.crosshair-tl { top: -7px; left: clamp(16px, 4vw, 48px); }
+.crosshair-tr { top: -7px; right: clamp(16px, 4vw, 48px); }
+.crosshair-bl { bottom: -7px; left: clamp(16px, 4vw, 48px); }
+.crosshair-br { bottom: -7px; right: clamp(16px, 4vw, 48px); }
+
+/* 3. Cartes d'Ingénierie avec Tilt 3D & Reflet Spéculaire */
+.architect-card-tilt {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.08);
+  border-radius: 20px;
+  box-shadow: 
+    0 16px 40px -10px rgba(12, 10, 8, 0.06),
+    0 4px 12px -2px rgba(12, 10, 8, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.22s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .architect-card-tilt:hover {
+    box-shadow: 
+      0 26px 60px -14px rgba(12, 10, 8, 0.12),
+      0 8px 24px -4px rgba(12, 10, 8, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+    border-color: rgba(237, 91, 4, 0.25);
+  }
+}
+
+.architect-card-tilt:active {
+  transform: scale(0.96) !important;
+  transition: transform 0.08s ease-out !important;
+}
+
+.card-specular-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(circle 320px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.28), transparent 70%);
+  mix-blend-mode: overlay;
+  z-index: 5;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .architect-card-tilt:hover .card-specular-glare {
+    opacity: 1;
+  }
+}
+
+/* 4. Révélation au Scroll (IntersectionObserver) */
+.reveal-architect {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(4px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+}
+
+.reveal-architect.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.delay-1 { transition-delay: 0.06s; }
+.delay-2 { transition-delay: 0.14s; }
+.delay-3 { transition-delay: 0.22s; }
+.delay-4 { transition-delay: 0.30s; }
+
+/* 5. Section 01 : Bento Asymétrique d'Architecte */
+.bento-architect-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 28px;
+  align-items: stretch;
+  margin-top: 36px;
+}
+
+@media (max-width: 960px) {
+  .bento-architect-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bento-master-card {
+  padding: clamp(28px, 4vw, 44px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dimension-annotation {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(237, 91, 4, 0.08);
+  border: 1px solid rgba(237, 91, 4, 0.2);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  width: fit-content;
+  margin-bottom: 20px;
+}
+
+.bento-side-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.bento-subcard {
+  padding: clamp(22px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+/* Ticket de Caisse Mécanique : Barrage 4 500 € ➔ 0 € */
+.price-strike-ticket {
+  background: #FAF8F5;
+  border: 1px solid rgba(12, 10, 8, 0.08);
+  border-radius: 14px;
+  padding: 24px;
+  margin: 24px 0 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.old-price-wrap {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 800;
+  color: #8C8B85;
+}
+
+.strike-svg-path {
+  position: absolute;
+  top: 50%;
+  left: -8%;
+  width: 116%;
+  height: 18px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.zero-price-hero {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 900;
+  color: var(--color-primary);
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.zero-price-hero span {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0C0A08;
+}
+
+/* Schéma SVG Flux Direct Serveur */
+.flux-direct-schema {
+  width: 100%;
+  margin: 16px 0;
+  padding: 12px;
+  background: #FAF8F5;
+  border-radius: 12px;
+  border: 1px solid rgba(12, 10, 8, 0.06);
+}
+
+/* Sceau Géométrique Rotatif */
+.rotating-seal-svg {
+  animation: slowSealSpin 36s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.architect-card-tilt:hover .rotating-seal-svg {
+  animation-duration: 12s;
+}
+
+@keyframes slowSealSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 6. Section 02 : Le Face-à-Face Monolithique */
+.monolith-compare-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.08fr;
+  gap: clamp(24px, 4vw, 42px);
+  align-items: center;
+  margin-top: 40px;
+}
+
+@media (max-width: 960px) {
+  .monolith-compare-wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Monolithe Agence Classique : Facture Obsolète */
+.monolith-legacy {
+  background: #F4F1EC;
+  border: 1px dashed rgba(12, 10, 8, 0.16);
+  border-radius: 18px;
+  padding: clamp(24px, 3.5vw, 36px);
+  position: relative;
+  transform: rotate(-0.8deg);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: grayscale(0.2);
+}
+
+.monolith-legacy:hover {
+  transform: rotate(0deg) scale(0.99);
+  filter: grayscale(0);
+}
+
+.legacy-stamp-wrap {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  border: 2px solid #DC2626;
+  color: #DC2626;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transform: rotate(8deg);
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.legacy-list {
+  list-style: none;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.legacy-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.94rem;
+  color: #64635E;
+  line-height: 1.45;
+}
+
+.legacy-cross {
+  color: #DC2626;
+  font-weight: 800;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+
+/* Monolithe Atelier Boubane : Écrin Lumineux Surélevé */
+.monolith-boubane {
+  background: #FFFFFF;
+  border: 1px solid rgba(237, 91, 4, 0.3);
+  border-radius: 22px;
+  padding: clamp(28px, 4vw, 42px);
+  position: relative;
+  transform: translateY(-8px);
+  box-shadow: 
+    0 32px 75px -14px rgba(237, 91, 4, 0.16),
+    0 12px 28px -4px rgba(12, 10, 8, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  overflow: hidden;
+}
+
+.boubane-conic-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg at 50% 50%, rgba(237, 91, 4, 0) 0deg, rgba(237, 91, 4, 0.18) 45deg, rgba(238, 248, 90, 0.22) 90deg, rgba(237, 91, 4, 0.18) 180deg);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+  animation: slowConicSpin 24s linear infinite;
+}
+
+@keyframes slowConicSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.boubane-list {
+  list-style: none;
+  margin: 24px 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.boubane-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.98rem;
+  color: #1A1816;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.boubane-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(237, 91, 4, 0.14);
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* 7. Section 03 : Galerie Dossiers d'Architecture */
+.dossier-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  margin-top: 40px;
+}
+
+.dossier-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 20px 48px -12px rgba(12, 10, 8, 0.08);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+@media (max-width: 960px) {
+  .dossier-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dossier-preview-chassis {
+  background: #11100E;
+  padding: clamp(20px, 3.5vw, 36px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.dossier-preview-chassis iframe {
+  width: 100%;
+  height: clamp(260px, 36vh, 340px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: #FFFFFF;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  transform: perspective(1000px) rotateY(-2deg) rotateX(1deg);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dossier-preview-chassis:hover iframe {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.02);
+  }
+}
+
+.dossier-content-chassis {
+  padding: clamp(28px, 4vw, 42px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dossier-tag-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(12, 10, 8, 0.06);
+}
+
+.dossier-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 22px 0;
+}
+
+@media (max-width: 600px) {
+  .dossier-spec-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dossier-spec-box {
+  background: #FAF8F5;
+  border: 1px solid rgba(12, 10, 8, 0.06);
+  border-radius: 12px;
+  padding: 14px 12px;
+}
+
+.spec-box-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: #8C8B85;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.spec-box-value {
+  font-size: 0.88rem;
+  color: #1A1816;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* 8. Section 04 : Chronographe / Ligne de Montage */
+.chronograph-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 44px;
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .chronograph-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chronograph-step-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.08);
+  border-radius: 18px;
+  padding: clamp(24px, 3.5vw, 36px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 12px 30px -8px rgba(12, 10, 8, 0.04);
+}
+
+.chronograph-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #0C0A08;
+  background: #FAF8F5;
+  border: 1px solid rgba(12, 10, 8, 0.08);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-bottom: 16px;
+}
+
+.chronograph-num {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+/* 9. Section 05 : Lettre d'Atelier & Établi */
+.atelier-letter-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.10);
+  border-radius: 24px;
+  padding: clamp(32px, 5vw, 56px);
+  position: relative;
+  box-shadow: 
+    0 24px 60px -12px rgba(12, 10, 8, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  margin-top: 36px;
+}
+
+.atelier-stamp-seal {
+  position: absolute;
+  top: clamp(24px, 4vw, 40px);
+  right: clamp(24px, 4vw, 40px);
+  border: 1px solid rgba(237, 91, 4, 0.35);
+  background: rgba(237, 91, 4, 0.04);
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+
+.signature-svg {
+  width: clamp(160px, 24vw, 220px);
+  height: auto;
+  margin-top: 24px;
+  display: block;
+}
+
+.signature-stroke {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  transition: stroke-dashoffset 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.signature-svg.is-drawn .signature-stroke {
+  stroke-dashoffset: 0;
+}

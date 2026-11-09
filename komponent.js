@@ -1925,3 +1925,54 @@ function initCookieConsent() {
 
 
 
+
+
+// 13. Moteur d'Interactions d'Orfèvrerie Numérique (Tilt 3D, Glare Spéculaire & Révélation Staggered)
+(function initArchitectEngine() {
+  function setup() {
+    // A. 3D Perspective Tilt avec reflet spéculaire suivant la souris
+    const tiltCards = document.querySelectorAll('.architect-card-tilt');
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -3.5;
+        const rotateY = ((x - centerX) / centerX) * 3.5;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-2px)`;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      });
+    });
+
+    // B. IntersectionObserver : Révélation douce au scroll (flou vers net)
+    const revealEls = document.querySelectorAll('.reveal-architect');
+    if ('IntersectionObserver' in window && revealEls.length > 0) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            const sig = entry.target.querySelector('.signature-svg');
+            if (sig) sig.classList.add('is-drawn');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      revealEls.forEach(el => observer.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('is-revealed'));
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup);
+  } else {
+    setup();
+  }
+})();

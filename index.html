@@ -184,6 +184,8 @@
     <script src="tracker.js" defer></script>
 </head>
 <body>
+    <!-- Grain Photographique Noble d'Architecte -->
+    <div class="architect-grain-overlay" aria-hidden="true"></div>
     <!-- Portail Plein Écran Universel pour visiter les sites réalisés (Au niveau racine de body) -->
     <div id="mockupFullscreenPortal" class="mockup-fullscreen-portal" aria-hidden="true">
         <div class="mockup-portal-backdrop" onclick="closeFullscreenMockup()" title="Cliquer pour fermer la vue pleine"></div>
@@ -263,9 +265,10 @@
 
             <nav aria-label="Navigation principale">
                 <ul class="nav-links">
-                    <li><a href="#heroShowcase" class="nav-link">Réalisations</a></li>
-                    <li><a href="/hebergement" class="nav-link">Hébergement</a></li>
-                    <li><a href="/blog" class="nav-link">Journal &amp; SEO</a></li>
+                    <li><a href="#modele" class="nav-link">Modèle 0 €</a></li>
+                    <li><a href="#comparatif" class="nav-link">Comparatif</a></li>
+                    <li><a href="#realisations" class="nav-link">Réalisations</a></li>
+                    <li><a href="#processus" class="nav-link">Processus</a></li>
                     <li><a href="#faq" class="nav-link">FAQ</a></li>
                 </ul>
             </nav>
@@ -489,6 +492,456 @@
                         </textPath>
                     </text>
                 </svg>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 01 · LE MANIFESTE DU 0 € : LA RUPTURE COMMERCIALE
+             Architecture Bento Asymétrique & Cotes Techniques
+             ========================================================================== -->
+        <section id="modele" class="section">
+            <div class="container">
+                <div class="architect-crosshair" style="top: 0; left: 0;"></div>
+                <div class="architect-crosshair" style="top: 0; right: 0;"></div>
+
+                <div class="section-title-wrap center reveal-architect">
+                    <div class="section-tag-wrap">
+                        <span class="cs-eyebrow">
+                            <span class="cs-eyebrow-dot" aria-hidden="true"></span>
+                            <span>Le Modèle Économique Direct</span>
+                        </span>
+                    </div>
+                    <h2 class="cs-title">Le Manifeste du 0 €<span class="cs-title__dot">.</span> La Rupture Commerciale</h2>
+                    <p class="cs-lead mx-auto">Pourquoi payer 4 500 € pour du vent ? Nous supprimons le superflu d'agence pour vous livrer une vitrine d'orfèvre directement à votre nom.</p>
+                </div>
+
+                <div class="bento-architect-grid">
+                    <!-- Grande Carte Maîtresse à Gauche : Zéro Frais de Conception -->
+                    <div class="bento-master-card architect-card-tilt reveal-architect">
+                        <div class="card-specular-glare"></div>
+                        <div>
+                            <span class="dimension-annotation">COTE TECHNIQUE #01 · 0.00 € HT</span>
+                            <h3 class="cs-title" style="font-size: clamp(1.4rem, 2.4vw, 1.9rem); margin-bottom: 14px;">Zéro Frais de Conception Studio</h3>
+                            <p class="cs-lead" style="font-size: 0.98rem; line-height: 1.6; color: #64635E;">
+                                Les agences traditionnelles facturent leurs commerciaux, leurs chefs de projet et leurs locaux cossus. Chez Boubane, vous échangez directement avec le concepteur. 100% du travail de création, d'architecture et de rédaction est offert à nos frais.
+                            </p>
+                        </div>
+
+                        <!-- Ticket Mécanique : 4 500 € barré vers 0 € -->
+                        <div class="price-strike-ticket">
+                            <div>
+                                <span class="spec-box-label" style="display: block; margin-bottom: 4px;">Facture Agence Classique</span>
+                                <div class="old-price-wrap">
+                                    4 500 €
+                                    <svg class="strike-svg-path" viewBox="0 0 120 18" fill="none">
+                                        <path d="M 2 14 C 35 6, 75 4, 118 10" stroke="#ED5B04" stroke-width="4" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span class="spec-box-label" style="display: block; margin-bottom: 4px;">Atelier Boubane</span>
+                                <div class="zero-price-hero">0 € <span>ferme</span></div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 18px; align-items: center; padding-top: 16px; border-top: 1px solid rgba(12, 10, 8, 0.06);">
+                            <span class="cs-badge" style="font-size: 0.72rem;">Aucun Acompte</span>
+                            <span class="cs-badge" style="font-size: 0.72rem;">Zéro Frais Cachés</span>
+                            <span class="cs-badge" style="font-size: 0.72rem;">Sans Engagement</span>
+                        </div>
+                    </div>
+
+                    <!-- Cartes Empilées à Droite -->
+                    <div class="bento-side-stack">
+                        <!-- Carte 02 : Hébergement Direct -->
+                        <div class="bento-subcard architect-card-tilt reveal-architect delay-1">
+                            <div class="card-specular-glare"></div>
+                            <div>
+                                <span class="dimension-annotation">COTE TECHNIQUE #02 · DIRECT SERVEUR</span>
+                                <h4 style="font-family: var(--font-heading); font-size: 1.22rem; font-weight: 800; margin-bottom: 10px;">Hébergement au Coût Réel ~5 € / mois</h4>
+                                <p style="font-size: 0.92rem; color: #64635E; line-height: 1.55;">
+                                    Pas d'intermédiaire qui marge sur votre serveur. Votre compte d'hébergement est ouvert directement à votre nom chez l'hébergeur mondial de votre choix.
+                                </p>
+                            </div>
+
+                            <!-- Schéma Flux Direct -->
+                            <div class="flux-direct-schema">
+                                <svg viewBox="0 0 360 48" width="100%" height="auto" fill="none">
+                                    <rect x="6" y="8" width="90" height="32" rx="6" fill="#FFFFFF" stroke="rgba(12,10,8,0.12)"/>
+                                    <text x="51" y="28" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#0C0A08" text-anchor="middle">VOUS</text>
+
+                                    <path d="M 102 24 L 248 24" stroke="#ED5B04" stroke-width="2" stroke-dasharray="4 3"/>
+                                    <polygon points="252,24 244,20 244,28" fill="#ED5B04"/>
+                                    <text x="175" y="18" font-family="var(--font-mono)" font-size="8" font-weight="700" fill="#ED5B04" text-anchor="middle">FLUX DIRECT</text>
+
+                                    <rect x="256" y="8" width="98" height="32" rx="6" fill="#0C0A08"/>
+                                    <text x="305" y="28" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#FAF8F5" text-anchor="middle">SERVEUR OVH</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Carte 03 : Souveraineté Juridique Totale -->
+                        <div class="bento-subcard architect-card-tilt reveal-architect delay-2">
+                            <div class="card-specular-glare"></div>
+                            <div style="display: flex; gap: 16px; align-items: flex-start; justify-content: space-between;">
+                                <div>
+                                    <span class="dimension-annotation">COTE TECHNIQUE #03 · PLEINE PROPRIÉTÉ</span>
+                                    <h4 style="font-family: var(--font-heading); font-size: 1.22rem; font-weight: 800; margin-bottom: 10px;">Souveraineté Juridique & Code Pur</h4>
+                                    <p style="font-size: 0.92rem; color: #64635E; line-height: 1.55;">
+                                        Dépôt GitHub privé à votre nom. Le code source vous appartient intégralement dès la livraison. Zéro abonnement captif, liberté totale.
+                                    </p>
+                                </div>
+                                <svg class="rotating-seal-svg" width="62" height="62" viewBox="0 0 100 100" style="flex-shrink: 0;">
+                                    <circle cx="50" cy="50" r="44" stroke="#ED5B04" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+                                    <circle cx="50" cy="50" r="36" stroke="rgba(12, 10, 8, 0.12)" stroke-width="1" fill="none"/>
+                                    <path id="sealTextPath" d="M 50,50 m -32,0 a 32,32 0 1,1 64,0 a 32,32 0 1,1 -64,0" fill="none"/>
+                                    <text font-family="var(--font-mono)" font-size="7.5" font-weight="700" fill="#0C0A08" letter-spacing="0.1em">
+                                        <textPath href="#sealTextPath">100% PROPRIÉTAIRE · SOUVERAIN · </textPath>
+                                    </text>
+                                    <circle cx="50" cy="50" r="5" fill="#ED5B04"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 02 · LE GRAND FACE-À-FACE : AGENCE CLASSIQUE VS ATELIER BOUBANE
+             ========================================================================== -->
+        <section id="comparatif" class="section" style="background: #FDFCFA; border-top: 1px solid rgba(12, 10, 8, 0.06); border-bottom: 1px solid rgba(12, 10, 8, 0.06);">
+            <div class="container">
+                <div class="section-title-wrap center reveal-architect">
+                    <div class="section-tag-wrap">
+                        <span class="cs-eyebrow">
+                            <span class="cs-eyebrow-dot" aria-hidden="true"></span>
+                            <span>Face-à-Face Sans Filtre</span>
+                        </span>
+                    </div>
+                    <h2 class="cs-title">Agence Classique vs Atelier Boubane<span class="cs-title__dot">.</span></h2>
+                    <p class="cs-lead mx-auto">Comparez ligne à ligne ce que les agences traditionnelles vous facturent et ce que l'Atelier Boubane met sur votre établi.</p>
+                </div>
+
+                <div class="monolith-compare-wrap">
+                    <!-- Monolithe Agence Classique : Facture Obsolète -->
+                    <div class="monolith-legacy reveal-architect">
+                        <div class="legacy-stamp-wrap">MODÈLE OBSOLÈTE</div>
+                        <span class="spec-box-label">Modèle Historique 2010</span>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; margin: 8px 0;">L'Agence Web Traditionnelle</h3>
+                        <div style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 800; color: #8C8B85; margin-bottom: 16px;">
+                            3 500 € à 6 000 € HT
+                        </div>
+                        <ul class="legacy-list">
+                            <li class="legacy-list-item">
+                                <span class="legacy-cross">✕</span>
+                                <span><strong>70% du prix</strong> sert à payer les commerciaux, directeurs artistiques intermédiaires et loyers de bureaux.</span>
+                            </li>
+                            <li class="legacy-list-item">
+                                <span class="legacy-cross">✕</span>
+                                <span><strong>WordPress lourd</strong> et instable : 4 secondes de chargement moyen et failles de sécurité récurrentes.</span>
+                            </li>
+                            <li class="legacy-list-item">
+                                <span class="legacy-cross">✕</span>
+                                <span><strong>Contrat captif</strong> de maintenance imposé entre 120 € et 250 € / mois sous peine de couper le site.</span>
+                            </li>
+                            <li class="legacy-list-item">
+                                <span class="legacy-cross">✕</span>
+                                <span><strong>Code otage :</strong> vous n'êtes pas propriétaire du code source si vous quittez l'agence.</span>
+                            </li>
+                            <li class="legacy-list-item">
+                                <span class="legacy-cross">✕</span>
+                                <span><strong>Délais de 6 à 12 semaines</strong> avec 4 interlocuteurs différents sans maîtrise technique.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Monolithe Atelier Boubane : Écrin Lumineux Surélevé -->
+                    <div class="monolith-boubane architect-card-tilt reveal-architect delay-1">
+                        <div class="card-specular-glare"></div>
+                        <div class="boubane-conic-glow" aria-hidden="true"></div>
+                        <div style="position: relative; z-index: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <span class="cs-badge cs-badge--live">
+                                    <span class="cs-live-dot" aria-hidden="true"></span>
+                                    <span>CIRCUIT COURT · DIRECT CONCEPTEUR</span>
+                                </span>
+                                <span class="spec-box-label" style="color: var(--color-primary);">HORLOGERIE WEB</span>
+                            </div>
+                            <h3 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; margin: 8px 0;">L'Atelier Boubane</h3>
+                            <div style="font-family: var(--font-mono); font-size: 1.35rem; font-weight: 900; color: var(--color-primary); margin-bottom: 16px;">
+                                0 € de Frais de Création · Direct à Votre Nom
+                            </div>
+                            <ul class="boubane-list">
+                                <li class="boubane-list-item">
+                                    <span class="boubane-check">✓</span>
+                                    <span><strong>100% de la création offerte à nos frais :</strong> zéro honoraire de conception, d'ergonomie ou de rédaction.</span>
+                                </li>
+                                <li class="boubane-list-item">
+                                    <span class="boubane-check">✓</span>
+                                    <span><strong>Code propriétaire pur (&lt; 0.3s) :</strong> zéro CMS lourd, 100/100 Google Lighthouse, fluidité instantanée.</span>
+                                </li>
+                                <li class="boubane-list-item">
+                                    <span class="boubane-check">✓</span>
+                                    <span><strong>Hébergement au coût réel (~5 € / mois) :</strong> réglé directement auprès de l'hébergeur mondial de votre choix.</span>
+                                </li>
+                                <li class="boubane-list-item">
+                                    <span class="boubane-check">✓</span>
+                                    <span><strong>Pleine propriété juridique :</strong> dépôt GitHub privé à votre nom, code et nom de domaine 100% vôtres.</span>
+                                </li>
+                                <li class="boubane-list-item">
+                                    <span class="boubane-check">✓</span>
+                                    <span><strong>Livraison en 5 jours chrono :</strong> un interlocuteur unique qui écrit le code de votre vitrine.</span>
+                                </li>
+                            </ul>
+                            <div style="padding-top: 14px; border-top: 1px solid rgba(12, 10, 8, 0.08);">
+                                <a href="/commander" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 14px 24px; font-weight: 700;">
+                                    <span>Commander ma vitrine offerte (0 €)</span>
+                                    <span class="btn-arrow-double" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 03 · GALERIE DES RÉALISATIONS D'ÉLITE & RÉSULTATS CONCRETS
+             ========================================================================== -->
+        <section id="realisations" class="section">
+            <div class="container">
+                <div class="section-title-wrap center reveal-architect">
+                    <div class="section-tag-wrap">
+                        <span class="cs-eyebrow">
+                            <span class="cs-eyebrow-dot" aria-hidden="true"></span>
+                            <span>Cas d'Étude & Épreuves du Réel</span>
+                        </span>
+                    </div>
+                    <h2 class="cs-title">Galerie des Réalisations d'Élite<span class="cs-title__dot">.</span></h2>
+                    <p class="cs-lead mx-auto">Nos réalisations ne sont pas de simples vitrines décoratives : ce sont des instruments de conversion à haute autorité taillés pour les professionnels.</p>
+                </div>
+
+                <div class="dossier-wrap">
+                    <!-- DOSSIER #01 : Astravacances -->
+                    <article class="dossier-card reveal-architect">
+                        <div class="dossier-preview-chassis">
+                            <iframe src="showcase-astra.html" title="Aperçu interactif Astravacances" loading="lazy"></iframe>
+                            <div style="margin-top: 14px; display: flex; gap: 12px; width: 100%; justify-content: center;">
+                                <button type="button" class="btn btn-secondary" onclick="openFullscreenMockup('astra')" style="background: rgba(255,255,255,0.08); color: #FAF8F5; border-color: rgba(255,255,255,0.18); font-size: 0.82rem; padding: 8px 16px;">
+                                    Tester en Plein Écran ↗
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dossier-content-chassis">
+                            <div>
+                                <div class="dossier-tag-header">
+                                    <span class="spec-box-label" style="color: var(--color-primary); margin-bottom: 0;">DOSSIER #01 — TOURISME & GÎTES DE PRESTIGE</span>
+                                    <span class="cs-badge" style="font-size: 0.68rem;">PRODUCTION RÉELLE</span>
+                                </div>
+                                <h3 style="font-family: var(--font-heading); font-size: 1.55rem; font-weight: 800; margin-bottom: 12px;">Astravacances · Clos d'Astra</h3>
+                                <p style="font-size: 0.94rem; color: #64635E; line-height: 1.55;">
+                                    Conception d'une plateforme vitrine sur-mesure d'exception pour valoriser un domaine d'hébergements insolites en pleine nature et s'affranchir des plateformes tierces.
+                                </p>
+                            </div>
+
+                            <div class="dossier-spec-grid">
+                                <div class="dossier-spec-box">
+                                    <div class="spec-box-label">Problème Initial</div>
+                                    <div class="spec-box-value">18% de commission reversée à chaque réservation sur Airbnb et Booking.</div>
+                                </div>
+                                <div class="dossier-spec-box">
+                                    <div class="spec-box-label">Architecture Boubane</div>
+                                    <div class="spec-box-value">Code propriétaire ultra-rapide (&lt; 0.25s) et intégration du flux direct.</div>
+                                </div>
+                                <div class="dossier-spec-box">
+                                    <div class="spec-box-label">Impact Direct</div>
+                                    <div class="spec-box-value" style="color: var(--color-primary);">100% de réservations directes sans commission intermédiaire.</div>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid rgba(12, 10, 8, 0.06);">
+                                <span style="font-family: var(--font-mono); font-size: 0.78rem; color: #8C8B85;">astravacances.fr</span>
+                                <a href="showcase-astra.html" target="_blank" rel="noopener noreferrer" style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: #0C0A08; text-decoration: underline;">
+                                    Inspecter la vitrine live ↗
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- DOSSIER #02 : Artisans & Entreprises du Haut-Anjou -->
+                    <article class="dossier-card reveal-architect delay-1">
+                        <div class="dossier-preview-chassis">
+                            <iframe src="showcase-votre-site.html" title="Aperçu interactif Vitrine Artisanale" loading="lazy"></iframe>
+                            <div style="margin-top: 14px; display: flex; gap: 12px; width: 100%; justify-content: center;">
+                                <button type="button" class="btn btn-secondary" onclick="openFullscreenMockup('votresite')" style="background: rgba(255,255,255,0.08); color: #FAF8F5; border-color: rgba(255,255,255,0.18); font-size: 0.82rem; padding: 8px 16px;">
+                                    Tester en Plein Écran ↗
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dossier-content-chassis">
+                            <div>
+                                <div class="dossier-tag-header">
+                                    <span class="spec-box-label" style="color: var(--color-primary); margin-bottom: 0;">DOSSIER #02 — ARTISANAT, BTP & ENTREPRISES LOCALES</span>
+                                    <span class="cs-badge" style="font-size: 0.68rem;">SPÉCIAL SEGRÉ & 49/53</span>
+                                </div>
+                                <h3 style="font-family: var(--font-heading); font-size: 1.55rem; font-weight: 800; margin-bottom: 12px;">Artisanat & Métiers du BTP du Haut-Anjou</h3>
+                                <p style="font-size: 0.94rem; color: #64635E; line-height: 1.55;">
+                                    Structure éditoriale et technique sculptée spécifiquement pour les artisans exigeants : charpentiers, menuisiers, maçons et électriciens du Maine-et-Loire et de la Mayenne.
+                                </p>
+                            </div>
+
+                            <div class="dossier-spec-grid">
+                                <div class="dossier-spec-box">
+                                    <div class="spec-box-label">Problème Initial</div>
+                                    <div class="spec-box-value">Dépendance à une page Facebook désuète et bouche-à-oreille difficile à capter.</div>
+                                </div>
+                                <div class="dossier-spec-box">
+                                    <div class="spec-box-label">Architecture Boubane</div>
+                                    <div class="spec-box-value">SEO local Segré/Angers/Châteaubriant + formulaire de demande de devis express.</div>
+                                </div>
+                                <div class="dossier-spec-box">
+                                    <div class="spec-box-label">Impact Direct</div>
+                                    <div class="spec-box-value" style="color: var(--color-primary);">Demandes de chantiers qualifiées reçues directement par e-mail et SMS.</div>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid rgba(12, 10, 8, 0.06);">
+                                <span style="font-family: var(--font-mono); font-size: 0.78rem; color: #8C8B85;">Prêt à être adapté à votre métier</span>
+                                <a href="/commander" style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--color-primary); text-decoration: underline;">
+                                    Demander votre maquette offerte ↗
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 04 · LE PROTOCOLE EN 3 ÉTAPES : 5 JOURS CHRONO
+             ========================================================================== -->
+        <section id="processus" class="section" style="background: #FAF8F5; border-top: 1px solid rgba(12, 10, 8, 0.06);">
+            <div class="container">
+                <div class="section-title-wrap center reveal-architect">
+                    <div class="section-tag-wrap">
+                        <span class="cs-eyebrow">
+                            <span class="cs-eyebrow-dot" aria-hidden="true"></span>
+                            <span>Ligne de Montage Horlogère</span>
+                        </span>
+                    </div>
+                    <h2 class="cs-title">Le Protocole d'Atelier en 3 Étapes<span class="cs-title__dot">.</span></h2>
+                    <p class="cs-lead mx-auto">De votre prise de contact à la mise en ligne, chaque étape est chronométrée avec la rigueur d'un atelier de mécanique de précision.</p>
+                </div>
+
+                <div class="chronograph-grid">
+                    <!-- Étape 01 -->
+                    <div class="chronograph-step-card architect-card-tilt reveal-architect">
+                        <div class="card-specular-glare"></div>
+                        <div>
+                            <span class="chronograph-badge">JOUR 1 · CALIBRATION</span>
+                            <div class="chronograph-num">01</div>
+                            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; margin-bottom: 12px;">Brief Express en 10 Minutes</h3>
+                            <p style="font-size: 0.94rem; color: #64635E; line-height: 1.55;">
+                                Vous remplissez notre questionnaire tactile simplifié ou échangez directement par téléphone. Vos photos, vos métiers, vos valeurs : nous collectons l'essentiel sans vous faire perdre une heure de chantier.
+                            </p>
+                        </div>
+                        <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid rgba(12, 10, 8, 0.06); font-family: var(--font-mono); font-size: 0.76rem; color: #8C8B85;">
+                            Temps client : 10 min · Zéro acompte
+                        </div>
+                    </div>
+
+                    <!-- Étape 02 -->
+                    <div class="chronograph-step-card architect-card-tilt reveal-architect delay-1">
+                        <div class="card-specular-glare"></div>
+                        <div>
+                            <span class="chronograph-badge" style="color: var(--color-primary); border-color: rgba(237, 91, 4, 0.25);">JOURS 2-4 · ORFÈVRERIE</span>
+                            <div class="chronograph-num">02</div>
+                            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; margin-bottom: 12px;">L'Orfèvrerie du Studio</h3>
+                            <p style="font-size: 0.94rem; color: #64635E; line-height: 1.55;">
+                                Nous sculptons votre identité : rédaction des arguments commerciaux, architecture ultra-rapide sur-mesure, optimisation SEO locale et design haute autorité. Zéro template pré-fabriqué.
+                            </p>
+                        </div>
+                        <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid rgba(12, 10, 8, 0.06); font-family: var(--font-mono); font-size: 0.76rem; color: #8C8B85;">
+                            Travail studio pur · Code propriétaire testé
+                        </div>
+                    </div>
+
+                    <!-- Étape 03 -->
+                    <div class="chronograph-step-card architect-card-tilt reveal-architect delay-2">
+                        <div class="card-specular-glare"></div>
+                        <div>
+                            <span class="chronograph-badge">JOUR 5 · LIVRAISON</span>
+                            <div class="chronograph-num">03</div>
+                            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; margin-bottom: 12px;">Validation ou 0 € Engagé</h3>
+                            <p style="font-size: 0.94rem; color: #64635E; line-height: 1.55;">
+                                Vous découvrez votre site interactif en direct sur votre ordinateur et smartphone. Vous êtes conquis ? Nous branchons votre nom de domaine. Vous hésitez ? Vous ne devez absolument rien.
+                            </p>
+                        </div>
+                        <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid rgba(12, 10, 8, 0.06); font-family: var(--font-mono); font-size: 0.76rem; color: #8C8B85;">
+                            Liberté souveraine · Satisfaction garantie
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 05 · L'ARTISAN DU STUDIO (LA CONFIANCE HUMAINE)
+             ========================================================================== -->
+        <section id="artisan" class="section">
+            <div class="container">
+                <div class="atelier-letter-card reveal-architect">
+                    <div class="architect-crosshair" style="top: -1px; left: -1px;"></div>
+                    <div class="architect-crosshair" style="top: -1px; right: -1px;"></div>
+                    <div class="architect-crosshair" style="bottom: -1px; left: -1px;"></div>
+                    <div class="architect-crosshair" style="bottom: -1px; right: -1px;"></div>
+
+                    <div class="atelier-stamp-seal">
+                        <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary);"></span>
+                        <span>Artisanat Web Français · Haut-Anjou</span>
+                    </div>
+
+                    <div style="max-width: 720px;">
+                        <span class="spec-box-label" style="color: var(--color-primary); margin-bottom: 12px;">Note d'Atelier & Engagement d'Honneur</span>
+                        <h3 style="font-family: var(--font-heading); font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 800; line-height: 1.25; margin-bottom: 20px;">
+                            "Chez Boubane, vous échangez directement avec celui qui écrit chaque ligne de code de votre vitrine."
+                        </h3>
+                        <div style="font-size: 1.02rem; color: #4A4843; line-height: 1.7; display: flex; flex-direction: column; gap: 14px;">
+                            <p>
+                                En agence classique, votre interlocuteur est un commercial qui sous-traite votre projet à des exécutants ou à l'étranger. Les délais s'étirent, la qualité se dégrade et le devis explose pour payer des charges inutiles.
+                            </p>
+                            <p>
+                                J'ai fondé le Studio Boubane dans le Haut-Anjou avec une conviction radicale : les artisans, indépendants et PME méritent le niveau d'orfèvrerie des meilleures marques mondiales, sans les frais de structure d'une agence.
+                            </p>
+                            <p>
+                                Chaque vitrine qui sort de mon atelier est forgée en code pur propriétaire, ultra-rapide, sans CMS lourd, avec un hébergement au coût réel à votre nom. Pas de filtre, pas de déperdition, pas de fausses promesses.
+                            </p>
+                        </div>
+
+                        <!-- Signature Manuscrite Autotracée en SVG -->
+                        <div style="margin-top: 28px; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                            <div>
+                                <svg class="signature-svg" viewBox="0 0 240 80" fill="none">
+                                    <path class="signature-stroke" d="M 20 60 C 35 25, 45 10, 52 38 C 58 55, 62 62, 70 48 C 76 38, 85 30, 96 32 C 105 34, 112 45, 118 52 C 124 58, 134 40, 142 36 C 150 32, 162 42, 172 40 C 182 38, 195 24, 205 22 C 215 20, 225 32, 230 45 M 35 52 C 75 50, 140 48, 210 46" stroke="#0C0A08" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="218" cy="24" r="2.5" fill="#ED5B04"/>
+                                </svg>
+                                <div style="font-family: var(--font-heading); font-weight: 800; font-size: 1.15rem; color: #0C0A08; margin-top: 6px;">Léo Saillour</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.78rem; color: #8C8B85;">Fondateur & Artisan Développeur Web · Segré-en-Anjou Bleu (49500)</div>
+                            </div>
+                            <a href="/commander" class="btn btn-primary" style="padding: 12px 22px; font-weight: 700;">
+                                <span>Lancer mon projet avec Léo</span>
+                                <span class="btn-arrow-double" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

@@ -42,6 +42,18 @@
       "use": "@vercel/static"
     },
     {
+      "src": "showcase-votre-site.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "showcase-achille.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "showcase-valmy.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "site.webmanifest",
       "use": "@vercel/static"
     },
@@ -140,6 +152,18 @@
     {
       "src": "/showcase-astra.html",
       "dest": "/showcase-astra.html"
+    },
+    {
+      "src": "/showcase-votre-site.html",
+      "dest": "/showcase-votre-site.html"
+    },
+    {
+      "src": "/showcase-achille.html",
+      "dest": "/showcase-achille.html"
+    },
+    {
+      "src": "/showcase-valmy.html",
+      "dest": "/showcase-valmy.html"
     },
     {
       "src": "/showcase/astra/?(.*)",

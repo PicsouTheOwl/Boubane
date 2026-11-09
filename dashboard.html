@@ -170,7 +170,7 @@
                         </td>
                         <td>
                             <span class="badge ${isUnder80k ? 'badge-success' : 'badge-warning'}">
-                                ${isUnder80k ? '✓ Conforme < 80 Ko' : 'Optimisé'}
+                                ${isUnder80k ? ' Conforme < 80 Ko' : 'Optimisé'}
                             </span>
                         </td>
                         <td style="text-align: right;">
@@ -263,7 +263,7 @@
                 } else {
                     queueTbody.innerHTML = queue.map((t, idx) => {
                         const dueDate = new Date(t.dueAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-                        let typeLabel = t.type === 'PHOTO_REMINDER_J2' ? '📸 Relance Photos (J+2)' : '⭐ Avis Google (+48h)';
+                        let typeLabel = t.type === 'PHOTO_REMINDER_J2' ? ' Relance Photos (J+2)' : '⭐ Avis Google (+48h)';
                         let statusBadge = t.status === 'PENDING'
                             ? '<span class="badge badge-warning">En attente</span>'
                             : (t.status === 'CANCELLED_RECEIVED' ? '<span class="badge badge-success">Neutralisé</span>' : '<span class="badge badge-primary">Exécuté</span>');
@@ -1356,7 +1356,7 @@
     <!-- Container Toasts -->
     <div id="toastContainer" class="toast-container"></div>
 
-    <!-- Command Palette ⌘K Modal -->
+    <!-- Command Palette K Modal -->
     <div id="commandPaletteModal" onclick="if(event.target === this) closeCommandPalette()">
         <div class="command-dialog">
             <div class="command-input-wrap">
@@ -1401,15 +1401,15 @@
                     <span>Ajouter un prospect manuellement</span>
                 </div>
                 <div class="command-item" onclick="executeCommand('seed-demo')">
-                    <span>✨</span>
+                    <span></span>
                     <span>Charger les données de démonstration express</span>
                 </div>
                 <div class="command-item" onclick="executeCommand('export-csv')">
-                    <span>📥</span>
+                    <span></span>
                     <span>Exporter les prospects en CSV</span>
                 </div>
                 <div class="command-item" onclick="executeCommand('toggle-theme')">
-                    <span>🌓</span>
+                    <span></span>
                     <span>Basculer mode Sombre / Clair</span>
                 </div>
             </div>
@@ -1482,7 +1482,7 @@
                 </div>
             </div>
 
-            <!-- Droite : Command ⌘K, Live Clock, Actions, Theme, User -->
+            <!-- Droite : Command K, Live Clock, Actions, Theme, User -->
             <div style="display: flex; align-items: center; gap: 12px;">
                 <!-- Live Clock -->
                 <div style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); background: var(--bg-card); padding: 5px 12px; border-radius: var(--radius-pill); border: 1px solid var(--border);">
@@ -1492,13 +1492,13 @@
                     <span style="color: var(--success); font-weight: 700;">&lt; 0.28s</span>
                 </div>
 
-                <!-- Search Button ⌘K -->
+                <!-- Search Button K -->
                 <button onclick="openCommandPalette()" class="btn-dash" style="color: var(--text-muted); width: 160px; justify-content: space-between;">
                     <span style="display: inline-flex; align-items: center; gap: 6px;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                         <span>Rechercher...</span>
                     </span>
-                    <kbd style="font-family: var(--font-mono); font-size: 10px; background: var(--muted); padding: 1px 4px; border-radius: 3px; border: 1px solid var(--border);">⌘K</kbd>
+                    <kbd style="font-family: var(--font-mono); font-size: 10px; background: var(--muted); padding: 1px 4px; border-radius: 3px; border: 1px solid var(--border);">K</kbd>
                 </button>
 
                 <!-- Theme Toggle Button -->
@@ -1907,7 +1907,7 @@
                 <div class="panel-card">
                     <div class="panel-header" style="flex-wrap: wrap; gap: 12px;">
                         <div>
-                            <h3 class="panel-title">🕸️ Cocon Sémantique &amp; Maillage Interne (20 Pages Cibles)</h3>
+                            <h3 class="panel-title">️ Cocon Sémantique &amp; Maillage Interne (20 Pages Cibles)</h3>
                             <p class="panel-subtitle">Matrice synchronisée avec le cocon SEO pour dominer le Maine-et-Loire et les requêtes à forte intention d'achat.</p>
                         </div>
                         <button onclick="copyCoconForGoogleSheets()" class="btn-dash" title="Copier pour coller dans Google Sheets">
@@ -1962,7 +1962,7 @@
                         <!-- Vue Gemini SGE -->
                         <div id="serpAiContainer" style="display: none; background: #F8FAFD; border-radius: var(--radius-sm); padding: 18px; border: 1px solid #D2E3FC; color: #1F1F1F;">
                             <div style="display: flex; align-items: center; gap: 6px; color: #1A73E8; font-weight: 700; font-size: 12px; margin-bottom: 8px;">
-                                <span>✦ Synthèse IA Google (Gemini)</span>
+                                <span> Synthèse IA Google (Gemini)</span>
                             </div>
                             <p style="font-size: 13px; line-height: 1.5; color: #3C4043; margin-bottom: 8px;">
                                 <strong>Boubane</strong> propose une alternative aux agences web pour les entreprises d'Anjou : création de site vitrine sur-mesure sans frais d'entrée, code propriétaire livré sur GitHub et score de performance de 100/100.
@@ -1999,7 +1999,7 @@
                             <div>
                                 <label style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);">Bassin Géographique</label>
                                 <select id="geoCitySelect" onchange="generateGeoSeoPack()" class="input-shadcn">
-                                    <option value="segre" selected>📍 Segré-en-Anjou Bleu (49)</option>
+                                    <option value="segre" selected> Segré-en-Anjou Bleu (49)</option>
                                     <option value="bordeaux">Bordeaux (33)</option>
                                     <option value="paris">Paris &amp; IDF (75)</option>
                                     <option value="nantes">Nantes (44)</option>
@@ -2042,19 +2042,19 @@
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.82rem;">
                             <div style="padding: 10px 14px; background: var(--muted); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
                                 <span>/sitemap.xml</span>
-                                <span id="statusSitemap" class="badge badge-success">✓ En Ligne</span>
+                                <span id="statusSitemap" class="badge badge-success"> En Ligne</span>
                             </div>
                             <div style="padding: 10px 14px; background: var(--muted); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
                                 <span>/robots.txt</span>
-                                <span id="statusRobots" class="badge badge-success">✓ En Ligne</span>
+                                <span id="statusRobots" class="badge badge-success"> En Ligne</span>
                             </div>
                             <div style="padding: 10px 14px; background: var(--muted); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
                                 <span>/site.webmanifest</span>
-                                <span id="statusManifest" class="badge badge-success">✓ En Ligne</span>
+                                <span id="statusManifest" class="badge badge-success"> En Ligne</span>
                             </div>
                             <div style="padding: 10px 14px; background: var(--muted); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
                                 <span>Page 404.html</span>
-                                <span id="status404" class="badge badge-success">✓ En Ligne</span>
+                                <span id="status404" class="badge badge-success"> En Ligne</span>
                             </div>
                         </div>
                     </div>
@@ -2137,7 +2137,7 @@
                         <p class="panel-subtitle">Gérez vos articles publiés ou en cours de rédaction</p>
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center;">
-                        <input type="text" id="artFilterInput" oninput="filterBlogArticlesTable()" placeholder="🔍 Filtrer les articles..." class="input-shadcn" style="width: 220px; height: 34px;">
+                        <input type="text" id="artFilterInput" oninput="filterBlogArticlesTable()" placeholder=" Filtrer les articles..." class="input-shadcn" style="width: 220px; height: 34px;">
                         <button onclick="createNewArticleForm()" class="btn-dash primary" style="height: 34px;">
                             <span>＋ Nouvel Article</span>
                         </button>
@@ -2272,7 +2272,7 @@
                                 <span>Exporter HTML prêt à coller</span>
                             </button>
                             <div style="display: flex; gap: 10px; align-items: center;">
-                                <span id="artSavedNotice" style="color: var(--success); font-weight: 600; font-size: 0.82rem; display: none;">✓ Enregistré !</span>
+                                <span id="artSavedNotice" style="color: var(--success); font-weight: 600; font-size: 0.82rem; display: none;"> Enregistré !</span>
                                 <button type="submit" class="btn-dash primary">Enregistrer l'Article</button>
                             </div>
                         </div>
@@ -2297,23 +2297,23 @@
                         <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem;">
                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border);">
                                 <span>Balise Title SEO (35 - 70 car.)</span>
-                                <span class="badge badge-success">✓ Conforme</span>
+                                <span class="badge badge-success"> Conforme</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border);">
                                 <span>Meta Description (100 - 165 car.)</span>
-                                <span class="badge badge-success">✓ Conforme</span>
+                                <span class="badge badge-success"> Conforme</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border);">
                                 <span>Sous-titres H2 structurés (&ge; 2)</span>
-                                <span class="badge badge-success">✓ Présents</span>
+                                <span class="badge badge-success"> Présents</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border);">
                                 <span>Call-to-Action de persuasion modèle 0€</span>
-                                <span class="badge badge-success">✓ Présent</span>
+                                <span class="badge badge-success"> Présent</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0;">
                                 <span>Longueur du contenu (&ge; 250 mots)</span>
-                                <span class="badge badge-success">✓ Idéal</span>
+                                <span class="badge badge-success"> Idéal</span>
                             </div>
                         </div>
                     </div>
@@ -2330,7 +2330,7 @@
                             Ce bouton synthétise le titre, les mots-clés et l'angle d'autorité de Boubane dans un master prompt taillé pour ChatGPT, Claude ou Gemini.
                         </p>
                         <button onclick="generateAiSuperPrompt()" class="btn-dash" style="width: 100%; justify-content: center;">
-                            <span>Copier le Super-Prompt IA 📋</span>
+                            <span>Copier le Super-Prompt IA </span>
                         </button>
                     </div>
 
@@ -2494,7 +2494,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <button onclick="saveDashboardSettings()" class="btn-dash primary">Sauvegarder les Paramètres</button>
-                            <span id="saveSuccessMsg" style="color: var(--success); font-weight: 600; font-size: 0.82rem; display: none;">✓ Enregistré !</span>
+                            <span id="saveSuccessMsg" style="color: var(--success); font-weight: 600; font-size: 0.82rem; display: none;"> Enregistré !</span>
                         </div>
                         <button onclick="resetDemoData()" class="btn-dash" style="color: var(--destructive); border-color: rgba(239, 68, 68, 0.35); font-size: 0.78rem;">
                             Vider le cache local
@@ -2570,7 +2570,7 @@
                 </p>
                 <span class="btn-dash" style="pointer-events: none;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                    <span>Parcourir vos fichiers ou coller (⌘V)</span>
+                    <span>Parcourir vos fichiers ou coller (V)</span>
                 </span>
             </div>
 
@@ -3100,7 +3100,7 @@
             const crmWebhookUrl = (cfg.crmWebhookUrl && cfg.crmWebhookUrl.trim()) || 'https://crm.boubane.com/api/webhook/lead';
             const badgeHeader = document.getElementById('crmHeaderBadge');
             if (badgeHeader) {
-                badgeHeader.textContent = "✓ Twenty CRM Connecté (Synchro Auto)";
+                badgeHeader.textContent = " Twenty CRM Connecté (Synchro Auto)";
                 badgeHeader.style.background = "rgba(16, 185, 129, 0.15)";
                 badgeHeader.style.color = "#10B981";
             }
@@ -3136,13 +3136,13 @@
 
                         let dynamicBadges = '';
                         if (lead.photoReminderDueAt && !lead.photosReceived) {
-                            dynamicBadges += `<span class="badge badge-primary" style="font-size: 10px; padding: 2px 7px;">📸 Relance J+2</span>`;
+                            dynamicBadges += `<span class="badge badge-primary" style="font-size: 10px; padding: 2px 7px;"> Relance J+2</span>`;
                         }
                         if (lead.reviewDueAt) {
                             dynamicBadges += `<span class="badge badge-warning" style="font-size: 10px; padding: 2px 7px;">⭐ Avis +48h</span>`;
                         }
                         if (lead.deliveredAt || lead.status === 'Terminé') {
-                            dynamicBadges += `<span class="badge badge-success" style="font-size: 10px; padding: 2px 7px;">🚀 En Ligne</span>`;
+                            dynamicBadges += `<span class="badge badge-success" style="font-size: 10px; padding: 2px 7px;"> En Ligne</span>`;
                         }
 
                         return `
@@ -3174,15 +3174,15 @@
                                 
                                 <!-- Barre de déclencheurs 1-clic internes (R1, R2, R4) -->
                                 <div style="display: flex; gap: 4px; padding: 5px; background: var(--muted); border-radius: var(--radius-sm); border: 1px solid var(--border); justify-content: space-between;">
-                                    <button onclick="triggerBriefingTelegram(${origIdx})" class="card-btn-action" title="⚡ Briefing Telegram automatique (R1)">
+                                    <button onclick="triggerBriefingTelegram(${origIdx})" class="card-btn-action" title=" Briefing Telegram automatique (R1)">
                                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                                         <span>Briefing</span>
                                     </button>
-                                    <button onclick="triggerPhotoOnboardingLead(${origIdx}, 'whatsapp')" class="card-btn-action" title="📸 Cadrage Photos + Relance J+2 (R2)">
+                                    <button onclick="triggerPhotoOnboardingLead(${origIdx}, 'whatsapp')" class="card-btn-action" title=" Cadrage Photos + Relance J+2 (R2)">
                                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                                         <span>Photos</span>
                                     </button>
-                                    <button onclick="triggerDeliveryLead(${origIdx})" class="card-btn-action" title="🚀 Livraison + Avis Google 48h (R4)">
+                                    <button onclick="triggerDeliveryLead(${origIdx})" class="card-btn-action" title=" Livraison + Avis Google 48h (R4)">
                                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                                         <span>Livrer</span>
                                     </button>
@@ -3196,7 +3196,7 @@
                                         <button onclick="advanceLeadStage(${origIdx})" class="btn-dash" style="height: 24px; padding: 0 8px; font-size: 10px; font-weight: 600; color: var(--primary);" title="Avancer à l'étape suivante du pipeline">
                                             <span>Étape →</span>
                                         </button>
-                                        <button onclick="deleteLead(${origIdx})" class="btn-dash" style="height: 24px; padding: 0 6px; font-size: 11px; color: var(--destructive);" title="Supprimer ce dossier">✕</button>
+                                        <button onclick="deleteLead(${origIdx})" class="btn-dash" style="height: 24px; padding: 0 6px; font-size: 11px; color: var(--destructive);" title="Supprimer ce dossier"></button>
                                     </div>
                                 </div>
                             </div>
@@ -3259,7 +3259,7 @@
                         <td>
                             <div style="display: flex; gap: 6px;">
                                 <a href="https://wa.me/?text=${waText}" target="_blank" class="btn-dash" style="padding: 3px 8px; font-size: 0.72rem; color: #22C55E;" title="Relancer via WhatsApp">WA</a>
-                                <button onclick="deleteLead(${origIdx})" class="btn-dash" style="padding: 3px 8px; font-size: 0.72rem; color: #EF4444;" title="Supprimer">✕</button>
+                                <button onclick="deleteLead(${origIdx})" class="btn-dash" style="padding: 3px 8px; font-size: 0.72rem; color: #EF4444;" title="Supprimer"></button>
                             </div>
                         </td>
                     </tr>
@@ -3302,7 +3302,7 @@
                         lead.crmSynced = true;
                         localStorage.setItem('boubane_leads', JSON.stringify(leads));
                         loadDashboardData();
-                        showToast("✓ Synchronisation CRM", `Lead de "${lead.name}" envoyé vers Twenty CRM`, "success");
+                        showToast(" Synchronisation CRM", `Lead de "${lead.name}" envoyé vers Twenty CRM`, "success");
                     })
                     .catch((err) => {
                         showToast("Erreur CRM", err.message, "error");
@@ -3311,7 +3311,7 @@
                 lead.crmSynced = true;
                 localStorage.setItem('boubane_leads', JSON.stringify(leads));
                 loadDashboardData();
-                showToast("✓ Lead synchronisé", `Lead de "${lead.name}" marqué synchronisé`, "success");
+                showToast(" Lead synchronisé", `Lead de "${lead.name}" marqué synchronisé`, "success");
             }
         }
 
@@ -3339,7 +3339,7 @@
 
             localStorage.setItem('boubane_leads', JSON.stringify(leads));
             loadDashboardData();
-            showToast("✓ Synchronisation Twenty CRM", `${count} prospect(s) transmis automatiquement`, "success");
+            showToast(" Synchronisation Twenty CRM", `${count} prospect(s) transmis automatiquement`, "success");
         }
 
         function deleteLead(idx) {
@@ -3616,7 +3616,7 @@
             const resMsg = document.getElementById('crmTestResultMsg');
             if (!crmUrl) {
                 if (resMsg) {
-                    resMsg.textContent = "⚠ Veuillez d'abord renseigner une URL de Webhook";
+                    resMsg.textContent = " Veuillez d'abord renseigner une URL de Webhook";
                     resMsg.style.color = "#EF4444";
                 }
                 return;
@@ -3643,7 +3643,7 @@
             sendFn(testLead, crmUrl)
                 .then(() => {
                     if (resMsg) {
-                        resMsg.textContent = "✓ Requête transmise au CRM avec succès !";
+                        resMsg.textContent = " Requête transmise au CRM avec succès !";
                         resMsg.style.color = "#10B981";
                     }
                     saveDashboardSettings();
@@ -3740,7 +3740,7 @@
             localStorage.setItem('boubane_analytics_events', JSON.stringify(demoEvents));
 
             loadDashboardData();
-            showToast("✨ Démo Express Activée", "4 prospects qualifiés et 40 sessions analytics chargés dans le dashboard !", "primary");
+            showToast(" Démo Express Activée", "4 prospects qualifiés et 40 sessions analytics chargés dans le dashboard !", "primary");
         }
 
         function escapeHtml(str) {
@@ -3825,8 +3825,8 @@
                     <td>
                         <div style="display: flex; gap: 4px;">
                             <button onclick="editArticle('${art.slug}')" class="btn-dash" style="padding: 4px 10px; font-size: 0.75rem;">Éditer</button>
-                            <button onclick="copyArticleUrl('${art.slug}')" class="btn-dash" style="padding: 4px 8px; font-size: 0.75rem;" title="Copier le lien public">🔗</button>
-                            <button onclick="deleteArticle('${art.slug}')" class="btn-dash" style="padding: 4px 8px; font-size: 0.75rem; color: var(--text-subtle);" title="Supprimer">✕</button>
+                            <button onclick="copyArticleUrl('${art.slug}')" class="btn-dash" style="padding: 4px 8px; font-size: 0.75rem;" title="Copier le lien public"></button>
+                            <button onclick="deleteArticle('${art.slug}')" class="btn-dash" style="padding: 4px 8px; font-size: 0.75rem; color: var(--text-subtle);" title="Supprimer"></button>
                         </div>
                     </td>
                 </tr>
@@ -3871,7 +3871,7 @@
             textarea.value += linkHtml;
             textarea.focus();
             calculateSeoScore();
-            showToast("🔗 Maillage Interne Injecté", "Lien vers le pilier sémantique inséré.", "primary");
+            showToast(" Maillage Interne Injecté", "Lien vers le pilier sémantique inséré.", "primary");
         }
 
         function setSerpDevice(device) {
@@ -4209,7 +4209,7 @@ Rédige un article complet prêt à être publié sur le blog Boubane avec :
 Fournis directement le code HTML propre sans préambule ni balises <html> externes.`;
 
             navigator.clipboard.writeText(prompt).then(() => {
-                alert("✨ Super-Prompt IA copié dans votre presse-papier !\n\nVous pouvez le coller directement dans ChatGPT, Claude ou Gemini pour obtenir un article d'une qualité chirurgicale.");
+                alert(" Super-Prompt IA copié dans votre presse-papier !\n\nVous pouvez le coller directement dans ChatGPT, Claude ou Gemini pour obtenir un article d'une qualité chirurgicale.");
             }).catch(() => {
                 prompt("Copiez le prompt ci-dessous pour votre IA :", prompt);
             });
@@ -4236,34 +4236,34 @@ Fournis directement le code HTML propre sans préambule ni balises <html> extern
             // H1 (35 - 80 car)
             const h1Ok = title.length >= 35 && title.length <= 80;
             if (h1Ok) score += 20;
-            setBadge('badgeH1', h1Ok, "✓ Conforme", "⚠ À ajuster");
+            setBadge('badgeH1', h1Ok, " Conforme", " À ajuster");
 
             // Meta Title (40 - 70 car)
             const mTitleOk = metaTitle.length >= 40 && metaTitle.length <= 70;
             if (mTitleOk) score += 20;
-            setBadge('badgeMetaTitle', mTitleOk, "✓ Conforme", "⚠ À ajuster");
+            setBadge('badgeMetaTitle', mTitleOk, " Conforme", " À ajuster");
 
             // Meta Desc (100 - 165 car)
             const mDescOk = metaDesc.length >= 100 && metaDesc.length <= 165;
             if (mDescOk) score += 20;
-            setBadge('badgeMetaDesc', mDescOk, "✓ Conforme", "⚠ À ajuster");
+            setBadge('badgeMetaDesc', mDescOk, " Conforme", " À ajuster");
 
             // H2 Count (>= 2)
             const h2Matches = content.match(/<h2/gi) || [];
             const h2Ok = h2Matches.length >= 2;
             if (h2Ok) score += 15;
-            setBadge('badgeH2Count', h2Ok, `✓ ${h2Matches.length} H2 détectés`, "⚠ 2 H2 minimum");
+            setBadge('badgeH2Count', h2Ok, ` ${h2Matches.length} H2 détectés`, " 2 H2 minimum");
 
             // Call to action (CTA)
             const ctaOk = content.includes('contact') || content.includes('offert') || content.includes('0 €');
             if (ctaOk) score += 15;
-            setBadge('badgeCta', ctaOk, "✓ Présent", "⚠ Manquant");
+            setBadge('badgeCta', ctaOk, " Présent", " Manquant");
 
             // Longueur & Télémétrie d'écriture
             const words = content.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
             const lenOk = words >= 200;
             if (lenOk) score += 10;
-            setBadge('badgeLength', lenOk, `✓ ${words} mots`, "⚠ < 200 mots");
+            setBadge('badgeLength', lenOk, ` ${words} mots`, " < 200 mots");
 
             // Jauge de Score & Progress Bar
             const badge = document.getElementById('seoScoreBadge');
@@ -4314,7 +4314,7 @@ Fournis directement le code HTML propre sans préambule ni balises <html> extern
                     if (Array.isArray(imported)) {
                         localStorage.setItem(BLOG_STORAGE_KEY, JSON.stringify(imported));
                         loadBlogArticles();
-                        alert(`✓ Succès : ${imported.length} articles importés et synchronisés !`);
+                        alert(` Succès : ${imported.length} articles importés et synchronisés !`);
                     } else {
                         alert("Le fichier JSON n'est pas au format valide.");
                     }
@@ -4403,7 +4403,7 @@ Léo Saillour — Boubane
                 const btnText = document.getElementById('copyPitchBtnText');
                 if (btnText) {
                     const orig = btnText.textContent;
-                    btnText.textContent = '✓ Copié !';
+                    btnText.textContent = ' Copié !';
                     setTimeout(() => { btnText.textContent = orig; }, 2500);
                 }
                 showToast("Argumentaire copié", "Le texte personnalisé est prêt à être collé", "success");
@@ -4619,7 +4619,7 @@ Léo Saillour — Boubane
                 const btn = document.getElementById('copySchemaBtnText');
                 if (btn) {
                     const orig = btn.textContent;
-                    btn.textContent = '✓ JSON-LD Copié !';
+                    btn.textContent = ' JSON-LD Copié !';
                     setTimeout(() => { btn.textContent = orig; }, 2500);
                 }
             }).catch(() => {
@@ -4677,7 +4677,7 @@ Léo Saillour — Boubane
                         const ms = Math.round(performance.now() - start);
                         if (res.ok || res.status === 304 || (f.url === '/404.html' && res.status === 404)) {
                             if (f.el) {
-                                f.el.textContent = `✓ 200 OK (${ms}ms)`;
+                                f.el.textContent = ` 200 OK (${ms}ms)`;
                                 f.el.style.background = "var(--success-soft)";
                                 f.el.style.color = "var(--success)";
                             }
@@ -4691,7 +4691,7 @@ Léo Saillour — Boubane
                     })
                     .catch(() => {
                         if (f.el) {
-                            f.el.textContent = "✓ En Ligne";
+                            f.el.textContent = " En Ligne";
                             f.el.style.background = "var(--success-soft)";
                             f.el.style.color = "var(--success)";
                         }
@@ -5052,7 +5052,7 @@ Léo Saillour — Boubane
             container.innerHTML = filtered.map((art, idx) => {
                 const globalIdx = COCON_ARTICLES.indexOf(art);
                 const pillarBadge = art.isPillar
-                    ? `<span style="background: rgba(237, 91, 4, 0.18); color: var(--primary); border: 1px solid rgba(237, 91, 4, 0.4); padding: 3px 8px; border-radius: var(--radius-pill); font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700;">★ PILIER FONDATEUR</span>`
+                    ? `<span style="background: rgba(237, 91, 4, 0.18); color: var(--primary); border: 1px solid rgba(237, 91, 4, 0.4); padding: 3px 8px; border-radius: var(--radius-pill); font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700;"> PILIER FONDATEUR</span>`
                     : `<span style="background: rgba(142, 149, 165, 0.12); color: var(--text-muted); border: 1px solid var(--border); padding: 3px 8px; border-radius: var(--radius-pill); font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600;">PAGE FILLE</span>`;
 
                 const h2ListHtml = art.h2s.map((h2, i) => `
@@ -5069,7 +5069,7 @@ Léo Saillour — Boubane
                     : `<div style="font-size: 0.76rem; color: var(--text-muted); background: var(--bg-surface); padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px;">
                          <div><strong style="color: var(--success);">↑ Lien Ascendant (Mère) :</strong> ${escapeHtml(art.mother)}</div>
                          <div><strong style="color: #EEF85A;">→ Lien Transversal (Sœur) :</strong> ${escapeHtml(art.sister)}</div>
-                         <div><strong style="color: var(--primary);">★ Conversion :</strong> /commander (Conception offerte 0 €)</div>
+                         <div><strong style="color: var(--primary);"> Conversion :</strong> /commander (Conception offerte 0 €)</div>
                        </div>`;
 
                 return `
@@ -5081,7 +5081,7 @@ Léo Saillour — Boubane
                                 <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #71717A;">/${art.slug}</span>
                             </div>
                             <button onclick="loadCoconArticleInEditor(${globalIdx})" class="btn-dash primary" style="font-size: 0.75rem; padding: 6px 14px;">
-                                <span>✍️ Charger dans l'Éditeur</span>
+                                <span>️ Charger dans l'Éditeur</span>
                             </button>
                         </div>
 
@@ -5126,7 +5126,7 @@ Léo Saillour — Boubane
             const tsvContent = [header.join("\t"), ...rows].join("\n");
 
             navigator.clipboard.writeText(tsvContent).then(() => {
-                showToast("✓ Cocon Copié !", "Tableau prêt pour Google Sheets : ouvrez sheets.new et faites Coller (Cmd+V)", "success");
+                showToast(" Cocon Copié !", "Tableau prêt pour Google Sheets : ouvrez sheets.new et faites Coller (Cmd+V)", "success");
             }).catch(() => {
                 alert("Tableau prêt pour le presse-papier !");
             });
@@ -5220,12 +5220,12 @@ Léo Saillour — Boubane
                     <td class="p-4 text-xs font-mono font-medium text-[var(--text-main)]">${h.renew}</td>
                     <td class="p-4 text-xs">
                         <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                            🔒 ${h.ssl}
+                             ${h.ssl}
                         </span>
                     </td>
                     <td class="p-4 text-xs">
                         <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-orange-500/10 text-[var(--primary)] border border-orange-500/20">
-                            💳 ${h.stripe} (15 €)
+                             ${h.stripe} (15 €)
                         </span>
                     </td>
                     <td class="p-4 text-right">
@@ -5234,7 +5234,7 @@ Léo Saillour — Boubane
                                 ↗ Visiter
                             </a>
                             <button onclick="testDnsForDomain('${h.domain}')" class="btn-dash text-[11px] py-1 px-2.5" title="Vérifier la propagation DNS">
-                                ⚡ DNS Test
+                                 DNS Test
                             </button>
                         </div>
                     </td>
@@ -5266,7 +5266,7 @@ Léo Saillour — Boubane
                         </div>
                         <div style="font-weight: 700; font-size: 0.88rem; color: var(--stripe-navy); margin-bottom: 4px;">Aucun prospect enregistré</div>
                         <div style="font-size: 0.78rem; color: var(--text-muted); max-width: 250px; margin-bottom: 12px;">Les nouvelles opportunités de Segré s'afficheront ici en direct.</div>
-                        <button onclick="seedFullDemoData()" class="btn-dash" style="font-size: 0.74rem;">✨ Charger la démo express</button>
+                        <button onclick="seedFullDemoData()" class="btn-dash" style="font-size: 0.74rem;"> Charger la démo express</button>
                     </div>
                 `;
                 return;
@@ -5290,7 +5290,7 @@ Léo Saillour — Boubane
                         <div style="text-align: right; flex-shrink: 0; display: flex; align-items: center; gap: 8px;">
                             <span class="badge badge-muted" style="font-size: 10px; padding: 2px 7px;">${escapeHtml(lead.status || 'Nouveau')}</span>
                             <a href="https://wa.me/?text=${waText}" target="_blank" class="btn-dash" style="height: 24px; padding: 0 6px; font-size: 10px; color: #00875A;" title="Contacter par WhatsApp">
-                                💬 WA
+                                 WA
                             </a>
                         </div>
                     </div>
@@ -5299,7 +5299,7 @@ Léo Saillour — Boubane
         }
 
         // -------------------------------------------------------------
-        // COMMAND PALETTE ⌘K (TYPE RAYCAST / SHADCN COMMANDDIALOG)
+        // COMMAND PALETTE K (TYPE RAYCAST / SHADCN COMMANDDIALOG)
         // -------------------------------------------------------------
         function openCommandPalette() {
             const modal = document.getElementById('commandPaletteModal');
@@ -5354,7 +5354,7 @@ Léo Saillour — Boubane
             }
         }
 
-        // Écouteur global pour ⌘K et Escape
+        // Écouteur global pour K et Escape
         document.addEventListener('keydown', (e) => {
             if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
                 e.preventDefault();
