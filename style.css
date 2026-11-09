@@ -26,9 +26,9 @@
   --color-success: #0E7541;
   --color-success-bg: #E6F8EE;
 
-  /* 2. Typographie Studio d'Élite (Ramp Design Style) */
-  --font-heading: 'Geist', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-body: 'Geist', system-ui, -apple-system, sans-serif;
+  /* 2. Typographie Studio d'Élite (Geist Hyper-Pur & Restreint) */
+  --font-heading: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
 
   /* Échelle Typographique */
@@ -5875,133 +5875,339 @@ html.lenis, html.lenis body {
 .delay-3 { transition-delay: 0.22s; }
 .delay-4 { transition-delay: 0.30s; }
 
-/* 5. Section 01 : Bento Asymétrique d'Architecte */
-.bento-architect-grid {
+/* 5. Section 01 : Le Manifeste du 0 € · Pavillon Organique d'Élite */
+.organic-manifesto-pavilion {
+  position: relative;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF8F5 100%);
+  border: 1px solid rgba(12, 10, 8, 0.08);
+  border-radius: clamp(28px, 4vw, 44px);
+  padding: clamp(28px, 4.5vw, 56px);
+  box-shadow: 
+    0 32px 80px -20px rgba(237, 91, 4, 0.06),
+    0 16px 40px -10px rgba(12, 10, 8, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  overflow: hidden;
+  margin-top: 40px;
+}
+
+.organic-manifesto-glow {
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(237, 91, 4, 0.08) 0%, rgba(238, 248, 90, 0.03) 50%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.organic-manifesto-grid {
   display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 28px;
-  align-items: stretch;
-  margin-top: 36px;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(24px, 3.5vw, 40px);
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 960px) {
-  .bento-architect-grid {
+  .organic-manifesto-grid {
     grid-template-columns: 1fr;
   }
 }
 
-.bento-master-card {
+.organic-master-pod {
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.07);
+  border-radius: clamp(22px, 3vw, 32px);
   padding: clamp(28px, 4vw, 44px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: 
+    0 12px 32px -8px rgba(12, 10, 8, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
 
-.dimension-annotation {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: var(--color-primary);
-  font-weight: 700;
+@media (hover: hover) and (pointer: fine) {
+  .organic-master-pod:hover {
+    border-color: rgba(237, 91, 4, 0.22);
+    box-shadow: 0 20px 50px -12px rgba(237, 91, 4, 0.08);
+  }
+}
+
+.organic-eyebrow-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(237, 91, 4, 0.08);
-  border: 1px solid rgba(237, 91, 4, 0.2);
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
+  background: rgba(237, 91, 4, 0.06);
+  border: 1px solid rgba(237, 91, 4, 0.16);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  letter-spacing: 0.02em;
+  margin-bottom: 18px;
   width: fit-content;
-  margin-bottom: 20px;
 }
 
-.bento-side-stack {
+.organic-eyebrow-pill .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 0 rgba(237, 91, 4, 0.4);
+  animation: organicPulse 2.4s infinite;
+}
+
+@keyframes organicPulse {
+  0% { box-shadow: 0 0 0 0 rgba(237, 91, 4, 0.4); }
+  70% { box-shadow: 0 0 0 7px rgba(237, 91, 4, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(237, 91, 4, 0); }
+}
+
+.organic-pod-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 2.5vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  color: #0C0A08;
+  margin-bottom: 14px;
+}
+
+.organic-pod-lead {
+  font-size: 0.98rem;
+  line-height: 1.62;
+  color: #55534E;
+  margin-bottom: 24px;
+}
+
+.organic-price-duel {
+  background: #FAF8F5;
+  border: 1px solid rgba(12, 10, 8, 0.06);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  position: relative;
+}
+
+@media (max-width: 540px) {
+  .organic-price-duel {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.price-col-legacy {
+  padding-right: 16px;
+  border-right: 1px solid rgba(12, 10, 8, 0.08);
+}
+
+@media (max-width: 540px) {
+  .price-col-legacy {
+    padding-right: 0;
+    padding-bottom: 14px;
+    border-right: none;
+    border-bottom: 1px solid rgba(12, 10, 8, 0.08);
+  }
+}
+
+.price-sub-caption {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #8C8B85;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.price-val-legacy {
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  font-weight: 700;
+  color: #A3A199;
+  letter-spacing: -0.02em;
+  position: relative;
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-val-legacy::after {
+  content: '';
+  position: absolute;
+  top: 52%;
+  left: -4%;
+  width: 108%;
+  height: 2.5px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  transform: rotate(-4deg);
+}
+
+.price-val-boubane {
+  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-val-boubane span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0C0A08;
+  letter-spacing: normal;
+}
+
+.dissection-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(12, 10, 8, 0.06);
 }
 
-.bento-subcard {
-  padding: clamp(22px, 3vw, 32px);
+.dissection-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.86rem;
+  color: #64635E;
+}
+
+.dissection-item strong {
+  color: #1A1816;
+  font-weight: 600;
+}
+
+.dissection-val {
+  font-weight: 700;
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.organic-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(12, 10, 8, 0.06);
+}
+
+.organic-guarantee-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #2D2B28;
+  background: #FAF8F5;
+  border: 1px solid rgba(12, 10, 8, 0.07);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.organic-guarantee-pill:hover {
+  background: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.organic-side-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 28px);
+}
+
+.organic-fluid-pod {
+  background: #FFFFFF;
+  border: 1px solid rgba(12, 10, 8, 0.07);
+  border-radius: clamp(20px, 2.5vw, 28px);
+  padding: clamp(24px, 3vw, 34px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
-}
-
-/* Ticket de Caisse Mécanique : Barrage 4 500 € ➔ 0 € */
-.price-strike-ticket {
-  background: #FAF8F5;
-  border: 1px solid rgba(12, 10, 8, 0.08);
-  border-radius: 14px;
-  padding: 24px;
-  margin: 24px 0 16px;
+  box-shadow: 
+    0 10px 28px -6px rgba(12, 10, 8, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  overflow: hidden;
 }
 
-.old-price-wrap {
-  position: relative;
-  display: inline-block;
-  font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-  font-weight: 800;
-  color: #8C8B85;
+@media (hover: hover) and (pointer: fine) {
+  .organic-fluid-pod:hover {
+    border-color: rgba(237, 91, 4, 0.22);
+    box-shadow: 0 16px 40px -10px rgba(237, 91, 4, 0.08);
+  }
 }
 
-.strike-svg-path {
-  position: absolute;
-  top: 50%;
-  left: -8%;
-  width: 116%;
-  height: 18px;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.zero-price-hero {
-  font-family: var(--font-heading);
-  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
-  font-weight: 900;
-  color: var(--color-primary);
-  line-height: 1;
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-}
-
-.zero-price-hero span {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #0C0A08;
-}
-
-/* Schéma SVG Flux Direct Serveur */
-.flux-direct-schema {
+.organic-flux-canvas {
   width: 100%;
-  margin: 16px 0;
-  padding: 12px;
+  margin-top: 18px;
   background: #FAF8F5;
-  border-radius: 12px;
+  border-radius: 16px;
+  padding: 14px 16px;
   border: 1px solid rgba(12, 10, 8, 0.06);
 }
 
-/* Sceau Géométrique Rotatif */
-.rotating-seal-svg {
-  animation: slowSealSpin 36s linear infinite;
-  transform-origin: center center;
-  will-change: transform;
+.organic-sovereign-badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  background: #FAF8F5;
+  border: 1px solid rgba(12, 10, 8, 0.06);
+  border-radius: 16px;
+  padding: 16px 20px;
 }
 
-.architect-card-tilt:hover .rotating-seal-svg {
-  animation-duration: 12s;
+.sovereign-seal-disc {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(237, 91, 4, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(237, 91, 4, 0.1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes slowSealSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.organic-fluid-pod:hover .sovereign-seal-disc {
+  transform: rotate(35deg) scale(1.06);
+}
+
+.sovereign-badge-text {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #1A1816;
+  line-height: 1.45;
+}
+
+.sovereign-badge-text span {
+  display: block;
+  font-size: 0.74rem;
+  color: #8C8B85;
+  font-weight: 500;
+  margin-top: 2px;
 }
 
 /* 6. Section 02 : Le Face-à-Face Monolithique */
