@@ -1861,6 +1861,12 @@ function initCookieConsent() {
     } catch (e) {}
 
     function tick() {
+      if (singleLen === 1450) {
+        try {
+          const l = textPath.getComputedTextLength();
+          if (l > 0) singleLen = l / 3;
+        } catch (e) {}
+      }
       offset -= speed;
       if (offset <= -singleLen) {
         offset += singleLen;
