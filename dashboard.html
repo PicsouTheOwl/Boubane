@@ -860,6 +860,96 @@
             border-color: rgba(237, 91, 4, 0.25);
         }
 
+        
+        /* Inputs & Form Controls shadcn/ui */
+        .dash-input, .input-shadcn, input[type="text"].dash-input, select.dash-input {
+            width: 100%;
+            height: 38px;
+            padding: 0 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            outline: none;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+        .dash-input:focus, .input-shadcn:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-soft);
+        }
+        .dash-input::placeholder, .input-shadcn::placeholder {
+            color: var(--text-subtle);
+        }
+
+        /* Amélioration Cartes Kanban Linear-grade */
+        .kanban-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .kanban-card:hover {
+            border-color: var(--border-highlight);
+            box-shadow: var(--shadow-card-hover);
+            transform: translateY(-1px);
+        }
+        .card-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .card-title {
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.015em;
+            line-height: 1.3;
+        }
+        .card-time {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+        .card-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+        .card-meta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.12s;
+        }
+        .card-meta-link:hover {
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .card-quote-box {
+            background: var(--muted);
+            border-left: 2.5px solid var(--border-highlight);
+            padding: 7px 10px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 0.78rem;
+            color: var(--text-main);
+            line-height: 1.45;
+        }
+
         /* Micro-boutons d'action Kanban */
         .card-btn-action {
             display: inline-flex;
@@ -1419,7 +1509,7 @@
                     </div>
                     <div class="chart-container" style="position: relative; height: 280px; width: 100%;">
                         <div id="chartTooltip" class="chart-tooltip" style="display: none; position: absolute; background: rgba(9, 9, 11, 0.95); color: #fff; padding: 6px 10px; border-radius: 4px; font-size: 12px; pointer-events: none; z-index: 10;"></div>
-                        <canvas id="trafficChart"></canvas>
+                        <canvas id="trafficChart" style="width: 100%; height: 100%; display: block;"></canvas>
                     </div>
                 </div>
 
@@ -2892,38 +2982,44 @@
 
                         let dynamicBadges = '';
                         if (lead.photoReminderDueAt && !lead.photosReceived) {
-                            dynamicBadges += `<span class="badge badge-primary" style="font-size: 10px; padding: 1px 6px;">📸 Relance J+2</span>`;
+                            dynamicBadges += `<span class="badge badge-primary" style="font-size: 10px; padding: 2px 7px;">📸 Relance J+2</span>`;
                         }
                         if (lead.reviewDueAt) {
-                            dynamicBadges += `<span class="badge badge-warning" style="font-size: 10px; padding: 1px 6px;">⭐ Avis +48h</span>`;
+                            dynamicBadges += `<span class="badge badge-warning" style="font-size: 10px; padding: 2px 7px;">⭐ Avis +48h</span>`;
                         }
                         if (lead.deliveredAt || lead.status === 'Terminé') {
-                            dynamicBadges += `<span class="badge badge-success" style="font-size: 10px; padding: 1px 6px;">🚀 En Ligne</span>`;
+                            dynamicBadges += `<span class="badge badge-success" style="font-size: 10px; padding: 2px 7px;">🚀 En Ligne</span>`;
                         }
 
                         return `
                             <div class="kanban-card">
-                                <div class="card-head" style="margin-bottom: 6px;">
-                                    <span class="card-title" style="font-weight: 700;">${escapeHtml(lead.name || 'Prospect Sans Nom')}</span>
+                                <div class="card-head">
+                                    <span class="card-title">${escapeHtml(lead.name || 'Prospect Sans Nom')}</span>
                                     <span class="card-time">${escapeHtml(lead.date || 'Récemment')}</span>
                                 </div>
-                                <div style="display: flex; flex-direction: column; gap: 3px; margin-bottom: 8px;">
-                                    <div class="card-email">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                                        <a href="mailto:${escapeHtml(lead.email || '')}">${escapeHtml(lead.email || '—')}</a>
-                                    </div>
-                                    ${lead.phone ? `<div class="card-email" style="font-family: var(--font-mono); font-size: 11px;">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                                        <span>${escapeHtml(lead.phone)}</span>
-                                    </div>` : ''}
+                                <div class="card-meta-row">
+                                    ${lead.email && lead.email !== 'Non renseigné' ? `
+                                        <a href="mailto:${escapeHtml(lead.email)}" class="card-meta-link" title="Envoyer un email">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                            <span>${escapeHtml(lead.email)}</span>
+                                        </a>
+                                    ` : ''}
+                                    ${lead.phone ? `
+                                        <a href="tel:${escapeHtml(lead.phone)}" class="card-meta-link" title="Appeler">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                            <span style="font-family: var(--font-mono); font-size: 11px;">${escapeHtml(lead.phone)}</span>
+                                        </a>
+                                    ` : ''}
                                 </div>
-                                <div class="card-msg" title="${escapeHtml(cleanMsg)}" style="margin-bottom: 10px;">
-                                    “${escapeHtml(excerpt)}”
+
+                                <div class="card-quote-box" title="${escapeHtml(cleanMsg)}">
+                                    ${escapeHtml(excerpt)}
                                 </div>
-                                ${dynamicBadges ? `<div style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px;">${dynamicBadges}</div>` : ''}
+
+                                ${dynamicBadges ? `<div style="display: flex; gap: 4px; flex-wrap: wrap;">${dynamicBadges}</div>` : ''}
                                 
                                 <!-- Barre de déclencheurs 1-clic internes (R1, R2, R4) -->
-                                <div style="display: flex; gap: 4px; margin-bottom: 10px; padding: 6px; background: var(--muted); border-radius: var(--radius-sm); border: 1px solid var(--border); justify-content: space-between;">
+                                <div style="display: flex; gap: 4px; padding: 5px; background: var(--muted); border-radius: var(--radius-sm); border: 1px solid var(--border); justify-content: space-between;">
                                     <button onclick="triggerBriefingTelegram(${origIdx})" class="card-btn-action" title="⚡ Briefing Telegram automatique (R1)">
                                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                                         <span>Briefing</span>
@@ -2938,15 +3034,15 @@
                                     </button>
                                 </div>
 
-                                <div class="card-actions">
-                                    <div style="display: flex; gap: 4px; align-items: center;">
-                                        ${!lead.crmSynced ? `<button onclick="pushLeadToCrm(${origIdx})" class="card-btn" title="Envoyer au CRM externe">↗ CRM</button>` : `<span style="font-size: 0.68rem; color: #10B981; font-weight: 700; padding: 2px 4px;">✓ Twenty</span>`}
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 4px; border-top: 1px solid var(--border);">
+                                    <div style="display: flex; align-items: center; gap: 6px;">
+                                        ${!lead.crmSynced ? `<button onclick="pushLeadToCrm(${origIdx})" class="btn-dash" style="height: 24px; padding: 0 7px; font-size: 10px; font-weight: 600;" title="Envoyer au CRM Twenty">↗ Twenty</button>` : `<span style="font-size: 11px; color: var(--success); font-weight: 600; display: inline-flex; align-items: center; gap: 3px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Twenty</span>`}
                                     </div>
-                                    <div style="display: flex; gap: 4px; align-items: center;">
-                                        <button onclick="advanceLeadStage(${origIdx})" class="card-btn" title="Avancer à l'étape suivante du pipeline" style="color: var(--primary);">
+                                    <div style="display: flex; align-items: center; gap: 6px;">
+                                        <button onclick="advanceLeadStage(${origIdx})" class="btn-dash" style="height: 24px; padding: 0 8px; font-size: 10px; font-weight: 600; color: var(--primary);" title="Avancer à l'étape suivante du pipeline">
                                             <span>Étape →</span>
                                         </button>
-                                        <button onclick="deleteLead(${origIdx})" class="card-btn" style="color: #EF4444;" title="Supprimer ce lead">✕</button>
+                                        <button onclick="deleteLead(${origIdx})" class="btn-dash" style="height: 24px; padding: 0 6px; font-size: 11px; color: var(--destructive);" title="Supprimer ce dossier">✕</button>
                                     </div>
                                 </div>
                             </div>
