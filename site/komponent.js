@@ -1930,6 +1930,9 @@ function initCookieConsent() {
 // 13. Moteur d'Interactions d'Orfèvrerie Numérique (Tilt 3D, Glare Spéculaire & Révélation Staggered)
 (function initArchitectEngine() {
   function setup() {
+    // Activer le mode js-enhanced pour autoriser les révélations au scroll progressives
+    document.documentElement.classList.add('js-enhanced');
+
     // A. 3D Perspective Tilt avec reflet spéculaire suivant la souris
     const tiltCards = document.querySelectorAll('.architect-card-tilt');
     tiltCards.forEach(card => {
@@ -1962,7 +1965,7 @@ function initCookieConsent() {
             obs.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
       revealEls.forEach(el => observer.observe(el));
     } else {
@@ -1976,3 +1979,130 @@ function initCookieConsent() {
     setup();
   }
 })();
+
+// 14. Moteur Interactif du Laboratoire du 0 € (Duel Switcher & Simulateur d'Économie)
+window.setLabMode = function(mode) {
+  const container = document.getElementById('labZeroContainer');
+  const pill = document.getElementById('labSegmentedPill');
+  const btnLegacy = document.getElementById('btnSwitchLegacy');
+  const btnBoubane = document.getElementById('btnSwitchBoubane');
+  if (!container || !pill) return;
+
+  if (mode === 'legacy') {
+    container.classList.remove('state-boubane');
+    container.classList.add('state-legacy');
+    pill.classList.remove('mode-boubane');
+    pill.classList.add('mode-legacy');
+    if (btnLegacy) btnLegacy.classList.add('active');
+    if (btnBoubane) btnBoubane.classList.remove('active');
+
+    const tagLabel = document.getElementById('hudTagLabel');
+    if (tagLabel) tagLabel.textContent = "MODÈLE D'AGENCE OBSOLÈTE";
+    const subStatus = document.getElementById('hudSubStatus');
+    if (subStatus) subStatus.textContent = 'Facture lourde & commissions';
+    const priceVal = document.getElementById('hudPriceValue');
+    if (priceVal) priceVal.textContent = '4 800 €';
+    const priceUnit = document.getElementById('hudPriceUnit');
+    if (priceUnit) priceUnit.textContent = 'HT moyen';
+    const priceCaption = document.getElementById('hudPriceCaption');
+    if (priceCaption) priceCaption.textContent = "70% du montant sert à financer les commerciaux, chefs de projet et loyers parisiens ou angevins.";
+
+    const mVal1 = document.getElementById('meterVal1');
+    if (mVal1) mVal1.textContent = '2 400 € (50%)';
+    const mFill1 = document.getElementById('meterFill1');
+    if (mFill1) { mFill1.style.width = '75%'; mFill1.className = 'meter-fill legacy-meter'; }
+
+    const mVal2 = document.getElementById('meterVal2');
+    if (mVal2) mVal2.textContent = '1 600 € (33%)';
+    const mFill2 = document.getElementById('meterFill2');
+    if (mFill2) { mFill2.style.width = '55%'; mFill2.className = 'meter-fill legacy-meter'; }
+
+    const mVal3 = document.getElementById('meterVal3');
+    if (mVal3) { mVal3.textContent = '800 € (17%)'; mVal3.style.color = '#DC2626'; }
+    const mFill3 = document.getElementById('meterFill3');
+    if (mFill3) { mFill3.style.width = '25%'; mFill3.className = 'meter-fill legacy-meter'; }
+
+    const spSpeed = document.getElementById('specValSpeed');
+    if (spSpeed) spSpeed.textContent = "8 à 12 semaines d'attente";
+    const spPerf = document.getElementById('specValPerf');
+    if (spPerf) spPerf.textContent = '42 / 100 (WordPress lourd 4s)';
+    const spProp = document.getElementById('specValProp');
+    if (spProp) spProp.textContent = '0% (Code captif sous licence agence)';
+    const spHost = document.getElementById('specValHost');
+    if (spHost) spHost.textContent = '150 € à 250 € / mois obligatoire';
+
+    const b1 = document.getElementById('badgePill1');
+    if (b1) b1.textContent = 'Acompte 30% requis';
+    const b2 = document.getElementById('badgePill2');
+    if (b2) b2.textContent = 'Frais de maintenance forcée';
+    const b3 = document.getElementById('badgePill3');
+    if (b3) b3.textContent = 'Code sous séquestre';
+  } else {
+    container.classList.remove('state-legacy');
+    container.classList.add('state-boubane');
+    pill.classList.remove('mode-legacy');
+    pill.classList.add('mode-boubane');
+    if (btnBoubane) btnBoubane.classList.add('active');
+    if (btnLegacy) btnLegacy.classList.remove('active');
+
+    const tagLabel = document.getElementById('hudTagLabel');
+    if (tagLabel) tagLabel.textContent = 'CIRCUIT COURT DIRECT';
+    const subStatus = document.getElementById('hudSubStatus');
+    if (subStatus) subStatus.textContent = "Zéro commission d'agence";
+    const priceVal = document.getElementById('hudPriceValue');
+    if (priceVal) priceVal.textContent = '0 €';
+    const priceUnit = document.getElementById('hudPriceUnit');
+    if (priceUnit) priceUnit.textContent = 'ferme';
+    const priceCaption = document.getElementById('hudPriceCaption');
+    if (priceCaption) priceCaption.textContent = '100% de la création et du code financés sur les fonds propres du studio.';
+
+    const mVal1 = document.getElementById('meterVal1');
+    if (mVal1) mVal1.textContent = '0 € (0%)';
+    const mFill1 = document.getElementById('meterFill1');
+    if (mFill1) { mFill1.style.width = '0%'; mFill1.className = 'meter-fill boubane-meter'; }
+
+    const mVal2 = document.getElementById('meterVal2');
+    if (mVal2) mVal2.textContent = '0 € (0%)';
+    const mFill2 = document.getElementById('meterFill2');
+    if (mFill2) { mFill2.style.width = '0%'; mFill2.className = 'meter-fill boubane-meter'; }
+
+    const mVal3 = document.getElementById('meterVal3');
+    if (mVal3) { mVal3.textContent = 'Pris en charge (100%)'; mVal3.style.color = 'var(--color-primary)'; }
+    const mFill3 = document.getElementById('meterFill3');
+    if (mFill3) { mFill3.style.width = '100%'; mFill3.className = 'meter-fill boubane-meter'; }
+
+    const spSpeed = document.getElementById('specValSpeed');
+    if (spSpeed) spSpeed.textContent = '5 jours chrono';
+    const spPerf = document.getElementById('specValPerf');
+    if (spPerf) spPerf.textContent = '100 / 100 (< 0.3s ultra-fluide)';
+    const spProp = document.getElementById('specValProp');
+    if (spProp) spProp.textContent = '100% Propriétaire (Code source GitHub)';
+    const spHost = document.getElementById('specValHost');
+    if (spHost) spHost.textContent = '~5 € / mois direct hébergeur';
+
+    const b1 = document.getElementById('badgePill1');
+    if (b1) b1.textContent = 'Zéro Acompte';
+    const b2 = document.getElementById('badgePill2');
+    if (b2) b2.textContent = 'Zéro Frais Cachés';
+    const b3 = document.getElementById('badgePill3');
+    if (b3) b3.textContent = 'Code Propriétaire GitHub';
+  }
+};
+
+window.updateSavingsSimulator = function(val) {
+  const badge = document.getElementById('sliderProjectBadge');
+  const amount = document.getElementById('savingsAmountDisplay');
+  if (!badge || !amount) return;
+
+  const v = parseInt(val, 10);
+  if (v === 1) {
+    badge.textContent = 'Projet : Artisan Indépendant (Vitrine Essentielle)';
+    amount.textContent = '3 500 € nets';
+  } else if (v === 2) {
+    badge.textContent = 'Projet : PME & Entreprise BTP (Vitrine Complète + Devis)';
+    amount.textContent = '4 800 € nets';
+  } else {
+    badge.textContent = 'Projet : Gîtes / Tourisme / Multi-prestations';
+    amount.textContent = '7 200 € nets';
+  }
+};

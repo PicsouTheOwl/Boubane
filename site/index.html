@@ -491,8 +491,8 @@
         </section>
 
         <!-- ==========================================================================
-             SECTION 01 · LE MANIFESTE DU 0 € : LA RUPTURE COMMERCIALE
-             Pavillon Organique d'Élite & Circuit Court Direct
+             SECTION 01 · LE LABORATOIRE DU 0 € : LA RUPTURE COMMERCIALE
+             Composants Interactifs : Duel en Direct, Jauges & Simulateur d'Économie
              ========================================================================== -->
         <section id="modele" class="section">
             <div class="container">
@@ -500,145 +500,197 @@
                     <div class="section-tag-wrap">
                         <span class="cs-eyebrow">
                             <span class="cs-eyebrow-dot" aria-hidden="true"></span>
-                            <span>Rupture de modèle · 0 € Studio</span>
+                            <span>Laboratoire du 0 € · Simulateur Tactile</span>
                         </span>
                     </div>
                     <h2 class="cs-title">Le Manifeste du 0 €<span class="cs-title__dot">.</span> La Rupture Commerciale</h2>
-                    <p class="cs-lead mx-auto">Pourquoi payer 4 500 € pour du vent ? En supprimant les intermédiaires, directeurs commerciaux et loyers cossus d'agence, nous vous offrons 100% de la création. Vous ne financez que votre serveur, direct à votre nom.</p>
+                    <p class="cs-lead mx-auto">Pourquoi payer 4 500 € pour du vent ? Testez notre comparateur interactif et visualisez en direct où part votre argent en agence classique vs chez Boubane.</p>
                 </div>
 
-                <div class="organic-manifesto-pavilion reveal-architect">
-                    <div class="organic-manifesto-glow" aria-hidden="true"></div>
+                <div class="lab-zero-container state-boubane reveal-architect" id="labZeroContainer">
+                    <div class="lab-ambient-glow" aria-hidden="true"></div>
 
-                    <div class="organic-manifesto-grid">
-                        <!-- Pod Maître : 0 € de Conception Studio -->
-                        <div class="organic-master-pod architect-card-tilt">
-                            <div class="card-specular-glare"></div>
+                    <!-- 1. Le Sélecteur à Bascule Organique (Segmented Switch) -->
+                    <div class="lab-switcher-wrap">
+                        <div class="lab-segmented-pill mode-boubane" id="labSegmentedPill" role="tablist" aria-label="Sélecteur de modèle économique">
+                            <div class="lab-pill-slider" aria-hidden="true"></div>
+                            <button type="button" class="lab-switch-btn" id="btnSwitchLegacy" onclick="setLabMode('legacy')" role="tab" aria-selected="false">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                <span>Agence Traditionnelle</span>
+                            </button>
+                            <button type="button" class="lab-switch-btn active boubane-btn" id="btnSwitchBoubane" onclick="setLabMode('boubane')" role="tab" aria-selected="true">
+                                <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #ED5B04;"></span>
+                                <span>L'Atelier Boubane</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Zone d'Affichage Dynamique des Chiffres (Dual Display) -->
+                    <div class="lab-dynamic-hud">
+                        <!-- Carte Chiffre Principal & Jauges -->
+                        <div class="hud-main-card">
                             <div>
-                                <span class="organic-eyebrow-pill">
-                                    <span class="pulse-dot" aria-hidden="true"></span>
-                                    <span>Création 100% Offerte</span>
-                                </span>
-                                <h3 class="organic-pod-title">100% de la conception financée sur nos fonds propres.</h3>
-                                <p class="organic-pod-lead">
-                                    Les agences traditionnelles facturent leurs commerciaux, leurs chefs de projet et leurs bureaux cossus. Chez Boubane, vous échangez directement avec le concepteur. Zéro déperdition, zéro commission d'agence.
-                                </p>
-                            </div>
-
-                            <!-- Panneau de confrontation des prix (4 500 € vs 0 €) -->
-                            <div class="organic-price-duel">
-                                <div class="price-col-legacy">
-                                    <span class="price-sub-caption">Agence Traditionnelle</span>
-                                    <div class="price-val-legacy">4 500 €</div>
-                                    <span style="display: block; font-size: 0.76rem; color: #8C8B85; margin-top: 4px;">Devis moyen standard</span>
+                                <div class="hud-title-row">
+                                    <span class="hud-tag" id="hudTagLabel">CIRCUIT COURT DIRECT</span>
+                                    <span style="font-size: 0.78rem; font-weight: 600; color: #8C8B85;" id="hudSubStatus">Zéro commission d'agence</span>
                                 </div>
-                                <div>
-                                    <span class="price-sub-caption" style="color: var(--color-primary);">Atelier Boubane</span>
-                                    <div class="price-val-boubane">0 € <span>ferme</span></div>
-                                    <span style="display: block; font-size: 0.76rem; color: #1A1816; font-weight: 500; margin-top: 4px;">Frais de création studio</span>
+                                <div class="hud-price-display">
+                                    <span id="hudPriceValue">0 €</span>
+                                    <span id="hudPriceUnit" style="font-size: 1.1rem; color: #0C0A08; font-weight: 600;">ferme</span>
+                                </div>
+                                <div class="hud-price-caption" id="hudPriceCaption">
+                                    100% de la création et du code financés sur les fonds propres du studio.
                                 </div>
                             </div>
 
-                            <!-- Ce qui disparaît réellement (Anatomie de la rupture) -->
-                            <div class="dissection-list">
-                                <div class="dissection-item">
-                                    <span>Commerciaux &amp; intermédiaires</span>
-                                    <span class="dissection-val">0 €</span>
+                            <!-- Jauges Dynamiques de Décomposition -->
+                            <div class="hud-meters-wrap">
+                                <div class="meter-row">
+                                    <div class="meter-labels">
+                                        <span>Commerciaux &amp; intermédiaires</span>
+                                        <span id="meterVal1">0 € (0%)</span>
+                                    </div>
+                                    <div class="meter-track">
+                                        <div class="meter-fill boubane-meter" id="meterFill1" style="width: 0%;"></div>
+                                    </div>
                                 </div>
-                                <div class="dissection-item">
-                                    <span>Frais de structure &amp; loyers cossus</span>
-                                    <span class="dissection-val">0 €</span>
+
+                                <div class="meter-row">
+                                    <div class="meter-labels">
+                                        <span>Frais de structure &amp; locaux cossus</span>
+                                        <span id="meterVal2">0 € (0%)</span>
+                                    </div>
+                                    <div class="meter-track">
+                                        <div class="meter-fill boubane-meter" id="meterFill2" style="width: 0%;"></div>
+                                    </div>
                                 </div>
-                                <div class="dissection-item">
-                                    <span>Conception sur-mesure d'exception</span>
-                                    <span class="dissection-val" style="color: #0E7541;">Prise en charge à nos frais</span>
+
+                                <div class="meter-row">
+                                    <div class="meter-labels">
+                                        <span>Artisanat web &amp; conception d'élite</span>
+                                        <span id="meterVal3" style="color: var(--color-primary);">Pris en charge (100%)</span>
+                                    </div>
+                                    <div class="meter-track">
+                                        <div class="meter-fill boubane-meter" id="meterFill3" style="width: 100%;"></div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Garanties Organiques -->
-                            <div class="organic-pill-row">
-                                <span class="organic-guarantee-pill">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span>Aucun Acompte</span>
-                                </span>
-                                <span class="organic-guarantee-pill">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span>Zéro Frais Cachés</span>
-                                </span>
-                                <span class="organic-guarantee-pill">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span>Sans Engagement</span>
-                                </span>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(12, 10, 8, 0.06);">
+                                <span class="cs-badge" id="badgePill1">Zéro Acompte</span>
+                                <span class="cs-badge" id="badgePill2">Zéro Frais Cachés</span>
+                                <span class="cs-badge" id="badgePill3">Code Propriétaire GitHub</span>
                             </div>
                         </div>
 
-                        <!-- Colonne de Droite : Cartes Fluides Empilées -->
-                        <div class="organic-side-stack">
-                            <!-- Pod 02 : Hébergement Direct -->
-                            <div class="organic-fluid-pod architect-card-tilt delay-1">
-                                <div class="card-specular-glare"></div>
-                                <div>
-                                    <span class="organic-eyebrow-pill" style="margin-bottom: 12px;">
-                                        <span class="pulse-dot" style="background: #2B9BBD; box-shadow: 0 0 0 0 rgba(43, 155, 189, 0.4);" aria-hidden="true"></span>
-                                        <span style="color: #2B9BBD;">Direct Serveur</span>
-                                    </span>
-                                    <h4 style="font-family: var(--font-heading); font-size: 1.28rem; font-weight: 700; letter-spacing: -0.02em; color: #0C0A08; margin-bottom: 8px;">
-                                        Hébergement au Coût Réel ~5 € / mois
-                                    </h4>
-                                    <p style="font-size: 0.92rem; color: #55534E; line-height: 1.55; margin-bottom: 0;">
-                                        Pas d'intermédiaire qui marge sur votre serveur. Votre compte d'hébergement est ouvert directement à votre nom chez l'hébergeur mondial de votre choix.
-                                    </p>
+                        <!-- Colonne de Droite : 4 Spécifications Tactiles Dynamiques -->
+                        <div class="hud-side-grid">
+                            <div class="spec-tile">
+                                <div class="spec-tile-icon" id="specIconSpeed">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                                 </div>
-
-                                <!-- Schéma Visuel Orbital Fluide -->
-                                <div class="organic-flux-canvas">
-                                    <svg viewBox="0 0 340 52" width="100%" height="auto" fill="none">
-                                        <rect x="4" y="8" width="92" height="36" rx="10" fill="#FFFFFF" stroke="rgba(12,10,8,0.1)"/>
-                                        <text x="50" y="25" font-family="var(--font-heading)" font-size="10.5" font-weight="700" fill="#0C0A08" text-anchor="middle">VOUS</text>
-                                        <text x="50" y="36" font-family="var(--font-heading)" font-size="7.5" font-weight="500" fill="#8C8B85" text-anchor="middle">Propriétaire</text>
-
-                                        <path d="M 102 26 C 145 26, 185 26, 228 26" stroke="#ED5B04" stroke-width="2" stroke-dasharray="4 3"/>
-                                        <polygon points="232,26 224,22 224,30" fill="#ED5B04"/>
-                                        <rect x="122" y="15" width="86" height="22" rx="11" fill="#FFFFFF" stroke="rgba(237,91,4,0.3)"/>
-                                        <text x="165" y="29" font-family="var(--font-heading)" font-size="8" font-weight="700" fill="#ED5B04" text-anchor="middle">FLUX DIRECT</text>
-
-                                        <rect x="238" y="8" width="98" height="36" rx="10" fill="#0C0A08"/>
-                                        <text x="287" y="25" font-family="var(--font-heading)" font-size="10.5" font-weight="700" fill="#FAF8F5" text-anchor="middle">SERVEUR OVH</text>
-                                        <text x="287" y="36" font-family="var(--font-heading)" font-size="7.5" font-weight="500" fill="#A0A2AB" text-anchor="middle">Cloud Souverain</text>
-                                    </svg>
+                                <div class="spec-tile-text">
+                                    <div class="spec-tile-label">Délai de Livraison</div>
+                                    <div class="spec-tile-value" id="specValSpeed">5 jours chrono</div>
                                 </div>
                             </div>
 
-                            <!-- Pod 03 : Pleine Propriété Juridique -->
-                            <div class="organic-fluid-pod architect-card-tilt delay-2">
-                                <div class="card-specular-glare"></div>
-                                <div>
-                                    <span class="organic-eyebrow-pill" style="margin-bottom: 12px;">
-                                        <span class="pulse-dot" style="background: #10B981; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);" aria-hidden="true"></span>
-                                        <span style="color: #0E7541;">Liberté Juridique</span>
-                                    </span>
-                                    <h4 style="font-family: var(--font-heading); font-size: 1.28rem; font-weight: 700; letter-spacing: -0.02em; color: #0C0A08; margin-bottom: 8px;">
-                                        Souveraineté Juridique &amp; Code Pur
-                                    </h4>
-                                    <p style="font-size: 0.92rem; color: #55534E; line-height: 1.55; margin-bottom: 0;">
-                                        Dépôt GitHub privé à votre nom. Le code source vous appartient intégralement dès la livraison. Zéro abonnement captif, liberté totale.
-                                    </p>
+                            <div class="spec-tile">
+                                <div class="spec-tile-icon" id="specIconPerf">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                                 </div>
-
-                                <!-- Badge Organique de Souveraineté -->
-                                <div class="organic-sovereign-badge">
-                                    <div class="sovereign-seal-disc" aria-hidden="true">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ED5B04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                            <polyline points="9 12 11 14 15 10"/>
-                                        </svg>
-                                    </div>
-                                    <div class="sovereign-badge-text">
-                                        100% Propriétaire du Code &amp; du Domaine
-                                        <span>Dépôt GitHub privé · Aucun contrat d'enfermement</span>
-                                    </div>
+                                <div class="spec-tile-text">
+                                    <div class="spec-tile-label">Performance Google (Lighthouse)</div>
+                                    <div class="spec-tile-value" id="specValPerf">100 / 100 (&lt; 0.3s)</div>
                                 </div>
                             </div>
+
+                            <div class="spec-tile">
+                                <div class="spec-tile-icon" id="specIconProp">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                </div>
+                                <div class="spec-tile-text">
+                                    <div class="spec-tile-label">Propriété Juridique</div>
+                                    <div class="spec-tile-value" id="specValProp">100% Propriétaire (Code source GitHub)</div>
+                                </div>
+                            </div>
+
+                            <div class="spec-tile">
+                                <div class="spec-tile-icon" id="specIconHost">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                                </div>
+                                <div class="spec-tile-text">
+                                    <div class="spec-tile-label">Facture Serveur &amp; Domaine</div>
+                                    <div class="spec-tile-value" id="specValHost">~5 € / mois direct hébergeur</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Schéma Interactif de Flux Vivant (Live Orbital Network) -->
+                    <div class="network-canvas-wrap">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <span style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-primary);">
+                                Schéma de Liaison Directe Souveraine
+                            </span>
+                            <span style="font-size: 0.72rem; color: #8C8B85;" id="networkStatusLabel">
+                                Flux continu · Zéro marge intermédiaire
+                            </span>
+                        </div>
+                        <svg viewBox="0 0 720 90" width="100%" height="auto" fill="none" style="display: block;">
+                            <path d="M 120 45 L 600 45" stroke="#ED5B04" stroke-width="2.5" class="network-stream-line" opacity="0.85"/>
+
+                            <rect x="20" y="20" width="160" height="50" rx="14" fill="#FFFFFF" stroke="rgba(12,10,8,0.12)"/>
+                            <text x="100" y="44" font-family="var(--font-heading)" font-size="12" font-weight="700" fill="#0C0A08" text-anchor="middle">VOTRE ENTREPRISE</text>
+                            <text x="100" y="58" font-family="var(--font-heading)" font-size="9" font-weight="500" fill="#8C8B85" text-anchor="middle">Propriétaire Unique</text>
+
+                            <circle cx="360" cy="45" r="28" fill="#FAF8F5" stroke="rgba(220,38,38,0.3)" stroke-width="1.5"/>
+                            <text x="360" y="42" font-family="var(--font-heading)" font-size="9" font-weight="700" fill="#DC2626" text-anchor="middle">AGENCE</text>
+                            <text x="360" y="54" font-family="var(--font-heading)" font-size="8" font-weight="600" fill="#8C8B85" text-anchor="middle">Supprimée</text>
+                            <line x1="340" y1="28" x2="380" y2="62" stroke="#DC2626" stroke-width="2.2" stroke-linecap="round"/>
+
+                            <rect x="540" y="20" width="160" height="50" rx="14" fill="#0C0A08"/>
+                            <text x="620" y="44" font-family="var(--font-heading)" font-size="12" font-weight="700" fill="#FAF8F5" text-anchor="middle">SERVEUR CLOUD</text>
+                            <text x="620" y="58" font-family="var(--font-heading)" font-size="9" font-weight="500" fill="#ED5B04" text-anchor="middle">OVH / Hostinger direct</text>
+                        </svg>
+                    </div>
+
+                    <!-- 4. Simulateur Tactile d'Économie Réelle (Interactive Range Slider) -->
+                    <div class="savings-slider-card">
+                        <div class="slider-header">
+                            <div>
+                                <span style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #ED5B04;">
+                                    Simulateur Interactif de Trésorerie Préservée
+                                </span>
+                                <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: #FFFFFF; margin-top: 4px;">
+                                    Estimez l'argent réinjecté dans votre activité
+                                </h3>
+                            </div>
+                            <span class="cs-badge" id="sliderProjectBadge" style="background: rgba(255,255,255,0.1); color: #FAF8F5; border-color: rgba(255,255,255,0.2);">
+                                Projet : PME / Artisan (Standard)
+                            </span>
+                        </div>
+
+                        <input type="range" min="1" max="3" value="2" step="1" class="savings-slider-input" id="savingsSliderInput" oninput="updateSavingsSimulator(this.value)" aria-label="Choisir l'envergure de votre projet">
+
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #A0A2AB;">
+                            <span>Artisan / Indépendant</span>
+                            <span>PME / BTP avec Devis</span>
+                            <span>Tourisme / Multi-prestations</span>
+                        </div>
+
+                        <div class="savings-meter-display">
+                            <div>
+                                <div style="font-size: 0.82rem; color: #A0A2AB;">Économie directe constatée vs agence classique :</div>
+                                <div class="savings-highlight" id="savingsAmountDisplay">4 500 € nets</div>
+                            </div>
+                            <a href="/commander" class="btn btn-primary" style="padding: 12px 24px; font-weight: 700;">
+                                <span>Commander à 0 €</span>
+                                <span class="btn-arrow-double" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                </span>
+                            </a>
                         </div>
                     </div>
                 </div>
