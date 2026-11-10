@@ -4,13 +4,14 @@ import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MoveHorizontal } from "lucide-react";
 import { motion } from "motion/react";
-import { ATELIER_EASE, cn } from "@/lib/utils";
+import { ATELIER_EASE, ATELIER_SNAPPY_SPRING, cn } from "@/lib/utils";
 
 interface StoryBeat {
   id: string;
   step: string;
+  shortLabel: string;
   eyebrow: string;
   title: string;
   body: string;
@@ -22,183 +23,323 @@ const STORY_BEATS: StoryBeat[] = [
   {
     id: "beat-constat",
     step: "01",
+    shortLabel: "Le déclic",
     eyebrow: "Le point de départ à Segré",
     title: "Une vitrine d'agence coûte souvent 4 500 €.",
-    body: "Sur le terrain en Anjou, trop d'artisans et de gérants paient une fortune ou un leasing sur quatre ans pour un site lent qu'ils ne maîtrisent même pas.",
+    body: "Sur le terrain en Anjou, trop d'artisans et de gérants signent des factures lourdes ou un leasing sur quatre ans pour un site lent qu'ils ne possèdent même pas.",
     metric: "4 500 € en moyenne ailleurs",
-    range: [0, 0.27],
+    range: [0, 0.26],
   },
   {
     id: "beat-declic",
     step: "02",
-    eyebrow: "La coupe franche",
-    title: "Enlever le superflu ramène la création à 0 €.",
-    body: "Pas de locaux luxueux, pas de commerciaux ni de réunions sans fin. Je dessine et j'écris le code moi-même, en trois couches claires pensées pour vos vrais clients.",
+    shortLabel: "Éclaté 0 €",
+    eyebrow: "L'architecture mise à nu",
+    title: "Enlever les intermédiaires ramène la création à 0 €.",
+    body: "Pas de locaux parisiens, pas de commerciaux ni de réunions sans fin. Je dessine et j'écris chaque couche moi-même : structure Google, vraies photos et code rapide.",
     metric: "0 € d'honoraires de création",
-    range: [0.27, 0.54],
+    range: [0.26, 0.54],
   },
   {
     id: "beat-rapidite",
     step: "03",
-    eyebrow: "Sur le terrain en 5 jours",
-    title: "Votre métier, lisible en moins de 0,3 seconde.",
-    body: "Vos vraies photos de chantier ou d'atelier, des phrases humaines et votre numéro accessible du premier coup d'œil sur téléphone.",
+    shortLabel: "En ligne 5j",
+    eyebrow: "Assemblé pour votre téléphone",
+    title: "Votre métier, crédible en moins de 0,3 seconde.",
+    body: "Vos vraies photos de chantier ou d'atelier, des mots justes et votre numéro cliquable dès la première seconde sur mobile.",
     metric: "Livré sous 5 jours ouvrés",
     range: [0.54, 0.78],
   },
   {
     id: "beat-liberte",
     step: "04",
-    eyebrow: "Votre bien, pour de vrai",
-    title: "Domaine et code source restent 100 % à votre nom.",
-    body: "Vous ne réglez que votre hébergement (~5 €/mois) et votre nom de domaine (~10 €/an) directement chez votre prestataire. Zéro blocage, zéro engagement.",
+    shortLabel: "À votre nom",
+    eyebrow: "Propriété intégrale",
+    title: "Domaine et code source restent 100 % entre vos mains.",
+    body: "Vous ne réglez que votre nom de domaine (~10 €/an) et votre hébergement (~5 €/mois) directement chez votre prestataire. Zéro engagement, jamais.",
     metric: "Liberté totale dès le premier jour",
     range: [0.78, 1.01],
   },
 ];
 
-function createScreenTexture(variant: "agency" | "layer1" | "layer2" | "phone"): THREE.CanvasTexture {
+function drawRoundedRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number
+) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+  ctx.closePath();
+}
+
+function createPhoneScreenTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
-  canvas.width = 768;
-  canvas.height = 1024;
+  canvas.width = 780;
+  canvas.height = 1520;
   const ctx = canvas.getContext("2d");
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
 
-  if (ctx) {
-    if (variant === "agency") {
-      ctx.fillStyle = "#181715";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const paint = (photo?: HTMLImageElement) => {
+    if (!ctx) return;
 
-      ctx.strokeStyle = "rgba(255,255,255,0.1)";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
+    // Warm Apple cream screen surface
+    ctx.fillStyle = "#FAF8F5";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = "rgba(255,255,255,0.45)";
-      ctx.font = "500 28px ui-monospace, monospace";
-      ctx.fillText("DEVIS AGENCE CLASSIQUE", 76, 130);
+    // Dynamic Island top capsule
+    ctx.fillStyle = "#0C0A08";
+    drawRoundedRect(ctx, 290, 34, 200, 48, 24);
+    ctx.fill();
 
-      ctx.fillStyle = "#FAF8F5";
-      ctx.font = "700 124px system-ui, -apple-system, sans-serif";
-      ctx.fillText("4 500 €", 76, 300);
+    // Minimalist site navbar
+    ctx.fillStyle = "#0C0A08";
+    ctx.font = "700 28px system-ui, -apple-system, sans-serif";
+    ctx.fillText("Atelier du Haut-Anjou", 46, 150);
 
-      ctx.fillStyle = "#ED5B04";
-      ctx.fillRect(76, 340, 616, 4);
+    ctx.fillStyle = "#ED5B04";
+    drawRoundedRect(ctx, 560, 118, 174, 48, 24);
+    ctx.fill();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "600 22px system-ui, sans-serif";
+    ctx.fillText("Devis direct", 588, 149);
 
-      const lines = [
-        "Accompte à la signature",
-        "Délai : 8 à 12 semaines",
-        "Abonnement maintenance imposé",
-        "Code verrouillé chez le prestataire",
-      ];
-      ctx.fillStyle = "rgba(250,248,245,0.65)";
-      ctx.font = "400 32px system-ui, -apple-system, sans-serif";
-      lines.forEach((line, idx) => {
-        ctx.fillText("—  " + line, 76, 450 + idx * 82);
-      });
-    } else if (variant === "layer1") {
-      ctx.fillStyle = "#EFEAE0";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "rgba(12,10,8,0.12)";
-      ctx.lineWidth = 3;
-      ctx.strokeRect(24, 24, canvas.width - 48, canvas.height - 48);
-
-      ctx.fillStyle = "#6B655E";
-      ctx.font = "600 28px ui-monospace, monospace";
-      ctx.fillText("01 · STRUCTURE & GOOGLE", 68, 120);
-
-      ctx.fillStyle = "#0C0A08";
-      ctx.font = "700 62px system-ui, sans-serif";
-      ctx.fillText("Trouvé autour", 68, 220);
-      ctx.fillText("de Segré.", 68, 295);
-
-      ctx.strokeStyle = "rgba(12,10,8,0.16)";
-      ctx.lineWidth = 2;
-      for (let i = 0; i < 4; i++) {
-        ctx.strokeRect(68, 380 + i * 120, 632, 84);
+    // Real photograph hero slot
+    ctx.save();
+    drawRoundedRect(ctx, 46, 200, 688, 490, 34);
+    ctx.clip();
+    if (photo && photo.naturalWidth > 0) {
+      const targetRatio = 688 / 490;
+      const srcRatio = photo.naturalWidth / photo.naturalHeight;
+      let sx = 0,
+        sy = 0,
+        sw = photo.naturalWidth,
+        sh = photo.naturalHeight;
+      if (srcRatio > targetRatio) {
+        sw = photo.naturalHeight * targetRatio;
+        sx = (photo.naturalWidth - sw) / 2;
+      } else {
+        sh = photo.naturalWidth / targetRatio;
+        sy = (photo.naturalHeight - sh) / 3;
       }
-    } else if (variant === "layer2") {
-      ctx.fillStyle = "#ED5B04";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "rgba(255,255,255,0.8)";
-      ctx.font = "600 28px ui-monospace, monospace";
-      ctx.fillText("02 · ARTISANAT & SUR-MESURE", 68, 120);
-
-      ctx.fillStyle = "#FFFFFF";
-      ctx.font = "700 132px system-ui, sans-serif";
-      ctx.fillText("0 €", 68, 290);
-
-      ctx.font = "500 40px system-ui, sans-serif";
-      ctx.fillText("Design et code offerts.", 68, 370);
-
-      ctx.fillStyle = "rgba(255,255,255,0.18)";
-      ctx.fillRect(68, 450, 632, 340);
-      ctx.fillStyle = "#FFFFFF";
-      ctx.font = "500 32px system-ui, sans-serif";
-      ctx.fillText("Vos photos de chantier", 104, 530);
-      ctx.fillText("Vos vrais tarifs & mots", 104, 595);
-      ctx.fillText("Retouches en direct avec Léo", 104, 660);
+      ctx.drawImage(photo, sx, sy, sw, sh, 46, 200, 688, 490);
     } else {
-      // Finished mobile site face
-      ctx.fillStyle = "#FFFFFF";
+      const grad = ctx.createLinearGradient(46, 200, 734, 690);
+      grad.addColorStop(0, "#E8DAC1");
+      grad.addColorStop(1, "#D6C2A3");
+      ctx.fillStyle = grad;
+      ctx.fillRect(46, 200, 688, 490);
+    }
+    // Bottom subtle scrim over photo
+    const scrim = ctx.createLinearGradient(0, 500, 0, 690);
+    scrim.addColorStop(0, "rgba(12,10,8,0)");
+    scrim.addColorStop(1, "rgba(12,10,8,0.62)");
+    ctx.fillStyle = scrim;
+    ctx.fillRect(46, 200, 688, 490);
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "600 24px ui-monospace, monospace";
+    ctx.fillText("SEGRÉ · MAINE-ET-LOIRE", 78, 650);
+    ctx.restore();
+
+    // Crisp editorial headline
+    ctx.fillStyle = "#0C0A08";
+    ctx.font = "700 62px system-ui, -apple-system, sans-serif";
+    ctx.fillText("Votre savoir-faire", 46, 782);
+    ctx.fillText("en pleine lumière.", 46, 852);
+
+    ctx.fillStyle = "#57534E";
+    ctx.font = "400 30px system-ui, sans-serif";
+    ctx.fillText("Vraies photos, appels directs et zéro", 46, 920);
+    ctx.fillText("intermédiaire dès la mise en ligne.", 46, 962);
+
+    // Performance glass card inside screen
+    ctx.fillStyle = "#FFFFFF";
+    drawRoundedRect(ctx, 46, 1020, 330, 195, 28);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(12,10,8,0.08)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.fillStyle = "#ED5B04";
+    ctx.font = "700 58px system-ui, sans-serif";
+    ctx.fillText("< 0,3s", 76, 1110);
+    ctx.fillStyle = "#57534E";
+    ctx.font = "500 24px system-ui, sans-serif";
+    ctx.fillText("Ouverture instantanée", 76, 1165);
+
+    ctx.fillStyle = "#141311";
+    drawRoundedRect(ctx, 404, 1020, 330, 195, 28);
+    ctx.fill();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "700 58px system-ui, sans-serif";
+    ctx.fillText("0 €", 436, 1110);
+    ctx.fillStyle = "rgba(255,255,255,0.72)";
+    ctx.font = "500 24px system-ui, sans-serif";
+    ctx.fillText("Création offerte", 436, 1165);
+
+    // Signature CTA pill
+    ctx.fillStyle = "#ED5B04";
+    drawRoundedRect(ctx, 46, 1270, 688, 114, 57);
+    ctx.fill();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "700 34px system-ui, sans-serif";
+    ctx.fillText("Appeler ou demander un devis   ↗", 118, 1338);
+
+    // Home indicator
+    ctx.fillStyle = "rgba(12,10,8,0.22)";
+    drawRoundedRect(ctx, 270, 1468, 240, 10, 5);
+    ctx.fill();
+
+    tex.needsUpdate = true;
+  };
+
+  paint();
+  const img = new Image();
+  img.crossOrigin = "anonymous";
+  img.onload = () => paint(img);
+  img.src = "/images/story-artisan.jpg";
+
+  return tex;
+}
+
+function createBackTitaniumTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement("canvas");
+  canvas.width = 780;
+  canvas.height = 1520;
+  const ctx = canvas.getContext("2d");
+  if (ctx) {
+    // Rich dark brushed slate comparing the heavy 4 500 € model
+    ctx.fillStyle = "#181715";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = "rgba(255,255,255,0.1)";
+    ctx.lineWidth = 3;
+    drawRoundedRect(ctx, 36, 36, canvas.width - 72, canvas.height - 72, 48);
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(255,255,255,0.5)";
+    ctx.font = "600 26px ui-monospace, monospace";
+    ctx.fillText("MODÈLE AGENCE CLASSIQUE", 76, 165);
+
+    ctx.fillStyle = "#FAF8F5";
+    ctx.font = "700 138px system-ui, -apple-system, sans-serif";
+    ctx.fillText("4 500 €", 72, 340);
+
+    ctx.fillStyle = "#ED5B04";
+    ctx.fillRect(76, 395, 628, 5);
+
+    const rows = [
+      ["Délai moyen", "8 à 12 semaines"],
+      ["Commerciaux", "Facturés sur le devis"],
+      ["Code source", "Souvent bloqué"],
+      ["Avec Boubane", "0 € de création"],
+    ];
+
+    rows.forEach(([k, v], i) => {
+      const y = 520 + i * 165;
+      ctx.fillStyle = "rgba(255,255,255,0.48)";
+      ctx.font = "500 26px ui-monospace, monospace";
+      ctx.fillText(k.toUpperCase(), 76, y);
+
+      ctx.fillStyle = i === 3 ? "#ED5B04" : "#FAF8F5";
+      ctx.font = "700 44px system-ui, sans-serif";
+      ctx.fillText(v, 76, y + 54);
+
+      if (i < 3) {
+        ctx.fillStyle = "rgba(255,255,255,0.1)";
+        ctx.fillRect(76, y + 95, 628, 2);
+      }
+    });
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
+  return tex;
+}
+
+function createCardLayerTexture(variant: "kraft" | "orange"): THREE.CanvasTexture {
+  const canvas = document.createElement("canvas");
+  canvas.width = 680;
+  canvas.height = 460;
+  const ctx = canvas.getContext("2d");
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+
+  const paint = (photo?: HTMLImageElement) => {
+    if (!ctx) return;
+    if (variant === "kraft") {
+      ctx.fillStyle = "#F4EEE3";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Clean warm header
-      ctx.fillStyle = "#FAF8F5";
-      ctx.fillRect(0, 0, canvas.width, 130);
-      ctx.fillStyle = "#0C0A08";
-      ctx.font = "700 32px system-ui, sans-serif";
-      ctx.fillText("Boubane · Atelier Web", 56, 82);
+      if (photo && photo.naturalWidth > 0) {
+        ctx.save();
+        drawRoundedRect(ctx, 28, 28, 270, 404, 24);
+        ctx.clip();
+        ctx.drawImage(photo, 28, 28, 270, 404);
+        ctx.restore();
+      }
 
-      // Pill badge
-      ctx.fillStyle = "#FFF2E8";
-      ctx.fillRect(56, 175, 290, 48);
       ctx.fillStyle = "#ED5B04";
-      ctx.font = "600 24px ui-monospace, monospace";
-      ctx.fillText("EN LIGNE EN 5 JOURS", 76, 207);
+      ctx.font = "600 22px ui-monospace, monospace";
+      ctx.fillText("LÉO SAILLOUR · SEGRÉ", 326, 95);
 
-      // Headline
       ctx.fillStyle = "#0C0A08";
-      ctx.font = "700 66px system-ui, sans-serif";
-      ctx.fillText("Votre vitrine", 56, 310);
-      ctx.fillText("à votre nom.", 56, 385);
+      ctx.font = "700 44px system-ui, sans-serif";
+      ctx.fillText("Un interlocuteur", 326, 170);
+      ctx.fillText("unique, en direct.", 326, 224);
 
-      // Accent visual card inside phone screen
-      const grad = ctx.createLinearGradient(56, 445, 712, 760);
-      grad.addColorStop(0, "#ED5B04");
-      grad.addColorStop(1, "#D64E00");
+      ctx.fillStyle = "#57534E";
+      ctx.font = "400 26px system-ui, sans-serif";
+      ctx.fillText("Design, textes et code", 326, 300);
+      ctx.fillText("réalisés sans sous-traitance.", 326, 338);
+    } else {
+      const grad = ctx.createLinearGradient(0, 0, 680, 460);
+      grad.addColorStop(0, "#FF6E1A");
+      grad.addColorStop(1, "#E04F00");
       ctx.fillStyle = grad;
-      ctx.fillRect(56, 445, 656, 315);
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "rgba(255,255,255,0.85)";
+      ctx.font = "600 22px ui-monospace, monospace";
+      ctx.fillText("PROPRIÉTÉ 100 % CLIENT", 48, 88);
 
       ctx.fillStyle = "#FFFFFF";
-      ctx.font = "600 26px ui-monospace, monospace";
-      ctx.fillText("PERFORMANCE MESURÉE", 92, 515);
-      ctx.font = "700 84px system-ui, sans-serif";
-      ctx.fillText("< 0,3 sec", 92, 625);
-      ctx.font = "400 30px system-ui, sans-serif";
-      ctx.fillStyle = "rgba(255,255,255,0.88)";
-      ctx.fillText("Code source & domaine 100 % à vous", 92, 700);
+      ctx.font = "700 116px system-ui, sans-serif";
+      ctx.fillText("0 €", 44, 232);
 
-      // Bottom CTA
-      ctx.fillStyle = "#0C0A08";
-      ctx.fillRect(56, 820, 656, 108);
-      ctx.fillStyle = "#FFFFFF";
       ctx.font = "600 34px system-ui, sans-serif";
-      ctx.fillText("Demander un devis direct  →", 118, 886);
+      ctx.fillText("Domaine (~10 €/an) · Hébergement (~5 €/mois)", 48, 330);
+      ctx.fillStyle = "rgba(255,255,255,0.8)";
+      ctx.font = "400 26px system-ui, sans-serif";
+      ctx.fillText("Tout est à votre nom dès le jour 1.", 48, 385);
     }
+    tex.needsUpdate = true;
+  };
+
+  paint();
+  if (variant === "kraft") {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => paint(img);
+    img.src = "/images/story-leo-desk.jpg";
   }
 
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
-  return texture;
+  return tex;
 }
 
 export function ScrollStory3DStage() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const canvasHostRef = useRef<HTMLDivElement>(null);
   const targetProgressRef = useRef(0);
-  const pointerTiltRef = useRef({ x: 0, y: 0 });
+  const dragOffsetRef = useRef({ x: 0, y: 0, dragging: false, lastX: 0, lastY: 0 });
   const [activeBeatIdx, setActiveBeatIdx] = useState(0);
+  const [hasDragged, setHasDragged] = useState(false);
 
   // Sync scroll progress smoothly from section geometry
   useEffect(() => {
@@ -224,14 +365,18 @@ export function ScrollStory3DStage() {
     };
   }, []);
 
-  // Initialize Real Three.js Studio Scene
+  // Three.js Hardware & Architectural Showcase Scene
   useEffect(() => {
     const host = canvasHostRef.current;
     if (!host) return;
 
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance",
+      });
     } catch {
       return;
     }
@@ -240,141 +385,162 @@ export function ScrollStory3DStage() {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 1.12;
     host.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 40);
-    camera.position.set(0, 0.25, 7.6);
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 45);
+    camera.position.set(0, 0.12, 8.2);
 
-    // Warm Apple-studio 3-point lighting
-    const hemi = new THREE.HemisphereLight(0xfffaf2, 0xd9cfc1, 1.45);
+    // Rich Apple-keynote lighting
+    const hemi = new THREE.HemisphereLight(0xfffdf8, 0xd8cec0, 1.55);
     scene.add(hemi);
 
-    const keyLight = new THREE.DirectionalLight(0xfff5e8, 2.2);
-    keyLight.position.set(4.5, 6.2, 5.5);
+    const keyLight = new THREE.DirectionalLight(0xfff7ed, 2.35);
+    keyLight.position.set(4.8, 6.5, 6.2);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 1024;
     keyLight.shadow.mapSize.height = 1024;
-    keyLight.shadow.bias = -0.0005;
+    keyLight.shadow.bias = -0.0004;
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0xff8e42, 0.9);
-    rimLight.position.set(-4.5, 1.5, -3.5);
-    scene.add(rimLight);
+    const warmRim = new THREE.DirectionalLight(0xff8c3d, 1.1);
+    warmRim.position.set(-5.2, 2.2, -3.6);
+    scene.add(warmRim);
 
-    // Soft studio shadow catcher plane
+    const coolFill = new THREE.DirectionalLight(0xeef6ff, 0.55);
+    coolFill.position.set(-3.5, -2.5, 4.0);
+    scene.add(coolFill);
+
+    // Soft studio floor shadow
     const shadowPlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(14, 14),
-      new THREE.ShadowMaterial({ opacity: 0.12 })
+      new THREE.PlaneGeometry(16, 16),
+      new THREE.ShadowMaterial({ opacity: 0.13 })
     );
     shadowPlane.rotation.x = -Math.PI / 2;
-    shadowPlane.position.y = -2.25;
+    shadowPlane.position.y = -2.42;
     shadowPlane.receiveShadow = true;
     scene.add(shadowPlane);
 
-    // Master sculptural rig
     const rig = new THREE.Group();
     scene.add(rig);
 
-    const texAgency = createScreenTexture("agency");
-    const texLayer1 = createScreenTexture("layer1");
-    const texLayer2 = createScreenTexture("layer2");
-    const texPhone = createScreenTexture("phone");
+    const texFront = createPhoneScreenTexture();
+    const texBack = createBackTitaniumTexture();
+    const texKraft = createCardLayerTexture("kraft");
+    const texOrange = createCardLayerTexture("orange");
 
-    // 1. Slab Back (Base structure cream-kraft architectural tile)
-    const slabGeo = new RoundedBoxGeometry(2.15, 2.95, 0.14, 5, 0.1);
-    const slab1Mat = new THREE.MeshStandardMaterial({
-      color: 0xf4efe6,
-      roughness: 0.42,
-      metalness: 0.05,
+    // 1. Titanium iPhone Chassis (sculpted silhouette)
+    const chassisGeo = new RoundedBoxGeometry(1.94, 3.82, 0.16, 8, 0.24);
+    const titaniumMat = new THREE.MeshPhysicalMaterial({
+      color: 0x22201d,
+      roughness: 0.26,
+      metalness: 0.78,
+      clearcoat: 0.45,
+      clearcoatRoughness: 0.2,
     });
-    const slab1FaceMat = new THREE.MeshStandardMaterial({
-      map: texLayer1,
-      roughness: 0.35,
-      metalness: 0.02,
+    const screenMat = new THREE.MeshPhysicalMaterial({
+      map: texFront,
+      roughness: 0.08,
+      metalness: 0.04,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.05,
     });
-    const slab1 = new THREE.Mesh(slabGeo, [
-      slab1Mat,
-      slab1Mat,
-      slab1Mat,
-      slab1Mat,
-      slab1FaceMat,
-      slab1Mat,
+    const backSlateMat = new THREE.MeshStandardMaterial({
+      map: texBack,
+      roughness: 0.34,
+      metalness: 0.18,
+    });
+    const phone = new THREE.Mesh(chassisGeo, [
+      titaniumMat,
+      titaniumMat,
+      titaniumMat,
+      titaniumMat,
+      screenMat,
+      backSlateMat,
     ]);
-    slab1.castShadow = true;
-    slab1.receiveShadow = true;
-    rig.add(slab1);
+    phone.castShadow = true;
+    phone.receiveShadow = true;
+    rig.add(phone);
 
-    // 2. Slab Middle (Boubane Orange glass/ceramic core)
-    const slab2Mat = new THREE.MeshPhysicalMaterial({
+    // Subtle anodized orange side Action Button
+    const buttonGeo = new RoundedBoxGeometry(0.05, 0.28, 0.06, 3, 0.02);
+    const orangeMetalMat = new THREE.MeshPhysicalMaterial({
       color: 0xed5b04,
-      roughness: 0.22,
-      metalness: 0.08,
-      clearcoat: 0.85,
-      clearcoatRoughness: 0.18,
+      roughness: 0.2,
+      metalness: 0.4,
+      clearcoat: 0.9,
     });
-    const slab2FaceMat = new THREE.MeshPhysicalMaterial({
-      map: texLayer2,
-      roughness: 0.24,
-      metalness: 0.05,
-      clearcoat: 0.7,
-    });
-    const slab2 = new THREE.Mesh(slabGeo, [
-      slab2Mat,
-      slab2Mat,
-      slab2Mat,
-      slab2Mat,
-      slab2FaceMat,
-      slab2Mat,
-    ]);
-    slab2.castShadow = true;
-    rig.add(slab2);
+    const actionButton = new THREE.Mesh(buttonGeo, orangeMetalMat);
+    actionButton.position.set(0.97, 0.72, 0);
+    phone.add(actionButton);
 
-    // 3. Hero Monolith / Smartphone Body (rotates from "4 500 € Agency" on back -> Live Boubane Site on front)
-    const phoneGeo = new RoundedBoxGeometry(2.18, 3.05, 0.18, 6, 0.14);
-    const frameMat = new THREE.MeshPhysicalMaterial({
-      color: 0x161412,
-      roughness: 0.28,
-      metalness: 0.65,
-      clearcoat: 0.5,
-    });
-    const frontMat = new THREE.MeshPhysicalMaterial({
-      map: texPhone,
+    // 2. Exploded Frosted Glass Optical Layer (hovers over phone during Beats 2-3)
+    const glassGeo = new RoundedBoxGeometry(2.08, 2.75, 0.04, 5, 0.16);
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.34,
       roughness: 0.12,
       metalness: 0.05,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.08,
+      reflectivity: 0.9,
     });
-    const backMat = new THREE.MeshStandardMaterial({
-      map: texAgency,
-      roughness: 0.36,
-      metalness: 0.1,
-    });
-    const phoneMesh = new THREE.Mesh(phoneGeo, [
-      frameMat,
-      frameMat,
-      frameMat,
-      frameMat,
-      frontMat,
-      backMat,
-    ]);
-    phoneMesh.castShadow = true;
-    phoneMesh.receiveShadow = true;
-    rig.add(phoneMesh);
+    const glassLayer = new THREE.Mesh(glassGeo, glassMat);
+    glassLayer.castShadow = true;
+    rig.add(glassLayer);
 
-    // Subtle floating accent ring (craft precision badge)
-    const accentSphere = new THREE.Mesh(
-      new THREE.TorusGeometry(0.28, 0.075, 24, 64),
-      new THREE.MeshPhysicalMaterial({
-        color: 0xed5b04,
-        roughness: 0.18,
-        metalness: 0.15,
-        clearcoat: 0.9,
-      })
-    );
-    accentSphere.castShadow = true;
-    rig.add(accentSphere);
+    // 3. Orbiting Tactile Story Cards (Photo card + 0 € Orange plaque)
+    const cardGeo = new RoundedBoxGeometry(2.35, 1.58, 0.08, 5, 0.12);
+    const cardEdgeMat = new THREE.MeshStandardMaterial({
+      color: 0xe6ddd0,
+      roughness: 0.45,
+    });
+    const kraftFaceMat = new THREE.MeshStandardMaterial({
+      map: texKraft,
+      roughness: 0.42,
+    });
+    const kraftCard = new THREE.Mesh(cardGeo, [
+      cardEdgeMat,
+      cardEdgeMat,
+      cardEdgeMat,
+      cardEdgeMat,
+      kraftFaceMat,
+      cardEdgeMat,
+    ]);
+    kraftCard.castShadow = true;
+    rig.add(kraftCard);
+
+    const orangeEdgeMat = new THREE.MeshStandardMaterial({
+      color: 0xd94e00,
+      roughness: 0.28,
+    });
+    const orangeFaceMat = new THREE.MeshPhysicalMaterial({
+      map: texOrange,
+      roughness: 0.22,
+      clearcoat: 0.7,
+    });
+    const orangeCard = new THREE.Mesh(cardGeo, [
+      orangeEdgeMat,
+      orangeEdgeMat,
+      orangeEdgeMat,
+      orangeEdgeMat,
+      orangeFaceMat,
+      orangeEdgeMat,
+    ]);
+    orangeCard.castShadow = true;
+    rig.add(orangeCard);
+
+    // 4. Sculptural Signature Ring orbiting behind assembly
+    const ringGeo = new THREE.TorusGeometry(1.65, 0.032, 24, 96);
+    const ringMat = new THREE.MeshPhysicalMaterial({
+      color: 0xed5b04,
+      roughness: 0.22,
+      metalness: 0.5,
+      clearcoat: 0.85,
+    });
+    const orbitRing = new THREE.Mesh(ringGeo, ringMat);
+    rig.add(orbitRing);
 
     const resize = () => {
       if (!host) return;
@@ -382,60 +548,71 @@ export function ScrollStory3DStage() {
       const h = Math.max(1, host.clientHeight);
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
-      // Scale distance nicely so mobile and desktop keep the full 3D stack crisp & unclipped
-      camera.position.z = w < 520 ? 9.4 : 7.4;
+      camera.position.z = w < 520 ? 10.6 : 8.2;
       camera.updateProjectionMatrix();
     };
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(host);
 
-    let currentP = 0;
+    let smoothP = 0;
     let rafId = 0;
     const clock = new THREE.Clock();
 
     const tick = () => {
       rafId = requestAnimationFrame(tick);
-      const elapsed = clock.getElapsedTime();
-      currentP += (targetProgressRef.current - currentP) * 0.085;
-      const p = currentP;
+      const t = clock.getElapsedTime();
+      smoothP += (targetProgressRef.current - smoothP) * 0.08;
+      const p = smoothP;
 
-      // Scroll-driven choreography across the 4 story beats:
-      // p=0.0..0.25 -> Back face visible ("4 500 € Agency slab" tilted monumentally)
-      // p=0.25..0.55 -> Exploded 3 layers rotating dynamically in space ("0 € cut")
-      // p=0.55..0.85 -> Smooth reveal of front iPhone / live Boubane vitrine
-      // p=0.85..1.00 -> Clean front hero poise
-      const explodeAmount = Math.sin(Math.min(1, Math.max(0, (p - 0.15) / 0.55)) * Math.PI);
-      const rotY =
-        Math.PI * (1 - Math.min(1, Math.max(0, (p - 0.18) / 0.45))) +
-        Math.sin(p * Math.PI) * 0.25 +
-        pointerTiltRef.current.x * 0.35;
-      const rotX = -0.14 + Math.cos(p * Math.PI * 1.5) * 0.12 + pointerTiltRef.current.y * 0.22;
+      // Elastic return when user isn't actively dragging
+      if (!dragOffsetRef.current.dragging) {
+        dragOffsetRef.current.x *= 0.92;
+        dragOffsetRef.current.y *= 0.92;
+      }
 
-      rig.rotation.y = rotY;
-      rig.rotation.x = rotX;
-      rig.position.y = Math.sin(elapsed * 1.4) * 0.07;
+      // Smooth 4-act choreography:
+      // 0.00 -> 0.26: Back of chassis visible ("4 500 € Agence") with proud slight tilt
+      // 0.26 -> 0.56: Graceful 180deg turntable spin + exploded crystal glass & orbiting cards
+      // 0.56 -> 0.82: Cards tuck cleanly behind; iPhone screen gleams face-on showcasing real site photo
+      // 0.82 -> 1.00: Orange 0 € ownership card locks crisply beside iPhone
+      const spinPhase = Math.min(1, Math.max(0, (p - 0.14) / 0.44));
+      const baseRotY = Math.PI * (1 - spinPhase) + (p > 0.58 ? (p - 0.58) * -0.42 : 0);
+      const baseRotX = -0.08 + Math.sin(p * Math.PI * 1.6) * 0.12;
 
-      // Explode the 3 layers along Z and offset gracefully in Beat 2 & Beat 3
-      slab1.position.z = -0.95 * explodeAmount - 0.04;
-      slab1.position.x = -0.45 * explodeAmount;
-      slab1.scale.setScalar(0.88 + 0.12 * explodeAmount);
+      rig.rotation.y = baseRotY + dragOffsetRef.current.x;
+      rig.rotation.x = baseRotX + dragOffsetRef.current.y;
+      rig.position.y = Math.sin(t * 1.25) * 0.06;
 
-      slab2.position.z = -0.46 * explodeAmount - 0.02;
-      slab2.position.x = -0.22 * explodeAmount;
-      slab2.scale.setScalar(0.92 + 0.08 * explodeAmount);
+      // Bell curve peaking at Beat 2 (p ~ 0.40) for hardware explosion
+      const explode = Math.sin(Math.min(1, Math.max(0, (p - 0.16) / 0.54)) * Math.PI);
+      const badgeReveal = Math.min(1, Math.max(0, (p - 0.72) / 0.22));
 
-      phoneMesh.position.z = 0.42 * explodeAmount;
-      phoneMesh.position.x = 0.2 * explodeAmount;
+      // Glass layer lifts forward toward viewer in Beat 2
+      glassLayer.position.set(0.18 * explode, 0.15 * explode, 0.62 * explode + 0.02);
+      glassLayer.rotation.z = -0.08 * explode;
+      glassMat.opacity = 0.04 + 0.36 * explode;
 
-      accentSphere.position.set(
-        1.15 + explodeAmount * 0.35,
-        1.25 - explodeAmount * 0.2,
-        0.55 + explodeAmount * 0.45
+      // Kraft Léo card orbits out left/back on Beat 2-3
+      kraftCard.position.set(-1.35 * explode - 0.15, 0.68 * explode, -0.55 * explode - 0.25);
+      kraftCard.rotation.y = -0.35 * explode;
+      kraftCard.rotation.z = 0.08 * explode;
+      kraftCard.scale.setScalar(0.55 + 0.45 * explode);
+
+      // Orange 0 € card slides from hidden behind to flanking pride of place on Beat 4
+      orangeCard.position.set(
+        1.15 * explode + 1.05 * badgeReveal,
+        -0.55 * explode - 0.65 * badgeReveal,
+        -0.45 * explode + 0.32 * badgeReveal - 0.15
       );
-      accentSphere.rotation.x = elapsed * 0.85;
-      accentSphere.rotation.y = elapsed * 0.6;
-      accentSphere.scale.setScalar(0.65 + explodeAmount * 0.45);
+      orangeCard.rotation.y = 0.28 * explode - 0.16 * badgeReveal;
+      orangeCard.rotation.z = -0.06 * explode + 0.05 * badgeReveal;
+      orangeCard.scale.setScalar(0.5 + 0.45 * Math.max(explode, badgeReveal));
+
+      // Architectural orange halo ring
+      orbitRing.rotation.x = Math.PI / 2.2 + Math.sin(t * 0.5) * 0.15;
+      orbitRing.rotation.y = t * 0.22 + p * 1.6;
+      orbitRing.scale.setScalar(0.82 + explode * 0.35);
 
       renderer.render(scene, camera);
     };
@@ -444,12 +621,15 @@ export function ScrollStory3DStage() {
     return () => {
       cancelAnimationFrame(rafId);
       ro.disconnect();
-      slabGeo.dispose();
-      phoneGeo.dispose();
-      texAgency.dispose();
-      texLayer1.dispose();
-      texLayer2.dispose();
-      texPhone.dispose();
+      chassisGeo.dispose();
+      buttonGeo.dispose();
+      glassGeo.dispose();
+      cardGeo.dispose();
+      ringGeo.dispose();
+      texFront.dispose();
+      texBack.dispose();
+      texKraft.dispose();
+      texOrange.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === host) {
         host.removeChild(renderer.domElement);
@@ -457,12 +637,25 @@ export function ScrollStory3DStage() {
     };
   }, []);
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== "mouse" || !sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    const nx = ((e.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 2;
-    const ny = ((e.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2;
-    pointerTiltRef.current = { x: nx, y: ny };
+  const handleStagePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    dragOffsetRef.current.dragging = true;
+    dragOffsetRef.current.lastX = e.clientX;
+    dragOffsetRef.current.lastY = e.clientY;
+    setHasDragged(true);
+  };
+
+  const handleStagePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragOffsetRef.current.dragging) return;
+    const dx = e.clientX - dragOffsetRef.current.lastX;
+    const dy = e.clientY - dragOffsetRef.current.lastY;
+    dragOffsetRef.current.lastX = e.clientX;
+    dragOffsetRef.current.lastY = e.clientY;
+    dragOffsetRef.current.x = Math.max(-1.2, Math.min(1.2, dragOffsetRef.current.x + dx * 0.008));
+    dragOffsetRef.current.y = Math.max(-0.5, Math.min(0.5, dragOffsetRef.current.y + dy * 0.006));
+  };
+
+  const handleStagePointerEnd = () => {
+    dragOffsetRef.current.dragging = false;
   };
 
   const scrollToBeat = (beatIndex: number) => {
@@ -476,65 +669,81 @@ export function ScrollStory3DStage() {
   };
 
   return (
-    <section
-      id="modele"
-      ref={sectionRef}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={() => {
-        pointerTiltRef.current = { x: 0, y: 0 };
-      }}
-      className="relative bg-[#FAF8F5] border-t border-[#0C0A08]/[0.06]"
-    >
-      {/* Scroll Track: Mobile compact sticky stage + Desktop full cinema stage */}
-      <div className="mx-auto max-w-[1220px] px-5 sm:px-6">
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-12">
-          {/* Sticky 3D WebGL Sculpture Viewport (works identically on phone AND desktop) */}
-          <div className="lg:col-span-6 sticky top-14 lg:top-0 z-20 lg:z-auto h-[250px] sm:h-[310px] lg:h-[100dvh] flex flex-col justify-center bg-[#FAF8F5]/92 backdrop-blur-md lg:bg-transparent lg:backdrop-blur-none border-b border-[#0C0A08]/[0.06] lg:border-none -mx-5 px-5 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0">
-            <div className="relative w-full h-[225px] sm:h-[285px] lg:h-[580px] flex items-center justify-center overflow-hidden">
+    <section id="modele" ref={sectionRef} className="relative bg-[#FAF8F5]">
+      <div className="mx-auto max-w-[1240px] px-5 sm:px-6">
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-14">
+          {/* Seamless Sticky 3D Viewport (zero border line, continuous #FAF8F5 feather) */}
+          <div className="lg:col-span-6 sticky top-14 lg:top-0 z-20 lg:z-auto h-[250px] sm:h-[310px] lg:h-[100dvh] flex flex-col justify-center bg-gradient-to-b from-[#FAF8F5] via-[#FAF8F5]/95 to-transparent lg:bg-none -mx-5 px-5 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0">
+            <div
+              onPointerDown={handleStagePointerDown}
+              onPointerMove={handleStagePointerMove}
+              onPointerUp={handleStagePointerEnd}
+              onPointerCancel={handleStagePointerEnd}
+              onPointerLeave={handleStagePointerEnd}
+              className="relative w-full h-[225px] sm:h-[285px] lg:h-[600px] flex items-center justify-center overflow-hidden"
+            >
               <div
                 ref={canvasHostRef}
                 aria-hidden="true"
                 className="w-full h-full touch-pan-y cursor-grab active:cursor-grabbing"
               />
+
+              {/* Subtle tactile drag hint that fades after interaction */}
+              {!hasDragged && (
+                <div className="pointer-events-none hidden sm:inline-flex items-center gap-1.5 absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-[#0C0A08]/[0.05] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-[#57534E]">
+                  <MoveHorizontal className="w-3 h-3 text-[#ED5B04]" />
+                  <span>Glisser pour pivoter</span>
+                </div>
+              )}
             </div>
 
-            {/* Minimal desktop progress dots beneath 3D sculpture */}
-            <div className="hidden lg:flex items-center justify-center gap-2 mt-2">
-              {STORY_BEATS.map((beat, idx) => (
-                <button
-                  key={beat.id}
-                  type="button"
-                  onClick={() => scrollToBeat(idx)}
-                  aria-label={`Aller à l'étape ${beat.step}`}
-                  className={cn(
-                    "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
-                    activeBeatIdx === idx
-                      ? "w-8 bg-[#ED5B04]"
-                      : "w-2 bg-[#0C0A08]/15 hover:bg-[#0C0A08]/35"
-                  )}
-                />
-              ))}
+            {/* Desktop Interactive Beat Pill Switcher */}
+            <div className="hidden lg:flex items-center justify-center gap-1.5 mt-1">
+              {STORY_BEATS.map((beat, idx) => {
+                const selected = activeBeatIdx === idx;
+                return (
+                  <button
+                    key={beat.id}
+                    type="button"
+                    onClick={() => scrollToBeat(idx)}
+                    className={cn(
+                      "relative px-3.5 py-1.5 rounded-full font-mono text-[10.5px] uppercase tracking-[0.08em] transition-colors cursor-pointer",
+                      selected ? "text-white" : "text-[#57534E] hover:text-[#0C0A08]"
+                    )}
+                  >
+                    {selected && (
+                      <motion.span
+                        layoutId="scrollStoryBeatPill"
+                        transition={ATELIER_SNAPPY_SPRING}
+                        className="absolute inset-0 rounded-full bg-[#0C0A08]"
+                      />
+                    )}
+                    <span className="relative z-10">
+                      {beat.step} · {beat.shortLabel}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Scrolling Story Narrative Beats — airy, unboxed, crystal clear hierarchy */}
+          {/* Right Narrative Column */}
           <div className="lg:col-span-6 pb-16 lg:pb-0">
             {STORY_BEATS.map((beat, idx) => {
               const isActive = activeBeatIdx === idx;
               return (
                 <div
                   key={beat.id}
-                  className="py-16 sm:py-20 lg:py-0 lg:min-h-[78dvh] flex flex-col justify-center"
+                  className="py-14 sm:py-20 lg:py-0 lg:min-h-[82dvh] flex flex-col justify-center"
                 >
                   <motion.div
-                    initial={{ opacity: 0, y: 16 }}
+                    initial={{ opacity: 0, y: 18 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.35 }}
+                    viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.45, ease: ATELIER_EASE }}
                     className={cn(
                       "transition-opacity duration-300",
-                      "lg:opacity-100",
-                      isActive ? "lg:opacity-100" : "lg:opacity-45"
+                      isActive ? "lg:opacity-100" : "lg:opacity-40"
                     )}
                   >
                     <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04]">
@@ -543,7 +752,7 @@ export function ScrollStory3DStage() {
                       <span className="text-[#57534E]">{beat.eyebrow}</span>
                     </div>
 
-                    <h2 className="mt-4 text-[clamp(1.85rem,3.6vw,2.95rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
+                    <h2 className="mt-4 text-[clamp(1.85rem,3.6vw,3rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
                       {beat.title}
                     </h2>
 

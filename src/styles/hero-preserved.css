@@ -265,7 +265,7 @@
   padding: clamp(8px, 1.8vh, 18px) var(--spacing-lg) clamp(8px, 1.4vh, 16px);
   text-align: center;
   overflow: visible !important;
-  background: radial-gradient(ellipse 70% 60% at 50% 25%, rgba(238, 248, 90, 0.09) 0%, rgba(250, 248, 245, 0) 70%);
+  background: radial-gradient(ellipse 70% 55% at 50% 22%, rgba(238, 248, 90, 0.08) 0%, rgba(250, 248, 245, 0) 68%);
 }
 
 .hero-organic-stream {
@@ -276,6 +276,8 @@
   pointer-events: none;
   z-index: 1;
   overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 68%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 68%, rgba(0, 0, 0, 0) 100%);
 }
 
 .hero-organic-stream svg {
