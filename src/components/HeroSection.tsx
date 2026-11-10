@@ -79,6 +79,9 @@ export function HeroSection() {
   const dockRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const textPathRef = useRef<SVGTextPathElement>(null);
   const bannerWrapRef = useRef<HTMLElement>(null);
+  const ribbonShadowPathRef = useRef<SVGPathElement>(null);
+  const ribbonMainPathRef = useRef<SVGPathElement>(null);
+  const archTextCurveRef = useRef<SVGPathElement>(null);
 
   const highestZ = useRef(20);
   const [activeDockIdx, setActiveDockIdx] = useState<number>(0);
@@ -413,60 +416,209 @@ export function HeroSection() {
     };
   }, []);
 
-  // Kinetic 3D Ribbon Marquee Engine
+  // Kinetic 3D Ribbon Marquee + Elastic Drag/Fling Physics Engine
   useEffect(() => {
     const textPath = textPathRef.current;
     const banner = bannerWrapRef.current;
-    if (!textPath) return;
+    const shadowPath = ribbonShadowPathRef.current;
+    const mainPath = ribbonMainPathRef.current;
+    const curvePath = archTextCurveRef.current;
+    if (!textPath || !banner || !shadowPath || !mainPath || !curvePath) return;
 
     let rafId = 0;
-    let offset = 0;
-    const baseSpeed = 1.1;
+    const baseSpeed = 1.15;
     let targetSpeed = baseSpeed;
     let currentSpeed = baseSpeed;
-    let singleLen = 1450;
+    let singleLen = 1900;
+    let offset = -singleLen;
     let lastScrollY = window.scrollY;
     let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
 
-    try {
-      const len = textPath.getComputedTextLength();
-      if (len > 0) singleLen = len / 3;
-    } catch {}
+    // Elastic Arch Bend Spring State
+    let bendY = 0;
+    let targetBendY = 0;
+    let velBendY = 0;
+    let bendX = 0;
+    let targetBendX = 0;
+
+    // Grab / Scrub / Throw State
+    let isDragging = false;
+    let startClientX = 0;
+    let lastClientX = 0;
+    let lastClientY = 0;
+    let lastMoveTime = 0;
+    let dragVx = 0;
+    let movedDist = 0;
+
+    const measureSingle = () => {
+      try {
+        const len = textPath.getComputedTextLength();
+        if (len > 100) {
+          singleLen = len / 5;
+        }
+      } catch {}
+    };
+    measureSingle();
+    offset = -singleLen * 1.5;
+
+    const updateCurveGeometry = (bx: number, by: number) => {
+      const midY = 75 + by;
+      const c1y = 160 + by * 0.55;
+      const c2y = -10 + by * 0.55;
+      const midX = 760 + bx;
+
+      mainPath.setAttribute(
+        "d",
+        `M -150, 165 C 180, 210 ${480 + bx * 0.35}, ${c1y.toFixed(1)} ${midX.toFixed(1)}, ${midY.toFixed(
+          1
+        )} C ${1040 + bx * 0.35}, ${c2y.toFixed(1)} 1320, 110 1620, 150`
+      );
+      shadowPath.setAttribute(
+        "d",
+        `M -150, 171 C 180, 216 ${480 + bx * 0.35}, ${(c1y + 6).toFixed(1)} ${midX.toFixed(1)}, ${(
+          midY + 6
+        ).toFixed(1)} C ${1040 + bx * 0.35}, ${(c2y + 6).toFixed(1)} 1320, 116 1620, 156`
+      );
+      curvePath.setAttribute(
+        "d",
+        `M -2500, 240 C -1500, 220 -800, 130 -150, 165 C 180, 210 ${480 + bx * 0.35}, ${c1y.toFixed(
+          1
+        )} ${midX.toFixed(1)}, ${midY.toFixed(1)} C ${1040 + bx * 0.35}, ${c2y.toFixed(
+          1
+        )} 1320, 110 1620, 150 C 2100, 180 2800, 220 3800, 240`
+      );
+    };
 
     const onScroll = () => {
       const deltaY = window.scrollY - lastScrollY;
       lastScrollY = window.scrollY;
-      if (Math.abs(deltaY) > 2) {
-        targetSpeed = baseSpeed + Math.min(Math.abs(deltaY) * 0.15, 4.2);
+      if (Math.abs(deltaY) > 2 && !isDragging) {
+        targetSpeed = baseSpeed + Math.min(Math.abs(deltaY) * 0.16, 5.0);
         if (scrollTimeout) clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
           targetSpeed = baseSpeed;
-        }, 120);
+        }, 140);
       }
     };
 
-    const onEnter = () => {
-      targetSpeed = baseSpeed * 2.2;
+    const onPointerEnter = () => {
+      if (!isDragging) targetSpeed = baseSpeed * 2.1;
     };
-    const onLeave = () => {
-      targetSpeed = baseSpeed;
+
+    const onPointerDown = (e: PointerEvent) => {
+      isDragging = true;
+      startClientX = e.clientX;
+      lastClientX = e.clientX;
+      lastClientY = e.clientY;
+      lastMoveTime = performance.now();
+      dragVx = 0;
+      movedDist = 0;
+      try {
+        banner.setPointerCapture(e.pointerId);
+      } catch {}
+    };
+
+    const onPointerMove = (e: PointerEvent) => {
+      const rect = banner.getBoundingClientRect();
+      const relX = ((e.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 2;
+      const relY = ((e.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2;
+
+      if (!isDragging) {
+        // Hover subtle elastic pull toward cursor
+        targetBendY = Math.max(-14, Math.min(14, relY * 14));
+        targetBendX = Math.max(-28, Math.min(28, relX * 26));
+        return;
+      }
+
+      const now = performance.now();
+      const dt = Math.max(1, now - lastMoveTime);
+      const dx = e.clientX - lastClientX;
+      const dy = e.clientY - lastClientY;
+
+      movedDist += Math.hypot(dx, dy);
+      const instVx = (dx / dt) * 16;
+      dragVx = dragVx * 0.35 + instVx * 0.65;
+
+      // Scrub marquee 1:1 with pointer
+      offset += dx * 1.45;
+      targetBendY = Math.max(-34, Math.min(34, targetBendY + dy * 0.65));
+      targetBendX = Math.max(-70, Math.min(70, (e.clientX - startClientX) * 0.25));
+
+      lastClientX = e.clientX;
+      lastClientY = e.clientY;
+      lastMoveTime = now;
+    };
+
+    const releaseDrag = (e: PointerEvent) => {
+      if (isDragging) {
+        isDragging = false;
+        try {
+          if (e.pointerId) banner.releasePointerCapture(e.pointerId);
+        } catch {}
+
+        if (movedDist < 6) {
+          // Quick tap gives a fun playful twang & turbo spin
+          currentSpeed = -12;
+          velBendY = 14;
+        } else {
+          // Fling momentum from gesture velocity
+          currentSpeed = -Math.max(-36, Math.min(36, dragVx * 1.35));
+          velBendY = -bendY * 0.18;
+        }
+        targetSpeed = baseSpeed;
+      }
+      targetBendY = 0;
+      targetBendX = 0;
+    };
+
+    const onPointerLeave = (e: PointerEvent) => {
+      if (!isDragging) {
+        targetSpeed = baseSpeed;
+        targetBendY = 0;
+        targetBendX = 0;
+      } else {
+        releaseDrag(e);
+      }
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    banner?.addEventListener("mouseenter", onEnter);
-    banner?.addEventListener("mouseleave", onLeave);
+    banner.addEventListener("pointerenter", onPointerEnter);
+    banner.addEventListener("pointerdown", onPointerDown);
+    banner.addEventListener("pointermove", onPointerMove);
+    banner.addEventListener("pointerup", releaseDrag);
+    banner.addEventListener("pointercancel", releaseDrag);
+    banner.addEventListener("pointerleave", onPointerLeave);
 
     const tick = () => {
-      if (singleLen === 1450) {
-        try {
-          const l = textPath.getComputedTextLength();
-          if (l > 0) singleLen = l / 3;
-        } catch {}
+      measureSingle();
+
+      // Velocity / Marquee Position
+      if (!isDragging) {
+        currentSpeed += (targetSpeed - currentSpeed) * 0.055;
+        offset -= currentSpeed;
       }
-      currentSpeed += (targetSpeed - currentSpeed) * 0.08;
-      offset -= currentSpeed;
-      if (offset <= -singleLen) offset += singleLen;
-      textPath.setAttribute("startOffset", `${offset}px`);
+
+      // Seamless infinite wrap across both forward & reverse throw directions
+      while (offset <= -singleLen * 2.5) offset += singleLen;
+      while (offset >= -singleLen * 0.5) offset -= singleLen;
+
+      textPath.setAttribute("startOffset", `${offset.toFixed(1)}px`);
+
+      // Elastic Spring Physics for SVG Curve Deformation
+      if (isDragging) {
+        bendY += (targetBendY - bendY) * 0.35;
+        bendX += (targetBendX - bendX) * 0.35;
+      } else {
+        const forceY = (targetBendY - bendY) * 0.16;
+        velBendY = (velBendY + forceY) * 0.82;
+        bendY += velBendY;
+        bendX += (targetBendX - bendX) * 0.12;
+      }
+
+      if (Math.abs(bendY) > 0.05 || Math.abs(bendX) > 0.05 || Math.abs(velBendY) > 0.05) {
+        updateCurveGeometry(bendX, bendY);
+      }
+
       rafId = requestAnimationFrame(tick);
     };
 
@@ -476,8 +628,12 @@ export function HeroSection() {
       cancelAnimationFrame(rafId);
       if (scrollTimeout) clearTimeout(scrollTimeout);
       window.removeEventListener("scroll", onScroll);
-      banner?.removeEventListener("mouseenter", onEnter);
-      banner?.removeEventListener("mouseleave", onLeave);
+      banner.removeEventListener("pointerenter", onPointerEnter);
+      banner.removeEventListener("pointerdown", onPointerDown);
+      banner.removeEventListener("pointermove", onPointerMove);
+      banner.removeEventListener("pointerup", releaseDrag);
+      banner.removeEventListener("pointercancel", releaseDrag);
+      banner.removeEventListener("pointerleave", onPointerLeave);
     };
   }, []);
 
@@ -811,17 +967,18 @@ export function HeroSection() {
         </div>
       </section>
 
-      {/* Ruban Sculptural en Arche Organique (Kinetic 3D Authority Ribbon) */}
+      {/* Ruban Sculptural en Arche Organique (Kinetic 3D Interactive Ribbon) */}
       <section
         ref={bannerWrapRef}
         className="curved-banner-wrap"
-        aria-label="Engagements et standards du studio"
+        style={{ touchAction: "pan-y" }}
+        aria-label="Ruban interactif : glissez ou cliquez pour jouer avec les standards du studio"
         id="engagements"
       >
         <div className="curved-banner-inner">
           <svg
             className="curved-banner-svg"
-            viewBox="0 0 1440 230"
+            viewBox="0 0 1440 245"
             width="100%"
             height="auto"
             preserveAspectRatio="xMidYMid meet"
@@ -829,23 +986,24 @@ export function HeroSection() {
           >
             <defs>
               <linearGradient id="ribbonOrangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#FF6B10" />
+                <stop offset="0%" stopColor="#FF6E14" />
                 <stop offset="30%" stopColor="#ED5B04" />
                 <stop offset="70%" stopColor="#FA5400" />
                 <stop offset="100%" stopColor="#D94800" />
               </linearGradient>
 
-              <filter id="ribbonElevation" x="-10%" y="-20%" width="120%" height="160%">
+              <filter id="ribbonElevation" x="-10%" y="-25%" width="120%" height="170%">
                 <feDropShadow
                   dx="0"
                   dy="16"
                   stdDeviation="18"
-                  floodColor="rgba(237, 91, 4, 0.28)"
+                  floodColor="rgba(237, 91, 4, 0.26)"
                 />
                 <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="rgba(12, 10, 8, 0.08)" />
               </filter>
 
               <path
+                ref={archTextCurveRef}
                 id="archTextCurve"
                 d="M -2500, 240 C -1500, 220 -800, 130 -150, 165 C 180, 210 480, 160 760, 75 C 1040, -10 1320, 110 1620, 150 C 2100, 180 2800, 220 3800, 240"
                 fill="none"
@@ -853,6 +1011,7 @@ export function HeroSection() {
             </defs>
 
             <path
+              ref={ribbonShadowPathRef}
               d="M -150, 171 C 180, 216 480, 166 760, 81 C 1040, -4 1320, 116 1620, 156"
               stroke="rgba(12, 10, 8, 0.08)"
               strokeWidth="96"
@@ -860,18 +1019,13 @@ export function HeroSection() {
               strokeLinecap="square"
             />
             <path
+              ref={ribbonMainPathRef}
               d="M -150, 165 C 180, 210 480, 160 760, 75 C 1040, -10 1320, 110 1620, 150"
               stroke="url(#ribbonOrangeGrad)"
               strokeWidth="94"
               fill="none"
               strokeLinecap="square"
               filter="url(#ribbonElevation)"
-            />
-            <path
-              d="M -150, 119 C 180, 164 480, 114 760, 29 C 1040, -56 1320, 64 1620, 104"
-              stroke="rgba(255, 255, 255, 0.28)"
-              strokeWidth="2"
-              fill="none"
             />
 
             <text
@@ -881,9 +1035,10 @@ export function HeroSection() {
               fill="#FFFFFF"
               letterSpacing="0.06em"
               dominantBaseline="central"
+              style={{ pointerEvents: "none" }}
             >
               <textPath ref={textPathRef} id="curvedMarqueeText" href="#archTextCurve" startOffset="0">
-                DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE •
+                DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE •
               </textPath>
             </text>
           </svg>

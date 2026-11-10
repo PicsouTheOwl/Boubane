@@ -842,7 +842,7 @@
   overflow: hidden;
   position: relative;
   background: transparent;
-  padding: clamp(32px, 5vw, 68px) 0 clamp(16px, 3vw, 42px);
+  padding: clamp(36px, 5vw, 72px) 0 clamp(24px, 3.5vw, 48px);
   user-select: none;
   cursor: grab;
 }
@@ -864,16 +864,15 @@
 .curved-banner-svg {
   width: 100%;
   height: auto;
-  max-height: 270px;
+  max-height: 280px;
   display: block;
   overflow: visible;
   filter: drop-shadow(0 18px 36px rgba(237, 91, 4, 0.16));
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  transition: filter 0.35s ease;
 }
 
 .curved-banner-wrap:hover .curved-banner-svg {
   filter: drop-shadow(0 24px 48px rgba(237, 91, 4, 0.28));
-  transform: translateY(-2px) scale(1.004);
 }
 
 /* Portail Plein Écran */
