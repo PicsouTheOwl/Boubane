@@ -1,4 +1,7 @@
 .vercel
+node_modules/
+.next/
+out/
 
 .DS_Store
 *.pyc
@@ -10,3 +13,4 @@ inbox_copilot.py
 outreach_engine.py
 *.csv
 
+node_modules

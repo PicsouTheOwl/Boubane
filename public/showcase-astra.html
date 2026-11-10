@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit & Gestion Opérationnelle - Astra Vacances</title>
+  
+  <!-- Polices Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Icônes FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #2b9bbd;
+      --primary-hover: #1e7d99;
+      --primary-soft: #eaf6fa;
+      --primary-gradient: linear-gradient(135deg, #2b9bbd 0%, #45b7d9 100%);
+      --accent: #f59e0b;
+      --dark: #091a28;
+      --text: #334155;
+      --text-light: #64748b;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+      --shadow-md: 0 12px 30px -4px rgba(43, 155, 189, 0.14), 0 4px 12px -2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 20px 40px -6px rgba(43, 155, 189, 0.22);
+      --radius: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* --- TYPOGRAPHIE --- */
+    h1, h2, h3, h4 {
+      color: var(--dark);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      border: 1px solid rgba(43, 155, 189, 0.25);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 50px;
+    }
+
+    .section-title {
+      font-size: 2.3rem;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .section-subtitle {
+      color: var(--text-light);
+      font-size: 1.05rem;
+    }
+
+    /* --- BOUTONS --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 18px 36px;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--primary-gradient);
+      color: #ffffff !important;
+      box-shadow: 0 10px 25px rgba(43, 155, 189, 0.38);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary i {
+      color: #ffffff !important;
+      transition: transform 0.2s ease;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+      transform: rotate(25deg) translateY(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .btn-primary:hover::after {
+      transform: rotate(25deg) translateY(100%);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(43, 155, 189, 0.48);
+      filter: brightness(1.05);
+      color: #ffffff !important;
+    }
+
+    .btn-primary:hover i {
+      transform: scale(1.15);
+    }
+
+    .btn-cta-white {
+      background: #ffffff !important;
+      color: #0c1b26 !important;
+      font-weight: 800;
+      padding: 20px 42px;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-cta-white i {
+      color: var(--primary) !important;
+      transition: transform 0.2s ease;
+    }
+
+    .btn-cta-white:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      background: #f8fafc !important;
+      color: #0c1b26 !important;
+    }
+
+    .btn-cta-white:hover i {
+      transform: scale(1.15);
+    }
+
+    /* --- HERO SECTION --- */
+    .hero-section {
+      padding: 40px 0 48px;
+      background: linear-gradient(180deg, #edf7fb 0%, var(--bg-page) 100%);
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: 2.35rem;
+      line-height: 1.18;
+      color: var(--dark);
+      margin-bottom: 16px;
+      letter-spacing: -0.025em;
+    }
+
+    .hero-title span {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.04rem;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-visual::before {
+      content: '';
+      position: absolute;
+      top: -15%;
+      right: -10%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(43, 155, 189, 0.22) 0%, transparent 70%);
+      filter: blur(50px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-img-container {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 5px solid #ffffff;
+      height: 350px;
+      z-index: 1;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .hero-img-container:hover .hero-img {
+      transform: scale(1.04);
+    }
+
+    .hero-floating-card {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 16px 22px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      animation: float 4s ease-in-out infinite alternate;
+      z-index: 2;
+    }
+
+    .floating-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      transition: transform 0.3s ease;
+    }
+    .hero-floating-card:hover .floating-icon {
+      transform: rotate(10deg) scale(1.08);
+    }
+
+    .live-dot-pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      display: inline-block;
+      flex-shrink: 0;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+
+    /* --- SERVICES SECTION --- */
+    .section-padding {
+      padding: 85px 0;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 40px 30px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(43, 155, 189, 0.4);
+    }
+
+    .card-icon {
+      width: 62px;
+      height: 62px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .service-card:hover .card-icon {
+      background: var(--primary);
+      color: #fff;
+      transform: scale(1.1) rotate(-4deg);
+      box-shadow: 0 8px 20px rgba(43, 155, 189, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: var(--dark);
+    }
+
+    .card-text {
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    /* --- TIMELINE SECTION --- */
+    .timeline-wrapper {
+      position: relative;
+      margin-top: 50px;
+    }
+
+    .timeline-track {
+      position: absolute;
+      top: 35px;
+      left: 60px;
+      right: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #2b9bbd 0%, #45b7d9 50%, #2b9bbd 100%);
+      background-size: 200% 100%;
+      animation: trackShimmer 6s linear infinite;
+      z-index: 1;
+      border-radius: 4px;
+    }
+
+    @keyframes trackShimmer {
+      0% { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
+    }
+
+    .timeline-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .timeline-circle {
+      width: 70px;
+      height: 70px;
+      background: #fff;
+      border: 3px solid var(--primary);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(43, 155, 189, 0.18);
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .timeline-circle i {
+      font-size: 1.3rem;
+      color: var(--primary);
+      transition: color 0.3s;
+    }
+
+    .timeline-circle .step-num {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+    }
+
+    .timeline-item:hover .timeline-circle {
+      transform: scale(1.14);
+      background: var(--primary);
+      box-shadow: 0 8px 24px rgba(43, 155, 189, 0.35);
+    }
+
+    .timeline-item:hover .timeline-circle i {
+      color: #ffffff;
+    }
+
+    .timeline-content {
+      background: #fff;
+      padding: 22px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-top: 24px;
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+      height: 100%;
+      transition: var(--transition);
+    }
+
+    .timeline-item:hover .timeline-content {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(43, 155, 189, 0.35);
+      transform: translateY(-4px);
+    }
+
+    .timeline-item:hover .timeline-content {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(43, 155, 189, 0.35);
+    }
+
+    .timeline-title {
+      font-size: 1.05rem;
+      color: var(--dark);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
+      font-size: 0.88rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .timeline-micro {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* --- PARTENAIRES --- */
+    .partners-section {
+      padding: 60px 0;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .partners-title {
+      text-align: center;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+
+    .partners-flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .partner-logo {
+      height: 65px;
+      max-width: 220px;
+      object-fit: contain;
+      filter: grayscale(1) opacity(0.7);
+      transition: var(--transition);
+    }
+
+    .partner-logo:hover {
+      filter: grayscale(0) opacity(1);
+      transform: scale(1.05);
+    }
+
+    /* --- CTA BANNER (CORRECTION CONTRASTE & COULEUR) --- */
+    .cta-card {
+      background: radial-gradient(circle at top right, #1d4b64 0%, #0c1b26 100%);
+      border-radius: 28px;
+      padding: 80px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(12, 27, 38, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      left: 30%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+      filter: blur(40px);
+    }
+
+    .cta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 8px 20px;
+      border-radius: 30px;
+      color: #bae6fd !important;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Force le titre à être BLANC pur et lumineux */
+    .cta-card h2.cta-title,
+    .cta-title {
+      font-size: 2.85rem !important;
+      color: #ffffff !important;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 22px;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .cta-title .highlight {
+      color: #38bdf8 !important;
+      -webkit-text-fill-color: #38bdf8 !important;
+      display: inline-block;
+      text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+
+    .cta-text {
+      font-size: 1.2rem;
+      color: #f1f5f9 !important;
+      max-width: 720px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    /* --- FOOTER OFFICIEL ASTRA VACANCES --- */
+    .astra-footer {
+      background: #081622;
+      color: #94a3b8;
+      padding: 70px 0 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .astra-footer-top {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1.2fr;
+      gap: 40px;
+      padding-bottom: 50px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .astra-footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .astra-footer-logo {
+      height: 30px;
+      width: auto;
+      max-width: 150px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    .astra-footer-pitch {
+      font-size: 0.90rem;
+      line-height: 1.6;
+      color: #94a3b8;
+      max-width: 340px;
+    }
+
+    .astra-footer-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      padding: 5px 12px;
+      border-radius: 999px;
+      width: fit-content;
+      font-weight: 600;
+    }
+
+    .status-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+    }
+
+    .footer-heading {
+      color: #ffffff;
+      font-size: 0.96rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #38bdf8;
+      transform: translateX(3px);
+    }
+
+    .footer-contact-item {
+      font-size: 0.88rem;
+      color: #94a3b8;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-contact-item i {
+      color: var(--primary);
+      width: 16px;
+    }
+
+    .btn-footer-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 10px 18px;
+      background: rgba(43, 155, 189, 0.18);
+      border: 1px solid rgba(43, 155, 189, 0.4);
+      color: #e0f2fe !important;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      width: fit-content;
+    }
+
+    .btn-footer-cta:hover {
+      background: var(--primary);
+      color: #ffffff !important;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .astra-footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 28px;
+      font-size: 0.82rem;
+      color: #64748b;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .astra-footer-boubane-credit {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 6px 14px;
+      border-radius: 50px;
+      color: #cbd5e1;
+    }
+
+    .boubane-credit-shield {
+      color: #eef85a;
+      font-size: 0.76rem;
+    }
+
+    .boubane-credit-link {
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.18s ease;
+    }
+
+    .boubane-credit-link:hover {
+      color: #eef85a;
+      text-decoration: underline;
+    }
+
+    /* --- BADGE FLOTTANT VITRINE STUDIO BOUBANE --- */
+    .boubane-showcase-pill {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: rgba(12, 10, 8, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: pillFadeIn 0.5s ease-out;
+    }
+
+    .boubane-showcase-pill:hover {
+      transform: translateY(-2px);
+      border-color: rgba(238, 248, 90, 0.4);
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.45);
+    }
+
+    .boubane-pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      flex-shrink: 0;
+      animation: pulseDot 2s infinite;
+    }
+
+    .boubane-pill-content {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+
+    .boubane-pill-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #eef85a;
+    }
+
+    .boubane-pill-title {
+      font-size: 0.78rem;
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    .boubane-pill-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      background: #faf8f5;
+      color: #0c0a08 !important;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .boubane-pill-cta:hover {
+      background: #eef85a;
+      transform: scale(1.03);
+    }
+
+    .boubane-pill-close {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0 2px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s ease;
+    }
+
+    .boubane-pill-close:hover {
+      color: #ffffff;
+    }
+
+    @keyframes pillFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- ANIMATIONS SCROLL REVEAL FLUIDES --- */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-item.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.96) translateY(20px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-scale.is-revealed {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.08s; }
+    .delay-2 { transition-delay: 0.16s; }
+    .delay-3 { transition-delay: 0.24s; }
+    .delay-4 { transition-delay: 0.32s; }
+    .delay-5 { transition-delay: 0.40s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-item, .reveal-scale {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .hero-floating-card {
+        animation: none !important;
+      }
+      .timeline-track {
+        animation: none !important;
+      }
+    }
+
+    /* --- RESPONSIVE MOBILE --- */
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+      .hero-floating-card {
+        left: 20px;
+        bottom: 20px;
+      }
+      .timeline-track { display: none; }
+      .timeline-steps {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .timeline-item {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        gap: 16px;
+      }
+      .timeline-circle {
+        flex-shrink: 0;
+        width: 54px;
+        height: 54px;
+      }
+      .timeline-content { margin-top: 0; }
+      .hero-title { font-size: 2.3rem; }
+      .cta-title { font-size: 2.2rem !important; }
+      .astra-footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-section { padding: 24px 0 32px; }
+      .container { padding: 0 16px; }
+      .badge-tag { font-size: 0.78rem; padding: 6px 14px; margin-bottom: 14px; }
+      .hero-title { font-size: 1.62rem; margin-bottom: 12px; line-height: 1.25; }
+      .hero-subtitle { font-size: 0.92rem; margin-bottom: 20px; line-height: 1.55; }
+      .hero-img-container { height: 210px; border-radius: 16px; border-width: 4px; }
+      .hero-floating-card { bottom: 10px; left: 10px; padding: 10px 14px; gap: 10px; border-radius: 12px; }
+      .floating-icon { width: 36px; height: 36px; font-size: 1.05rem; }
+      .section-padding { padding: 42px 0; }
+      .section-title { font-size: 1.45rem; }
+      .cards-grid { grid-template-columns: 1fr; gap: 16px; }
+      .service-card { padding: 24px 18px; }
+      .card-icon { width: 48px; height: 48px; font-size: 1.3rem; margin-bottom: 16px; }
+      .timeline-wrapper { margin-top: 24px; }
+      .timeline-steps { gap: 14px; }
+      .timeline-content { padding: 16px 14px; }
+      .cta-card { padding: 36px 18px; border-radius: 20px; }
+      .cta-title { font-size: 1.6rem !important; }
+      .cta-text { font-size: 0.95rem; margin-bottom: 26px; }
+      .astra-footer-top { grid-template-columns: 1fr; gap: 30px; }
+      .astra-footer-bottom { flex-direction: column; text-align: center; gap: 14px; }
+      .boubane-showcase-pill {
+        bottom: 12px;
+        right: 12px;
+        left: 12px;
+        padding: 8px 12px;
+        gap: 8px;
+      }
+      .boubane-pill-title {
+        display: none;
+      }
+    }
+
+    /* --- NAVBAR SUPÉRIEURE ÉLITE ASTRA VACANCES --- */
+    .astra-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+      padding: 10px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    .astra-nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .astra-brand {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .astra-brand-logo {
+      height: 28px;
+      max-height: 28px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      display: block;
+      transition: opacity 0.2s ease;
+    }
+    .astra-brand-logo:hover {
+      opacity: 0.85;
+    }
+    .astra-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .astra-nav-link {
+      font-size: 0.80rem;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: color 0.18s ease;
+      white-space: nowrap;
+      position: relative;
+      padding: 4px 0;
+    }
+    .astra-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.2s ease;
+      border-radius: 2px;
+    }
+    .astra-nav-link:hover,
+    .astra-nav-link.active {
+      color: var(--primary);
+    }
+    .astra-nav-link.active::after,
+    .astra-nav-link:hover::after {
+      width: 100%;
+    }
+    .astra-nav-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .astra-nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--primary);
+      color: #FFFFFF !important;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(43, 155, 189, 0.25);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .astra-nav-cta:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    .astra-nav-burger {
+      display: none;
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: var(--dark);
+      font-size: 1.1rem;
+    }
+    .astra-mobile-dropdown {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 24px 16px;
+      background: rgba(255, 255, 255, 0.98);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      animation: astraMenuFade 0.2s ease-out;
+    }
+    .astra-mobile-dropdown.is-open {
+      display: flex;
+    }
+    .astra-mobile-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(241, 245, 249, 0.8);
+    }
+    .astra-mobile-link:hover {
+      color: var(--primary);
+    }
+    @keyframes astraMenuFade {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 520px) {
+      .astra-nav-links { display: none; }
+      .astra-nav-burger { display: block; }
+      .astra-brand-logo { height: 24px; max-width: 120px; }
+      .astra-nav-cta span { display: none; }
+      .astra-nav-cta { padding: 6px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVBAR ASTRA VACANCES ÉLITE -->
+  <header class="astra-navbar">
+    <div class="container astra-nav-container">
+      <a href="#" class="astra-brand" title="Astra Vacances — Accueil">
+        <img src="assets/astra-logo-full.png" alt="Astra Vacances" class="astra-brand-logo" height="28" style="height: 28px; width: auto; max-width: 140px; display: block;" onerror="this.onerror=null; this.src='https://astravacances.fr/wp-content/uploads/2024/11/Logo-V1-Texte-.png';">
+      </a>
+      <nav class="astra-nav-links">
+        <a href="#services" class="astra-nav-link active">Services</a>
+        <a href="#methode" class="astra-nav-link">Méthode</a>
+        <a href="#avantages" class="astra-nav-link">Avantages</a>
+        <a href="#partenaires" class="astra-nav-link">Partenaires</a>
+      </nav>
+      <div class="astra-nav-actions">
+        <a href="#contact" class="astra-nav-cta">
+          <i class="fas fa-phone-alt" style="font-size: 0.70rem;"></i> <span>Contact</span>
+        </a>
+        <button type="button" class="astra-nav-burger" onclick="toggleAstraMobileMenu()" aria-label="Menu de navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Menu déroulant pour mobile -->
+    <div class="astra-mobile-dropdown" id="astraMobileDropdown">
+      <a href="#services" class="astra-mobile-link" onclick="toggleAstraMobileMenu()">Services & Expertises</a>
+      <a href="#methode" class="astra-mobile-link" onclick="toggleAstraMobileMenu()">Méthode en 5 étapes</a>
+      <a href="#avantages" class="astra-mobile-link" onclick="toggleAstraMobileMenu()">Avantages Rentabilité</a>
+      <a href="#partenaires" class="astra-mobile-link" onclick="toggleAstraMobileMenu()">Partenaires de Confiance</a>
+      <a href="#contact" class="astra-mobile-link" style="color: var(--primary); font-weight: 700;" onclick="toggleAstraMobileMenu()">
+        <i class="fas fa-phone-alt" style="margin-right: 6px;"></i> Réserver un appel découverte
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text reveal-item">
+          <div class="badge-tag">
+            <i class="fas fa-shield-halved"></i> Astra Vacances • Partenaire d'Excellence
+          </div>
+          <h1 class="hero-title">
+            Audit & gestion opérationnelle pour <span>établissements touristiques</span>
+          </h1>
+          <p class="hero-subtitle">
+            Optimisez la rentabilité, sécurisez votre gestion au quotidien et retrouvez une vraie sérénité d’esprit grâce à notre accompagnement terrain sur-mesure.
+          </p>
+          <a href="https://astravacances.fr/contact/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <i class="fas fa-phone-alt"></i> Réserver un appel avec un expert
+          </a>
+        </div>
+
+        <div class="hero-visual reveal-scale delay-2">
+          <div class="hero-img-container">
+            <img src="https://astravacances.fr/wp-content/uploads/2026/09/20221_YellohVillage_DRONE_10.jpg" alt="Vue aérienne d'un établissement de tourisme" class="hero-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80';">
+          </div>
+          <div class="hero-floating-card">
+            <div class="floating-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+                <span class="live-dot-pulse"></span>
+                <strong style="display:block; font-size: 0.95rem; color: #091a28;">Performance Opérationnelle</strong>
+              </div>
+              <span style="font-size: 0.82rem; color: #64748b;">Pilotage & optimisation continue</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISES SECTION -->
+  <section class="section-padding" id="services">
+    <div class="container">
+      <div class="section-header reveal-item">
+        <h2 class="section-title">Nos expertises opérationnelles</h2>
+        <p class="section-subtitle">Un accompagnement complet et sur-mesure adapté aux défis concrets des hébergements touristiques.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="service-card reveal-item delay-1">
+          <div class="card-icon"><i class="fas fa-cogs"></i></div>
+          <h3 class="card-title">Accompagnement à la gestion</h3>
+          <p class="card-text">Planification stratégique, gestion agile des ressources, sélection des outils digitaux et indicateurs de performance (KPI) sur mesure.</p>
+        </div>
+
+        <div class="service-card reveal-item delay-2">
+          <div class="card-icon"><i class="fas fa-tasks"></i></div>
+          <h3 class="card-title">Gestion opérationnelle</h3>
+          <p class="card-text">Coordination globale, organisation administrative fluide, expérience client haut de gamme et rationalisation efficace des coûts.</p>
+        </div>
+
+        <div class="service-card reveal-item delay-3">
+          <div class="card-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
+          <h3 class="card-title">Audit & diagnostic</h3>
+          <p class="card-text">Audit complet sur site : examen des processus internes, évaluation digitale, critères qualité et recommandations d'actions concrètes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE SECTION -->
+  <section class="section-padding" id="methode" style="background: #ffffff; border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal-item">
+        <h2 class="section-title">Votre parcours avec Astra Vacances</h2>
+        <p class="section-subtitle">Une méthode éprouvée en 5 étapes pour faire franchir un cap à votre établissement.</p>
+      </div>
+
+      <div class="timeline-wrapper">
+        <div class="timeline-track"></div>
+        <div class="timeline-steps">
+          
+          <div class="timeline-item reveal-item delay-1">
+            <div class="timeline-circle">
+              <i class="fas fa-search"></i>
+              <span class="step-num">1</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Diagnostic</h4>
+              <p class="timeline-desc">Analyse complète à 360° pour déceler vos axes d'amélioration.</p>
+              <span class="timeline-micro">Solutions sur-mesure</span>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-item delay-2">
+            <div class="timeline-circle">
+              <i class="fas fa-file-lines"></i>
+              <span class="step-num">2</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Proposition</h4>
+              <p class="timeline-desc">Plan d’action clair, pragmatique et parfaitement réaliste.</p>
+              <span class="timeline-micro">Vision stratégique</span>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-item delay-3">
+            <div class="timeline-circle">
+              <i class="fas fa-sliders"></i>
+              <span class="step-num">3</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Implémentation</h4>
+              <p class="timeline-desc">Mise en œuvre terrain, structuration et coordination opérationnelle.</p>
+              <span class="timeline-micro">Accompagnement actif</span>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-item delay-4">
+            <div class="timeline-circle">
+              <i class="fas fa-arrows-rotate"></i>
+              <span class="step-num">4</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Suivi</h4>
+              <p class="timeline-desc">Ajustements continus, conseils proactifs et optimisation régulière.</p>
+              <span class="timeline-micro">Évolution permanente</span>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-item delay-5">
+            <div class="timeline-circle">
+              <i class="fas fa-chart-pie"></i>
+              <span class="step-num">5</span>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Reporting</h4>
+              <p class="timeline-desc">Bilans synthétiques, valorisation du ROI et projections de croissance.</p>
+              <span class="timeline-micro">Transparence totale</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVANTAGES SECTION -->
+  <section class="section-padding" id="avantages">
+    <div class="container">
+      <div class="section-header reveal-item">
+        <h2 class="section-title">Les avantages pour votre établissement</h2>
+        <p class="section-subtitle">Des résultats palpables dès les premières semaines de collaboration.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="service-card reveal-item delay-1">
+          <div class="card-icon"><i class="fas fa-clock"></i></div>
+          <h3 class="card-title">Gain de temps</h3>
+          <p class="card-text">Déléguez la complexité opérationnelle pour vous focaliser sur votre cœur de métier : l'accueil et la relation avec vos vacanciers.</p>
+        </div>
+
+        <div class="service-card reveal-item delay-2">
+          <div class="card-icon"><i class="fas fa-arrow-trend-up"></i></div>
+          <h3 class="card-title">Performance & Rentabilité</h3>
+          <p class="card-text">Optimisation tarifaire saisonnière, gestion maîtrisée des coûts et pilotage axé sur la maximisation de votre rentabilité nette.</p>
+        </div>
+
+        <div class="service-card reveal-item delay-3">
+          <div class="card-icon"><i class="fas fa-star"></i></div>
+          <h3 class="card-title">Satisfaction & Fidélisation</h3>
+          <p class="card-text">Une expérience client soignée et des avis positifs constants pour transformer chaque séjour en réservation pérenne.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS -->
+  <section class="partners-section" id="partenaires">
+    <div class="container">
+      <p class="partners-title reveal-item">Ils nous font confiance</p>
+      <div class="partners-flex reveal-scale delay-2">
+        <img src="https://astravacances.fr/wp-content/uploads/2025/07/logo.png" alt="Logo Astra Vacances" class="partner-logo">
+        <img src="https://astravacances.fr/wp-content/uploads/2025/07/GT_Capital_Rouge_-removebg-preview.png" alt="Logo GT Capital" class="partner-logo">
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="section-padding" id="contact">
+    <div class="container">
+      <div class="cta-card reveal-scale">
+        <div class="cta-badge">
+          <i class="fas fa-rocket"></i> Échangeons sur votre projet
+        </div>
+        <h2 class="cta-title">
+          Donnez un <span class="highlight">nouvel élan</span> à votre établissement
+        </h2>
+        <p class="cta-text">
+          Prenez rendez-vous pour un échange téléphonique d'audit avec un expert Astra Vacances. Analysons ensemble vos besoins et définissons votre plan d'action sans engagement.
+        </p>
+        <a href="https://astravacances.fr/contact/" target="_blank" rel="noopener noreferrer" class="btn btn-cta-white">
+          <i class="fas fa-phone-alt"></i> Réserver mon appel de découverte
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER OFFICIEL ASTRA VACANCES -->
+  <footer class="astra-footer">
+    <div class="container">
+      <div class="astra-footer-top">
+        <div class="astra-footer-brand">
+          <a href="#" class="astra-brand" title="Astra Vacances">
+            <img src="assets/astra-logo-full.png" alt="Astra Vacances" class="astra-footer-logo" height="30" onerror="this.onerror=null; this.src='https://astravacances.fr/wp-content/uploads/2024/11/Logo-V1-Texte-.png';">
+          </a>
+          <p class="astra-footer-pitch">
+            Audit, structuration et gestion opérationnelle sur-mesure pour hébergements touristiques, campings et domaines hôteliers. Maximisez vos marges et retrouvez une sérénité totale.
+          </p>
+          <div class="astra-footer-status">
+            <span class="status-indicator"></span> Disponibilité audits : Saison 2026 / 2027
+          </div>
+        </div>
+
+        <div class="astra-footer-col">
+          <h4 class="footer-heading">Expertises</h4>
+          <ul class="footer-links">
+            <li><a href="#services">Accompagnement de gestion</a></li>
+            <li><a href="#services">Gestion opérationnelle</a></li>
+            <li><a href="#services">Audit & diagnostic 360°</a></li>
+            <li><a href="#methode">Plan de rentabilité</a></li>
+          </ul>
+        </div>
+
+        <div class="astra-footer-col">
+          <h4 class="footer-heading">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#services">Nos Services</a></li>
+            <li><a href="#methode">Méthode en 5 étapes</a></li>
+            <li><a href="#avantages">Avantages Établissements</a></li>
+            <li><a href="#partenaires">Partenaires de confiance</a></li>
+          </ul>
+        </div>
+
+        <div class="astra-footer-col">
+          <h4 class="footer-heading">Contact & Devis</h4>
+          <p class="footer-contact-item"><i class="fas fa-envelope"></i> contact@astravacances.fr</p>
+          <p class="footer-contact-item"><i class="fas fa-location-dot"></i> France Métropolitaine</p>
+          <a href="#contact" class="btn-footer-cta">
+            <i class="fas fa-calendar-check"></i> Prendre rendez-vous
+          </a>
+        </div>
+      </div>
+
+      <div class="astra-footer-bottom">
+        <div class="astra-footer-copy">
+          &copy; 2026 Astra Vacances. Tous droits réservés.
+        </div>
+        <div class="astra-footer-boubane-credit">
+          <span class="boubane-credit-shield"><i class="fas fa-bolt"></i></span>
+          <span>Vitrine haute performance conçue sur-mesure par <a href="/" target="_top" class="boubane-credit-link">Studio Boubane</a> (Temps réel &lt; 0.3s)</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BADGE FLOTTANT VITRINE STUDIO BOUBANE (Démonstrateur) -->
+  <aside class="boubane-showcase-pill" id="boubanePill" aria-label="Informations sur la vitrine démonstrateur">
+    <div class="boubane-pill-dot"></div>
+    <div class="boubane-pill-content">
+      <span class="boubane-pill-tag">Vitrine Réalisée</span>
+      <span class="boubane-pill-title">Vitrine Pro Clé en Main • 100% Propriétaire</span>
+    </div>
+    <a href="/commander" class="boubane-pill-cta" target="_top">Commander mon site →</a>
+    <button type="button" class="boubane-pill-close" onclick="closeBoubanePill()" aria-label="Masquer le badge">&times;</button>
+  </aside>
+
+  <script>
+    // Menu mobile toggle
+    function toggleAstraMobileMenu() {
+      const dropdown = document.getElementById('astraMobileDropdown');
+      if (dropdown) dropdown.classList.toggle('is-open');
+    }
+
+    // Gestion du badge démonstrateur Boubane
+    function closeBoubanePill() {
+      const pill = document.getElementById('boubanePill');
+      if (pill) {
+        pill.style.opacity = '0';
+        pill.style.transform = 'translateY(10px)';
+        setTimeout(() => { pill.style.display = 'none'; }, 300);
+      }
+    }
+
+    // Masquage automatique du pill si chargé dans une petite iframe (ex: bureau virtual de la Hero)
+    if (window.self !== window.top) {
+      const isSmallIframe = window.innerWidth < 640 || window.innerHeight < 460;
+      if (isSmallIframe) {
+        const pill = document.getElementById('boubanePill');
+        if (pill) pill.style.display = 'none';
+      }
+    }
+
+    // Scrollspy automatique pour la navbar
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.astra-nav-link');
+    
+    function updateScrollspy() {
+      let current = '';
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 140;
+        const sectionHeight = section.offsetHeight;
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (current && link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    }
+    window.addEventListener('scroll', updateScrollspy, { passive: true });
+
+    // Scroll Reveal ultra-léger et fluide avec IntersectionObserver
+    document.addEventListener('DOMContentLoaded', () => {
+      const revealElements = document.querySelectorAll('.reveal-item, .reveal-scale');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -30px 0px'
+        });
+        revealElements.forEach(el => observer.observe(el));
+      } else {
+        revealElements.forEach(el => el.classList.add('is-revealed'));
+      }
+    });
+  </script>
+</body>
+</html>

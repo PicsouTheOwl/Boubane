@@ -1,197 +1,16 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": "npm run build",
+  "outputDirectory": "out",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
     {
-      "src": "index.html",
-      "use": "@vercel/static"
+      "source": "/blog/(.*)",
+      "destination": "/blog"
     },
     {
-      "src": "blog.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "dashboard.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "404.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "commander.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "hebergement.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "hebergement-succes.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "mentions-legales.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "creation-site-internet-segre.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "showcase-astra.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "showcase-votre-site.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "showcase-achille.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "showcase-valmy.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "site.webmanifest",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "site/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "style.css",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "komponent.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "tracker.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "sitemap.xml",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "robots.txt",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "assets/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "showcase/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.png",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "headers": {
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "SAMEORIGIN",
-        "X-XSS-Protection": "1; mode=block",
-        "Referrer-Policy": "strict-origin-when-cross-origin"
-      },
-      "continue": true
-    },
-    {
-      "src": "/blog",
-      "dest": "/blog.html"
-    },
-    {
-      "src": "/blog/(.*)",
-      "dest": "/blog.html"
-    },
-    {
-      "src": "/dashboard",
-      "dest": "/dashboard.html"
-    },
-    {
-      "src": "/commander",
-      "dest": "/commander.html"
-    },
-    {
-      "src": "/hebergement",
-      "dest": "/hebergement.html"
-    },
-    {
-      "src": "/hebergement-succes",
-      "dest": "/hebergement-succes.html"
-    },
-    {
-      "src": "/site.webmanifest",
-      "dest": "/site.webmanifest"
-    },
-    {
-      "src": "/mentions-legales",
-      "dest": "/mentions-legales.html"
-    },
-    {
-      "src": "/creation-site-internet-segre",
-      "dest": "/creation-site-internet-segre.html"
-    },
-    {
-      "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/robots.txt"
-    },
-    {
-      "src": "/showcase-astra.html",
-      "dest": "/showcase-astra.html"
-    },
-    {
-      "src": "/showcase-votre-site.html",
-      "dest": "/showcase-votre-site.html"
-    },
-    {
-      "src": "/showcase-achille.html",
-      "dest": "/showcase-achille.html"
-    },
-    {
-      "src": "/showcase-valmy.html",
-      "dest": "/showcase-valmy.html"
-    },
-    {
-      "src": "/showcase/astra/?(.*)",
-      "dest": "/showcase/astra/index.html"
-    },
-    {
-      "src": "/site",
-      "dest": "/site/index.html"
-    },
-    {
-      "src": "/site/(.*)",
-      "dest": "/site/$1"
-    },
-    {
-      "src": "/showcase/(.*)",
-      "dest": "/showcase/$1"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "status": 404,
-      "dest": "/404.html"
+      "source": "/showcase/astra/(.*)",
+      "destination": "/showcase/astra/index.html"
     }
   ],
   "headers": [
@@ -213,15 +32,6 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    },
-    {
-      "source": "/(style.css|komponent.js|tracker.js)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },
