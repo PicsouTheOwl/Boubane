@@ -11,6 +11,7 @@ import { ATELIER_EASE, ATELIER_SNAPPY_SPRING } from "@/lib/utils";
 
 interface Article {
   id: string;
+  index: string;
   category: "Modèle" | "Souveraineté" | "Performance" | "Territoire";
   readTime: string;
   title: string;
@@ -21,6 +22,7 @@ interface Article {
 const ARTICLES: Article[] = [
   {
     id: "cout-agence",
+    index: "01",
     category: "Modèle",
     readTime: "4 min",
     title: "Pourquoi un site vitrine facturé 4 500 € en agence n'a plus aucun sens",
@@ -39,6 +41,7 @@ const ARTICLES: Article[] = [
   },
   {
     id: "souverainete-numerique",
+    index: "02",
     category: "Souveraineté",
     readTime: "3 min",
     title: "L'impôt caché des abonnements captifs : reprenez votre code source",
@@ -57,6 +60,7 @@ const ARTICLES: Article[] = [
   },
   {
     id: "vitesse-3-secondes",
+    index: "03",
     category: "Performance",
     readTime: "5 min",
     title: "La règle des 0.3 secondes : pourquoi la vitesse multiplie vos demandes de devis",
@@ -75,6 +79,7 @@ const ARTICLES: Article[] = [
   },
   {
     id: "seo-segre-haut-anjou",
+    index: "04",
     category: "Territoire",
     readTime: "4 min",
     title: "Dominer les recherches locales à Segré-en-Anjou Bleu et dans le Haut-Anjou",
@@ -109,6 +114,9 @@ export default function BlogPage() {
     return matchCat && matchQuery;
   });
 
+  const featured = filtered[0];
+  const rest = filtered.slice(1);
+
   return (
     <>
       <SiteHeader isHome={false} />
@@ -117,17 +125,18 @@ export default function BlogPage() {
         <div className="mx-auto max-w-[1160px] px-6">
           <AtelierReveal className="max-w-3xl mb-12">
             <EyebrowBadge index="ÉDITION">Journal &amp; Guides Stratégiques</EyebrowBadge>
-            <h1 className="mt-5 text-[clamp(2.2rem,5vw,3.6rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-              Architecture web, tarifs &amp; souveraineté<span className="text-[#ED5B04]">.</span>
+            <h1 className="mt-6 text-[clamp(2.3rem,5vw,3.9rem)] font-bold tracking-[-0.045em] leading-[1.03] text-[#0C0A08]">
+              Architecture web,{" "}
+              <span className="text-[#0C0A08]/40 font-normal">tarifs &amp; souveraineté.</span>
             </h1>
-            <p className="mt-4 text-[1.05rem] leading-[1.6] text-[#57534E] max-w-[54ch]">
+            <p className="mt-4 text-[1.02rem] leading-[1.6] text-[#57534E] max-w-[54ch]">
               Nos analyses sans langue de bois pour comprendre ce qui distingue un actif numérique
               durable d&apos;une dépense d&apos;agence inutile.
             </p>
           </AtelierReveal>
 
           {/* Barre de Filtres Tactile */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-[#0C0A08]/[0.08]">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12 pb-6 border-b border-[#0C0A08]/[0.08]">
             <div className="flex flex-wrap items-center gap-1.5">
               {CATEGORIES.map((cat) => {
                 const active = selectedCat === cat;
@@ -165,41 +174,78 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {/* Grille Éditoriale Magazine */}
           {filtered.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filtered.map((art, i) => (
-                <AtelierReveal key={art.id} delay={i * 0.05} className="flex">
-                  <SpecularPlate className="w-full p-8 flex flex-col justify-between bg-white">
-                    <div>
-                      <div className="flex items-center justify-between gap-3 pb-4 border-b border-[#0C0A08]/[0.07]">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.08] px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-[#ED5B04]">
-                          {art.category}
-                        </span>
-                        <span className="font-mono text-[11px] text-[#0C0A08]/45">
-                          LECTURE · {art.readTime}
-                        </span>
-                      </div>
-                      <h2 className="mt-5 text-xl sm:text-2xl font-bold tracking-[-0.025em] leading-[1.2] text-[#0C0A08]">
-                        {art.title}
-                      </h2>
-                      <p className="mt-3 text-sm leading-relaxed text-[#57534E]">{art.excerpt}</p>
+            <div className="space-y-12">
+              {/* Dossier Principal en Vedette (Monolithe Sombre) */}
+              {featured && (
+                <AtelierReveal>
+                  <SpecularPlate dark crosshairs className="p-8 sm:p-11">
+                    <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-white/[0.08]">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04] font-semibold">
+                        DOSSIER À LA UNE · {featured.category}
+                      </span>
+                      <span className="font-mono text-[11px] text-white/45">
+                        LECTURE · {featured.readTime}
+                      </span>
                     </div>
 
-                    <div className="mt-7 pt-5 border-t border-[#0C0A08]/[0.06] flex items-center justify-between">
-                      <button
-                        type="button"
-                        onClick={() => setOpenArticle(art)}
-                        className="inline-flex items-center gap-2 text-sm font-semibold text-[#0C0A08] hover:text-[#ED5B04] transition-colors cursor-pointer"
-                      >
-                        <BookOpen className="w-4 h-4" />
-                        <span>Lire l&apos;article complet</span>
-                      </button>
-                      <ArrowRight className="w-4 h-4 text-[#0C0A08]/35" />
+                    <div className="mt-7 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+                      <div className="lg:col-span-8">
+                        <h2 className="text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white">
+                          {featured.title}
+                        </h2>
+                        <p className="mt-4 text-base text-white/65 leading-relaxed max-w-[58ch]">
+                          {featured.excerpt}
+                        </p>
+                      </div>
+                      <div className="lg:col-span-4 flex lg:justify-end">
+                        <button
+                          type="button"
+                          onClick={() => setOpenArticle(featured)}
+                          className="inline-flex items-center gap-2.5 rounded-full bg-[#FAF8F5] text-[#0C0A08] px-6 py-3.5 text-sm font-semibold hover:bg-white active:scale-[0.97] transition-all cursor-pointer"
+                        >
+                          <BookOpen className="w-4 h-4" />
+                          <span>Lire l&apos;analyse</span>
+                        </button>
+                      </div>
                     </div>
                   </SpecularPlate>
                 </AtelierReveal>
-              ))}
+              )}
+
+              {/* Liste Éditoriale à Filets Fins pour les autres dossiers */}
+              {rest.length > 0 && (
+                <div className="divide-y divide-[#0C0A08]/[0.09] border-y border-[#0C0A08]/[0.09]">
+                  {rest.map((art) => (
+                    <div
+                      key={art.id}
+                      onClick={() => setOpenArticle(art)}
+                      className="py-8 grid grid-cols-1 md:grid-cols-12 gap-5 items-center group cursor-pointer"
+                    >
+                      <div className="md:col-span-2 flex items-center gap-3 font-mono text-xs">
+                        <span className="text-[#ED5B04] font-semibold">{art.index}</span>
+                        <span className="text-[#0C0A08]/45 uppercase tracking-[0.08em]">
+                          {art.category}
+                        </span>
+                      </div>
+
+                      <div className="md:col-span-8">
+                        <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.025em] text-[#0C0A08] group-hover:text-[#ED5B04] transition-colors">
+                          {art.title}
+                        </h3>
+                        <p className="mt-2 text-sm text-[#57534E] leading-relaxed max-w-[60ch]">
+                          {art.excerpt}
+                        </p>
+                      </div>
+
+                      <div className="md:col-span-2 flex md:justify-end items-center gap-2 font-mono text-xs text-[#0C0A08]/60 group-hover:text-[#0C0A08]">
+                        <span>{art.readTime}</span>
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <div className="rounded-2xl border border-[#0C0A08]/[0.08] bg-white p-12 text-center text-[#57534E]">
@@ -209,27 +255,27 @@ export default function BlogPage() {
 
           {/* CTA Éditorial Final */}
           <AtelierReveal className="mt-16">
-            <SpecularPlate dark crosshairs className="p-8 sm:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="rounded-[24px] bg-[#F3EFE7] border border-[#0C0A08]/[0.08] p-8 sm:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div>
-                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04]">
+                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04] font-semibold">
                   PASSER À L&apos;ACTION
                 </span>
-                <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-white">
+                <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[#0C0A08]">
                   Prêt à lancer votre propre vitrine à 0 € ?
                 </h3>
-                <p className="mt-2 text-sm text-white/65 max-w-[48ch]">
+                <p className="mt-2 text-sm text-[#57534E] max-w-[48ch]">
                   Réservez votre créneau en 2 minutes et recevez votre première maquette sous 5
                   jours ouvrés.
                 </p>
               </div>
               <Link
                 href="/commander"
-                className="inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all shrink-0"
+                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#1E1B18] active:scale-[0.97] transition-all shrink-0"
               >
                 <span>Commander mon site (0 €)</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
-            </SpecularPlate>
+            </div>
           </AtelierReveal>
         </div>
       </main>

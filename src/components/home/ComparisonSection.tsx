@@ -2,160 +2,189 @@
 
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { Check, X } from "lucide-react";
-import { AtelierReveal, EyebrowBadge, SpecularPlate } from "@/components/AtelierPrimitives";
-import { ATELIER_SPRING } from "@/lib/utils";
+import { Check, Minus } from "lucide-react";
+import { AtelierReveal, EyebrowBadge } from "@/components/AtelierPrimitives";
+import { ATELIER_SNAPPY_SPRING } from "@/lib/utils";
 
-const LEGACY_ITEMS = [
-  { label: "Honoraires de conception", value: "3 500 € à 6 000 €", note: "70% pour payer commerciaux & locaux" },
-  { label: "Architecture logicielle", value: "WordPress lourd (~4s)", note: "Extensions fragiles et failles de sécurité" },
-  { label: "Contrat & rétention", value: "150 € / mois captif", note: "Code verrouillé chez le prestataire" },
-  { label: "Interlocuteur", value: "Commercial / sous-traitance", note: "Perte d'information et délais à rallonge" },
+const ROWS = [
+  {
+    index: "01",
+    criterion: "Honoraires de création",
+    legacy: "3 500 € à 6 000 €",
+    legacyNote: "Acompte 40 % à la signature",
+    boubane: "0 € ferme",
+    boubaneNote: "100 % offert à nos frais",
+  },
+  {
+    index: "02",
+    criterion: "Architecture & Vitesse",
+    legacy: "WordPress lourd (~4s)",
+    legacyNote: "Thèmes génériques & extensions lentes",
+    boubane: "Code pur (< 0.3s)",
+    boubaneNote: "Chargement Edge instantané",
+  },
+  {
+    index: "03",
+    criterion: "Frais mensuels imposés",
+    legacy: "120 € – 180 € / mois",
+    legacyNote: "Contrat de maintenance captif",
+    boubane: "~5 € / mois direct",
+    boubaneNote: "Ou 15 € / an clé en main",
+  },
+  {
+    index: "04",
+    criterion: "Propriété du code & domaine",
+    legacy: "Verrouillée chez l'agence",
+    legacyNote: "Perte du site si résiliation",
+    boubane: "100 % à votre nom",
+    boubaneNote: "Dépôt GitHub privé transféré",
+  },
+  {
+    index: "05",
+    criterion: "Interlocuteur unique",
+    legacy: "Commercial + sous-traitance",
+    legacyNote: "Intermédiaires & tickets d'attente",
+    boubane: "Artisan développeur",
+    boubaneNote: "Ligne directe avec Léo Saillour",
+  },
 ];
 
-const BOUBANE_ITEMS = [
-  { label: "Honoraires de conception", value: "0 € ferme", note: "100% du design et du code offerts" },
-  { label: "Architecture logicielle", value: "Code sur-mesure (< 0.3s)", note: "Score performance 99/100 natif" },
-  { label: "Propriété & hébergement", value: "~5 € / mois direct", note: "Nom de domaine & dépôt GitHub à votre nom" },
-  { label: "Interlocuteur", value: "Artisan développeur direct", note: "Échange sans filtre de A à Z" },
-];
+const HORIZONS = [
+  { years: 1, label: "Sur 1 an", legacyTotal: "6 300 €", boubaneTotal: "~60 €" },
+  { years: 3, label: "Sur 3 ans", legacyTotal: "9 900 €", boubaneTotal: "~180 €" },
+  { years: 5, label: "Sur 5 ans", legacyTotal: "13 500 €", boubaneTotal: "~300 €" },
+] as const;
 
 export function ComparisonSection() {
-  const [legacyHovered, setLegacyHovered] = useState(false);
+  const [hoveredRow, setHoveredRow] = useState<string | null>(ROWS[0].index);
+  const [horizonIdx, setHorizonIdx] = useState(1);
+  const currentHorizon = HORIZONS[horizonIdx];
 
   return (
     <section
       id="comparatif"
-      className="relative py-24 md:py-32 bg-[#F5F2EC] border-y border-[#0C0A08]/[0.06]"
+      className="relative py-28 md:py-36 bg-[#F3EFE7] border-t border-[#0C0A08]/[0.07]"
     >
       <div className="mx-auto max-w-[1200px] px-6">
-        <AtelierReveal className="max-w-3xl mb-14 md:mb-16">
-          <EyebrowBadge index="02">Le Grand Face-à-Face</EyebrowBadge>
-          <h2 className="mt-5 text-[clamp(2.1rem,4.5vw,3.5rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-            Agence classique <span className="text-[#0C0A08]/35 font-normal">vs</span> Atelier Boubane
-            <span className="text-[#ED5B04]">.</span>
-          </h2>
-          <p className="mt-4 text-[clamp(1rem,1.25vw,1.16rem)] leading-[1.6] text-[#57534E] max-w-[54ch]">
-            Deux philosophies diamétralement opposées. D&apos;un côté l&apos;inertie d&apos;un
-            modèle facturant ses propres coûts de structure ; de l&apos;autre, le circuit court pur.
-          </p>
+        <AtelierReveal className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14 md:mb-16">
+          <div className="max-w-2xl">
+            <EyebrowBadge index="02">Le Grand Face-à-Face</EyebrowBadge>
+            <h2 className="mt-6 text-[clamp(2.2rem,4.6vw,3.6rem)] font-bold tracking-[-0.045em] leading-[1.03] text-[#0C0A08]">
+              Agence classique{" "}
+              <span className="text-[#0C0A08]/35 font-normal">contre</span> Atelier Boubane
+            </h2>
+          </div>
+
+          {/* Projection Financière Tactile sans slider générique */}
+          <div className="flex flex-col sm:items-end gap-3">
+            <div
+              role="tablist"
+              aria-label="Durée de comparaison"
+              className="inline-flex p-1 rounded-full bg-white/80 border border-[#0C0A08]/[0.08] shadow-xs"
+            >
+              {HORIZONS.map((h, i) => {
+                const active = horizonIdx === i;
+                return (
+                  <button
+                    key={h.years}
+                    role="tab"
+                    type="button"
+                    aria-selected={active}
+                    onClick={() => setHorizonIdx(i)}
+                    className={`relative px-4 py-1.5 rounded-full font-mono text-[11px] uppercase tracking-[0.08em] transition-colors cursor-pointer ${
+                      active ? "text-white" : "text-[#0C0A08]/60 hover:text-[#0C0A08]"
+                    }`}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId="horizonPill"
+                        transition={ATELIER_SNAPPY_SPRING}
+                        className="absolute inset-0 rounded-full bg-[#0C0A08]"
+                      />
+                    )}
+                    <span className="relative z-10">{h.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="flex items-baseline gap-4 font-mono text-xs tabular-nums">
+              <span className="text-[#0C0A08]/45 line-through">
+                Agence : {currentHorizon.legacyTotal}
+              </span>
+              <span className="text-[#ED5B04] font-bold">
+                Boubane : {currentHorizon.boubaneTotal} d&apos;hébergement
+              </span>
+            </div>
+          </div>
         </AtelierReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Gauche : L'Agence Classique (Facture Jaunie / Tampon Obsolète) */}
-          <AtelierReveal delay={0.05} className="lg:col-span-6">
-            <motion.div
-              onMouseEnter={() => setLegacyHovered(true)}
-              onMouseLeave={() => setLegacyHovered(false)}
-              whileHover={{ rotate: -0.4 }}
-              transition={ATELIER_SPRING}
-              className="relative rounded-[24px] bg-[#EFEAE0] border border-[#0C0A08]/[0.09] p-8 md:p-10 -rotate-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_12px_30px_-14px_rgba(12,10,8,0.12)]"
-            >
-              {/* Tampon mécanique rouge/gris qui s'abat au survol */}
-              <motion.div
-                initial={false}
-                animate={{
-                  opacity: legacyHovered ? 1 : 0.25,
-                  scale: legacyHovered ? 1 : 1.08,
-                  rotate: -11,
-                }}
-                transition={ATELIER_SPRING}
-                className="pointer-events-none absolute top-7 right-7 rounded-md border-2 border-[#B91C1C]/70 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B91C1C]/80 select-none"
-              >
-                MODÈLE OBSOLÈTE
-              </motion.div>
-
-              <div className="pb-5 border-b border-[#0C0A08]/[0.09]">
-                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/45">
-                  MODÈLE TRADITIONNEL
-                </span>
-                <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-[#0C0A08]/80">
-                  L&apos;Agence Web Classique
-                </h3>
+        {/* Feuille de Spécification Suisse à Filets Fins (Zero Box Clutter) */}
+        <AtelierReveal delay={0.08}>
+          <div className="rounded-[26px] bg-white border border-[#0C0A08]/[0.08] shadow-[0_24px_60px_-20px_rgba(12,10,8,0.08),inset_0_1px_0_rgba(255,255,255,1)] overflow-hidden">
+            {/* En-tête Tableau */}
+            <div className="hidden md:grid md:grid-cols-12 border-b border-[#0C0A08]/[0.08] bg-[#FAF8F5]/70 px-8 py-5 font-mono text-[11px] uppercase tracking-[0.12em]">
+              <div className="col-span-4 text-[#0C0A08]/45">Critère Technique</div>
+              <div className="col-span-4 text-[#0C0A08]/45">Modèle Agence Classique</div>
+              <div className="col-span-4 text-[#ED5B04] font-semibold flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ED5B04]" />
+                <span>Atelier Boubane · Circuit Court</span>
               </div>
-
-              <div className="mt-6 space-y-5">
-                {LEGACY_ITEMS.map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex items-start gap-3.5 pb-4 border-b border-dashed border-[#0C0A08]/[0.08] last:border-none last:pb-0"
-                  >
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#0C0A08]/[0.06] text-[#0C0A08]/45">
-                      <X className="w-3 h-3" strokeWidth={2} />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-baseline justify-between gap-2">
-                        <span className="text-xs font-mono uppercase tracking-[0.06em] text-[#0C0A08]/50">
-                          {item.label}
-                        </span>
-                        <span className="font-mono text-sm font-medium text-[#0C0A08]/65 line-through decoration-[#B91C1C]/60">
-                          {item.value}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-sm text-[#57534E]/80">{item.note}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </AtelierReveal>
-
-          {/* Droite : L'Atelier Boubane (Écrin Pur Surélevé avec liseré conique subtil) */}
-          <AtelierReveal delay={0.14} className="lg:col-span-6">
-            <div className="relative rounded-[26px] p-[1.5px] overflow-hidden lg:-translate-y-3 shadow-[0_32px_70px_-16px_rgba(12,10,8,0.14),0_8px_20px_-6px_rgba(237,91,4,0.12)]">
-              {/* Bordure lumineuse rotative haute facture */}
-              <div
-                aria-hidden="true"
-                className="atelier-rim-conic pointer-events-none absolute -inset-[60%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_280deg,rgba(237,91,4,0.55)_325deg,transparent_360deg)]"
-              />
-
-              <SpecularPlate className="relative rounded-[24.5px] p-8 md:p-10 bg-white border-none shadow-none">
-                <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-[#0C0A08]/[0.08]">
-                  <div>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04] font-semibold">
-                      ATELIER BOUBANE
-                    </span>
-                    <h3 className="mt-1.5 text-xl font-bold tracking-[-0.025em] text-[#0C0A08]">
-                      L&apos;Ingénierie en Circuit Court
-                    </h3>
-                  </div>
-
-                  <span className="inline-flex items-center gap-2 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.08] px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[#0C0A08]">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ED5B04] opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ED5B04]" />
-                    </span>
-                    Circuit Court
-                  </span>
-                </div>
-
-                <div className="mt-6 space-y-5">
-                  {BOUBANE_ITEMS.map((item) => (
-                    <div
-                      key={item.label}
-                      className="flex items-start gap-3.5 pb-4 border-b border-[#0C0A08]/[0.06] last:border-none last:pb-0"
-                    >
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ED5B04]/10 text-[#ED5B04]">
-                        <Check className="w-3 h-3" strokeWidth={2.4} />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-baseline justify-between gap-2">
-                          <span className="text-xs font-mono uppercase tracking-[0.06em] text-[#0C0A08]/55">
-                            {item.label}
-                          </span>
-                          <span className="font-mono text-sm font-bold text-[#0C0A08] tabular-nums">
-                            {item.value}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-sm text-[#57534E]">{item.note}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </SpecularPlate>
             </div>
-          </AtelierReveal>
-        </div>
+
+            {/* Lignes avec faisceau de sélection fluide layoutId */}
+            <div className="divide-y divide-[#0C0A08]/[0.07]">
+              {ROWS.map((row) => {
+                const isActive = hoveredRow === row.index;
+                return (
+                  <div
+                    key={row.index}
+                    onMouseEnter={() => setHoveredRow(row.index)}
+                    className="relative grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 px-6 sm:px-8 py-6 items-center transition-colors"
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="compareRowHighlight"
+                        transition={ATELIER_SNAPPY_SPRING}
+                        className="pointer-events-none absolute inset-0 bg-[#FAF8F5]/90 border-l-2 border-[#ED5B04]"
+                      />
+                    )}
+
+                    <div className="relative z-10 md:col-span-4 flex items-baseline gap-3">
+                      <span className="font-mono text-[11px] text-[#0C0A08]/35 tabular-nums">
+                        {row.index}
+                      </span>
+                      <span className="font-semibold text-[#0C0A08] tracking-[-0.015em]">
+                        {row.criterion}
+                      </span>
+                    </div>
+
+                    <div className="relative z-10 md:col-span-4 flex items-start gap-2.5">
+                      <Minus className="w-4 h-4 text-[#0C0A08]/30 mt-0.5 shrink-0" />
+                      <div>
+                        <div className="font-mono text-sm text-[#0C0A08]/50 line-through">
+                          {row.legacy}
+                        </div>
+                        <div className="text-xs text-[#57534E]/75 mt-0.5">{row.legacyNote}</div>
+                      </div>
+                    </div>
+
+                    <div className="relative z-10 md:col-span-4 flex items-start gap-2.5">
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ED5B04]/10 text-[#ED5B04]">
+                        <Check className="w-3 h-3" strokeWidth={2.5} />
+                      </span>
+                      <div>
+                        <div className="font-mono text-sm font-bold text-[#0C0A08] tabular-nums">
+                          {row.boubane}
+                        </div>
+                        <div className="text-xs text-[#57534E] mt-0.5">{row.boubaneNote}</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </AtelierReveal>
       </div>
     </section>
   );

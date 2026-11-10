@@ -8,18 +8,22 @@ import { ATELIER_EASE } from "@/lib/utils";
 
 const FAQ_ITEMS = [
   {
+    index: "01",
     q: "Le site est-il réellement 100% gratuit en création ?",
     a: "Oui, exactement 0 €. Vous ne réglez aucun honoraire de conception, de design ou de développement. Vos seuls frais sont techniques (votre nom de domaine ~10 €/an et votre hébergement habituel ~5 €/mois), réglés directement et en toute transparence auprès de votre hébergeur (IONOS, OVH, Hostinger, Vercel...).",
   },
   {
+    index: "02",
     q: "Y a-t-il un engagement ou un abonnement caché ?",
     a: "Aucun. Vous n'êtes engagé sur aucune durée. Vous êtes le seul propriétaire légal du nom de domaine et du code source. Vous pouvez migrer, modifier ou faire évoluer votre site à tout moment en toute indépendance.",
   },
   {
+    index: "03",
     q: "Quel est le délai de livraison ?",
     a: "Dès réception de vos éléments (textes, photos ou préférences d'activité), votre site est conçu, validé avec vous et mis en ligne sous 5 à 7 jours ouvrés.",
   },
   {
+    index: "04",
     q: "Que se passe-t-il si le résultat ne me convient pas ?",
     a: "Nous faisons les ajustements nécessaires ensemble. Si le résultat ne vous satisfait toujours pas, vous êtes entièrement libre d'arrêter le projet sans débourser un centime. Le risque est à 100% de mon côté.",
   },
@@ -29,45 +33,47 @@ export function FaqSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section
-      id="faq"
-      className="relative py-24 md:py-32 bg-[#F5F2EC] border-t border-[#0C0A08]/[0.06]"
-    >
-      <div className="mx-auto max-w-[840px] px-6">
-        <AtelierReveal className="text-center mb-12 md:mb-14">
-          <div className="flex justify-center">
-            <EyebrowBadge index="06">Questions Fréquentes</EyebrowBadge>
-          </div>
-          <h2 className="mt-5 text-[clamp(2rem,4.2vw,3.1rem)] font-bold tracking-[-0.04em] leading-[1.08] text-[#0C0A08]">
-            Tout comprendre en toute transparence<span className="text-[#ED5B04]">.</span>
-          </h2>
-          <p className="mt-3 text-[1rem] text-[#57534E]">
-            Tout ce que vous devez savoir avant de commander votre vitrine offerte. Zéro frais
-            d&apos;agence, zéro engagement.
-          </p>
-        </AtelierReveal>
+    <section id="faq" className="relative py-28 md:py-36 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.06]">
+      <div className="mx-auto max-w-[1120px] px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <AtelierReveal className="lg:col-span-4">
+            <EyebrowBadge index="06">Transparence</EyebrowBadge>
+            <h2 className="mt-6 text-[clamp(2rem,3.8vw,3rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
+              Questions{" "}
+              <span className="text-[#0C0A08]/40 font-normal">fréquentes.</span>
+            </h2>
+            <p className="mt-4 text-[0.96rem] leading-[1.6] text-[#57534E]">
+              Tout ce qu&apos;il faut savoir avant de réserver votre vitrine offerte.
+            </p>
+          </AtelierReveal>
 
-        <div className="space-y-3">
-          {FAQ_ITEMS.map((item, idx) => {
-            const isOpen = openIdx === idx;
-            return (
-              <AtelierReveal key={item.q} delay={idx * 0.04}>
-                <div className="rounded-[20px] bg-white border border-[#0C0A08]/[0.08] overflow-hidden shadow-[0_2px_8px_rgba(12,10,8,0.025)] transition-colors hover:border-[#0C0A08]/[0.16]">
+          {/* Accordéon Éditorial Ouvert à Filets Fins */}
+          <div className="lg:col-span-8 divide-y divide-[#0C0A08]/[0.09] border-y border-[#0C0A08]/[0.09]">
+            {FAQ_ITEMS.map((item, idx) => {
+              const isOpen = openIdx === idx;
+              return (
+                <div key={item.q}>
                   <button
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => setOpenIdx(isOpen ? null : idx)}
-                    className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left cursor-pointer active:scale-[0.995] transition-transform"
+                    className="w-full py-6 flex items-center justify-between gap-6 text-left cursor-pointer group active:scale-[0.996] transition-transform"
                   >
-                    <span className="font-semibold text-[1.02rem] tracking-[-0.015em] text-[#0C0A08]">
-                      {item.q}
-                    </span>
+                    <div className="flex items-baseline gap-4">
+                      <span className="font-mono text-xs text-[#ED5B04] font-semibold tabular-nums">
+                        {item.index}
+                      </span>
+                      <span className="font-semibold text-[1.06rem] tracking-[-0.02em] text-[#0C0A08] group-hover:text-[#ED5B04] transition-colors">
+                        {item.q}
+                      </span>
+                    </div>
+
                     <motion.span
                       animate={{ rotate: isOpen ? 45 : 0 }}
                       transition={{ duration: 0.22, ease: ATELIER_EASE }}
-                      className="w-7 h-7 shrink-0 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.08] flex items-center justify-center text-[#0C0A08]"
+                      className="w-7 h-7 shrink-0 rounded-full border border-[#0C0A08]/[0.12] flex items-center justify-center text-[#0C0A08]"
                     >
-                      <Plus className="w-3.5 h-3.5" strokeWidth={2} />
+                      <Plus className="w-3.5 h-3.5" strokeWidth={1.8} />
                     </motion.span>
                   </button>
 
@@ -80,16 +86,16 @@ export function FaqSection() {
                         transition={{ duration: 0.28, ease: ATELIER_EASE }}
                         className="overflow-hidden"
                       >
-                        <div className="px-6 pb-6 pt-1 text-[0.95rem] leading-[1.68] text-[#57534E] border-t border-[#0C0A08]/[0.05]">
+                        <div className="pb-7 pl-8 pr-6 text-[0.96rem] leading-[1.68] text-[#57534E] max-w-[62ch]">
                           {item.a}
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
-              </AtelierReveal>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

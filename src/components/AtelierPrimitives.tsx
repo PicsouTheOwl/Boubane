@@ -22,7 +22,7 @@ export function Crosshair({ className }: { className?: string }) {
 }
 
 /**
- * Precision editorial eyebrow pill with restrained hairline framing.
+ * Precision editorial eyebrow label — restrained, calm, zero loud bloat.
  */
 export function EyebrowBadge({
   children,
@@ -38,19 +38,19 @@ export function EyebrowBadge({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-[11px] font-mono font-medium uppercase tracking-[0.12em] border backdrop-blur-md",
+        "inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-[11px] font-mono font-medium uppercase tracking-[0.14em] border backdrop-blur-md",
         dark
-          ? "bg-white/[0.04] border-white/[0.1] text-white/75"
-          : "bg-white/80 border-[#0C0A08]/[0.08] text-[#0C0A08]/75 shadow-[0_1px_2px_rgba(12,10,8,0.03),inset_0_1px_0_rgba(255,255,255,0.9)]",
+          ? "bg-white/[0.04] border-white/[0.1] text-white/70"
+          : "bg-white/75 border-[#0C0A08]/[0.08] text-[#0C0A08]/70 shadow-[0_1px_2px_rgba(12,10,8,0.03),inset_0_1px_0_rgba(255,255,255,0.9)]",
         className
       )}
     >
       <span
         aria-hidden="true"
-        className="w-1.5 h-1.5 rounded-full bg-[#ED5B04] shadow-[0_0_8px_rgba(237,91,4,0.6)]"
+        className="w-1.5 h-1.5 rounded-full bg-[#ED5B04] shadow-[0_0_8px_rgba(237,91,4,0.55)]"
       />
       {index && (
-        <span className={cn("opacity-50", dark ? "text-white/60" : "text-[#0C0A08]")}>
+        <span className={cn("opacity-45", dark ? "text-white/60" : "text-[#0C0A08]")}>
           {index}
         </span>
       )}
@@ -60,8 +60,7 @@ export function EyebrowBadge({
 }
 
 /**
- * Interactive Tactile Plate with spring-interpolated specular reflection & optional subtle 3D perspective tilt (max 3deg).
- * Built following Emil Kowalski's spring physics principles — smooth momentum, zero linear stiffness.
+ * Sculpted Physical Specimen Plate with spring-damped specular light & subtle tilt.
  */
 export function SpecularPlate({
   children,
@@ -82,11 +81,11 @@ export function SpecularPlate({
   const rawX = useMotionValue(0.5);
   const rawY = useMotionValue(0.5);
 
-  const springX = useSpring(rawX, { stiffness: 160, damping: 22 });
-  const springY = useSpring(rawY, { stiffness: 160, damping: 22 });
+  const springX = useSpring(rawX, { stiffness: 150, damping: 24 });
+  const springY = useSpring(rawY, { stiffness: 150, damping: 24 });
 
-  const rotateX = useTransform(springY, [0, 1], tilt ? [2.8, -2.8] : [0, 0]);
-  const rotateY = useTransform(springX, [0, 1], tilt ? [-2.8, 2.8] : [0, 0]);
+  const rotateX = useTransform(springY, [0, 1], tilt ? [2.4, -2.4] : [0, 0]);
+  const rotateY = useTransform(springX, [0, 1], tilt ? [-2.4, 2.4] : [0, 0]);
 
   const glareLeft = useTransform(springX, [0, 1], ["0%", "100%"]);
   const glareTop = useTransform(springY, [0, 1], ["0%", "100%"]);
@@ -117,13 +116,13 @@ export function SpecularPlate({
       style={{
         rotateX,
         rotateY,
-        transformPerspective: 1100,
+        transformPerspective: 1200,
       }}
       className={cn(
         "relative overflow-hidden rounded-[24px] transition-shadow duration-500 will-change-transform",
         dark
-          ? "bg-[#11100F] text-[#FAF8F5] border border-white/[0.09] shadow-[0_24px_60px_-15px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.08)]"
-          : "bg-white text-[#0C0A08] border border-[#0C0A08]/[0.08] shadow-[0_2px_6px_rgba(12,10,8,0.025),0_20px_48px_-16px_rgba(12,10,8,0.08),inset_0_1px_0_rgba(255,255,255,1)]",
+          ? "bg-[#100F0E] text-[#FAF8F5] border border-white/[0.09] shadow-[0_32px_80px_-20px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.1)]"
+          : "bg-white text-[#0C0A08] border border-[#0C0A08]/[0.08] shadow-[0_2px_6px_rgba(12,10,8,0.025),0_24px_56px_-18px_rgba(12,10,8,0.09),inset_0_1px_0_rgba(255,255,255,1)]",
         className
       )}
     >
@@ -134,23 +133,23 @@ export function SpecularPlate({
         style={{ opacity: hovered ? 1 : 0 }}
       >
         <motion.div
-          className="absolute -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full"
+          className="absolute -translate-x-1/2 -translate-y-1/2 w-[560px] h-[560px] rounded-full"
           style={{
             left: glareLeft,
             top: glareTop,
             background: dark
-              ? "radial-gradient(circle, rgba(237,91,4,0.13) 0%, rgba(255,255,255,0.05) 35%, transparent 70%)"
-              : "radial-gradient(circle, rgba(237,91,4,0.065) 0%, rgba(255,255,255,0.4) 40%, transparent 70%)",
+              ? "radial-gradient(circle, rgba(237,91,4,0.12) 0%, rgba(255,255,255,0.045) 35%, transparent 68%)"
+              : "radial-gradient(circle, rgba(237,91,4,0.06) 0%, rgba(255,255,255,0.45) 42%, transparent 70%)",
           }}
         />
       </motion.div>
 
       {crosshairs && (
         <>
-          <Crosshair className={cn("absolute top-3.5 left-3.5 z-20", dark && "text-white/25")} />
-          <Crosshair className={cn("absolute top-3.5 right-3.5 z-20", dark && "text-white/25")} />
-          <Crosshair className={cn("absolute bottom-3.5 left-3.5 z-20", dark && "text-white/25")} />
-          <Crosshair className={cn("absolute bottom-3.5 right-3.5 z-20", dark && "text-white/25")} />
+          <Crosshair className={cn("absolute top-4 left-4 z-20", dark && "text-white/25")} />
+          <Crosshair className={cn("absolute top-4 right-4 z-20", dark && "text-white/25")} />
+          <Crosshair className={cn("absolute bottom-4 left-4 z-20", dark && "text-white/25")} />
+          <Crosshair className={cn("absolute bottom-4 right-4 z-20", dark && "text-white/25")} />
         </>
       )}
 
@@ -160,7 +159,7 @@ export function SpecularPlate({
 }
 
 /**
- * Staggered reveal block with subtle blur-to-sharp entrance (450ms Emil/Basement cadence).
+ * Staggered reveal block with subtle blur-to-sharp entrance (Emil / Basement cadence).
  */
 export function AtelierReveal({
   children,
@@ -173,9 +172,9 @@ export function AtelierReveal({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+      initial={{ opacity: 0, y: 18, filter: "blur(4px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.12 }}
       transition={{ duration: 0.55, delay, ease: ATELIER_EASE }}
       className={className}
     >
