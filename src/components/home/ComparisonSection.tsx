@@ -10,43 +10,43 @@ import { ATELIER_SNAPPY_SPRING } from "@/lib/utils";
 const ROWS = [
   {
     index: "01",
-    criterion: "Honoraires de création",
+    criterion: "Frais de création",
     legacy: "3 500 € à 6 000 €",
-    legacyNote: "Acompte 40 % à la signature",
-    boubane: "0 € ferme",
-    boubaneNote: "100 % offert à nos frais",
+    legacyNote: "Avec 40 % d'acompte dès la signature",
+    boubane: "0 €",
+    boubaneNote: "Design et développement faits pour vous",
   },
   {
     index: "02",
-    criterion: "Architecture & Vitesse",
+    criterion: "Vitesse sur mobile",
     legacy: "WordPress lourd (~4s)",
-    legacyNote: "Thèmes génériques & extensions lentes",
-    boubane: "Code pur (< 0.3s)",
-    boubaneNote: "Chargement Edge instantané",
+    legacyNote: "Thème générique ralenti par des extensions",
+    boubane: "Code propre (< 0,3s)",
+    boubaneNote: "Affichage quasi instantané en 4G",
   },
   {
     index: "03",
-    criterion: "Frais mensuels imposés",
-    legacy: "120 € – 180 € / mois",
-    legacyNote: "Contrat de maintenance captif",
-    boubane: "~5 € / mois direct",
-    boubaneNote: "Ou 15 € / an clé en main",
+    criterion: "Abonnement mensuel",
+    legacy: "120 € à 180 € / mois",
+    legacyNote: "Engagement sur 24 ou 48 mois",
+    boubane: "~5 € / mois chez votre hébergeur",
+    boubaneNote: "Ou 15 € / an si on gère la technique",
   },
   {
     index: "04",
-    criterion: "Propriété du code & domaine",
-    legacy: "Verrouillée chez l'agence",
-    legacyNote: "Perte du site si résiliation",
+    criterion: "Propriété du site",
+    legacy: "Bloquée chez le prestataire",
+    legacyNote: "Si vous arrêtez de payer, le site ferme",
     boubane: "100 % à votre nom",
-    boubaneNote: "Dépôt GitHub privé transféré",
+    boubaneNote: "Domaine et code source remis dès la livraison",
   },
   {
     index: "05",
-    criterion: "Interlocuteur unique",
-    legacy: "Commercial + sous-traitance",
-    legacyNote: "Intermédiaires & tickets d'attente",
-    boubane: "Artisan développeur",
-    boubaneNote: "Ligne directe avec Léo Saillour",
+    criterion: "Votre interlocuteur",
+    legacy: "Commercial puis sous-traitant",
+    legacyNote: "Des intermédiaires qui rallongent les délais",
+    boubane: "En direct avec Léo",
+    boubaneNote: "Celui qui code le site répond au téléphone",
   },
 ];
 
@@ -69,7 +69,7 @@ export function ComparisonSection() {
       <div className="mx-auto max-w-[1200px] px-6">
         <AtelierReveal className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14 md:mb-16">
           <div className="max-w-2xl">
-            <EyebrowBadge index="02">Le Grand Face-à-Face</EyebrowBadge>
+            <EyebrowBadge index="02">Comparatif honnête</EyebrowBadge>
             <h2 className="mt-6 text-[clamp(2.2rem,4.6vw,3.6rem)] font-bold tracking-[-0.045em] leading-[1.03] text-[#0C0A08]">
               Agence classique{" "}
               <span className="text-[#0C0A08]/35 font-normal">contre</span>{" "}
@@ -80,7 +80,6 @@ export function ComparisonSection() {
             </h2>
           </div>
 
-          {/* Projection Financière Tactile sans slider générique */}
           <div className="flex flex-col sm:items-end gap-3">
             <div
               role="tablist"
@@ -123,20 +122,17 @@ export function ComparisonSection() {
           </div>
         </AtelierReveal>
 
-        {/* Feuille de Spécification Suisse à Filets Fins (Zero Box Clutter) */}
         <AtelierReveal delay={0.08}>
           <div className="rounded-[26px] bg-white atelier-shadow-warm overflow-hidden">
-            {/* En-tête Tableau */}
             <div className="hidden md:grid md:grid-cols-12 border-b border-[#0C0A08]/[0.08] bg-[#FAF8F5]/70 px-8 py-5 font-mono text-[11px] uppercase tracking-[0.12em]">
-              <div className="col-span-4 text-[#0C0A08]/45">Critère Technique</div>
-              <div className="col-span-4 text-[#0C0A08]/45">Modèle Agence Classique</div>
+              <div className="col-span-4 text-[#0C0A08]/45">Ce qui compte</div>
+              <div className="col-span-4 text-[#0C0A08]/45">En agence web</div>
               <div className="col-span-4 text-[#ED5B04] font-semibold flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#ED5B04]" />
-                <span>Atelier Boubane · Circuit Court</span>
+                <span>Chez Boubane</span>
               </div>
             </div>
 
-            {/* Lignes avec faisceau de sélection fluide layoutId */}
             <div className="divide-y divide-[#0C0A08]/[0.07]">
               {ROWS.map((row) => {
                 const isActive = hoveredRow === row.index;

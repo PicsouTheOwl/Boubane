@@ -23,35 +23,35 @@ interface Dossier {
 const DOSSIERS: Dossier[] = [
   {
     id: "astra",
-    tag: "DOSSIER #01 · TOURISME & RÉSERVATION",
+    tag: "EXEMPLE 01 · TOURISME",
     client: "Astravacances",
     url: "astravacances.fr",
     iframeSrc: "/showcase-astra.html",
     accentColor: "rgba(43, 155, 189, 0.16)",
     metricValue: "0 %",
-    metricLabel: "Commission OTA (Booking / Airbnb)",
+    metricLabel: "de commission prise par Booking ou Airbnb",
     problem:
-      "Jusqu'à 18 % de marge captés sur chaque séjour par les plateformes intermédiaires et une image banalisée au milieu d'annonces identiques.",
+      "Les plateformes prenaient jusqu'à 18 % sur chaque séjour et noyaient l'établissement au milieu de dizaines d'autres annonces.",
     architecture:
-      "Vitrine sur-mesure instantanée (< 0.3s) conçue pour convertir directement les voyageurs en réservations en ligne sans friction.",
+      "Un site sur mesure rapide (< 0,3s) pensé pour rassurer le voyageur dès la première seconde et l'amener à réserver directement.",
     impact:
-      "100 % de réservations en direct, souveraineté commerciale retrouvée et affichage ultra-rapide sur mobile.",
+      "Toutes les réservations passent désormais en direct, sans marge cédée à un intermédiaire.",
   },
   {
     id: "artisanat",
-    tag: "DOSSIER #02 · ARTISANAT & BTP",
+    tag: "EXEMPLE 02 · ARTISANAT & BTP",
     client: "Artisans du Haut-Anjou",
     url: "artisan-haut-anjou.fr",
     iframeSrc: "/showcase-votre-site.html",
     accentColor: "rgba(237, 91, 4, 0.16)",
-    metricValue: "< 0.3s",
-    metricLabel: "Vitesse d'affichage mobile",
+    metricValue: "< 0,3s",
+    metricLabel: "pour ouvrir la page sur téléphone",
     problem:
-      "Dépendance aux réseaux sociaux ou au bouche-à-oreille, aucune vitrine reflétant le niveau réel des réalisations sur chantier.",
+      "Trop d'artisans dépendent d'une vieille page Facebook qui ne reflète pas le soin apporté à leurs chantiers.",
     architecture:
-      "Écrin digital haute précision valorisant le savoir-faire artisanal, galeries de chantiers et demandes de devis qualifiées.",
+      "Une vitrine claire qui montre de vraies photos de réalisations et permet au particulier de demander un devis en deux clics.",
     impact:
-      "Fin de la guerre des prix : réception de demandes sérieuses et image de référence locale dans le 49 et le 53.",
+      "Des demandes plus sérieuses de la part de clients locaux qui choisissent la qualité plutôt que le devis le moins cher.",
   },
 ];
 
@@ -65,7 +65,6 @@ export function ShowcaseDossiersSection() {
       id="realisations"
       className="relative py-28 md:py-36 bg-[#0B0A09] text-[#FAF8F5] overflow-hidden"
     >
-      {/* Aura Studio Cinématique Adaptative */}
       <motion.div
         aria-hidden="true"
         animate={{ background: `radial-gradient(ellipse at center, ${current.accentColor} 0%, transparent 68%)` }}
@@ -77,18 +76,18 @@ export function ShowcaseDossiersSection() {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
           <AtelierReveal className="max-w-2xl">
             <EyebrowBadge dark index="03">
-              Galerie d&apos;Architecture
+              Exemples réels
             </EyebrowBadge>
             <h2 className="mt-6 text-[clamp(2.2rem,4.6vw,3.6rem)] font-bold tracking-[-0.045em] leading-[1.03] text-white">
-              Pièces livrées{" "}
-              <span className="text-white/40 font-normal">&amp; résultats concrets.</span>
+              Ce que ça donne{" "}
+              <span className="text-white/40 font-normal">en ligne.</span>
             </h2>
           </AtelierReveal>
 
           <AtelierReveal delay={0.06} className="flex flex-wrap items-center gap-3">
             <div
               role="tablist"
-              aria-label="Sélection du dossier"
+              aria-label="Choisir un exemple"
               className="inline-flex p-1.5 rounded-full bg-white/[0.06] border border-white/[0.1]"
             >
               {DOSSIERS.map((d, i) => {
@@ -208,13 +207,13 @@ export function ShowcaseDossiersSection() {
                 <div className="mt-7 space-y-6">
                   <div>
                     <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40 mb-1.5">
-                      01 · Problème initial
+                      Avant
                     </div>
                     <p className="text-[0.94rem] leading-[1.65] text-white/65">{current.problem}</p>
                   </div>
                   <div>
                     <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40 mb-1.5">
-                      02 · Architecture Boubane
+                      Ce que j&apos;ai fait
                     </div>
                     <p className="text-[0.94rem] leading-[1.65] text-white/90">
                       {current.architecture}
@@ -222,7 +221,7 @@ export function ShowcaseDossiersSection() {
                   </div>
                   <div>
                     <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#ED5B04] mb-1.5">
-                      03 · Impact direct
+                      Résultat
                     </div>
                     <p className="text-[0.94rem] leading-[1.65] text-white/65">{current.impact}</p>
                   </div>
@@ -236,7 +235,7 @@ export function ShowcaseDossiersSection() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 rounded-full bg-[#FAF8F5] text-[#0C0A08] px-6 py-3 text-sm font-semibold hover:bg-white active:scale-[0.97] transition-all"
                 >
-                  <span>Inspecter en pleine page</span>
+                  <span>Ouvrir ce site en grand</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </a>
               </div>

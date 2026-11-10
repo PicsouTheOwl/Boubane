@@ -32,13 +32,14 @@ export default function HebergementPage() {
       <main className="relative pt-16 pb-28">
         <div className="mx-auto max-w-[1140px] px-6">
           <AtelierReveal className="max-w-3xl mb-14">
-            <EyebrowBadge index="INFRASTRUCTURE">Hébergement &amp; Souveraineté</EyebrowBadge>
+            <EyebrowBadge index="HÉBERGEMENT">Nom de domaine et serveur</EyebrowBadge>
             <h1 className="mt-5 text-[clamp(2.2rem,5vw,3.6rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-              L&apos;hébergement au coût réel, sans marge captive<span className="text-[#ED5B04]">.</span>
+              Votre hébergement au prix réel, sans marge dessus
+              <span className="text-[#0C0A08]/35 font-normal">.</span>
             </h1>
             <p className="mt-4 text-[1.05rem] leading-[1.6] text-[#57534E] max-w-[56ch]">
-              Votre site vous appartient à 100 %. Choisissez entre votre propre hébergement direct ou
-              notre pass clé en main ultra-rapide à tarif transparent.
+              Vous restez libre de votre hébergement : soit on ouvre un compte directement à votre
+              nom (~5 €/mois), soit je m&apos;occupe de tout pour 15 € par an.
             </p>
           </AtelierReveal>
 

@@ -9,7 +9,6 @@ import { HandDrawnUnderline } from "@/components/HandDrawnAccents";
 export function FinalCtaSection() {
   return (
     <section className="relative py-28 md:py-36 bg-[#0B0A09] text-[#FAF8F5] overflow-hidden">
-      {/* Horizon incandescent discret */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -bottom-24 left-1/2 -translate-x-1/2 w-[960px] h-[360px] bg-[radial-gradient(ellipse_at_center,rgba(237,91,4,0.18)_0%,transparent_70%)] blur-3xl"
@@ -19,11 +18,11 @@ export function FinalCtaSection() {
         <AtelierReveal>
           <div className="flex justify-center">
             <EyebrowBadge dark index="07">
-              Conception Sur-Mesure
+              C&apos;est à vous
             </EyebrowBadge>
           </div>
           <h2 className="mt-7 text-[clamp(2.4rem,5.4vw,4.1rem)] font-bold tracking-[-0.045em] leading-[1.03] text-white mx-auto max-w-[16ch]">
-            Votre vitrine d&apos;exception,{" "}
+            Votre nouveau site peut être{" "}
             <span className="relative inline-block text-white/60 font-normal">
               en ligne la semaine prochaine
               <HandDrawnUnderline className="absolute -bottom-2 inset-x-0 h-3 w-full" delay={0.3} />
@@ -31,8 +30,8 @@ export function FinalCtaSection() {
             .
           </h2>
           <p className="mt-5 text-[1.04rem] leading-[1.65] text-white/60 max-w-[50ch] mx-auto">
-            Réservez votre créneau de conception. 100 % du design et du code sont offerts à nos
-            frais. Zéro discours commercial, zéro engagement captif.
+            Envoyez vos coordonnées en deux minutes ou réservez dix minutes au téléphone pour qu&apos;on
+            en discute tranquillement.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

@@ -20,19 +20,18 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="text-[0.9rem] leading-relaxed text-[#57534E] max-w-[34ch]">
-              Atelier d&apos;artisanat web à Segré-en-Anjou Bleu (49500). Des vitrines sur-mesure à
-              0 € d&apos;honoraires, codées à la main pour les artisans et entreprises d&apos;Anjou et
-              de France.
+              Sites web conçus et codés à la main à Segré-en-Anjou Bleu (49500). Zéro frais de
+              création pour les artisans et entreprises d&apos;Anjou et de France.
             </p>
             <div className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.1em] text-[#0C0A08]/60">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>Atelier Ouvert · Haut-Anjou</span>
+              <span>Disponible · Haut-Anjou</span>
             </div>
           </div>
 
           <div className="md:col-span-3 space-y-3">
             <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-[#0C0A08]/45">
-              Atelier &amp; Offre
+              Le site
             </div>
             <ul className="space-y-2.5 text-[0.9rem]">
               <li>
@@ -40,7 +39,7 @@ export function SiteFooter() {
                   href="/#modele"
                   className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
                 >
-                  Le Manifeste du 0 €
+                  Pourquoi 0 €
                 </Link>
               </li>
               <li>
@@ -48,7 +47,7 @@ export function SiteFooter() {
                   href="/#realisations"
                   className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
                 >
-                  Dossiers &amp; Réalisations
+                  Exemples en ligne
                 </Link>
               </li>
               <li>
@@ -64,7 +63,7 @@ export function SiteFooter() {
                   href="/hebergement"
                   className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
                 >
-                  Hébergement &amp; Infogérance
+                  Hébergement
                 </Link>
               </li>
             </ul>
@@ -72,7 +71,7 @@ export function SiteFooter() {
 
           <div className="md:col-span-4 space-y-3">
             <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-[#0C0A08]/45">
-              Échanges Directs &amp; Ressources
+              Contact et infos
             </div>
             <ul className="space-y-2.5 text-[0.9rem]">
               <li>
@@ -99,7 +98,7 @@ export function SiteFooter() {
                   href="/blog"
                   className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
                 >
-                  Journal &amp; Analyses
+                  Articles et guides
                 </Link>
               </li>
               <li>
@@ -107,7 +106,7 @@ export function SiteFooter() {
                   href="/mentions-legales"
                   className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
                 >
-                  Mentions Légales &amp; RGPD
+                  Mentions légales et RGPD
                 </Link>
               </li>
             </ul>
@@ -115,11 +114,10 @@ export function SiteFooter() {
         </div>
 
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] font-mono text-[#0C0A08]/45">
-          <span>© {new Date().getFullYear()} STUDIO BOUBANE · LÉO SAILLOUR</span>
-          <span>SEGRÉ-EN-ANJOU BLEU (49) · CODE PROPRIÉTAIRE</span>
+          <span>© {new Date().getFullYear()} BOUBANE · LÉO SAILLOUR</span>
+          <span>SEGRÉ-EN-ANJOU BLEU (49)</span>
         </div>
       </div>
     </footer>
   );
 }
-

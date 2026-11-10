@@ -183,12 +183,12 @@ export function AtelierReveal({
 }
 
 const CHAPTERS = [
-  { id: "modele", label: "01 · Manifeste 0 €" },
-  { id: "comparatif", label: "02 · Face-à-Face" },
-  { id: "realisations", label: "03 · Galerie" },
-  { id: "processus", label: "04 · Chronographe" },
-  { id: "artisan", label: "05 · Établi" },
-  { id: "faq", label: "06 · Transparence" },
+  { id: "modele", label: "01 · Modèle à 0 €" },
+  { id: "comparatif", label: "02 · Comparatif" },
+  { id: "realisations", label: "03 · Réalisations" },
+  { id: "processus", label: "04 · Méthode en 5 jours" },
+  { id: "artisan", label: "05 · Qui code votre site" },
+  { id: "faq", label: "06 · Questions" },
 ];
 
 /**

@@ -158,15 +158,15 @@ const SECTORS: TradeSector[] = [
     index: "01",
     tag: "ARTISANAT & BÂTIMENT",
     title: "Menuisiers, Couvreurs, Ébénistes & BTP",
-    desc: "Mettez fin au bouche-à-oreille hasardeux : valorisez vos chantiers en photo et captez des demandes de devis qualifiées dans le Segréen.",
+    desc: "Montrez vos vrais chantiers en photo et recevez des demandes de devis claires directement depuis le Segréen.",
     metrics: [
-      { label: "Affichage chantier HD", value: "< 0.3s" },
-      { label: "Conversion devis mobile", value: "2 clics" },
+      { label: "Ouverture sur mobile", value: "< 0,3s" },
+      { label: "Demande de devis", value: "En 2 clics" },
     ],
     architectureFeatures: [
-      "Galerie avant / après optimisée sans ralentir le mobile",
-      "Formulaire de devis géolocalisé (commune, nature travaux)",
-      "Mise en valeur des certifications RGE / Qualibat / Décennale",
+      "Photos de chantiers avant et après sans ralentir le téléphone",
+      "Formulaire simple avec commune et nature des travaux",
+      "Mise en avant de vos assurances RGE, Qualibat et Décennale",
     ],
     googleKeywords: ["couvreur Segré", "menuisier Château-Gontier", "maçon Haut-Anjou"],
   },
@@ -174,15 +174,15 @@ const SECTORS: TradeSector[] = [
     index: "02",
     tag: "PROFESSIONS LIBÉRALES",
     title: "Avocats, Notaires, Cabinets & Praticiens",
-    desc: "Une posture éditoriale sobre et irréprochable pour inspirer immédiatement confiance à votre patientèle ou clientèle du 49 et 53.",
+    desc: "Une présentation sobre et claire pour que vos futurs clients ou patients trouvent vos infos et prennent rendez-vous sans chercher.",
     metrics: [
-      { label: "Prise de RDV directe", value: "Intégrée" },
-      { label: "Lisibilité mobile", value: "100 / 100" },
+      { label: "Prise de RDV", value: "Directe" },
+      { label: "Lecture mobile", value: "Immédiate" },
     ],
     architectureFeatures: [
-      "Typographie éditoriale calme inspirant autorité et sérieux",
-      "Présentation claire des domaines d'intervention & honoraires",
-      "Connexion directe agenda (Cal.com / Doctolib) ou secrétariat",
+      "Mise en page posée et lisible sans effets inutiles",
+      "Explication simple de vos domaines et honoraires",
+      "Lien direct vers votre agenda (Cal.com, Doctolib) ou secrétariat",
     ],
     googleKeywords: ["avocat Segré", "ostéopathe Le Lion-d'Angers", "cabinet comptable 49"],
   },
@@ -190,15 +190,15 @@ const SECTORS: TradeSector[] = [
     index: "03",
     tag: "INDUSTRIE & PME",
     title: "PME Industrielles & ZI d'Étriché / Segré",
-    desc: "Une vitrine technique claire et ultra-rapide pour rassurer vos donneurs d'ordres nationaux et faciliter les recrutements locaux.",
+    desc: "Un site net et rapide pour présenter votre parc machines à vos clients nationaux et attirer de bons profils locaux.",
     metrics: [
-      { label: "Code propriétaire", value: "GitHub 100%" },
-      { label: "Honoraires studio", value: "0 €" },
+      { label: "Propriété du code", value: "100 % à vous" },
+      { label: "Frais de création", value: "0 €" },
     ],
     architectureFeatures: [
-      "Fiches capacités machine, parc industriel et normes ISO",
-      "Espace recrutement direct sans intermédiaire d'intérim",
-      "Architecture statique immunisée contre les failles WordPress",
+      "Présentation claire de vos machines, capacités et normes",
+      "Page recrutement directe sans intermédiaire",
+      "Site léger sans WordPress ni extensions à mettre à jour",
     ],
     googleKeywords: ["usinage précision 49", "sous-traitance industrielle Segré", "PME ZI Étriché"],
   },
@@ -206,15 +206,15 @@ const SECTORS: TradeSector[] = [
     index: "04",
     tag: "COMMERCE & TERROIR",
     title: "Boutiques, Domaines, Gîtes & Tables",
-    desc: "Reprenez vos marges aux plateformes de réservation (Booking, Airbnb, TheFork) grâce à un site vitrine qui convertit en direct.",
+    desc: "Évitez de laisser 15 à 18 % de commission à Booking ou Airbnb en permettant aux clients de réserver en direct.",
     metrics: [
-      { label: "Commission tiers", value: "0 %" },
-      { label: "Réservation directe", value: "100 %" },
+      { label: "Commission", value: "0 %" },
+      { label: "En direct", value: "100 %" },
     ],
     architectureFeatures: [
-      "Présentation sensorielle de votre lieu, carte ou hébergements",
-      "Lien direct réservation / téléphone / itinéraire Google Maps",
-      "Référencement naturel sur les recherches tourisme Haut-Anjou",
+      "Vraies photos du lieu, de la carte ou des chambres",
+      "Boutons directs pour réserver, appeler ou lancer le GPS",
+      "Meilleure visibilité sur Google pour le tourisme en Haut-Anjou",
     ],
     googleKeywords: ["gîte Anjou Bleu", "restaurant Segré", "domaine réception 49"],
   },
@@ -491,10 +491,10 @@ export function SegreInteractiveExperience() {
       <section className="py-24 md:py-32 bg-[#F3EFE7] border-t border-[#0C0A08]/[0.07]">
         <div className="mx-auto max-w-[1200px] px-6">
           <AtelierReveal className="max-w-2xl mb-14">
-            <EyebrowBadge index="02">Savoir-Faire Locaux</EyebrowBadge>
+            <EyebrowBadge index="02">Pour votre métier</EyebrowBadge>
             <h2 className="mt-5 text-[clamp(2.1rem,4.4vw,3.4rem)] font-bold tracking-[-0.045em] leading-[1.04] text-[#0C0A08]">
-              L&apos;excellence digitale{" "}
-              <span className="text-[#0C0A08]/40 font-normal">taillée pour votre métier.</span>
+              Un site adapté à{" "}
+              <span className="text-[#0C0A08]/40 font-normal">votre activité locale.</span>
             </h2>
           </AtelierReveal>
 
@@ -801,14 +801,14 @@ export function SegreInteractiveExperience() {
               Disponible cette semaine
             </EyebrowBadge>
           </div>
-          <h2 className="text-[clamp(2.2rem,5vw,3.7rem)] font-bold tracking-[-0.045em] leading-[1.04] text-white">
-            Discutons de votre futur site autour d&apos;un{" "}
-            <span className="relative inline-block text-white/60 font-normal">
-              café à Segré
-              <HandDrawnUnderline className="absolute -bottom-2 inset-x-0 h-2.5 w-full" delay={0.25} />
-            </span>
-            .
-          </h2>
+            <h2 className="text-[clamp(2.2rem,5vw,3.7rem)] font-bold tracking-[-0.045em] leading-[1.04] text-white">
+              On se voit autour d&apos;un{" "}
+              <span className="relative inline-block text-white/60 font-normal">
+                café à Segré
+                <HandDrawnUnderline className="absolute -bottom-2 inset-x-0 h-2.5 w-full" delay={0.25} />
+              </span>{" "}
+              ?
+            </h2>
           <p className="text-white/60 max-w-[50ch] mx-auto text-[1.02rem] leading-relaxed">
             Réservez votre créneau offert (0 €) en 2 minutes ou appelez Léo directement au 07 78 31
             03 46.

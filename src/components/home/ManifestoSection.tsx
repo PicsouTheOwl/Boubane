@@ -10,8 +10,8 @@ import { ATELIER_EASE, ATELIER_SNAPPY_SPRING } from "@/lib/utils";
 type SpecimenTab = "conception" | "infra" | "propriete";
 
 const TABS: Array<{ id: SpecimenTab; code: string; label: string }> = [
-  { id: "conception", code: "01", label: "Conception" },
-  { id: "infra", code: "02", label: "Serveur" },
+  { id: "conception", code: "01", label: "Création" },
+  { id: "infra", code: "02", label: "Hébergement" },
   { id: "propriete", code: "03", label: "Propriété" },
 ];
 
@@ -24,16 +24,17 @@ export function ManifestoSection() {
       <div className="mx-auto max-w-[1200px] px-6">
         <AtelierReveal className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16 md:mb-20">
           <div className="lg:col-span-7">
-            <EyebrowBadge index="01">Le Manifeste du 0 €</EyebrowBadge>
+            <EyebrowBadge index="01">Pourquoi 0 €</EyebrowBadge>
             <h2 className="mt-6 text-[clamp(2.3rem,5vw,4rem)] font-bold tracking-[-0.045em] leading-[1.02] text-[#0C0A08]">
-              La rupture{" "}
-              <span className="text-[#0C0A08]/40 font-normal">commerciale.</span>
+              Créer votre site{" "}
+              <span className="text-[#0C0A08]/40 font-normal">ne devrait pas coûter 4 500 €.</span>
             </h2>
           </div>
           <div className="lg:col-span-5">
             <p className="text-[1.02rem] leading-[1.65] text-[#57534E]">
-              Pourquoi payer 4 500 € pour financer des bureaux et des commerciaux ? Nous supprimons
-              tout l&apos;appareil d&apos;agence pour vous livrer une vitrine d&apos;orfèvre{" "}
+              Une facture d&apos;agence sert surtout à payer des bureaux, des réunions et des
+              commerciaux. Ici, je m&apos;occupe du design et du code gratuitement pour que votre
+              site existe{" "}
               <span className="relative inline-block font-medium text-[#0C0A08]">
                 directement à votre nom
                 <HandDrawnUnderline className="absolute -bottom-1.5 inset-x-0 h-2.5 w-full" delay={0.35} />
@@ -48,7 +49,7 @@ export function ManifestoSection() {
             <SpecularPlate dark crosshairs className="p-8 sm:p-11">
               <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
                 <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45">
-                  SPÉCIMEN ATELIER · N° 01
+                  DÉTAIL DU MODÈLE
                 </span>
 
                 <div
@@ -97,7 +98,7 @@ export function ManifestoSection() {
                       <div className="flex flex-col sm:flex-row sm:items-end gap-6 sm:gap-10 pb-8 border-b border-white/[0.08]">
                         <div>
                           <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40 mb-2">
-                            Facture d&apos;agence classique
+                            Devis d&apos;agence habituel
                           </div>
                           <div className="relative inline-block font-mono text-2xl sm:text-3xl text-white/40 tabular-nums">
                             <span>4 500 €</span>
@@ -124,26 +125,25 @@ export function ManifestoSection() {
 
                         <div>
                           <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#ED5B04] mb-1">
-                            Honoraires Atelier Boubane
+                            Chez Boubane
                           </div>
                           <div className="flex items-baseline gap-3">
                             <span className="text-[clamp(4rem,7vw,5.8rem)] font-bold leading-[0.9] tracking-[-0.055em] text-[#FAF8F5] tabular-nums">
                               0 €
                             </span>
                             <span className="font-mono text-xs uppercase tracking-[0.12em] text-white/45">
-                              net HT
+                              pour la création
                             </span>
                           </div>
                           <ArchitectMarginalia note="Sans intermédiaire" dark className="mt-2" />
                         </div>
                       </div>
 
-                      {/* Anatomie des 4 500 € supprimés */}
                       <div className="mt-6 grid grid-cols-3 gap-2.5 text-left">
                         {[
                           { label: "Commerciaux", cost: "1 800 €" },
-                          { label: "Chefs de projet", cost: "1 200 €" },
-                          { label: "Frais de structure", cost: "1 500 €" },
+                          { label: "Gestion de projet", cost: "1 200 €" },
+                          { label: "Bureaux et marges", cost: "1 500 €" },
                         ].map((row) => (
                           <div
                             key={row.label}
@@ -161,11 +161,11 @@ export function ManifestoSection() {
 
                       <div className="pt-6 space-y-2.5">
                         <h3 className="text-xl font-semibold tracking-[-0.02em] text-white">
-                          100 % du design et du code offerts à nos frais.
+                          Je prends la conception et le code à ma charge.
                         </h3>
                         <p className="text-[0.94rem] leading-[1.65] text-white/65 max-w-[52ch]">
-                          Vous travaillez en circuit court avec le concepteur. Aucun acompte, aucune
-                          facture surprise.
+                          Vous discutez directement avec la personne qui réalise votre site. Il
+                          n&apos;y a ni acompte à verser, ni mauvaise surprise à l&apos;arrivée.
                         </p>
                       </div>
                     </motion.div>
@@ -183,7 +183,7 @@ export function ManifestoSection() {
                       <div className="rounded-2xl bg-white/[0.035] border border-white/[0.08] p-6 mb-7">
                         <div className="flex items-center justify-between gap-3 font-mono text-xs">
                           <div className="px-3.5 py-2 rounded-lg bg-white text-[#0C0A08] font-bold">
-                            VOTRE ENTREPRISE
+                            VOUS
                           </div>
                           <div className="flex-1 relative h-8 flex items-center">
                             <svg
@@ -231,12 +231,12 @@ export function ManifestoSection() {
 
                       <div className="space-y-3">
                         <h3 className="text-xl font-semibold tracking-[-0.02em] text-white">
-                          Hébergement au coût réel, sans intermédiaire.
+                          Vous réglez votre serveur au prix réel.
                         </h3>
                         <p className="text-[0.95rem] leading-[1.65] text-white/65 max-w-[52ch]">
-                          Votre nom de domaine et votre serveur sont ouverts directement à votre nom.
-                          Fini les rentes mensuelles de 150 €/mois pour un simple hébergement
-                          mutualisé.
+                          Le compte d&apos;hébergement et le nom de domaine sont ouverts à votre nom
+                          chez l&apos;hébergeur de votre choix, sans payer 150 € par mois pour un
+                          contrat de location.
                         </p>
                       </div>
                     </motion.div>
@@ -304,18 +304,18 @@ export function ManifestoSection() {
 
                         <div>
                           <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04]">
-                            PATRIMOINE NUMÉRIQUE
+                            VOTRE PROPRIÉTÉ
                           </div>
                           <div className="mt-1 text-2xl font-bold text-white tracking-[-0.025em]">
-                            Dépôt GitHub privé &amp; code pur
+                            Dépôt GitHub privé à votre nom
                           </div>
                         </div>
                       </div>
 
                       <div className="pt-7">
                         <p className="text-[0.95rem] leading-[1.65] text-white/65 max-w-[52ch]">
-                          Le code source complet vous appartient juridiquement dès la mise en ligne.
-                          Vous restez libre à vie de faire évoluer ou migrer votre vitrine.
+                          Dès la mise en ligne, tout le code source vous appartient. Vous pouvez le
+                          modifier, le transférer ou changer d&apos;hébergeur quand vous voulez.
                         </p>
                       </div>
                     </motion.div>
@@ -324,8 +324,8 @@ export function ManifestoSection() {
               </div>
 
               <div className="mt-9 pt-6 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-4 text-[11px] font-mono uppercase tracking-[0.1em] text-white/50">
-                <span>AUCUN ACOMPTE · ZÉRO ENGAGEMENT</span>
-                <span className="text-white/80 tabular-nums">LIVRAISON 5 JOURS</span>
+                <span>SANS ACOMPTE · SANS ENGAGEMENT</span>
+                <span className="text-white/80 tabular-nums">PRÊT EN 5 JOURS</span>
               </div>
             </SpecularPlate>
           </AtelierReveal>
@@ -337,7 +337,7 @@ export function ManifestoSection() {
                 <div className="flex-1">
                   <div className="flex items-center justify-between gap-2">
                     <h3 className="text-lg font-semibold tracking-[-0.02em] text-[#0C0A08]">
-                      Zéro frais cachés
+                      Aucun frais caché
                     </h3>
                     <ShieldCheck
                       className="w-4 h-4 text-[#0C0A08]/35 group-hover:text-[#ED5B04] transition-colors"
@@ -345,8 +345,8 @@ export function ManifestoSection() {
                     />
                   </div>
                   <p className="mt-2 text-[0.92rem] leading-[1.6] text-[#57534E]">
-                    Aucune facture d&apos;honoraires à la commande ni à la livraison. Si la maquette
-                    ne vous convainc pas, vous repartez libre sans débourser un centime.
+                    Vous ne versez rien à la commande ni à la remise du site. Si la maquette ne
+                    vous convient pas, on s&apos;arrête là et vous ne payez rien.
                   </p>
                 </div>
               </div>
@@ -356,7 +356,7 @@ export function ManifestoSection() {
                 <div className="flex-1">
                   <div className="flex items-center justify-between gap-2">
                     <h3 className="text-lg font-semibold tracking-[-0.02em] text-[#0C0A08]">
-                      Serveur à votre nom (~5 €/mois)
+                      Hébergement à votre nom (~5 €/mois)
                     </h3>
                     <Server
                       className="w-4 h-4 text-[#0C0A08]/35 group-hover:text-[#ED5B04] transition-colors"
@@ -364,8 +364,9 @@ export function ManifestoSection() {
                     />
                   </div>
                   <p className="mt-2 text-[0.92rem] leading-[1.6] text-[#57534E]">
-                    Ouverture directe chez OVH, Hostinger ou Vercel — ou Pass Clé en Main à 15 €/an
-                    sans engagement si vous préférez ne rien configurer.
+                    Votre compte est ouvert chez OVH, Hostinger ou Vercel directement à votre nom.
+                    Si vous préférez ne gérer aucun réglage technique, notre option tout compris est
+                    à 15 € par an.
                   </p>
                 </div>
               </div>
@@ -375,7 +376,7 @@ export function ManifestoSection() {
                 <div className="flex-1">
                   <div className="flex items-center justify-between gap-2">
                     <h3 className="text-lg font-semibold tracking-[-0.02em] text-[#0C0A08]">
-                      Souveraineté juridique totale
+                      Code et domaine à vous
                     </h3>
                     <Lock
                       className="w-4 h-4 text-[#0C0A08]/35 group-hover:text-[#ED5B04] transition-colors"
@@ -383,8 +384,8 @@ export function ManifestoSection() {
                     />
                   </div>
                   <p className="mt-2 text-[0.92rem] leading-[1.6] text-[#57534E]">
-                    Code sur-mesure sur votre dépôt privé, domaine enregistré à votre identité,
-                    performance instantanée sous 0.3 seconde.
+                    Votre dépôt GitHub et votre nom de domaine restent à votre nom, sur un code
+                    léger qui s&apos;ouvre en moins de 0,3 seconde sur téléphone.
                   </p>
                 </div>
               </div>
@@ -393,9 +394,9 @@ export function ManifestoSection() {
             <div className="mt-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-[#0C0A08]/35">
               <div className="flex items-center gap-2">
                 <Crosshair />
-                <span>COTE ATELIER · 0.00 € HT</span>
+                <span>CRÉATION 0 €</span>
               </div>
-              <span>CIRCUIT COURT</span>
+              <span>EN DIRECT</span>
             </div>
           </AtelierReveal>
         </div>

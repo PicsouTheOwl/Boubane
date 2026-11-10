@@ -120,8 +120,8 @@ export default function CommanderPage() {
               <span className="text-[#0C0A08]/35 font-normal">.</span>
             </h1>
             <p className="mt-4 text-[1.05rem] leading-[1.6] text-[#57534E] max-w-[54ch]">
-              Trois étapes rapides pour réserver votre créneau de conception. Aucun acompte, aucun
-              engagement, code propriétaire livré sous 5 jours.
+              Dites-moi en trois étapes rapides ce que vous faites. Je m&apos;occupe du reste et
+              je vous prépare une maquette sous 5 jours ouvrés, sans acompte.
             </p>
           </AtelierReveal>
 
@@ -476,7 +476,7 @@ export default function CommanderPage() {
             <div className="lg:col-span-4 space-y-5">
               <SpecularPlate dark className="p-7 space-y-5">
                 <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04]">
-                  GARANTIES GRAVÉES
+                  CE QUI EST GARANTI
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">

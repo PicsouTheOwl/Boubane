@@ -9,23 +9,23 @@ import { ATELIER_EASE } from "@/lib/utils";
 const FAQ_ITEMS = [
   {
     index: "01",
-    q: "Le site est-il réellement 100% gratuit en création ?",
-    a: "Oui, exactement 0 €. Vous ne réglez aucun honoraire de conception, de design ou de développement. Vos seuls frais sont techniques (votre nom de domaine ~10 €/an et votre hébergement habituel ~5 €/mois), réglés directement et en toute transparence auprès de votre hébergeur (IONOS, OVH, Hostinger, Vercel...).",
+    q: "La création du site est-elle vraiment gratuite ?",
+    a: "Oui, vous réglez 0 € d'honoraires pour le design et le développement. Vos seuls frais sont techniques : votre nom de domaine (environ 10 € par an) et votre hébergement (environ 5 € par mois), payés directement chez l'hébergeur de votre choix comme OVH, Hostinger ou Vercel.",
   },
   {
     index: "02",
     q: "Y a-t-il un engagement ou un abonnement caché ?",
-    a: "Aucun. Vous n'êtes engagé sur aucune durée. Vous êtes le seul propriétaire légal du nom de domaine et du code source. Vous pouvez migrer, modifier ou faire évoluer votre site à tout moment en toute indépendance.",
+    a: "Non. Vous êtes propriétaire du nom de domaine et de tout le code source dès la mise en ligne. Si vous voulez un jour faire modifier le site par quelqu'un d'autre ou changer d'hébergeur, vous êtes libre.",
   },
   {
     index: "03",
-    q: "Quel est le délai de livraison ?",
-    a: "Dès réception de vos éléments (textes, photos ou préférences d'activité), votre site est conçu, validé avec vous et mis en ligne sous 5 à 7 jours ouvrés.",
+    q: "Combien de temps faut-il pour avoir le site en ligne ?",
+    a: "Une fois que j'ai vos photos et vos infos de base, la maquette est prête en quelques jours et le site complet est généralement en ligne sous 5 à 7 jours ouvrés.",
   },
   {
     index: "04",
-    q: "Que se passe-t-il si le résultat ne me convient pas ?",
-    a: "Nous faisons les ajustements nécessaires ensemble. Si le résultat ne vous satisfait toujours pas, vous êtes entièrement libre d'arrêter le projet sans débourser un centime. Le risque est à 100% de mon côté.",
+    q: "Et si la proposition ne me plaît pas ?",
+    a: "On ajuste ensemble ce qui bloque jusqu'à ce que ça vous convienne. Et si vraiment ça ne colle pas, vous êtes libre d'arrêter sans rien débourser.",
   },
 ];
 
@@ -37,17 +37,16 @@ export function FaqSection() {
       <div className="mx-auto max-w-[1120px] px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <AtelierReveal className="lg:col-span-4">
-            <EyebrowBadge index="06">Transparence</EyebrowBadge>
+            <EyebrowBadge index="06">Questions fréquentes</EyebrowBadge>
             <h2 className="mt-6 text-[clamp(2rem,3.8vw,3rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-              Questions{" "}
-              <span className="text-[#0C0A08]/40 font-normal">fréquentes.</span>
+              Ce qu&apos;on nous demande{" "}
+              <span className="text-[#0C0A08]/40 font-normal">le plus souvent.</span>
             </h2>
             <p className="mt-4 text-[0.96rem] leading-[1.6] text-[#57534E]">
-              Tout ce qu&apos;il faut savoir avant de réserver votre vitrine offerte.
+              Les réponses simples aux questions que vous vous posez avant de lancer votre site.
             </p>
           </AtelierReveal>
 
-          {/* Accordéon Éditorial Ouvert à Filets Fins */}
           <div className="lg:col-span-8 divide-y divide-[#0C0A08]/[0.09] border-y border-[#0C0A08]/[0.09]">
             {FAQ_ITEMS.map((item, idx) => {
               const isOpen = openIdx === idx;

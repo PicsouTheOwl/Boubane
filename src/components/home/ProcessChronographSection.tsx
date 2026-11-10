@@ -9,41 +9,40 @@ const PHASES = [
   {
     index: "01",
     day: "JOUR 1",
-    title: "Brief Express 10 min",
-    desc: "Vous remplissez l'essentiel ou nous échangeons 10 minutes par téléphone. Aucun cahier des charges indigeste.",
-    deliverable: "Arborescence & positionnement validés",
-    telemetry: "0 € d'acompte · 10 min chrono",
+    title: "On fait le point en 10 min",
+    desc: "Vous me donnez l'essentiel sur votre activité par écrit ou au téléphone. Pas besoin de préparer un dossier de trente pages.",
+    deliverable: "Structure du site posée",
+    telemetry: "10 min · 0 € d'acompte",
     visualLines: [
-      "ANALYSE MÉTIER & ZONE GÉOGRAPHIQUE",
-      "EXTRACTION DES PREUVES DE CHANTIER",
-      "ARCHITECTURE DE CONVERSION DIRECTE",
+      "Votre métier et votre zone géographique",
+      "Les photos et chantiers à mettre en avant",
+      "La façon dont vos clients vous contactent",
     ],
   },
   {
     index: "02",
     day: "JOURS 2–4",
-    dayShort: "JOURS 2–4",
-    title: "L'Orfèvrerie du Studio",
-    desc: "Design sur-mesure, rédaction stratégique et code pur sans template ni CMS lourd. Maquette privée livrée pour lecture.",
-    deliverable: "Prototype fonctionnel sur URL privée",
-    telemetry: "Code pur · Temps réponse < 0.3s",
+    title: "Je construis votre site",
+    desc: "Design, rédaction et code propre sans thème préfabriqué. Vous recevez un lien privé pour regarder le résultat sur votre téléphone.",
+    deliverable: "Première version en ligne sur lien privé",
+    telemetry: "Code léger · Ouverture < 0,3s",
     visualLines: [
-      "TYPOGRAPHIE OPTIQUE & HIÉRARCHIE",
-      "DÉVELOPPEMENT SUR-MESURE ZERO BLOAT",
-      "OPTIMISATION MOBILE & SEO LOCAL",
+      "Mise en page sur mesure et textes clairs",
+      "Optimisation pour Google sur votre secteur",
+      "Affichage rapide sur smartphone",
     ],
   },
   {
     index: "03",
     day: "JOUR 5",
-    title: "Validation ou 0 € Engagé",
-    desc: "Nous ajustons chaque détail ensemble. Si vous êtes convaincu, mise en ligne directe à votre nom. Sinon, vous ne réglez rien.",
-    deliverable: "Mise en ligne & transfert GitHub",
-    telemetry: "100% Propriétaire · Liberté totale",
+    title: "On valide ou on arrête là",
+    desc: "On ajuste ensemble ce qui doit l'être. Si le résultat vous plaît, je le publie sur votre nom de domaine. Sinon, vous ne me devez rien.",
+    deliverable: "Mise en ligne à votre nom",
+    telemetry: "100 % à vous · Sans engagement",
     visualLines: [
-      "REVUE DETAIL PAR DETAIL AVEC LÉO",
-      "TRANSFERT DÉPÔT GITHUB & DOMAINE",
-      "DÉPLOIEMENT PRODUCTION SSL",
+      "Relecture et retouches en direct avec vous",
+      "Envoi de tout le code sur votre GitHub",
+      "Publication en ligne avec cadenas HTTPS",
     ],
   },
 ];
@@ -72,21 +71,20 @@ export function ProcessChronographSection() {
       <div className="mx-auto max-w-[1200px] px-6">
         <AtelierReveal className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-14 md:mb-16">
           <div className="lg:col-span-7">
-            <EyebrowBadge index="04">Chronographe · 5 Jours</EyebrowBadge>
+            <EyebrowBadge index="04">En 5 jours</EyebrowBadge>
             <h2 className="mt-6 text-[clamp(2.2rem,4.6vw,3.6rem)] font-bold tracking-[-0.045em] leading-[1.03] text-[#0C0A08]">
-              Cinq jours{" "}
-              <span className="text-[#0C0A08]/40 font-normal">de l&apos;esquisse à la mise en ligne.</span>
+              De notre premier échange{" "}
+              <span className="text-[#0C0A08]/40 font-normal">à la mise en ligne.</span>
             </h2>
           </div>
           <div className="lg:col-span-5 flex flex-col gap-3">
             <p className="text-[0.98rem] leading-[1.6] text-[#57534E]">
-              Un protocole calibré au jour près. Pas de réunions interminables : chaque étape produit
-              un livrable tangible.
+              Pas de tunnel interminable ni de réunions qui s&apos;étirent sur trois mois : en cinq
+              jours ouvrés, votre site est prêt.
             </p>
-            {/* Fil de progression lié au scroll */}
             <div className="flex items-center gap-3">
               <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#0C0A08]/45">
-                PROGRESSION
+                AVANCEMENT
               </span>
               <div className="flex-1 h-[2px] bg-[#0C0A08]/[0.08] overflow-hidden rounded-full">
                 <motion.div
@@ -98,9 +96,7 @@ export function ProcessChronographSection() {
           </div>
         </AtelierReveal>
 
-        {/* Chronographe Interactif Asymétrique (Zero 3-Box Clutter) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-          {/* Colonne Gauche : Séquences à filets fins */}
           <AtelierReveal delay={0.06} className="lg:col-span-6 flex flex-col justify-center">
             <div className="divide-y divide-[#0C0A08]/[0.08] border-y border-[#0C0A08]/[0.08]">
               {PHASES.map((phase, idx) => {
@@ -123,17 +119,17 @@ export function ProcessChronographSection() {
 
                     <span
                       className={`font-mono text-2xl sm:text-3xl font-light tracking-[-0.04em] tabular-nums transition-colors ${
-                        isSelected ? "text-[#ED5B04]" : "text-[#0C0A08]/25 group-hover:text-[#0C0A08]/50"
+                        isSelected
+                          ? "text-[#ED5B04]"
+                          : "text-[#0C0A08]/25 group-hover:text-[#0C0A08]/50"
                       }`}
                     >
                       {phase.index}
                     </span>
 
                     <div className="flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#ED5B04]">
-                          {phase.day}
-                        </span>
+                      <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#ED5B04]">
+                        {phase.day}
                       </div>
                       <h3 className="mt-1.5 text-xl font-semibold tracking-[-0.025em] text-[#0C0A08]">
                         {phase.title}
@@ -148,9 +144,12 @@ export function ProcessChronographSection() {
             </div>
           </AtelierReveal>
 
-          {/* Colonne Droite : Planche Technique / Blueprint Live */}
           <AtelierReveal delay={0.14} className="lg:col-span-6 flex">
-            <SpecularPlate dark crosshairs className="w-full p-8 sm:p-10 flex flex-col justify-between overflow-hidden">
+            <SpecularPlate
+              dark
+              crosshairs
+              className="w-full p-8 sm:p-10 flex flex-col justify-between overflow-hidden"
+            >
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.div
                   key={current.index}
@@ -163,23 +162,20 @@ export function ProcessChronographSection() {
                   <div>
                     <div className="flex items-center justify-between pb-5 border-b border-white/[0.08]">
                       <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04]">
-                        PHASE {current.index} · {current.day}
+                        ÉTAPE {current.index} · {current.day}
                       </span>
-                      <span className="font-mono text-[11px] text-white/45">
-                        {current.telemetry}
-                      </span>
+                      <span className="font-mono text-[11px] text-white/45">{current.telemetry}</span>
                     </div>
 
                     <div className="mt-8">
                       <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40 mb-2">
-                        LIVRABLE DIRECT
+                        CE QUE VOUS RECEVEZ
                       </div>
                       <div className="text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-white">
                         {current.deliverable}
                       </div>
                     </div>
 
-                    {/* Schéma Opérationnel de la Phase */}
                     <div className="mt-8 space-y-3">
                       {current.visualLines.map((line, lineIdx) => (
                         <motion.div
@@ -187,15 +183,13 @@ export function ProcessChronographSection() {
                           initial={{ opacity: 0, x: -8 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{
-                            duration: 0.3,
-                            delay: lineIdx * 0.07,
+                            duration: 0.28,
+                            delay: lineIdx * 0.06,
                             ease: ATELIER_EASE,
                           }}
                           className="flex items-center justify-between gap-4 rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3.5"
                         >
-                          <span className="font-mono text-xs tracking-[0.06em] text-white/85">
-                            {line}
-                          </span>
+                          <span className="text-sm text-white/85">{line}</span>
                           <span className="w-2 h-2 rounded-full bg-[#ED5B04] shadow-[0_0_8px_rgba(237,91,4,0.7)] shrink-0" />
                         </motion.div>
                       ))}
@@ -203,7 +197,7 @@ export function ProcessChronographSection() {
                   </div>
 
                   <div className="mt-9 pt-5 border-t border-white/[0.08] flex items-center justify-between font-mono text-[11px] text-white/40">
-                    <span>ATELIER BOUBANE · PROTOCOLE CALIBRÉ</span>
+                    <span>SUIVI EN DIRECT AVEC LÉO</span>
                     <span>J+{current.index === "01" ? "1" : current.index === "02" ? "4" : "5"}</span>
                   </div>
                 </motion.div>

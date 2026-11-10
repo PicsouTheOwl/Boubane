@@ -25,17 +25,17 @@ const ARTICLES: Article[] = [
     index: "01",
     category: "Modèle",
     readTime: "4 min",
-    title: "Pourquoi un site vitrine facturé 4 500 € en agence n'a plus aucun sens",
+    title: "Pourquoi un site vitrine facturé 4 500 € en agence n'a plus beaucoup de sens",
     excerpt:
-      "Décomposition chirurgicale d'un devis d'agence classique et explication du circuit court Boubane à 0 € d'honoraires.",
+      "Ce qu'il y a vraiment dans un devis d'agence classique, et comment on arrive à 0 € de création chez Boubane.",
     sections: [
       {
-        heading: "1. La décomposition réelle des coûts d'une agence classique",
-        body: "Dans un devis standard à 4 500 €, plus de 70 % sert à financer la prospection commerciale, les réunions de chefs de projet et les frais généraux de bureaux. L'artisan ou le dirigeant paie pour une structure administrative, pas pour son site.",
+        heading: "1. Ce que paie vraiment un devis à 4 500 €",
+        body: "Sur une facture classique à 4 500 €, plus de 70 % sert à payer les commerciaux, les réunions de suivi et les loyers de bureaux. Vous payez le fonctionnement d'une structure, pas la qualité du code.",
       },
       {
-        heading: "2. Pourquoi Boubane offre 100 % de la conception",
-        body: "En supprimant les intermédiaires commerciaux et en travaillant sur une architecture de code pure, le coût marginal d'exécution est optimisé. Vous ne payez que votre hébergement réel (~5 €/mois) directement à votre nom.",
+        heading: "2. Pourquoi Boubane peut offrir la création à 0 €",
+        body: "En travaillant en direct sans intermédiaires et sur du code léger sur mesure, je peux concevoir votre vitrine à mes frais. Vous ne payez que votre nom de domaine et votre serveur (~5 €/mois) directement à votre nom.",
       },
     ],
   },
@@ -44,17 +44,17 @@ const ARTICLES: Article[] = [
     index: "02",
     category: "Souveraineté",
     readTime: "3 min",
-    title: "L'impôt caché des abonnements captifs : reprenez votre code source",
+    title: "Abonnements mensuels à 150 € : le coût réel sur 4 ans",
     excerpt:
-      "150 € par mois pendant 4 ans représente 7 200 € dépensés à fonds perdus sans posséder une seule ligne de votre site.",
+      "À 150 € par mois pendant 4 ans, vous dépensez 7 200 € sans jamais être propriétaire de votre site.",
     sections: [
       {
-        heading: "1. Le calcul financier implacable : 7 200 € à fonds perdus",
-        body: "Les formules locatives vous lient par contrat : dès que vous cessez de payer la mensualité, votre vitrine et parfois votre nom de domaine disparaissent.",
+        heading: "1. L'addition à la fin du contrat : 7 200 €",
+        body: "Les formules par abonnement vous engagent sur la durée : le jour où vous arrêtez de payer, le site et parfois même le nom de domaine sont coupés.",
       },
       {
-        heading: "2. Votre vitrine doit être un actif patrimonial",
-        body: "Chez Boubane, votre dépôt GitHub privé et votre nom de domaine sont enregistrés à votre nom dès la livraison. Liberté juridique totale.",
+        heading: "2. Garder la main sur votre outil de travail",
+        body: "Chez Boubane, votre dépôt GitHub et votre nom de domaine sont à votre nom dès le départ. Vous restez libre de partir ou de modifier votre site à tout moment.",
       },
     ],
   },
@@ -63,17 +63,17 @@ const ARTICLES: Article[] = [
     index: "03",
     category: "Performance",
     readTime: "5 min",
-    title: "La règle des 0.3 secondes : pourquoi la vitesse multiplie vos demandes de devis",
+    title: "La règle des 3 secondes : pourquoi un site lent vous fait perdre des clients",
     excerpt:
-      "Chaque seconde de latence WordPress réduit la conversion mobile de 20 %. Comment le code pur bat les CMS préfabriqués.",
+      "Quand une page met quatre secondes à s'ouvrir sur téléphone, la moitié des visiteurs repartent sur Google.",
     sections: [
       {
-        heading: "1. L'impact commercial direct sur smartphone",
-        body: "Plus de 72 % de vos prospects consultent votre site depuis un téléphone sur chantier ou entre deux rendez-vous. S'il met 4 secondes à charger, ils retournent sur Google.",
+        heading: "1. Vos clients vous cherchent d'abord sur mobile",
+        body: "Plus de 7 personnes sur 10 consultent votre site depuis leur téléphone. S'il met quatre secondes à charger, elles ferment l'onglet avant même de voir vos chantiers.",
       },
       {
-        heading: "2. La supériorité du code pur sur les constructeurs de pages",
-        body: "Zéro thème obèse, zéro dizaine d'extensions en conflit : uniquement du code moderne taillé au millimètre pour l'affichage instantané.",
+        heading: "2. Code propre contre WordPress surchargé",
+        body: "Sans thème lourd ni dizaines d'extensions en conflit, les pages s'affichent en moins de 0,3 seconde.",
       },
     ],
   },
@@ -82,17 +82,17 @@ const ARTICLES: Article[] = [
     index: "04",
     category: "Territoire",
     readTime: "4 min",
-    title: "Dominer les recherches locales à Segré-en-Anjou Bleu et dans le Haut-Anjou",
+    title: "Être trouvé sur Google à Segré-en-Anjou Bleu et dans le Haut-Anjou",
     excerpt:
-      "Comment structurer sa vitrine pour capter les clients sérieux du 49 et du 53 sans dépendre de la publicité payante.",
+      "Comment organiser votre site pour capter les recherches locales du 49 et du 53 sans payer de publicité.",
     sections: [
       {
-        heading: "1. Le dynamisme du Segréen mérite des vitrines d'exception",
-        body: "Artisans, cabinets et PME locales disposent d'un savoir-faire réel souvent invisibilisé par des sites datés ou une simple page Facebook.",
+        heading: "1. Montrer votre vrai travail dans le Segréen",
+        body: "Beaucoup d'artisans et de PME locales travaillent très bien mais n'ont qu'une page Facebook ou un vieux site dépassé.",
       },
       {
-        heading: "2. Architecture sémantique et balisage local",
-        body: "Chaque page livrée par le studio intègre les données structurées géolocalisées (Segré, Le Lion-d'Angers, Château-Gontier, Angers) pour une indexation propre et durable.",
+        heading: "2. Des pages structurées pour les recherches de proximité",
+        body: "Chaque site intègre les bonnes balises locales (Segré, Le Lion-d'Angers, Château-Gontier, Angers) pour ressortir naturellement sur les requêtes de votre secteur.",
       },
     ],
   },
