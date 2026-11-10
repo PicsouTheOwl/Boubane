@@ -462,30 +462,30 @@ export function HeroSection() {
     offset = -singleLen * 1.5;
 
     const updateCurveGeometry = (bx: number, by: number) => {
-      const midY = 75 + by;
-      const c1y = 160 + by * 0.55;
-      const c2y = -10 + by * 0.55;
+      const midY = 135 + by;
+      const c1y = 220 + by * 0.55;
+      const c2y = 50 + by * 0.55;
       const midX = 760 + bx;
 
       mainPath.setAttribute(
         "d",
-        `M -150, 165 C 180, 210 ${480 + bx * 0.35}, ${c1y.toFixed(1)} ${midX.toFixed(1)}, ${midY.toFixed(
+        `M -150, 225 C 180, 270 ${480 + bx * 0.35}, ${c1y.toFixed(1)} ${midX.toFixed(1)}, ${midY.toFixed(
           1
-        )} C ${1040 + bx * 0.35}, ${c2y.toFixed(1)} 1320, 110 1620, 150`
+        )} C ${1040 + bx * 0.35}, ${c2y.toFixed(1)} 1320, 170 1620, 210`
       );
       shadowPath.setAttribute(
         "d",
-        `M -150, 171 C 180, 216 ${480 + bx * 0.35}, ${(c1y + 6).toFixed(1)} ${midX.toFixed(1)}, ${(
+        `M -150, 231 C 180, 276 ${480 + bx * 0.35}, ${(c1y + 6).toFixed(1)} ${midX.toFixed(1)}, ${(
           midY + 6
-        ).toFixed(1)} C ${1040 + bx * 0.35}, ${(c2y + 6).toFixed(1)} 1320, 116 1620, 156`
+        ).toFixed(1)} C ${1040 + bx * 0.35}, ${(c2y + 6).toFixed(1)} 1320, 176 1620, 216`
       );
       curvePath.setAttribute(
         "d",
-        `M -2500, 240 C -1500, 220 -800, 130 -150, 165 C 180, 210 ${480 + bx * 0.35}, ${c1y.toFixed(
+        `M -2500, 300 C -1500, 280 -800, 190 -150, 225 C 180, 270 ${480 + bx * 0.35}, ${c1y.toFixed(
           1
         )} ${midX.toFixed(1)}, ${midY.toFixed(1)} C ${1040 + bx * 0.35}, ${c2y.toFixed(
           1
-        )} 1320, 110 1620, 150 C 2100, 180 2800, 220 3800, 240`
+        )} 1320, 170 1620, 210 C 2100, 240 2800, 280 3800, 300`
       );
     };
 
@@ -978,7 +978,7 @@ export function HeroSection() {
         <div className="curved-banner-inner">
           <svg
             className="curved-banner-svg"
-            viewBox="0 0 1440 245"
+            viewBox="0 0 1440 340"
             width="100%"
             height="auto"
             preserveAspectRatio="xMidYMid meet"
@@ -992,7 +992,14 @@ export function HeroSection() {
                 <stop offset="100%" stopColor="#D94800" />
               </linearGradient>
 
-              <filter id="ribbonElevation" x="-10%" y="-25%" width="120%" height="170%">
+              <filter
+                id="ribbonElevation"
+                filterUnits="userSpaceOnUse"
+                x="-400"
+                y="-120"
+                width="2240"
+                height="580"
+              >
                 <feDropShadow
                   dx="0"
                   dy="16"
@@ -1005,14 +1012,14 @@ export function HeroSection() {
               <path
                 ref={archTextCurveRef}
                 id="archTextCurve"
-                d="M -2500, 240 C -1500, 220 -800, 130 -150, 165 C 180, 210 480, 160 760, 75 C 1040, -10 1320, 110 1620, 150 C 2100, 180 2800, 220 3800, 240"
+                d="M -2500, 300 C -1500, 280 -800, 190 -150, 225 C 180, 270 480, 220 760, 135 C 1040, 50 1320, 170 1620, 210 C 2100, 240 2800, 280 3800, 300"
                 fill="none"
               />
             </defs>
 
             <path
               ref={ribbonShadowPathRef}
-              d="M -150, 171 C 180, 216 480, 166 760, 81 C 1040, -4 1320, 116 1620, 156"
+              d="M -150, 231 C 180, 276 480, 226 760, 141 C 1040, 56 1320, 176 1620, 216"
               stroke="rgba(12, 10, 8, 0.08)"
               strokeWidth="96"
               fill="none"
@@ -1020,7 +1027,7 @@ export function HeroSection() {
             />
             <path
               ref={ribbonMainPathRef}
-              d="M -150, 165 C 180, 210 480, 160 760, 75 C 1040, -10 1320, 110 1620, 150"
+              d="M -150, 225 C 180, 270 480, 220 760, 135 C 1040, 50 1320, 170 1620, 210"
               stroke="url(#ribbonOrangeGrad)"
               strokeWidth="94"
               fill="none"
