@@ -183,22 +183,23 @@ export function AtelierReveal({
 }
 
 const CHAPTERS = [
-  { id: "modele", label: "01 · Modèle à 0 €" },
-  { id: "comparatif", label: "02 · Comparatif" },
-  { id: "realisations", label: "03 · Réalisations" },
-  { id: "processus", label: "04 · Méthode en 5 jours" },
-  { id: "artisan", label: "05 · Qui code votre site" },
-  { id: "faq", label: "06 · Questions" },
+  { id: "modele", label: "01 · Pourquoi 0 €" },
+  { id: "comparatif", label: "02 · Les trois feuilles" },
+  { id: "realisations", label: "03 · Planches en ligne" },
+  { id: "processus", label: "04 · Cinq jours" },
+  { id: "artisan", label: "05 · Lettre de Léo" },
+  { id: "faq", label: "06 · Carton à questions" },
 ];
 
 /**
- * Whisper-quiet spatial compass & chapter indicator on desktop scroll (never obscures Hero).
+ * Whisper-quiet spatial compass, active chapter readout & drafting table X/Y coordinates on desktop scroll.
  */
 export function AtelierReadingCompass() {
   const { scrollYProgress } = useScroll();
   const smoothScale = useSpring(scrollYProgress, { stiffness: 180, damping: 28 });
   const [visible, setVisible] = useState(false);
   const [activeChapter, setActiveChapter] = useState<string>(CHAPTERS[0].label);
+  const [coords, setCoords] = useState<{ x: string; y: string }>({ x: "0.00", y: "0.00" });
 
   useEffect(() => {
     const onScroll = () => {
@@ -211,29 +212,43 @@ export function AtelierReadingCompass() {
         }
       }
     };
+    const onPointerMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      const nx = (e.clientX / Math.max(1, window.innerWidth)).toFixed(2);
+      const ny = (e.clientY / Math.max(1, window.innerHeight)).toFixed(2);
+      setCoords({ x: nx, y: ny });
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("pointermove", onPointerMove);
+    };
   }, []);
 
   return (
     <>
-      {/* Top 1.5px hair-thin scroll beam */}
+      {/* Top 2px hair-thin scroll beam */}
       <motion.div
         aria-hidden="true"
         style={{ scaleX: smoothScale, transformOrigin: "left center" }}
         className="fixed top-0 inset-x-0 h-[2px] bg-[#ED5B04] z-[120] pointer-events-none"
       />
 
-      {/* Floating minimalist chapter telemetry pill */}
+      {/* Floating minimalist chapter telemetry + drafting table X/Y pill */}
       <motion.div
         initial={false}
         animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 12 }}
         transition={{ duration: 0.22, ease: ATELIER_EASE }}
-        className="hidden xl:flex fixed bottom-6 left-6 z-40 pointer-events-none items-center gap-2.5 rounded-full bg-[#0C0A08]/90 backdrop-blur-md border border-white/10 px-3.5 py-1.5 text-[11px] font-mono text-[#FAF8F5] shadow-lg"
+        className="hidden xl:flex fixed bottom-6 left-6 z-40 pointer-events-none items-center gap-3 rounded-sm bg-[#141311]/95 border border-[#424242]/50 px-3.5 py-2 text-[11px] font-mono text-[#FAF7F0] shadow-[4px_4px_0_rgba(12,10,8,0.16)]"
       >
         <span className="w-1.5 h-1.5 rounded-full bg-[#ED5B04]" />
         <span className="tracking-[0.06em] uppercase">{activeChapter}</span>
+        <span className="h-3 w-px bg-white/15" aria-hidden="true" />
+        <span className="text-white/55 tabular-nums tracking-[0.06em]">
+          X {coords.x} · Y {coords.y}
+        </span>
       </motion.div>
     </>
   );

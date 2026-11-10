@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus } from "lucide-react";
-import { AtelierReveal, EyebrowBadge } from "@/components/AtelierPrimitives";
-import { ATELIER_EASE } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
+import { AtelierReveal } from "@/components/AtelierPrimitives";
+import { FolderSheet, HandwrittenNote } from "@/components/DraftingPrimitives";
+import { ATELIER_EASE, cn } from "@/lib/utils";
 
 const FAQ_ITEMS = [
   {
@@ -33,68 +34,90 @@ export function FaqSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="relative py-28 md:py-36 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.06]">
-      <div className="mx-auto max-w-[1120px] px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <section
+      id="faq"
+      className="relative py-20 sm:py-28 bg-[#FAF7F0] drafting-grid border-t border-[#424242]/15 overflow-x-clip"
+    >
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           <AtelierReveal className="lg:col-span-4">
-            <EyebrowBadge index="06">Questions fréquentes</EyebrowBadge>
-            <h2 className="mt-6 text-[clamp(2rem,3.8vw,3rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-              Ce qu&apos;on nous demande{" "}
-              <span className="text-[#0C0A08]/40 font-normal">le plus souvent.</span>
+            <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#57534E] mb-3">
+              <span className="px-2 py-0.5 bg-[#E8DAC1] text-[#0C0A08] font-semibold rounded-[2px]">
+                06
+              </span>
+              <span>Questions fréquentes</span>
+            </div>
+            <h2 className="text-[clamp(1.9rem,3.8vw,2.9rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
+              Ce qu&apos;on me demande{" "}
+              <span className="text-[#57534E] font-normal">avant de se lancer.</span>
             </h2>
-            <p className="mt-4 text-[0.96rem] leading-[1.6] text-[#57534E]">
-              Les réponses simples aux questions que vous vous posez avant de lancer votre site.
-            </p>
+            <HandwrittenNote className="mt-3 -rotate-1">
+              Les réponses directes, sans astérisque en bas de page.
+            </HandwrittenNote>
           </AtelierReveal>
 
-          <div className="lg:col-span-8 divide-y divide-[#0C0A08]/[0.09] border-y border-[#0C0A08]/[0.09]">
-            {FAQ_ITEMS.map((item, idx) => {
-              const isOpen = openIdx === idx;
-              return (
-                <div key={item.q}>
-                  <button
-                    type="button"
-                    aria-expanded={isOpen}
-                    onClick={() => setOpenIdx(isOpen ? null : idx)}
-                    className="w-full py-6 flex items-center justify-between gap-6 text-left cursor-pointer group active:scale-[0.996] transition-transform"
-                  >
-                    <div className="flex items-baseline gap-4">
-                      <span className="font-mono text-xs text-[#ED5B04] font-semibold tabular-nums">
-                        {item.index}
-                      </span>
-                      <span className="font-semibold text-[1.06rem] tracking-[-0.02em] text-[#0C0A08] group-hover:text-[#ED5B04] transition-colors">
-                        {item.q}
-                      </span>
-                    </div>
-
-                    <motion.span
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.22, ease: ATELIER_EASE }}
-                      className="w-7 h-7 shrink-0 rounded-full border border-[#0C0A08]/[0.12] flex items-center justify-center text-[#0C0A08]"
-                    >
-                      <Plus className="w-3.5 h-3.5" strokeWidth={1.8} />
-                    </motion.span>
-                  </button>
-
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.28, ease: ATELIER_EASE }}
-                        className="overflow-hidden"
+          <AtelierReveal delay={0.05} className="lg:col-span-8">
+            <FolderSheet
+              tone="kraft"
+              tabIndex="FAQ"
+              tabLabel="Réponses claires"
+              innerClassName="px-5 sm:px-8 py-2"
+            >
+              <div className="divide-y divide-dashed divide-[#424242]/35">
+                {FAQ_ITEMS.map((item, idx) => {
+                  const isOpen = openIdx === idx;
+                  return (
+                    <div key={item.q}>
+                      <button
+                        type="button"
+                        aria-expanded={isOpen}
+                        onClick={() => setOpenIdx(isOpen ? null : idx)}
+                        className="w-full py-5 sm:py-6 flex items-center justify-between gap-4 text-left cursor-pointer group active:scale-[0.996] transition-transform min-h-[60px]"
                       >
-                        <div className="pb-7 pl-8 pr-6 text-[0.96rem] leading-[1.68] text-[#57534E] max-w-[62ch]">
-                          {item.a}
+                        <div className="flex items-baseline gap-3 sm:gap-4 pr-2">
+                          <span className="font-mono text-xs text-[#ED5B04] font-semibold tabular-nums shrink-0">
+                            {item.index}
+                          </span>
+                          <span className="font-semibold text-[1rem] sm:text-[1.06rem] tracking-[-0.02em] text-[#0C0A08] group-hover:text-[#ED5B04] transition-colors">
+                            {item.q}
+                          </span>
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
+
+                        <motion.span
+                          animate={{ rotate: isOpen ? 180 : 0 }}
+                          transition={{ duration: 0.22, ease: ATELIER_EASE }}
+                          className={cn(
+                            "w-8 h-8 shrink-0 rounded-[3px] border flex items-center justify-center transition-colors",
+                            isOpen
+                              ? "bg-[#141311] border-[#141311] text-[#FAF7F0]"
+                              : "bg-[#FDFBF5] border-[#424242]/35 text-[#0C0A08] group-hover:border-[#ED5B04]"
+                          )}
+                        >
+                          <ChevronDown className="w-4 h-4" strokeWidth={2} />
+                        </motion.span>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.26, ease: ATELIER_EASE }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pb-6 pl-7 sm:pl-9 pr-2 text-[0.95rem] leading-[1.68] text-[#3B352F] max-w-[60ch]">
+                              {item.a}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+              </div>
+            </FolderSheet>
+          </AtelierReveal>
         </div>
       </div>
     </section>

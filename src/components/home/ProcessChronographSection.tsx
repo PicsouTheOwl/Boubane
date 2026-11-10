@@ -1,209 +1,158 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
-import { AtelierReveal, EyebrowBadge, SpecularPlate } from "@/components/AtelierPrimitives";
-import { ATELIER_EASE, ATELIER_SNAPPY_SPRING } from "@/lib/utils";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { AtelierReveal } from "@/components/AtelierPrimitives";
+import { FolderSheet, HandwrittenNote, PaperSquareButton } from "@/components/DraftingPrimitives";
+import { ATELIER_EASE, cn } from "@/lib/utils";
 
-const PHASES = [
+const STEPS = [
   {
-    index: "01",
-    day: "JOUR 1",
-    title: "On fait le point en 10 min",
-    desc: "Vous me donnez l'essentiel sur votre activité par écrit ou au téléphone. Pas besoin de préparer un dossier de trente pages.",
-    deliverable: "Structure du site posée",
-    telemetry: "10 min · 0 € d'acompte",
-    visualLines: [
-      "Votre métier et votre zone géographique",
-      "Les photos et chantiers à mettre en avant",
-      "La façon dont vos clients vous contactent",
-    ],
+    code: "JOUR 1",
+    short: "Café ou appel 10 min",
+    title: "On parle de votre métier sans jargon.",
+    desc: "Vous me montrez ce que vous faites, vos photos de chantier ou d'atelier, et votre zone autour de Segré ou ailleurs. Pas de cahier des charges de 20 pages.",
+    note: "Zero formulaire compliqué.",
   },
   {
-    index: "02",
-    day: "JOURS 2–4",
-    title: "Je construis votre site",
-    desc: "Design, rédaction et code propre sans thème préfabriqué. Vous recevez un lien privé pour regarder le résultat sur votre téléphone.",
-    deliverable: "Première version en ligne sur lien privé",
-    telemetry: "Code léger · Ouverture < 0,3s",
-    visualLines: [
-      "Mise en page sur mesure et textes clairs",
-      "Optimisation pour Google sur votre secteur",
-      "Affichage rapide sur smartphone",
-    ],
+    code: "JOURS 2–4",
+    short: "Dessin & mise en page",
+    title: "Je vous envoie un premier lien privé à tester.",
+    desc: "Je rédige des textes simples qui vous ressemblent et je construis le site pour qu'il soit impeccable sur téléphone comme sur grand écran.",
+    note: "On ajuste ensemble en direct.",
   },
   {
-    index: "03",
-    day: "JOUR 5",
-    title: "On valide ou on arrête là",
-    desc: "On ajuste ensemble ce qui doit l'être. Si le résultat vous plaît, je le publie sur votre nom de domaine. Sinon, vous ne me devez rien.",
-    deliverable: "Mise en ligne à votre nom",
-    telemetry: "100 % à vous · Sans engagement",
-    visualLines: [
-      "Relecture et retouches en direct avec vous",
-      "Envoi de tout le code sur votre GitHub",
-      "Publication en ligne avec cadenas HTTPS",
-    ],
+    code: "JOUR 5",
+    short: "Mise en ligne à votre nom",
+    title: "Votre nom de domaine et votre site sont en ligne.",
+    desc: "Vous avez tous les accès, le code source, et votre fiche Google pointée vers la nouvelle vitrine. Vous ne devez toujours aucun honoraire de création.",
+    note: "Votre vitrine tourne pour vous.",
+  },
+  {
+    code: "APRÈS",
+    short: "Liberté totale",
+    title: "Vous modifiez ou vous me passez un coup de fil.",
+    desc: "Une nouvelle photo à ajouter ou un horaire d'été ? Un message WhatsApp et c'est fait. Et si vous préférez gérer ailleurs un jour, tout est à vous.",
+    note: "Aucun abonnement piège.",
   },
 ];
 
 export function ProcessChronographSection() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 75%", "end 50%"],
-  });
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 22,
-    restDelta: 0.001,
-  });
-
-  const current = PHASES[activeIdx];
+  const [selected, setSelected] = useState(0);
+  const current = STEPS[selected];
 
   return (
     <section
       id="processus"
-      ref={containerRef}
-      className="relative py-28 md:py-36 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.06]"
+      className="relative py-20 sm:py-28 bg-[#FAF7F0] drafting-grid border-t border-[#424242]/15 overflow-x-clip"
     >
-      <div className="mx-auto max-w-[1200px] px-6">
-        <AtelierReveal className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-14 md:mb-16">
-          <div className="lg:col-span-7">
-            <EyebrowBadge index="04">En 5 jours</EyebrowBadge>
-            <h2 className="mt-6 text-[clamp(2.2rem,4.6vw,3.6rem)] font-bold tracking-[-0.045em] leading-[1.03] text-[#0C0A08]">
-              De notre premier échange{" "}
-              <span className="text-[#0C0A08]/40 font-normal">à la mise en ligne.</span>
-            </h2>
-          </div>
-          <div className="lg:col-span-5 flex flex-col gap-3">
-            <p className="text-[0.98rem] leading-[1.6] text-[#57534E]">
-              Pas de tunnel interminable ni de réunions qui s&apos;étirent sur trois mois : en cinq
-              jours ouvrés, votre site est prêt.
-            </p>
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#0C0A08]/45">
-                AVANCEMENT
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-14">
+          <AtelierReveal className="max-w-xl">
+            <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#57534E] mb-3">
+              <span className="px-2 py-0.5 bg-[#E8DAC1] text-[#0C0A08] font-semibold rounded-[2px]">
+                04
               </span>
-              <div className="flex-1 h-[2px] bg-[#0C0A08]/[0.08] overflow-hidden rounded-full">
-                <motion.div
-                  style={{ scaleX: smoothProgress, transformOrigin: "left center" }}
-                  className="h-full w-full bg-[#ED5B04]"
-                />
-              </div>
+              <span>Carnet de route</span>
             </div>
-          </div>
-        </AtelierReveal>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-          <AtelierReveal delay={0.06} className="lg:col-span-6 flex flex-col justify-center">
-            <div className="divide-y divide-[#0C0A08]/[0.08] border-y border-[#0C0A08]/[0.08]">
-              {PHASES.map((phase, idx) => {
-                const isSelected = activeIdx === idx;
-                return (
-                  <button
-                    key={phase.index}
-                    type="button"
-                    onClick={() => setActiveIdx(idx)}
-                    onMouseEnter={() => setActiveIdx(idx)}
-                    className="relative w-full text-left py-7 pl-6 pr-4 flex items-start gap-6 cursor-pointer group transition-colors"
-                  >
-                    {isSelected && (
-                      <motion.span
-                        layoutId="chronographActiveRail"
-                        transition={ATELIER_SNAPPY_SPRING}
-                        className="absolute left-0 top-3 bottom-3 w-[2.5px] rounded-full bg-[#ED5B04]"
-                      />
-                    )}
-
-                    <span
-                      className={`font-mono text-2xl sm:text-3xl font-light tracking-[-0.04em] tabular-nums transition-colors ${
-                        isSelected
-                          ? "text-[#ED5B04]"
-                          : "text-[#0C0A08]/25 group-hover:text-[#0C0A08]/50"
-                      }`}
-                    >
-                      {phase.index}
-                    </span>
-
-                    <div className="flex-1">
-                      <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#ED5B04]">
-                        {phase.day}
-                      </div>
-                      <h3 className="mt-1.5 text-xl font-semibold tracking-[-0.025em] text-[#0C0A08]">
-                        {phase.title}
-                      </h3>
-                      <p className="mt-2 text-[0.93rem] leading-[1.6] text-[#57534E]">
-                        {phase.desc}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+            <h2 className="text-[clamp(2rem,4.4vw,3.3rem)] font-bold tracking-[-0.045em] leading-[1.04] text-[#0C0A08]">
+              Cinq jours du premier coup de fil{" "}
+              <span className="text-[#57534E] font-normal">à la mise en ligne.</span>
+            </h2>
           </AtelierReveal>
 
-          <AtelierReveal delay={0.14} className="lg:col-span-6 flex">
-            <SpecularPlate
-              dark
-              crosshairs
-              className="w-full p-8 sm:p-10 flex flex-col justify-between overflow-hidden"
-            >
-              <AnimatePresence mode="popLayout" initial={false}>
-                <motion.div
-                  key={current.index}
-                  initial={{ opacity: 0, filter: "blur(3px)", y: 8 }}
-                  animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-                  exit={{ opacity: 0, filter: "blur(3px)", y: -6 }}
-                  transition={{ duration: 0.24, ease: ATELIER_EASE }}
-                  className="flex flex-col h-full justify-between"
+          <AtelierReveal delay={0.05}>
+            <HandwrittenNote className="rotate-1">
+              Touchez une étape pour ouvrir la fiche du jour.
+            </HandwrittenNote>
+          </AtelierReveal>
+        </div>
+
+        {/* Interactive Index Strip + Open Kraft Sheet */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 items-stretch">
+          <div
+            role="tablist"
+            aria-label="Étapes de création en 5 jours"
+            className="lg:col-span-5 grid grid-cols-2 lg:grid-cols-1 gap-3"
+          >
+            {STEPS.map((step, idx) => {
+              const active = selected === idx;
+              return (
+                <button
+                  key={step.code}
+                  role="tab"
+                  type="button"
+                  aria-selected={active}
+                  onClick={() => setSelected(idx)}
+                  className={cn(
+                    "group text-left p-4 rounded-md border transition-all cursor-pointer min-h-[72px] active:scale-[0.99]",
+                    active
+                      ? "bg-[#141311] border-[#141311] text-[#FAF7F0] paper-sheet-shadow"
+                      : "bg-[#FDFBF5] border-[#424242]/25 text-[#0C0A08] hover:border-[#ED5B04]"
+                  )}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span
+                      className={cn(
+                        "font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em]",
+                        active ? "text-[#ED5B04]" : "text-[#57534E]"
+                      )}
+                    >
+                      {step.code}
+                    </span>
+                    <span
+                      className={cn(
+                        "w-2 h-2 rounded-full transition-colors",
+                        active ? "bg-[#ED5B04]" : "bg-[#424242]/20 group-hover:bg-[#ED5B04]/60"
+                      )}
+                    />
+                  </div>
+                  <div className="mt-1 font-semibold text-sm sm:text-[15px] tracking-tight leading-snug">
+                    {step.short}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="lg:col-span-7 flex">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div
+                key={current.code}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.22, ease: ATELIER_EASE }}
+                className="w-full flex"
+              >
+                <FolderSheet
+                  tone="kraft"
+                  tabIndex={current.code}
+                  tabLabel={current.short}
+                  registrationMarks
+                  tiltClassName="w-full"
+                  innerClassName="p-6 sm:p-10 h-full flex flex-col justify-between"
                 >
                   <div>
-                    <div className="flex items-center justify-between pb-5 border-b border-white/[0.08]">
-                      <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04]">
-                        ÉTAPE {current.index} · {current.day}
-                      </span>
-                      <span className="font-mono text-[11px] text-white/45">{current.telemetry}</span>
-                    </div>
-
-                    <div className="mt-8">
-                      <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40 mb-2">
-                        CE QUE VOUS RECEVEZ
-                      </div>
-                      <div className="text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-white">
-                        {current.deliverable}
-                      </div>
-                    </div>
-
-                    <div className="mt-8 space-y-3">
-                      {current.visualLines.map((line, lineIdx) => (
-                        <motion.div
-                          key={line}
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.28,
-                            delay: lineIdx * 0.06,
-                            ease: ATELIER_EASE,
-                          }}
-                          className="flex items-center justify-between gap-4 rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3.5"
-                        >
-                          <span className="text-sm text-white/85">{line}</span>
-                          <span className="w-2 h-2 rounded-full bg-[#ED5B04] shadow-[0_0_8px_rgba(237,91,4,0.7)] shrink-0" />
-                        </motion.div>
-                      ))}
-                    </div>
+                    <HandwrittenNote className="-rotate-1 mb-2">{current.note}</HandwrittenNote>
+                    <h3 className="text-[clamp(1.5rem,3vw,2.25rem)] font-bold tracking-[-0.035em] leading-[1.1] text-[#0C0A08]">
+                      {current.title}
+                    </h3>
+                    <p className="mt-4 text-[0.98rem] sm:text-[1.03rem] leading-[1.7] text-[#3B352F] max-w-[54ch]">
+                      {current.desc}
+                    </p>
                   </div>
 
-                  <div className="mt-9 pt-5 border-t border-white/[0.08] flex items-center justify-between font-mono text-[11px] text-white/40">
-                    <span>SUIVI EN DIRECT AVEC LÉO</span>
-                    <span>J+{current.index === "01" ? "1" : current.index === "02" ? "4" : "5"}</span>
+                  <div className="mt-8 pt-6 border-t border-dashed border-[#424242]/35 flex flex-wrap items-center justify-between gap-4">
+                    <div className="font-mono text-xs text-[#4A433B]">
+                      Étape {selected + 1} sur {STEPS.length}
+                    </div>
+                    <PaperSquareButton href="/commander" label="Réserver mon créneau" variant="ink" />
                   </div>
-                </motion.div>
-              </AnimatePresence>
-            </SpecularPlate>
-          </AtelierReveal>
+                </FolderSheet>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>
