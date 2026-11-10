@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "motion/react";
 import { Calendar, Phone, MessageCircle } from "lucide-react";
 import { AtelierReveal, Crosshair, EyebrowBadge } from "@/components/AtelierPrimitives";
+import { HandDrawnUnderline } from "@/components/HandDrawnAccents";
 import { ATELIER_EASE } from "@/lib/utils";
 
 export function ArtisanWorkbenchSection() {
@@ -14,11 +15,21 @@ export function ArtisanWorkbenchSection() {
     >
       <div className="mx-auto max-w-[1120px] px-6">
         <AtelierReveal>
-          <div className="relative rounded-[28px] bg-[#FDFCF9] border border-[#0C0A08]/[0.09] p-8 sm:p-12 md:p-16 shadow-[0_28px_70px_-24px_rgba(12,10,8,0.1),inset_0_1px_0_rgba(255,255,255,1)]">
+          <div className="relative rounded-[28px] bg-[#FDFCF9] atelier-shadow-warm p-8 sm:p-12 md:p-16">
             <Crosshair className="absolute top-4 left-4" />
             <Crosshair className="absolute top-4 right-4" />
             <Crosshair className="absolute bottom-4 left-4" />
             <Crosshair className="absolute bottom-4 right-4" />
+
+            {/* Cachet typographique pressé à la main (haut droite) */}
+            <div
+              aria-hidden="true"
+              className="hidden sm:flex flex-col items-end absolute top-10 right-12 select-none pointer-events-none rotate-[-2.5deg] opacity-75"
+            >
+              <div className="rounded-md border border-[#ED5B04]/45 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.18em] text-[#ED5B04]">
+                FOLIO N° 05 · FAIT MAIN
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
               {/* Colonne Gauche : Fiche Identité & Coordonnées Atelier */}
@@ -56,7 +67,11 @@ export function ArtisanWorkbenchSection() {
               <div className="lg:col-span-8 flex flex-col justify-between">
                 <blockquote className="text-[clamp(1.25rem,2.3vw,1.72rem)] font-medium tracking-[-0.025em] leading-[1.48] text-[#0C0A08]">
                   « En agence, votre interlocuteur est un commercial qui sous-traite votre projet.
-                  Chez Boubane, vous échangez directement avec celui qui écrit chaque ligne de code
+                  Chez Boubane, vous échangez{" "}
+                  <span className="relative inline-block">
+                    directement avec celui qui écrit chaque ligne de code
+                    <HandDrawnUnderline className="absolute -bottom-1.5 inset-x-0 h-2.5 w-full" delay={0.35} />
+                  </span>{" "}
                   de votre vitrine. Pas de filtre, pas de déperdition, pas de fausses promesses. »
                 </blockquote>
 

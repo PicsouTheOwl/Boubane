@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Check, Minus } from "lucide-react";
 import { AtelierReveal, EyebrowBadge } from "@/components/AtelierPrimitives";
+import { HandDrawnUnderline } from "@/components/HandDrawnAccents";
 import { ATELIER_SNAPPY_SPRING } from "@/lib/utils";
 
 const ROWS = [
@@ -71,7 +72,11 @@ export function ComparisonSection() {
             <EyebrowBadge index="02">Le Grand Face-à-Face</EyebrowBadge>
             <h2 className="mt-6 text-[clamp(2.2rem,4.6vw,3.6rem)] font-bold tracking-[-0.045em] leading-[1.03] text-[#0C0A08]">
               Agence classique{" "}
-              <span className="text-[#0C0A08]/35 font-normal">contre</span> Atelier Boubane
+              <span className="text-[#0C0A08]/35 font-normal">contre</span>{" "}
+              <span className="relative inline-block">
+                Atelier Boubane
+                <HandDrawnUnderline className="absolute -bottom-2 inset-x-0 h-3 w-full" delay={0.25} />
+              </span>
             </h2>
           </div>
 
@@ -120,7 +125,7 @@ export function ComparisonSection() {
 
         {/* Feuille de Spécification Suisse à Filets Fins (Zero Box Clutter) */}
         <AtelierReveal delay={0.08}>
-          <div className="rounded-[26px] bg-white border border-[#0C0A08]/[0.08] shadow-[0_24px_60px_-20px_rgba(12,10,8,0.08),inset_0_1px_0_rgba(255,255,255,1)] overflow-hidden">
+          <div className="rounded-[26px] bg-white atelier-shadow-warm overflow-hidden">
             {/* En-tête Tableau */}
             <div className="hidden md:grid md:grid-cols-12 border-b border-[#0C0A08]/[0.08] bg-[#FAF8F5]/70 px-8 py-5 font-mono text-[11px] uppercase tracking-[0.12em]">
               <div className="col-span-4 text-[#0C0A08]/45">Critère Technique</div>

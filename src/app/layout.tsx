@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { MotionConfig } from "motion/react";
+import { AtelierCommandPalette } from "@/components/AtelierCommandPalette";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -51,7 +52,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-[#FAF8F5] text-[#0C0A08] font-sans antialiased">
         <div className="ambient-glow" aria-hidden="true" />
         <div className="atelier-grain" aria-hidden="true" />
-        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+        <MotionConfig reducedMotion="user">
+          {children}
+          <AtelierCommandPalette />
+        </MotionConfig>
         <Script src="/tracker.js" strategy="afterInteractive" />
       </body>
     </html>

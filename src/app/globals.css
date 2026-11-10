@@ -89,15 +89,43 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Éviter les veuves et orphelins typographiques (Rauno / Paco craft) */
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  p, blockquote {
+    text-wrap: pretty;
+  }
+
   ::selection {
-    background-color: #ED5B04;
-    color: #FFFFFF;
+    background-color: rgba(237, 91, 4, 0.16);
+    color: #0C0A08;
   }
 
   :focus-visible {
     outline: 2px solid #ED5B04;
     outline-offset: 2px;
   }
+}
+
+/* Barre de défilement sculptée (fin, chaleureuse, sans chrome lourd) */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(12, 10, 8, 0.16);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(237, 91, 4, 0.55);
 }
 
 /* Grain photographique tactile subtil (Atelier Paper Finish) */
@@ -108,11 +136,20 @@
   height: 100vh;
   pointer-events: none;
   z-index: 50;
-  opacity: 0.025;
+  opacity: 0.028;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Liseré d'arête rotatif haute horlogerie (Atelier Boubane Écrin) */
+/* Ombres chaudes multi-couches à occlusion naturelle */
+.atelier-shadow-warm {
+  box-shadow:
+    0 0 0 1px rgba(42, 32, 20, 0.06),
+    0 2px 4px -1px rgba(42, 32, 20, 0.04),
+    0 14px 34px -10px rgba(42, 32, 20, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Liseré d'arête rotatif haute horlogerie */
 @keyframes atelierRimSpin {
   from {
     transform: rotate(0deg);
@@ -126,9 +163,21 @@
   animation: atelierRimSpin 9s linear infinite;
 }
 
+/* Feuille d'impression éditoriale soignée */
+@media print {
+  .header,
+  .atelier-grain,
+  .hero-dock-wrap {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .atelier-rim-conic {
     animation: none;
   }
 }
-

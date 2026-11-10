@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, Lock, Server, ShieldCheck } from "lucide-react";
 import { AtelierReveal, Crosshair, EyebrowBadge, SpecularPlate } from "@/components/AtelierPrimitives";
+import { ArchitectMarginalia, HandDrawnUnderline } from "@/components/HandDrawnAccents";
 import { ATELIER_EASE, ATELIER_SNAPPY_SPRING } from "@/lib/utils";
 
 type SpecimenTab = "conception" | "infra" | "propriete";
@@ -32,8 +33,12 @@ export function ManifestoSection() {
           <div className="lg:col-span-5">
             <p className="text-[1.02rem] leading-[1.65] text-[#57534E]">
               Pourquoi payer 4 500 € pour financer des bureaux et des commerciaux ? Nous supprimons
-              tout l&apos;appareil d&apos;agence pour vous livrer une vitrine d&apos;orfèvre
-              directement à votre nom.
+              tout l&apos;appareil d&apos;agence pour vous livrer une vitrine d&apos;orfèvre{" "}
+              <span className="relative inline-block font-medium text-[#0C0A08]">
+                directement à votre nom
+                <HandDrawnUnderline className="absolute -bottom-1.5 inset-x-0 h-2.5 w-full" delay={0.35} />
+              </span>
+              .
             </p>
           </div>
         </AtelierReveal>
@@ -129,6 +134,7 @@ export function ManifestoSection() {
                               net HT
                             </span>
                           </div>
+                          <ArchitectMarginalia note="Sans intermédiaire" dark className="mt-2" />
                         </div>
                       </div>
 

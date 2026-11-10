@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowUpRight, Calendar } from "lucide-react";
 import { AtelierReveal, EyebrowBadge } from "@/components/AtelierPrimitives";
+import { HandDrawnUnderline } from "@/components/HandDrawnAccents";
 
 export function FinalCtaSection() {
   return (
@@ -23,7 +24,11 @@ export function FinalCtaSection() {
           </div>
           <h2 className="mt-7 text-[clamp(2.4rem,5.4vw,4.1rem)] font-bold tracking-[-0.045em] leading-[1.03] text-white mx-auto max-w-[16ch]">
             Votre vitrine d&apos;exception,{" "}
-            <span className="text-white/45 font-normal">en ligne la semaine prochaine.</span>
+            <span className="relative inline-block text-white/60 font-normal">
+              en ligne la semaine prochaine
+              <HandDrawnUnderline className="absolute -bottom-2 inset-x-0 h-3 w-full" delay={0.3} />
+            </span>
+            .
           </h2>
           <p className="mt-5 text-[1.04rem] leading-[1.65] text-white/60 max-w-[50ch] mx-auto">
             Réservez votre créneau de conception. 100 % du design et du code sont offerts à nos
