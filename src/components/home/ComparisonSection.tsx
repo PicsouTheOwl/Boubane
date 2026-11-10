@@ -1,174 +1,88 @@
 "use client";
 
 import React from "react";
-import { Check, Minus } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight, Check, Minus } from "lucide-react";
 import { AtelierReveal } from "@/components/AtelierPrimitives";
-import { FolderSheet, HandwrittenNote, PaperSquareButton } from "@/components/DraftingPrimitives";
 
 export function ComparisonSection() {
   return (
     <section
       id="comparatif"
-      className="relative py-20 sm:py-28 bg-[#FAF7F0] drafting-grid border-t border-[#424242]/15 overflow-x-clip"
+      className="relative py-24 sm:py-32 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.07]"
     >
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-        <AtelierReveal className="max-w-2xl mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#57534E] mb-3">
-            <span className="px-2 py-0.5 bg-[#E8DAC1] text-[#0C0A08] font-semibold rounded-[2px]">
-              02
-            </span>
-            <span>Trois feuilles posées sur la table</span>
-          </div>
-          <h2 className="text-[clamp(2rem,4.4vw,3.3rem)] font-bold tracking-[-0.045em] leading-[1.04] text-[#0C0A08]">
-            Pourquoi vous restez libre,{" "}
-            <span className="text-[#57534E] font-normal">noir sur blanc.</span>
+      <div className="mx-auto max-w-[1040px] px-5 sm:px-6">
+        <AtelierReveal className="max-w-xl mb-14 sm:mb-20">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
+            En clair
+          </p>
+          <h2 className="mt-4 text-[clamp(2rem,4.5vw,3.3rem)] font-bold tracking-[-0.045em] leading-[1.05] text-[#0C0A08]">
+            Deux façons de mettre votre entreprise en ligne.
           </h2>
-          <HandwrittenNote className="mt-2 rotate-0.5">
-            Comparez ce que vous achetez ailleurs et ce que vous gardez ici.
-          </HandwrittenNote>
         </AtelierReveal>
 
-        {/* Three overlapping-feel paper sheets on mobile stack -> desktop 3-column spread */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-5 items-stretch">
-          {/* Sheet 1: Classic Agency (Cream tilted -0.8deg on lg) */}
-          <AtelierReveal delay={0.02} className="lg:col-span-4 flex">
-            <FolderSheet
-              tone="cream"
-              tabIndex="A"
-              tabLabel="Agence classique"
-              tiltClassName="w-full lg:-rotate-[0.8deg] lg:mt-4"
-              innerClassName="p-6 sm:p-7 h-full flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-baseline justify-between gap-2 pb-4 border-b border-dashed border-[#424242]/30">
-                  <span className="font-mono text-xs uppercase tracking-[0.1em] text-[#57534E]">
-                    Devis moyen constaté
-                  </span>
-                  <span className="font-mono text-2xl font-bold text-[#0C0A08]/45 line-through tabular-nums">
-                    4 500 €
-                  </span>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 md:divide-x md:divide-[#0C0A08]/[0.09]">
+          {/* Column 1: Classic Agency (recessed hierarchy) */}
+          <AtelierReveal delay={0.04}>
+            <div className="pb-6 border-b border-[#0C0A08]/[0.08] flex items-baseline justify-between gap-4">
+              <span className="text-sm font-medium text-[#57534E]">Agence classique</span>
+              <span className="font-mono text-2xl font-bold text-[#0C0A08]/40 line-through tabular-nums">
+                4 500 €
+              </span>
+            </div>
 
-                <ul className="mt-5 space-y-3 text-[13.5px] text-[#4A433B]">
-                  {[
-                    "Ou location à 150 €/mois sur 36 mois (5 400 € au total)",
-                    "Délai habituel de 6 à 12 semaines entre réunions",
-                    "Code source et accès hébergeur souvent retenus",
-                    "Facture supplémentaire pour la moindre virgule",
-                  ].map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2.5 pb-2.5 border-b border-dashed border-[#424242]/20 last:border-b-0"
-                    >
-                      <Minus className="w-4 h-4 shrink-0 mt-0.5 text-[#0C0A08]/35" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-dashed border-[#424242]/30 font-mono text-[11px] uppercase tracking-[0.08em] text-[#57534E]">
-                Modèle historique lourd
-              </div>
-            </FolderSheet>
+            <ul className="mt-6 space-y-4 text-[0.95rem] text-[#57534E]">
+              {[
+                "Facture initiale lourde ou location sur 36 mois",
+                "6 à 12 semaines entre échanges commerciaux et validation",
+                "Accès technique et code souvent conservés par le prestataire",
+              ].map((line) => (
+                <li key={line} className="flex items-start gap-3">
+                  <Minus className="w-4 h-4 shrink-0 mt-1 text-[#0C0A08]/30" />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
           </AtelierReveal>
 
-          {/* Sheet 2: Boubane Core Offer (Coral #ED5B04 foreground centerpiece) */}
-          <AtelierReveal delay={0.06} className="lg:col-span-4 flex z-10">
-            <FolderSheet
-              tone="coral"
-              tabIndex="B"
-              tabLabel="Boubane · Offert"
-              tiltClassName="w-full"
-              innerClassName="p-6 sm:p-8 h-full flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-baseline justify-between gap-2 pb-4 border-b border-dashed border-white/40">
-                  <span className="font-mono text-xs uppercase tracking-[0.1em] text-white/85">
-                    Création &amp; design
-                  </span>
-                  <span className="font-mono text-3xl sm:text-4xl font-bold text-white tabular-nums">
-                    0 €
-                  </span>
-                </div>
+          {/* Column 2: Boubane (high contrast, clean, dominant focal weight) */}
+          <AtelierReveal delay={0.08} className="md:pl-14">
+            <div className="pb-6 border-b border-[#ED5B04]/40 flex items-baseline justify-between gap-4">
+              <span className="text-sm font-semibold text-[#0C0A08]">Avec Boubane</span>
+              <span className="font-mono text-3xl sm:text-4xl font-bold text-[#ED5B04] tabular-nums">
+                0 €
+              </span>
+            </div>
 
-                <ul className="mt-5 space-y-3 text-[14px] text-white font-medium">
-                  {[
-                    "Maquette sur-mesure codée à la main pour votre métier",
-                    "En ligne en 5 jours ouvrés dès réception de vos photos",
-                    "Nom de domaine et code source 100 % à votre nom",
-                    "Chargement rapide (< 0,3 s) et lisible sur mobile",
-                    "Échange direct avec Léo par téléphone ou WhatsApp",
-                  ].map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2.5 pb-2.5 border-b border-dashed border-white/30 last:border-b-0"
-                    >
-                      <Check className="w-4 h-4 shrink-0 mt-0.5 text-[#EEF85A]" strokeWidth={2.6} />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <ul className="mt-6 space-y-4 text-[0.98rem] font-medium text-[#0C0A08]">
+              {[
+                "Design et code sur-mesure entièrement offerts",
+                "En ligne en 5 jours ouvrés dès réception de vos photos",
+                "Seulement vos frais directs (~10 €/an domaine, ~5 €/mois hébergement)",
+                "Code source et nom de domaine 100 % à votre nom",
+              ].map((line) => (
+                <li key={line} className="flex items-start gap-3">
+                  <Check className="w-4 h-4 shrink-0 mt-1 text-[#ED5B04]" strokeWidth={2.5} />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
 
-              <div className="mt-7">
-                <PaperSquareButton
-                  href="/commander"
-                  label="Commander à 0 €"
-                  variant="cream"
-                  className="w-full justify-between"
-                />
-              </div>
-            </FolderSheet>
-          </AtelierReveal>
-
-          {/* Sheet 3: Blueprint Navy — Transparent Ongoing Costs */}
-          <AtelierReveal delay={0.1} className="lg:col-span-4 flex">
-            <FolderSheet
-              tone="blueprint"
-              tabIndex="C"
-              tabLabel="Vos seuls frais"
-              tiltClassName="w-full lg:rotate-[0.8deg] lg:mt-4"
-              innerClassName="p-6 sm:p-7 h-full flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-baseline justify-between gap-2 pb-4 border-b border-dashed border-white/30">
-                  <span className="font-mono text-xs uppercase tracking-[0.1em] text-[#CBD5E1]">
-                    Hébergement direct
-                  </span>
-                  <span className="font-mono text-2xl font-bold text-[#EEF85A] tabular-nums">
-                    ~5 €/mois
-                  </span>
-                </div>
-
-                <ul className="mt-5 space-y-3 text-[13.5px] text-[#E2E8F0]">
-                  {[
-                    "Nom de domaine payé par vous (~10 €/an) à votre nom",
-                    "Hébergement chez OVH, Hostinger ou Vercel (~5 €/mois)",
-                    "Option sans souci : maintenance & mises à jour si besoin",
-                    "Vous partez avec tout votre site quand vous voulez",
-                  ].map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2.5 pb-2.5 border-b border-dashed border-white/20 last:border-b-0"
-                    >
-                      <Check className="w-4 h-4 shrink-0 mt-0.5 text-[#EEF85A]" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-dashed border-white/25 flex items-center justify-between gap-2 font-mono text-[11px]">
-                <span className="text-[#CBD5E1] uppercase tracking-[0.08em]">Zéro frais cachés</span>
-                <a
-                  href="/hebergement"
-                  className="text-[#EEF85A] underline underline-offset-4 hover:text-white"
-                >
-                  Détail hébergement
-                </a>
-              </div>
-            </FolderSheet>
+            <div className="mt-8 flex flex-wrap items-center gap-5">
+              <Link
+                href="/commander"
+                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-6 py-3 text-sm font-semibold hover:bg-[#ED5B04] active:scale-[0.97] transition-all"
+              >
+                <span>Commander à 0 €</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/hebergement"
+                className="text-sm font-medium text-[#57534E] hover:text-[#0C0A08] underline underline-offset-4 transition-colors"
+              >
+                Détail hébergement
+              </Link>
+            </div>
           </AtelierReveal>
         </div>
       </div>

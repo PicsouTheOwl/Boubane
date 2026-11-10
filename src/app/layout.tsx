@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Caveat, Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { MotionConfig } from "motion/react";
 import { AtelierCommandPalette } from "@/components/AtelierCommandPalette";
@@ -14,13 +14,6 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
-  display: "swap",
-});
-
-const caveatHand = Caveat({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-  variable: "--font-caveat",
   display: "swap",
 });
 
@@ -55,10 +48,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} ${caveatHand.variable} scroll-smooth`}
-    >
+    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}>
       <body className="bg-[#FAF8F5] text-[#0C0A08] font-sans antialiased">
         <div className="ambient-glow" aria-hidden="true" />
         <div className="atelier-grain" aria-hidden="true" />
