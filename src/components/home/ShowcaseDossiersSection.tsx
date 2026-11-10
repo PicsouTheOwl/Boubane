@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, Monitor, Smartphone } from "lucide-react";
 import { AtelierReveal, EyebrowBadge } from "@/components/AtelierPrimitives";
-import { ATELIER_EASE, ATELIER_SNAPPY_SPRING } from "@/lib/utils";
+import { ATELIER_EASE, ATELIER_SPRING, ATELIER_SNAPPY_SPRING } from "@/lib/utils";
 
 interface Dossier {
   id: string;
@@ -12,6 +12,7 @@ interface Dossier {
   client: string;
   url: string;
   iframeSrc: string;
+  accentColor: string;
   metricValue: string;
   metricLabel: string;
   problem: string;
@@ -26,6 +27,7 @@ const DOSSIERS: Dossier[] = [
     client: "Astravacances",
     url: "astravacances.fr",
     iframeSrc: "/showcase-astra.html",
+    accentColor: "rgba(43, 155, 189, 0.16)",
     metricValue: "0 %",
     metricLabel: "Commission OTA (Booking / Airbnb)",
     problem:
@@ -41,6 +43,7 @@ const DOSSIERS: Dossier[] = [
     client: "Artisans du Haut-Anjou",
     url: "artisan-haut-anjou.fr",
     iframeSrc: "/showcase-votre-site.html",
+    accentColor: "rgba(237, 91, 4, 0.16)",
     metricValue: "< 0.3s",
     metricLabel: "Vitesse d'affichage mobile",
     problem:
@@ -62,10 +65,12 @@ export function ShowcaseDossiersSection() {
       id="realisations"
       className="relative py-28 md:py-36 bg-[#0B0A09] text-[#FAF8F5] overflow-hidden"
     >
-      {/* Aura Studio Cinématique Subtile */}
-      <div
+      {/* Aura Studio Cinématique Adaptative */}
+      <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[520px] bg-[radial-gradient(ellipse_at_center,rgba(237,91,4,0.12)_0%,transparent_68%)] blur-3xl"
+        animate={{ background: `radial-gradient(ellipse at center, ${current.accentColor} 0%, transparent 68%)` }}
+        transition={{ duration: 0.6, ease: ATELIER_EASE }}
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[520px] blur-3xl"
       />
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
@@ -80,8 +85,7 @@ export function ShowcaseDossiersSection() {
             </h2>
           </AtelierReveal>
 
-          {/* Sélecteur Dossier + Sélecteur Écran */}
-          <AtelierReveal delay={0.08} className="flex flex-wrap items-center gap-3">
+          <AtelierReveal delay={0.06} className="flex flex-wrap items-center gap-3">
             <div
               role="tablist"
               aria-label="Sélection du dossier"
@@ -115,20 +119,17 @@ export function ShowcaseDossiersSection() {
           </AtelierReveal>
         </div>
 
-        {/* Écrin Cinéma Sombre */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="popLayout" initial={false}>
           <motion.div
             key={current.id}
-            initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
+            initial={{ opacity: 0, filter: "blur(3px)", y: 8 }}
             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-            exit={{ opacity: 0, filter: "blur(4px)", y: -6 }}
-            transition={{ duration: 0.3, ease: ATELIER_EASE }}
+            exit={{ opacity: 0, filter: "blur(3px)", y: -6 }}
+            transition={{ duration: 0.28, ease: ATELIER_EASE }}
             className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch"
           >
-            {/* Gauche : Châssis Anodisé Sombre avec Morphing Desktop / Mobile */}
             <div className="lg:col-span-7 flex flex-col">
               <div className="rounded-[24px] bg-[#141311] border border-white/[0.1] p-3 sm:p-4 shadow-[0_36px_90px_-20px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.08)] flex flex-col flex-1">
-                {/* Barre Matérielle Sombre */}
                 <div className="flex items-center justify-between gap-3 px-2 pb-3">
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-white/15" />
@@ -140,13 +141,12 @@ export function ShowcaseDossiersSection() {
                     {current.url}
                   </span>
 
-                  {/* Switch Desktop / Mobile avec transition ressort */}
                   <div className="inline-flex items-center p-0.5 rounded-full bg-white/[0.05] border border-white/[0.08]">
                     <button
                       type="button"
                       aria-label="Vue ordinateur"
                       onClick={() => setViewport("desktop")}
-                      className={`p-1.5 rounded-full transition-colors cursor-pointer ${
+                      className={`p-1.5 rounded-full transition-colors cursor-pointer active:scale-[0.95] ${
                         viewport === "desktop"
                           ? "bg-white text-[#0C0A08]"
                           : "text-white/50 hover:text-white"
@@ -158,7 +158,7 @@ export function ShowcaseDossiersSection() {
                       type="button"
                       aria-label="Vue smartphone"
                       onClick={() => setViewport("mobile")}
-                      className={`p-1.5 rounded-full transition-colors cursor-pointer ${
+                      className={`p-1.5 rounded-full transition-colors cursor-pointer active:scale-[0.95] ${
                         viewport === "mobile"
                           ? "bg-white text-[#0C0A08]"
                           : "text-white/50 hover:text-white"
@@ -169,11 +169,10 @@ export function ShowcaseDossiersSection() {
                   </div>
                 </div>
 
-                {/* Fenêtre Adaptative à Ressort */}
                 <div className="flex-1 min-h-[380px] sm:min-h-[450px] flex items-center justify-center rounded-[16px] bg-[#0B0A09] overflow-hidden p-2">
                   <motion.div
                     layout
-                    transition={ATELIER_SNAPPY_SPRING}
+                    transition={ATELIER_SPRING}
                     className={`h-[430px] rounded-[12px] overflow-hidden bg-white shadow-2xl border border-white/10 ${
                       viewport === "mobile" ? "w-[310px]" : "w-full"
                     }`}
@@ -193,7 +192,6 @@ export function ShowcaseDossiersSection() {
               </div>
             </div>
 
-            {/* Droite : Fiche Technique Sans Bordures Superflues */}
             <div className="lg:col-span-5 flex flex-col justify-between py-2">
               <div>
                 <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04]">

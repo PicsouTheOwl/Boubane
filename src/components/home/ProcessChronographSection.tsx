@@ -150,14 +150,14 @@ export function ProcessChronographSection() {
 
           {/* Colonne Droite : Planche Technique / Blueprint Live */}
           <AtelierReveal delay={0.14} className="lg:col-span-6 flex">
-            <SpecularPlate dark crosshairs className="w-full p-8 sm:p-10 flex flex-col justify-between">
-              <AnimatePresence mode="wait">
+            <SpecularPlate dark crosshairs className="w-full p-8 sm:p-10 flex flex-col justify-between overflow-hidden">
+              <AnimatePresence mode="popLayout" initial={false}>
                 <motion.div
                   key={current.index}
                   initial={{ opacity: 0, filter: "blur(3px)", y: 8 }}
                   animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                   exit={{ opacity: 0, filter: "blur(3px)", y: -6 }}
-                  transition={{ duration: 0.25, ease: ATELIER_EASE }}
+                  transition={{ duration: 0.24, ease: ATELIER_EASE }}
                   className="flex flex-col h-full justify-between"
                 >
                   <div>

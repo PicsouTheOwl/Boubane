@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { AtelierReadingCompass } from "@/components/AtelierPrimitives";
 import { HeroSection } from "@/components/HeroSection";
 import { ManifestoSection } from "@/components/home/ManifestoSection";
 import { ComparisonSection } from "@/components/home/ComparisonSection";
@@ -12,6 +13,7 @@ import { FinalCtaSection } from "@/components/home/FinalCtaSection";
 export default function HomePage() {
   return (
     <>
+      <AtelierReadingCompass />
       <SiteHeader isHome />
       <main id="top">
         <HeroSection />
@@ -27,4 +29,3 @@ export default function HomePage() {
     </>
   );
 }
-
