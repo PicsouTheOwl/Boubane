@@ -1,9 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "motion/react";
 import { AtelierReveal } from "@/components/AtelierPrimitives";
-import { ATELIER_EASE } from "@/lib/utils";
 
 export function ArtisanWorkbenchSection() {
   return (
@@ -30,7 +28,7 @@ export function ArtisanWorkbenchSection() {
             </p>
           </AtelierReveal>
 
-          {/* Calm Human Words + Signature */}
+          {/* Calm Human Words */}
           <AtelierReveal delay={0.05} className="lg:col-span-6 lg:order-1">
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
               UN SEUL INTERLOCUTEUR
@@ -48,33 +46,7 @@ export function ArtisanWorkbenchSection() {
               </p>
             </div>
 
-            <div className="mt-7 w-44 h-14" aria-label="Signature de Léo Saillour">
-              <svg viewBox="0 0 220 72" className="w-full h-full overflow-visible" fill="none">
-                <motion.path
-                  d="M12 52 C18 28, 28 12, 32 16 C36 20, 22 48, 26 52 C32 56, 48 40, 56 42 C62 44, 52 54, 62 52 C74 49, 86 32, 92 36 C96 39, 88 52, 98 50 C108 48, 122 24, 128 20 C134 16, 122 48, 130 50 C140 52, 152 38, 162 40 C172 42, 168 51, 180 47 C192 43, 202 36, 212 38"
-                  stroke="#0C0A08"
-                  strokeWidth="2.1"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 1.3, ease: ATELIER_EASE }}
-                />
-                <motion.path
-                  d="M16 61 C68 58, 135 55, 198 57"
-                  stroke="#ED5B04"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 0.75, delay: 0.9, ease: ATELIER_EASE }}
-                />
-              </svg>
-            </div>
-
-            <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs font-semibold text-[#0C0A08]">
+            <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs font-semibold text-[#0C0A08]">
               <a
                 href="tel:+33778310346"
                 className="py-1.5 hover:text-[#ED5B04] transition-colors"
