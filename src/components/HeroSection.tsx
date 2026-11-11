@@ -435,14 +435,24 @@ export function HeroSection() {
     let lastScrollY = window.scrollY;
     let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
 
-    // Elastic Arch Bend Spring State
-    let bendY = 0;
-    let targetBendY = 0;
-    let velBendY = 0;
+    // Multi-Zone Localized Elastic Arch Spring State (Left, Center, Right + Horizontal Wave)
+    let bendL = 0;
+    let targetBendL = 0;
+    let velL = 0;
+
+    let bendM = 0;
+    let targetBendM = 0;
+    let velM = 0;
+
+    let bendR = 0;
+    let targetBendR = 0;
+    let velR = 0;
+
     let bendX = 0;
     let targetBendX = 0;
+    let velX = 0;
 
-    // Grab / Scrub / Throw State
+    // Grab / Scrub / Hover Swipe State
     let isDragging = false;
     let startClientX = 0;
     let lastClientX = 0;
@@ -450,6 +460,7 @@ export function HeroSection() {
     let lastMoveTime = 0;
     let dragVx = 0;
     let movedDist = 0;
+    let lastNormX = 0.5;
 
     const measureSingle = () => {
       try {
@@ -462,39 +473,60 @@ export function HeroSection() {
     measureSingle();
     offset = -singleLen * 1.5;
 
-    const updateCurveGeometry = (bx: number, by: number) => {
-      const midY = 135 + by;
-      const c1y = 220 + by * 0.55;
-      const c2y = 50 + by * 0.55;
+    const updateCurveGeometry = (bx: number, ly: number, my: number, ry: number) => {
+      const startY = 225 + ly * 0.28;
+      const c0y = 270 + ly * 1.05;
+      const c1y = 220 + ly * 0.35 + my * 0.72;
+      const midY = 135 + my;
       const midX = 760 + bx;
+      const c2y = 50 + my * 0.72 + ry * 0.35;
+      const c3y = 170 + ry * 1.05;
+      const endY = 210 + ry * 0.28;
+
+      const x1 = 480 + bx * 0.45;
+      const x2 = 1040 + bx * 0.45;
 
       mainPath.setAttribute(
         "d",
-        `M -150, 225 C 180, 270 ${480 + bx * 0.35}, ${c1y.toFixed(1)} ${midX.toFixed(1)}, ${midY.toFixed(
+        `M -150, ${startY.toFixed(1)} C 180, ${c0y.toFixed(1)} ${x1.toFixed(1)}, ${c1y.toFixed(
           1
-        )} C ${1040 + bx * 0.35}, ${c2y.toFixed(1)} 1320, 170 1620, 210`
+        )} ${midX.toFixed(1)}, ${midY.toFixed(1)} C ${x2.toFixed(1)}, ${c2y.toFixed(1)} 1320, ${c3y.toFixed(
+          1
+        )} 1620, ${endY.toFixed(1)}`
       );
       shadowPath.setAttribute(
         "d",
-        `M -150, 231 C 180, 276 ${480 + bx * 0.35}, ${(c1y + 6).toFixed(1)} ${midX.toFixed(1)}, ${(
-          midY + 6
-        ).toFixed(1)} C ${1040 + bx * 0.35}, ${(c2y + 6).toFixed(1)} 1320, 176 1620, 216`
+        `M -150, ${(startY + 6).toFixed(1)} C 180, ${(c0y + 6).toFixed(1)} ${x1.toFixed(1)}, ${(
+          c1y + 6
+        ).toFixed(1)} ${midX.toFixed(1)}, ${(midY + 6).toFixed(1)} C ${x2.toFixed(1)}, ${(
+          c2y + 6
+        ).toFixed(1)} 1320, ${(c3y + 6).toFixed(1)} 1620, ${(endY + 6).toFixed(1)}`
       );
       curvePath.setAttribute(
         "d",
-        `M -2500, 300 C -1500, 280 -800, 190 -150, 225 C 180, 270 ${480 + bx * 0.35}, ${c1y.toFixed(
+        `M -2500, 300 C -1500, 280 -800, 190 -150, ${startY.toFixed(1)} C 180, ${c0y.toFixed(
           1
-        )} ${midX.toFixed(1)}, ${midY.toFixed(1)} C ${1040 + bx * 0.35}, ${c2y.toFixed(
+        )} ${x1.toFixed(1)}, ${c1y.toFixed(1)} ${midX.toFixed(1)}, ${midY.toFixed(1)} C ${x2.toFixed(
           1
-        )} 1320, 170 1620, 210 C 2100, 240 2800, 280 3800, 300`
+        )}, ${c2y.toFixed(1)} 1320, ${c3y.toFixed(1)} 1620, ${endY.toFixed(
+          1
+        )} C 2100, 240 2800, 280 3800, 300`
       );
+    };
+
+    const getZoneWeights = (nx: number) => {
+      const wL = Math.exp(-Math.pow((nx - 0.16) / 0.27, 2));
+      const wM = Math.exp(-Math.pow((nx - 0.52) / 0.27, 2));
+      const wR = Math.exp(-Math.pow((nx - 0.86) / 0.27, 2));
+      return { wL, wM, wR };
     };
 
     const onScroll = () => {
       const deltaY = window.scrollY - lastScrollY;
       lastScrollY = window.scrollY;
       if (Math.abs(deltaY) > 2 && !isDragging) {
-        targetSpeed = baseSpeed + Math.min(Math.abs(deltaY) * 0.16, 5.0);
+        targetSpeed = baseSpeed + Math.min(Math.abs(deltaY) * 0.18, 5.5);
+        velM += Math.max(-8, Math.min(8, deltaY * 0.14));
         if (scrollTimeout) clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
           targetSpeed = baseSpeed;
@@ -502,8 +534,11 @@ export function HeroSection() {
       }
     };
 
-    const onPointerEnter = () => {
-      if (!isDragging) targetSpeed = baseSpeed * 2.1;
+    const onPointerEnter = (e: PointerEvent) => {
+      lastClientX = e.clientX;
+      lastClientY = e.clientY;
+      lastMoveTime = performance.now();
+      if (!isDragging) targetSpeed = baseSpeed * 2.4;
     };
 
     const onPointerDown = (e: PointerEvent) => {
@@ -521,29 +556,49 @@ export function HeroSection() {
 
     const onPointerMove = (e: PointerEvent) => {
       const rect = banner.getBoundingClientRect();
-      const relX = ((e.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 2;
+      const nx = Math.max(0, Math.min(1, (e.clientX - rect.left) / Math.max(1, rect.width)));
+      const relX = (nx - 0.5) * 2;
       const relY = ((e.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2;
-
-      if (!isDragging) {
-        // Hover subtle elastic pull toward cursor
-        targetBendY = Math.max(-14, Math.min(14, relY * 14));
-        targetBendX = Math.max(-28, Math.min(28, relX * 26));
-        return;
-      }
+      lastNormX = nx;
 
       const now = performance.now();
       const dt = Math.max(1, now - lastMoveTime);
       const dx = e.clientX - lastClientX;
       const dy = e.clientY - lastClientY;
+      const { wL, wM, wR } = getZoneWeights(nx);
+
+      if (!isDragging) {
+        // Magnetic localized bend right where the mouse hovers + kinetic velocity impulse
+        const pull = Math.max(-68, Math.min(68, relY * 68));
+        targetBendL = pull * wL;
+        targetBendM = pull * wM;
+        targetBendR = pull * wR;
+        targetBendX = Math.max(-64, Math.min(64, relX * 64));
+
+        // Fast hover flick across the bar ripples the string & spins text gently
+        if (dt < 80 && Math.hypot(dx, dy) > 3) {
+          velL += Math.max(-9, Math.min(9, dy * 0.25 * wL));
+          velM += Math.max(-9, Math.min(9, dy * 0.25 * wM));
+          velR += Math.max(-9, Math.min(9, dy * 0.25 * wR));
+          currentSpeed -= Math.max(-4, Math.min(4, (dx / dt) * 1.4));
+        }
+        lastClientX = e.clientX;
+        lastClientY = e.clientY;
+        lastMoveTime = now;
+        return;
+      }
 
       movedDist += Math.hypot(dx, dy);
       const instVx = (dx / dt) * 16;
       dragVx = dragVx * 0.35 + instVx * 0.65;
 
-      // Scrub marquee 1:1 with pointer
-      offset += dx * 1.45;
-      targetBendY = Math.max(-34, Math.min(34, targetBendY + dy * 0.65));
-      targetBendX = Math.max(-70, Math.min(70, (e.clientX - startClientX) * 0.25));
+      // Scrub marquee 1:1 with pointer & stretch deeply along cursor zone
+      offset += dx * 1.6;
+      const dragDelta = dy * 1.25;
+      targetBendL = Math.max(-115, Math.min(115, targetBendL + dragDelta * (0.25 + wL)));
+      targetBendM = Math.max(-115, Math.min(115, targetBendM + dragDelta * (0.25 + wM)));
+      targetBendR = Math.max(-115, Math.min(115, targetBendR + dragDelta * (0.25 + wR)));
+      targetBendX = Math.max(-120, Math.min(120, (e.clientX - startClientX) * 0.42));
 
       lastClientX = e.clientX;
       lastClientY = e.clientY;
@@ -557,25 +612,35 @@ export function HeroSection() {
           if (e.pointerId) banner.releasePointerCapture(e.pointerId);
         } catch {}
 
-        if (movedDist < 6) {
-          // Quick tap gives a fun playful twang & turbo spin
-          currentSpeed = -12;
-          velBendY = 14;
+        const { wL, wM, wR } = getZoneWeights(lastNormX);
+        if (movedDist < 7) {
+          // Juicy localized guitar-string "boing!" under the click point + turbo spin
+          currentSpeed = -18;
+          velL += 38 * wL;
+          velM += 38 * wM;
+          velR += 38 * wR;
         } else {
-          // Fling momentum from gesture velocity
-          currentSpeed = -Math.max(-36, Math.min(36, dragVx * 1.35));
-          velBendY = -bendY * 0.18;
+          // Elastic snap-back bounce + directional fling momentum
+          currentSpeed = -Math.max(-42, Math.min(42, dragVx * 1.55));
+          velL = -bendL * 0.22;
+          velM = -bendM * 0.22;
+          velR = -bendR * 0.22;
+          velX = -bendX * 0.16;
         }
         targetSpeed = baseSpeed;
       }
-      targetBendY = 0;
+      targetBendL = 0;
+      targetBendM = 0;
+      targetBendR = 0;
       targetBendX = 0;
     };
 
     const onPointerLeave = (e: PointerEvent) => {
       if (!isDragging) {
         targetSpeed = baseSpeed;
-        targetBendY = 0;
+        targetBendL = 0;
+        targetBendM = 0;
+        targetBendR = 0;
         targetBendX = 0;
       } else {
         releaseDrag(e);
@@ -611,19 +676,32 @@ export function HeroSection() {
 
       textPath.setAttribute("startOffset", `${offset.toFixed(1)}px`);
 
-      // Elastic Spring Physics for SVG Curve Deformation
-      if (isDragging) {
-        bendY += (targetBendY - bendY) * 0.35;
-        bendX += (targetBendX - bendX) * 0.35;
-      } else {
-        const forceY = (targetBendY - bendY) * 0.16;
-        velBendY = (velBendY + forceY) * 0.82;
-        bendY += velBendY;
-        bendX += (targetBendX - bendX) * 0.12;
-      }
+      // Underdamped Juicy Spring Physics per Zone
+      const stiffness = isDragging ? 0.34 : 0.21;
+      const damping = isDragging ? 0.58 : 0.87;
 
-      if (Math.abs(bendY) > 0.05 || Math.abs(bendX) > 0.05 || Math.abs(velBendY) > 0.05) {
-        updateCurveGeometry(bendX, bendY);
+      velL = (velL + (targetBendL - bendL) * stiffness) * damping;
+      bendL += velL;
+
+      velM = (velM + (targetBendM - bendM) * stiffness) * damping;
+      bendM += velM;
+
+      velR = (velR + (targetBendR - bendR) * stiffness) * damping;
+      bendR += velR;
+
+      velX = (velX + (targetBendX - bendX) * (isDragging ? 0.3 : 0.16)) * (isDragging ? 0.6 : 0.84);
+      bendX += velX;
+
+      if (
+        Math.abs(bendL) > 0.03 ||
+        Math.abs(bendM) > 0.03 ||
+        Math.abs(bendR) > 0.03 ||
+        Math.abs(bendX) > 0.03 ||
+        Math.abs(velL) > 0.03 ||
+        Math.abs(velM) > 0.03 ||
+        Math.abs(velR) > 0.03
+      ) {
+        updateCurveGeometry(bendX, bendL, bendM, bendR);
       }
 
       // Animate running cat smoothly left -> right along the upper contour of the live bent ribbon
@@ -1043,9 +1121,9 @@ export function HeroSection() {
                 id="ribbonElevation"
                 filterUnits="userSpaceOnUse"
                 x="-400"
-                y="-120"
+                y="-260"
                 width="2240"
-                height="580"
+                height="860"
               >
                 <feDropShadow
                   dx="0"
