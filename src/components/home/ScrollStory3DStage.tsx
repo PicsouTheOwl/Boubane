@@ -1,93 +1,69 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { motion } from "motion/react";
-import { ATELIER_EASE, ATELIER_SPRING, cn } from "@/lib/utils";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Layers } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { ATELIER_EASE, ATELIER_SNAPPY_SPRING, ATELIER_SPRING, cn } from "@/lib/utils";
 
-interface StoryBeat {
+interface StoryChapter {
   id: string;
   pill: string;
   eyebrow: string;
   title: string;
   body: string;
-  metric: string;
-  focusCard: "agency" | "orange" | "code" | "all";
+  highlight: string;
+  focusCard: "agency" | "orange" | "ownership";
 }
 
-const STORY_BEATS: StoryBeat[] = [
+const CHAPTERS: StoryChapter[] = [
   {
-    id: "beat-constat",
-    pill: "LE DÉCLIC",
-    eyebrow: "LE POINT DE DÉPART",
+    id: "declic",
+    pill: "Le déclic",
+    eyebrow: "Le point de départ",
     title: "Une vitrine d'agence coûte souvent 4 500 €.",
-    body: "Sur le terrain, trop d'artisans et de gérants signent des factures lourdes ou un leasing sur quatre ans pour un site lent qu'ils ne possèdent même pas.",
-    metric: "4 500 € en moyenne ailleurs",
+    body: "Trop d'artisans et de gérants signent des factures lourdes ou un leasing sur quatre ans pour un site lent qu'ils ne possèdent même pas.",
+    highlight: "4 500 € en moyenne ailleurs",
     focusCard: "agency",
   },
   {
-    id: "beat-declic",
-    pill: "ÉCLATÉ 0 €",
-    eyebrow: "L'ARCHITECTURE MISE À NU",
-    title: "Enlever les intermédiaires ramène la création à 0 €.",
-    body: "Pas de locaux parisiens, pas de commerciaux ni de réunions sans fin. Je dessine et j'écris chaque couche moi-même : structure Google, vraies photos et code rapide.",
-    metric: "0 € d'honoraires de création",
+    id: "modele",
+    pill: "Modèle 0 €",
+    eyebrow: "Sans intermédiaires",
+    title: "Enlever le superflu ramène la création à 0 €.",
+    body: "Pas de locaux parisiens, pas de commerciaux ni de réunions sans fin. Je dessine et j'écris votre site directement avec vous.",
+    highlight: "0 € d'honoraires de création",
     focusCard: "orange",
   },
   {
-    id: "beat-rapidite",
-    pill: "EN LIGNE 5J",
-    eyebrow: "ASSEMBLÉ POUR VOTRE TÉLÉPHONE",
-    title: "Votre métier, crédible en moins de 0,3 seconde.",
-    body: "Vos vraies photos de chantier ou d'atelier, des mots justes et votre numéro cliquable dès la première seconde sur mobile.",
-    metric: "Livré sous 5 jours ouvrés",
-    focusCard: "code",
+    id: "delai",
+    pill: "En 5 jours",
+    eyebrow: "Pensé pour votre téléphone",
+    title: "En ligne en 5 jours avec vos vraies photos.",
+    body: "Vos réalisations, des mots clairs et votre numéro accessible dès la première seconde sur mobile.",
+    highlight: "Livré sous 5 jours ouvrés",
+    focusCard: "orange",
   },
   {
-    id: "beat-liberte",
-    pill: "À VOTRE NOM",
-    eyebrow: "PROPRIÉTÉ INTÉGRALE",
-    title: "Domaine et code source restent 100 % entre vos mains.",
-    body: "Vous ne réglez que votre nom de domaine (~10 €/an) et votre hébergement (~5 €/mois) directement chez votre prestataire. Zéro engagement, jamais.",
-    metric: "Liberté totale dès le premier jour",
-    focusCard: "all",
+    id: "propriete",
+    pill: "À votre nom",
+    eyebrow: "Propriété intégrale",
+    title: "Domaine et code restent 100 % entre vos mains.",
+    body: "Vous réglez uniquement votre domaine (~10 €/an) et votre hébergement (~5 €/mois) directement chez votre prestataire.",
+    highlight: "Liberté totale sans engagement",
+    focusCard: "ownership",
   },
 ];
 
 export function ScrollStory3DStage() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const beatRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIdx, setActiveIdx] = useState(1);
+  const [spreadMode, setSpreadMode] = useState(false);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
 
-  // Highlight active beat cleanly as user scrolls on desktop
-  useEffect(() => {
-    const onScroll = () => {
-      const targetY = window.innerHeight * 0.42;
-      let bestIdx = 0;
-      let bestDist = Infinity;
-      beatRefs.current.forEach((el, idx) => {
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const center = rect.top + rect.height / 2;
-        const dist = Math.abs(center - targetY);
-        if (dist < bestDist) {
-          bestDist = dist;
-          bestIdx = idx;
-        }
-      });
-      setActiveIdx(bestIdx);
-    };
+  const current = CHAPTERS[activeIdx];
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const selectBeat = (idx: number, scrollIntoView = false) => {
-    setActiveIdx(idx);
-    if (scrollIntoView) {
-      beatRefs.current[idx]?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
+  const stepBy = (delta: number) => {
+    setActiveIdx((prev) => (prev + delta + CHAPTERS.length) % CHAPTERS.length);
   };
 
   const handleMouseMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -95,191 +71,244 @@ export function ScrollStory3DStage() {
     const rect = e.currentTarget.getBoundingClientRect();
     const nx = (e.clientX - rect.left) / Math.max(1, rect.width) - 0.5;
     const ny = (e.clientY - rect.top) / Math.max(1, rect.height) - 0.5;
-    setTilt({ rx: -ny * 7, ry: nx * 9 });
+    setTilt({ rx: -ny * 9, ry: nx * 12 });
   };
 
-  const currentFocus = STORY_BEATS[activeIdx].focusCard;
+  const isAgency = current.focusCard === "agency";
+  const isOrange = current.focusCard === "orange";
+  const isOwnership = current.focusCard === "ownership";
 
   return (
-    <section id="modele" className="relative bg-[#FAF8F5] py-16 sm:py-24 lg:py-28">
-      <div className="mx-auto max-w-[1240px] px-5 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Sticky Column: Penpot 3-Card Sculpted Fan Stack */}
-          <div className="lg:col-span-6 lg:sticky lg:top-24 flex flex-col items-center">
+    <section id="modele" className="relative bg-[#FAF8F5] py-14 sm:py-20">
+      <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Interactive Tactile Card Fan */}
+          <div className="lg:col-span-6 flex flex-col items-center">
             <div
               onPointerMove={handleMouseMove}
               onPointerLeave={() => setTilt({ rx: 0, ry: 0 })}
               style={{ perspective: 1200 }}
-              className="relative w-full max-w-[540px] h-[350px] sm:h-[440px] select-none flex items-center justify-center"
+              className="relative w-full max-w-[490px] h-[300px] sm:h-[340px] select-none flex items-center justify-center"
             >
               <motion.div
                 animate={{ rotateX: tilt.rx, rotateY: tilt.ry }}
-                transition={{ type: "spring", stiffness: 160, damping: 24 }}
+                transition={{ type: "spring", stiffness: 170, damping: 22 }}
                 style={{ transformStyle: "preserve-3d" }}
-                className="relative w-[320px] h-[340px] sm:w-[490px] sm:h-[420px] origin-center"
+                className="relative w-[310px] h-[290px] sm:w-[460px] sm:h-[325px]"
               >
-                {/* Card 1 (Back-Left): Dark Slate — Agence Classique 4 500 € */}
+                {/* Card A: Agence Classique 4 500 € */}
                 <motion.button
                   type="button"
-                  onClick={() => selectBeat(0, true)}
+                  onClick={() => setActiveIdx(0)}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
                   animate={{
-                    rotate: currentFocus === "orange" ? -10 : -7,
-                    x: currentFocus === "orange" ? -14 : 0,
-                    y: currentFocus === "agency" ? -6 : 0,
-                    scale: currentFocus === "agency" ? 1.03 : 0.98,
+                    rotate: isAgency ? 0 : spreadMode ? -12 : -7,
+                    x: isAgency ? 28 : spreadMode ? -28 : 0,
+                    y: isAgency ? 18 : spreadMode ? -14 : 0,
+                    scale: isAgency ? 1.05 : 0.95,
                   }}
                   transition={ATELIER_SPRING}
                   className={cn(
-                    "absolute top-2 left-0 sm:left-3 w-[210px] sm:w-[290px] rounded-[18px] bg-[#F3EFE7] border border-[#E5DEC9] p-5 sm:p-6 text-left cursor-pointer",
-                    "shadow-[0_24px_52px_rgba(12,10,8,0.1)]",
-                    currentFocus === "agency" ? "z-30" : "z-10"
+                    "absolute top-2 left-0 sm:left-2 w-[205px] sm:w-[275px] rounded-[18px] bg-[#F3EFE7] border p-5 sm:p-6 text-left cursor-pointer",
+                    isAgency
+                      ? "z-40 border-[#0C0A08]/25 shadow-[0_24px_48px_rgba(12,10,8,0.14)]"
+                      : "z-10 border-[#E5DEC9] shadow-[0_14px_30px_rgba(12,10,8,0.07)]"
                   )}
                 >
                   <div className="font-mono text-[9.5px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-[#78716C]">
                     AGENCE CLASSIQUE
                   </div>
-                  <div className="mt-4 sm:mt-5 font-[family-name:var(--font-jakarta)] text-[26px] sm:text-[34px] font-extrabold leading-[1.1] text-[#A8A29E] line-through tabular-nums">
+                  <div className="mt-3 font-[family-name:var(--font-jakarta)] text-[26px] sm:text-[32px] font-extrabold leading-[1.1] text-[#A8A29E] line-through tabular-nums">
                     4 500 €
                   </div>
-                  <div className="mt-4 sm:mt-5 text-[11px] sm:text-[12px] text-[#78716C] leading-snug">
+                  <div className="mt-3 text-[11px] sm:text-[12px] text-[#78716C] leading-snug">
                     6 à 12 semaines · Leasing 4 ans
                   </div>
                 </motion.button>
 
-                {/* Card 2 (Right-Mid): White Ceramic — Propriété Intégrale < 0,3 s */}
+                {/* Card B: Propriété Intégrale 100 % à vous */}
                 <motion.button
                   type="button"
-                  onClick={() => selectBeat(2, true)}
+                  onClick={() => setActiveIdx(3)}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
                   animate={{
-                    rotate: currentFocus === "orange" ? 7 : 4,
-                    x: currentFocus === "orange" ? 14 : 0,
-                    y: currentFocus === "code" ? -8 : 0,
-                    scale: currentFocus === "code" ? 1.04 : 1,
+                    rotate: isOwnership ? 0 : spreadMode ? 11 : 5,
+                    x: isOwnership ? -24 : spreadMode ? 24 : 0,
+                    y: isOwnership ? 10 : spreadMode ? -8 : 0,
+                    scale: isOwnership ? 1.05 : 0.97,
                   }}
                   transition={ATELIER_SPRING}
                   className={cn(
-                    "absolute top-16 sm:top-20 right-0 sm:right-2 w-[215px] sm:w-[295px] rounded-[18px] bg-white border border-[#E7E3DC] p-5 sm:p-6 text-left cursor-pointer",
-                    "shadow-[0_24px_52px_rgba(12,10,8,0.1)]",
-                    currentFocus === "code" ? "z-30" : "z-20"
+                    "absolute top-12 sm:top-14 right-0 sm:right-2 w-[210px] sm:w-[285px] rounded-[18px] bg-white border p-5 sm:p-6 text-left cursor-pointer",
+                    isOwnership
+                      ? "z-40 border-[#ED5B04]/50 shadow-[0_24px_52px_rgba(12,10,8,0.14)]"
+                      : "z-20 border-[#E7E3DC] shadow-[0_18px_36px_rgba(12,10,8,0.08)]"
                   )}
                 >
                   <div className="font-mono text-[9.5px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ED5B04]">
                     PROPRIÉTÉ INTÉGRALE
                   </div>
-                  <div className="mt-3 sm:mt-4 font-[family-name:var(--font-jakarta)] text-[26px] sm:text-[34px] font-extrabold leading-[1.1] text-[#0C0A08] tabular-nums">
-                    &lt; 0,3 s
+                  <div className="mt-3 font-[family-name:var(--font-jakarta)] text-[24px] sm:text-[30px] font-extrabold leading-[1.1] text-[#0C0A08] tabular-nums">
+                    100 % à vous
                   </div>
-                  <div className="mt-4 sm:mt-5 text-[11px] sm:text-[12.5px] font-medium text-[#57534E] leading-snug">
-                    Domaine + code privé à votre nom
+                  <div className="mt-3 text-[11px] sm:text-[12px] font-medium text-[#57534E] leading-snug">
+                    Domaine &amp; code à votre nom
                   </div>
                 </motion.button>
 
-                {/* Card 3 (Foreground Hero): Vibrant Orange — Modèle Boubane 0 € */}
+                {/* Card C: Modèle Boubane 0 € */}
                 <motion.button
                   type="button"
-                  onClick={() => selectBeat(1, true)}
+                  onClick={() => setActiveIdx(activeIdx === 1 ? 2 : 1)}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
                   animate={{
-                    rotate: currentFocus === "orange" ? 0 : -2,
-                    y: currentFocus === "orange" || currentFocus === "all" ? -6 : 0,
-                    scale: currentFocus === "orange" || currentFocus === "all" ? 1.03 : 1,
+                    rotate: isOrange ? 0 : spreadMode ? -4 : -2,
+                    x: isOrange ? 0 : spreadMode ? -14 : 0,
+                    y: isOrange ? -10 : spreadMode ? 14 : 0,
+                    scale: isOrange ? 1.05 : 0.96,
                   }}
                   transition={ATELIER_SPRING}
                   className={cn(
-                    "absolute bottom-2 sm:bottom-3 left-6 sm:left-16 w-[240px] sm:w-[316px] rounded-[20px] bg-[#ED5B04] p-5 sm:p-7 text-left cursor-pointer",
-                    "shadow-[0_24px_52px_rgba(237,91,4,0.3)]",
-                    currentFocus === "orange" || currentFocus === "all" ? "z-40" : "z-20"
+                    "absolute bottom-1 left-6 sm:left-14 w-[235px] sm:w-[304px] rounded-[20px] bg-[#ED5B04] p-5 sm:p-6 text-left cursor-pointer",
+                    isOrange
+                      ? "z-40 shadow-[0_26px_54px_rgba(237,91,4,0.34)]"
+                      : "z-30 shadow-[0_18px_36px_rgba(237,91,4,0.22)]"
                   )}
                 >
                   <div className="font-mono text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.14em] text-[#FFF2E8]">
                     MODÈLE BOUBANE
                   </div>
-                  <div className="mt-3 sm:mt-4 font-[family-name:var(--font-jakarta)] text-[36px] sm:text-[46px] font-extrabold leading-[1.05] text-white tabular-nums">
+                  <div className="mt-2.5 font-[family-name:var(--font-jakarta)] text-[36px] sm:text-[44px] font-extrabold leading-[1.05] text-white tabular-nums">
                     0 €
                   </div>
-                  <div className="mt-3 sm:mt-4 text-[11.5px] sm:text-[13px] font-medium text-white leading-snug">
-                    Conception &amp; code offerts · Livré en 5 jours
+                  <div className="mt-2.5 text-[11.5px] sm:text-[12.5px] font-medium text-white leading-snug">
+                    Design &amp; code offerts · Livré en 5 jours
                   </div>
                 </motion.button>
               </motion.div>
             </div>
 
-            {/* Pill Switcher Tabs beneath 3-Card Fan (matches Penpot pills) */}
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-              {STORY_BEATS.map((beat, idx) => {
-                const selected = activeIdx === idx;
-                return (
-                  <button
-                    key={beat.id}
-                    type="button"
-                    onClick={() => selectBeat(idx, true)}
-                    className={cn(
-                      "px-4 py-2 rounded-full text-[11px] font-semibold uppercase tracking-[0.06em] transition-all cursor-pointer active:scale-[0.97]",
-                      selected
-                        ? "bg-[#0C0A08] text-white border border-[#0C0A08]"
-                        : "bg-[#FAF8F5] text-[#57534E] border border-[#E7E3DC] hover:border-[#0C0A08]/35 hover:text-[#0C0A08]"
-                    )}
-                  >
-                    {beat.pill}
-                  </button>
-                );
-              })}
+            {/* Interactive Controls Row beneath Card Fan */}
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => setSpreadMode((s) => !s)}
+                aria-pressed={spreadMode}
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-[0.08em] border transition-colors cursor-pointer",
+                  spreadMode
+                    ? "bg-[#ED5B04] border-[#ED5B04] text-white"
+                    : "bg-white border-[#E7E3DC] text-[#57534E] hover:border-[#0C0A08]/35 hover:text-[#0C0A08]"
+                )}
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>{spreadMode ? "Regrouper" : "Écarter les cartes"}</span>
+              </button>
+
+              <span className="font-mono text-[10.5px] text-[#57534E] px-2">
+                Cliquez sur une carte pour l&apos;inspecter
+              </span>
             </div>
           </div>
 
-          {/* Right Narrative Column */}
-          <div className="lg:col-span-6 space-y-14 sm:space-y-16 lg:pt-2">
-            {STORY_BEATS.map((beat, idx) => {
-              const isActive = activeIdx === idx;
-              return (
-                <div
-                  key={beat.id}
-                  ref={(el) => {
-                    beatRefs.current[idx] = el;
-                  }}
-                  onMouseEnter={() => setActiveIdx(idx)}
-                  className={cn(
-                    "transition-opacity duration-300",
-                    isActive ? "lg:opacity-100" : "lg:opacity-45 hover:lg:opacity-85"
-                  )}
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.25 }}
-                    transition={{ duration: 0.4, ease: ATELIER_EASE }}
-                  >
-                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
-                      {beat.eyebrow}
-                    </p>
-
-                    <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.75rem,3.3vw,2.55rem)] font-bold tracking-[-0.04em] leading-[1.08] text-[#0C0A08]">
-                      {beat.title}
-                    </h2>
-
-                    <p className="mt-3.5 text-[0.98rem] sm:text-[1.03rem] leading-[1.65] text-[#57534E] max-w-[46ch]">
-                      {beat.body}
-                    </p>
-
-                    <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
-                      <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#0C0A08]">
-                        <span className="w-2 h-2 rounded-full bg-[#0C0A08]" aria-hidden="true" />
-                        <span>{beat.metric}</span>
-                      </span>
-
-                      {idx === STORY_BEATS.length - 1 && (
-                        <Link
-                          href="/commander"
-                          className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-6 py-2.5 text-[13px] font-semibold hover:bg-[#ED5B04] active:scale-[0.97] transition-all"
-                        >
-                          <span>Lancer mon site à 0 €</span>
-                          <ArrowUpRight className="w-4 h-4" />
-                        </Link>
+          {/* Right Compact Interactive Story Panel (Single Stage, Zero Scroll Bloat) */}
+          <div className="lg:col-span-6">
+            {/* Segmented Tab Bar with Animated Pill + Prev/Next */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#0C0A08]/[0.08]">
+              <div
+                role="tablist"
+                aria-label="Choisir une étape"
+                className="inline-flex flex-wrap p-1 rounded-full bg-white border border-[#E7E3DC]"
+              >
+                {CHAPTERS.map((chap, idx) => {
+                  const selected = activeIdx === idx;
+                  return (
+                    <button
+                      key={chap.id}
+                      role="tab"
+                      type="button"
+                      aria-selected={selected}
+                      onClick={() => setActiveIdx(idx)}
+                      className={cn(
+                        "relative px-3.5 py-2 rounded-full text-[11px] font-semibold tracking-[0.02em] transition-colors cursor-pointer",
+                        selected ? "text-white" : "text-[#57534E] hover:text-[#0C0A08]"
                       )}
-                    </div>
-                  </motion.div>
-                </div>
-              );
-            })}
+                    >
+                      {selected && (
+                        <motion.span
+                          layoutId="compactStoryTabPill"
+                          transition={ATELIER_SNAPPY_SPRING}
+                          className="absolute inset-0 rounded-full bg-[#ED5B04]"
+                        />
+                      )}
+                      <span className="relative z-10">{chap.pill}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="inline-flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => stepBy(-1)}
+                  aria-label="Étape précédente"
+                  className="w-9 h-9 rounded-full bg-white border border-[#E7E3DC] flex items-center justify-center text-[#0C0A08] hover:border-[#ED5B04] hover:text-[#ED5B04] active:scale-[0.95] transition-all cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => stepBy(1)}
+                  aria-label="Étape suivante"
+                  className="w-9 h-9 rounded-full bg-white border border-[#E7E3DC] flex items-center justify-center text-[#0C0A08] hover:border-[#ED5B04] hover:text-[#ED5B04] active:scale-[0.95] transition-all cursor-pointer"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Active Story Content with Smooth Swaps */}
+            <div className="pt-7 min-h-[250px] flex flex-col justify-between">
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.div
+                  key={current.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.22, ease: ATELIER_EASE }}
+                >
+                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
+                    {current.eyebrow}
+                  </p>
+
+                  <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.75rem,3.4vw,2.55rem)] font-bold tracking-[-0.04em] leading-[1.08] text-[#0C0A08]">
+                    {current.title}
+                  </h2>
+
+                  <p className="mt-3.5 text-[0.98rem] sm:text-[1.04rem] leading-[1.66] text-[#57534E] max-w-[46ch]">
+                    {current.body}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+
+              <div className="mt-7 pt-5 border-t border-[#0C0A08]/[0.07] flex flex-wrap items-center justify-between gap-4">
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#0C0A08]">
+                  <span className="w-2 h-2 rounded-full bg-[#ED5B04]" aria-hidden="true" />
+                  <span>{current.highlight}</span>
+                </span>
+
+                <Link
+                  href="/commander"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-6 py-2.5 text-[13px] font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all"
+                >
+                  <span>Lancer mon site à 0 €</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
