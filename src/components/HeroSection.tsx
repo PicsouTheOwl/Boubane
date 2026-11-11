@@ -82,6 +82,7 @@ export function HeroSection() {
   const ribbonShadowPathRef = useRef<SVGPathElement>(null);
   const ribbonMainPathRef = useRef<SVGPathElement>(null);
   const archTextCurveRef = useRef<SVGPathElement>(null);
+  const runnerGroupRef = useRef<SVGGElement>(null);
 
   const highestZ = useRef(20);
   const [activeDockIdx, setActiveDockIdx] = useState<number>(0);
@@ -589,7 +590,13 @@ export function HeroSection() {
     banner.addEventListener("pointercancel", releaseDrag);
     banner.addEventListener("pointerleave", onPointerLeave);
 
-    const tick = () => {
+    let lastTickTime = performance.now();
+    let runDist = 180;
+
+    const tick = (now: number) => {
+      const dt = Math.min(48, Math.max(1, now - lastTickTime));
+      lastTickTime = now;
+
       measureSingle();
 
       // Velocity / Marquee Position
@@ -617,6 +624,38 @@ export function HeroSection() {
 
       if (Math.abs(bendY) > 0.05 || Math.abs(bendX) > 0.05 || Math.abs(velBendY) > 0.05) {
         updateCurveGeometry(bendX, bendY);
+      }
+
+      // Animate running cat smoothly left -> right along the upper contour of the live bent ribbon
+      const runner = runnerGroupRef.current;
+      if (runner) {
+        try {
+          const totalLen = mainPath.getTotalLength();
+          if (totalLen > 120) {
+            runDist += dt * 0.24;
+            if (runDist > totalLen - 30) {
+              runDist = 30;
+            }
+            const d1 = Math.max(0, runDist - 3);
+            const d2 = Math.min(totalLen, runDist + 3);
+            const p = mainPath.getPointAtLength(runDist);
+            const p1 = mainPath.getPointAtLength(d1);
+            const p2 = mainPath.getPointAtLength(d2);
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            const tLen = Math.hypot(dx, dy) || 1;
+            // Upward normal relative to SVG y-down left-to-right curve
+            const nx = dy / tLen;
+            const ny = -dx / tLen;
+            const sx = p.x + nx * 46;
+            const sy = p.y + ny * 46;
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+            runner.setAttribute(
+              "transform",
+              `translate(${sx.toFixed(1)}, ${sy.toFixed(1)}) rotate(${angle.toFixed(1)})`
+            );
+          }
+        } catch {}
       }
 
       rafId = requestAnimationFrame(tick);
@@ -1056,6 +1095,22 @@ export function HeroSection() {
                 DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE • DIRECT À VOTRE NOM • DESIGN HAUTE AUTORITÉ • ARTISANAT WEB FRANÇAIS • DEMANDES DE DEVIS DIRECTES • 100% DE LA CRÉATION OFFERTE • CODE PROPRIÉTAIRE •
               </textPath>
             </text>
+
+            <g
+              ref={runnerGroupRef}
+              transform="translate(-200, -200)"
+              style={{ pointerEvents: "none" }}
+              aria-hidden="true"
+            >
+              <image
+                href="/images/boubane-cat-run.gif"
+                x="-52"
+                y="-88"
+                width="104"
+                height="104"
+                preserveAspectRatio="xMidYMid meet"
+              />
+            </g>
           </svg>
         </div>
       </section>

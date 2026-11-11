@@ -845,7 +845,7 @@
   overflow-y: visible;
   position: relative;
   background: transparent;
-  padding: clamp(16px, 3vw, 36px) 0;
+  padding: clamp(44px, 5vw, 68px) 0 clamp(16px, 3vw, 36px) 0;
   user-select: none;
   cursor: grab;
 }
