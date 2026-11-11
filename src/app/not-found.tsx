@@ -10,6 +10,13 @@ export default function NotFound() {
       <SiteHeader isHome={false} />
       <main className="min-h-[72vh] flex items-center justify-center px-6 py-20">
         <SpecularPlate tilt={false} crosshairs className="max-w-lg w-full p-10 sm:p-12 text-center bg-white">
+          <img
+            src="/images/cat-sleep-404.png"
+            alt="Mascotte chat Boubane endormi en boule"
+            width={720}
+            height={720}
+            className="w-36 sm:w-44 h-auto mx-auto mb-4 object-contain"
+          />
           <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#ED5B04] font-semibold">
             ERREUR 404 · HORS GABARIT
           </span>

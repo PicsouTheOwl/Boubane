@@ -10,6 +10,14 @@ export function FinalCtaSection() {
     <section className="relative py-24 sm:py-32 bg-[#0D0C0B] text-[#FAF8F5]">
       <div className="mx-auto max-w-[820px] px-5 sm:px-6 text-center">
         <AtelierReveal>
+          <img
+            src="/images/cat-hero-code.png"
+            alt="Mascotte chat Boubane derrière son ordinateur"
+            width={720}
+            height={720}
+            className="w-28 sm:w-32 h-auto mx-auto mb-5 object-contain drop-shadow-[0_16px_28px_rgba(237,91,4,0.22)]"
+            loading="lazy"
+          />
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
             À VOUS DE JOUER
           </p>

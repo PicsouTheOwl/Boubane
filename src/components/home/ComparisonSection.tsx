@@ -12,13 +12,24 @@ export function ComparisonSection() {
       className="relative py-20 sm:py-28 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.08]"
     >
       <div className="mx-auto max-w-[1040px] px-5 sm:px-6">
-        <AtelierReveal className="max-w-xl mb-12 sm:mb-16">
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
-            EN CLAIR
-          </p>
-          <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.9rem,4vw,2.75rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-            Deux façons de mettre votre entreprise en ligne.
-          </h2>
+        <AtelierReveal className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 sm:mb-16">
+          <div className="max-w-xl">
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
+              EN CLAIR
+            </p>
+            <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.9rem,4vw,2.75rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
+              Deux façons de mettre votre entreprise en ligne.
+            </h2>
+          </div>
+
+          <img
+            src="/images/cat-confiance.png"
+            alt="Mascotte chat Boubane validant l'offre 0 €"
+            width={720}
+            height={720}
+            className="w-24 sm:w-28 h-auto object-contain shrink-0 self-start sm:self-end drop-shadow-[0_12px_22px_rgba(237,91,4,0.14)]"
+            loading="lazy"
+          />
         </AtelierReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-14 md:divide-x md:divide-[#0C0A08]/[0.12]">

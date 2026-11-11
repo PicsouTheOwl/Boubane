@@ -46,14 +46,20 @@ export function ShowcaseDossiersSection() {
       className="relative py-24 sm:py-32 bg-[#0D0C0B] text-[#FAF8F5] overflow-hidden"
     >
       <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
-        {/* Top Row: Editorial Human Photo + Clear Positioning */}
+        {/* Top Row: Boubane Craft Mascot + Clear Positioning */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-20 sm:mb-24">
           <AtelierReveal className="lg:col-span-6">
-            <div className="overflow-hidden rounded-2xl bg-[#1A1816]">
+            <div className="relative flex items-center justify-center py-6">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute w-64 h-64 rounded-full bg-[#ED5B04]/15 blur-3xl"
+              />
               <img
-                src="/images/story-artisan.jpg"
-                alt="Artisan français dans son atelier présentant son site sur téléphone"
-                className="w-full aspect-[4/3] object-cover object-center"
+                src="/images/cat-savoir-faire.png"
+                alt="Mascotte chat Boubane avec lunettes dessinant une maquette de site web"
+                width={720}
+                height={720}
+                className="relative z-10 w-60 sm:w-72 lg:w-80 h-auto object-contain drop-shadow-[0_24px_40px_rgba(237,91,4,0.18)]"
                 loading="lazy"
               />
             </div>

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { Check, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SpecularPlate } from "@/components/AtelierPrimitives";
@@ -16,12 +16,18 @@ export default function HebergementSuccesPage() {
       <main className="min-h-[75vh] flex items-center justify-center py-20 px-6">
         <SpecularPlate tilt={false} crosshairs className="max-w-xl w-full p-8 sm:p-12 text-center">
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={ATELIER_SNAPPY_SPRING}
-            className="mx-auto w-16 h-16 rounded-full bg-[#E6F8EE] text-[#0E7541] flex items-center justify-center mb-6"
+            className="mx-auto mb-4 flex justify-center"
           >
-            <Check className="w-8 h-8" strokeWidth={2.5} />
+            <img
+              src="/images/cat-confiance.png"
+              alt="Mascotte chat Boubane validant votre hébergement"
+              width={720}
+              height={720}
+              className="w-28 h-auto object-contain"
+            />
           </motion.div>
 
           <span className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#0E7541]">

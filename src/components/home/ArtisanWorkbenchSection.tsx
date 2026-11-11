@@ -13,17 +13,19 @@ export function ArtisanWorkbenchSection() {
     >
       <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Candid Studio Photograph */}
-          <AtelierReveal className="lg:col-span-6 lg:order-2">
-            <div className="overflow-hidden rounded-2xl bg-[#EFEAE2]">
+          {/* Boubane Coffee Mascot */}
+          <AtelierReveal className="lg:col-span-6 lg:order-2 flex flex-col items-center">
+            <div className="relative flex items-center justify-center py-4">
               <img
-                src="/images/story-leo-desk.jpg"
-                alt="Léo Saillour devant son poste de travail à Segré-en-Anjou Bleu"
-                className="w-full aspect-[4/3] object-cover object-center"
+                src="/images/cat-cafe.png"
+                alt="Mascotte chat Boubane prenant un café au chaud"
+                width={720}
+                height={720}
+                className="w-56 sm:w-72 lg:w-80 h-auto object-contain drop-shadow-[0_18px_32px_rgba(237,91,4,0.14)]"
                 loading="lazy"
               />
             </div>
-            <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[#57534E]">
+            <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.1em] text-[#57534E] text-center">
               SEGRÉ-EN-ANJOU BLEU (49500) · LÉO SAILLOUR
             </p>
           </AtelierReveal>
