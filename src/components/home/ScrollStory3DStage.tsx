@@ -20,9 +20,9 @@ const STORY_BEATS: StoryBeat[] = [
   {
     id: "beat-constat",
     pill: "LE DÉCLIC",
-    eyebrow: "LE POINT DE DÉPART À SEGRÉ",
+    eyebrow: "LE POINT DE DÉPART",
     title: "Une vitrine d'agence coûte souvent 4 500 €.",
-    body: "Sur le terrain en Anjou, trop d'artisans et de gérants signent des factures lourdes ou un leasing sur quatre ans pour un site lent qu'ils ne possèdent même pas.",
+    body: "Sur le terrain, trop d'artisans et de gérants signent des factures lourdes ou un leasing sur quatre ans pour un site lent qu'ils ne possèdent même pas.",
     metric: "4 500 € en moyenne ailleurs",
     focusCard: "agency",
   },

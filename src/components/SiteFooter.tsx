@@ -107,7 +107,6 @@ export function SiteFooter() {
 
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] font-mono text-[#0C0A08]/45">
           <span>© {new Date().getFullYear()} BOUBANE · LÉO SAILLOUR</span>
-          <span>SEGRÉ-EN-ANJOU BLEU (49)</span>
         </div>
       </div>
     </footer>

@@ -23,9 +23,6 @@ export function ArtisanWorkbenchSection() {
                 loading="lazy"
               />
             </div>
-            <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.1em] text-[#57534E] text-center">
-              SEGRÉ-EN-ANJOU BLEU (49500) · LÉO SAILLOUR
-            </p>
           </AtelierReveal>
 
           {/* Calm Human Words */}
