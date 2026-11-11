@@ -19,14 +19,6 @@ export function SiteFooter() {
                 BOUBANE
               </span>
             </Link>
-            <p className="text-[0.9rem] leading-relaxed text-[#57534E] max-w-[34ch]">
-              Sites web conçus et codés à la main à Segré-en-Anjou Bleu (49500). Zéro frais de
-              création pour les artisans et entreprises d&apos;Anjou et de France.
-            </p>
-            <div className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.1em] text-[#0C0A08]/60">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>Disponible · Haut-Anjou</span>
-            </div>
           </div>
 
           <div className="md:col-span-3 space-y-3">
