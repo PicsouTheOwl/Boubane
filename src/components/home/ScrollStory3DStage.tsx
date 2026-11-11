@@ -130,15 +130,15 @@ export function ScrollStory3DStage() {
                   }}
                   transition={ATELIER_SPRING}
                   className={cn(
-                    "absolute top-2 left-0 sm:left-3 w-[210px] sm:w-[290px] rounded-[18px] bg-[#1C1917] border border-[#292524] p-5 sm:p-6 text-left cursor-pointer",
-                    "shadow-[0_24px_52px_rgba(12,10,8,0.2)]",
+                    "absolute top-2 left-0 sm:left-3 w-[210px] sm:w-[290px] rounded-[18px] bg-[#F3EFE7] border border-[#E5DEC9] p-5 sm:p-6 text-left cursor-pointer",
+                    "shadow-[0_24px_52px_rgba(12,10,8,0.1)]",
                     currentFocus === "agency" ? "z-30" : "z-10"
                   )}
                 >
-                  <div className="font-mono text-[9.5px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A8A29E]">
+                  <div className="font-mono text-[9.5px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-[#78716C]">
                     AGENCE CLASSIQUE
                   </div>
-                  <div className="mt-4 sm:mt-5 font-[family-name:var(--font-jakarta)] text-[26px] sm:text-[34px] font-extrabold leading-[1.1] text-[#78716C] line-through tabular-nums">
+                  <div className="mt-4 sm:mt-5 font-[family-name:var(--font-jakarta)] text-[26px] sm:text-[34px] font-extrabold leading-[1.1] text-[#A8A29E] line-through tabular-nums">
                     4 500 €
                   </div>
                   <div className="mt-4 sm:mt-5 text-[11px] sm:text-[12px] text-[#78716C] leading-snug">

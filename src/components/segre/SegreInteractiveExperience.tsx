@@ -788,35 +788,35 @@ export function SegreInteractiveExperience() {
       </section>
 
       {/* ====================================================================
-          ZONE 05 : MONOLITHE FINAL SOMBRE HAUT-ANJOU
+          ZONE 05 : FINAL LUMINEUX HAUT-ANJOU
          ==================================================================== */}
-      <section className="py-24 md:py-32 bg-[#0B0A09] text-[#FAF8F5] relative overflow-hidden">
+      <section className="py-24 md:py-32 bg-[#FAF8F5] text-[#0C0A08] border-t border-[#0C0A08]/[0.07] relative overflow-hidden">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-24 left-1/2 -translate-x-1/2 w-[900px] h-[340px] bg-[radial-gradient(ellipse_at_center,rgba(237,91,4,0.18)_0%,transparent_70%)] blur-3xl"
+          className="pointer-events-none absolute -bottom-24 left-1/2 -translate-x-1/2 w-[900px] h-[340px] bg-[radial-gradient(ellipse_at_center,rgba(237,91,4,0.1)_0%,transparent_70%)] blur-3xl"
         />
         <div className="relative z-10 mx-auto max-w-[860px] px-6 text-center space-y-7">
           <div className="flex justify-center">
-            <EyebrowBadge dark index="SEGRÉ · 49500">
+            <EyebrowBadge index="SEGRÉ · 49500">
               Disponible cette semaine
             </EyebrowBadge>
           </div>
-            <h2 className="text-[clamp(2.2rem,5vw,3.7rem)] font-bold tracking-[-0.045em] leading-[1.04] text-white">
-              On se voit autour d&apos;un{" "}
-              <span className="relative inline-block text-white/60 font-normal">
-                café à Segré
-                <HandDrawnUnderline className="absolute -bottom-2 inset-x-0 h-2.5 w-full" delay={0.25} />
-              </span>{" "}
-              ?
-            </h2>
-          <p className="text-white/60 max-w-[50ch] mx-auto text-[1.02rem] leading-relaxed">
+          <h2 className="text-[clamp(2.2rem,5vw,3.7rem)] font-bold tracking-[-0.045em] leading-[1.04] text-[#0C0A08]">
+            On se voit autour d&apos;un{" "}
+            <span className="relative inline-block text-[#57534E] font-normal">
+              café à Segré
+              <HandDrawnUnderline className="absolute -bottom-2 inset-x-0 h-2.5 w-full" delay={0.25} />
+            </span>{" "}
+            ?
+          </h2>
+          <p className="text-[#57534E] max-w-[50ch] mx-auto text-[1.02rem] leading-relaxed">
             Réservez votre créneau offert (0 €) en 2 minutes ou appelez Léo directement au 07 78 31
             03 46.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
             <Link
               href="/commander"
-              className="inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all shadow-[0_10px_30px_rgba(237,91,4,0.3)]"
+              className="inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all shadow-[0_10px_30px_rgba(237,91,4,0.22)]"
             >
               <span>Commander mon site (0 €)</span>
               <ArrowRight className="w-4 h-4" />
@@ -825,13 +825,13 @@ export function SegreInteractiveExperience() {
               href="https://wa.me/33778310346?text=Bonjour%20L%C3%A9o%2C%20je%20suis%20bas%C3%A9%20pr%C3%A8s%20de%20Segr%C3%A9%20et%20souhaite%20discuter%20de%20mon%20site."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-white/[0.07] border border-white/[0.14] text-white px-6 py-3.5 text-sm font-semibold hover:bg-white/[0.12] active:scale-[0.97] transition-all"
+              className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.14] text-[#0C0A08] px-6 py-3.5 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all"
             >
               <MessageCircle className="w-4 h-4 text-[#ED5B04]" />
               <span>WhatsApp Direct</span>
             </a>
           </div>
-          <div className="pt-2 font-mono text-[11px] uppercase tracking-[0.12em] text-white/35 flex items-center justify-center gap-2">
+          <div className="pt-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#57534E] flex items-center justify-center gap-2">
             <MapPin className="w-3.5 h-3.5 text-[#ED5B04]" />
             <span>Segré · Le Lion-d&apos;Angers · Château-Gontier · Angers</span>
           </div>

@@ -473,18 +473,20 @@ export function HeroSection() {
     measureSingle();
     offset = -singleLen * 1.5;
 
-    const updateCurveGeometry = (bx: number, ly: number, my: number, ry: number) => {
-      const startY = 225 + ly * 0.28;
-      const c0y = 270 + ly * 1.05;
-      const c1y = 220 + ly * 0.35 + my * 0.72;
-      const midY = 135 + my;
-      const midX = 760 + bx;
-      const c2y = 50 + my * 0.72 + ry * 0.35;
-      const c3y = 170 + ry * 1.05;
-      const endY = 210 + ry * 0.28;
+    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
 
-      const x1 = 480 + bx * 0.45;
-      const x2 = 1040 + bx * 0.45;
+    const updateCurveGeometry = (bx: number, ly: number, my: number, ry: number) => {
+      const startY = 228 + ly * 0.2;
+      const c0y = 266 + ly * 0.65;
+      const c1y = 216 + ly * 0.35 + my * 0.65;
+      const midY = 148 + my;
+      const midX = 760 + bx;
+      const c2y = 72 + my * 0.65 + ry * 0.35;
+      const c3y = 176 + ry * 0.65;
+      const endY = 212 + ry * 0.2;
+
+      const x1 = 480 + bx * 0.4;
+      const x2 = 1040 + bx * 0.4;
 
       mainPath.setAttribute(
         "d",
@@ -515,9 +517,9 @@ export function HeroSection() {
     };
 
     const getZoneWeights = (nx: number) => {
-      const wL = Math.exp(-Math.pow((nx - 0.16) / 0.27, 2));
-      const wM = Math.exp(-Math.pow((nx - 0.52) / 0.27, 2));
-      const wR = Math.exp(-Math.pow((nx - 0.86) / 0.27, 2));
+      const wL = Math.exp(-Math.pow((nx - 0.16) / 0.28, 2));
+      const wM = Math.exp(-Math.pow((nx - 0.52) / 0.28, 2));
+      const wR = Math.exp(-Math.pow((nx - 0.86) / 0.28, 2));
       return { wL, wM, wR };
     };
 
@@ -525,8 +527,8 @@ export function HeroSection() {
       const deltaY = window.scrollY - lastScrollY;
       lastScrollY = window.scrollY;
       if (Math.abs(deltaY) > 2 && !isDragging) {
-        targetSpeed = baseSpeed + Math.min(Math.abs(deltaY) * 0.18, 5.5);
-        velM += Math.max(-8, Math.min(8, deltaY * 0.14));
+        targetSpeed = baseSpeed + Math.min(Math.abs(deltaY) * 0.14, 4.0);
+        velM = clamp(velM + clamp(deltaY * 0.08, -4, 4), -16, 16);
         if (scrollTimeout) clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
           targetSpeed = baseSpeed;
@@ -538,7 +540,7 @@ export function HeroSection() {
       lastClientX = e.clientX;
       lastClientY = e.clientY;
       lastMoveTime = performance.now();
-      if (!isDragging) targetSpeed = baseSpeed * 2.4;
+      if (!isDragging) targetSpeed = baseSpeed * 2.1;
     };
 
     const onPointerDown = (e: PointerEvent) => {
@@ -556,31 +558,30 @@ export function HeroSection() {
 
     const onPointerMove = (e: PointerEvent) => {
       const rect = banner.getBoundingClientRect();
-      const nx = Math.max(0, Math.min(1, (e.clientX - rect.left) / Math.max(1, rect.width)));
+      const nx = clamp((e.clientX - rect.left) / Math.max(1, rect.width), 0, 1);
       const relX = (nx - 0.5) * 2;
-      const relY = ((e.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2;
+      const relY = clamp(((e.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2, -1, 1);
       lastNormX = nx;
 
       const now = performance.now();
-      const dt = Math.max(1, now - lastMoveTime);
+      const dt = Math.max(16, now - lastMoveTime);
       const dx = e.clientX - lastClientX;
       const dy = e.clientY - lastClientY;
       const { wL, wM, wR } = getZoneWeights(nx);
 
       if (!isDragging) {
-        // Magnetic localized bend right where the mouse hovers + kinetic velocity impulse
-        const pull = Math.max(-68, Math.min(68, relY * 68));
+        // Smooth, non-clipping localized hover follow under cursor
+        const pull = clamp(relY * 32, -32, 32);
         targetBendL = pull * wL;
         targetBendM = pull * wM;
         targetBendR = pull * wR;
-        targetBendX = Math.max(-64, Math.min(64, relX * 64));
+        targetBendX = clamp(relX * 28, -28, 28);
 
-        // Fast hover flick across the bar ripples the string & spins text gently
-        if (dt < 80 && Math.hypot(dx, dy) > 3) {
-          velL += Math.max(-9, Math.min(9, dy * 0.25 * wL));
-          velM += Math.max(-9, Math.min(9, dy * 0.25 * wM));
-          velR += Math.max(-9, Math.min(9, dy * 0.25 * wR));
-          currentSpeed -= Math.max(-4, Math.min(4, (dx / dt) * 1.4));
+        if (dt < 80 && Math.hypot(dx, dy) > 4) {
+          velL = clamp(velL + dy * 0.08 * wL, -14, 14);
+          velM = clamp(velM + dy * 0.08 * wM, -14, 14);
+          velR = clamp(velR + dy * 0.08 * wR, -14, 14);
+          currentSpeed = clamp(currentSpeed - dx * 0.04, -6, 6);
         }
         lastClientX = e.clientX;
         lastClientY = e.clientY;
@@ -592,13 +593,12 @@ export function HeroSection() {
       const instVx = (dx / dt) * 16;
       dragVx = dragVx * 0.35 + instVx * 0.65;
 
-      // Scrub marquee 1:1 with pointer & stretch deeply along cursor zone
-      offset += dx * 1.6;
-      const dragDelta = dy * 1.25;
-      targetBendL = Math.max(-115, Math.min(115, targetBendL + dragDelta * (0.25 + wL)));
-      targetBendM = Math.max(-115, Math.min(115, targetBendM + dragDelta * (0.25 + wM)));
-      targetBendR = Math.max(-115, Math.min(115, targetBendR + dragDelta * (0.25 + wR)));
-      targetBendX = Math.max(-120, Math.min(120, (e.clientX - startClientX) * 0.42));
+      offset += dx * 1.45;
+      const dragDelta = dy * 0.72;
+      targetBendL = clamp(targetBendL + dragDelta * (0.25 + wL), -52, 52);
+      targetBendM = clamp(targetBendM + dragDelta * (0.25 + wM), -52, 52);
+      targetBendR = clamp(targetBendR + dragDelta * (0.25 + wR), -52, 52);
+      targetBendX = clamp((e.clientX - startClientX) * 0.25, -48, 48);
 
       lastClientX = e.clientX;
       lastClientY = e.clientY;
@@ -614,18 +614,16 @@ export function HeroSection() {
 
         const { wL, wM, wR } = getZoneWeights(lastNormX);
         if (movedDist < 7) {
-          // Juicy localized guitar-string "boing!" under the click point + turbo spin
-          currentSpeed = -18;
-          velL += 38 * wL;
-          velM += 38 * wM;
-          velR += 38 * wR;
+          currentSpeed = -12;
+          velL = clamp(velL + 16 * wL, -18, 18);
+          velM = clamp(velM + 16 * wM, -18, 18);
+          velR = clamp(velR + 16 * wR, -18, 18);
         } else {
-          // Elastic snap-back bounce + directional fling momentum
-          currentSpeed = -Math.max(-42, Math.min(42, dragVx * 1.55));
-          velL = -bendL * 0.22;
-          velM = -bendM * 0.22;
-          velR = -bendR * 0.22;
-          velX = -bendX * 0.16;
+          currentSpeed = -clamp(dragVx * 1.35, -28, 28);
+          velL = clamp(-bendL * 0.2, -18, 18);
+          velM = clamp(-bendM * 0.2, -18, 18);
+          velR = clamp(-bendR * 0.2, -18, 18);
+          velX = clamp(-bendX * 0.14, -14, 14);
         }
         targetSpeed = baseSpeed;
       }
@@ -662,11 +660,9 @@ export function HeroSection() {
       const dt = Math.min(48, Math.max(1, now - lastTickTime));
       lastTickTime = now;
 
-      measureSingle();
-
       // Velocity / Marquee Position
       if (!isDragging) {
-        currentSpeed += (targetSpeed - currentSpeed) * 0.055;
+        currentSpeed += (targetSpeed - currentSpeed) * 0.06;
         offset -= currentSpeed;
       }
 
@@ -676,30 +672,34 @@ export function HeroSection() {
 
       textPath.setAttribute("startOffset", `${offset.toFixed(1)}px`);
 
-      // Underdamped Juicy Spring Physics per Zone
-      const stiffness = isDragging ? 0.34 : 0.21;
-      const damping = isDragging ? 0.58 : 0.87;
+      // Smooth Clamped Spring Physics per Zone
+      const stiffness = isDragging ? 0.28 : 0.14;
+      const damping = isDragging ? 0.62 : 0.84;
 
-      velL = (velL + (targetBendL - bendL) * stiffness) * damping;
-      bendL += velL;
+      velL = clamp((velL + (targetBendL - bendL) * stiffness) * damping, -18, 18);
+      bendL = clamp(bendL + velL, -56, 56);
 
-      velM = (velM + (targetBendM - bendM) * stiffness) * damping;
-      bendM += velM;
+      velM = clamp((velM + (targetBendM - bendM) * stiffness) * damping, -18, 18);
+      bendM = clamp(bendM + velM, -56, 56);
 
-      velR = (velR + (targetBendR - bendR) * stiffness) * damping;
-      bendR += velR;
+      velR = clamp((velR + (targetBendR - bendR) * stiffness) * damping, -18, 18);
+      bendR = clamp(bendR + velR, -56, 56);
 
-      velX = (velX + (targetBendX - bendX) * (isDragging ? 0.3 : 0.16)) * (isDragging ? 0.6 : 0.84);
-      bendX += velX;
+      velX = clamp(
+        (velX + (targetBendX - bendX) * (isDragging ? 0.26 : 0.14)) * (isDragging ? 0.64 : 0.84),
+        -16,
+        16
+      );
+      bendX = clamp(bendX + velX, -52, 52);
 
       if (
-        Math.abs(bendL) > 0.03 ||
-        Math.abs(bendM) > 0.03 ||
-        Math.abs(bendR) > 0.03 ||
-        Math.abs(bendX) > 0.03 ||
-        Math.abs(velL) > 0.03 ||
-        Math.abs(velM) > 0.03 ||
-        Math.abs(velR) > 0.03
+        Math.abs(bendL) > 0.04 ||
+        Math.abs(bendM) > 0.04 ||
+        Math.abs(bendR) > 0.04 ||
+        Math.abs(bendX) > 0.04 ||
+        Math.abs(velL) > 0.04 ||
+        Math.abs(velM) > 0.04 ||
+        Math.abs(velR) > 0.04
       ) {
         updateCurveGeometry(bendX, bendL, bendM, bendR);
       }
@@ -714,20 +714,19 @@ export function HeroSection() {
             if (runDist > totalLen - 30) {
               runDist = 30;
             }
-            const d1 = Math.max(0, runDist - 3);
-            const d2 = Math.min(totalLen, runDist + 3);
+            const d1 = Math.max(0, runDist - 4);
+            const d2 = Math.min(totalLen, runDist + 4);
             const p = mainPath.getPointAtLength(runDist);
             const p1 = mainPath.getPointAtLength(d1);
             const p2 = mainPath.getPointAtLength(d2);
             const dx = p2.x - p1.x;
             const dy = p2.y - p1.y;
             const tLen = Math.hypot(dx, dy) || 1;
-            // Upward normal relative to SVG y-down left-to-right curve
             const nx = dy / tLen;
             const ny = -dx / tLen;
             const sx = p.x + nx * 46;
             const sy = p.y + ny * 46;
-            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+            const angle = clamp(Math.atan2(dy, dx) * (180 / Math.PI), -24, 24);
             runner.setAttribute(
               "transform",
               `translate(${sx.toFixed(1)}, ${sy.toFixed(1)}) rotate(${angle.toFixed(1)})`
