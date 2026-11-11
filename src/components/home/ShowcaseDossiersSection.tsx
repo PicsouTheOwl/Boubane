@@ -74,12 +74,6 @@ export function ShowcaseDossiersSection() {
             </p>
             <div className="mt-8 pt-6 border-t border-[#0C0A08]/[0.1] flex flex-wrap gap-8">
               <div>
-                <div className="font-[family-name:var(--font-jakarta)] text-2xl font-extrabold text-[#0C0A08] tabular-nums">
-                  &lt; 0,3 s
-                </div>
-                <div className="text-xs text-[#57534E] mt-0.5">Ouverture sur 4G</div>
-              </div>
-              <div>
                 <div className="font-[family-name:var(--font-jakarta)] text-2xl font-extrabold text-[#ED5B04] tabular-nums">
                   5 jours
                 </div>
