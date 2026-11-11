@@ -435,32 +435,24 @@ export function HeroSection() {
     let lastScrollY = window.scrollY;
     let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
 
-    // Multi-Zone Localized Elastic Arch Spring State (Left, Center, Right + Horizontal Wave)
-    let bendL = 0;
-    let targetBendL = 0;
-    let velL = 0;
-
-    let bendM = 0;
-    let targetBendM = 0;
-    let velM = 0;
-
-    let bendR = 0;
-    let targetBendR = 0;
-    let velR = 0;
+    // Smooth, critically balanced elastic arch spring state (zero jitter or jumping)
+    let bendY = 0;
+    let targetBendY = 0;
+    let velY = 0;
 
     let bendX = 0;
     let targetBendX = 0;
-    let velX = 0;
 
-    // Grab / Scrub / Hover Swipe State
+    // Grab / Scrub / Release inertia state
     let isDragging = false;
     let startClientX = 0;
+    let startClientY = 0;
     let lastClientX = 0;
-    let lastClientY = 0;
     let lastMoveTime = 0;
     let dragVx = 0;
     let movedDist = 0;
-    let lastNormX = 0.5;
+
+    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
 
     const measureSingle = () => {
       try {
@@ -473,54 +465,34 @@ export function HeroSection() {
     measureSingle();
     offset = -singleLen * 1.5;
 
-    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
-
-    const updateCurveGeometry = (bx: number, ly: number, my: number, ry: number) => {
-      const startY = 228 + ly * 0.2;
-      const c0y = 266 + ly * 0.65;
-      const c1y = 216 + ly * 0.35 + my * 0.65;
-      const midY = 148 + my;
+    const updateCurveGeometry = (bx: number, by: number) => {
+      const midY = 135 + by;
+      const c1y = 220 + by * 0.55;
+      const c2y = 50 + by * 0.55;
       const midX = 760 + bx;
-      const c2y = 72 + my * 0.65 + ry * 0.35;
-      const c3y = 176 + ry * 0.65;
-      const endY = 212 + ry * 0.2;
-
-      const x1 = 480 + bx * 0.4;
-      const x2 = 1040 + bx * 0.4;
+      const x1 = 480 + bx * 0.35;
+      const x2 = 1040 + bx * 0.35;
 
       mainPath.setAttribute(
         "d",
-        `M -150, ${startY.toFixed(1)} C 180, ${c0y.toFixed(1)} ${x1.toFixed(1)}, ${c1y.toFixed(
+        `M -150, 225 C 180, 270 ${x1.toFixed(1)}, ${c1y.toFixed(1)} ${midX.toFixed(1)}, ${midY.toFixed(
           1
-        )} ${midX.toFixed(1)}, ${midY.toFixed(1)} C ${x2.toFixed(1)}, ${c2y.toFixed(1)} 1320, ${c3y.toFixed(
-          1
-        )} 1620, ${endY.toFixed(1)}`
+        )} C ${x2.toFixed(1)}, ${c2y.toFixed(1)} 1320, 170 1620, 210`
       );
       shadowPath.setAttribute(
         "d",
-        `M -150, ${(startY + 6).toFixed(1)} C 180, ${(c0y + 6).toFixed(1)} ${x1.toFixed(1)}, ${(
-          c1y + 6
-        ).toFixed(1)} ${midX.toFixed(1)}, ${(midY + 6).toFixed(1)} C ${x2.toFixed(1)}, ${(
-          c2y + 6
-        ).toFixed(1)} 1320, ${(c3y + 6).toFixed(1)} 1620, ${(endY + 6).toFixed(1)}`
+        `M -150, 231 C 180, 276 ${x1.toFixed(1)}, ${(c1y + 6).toFixed(1)} ${midX.toFixed(1)}, ${(
+          midY + 6
+        ).toFixed(1)} C ${x2.toFixed(1)}, ${(c2y + 6).toFixed(1)} 1320, 176 1620, 216`
       );
       curvePath.setAttribute(
         "d",
-        `M -2500, 300 C -1500, 280 -800, 190 -150, ${startY.toFixed(1)} C 180, ${c0y.toFixed(
+        `M -2500, 300 C -1500, 280 -800, 190 -150, 225 C 180, 270 ${x1.toFixed(1)}, ${c1y.toFixed(
           1
-        )} ${x1.toFixed(1)}, ${c1y.toFixed(1)} ${midX.toFixed(1)}, ${midY.toFixed(1)} C ${x2.toFixed(
+        )} ${midX.toFixed(1)}, ${midY.toFixed(1)} C ${x2.toFixed(1)}, ${c2y.toFixed(
           1
-        )}, ${c2y.toFixed(1)} 1320, ${c3y.toFixed(1)} 1620, ${endY.toFixed(
-          1
-        )} C 2100, 240 2800, 280 3800, 300`
+        )} 1320, 170 1620, 210 C 2100, 240 2800, 280 3800, 300`
       );
-    };
-
-    const getZoneWeights = (nx: number) => {
-      const wL = Math.exp(-Math.pow((nx - 0.16) / 0.28, 2));
-      const wM = Math.exp(-Math.pow((nx - 0.52) / 0.28, 2));
-      const wR = Math.exp(-Math.pow((nx - 0.86) / 0.28, 2));
-      return { wL, wM, wR };
     };
 
     const onScroll = () => {
@@ -528,7 +500,6 @@ export function HeroSection() {
       lastScrollY = window.scrollY;
       if (Math.abs(deltaY) > 2 && !isDragging) {
         targetSpeed = baseSpeed + Math.min(Math.abs(deltaY) * 0.14, 4.0);
-        velM = clamp(velM + clamp(deltaY * 0.08, -4, 4), -16, 16);
         if (scrollTimeout) clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
           targetSpeed = baseSpeed;
@@ -536,18 +507,15 @@ export function HeroSection() {
       }
     };
 
-    const onPointerEnter = (e: PointerEvent) => {
-      lastClientX = e.clientX;
-      lastClientY = e.clientY;
-      lastMoveTime = performance.now();
-      if (!isDragging) targetSpeed = baseSpeed * 2.1;
+    const onPointerEnter = () => {
+      if (!isDragging) targetSpeed = baseSpeed * 1.85;
     };
 
     const onPointerDown = (e: PointerEvent) => {
       isDragging = true;
       startClientX = e.clientX;
+      startClientY = e.clientY;
       lastClientX = e.clientX;
-      lastClientY = e.clientY;
       lastMoveTime = performance.now();
       dragVx = 0;
       movedDist = 0;
@@ -558,50 +526,32 @@ export function HeroSection() {
 
     const onPointerMove = (e: PointerEvent) => {
       const rect = banner.getBoundingClientRect();
-      const nx = clamp((e.clientX - rect.left) / Math.max(1, rect.width), 0, 1);
-      const relX = (nx - 0.5) * 2;
+      const relX = clamp(((e.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 2, -1, 1);
       const relY = clamp(((e.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2, -1, 1);
-      lastNormX = nx;
+
+      if (!isDragging) {
+        // Gentle, predictable hover sway without ever reversing marquee text or jumping
+        targetBendY = relY * 20;
+        targetBendX = relX * 14;
+        return;
+      }
 
       const now = performance.now();
       const dt = Math.max(16, now - lastMoveTime);
       const dx = e.clientX - lastClientX;
-      const dy = e.clientY - lastClientY;
-      const { wL, wM, wR } = getZoneWeights(nx);
+      const dyTotal = e.clientY - startClientY;
+      const dxTotal = e.clientX - startClientX;
 
-      if (!isDragging) {
-        // Smooth, non-clipping localized hover follow under cursor
-        const pull = clamp(relY * 32, -32, 32);
-        targetBendL = pull * wL;
-        targetBendM = pull * wM;
-        targetBendR = pull * wR;
-        targetBendX = clamp(relX * 28, -28, 28);
+      movedDist += Math.abs(dx);
+      const instVx = clamp((dx / dt) * 16, -24, 24);
+      dragVx = dragVx * 0.4 + instVx * 0.6;
 
-        if (dt < 80 && Math.hypot(dx, dy) > 4) {
-          velL = clamp(velL + dy * 0.08 * wL, -14, 14);
-          velM = clamp(velM + dy * 0.08 * wM, -14, 14);
-          velR = clamp(velR + dy * 0.08 * wR, -14, 14);
-          currentSpeed = clamp(currentSpeed - dx * 0.04, -6, 6);
-        }
-        lastClientX = e.clientX;
-        lastClientY = e.clientY;
-        lastMoveTime = now;
-        return;
-      }
-
-      movedDist += Math.hypot(dx, dy);
-      const instVx = (dx / dt) * 16;
-      dragVx = dragVx * 0.35 + instVx * 0.65;
-
-      offset += dx * 1.45;
-      const dragDelta = dy * 0.72;
-      targetBendL = clamp(targetBendL + dragDelta * (0.25 + wL), -52, 52);
-      targetBendM = clamp(targetBendM + dragDelta * (0.25 + wM), -52, 52);
-      targetBendR = clamp(targetBendR + dragDelta * (0.25 + wR), -52, 52);
-      targetBendX = clamp((e.clientX - startClientX) * 0.25, -48, 48);
+      // Scrub text cleanly 1:1 with pointer horizontal movement
+      offset += dx * 1.35;
+      targetBendY = clamp(dyTotal * 0.45, -42, 42);
+      targetBendX = clamp(dxTotal * 0.16, -22, 22);
 
       lastClientX = e.clientX;
-      lastClientY = e.clientY;
       lastMoveTime = now;
     };
 
@@ -612,33 +562,24 @@ export function HeroSection() {
           if (e.pointerId) banner.releasePointerCapture(e.pointerId);
         } catch {}
 
-        const { wL, wM, wR } = getZoneWeights(lastNormX);
-        if (movedDist < 7) {
-          currentSpeed = -12;
-          velL = clamp(velL + 16 * wL, -18, 18);
-          velM = clamp(velM + 16 * wM, -18, 18);
-          velR = clamp(velR + 16 * wR, -18, 18);
+        if (movedDist < 6) {
+          // Gentle tap pulse
+          currentSpeed = -8;
+          velY = 10;
         } else {
-          currentSpeed = -clamp(dragVx * 1.35, -28, 28);
-          velL = clamp(-bendL * 0.2, -18, 18);
-          velM = clamp(-bendM * 0.2, -18, 18);
-          velR = clamp(-bendR * 0.2, -18, 18);
-          velX = clamp(-bendX * 0.14, -14, 14);
+          currentSpeed = -clamp(dragVx * 1.15, -24, 24);
+          velY = clamp(-bendY * 0.16, -12, 12);
         }
         targetSpeed = baseSpeed;
       }
-      targetBendL = 0;
-      targetBendM = 0;
-      targetBendR = 0;
+      targetBendY = 0;
       targetBendX = 0;
     };
 
     const onPointerLeave = (e: PointerEvent) => {
       if (!isDragging) {
         targetSpeed = baseSpeed;
-        targetBendL = 0;
-        targetBendM = 0;
-        targetBendR = 0;
+        targetBendY = 0;
         targetBendX = 0;
       } else {
         releaseDrag(e);
@@ -672,36 +613,19 @@ export function HeroSection() {
 
       textPath.setAttribute("startOffset", `${offset.toFixed(1)}px`);
 
-      // Smooth Clamped Spring Physics per Zone
-      const stiffness = isDragging ? 0.28 : 0.14;
-      const damping = isDragging ? 0.62 : 0.84;
+      // Smooth damped spring interpolation (consistent, zero snap)
+      if (isDragging) {
+        bendY += (targetBendY - bendY) * 0.28;
+        bendX += (targetBendX - bendX) * 0.28;
+        velY = 0;
+      } else {
+        velY = clamp((velY + (targetBendY - bendY) * 0.12) * 0.8, -14, 14);
+        bendY = clamp(bendY + velY, -46, 46);
+        bendX += (targetBendX - bendX) * 0.12;
+      }
 
-      velL = clamp((velL + (targetBendL - bendL) * stiffness) * damping, -18, 18);
-      bendL = clamp(bendL + velL, -56, 56);
-
-      velM = clamp((velM + (targetBendM - bendM) * stiffness) * damping, -18, 18);
-      bendM = clamp(bendM + velM, -56, 56);
-
-      velR = clamp((velR + (targetBendR - bendR) * stiffness) * damping, -18, 18);
-      bendR = clamp(bendR + velR, -56, 56);
-
-      velX = clamp(
-        (velX + (targetBendX - bendX) * (isDragging ? 0.26 : 0.14)) * (isDragging ? 0.64 : 0.84),
-        -16,
-        16
-      );
-      bendX = clamp(bendX + velX, -52, 52);
-
-      if (
-        Math.abs(bendL) > 0.04 ||
-        Math.abs(bendM) > 0.04 ||
-        Math.abs(bendR) > 0.04 ||
-        Math.abs(bendX) > 0.04 ||
-        Math.abs(velL) > 0.04 ||
-        Math.abs(velM) > 0.04 ||
-        Math.abs(velR) > 0.04
-      ) {
-        updateCurveGeometry(bendX, bendL, bendM, bendR);
+      if (Math.abs(bendY) > 0.04 || Math.abs(bendX) > 0.04 || Math.abs(velY) > 0.04) {
+        updateCurveGeometry(bendX, bendY);
       }
 
       // Animate running cat smoothly left -> right along the upper contour of the live bent ribbon
