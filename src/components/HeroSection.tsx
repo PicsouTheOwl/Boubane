@@ -681,6 +681,13 @@ export function HeroSection() {
 
         <div className="hero-split-grid">
           <div className="hero-split-col hero-split-col--text">
+            <img
+              src="/assets/01-hero-accueil.gif"
+              alt="Mascotte chat Boubane qui code et fait signe"
+              width={600}
+              height={600}
+              className="w-20 h-20 sm:w-24 sm:h-24 object-contain mb-3 select-none pointer-events-none mix-blend-multiply"
+            />
             <h1 className="hero-split-title">
               Des vitrines d&apos;exception. Sans agence. Sans compromis.
             </h1>
