@@ -10,7 +10,6 @@ import { ATELIER_EASE, ATELIER_SNAPPY_SPRING, cn } from "@/lib/utils";
 
 interface StoryBeat {
   id: string;
-  step: string;
   shortLabel: string;
   eyebrow: string;
   title: string;
@@ -22,7 +21,6 @@ interface StoryBeat {
 const STORY_BEATS: StoryBeat[] = [
   {
     id: "beat-constat",
-    step: "01",
     shortLabel: "Le déclic",
     eyebrow: "Le point de départ à Segré",
     title: "Une vitrine d'agence coûte souvent 4 500 €.",
@@ -32,7 +30,6 @@ const STORY_BEATS: StoryBeat[] = [
   },
   {
     id: "beat-declic",
-    step: "02",
     shortLabel: "Éclaté 0 €",
     eyebrow: "L'architecture mise à nu",
     title: "Enlever les intermédiaires ramène la création à 0 €.",
@@ -42,7 +39,6 @@ const STORY_BEATS: StoryBeat[] = [
   },
   {
     id: "beat-rapidite",
-    step: "03",
     shortLabel: "En ligne 5j",
     eyebrow: "Assemblé pour votre téléphone",
     title: "Votre métier, crédible en moins de 0,3 seconde.",
@@ -52,7 +48,6 @@ const STORY_BEATS: StoryBeat[] = [
   },
   {
     id: "beat-liberte",
-    step: "04",
     shortLabel: "À votre nom",
     eyebrow: "Propriété intégrale",
     title: "Domaine et code source restent 100 % entre vos mains.",
@@ -718,9 +713,7 @@ export function ScrollStory3DStage() {
                         className="absolute inset-0 rounded-full bg-[#0C0A08]"
                       />
                     )}
-                    <span className="relative z-10">
-                      {beat.step} · {beat.shortLabel}
-                    </span>
+                    <span className="relative z-10">{beat.shortLabel}</span>
                   </button>
                 );
               })}
@@ -746,11 +739,9 @@ export function ScrollStory3DStage() {
                       isActive ? "lg:opacity-100" : "lg:opacity-40"
                     )}
                   >
-                    <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04]">
-                      <span className="tabular-nums font-semibold">{beat.step}</span>
-                      <span className="w-6 h-px bg-[#ED5B04]/40" aria-hidden="true" />
-                      <span className="text-[#57534E]">{beat.eyebrow}</span>
-                    </div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
+                      {beat.eyebrow}
+                    </p>
 
                     <h2 className="mt-4 text-[clamp(1.85rem,3.6vw,3rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
                       {beat.title}
