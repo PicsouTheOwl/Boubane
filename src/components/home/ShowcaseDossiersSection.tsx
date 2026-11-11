@@ -63,7 +63,7 @@ export function ShowcaseDossiersSection() {
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
               Pensé pour le terrain
             </p>
-            <h2 className="mt-4 text-[clamp(2rem,4vw,3.1rem)] font-bold tracking-[-0.04em] leading-[1.06] text-white">
+            <h2 className="mt-4 font-[family-name:var(--font-jakarta)] text-[clamp(2rem,4vw,2.75rem)] font-bold tracking-[-0.04em] leading-[1.06] text-white">
               Un site qui vous ressemble, avant même le premier appel.
             </h2>
             <p className="mt-5 text-[1.02rem] leading-[1.68] text-white/65 max-w-[44ch]">
@@ -72,11 +72,15 @@ export function ShowcaseDossiersSection() {
             </p>
             <div className="mt-8 pt-6 border-t border-white/[0.1] flex flex-wrap gap-8">
               <div>
-                <div className="text-2xl font-bold text-white tabular-nums">&lt; 0,3 s</div>
+                <div className="font-[family-name:var(--font-jakarta)] text-2xl font-extrabold text-white tabular-nums">
+                  &lt; 0,3 s
+                </div>
                 <div className="text-xs text-white/50 mt-0.5">Ouverture sur 4G</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-[#ED5B04] tabular-nums">5 jours</div>
+                <div className="font-[family-name:var(--font-jakarta)] text-2xl font-extrabold text-[#ED5B04] tabular-nums">
+                  5 jours
+                </div>
                 <div className="text-xs text-white/50 mt-0.5">Pour la mise en ligne</div>
               </div>
             </div>
@@ -89,7 +93,7 @@ export function ShowcaseDossiersSection() {
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/50">
               Démos interactives en direct
             </p>
-            <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-white">
+            <h3 className="mt-2 font-[family-name:var(--font-jakarta)] text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-white">
               {current.title}{" "}
               <span className="text-[#ED5B04] font-normal">— {current.stat}</span>
             </h3>

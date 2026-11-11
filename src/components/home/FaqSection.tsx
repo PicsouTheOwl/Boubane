@@ -9,7 +9,7 @@ import { ATELIER_EASE } from "@/lib/utils";
 const FAQ_ITEMS = [
   {
     q: "La création du site est-elle vraiment gratuite ?",
-    a: "Oui, vous réglez 0 € d'honoraires pour le design et le développement. Vos seuls frais sont techniques : votre nom de domaine (environ 10 € par an) et votre hébergement (environ 5 € par mois), payés directement chez l'hébergeur de votre choix comme OVH, Hostinger ou Vercel.",
+    a: "Oui, vous réglez 0 € d'honoraires pour le design et le développement. Vos seuls frais sont techniques : nom de domaine (~10 € / an) et hébergement (~5 € / mois), payés directement chez OVH, Hostinger ou Vercel.",
   },
   {
     q: "Y a-t-il un engagement ou un abonnement caché ?",
@@ -31,20 +31,20 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="relative py-24 sm:py-32 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.07]"
+      className="relative py-20 sm:py-28 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.07]"
     >
-      <div className="mx-auto max-w-[1040px] px-5 sm:px-6">
+      <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <AtelierReveal className="lg:col-span-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
-              Questions fréquentes
+              QUESTIONS FRÉQUENTES
             </p>
-            <h2 className="mt-4 text-[clamp(1.85rem,3.6vw,2.75rem)] font-bold tracking-[-0.04em] leading-[1.08] text-[#0C0A08]">
+            <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.75rem,3.4vw,2.35rem)] font-bold tracking-[-0.04em] leading-[1.08] text-[#0C0A08]">
               Tout est clair avant de commencer.
             </h2>
           </AtelierReveal>
 
-          <div className="lg:col-span-8 divide-y divide-[#0C0A08]/[0.1] border-t border-b border-[#0C0A08]/[0.1]">
+          <div className="lg:col-span-8 divide-y divide-[#0C0A08]/[0.12] border-t border-b border-[#0C0A08]/[0.12]">
             {FAQ_ITEMS.map((item, idx) => {
               const isOpen = openIdx === idx;
               return (
@@ -53,18 +53,18 @@ export function FaqSection() {
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => setOpenIdx(isOpen ? null : idx)}
-                    className="w-full py-6 flex items-center justify-between gap-6 text-left cursor-pointer group"
+                    className="w-full py-5 sm:py-6 flex items-center justify-between gap-6 text-left cursor-pointer group"
                   >
-                    <span className="font-semibold text-[1.04rem] tracking-[-0.02em] text-[#0C0A08] group-hover:text-[#ED5B04] transition-colors">
+                    <span className="font-semibold text-[1rem] sm:text-[1.04rem] tracking-[-0.02em] text-[#0C0A08] group-hover:text-[#ED5B04] transition-colors">
                       {item.q}
                     </span>
 
                     <motion.span
                       animate={{ rotate: isOpen ? 45 : 0 }}
                       transition={{ duration: 0.2, ease: ATELIER_EASE }}
-                      className="w-7 h-7 shrink-0 rounded-full border border-[#0C0A08]/15 flex items-center justify-center text-[#0C0A08]"
+                      className="shrink-0 text-[#0C0A08]/60 group-hover:text-[#0C0A08]"
                     >
-                      <Plus className="w-3.5 h-3.5" strokeWidth={1.8} />
+                      <Plus className="w-4 h-4" strokeWidth={1.8} />
                     </motion.span>
                   </button>
 
@@ -77,7 +77,7 @@ export function FaqSection() {
                         transition={{ duration: 0.25, ease: ATELIER_EASE }}
                         className="overflow-hidden"
                       >
-                        <p className="pb-6 pr-8 text-[0.96rem] leading-[1.68] text-[#57534E] max-w-[58ch]">
+                        <p className="pb-6 pr-8 text-[0.95rem] leading-[1.68] text-[#57534E] max-w-[60ch]">
                           {item.a}
                         </p>
                       </motion.div>

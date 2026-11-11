@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import { MotionConfig } from "motion/react";
 import { AtelierCommandPalette } from "@/components/AtelierCommandPalette";
@@ -11,8 +11,16 @@ const geistSans = Geist({
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
   variable: "--font-geist-mono",
   display: "swap",
 });
@@ -48,7 +56,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}>
+    <html
+      lang="fr"
+      className={`${geistSans.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} scroll-smooth`}
+    >
       <body className="bg-[#FAF8F5] text-[#0C0A08] font-sans antialiased">
         <div className="ambient-glow" aria-hidden="true" />
         <div className="atelier-grain" aria-hidden="true" />
