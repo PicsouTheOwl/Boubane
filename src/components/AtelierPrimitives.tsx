@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
 import { cn, ATELIER_EASE } from "@/lib/utils";
 
@@ -182,58 +182,18 @@ export function AtelierReveal({
   );
 }
 
-const CHAPTERS = [
-  { id: "modele", label: "01 · L'histoire" },
-  { id: "comparatif", label: "02 · Comparatif" },
-  { id: "realisations", label: "03 · Réalisations" },
-  { id: "artisan", label: "04 · Léo Saillour" },
-  { id: "faq", label: "05 · Questions" },
-];
-
 /**
- * Whisper-quiet spatial compass & chapter indicator on desktop scroll (never obscures Hero).
+ * Whisper-quiet hair-thin reading progress beam at the top of the viewport.
  */
 export function AtelierReadingCompass() {
   const { scrollYProgress } = useScroll();
   const smoothScale = useSpring(scrollYProgress, { stiffness: 180, damping: 28 });
-  const [visible, setVisible] = useState(false);
-  const [activeChapter, setActiveChapter] = useState<string>(CHAPTERS[0].label);
-
-  useEffect(() => {
-    const onScroll = () => {
-      setVisible(window.scrollY > 720);
-      for (let i = CHAPTERS.length - 1; i >= 0; i--) {
-        const el = document.getElementById(CHAPTERS[i].id);
-        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.45) {
-          setActiveChapter(CHAPTERS[i].label);
-          break;
-        }
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
-    <>
-      {/* Top 2px hair-thin scroll beam */}
-      <motion.div
-        aria-hidden="true"
-        style={{ scaleX: smoothScale, transformOrigin: "left center" }}
-        className="fixed top-0 inset-x-0 h-[2px] bg-[#ED5B04] z-[120] pointer-events-none"
-      />
-
-      {/* Floating minimalist chapter telemetry pill */}
-      <motion.div
-        initial={false}
-        animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 12 }}
-        transition={{ duration: 0.22, ease: ATELIER_EASE }}
-        className="hidden xl:flex fixed bottom-6 left-6 z-40 pointer-events-none items-center gap-2.5 rounded-full bg-[#0C0A08]/90 backdrop-blur-md border border-white/10 px-3.5 py-1.5 text-[11px] font-mono text-[#FAF8F5] shadow-lg"
-      >
-        <span className="w-1.5 h-1.5 rounded-full bg-[#ED5B04]" />
-        <span className="tracking-[0.06em] uppercase">{activeChapter}</span>
-      </motion.div>
-    </>
+    <motion.div
+      aria-hidden="true"
+      style={{ scaleX: smoothScale, transformOrigin: "left center" }}
+      className="fixed top-0 inset-x-0 h-[2px] bg-[#ED5B04] z-[120] pointer-events-none"
+    />
   );
 }
