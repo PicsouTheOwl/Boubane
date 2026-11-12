@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { AtelierReveal, EyebrowBadge, SpecularPlate } from "@/components/AtelierPrimitives";
+import { AtelierReveal, SpecularPlate } from "@/components/AtelierPrimitives";
 import { ATELIER_EASE, ATELIER_SPRING } from "@/lib/utils";
 
 const TRADES = [
@@ -150,8 +150,7 @@ export default function CommanderPage() {
       <main className="relative pt-14 pb-28">
         <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
           <AtelierReveal className="max-w-3xl mb-10 sm:mb-12">
-            <EyebrowBadge index="BRIEF EXPRESS">Réservation Créneau · 0 €</EyebrowBadge>
-            <h1 className="mt-5 font-[family-name:var(--font-jakarta)] text-[clamp(2.1rem,5vw,3.5rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
+            <h1 className="font-[family-name:var(--font-jakarta)] text-[clamp(2.1rem,5vw,3.5rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
               Commandez votre vitrine sur-mesure
               <span className="text-[#ED5B04]">.</span>
             </h1>
