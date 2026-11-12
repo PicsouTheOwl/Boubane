@@ -11,7 +11,6 @@ import {
   Building2,
   Calendar,
   Check,
-  Clock,
   Hammer,
   Lock,
   Mail,
@@ -151,13 +150,7 @@ export default function CommanderPage() {
       <main className="relative pt-14 pb-28">
         <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
           <AtelierReveal className="max-w-3xl mb-10 sm:mb-12">
-            <div className="flex flex-wrap items-center gap-3">
-              <EyebrowBadge index="BRIEF EXPRESS">Réservation Créneau · 0 €</EyebrowBadge>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white border border-[#0C0A08]/[0.08] px-3 py-1 font-mono text-[11px] text-[#57534E]">
-                <Clock className="w-3.5 h-3.5 text-[#ED5B04]" />
-                <span>~45 secondes</span>
-              </span>
-            </div>
+            <EyebrowBadge index="BRIEF EXPRESS">Réservation Créneau · 0 €</EyebrowBadge>
             <h1 className="mt-5 font-[family-name:var(--font-jakarta)] text-[clamp(2.1rem,5vw,3.5rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
               Commandez votre vitrine sur-mesure
               <span className="text-[#ED5B04]">.</span>
