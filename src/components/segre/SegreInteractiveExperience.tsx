@@ -1,292 +1,162 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowRight,
-  ArrowUpRight,
+  BedDouble,
+  Building2,
   Calendar,
   Check,
-  Compass,
+  Hammer,
   MapPin,
   MessageCircle,
   Phone,
-  Plus,
   Search,
+  Zap,
 } from "lucide-react";
 import { AtelierReveal, EyebrowBadge, SpecularPlate } from "@/components/AtelierPrimitives";
-import { ArchitectMarginalia, HandDrawnUnderline } from "@/components/HandDrawnAccents";
-import { ATELIER_EASE, ATELIER_SPRING, ATELIER_SNAPPY_SPRING } from "@/lib/utils";
 
-interface TownNode {
-  id: string;
+interface TownItem {
   name: string;
-  mapLabel: string;
   cp: string;
-  x: number;
-  y: number;
-  dx: number;
-  dy: number;
-  anchor: "start" | "middle" | "end";
-  distanceKm: number;
-  driveMin: number;
-  zoneLabel: string;
-  localQueries: string[];
+  distance: string;
+  note: string;
 }
 
-const TOWNS: TownNode[] = [
+const TOWNS: TownItem[] = [
   {
-    id: "segre",
     name: "Segré-en-Anjou Bleu",
-    mapLabel: "Segré (49500)",
     cp: "49500",
-    x: 215,
-    y: 165,
-    dx: 0,
-    dy: 17,
-    anchor: "middle",
-    distanceKm: 0,
-    driveMin: 0,
-    zoneLabel: "Base Atelier Boubane · Centre Segréen",
-    localQueries: ["menuisier Segré", "couvreur 49500", "création site Segré"],
+    distance: "Sur place",
+    note: "Centre Segréen, Nyoiseau, Sainte-Gemmes-d'Andigné, Aviré",
   },
   {
-    id: "lion",
     name: "Le Lion-d'Angers",
-    mapLabel: "Le Lion-d'Angers",
     cp: "49220",
-    x: 296,
-    y: 185,
-    dx: 10,
-    dy: 3,
-    anchor: "start",
-    distanceKm: 13,
-    driveMin: 14,
-    zoneLabel: "Axe D775 · Pôle Équestre & Artisanal",
-    localQueries: ["artisan Le Lion-d'Angers", "cabinet 49220", "maçonnerie Anjou"],
+    distance: "14 min",
+    note: "Axe D775 · Artisans, cabinets et commerces",
   },
   {
-    id: "chateau-gontier",
-    name: "Château-Gontier",
-    mapLabel: "Château-Gontier",
-    cp: "53200",
-    x: 278,
-    y: 78,
-    dx: 0,
-    dy: -12,
-    anchor: "middle",
-    distanceKm: 23,
-    driveMin: 22,
-    zoneLabel: "Sud Mayenne · Bassin Industriel & BTP",
-    localQueries: ["entreprise BTP 53200", "plombier Château-Gontier", "PME Mayenne"],
-  },
-  {
-    id: "cande",
     name: "Candé",
-    mapLabel: "Candé",
     cp: "49440",
-    x: 162,
-    y: 238,
-    dx: 0,
-    dy: 17,
-    anchor: "middle",
-    distanceKm: 19,
-    driveMin: 18,
-    zoneLabel: "Sud-Ouest Segréen · Proximité Loire-Atlantique",
-    localQueries: ["ébéniste Candé", "paysagiste 49440", "rénovation Haut-Anjou"],
+    distance: "18 min",
+    note: "Sud-Ouest Segréen · BTP, paysagistes, services",
   },
   {
-    id: "pouance",
     name: "Pouancé · Ombrée d'Anjou",
-    mapLabel: "Pouancé",
     cp: "49420",
-    x: 122,
-    y: 112,
-    dx: 0,
-    dy: -12,
-    anchor: "middle",
-    distanceKm: 25,
-    driveMin: 24,
-    zoneLabel: "Nord-Ouest Anjou · Zone Artisanale",
-    localQueries: ["charpentier Pouancé", "garagiste Ombrée d'Anjou", "BTP 49420"],
+    distance: "24 min",
+    note: "Nord-Ouest Anjou · Zones artisanales & PME",
   },
   {
-    id: "chateaubriant",
+    name: "Château-Gontier",
+    cp: "53200",
+    distance: "22 min",
+    note: "Sud Mayenne · Entreprises du bâtiment & industrie",
+  },
+  {
     name: "Châteaubriant",
-    mapLabel: "Châteaubriant",
     cp: "44110",
-    x: 54,
-    y: 178,
-    dx: 0,
-    dy: 17,
-    anchor: "start",
-    distanceKm: 37,
-    driveMin: 35,
-    zoneLabel: "Bassin 44/49 · Échanges Directs",
-    localQueries: ["menuiserie Châteaubriant", "industriel 44110", "site vitrine 44"],
+    distance: "35 min",
+    note: "Bassin 44/49 · Artisans, négoce & services locaux",
   },
   {
-    id: "angers",
     name: "Angers & Agglomération",
-    mapLabel: "Angers",
     cp: "49000",
-    x: 368,
-    y: 252,
-    dx: -10,
-    dy: 3,
-    anchor: "end",
-    distanceKm: 39,
-    driveMin: 34,
-    zoneLabel: "Axe Express 4 Voies · Maine-et-Loire",
-    localQueries: ["cabinet conseil Angers", "architecte 49000", "vitrine sur-mesure 49"],
+    distance: "34 min",
+    note: "Avrillé, Beaucouzé, Saint-Barthélemy-d'Anjou",
   },
 ];
 
-interface TradeSector {
-  index: string;
-  tag: string;
-  title: string;
-  desc: string;
-  metrics: { label: string; value: string }[];
-  architectureFeatures: string[];
-  googleKeywords: string[];
-}
-
-const SECTORS: TradeSector[] = [
+const SECTORS = [
   {
-    index: "01",
-    tag: "ARTISANAT & BÂTIMENT",
-    title: "Menuisiers, Couvreurs, Ébénistes & BTP",
-    desc: "Montrez vos vrais chantiers en photo et recevez des demandes de devis claires directement depuis le Segréen.",
-    metrics: [
-      { label: "Ouverture sur mobile", value: "< 0,3s" },
-      { label: "Demande de devis", value: "En 2 clics" },
+    icon: Hammer,
+    tag: "ARTISANS & BTP",
+    title: "Menuisiers, couvreurs, maçons & plombiers à Segré",
+    desc: "Une vitrine mobile-first pensée pour décrocher des chantiers autour de Segré sans perdre de temps en prospection.",
+    features: [
+      "Galerie de vos vrais chantiers avant / après",
+      "Bouton d'appel direct et demande de devis en 30 secondes",
+      "Optimisé pour « couvreur Segré », « menuisier 49500 »",
     ],
-    architectureFeatures: [
-      "Photos de chantiers avant et après sans ralentir le téléphone",
-      "Formulaire simple avec commune et nature des travaux",
-      "Mise en avant de vos assurances RGE, Qualibat et Décennale",
-    ],
-    googleKeywords: ["couvreur Segré", "menuisier Château-Gontier", "maçon Haut-Anjou"],
   },
   {
-    index: "02",
-    tag: "PROFESSIONS LIBÉRALES",
-    title: "Avocats, Notaires, Cabinets & Praticiens",
-    desc: "Une présentation sobre et claire pour que vos futurs clients ou patients trouvent vos infos et prennent rendez-vous sans chercher.",
-    metrics: [
-      { label: "Prise de RDV", value: "Directe" },
-      { label: "Lecture mobile", value: "Immédiate" },
+    icon: BedDouble,
+    tag: "TOURISME & COMMERCE",
+    title: "Gîtes, restaurants, domaines & boutiques du Haut-Anjou",
+    desc: "Transformez vos visiteurs Google Maps en réservations ou clients directs, sans commission de plateforme.",
+    features: [
+      "Présentation claire des prestations, menus ou hébergements",
+      "Lien direct réservation / contact sans intermédiaire",
+      "Photos soignées et chargement instantané sur 4G",
     ],
-    architectureFeatures: [
-      "Mise en page posée et lisible sans effets inutiles",
-      "Explication simple de vos domaines et honoraires",
-      "Lien direct vers votre agenda (Cal.com, Doctolib) ou secrétariat",
-    ],
-    googleKeywords: ["avocat Segré", "ostéopathe Le Lion-d'Angers", "cabinet comptable 49"],
   },
   {
-    index: "03",
-    tag: "INDUSTRIE & PME",
-    title: "PME Industrielles & ZI d'Étriché / Segré",
-    desc: "Un site net et rapide pour présenter votre parc machines à vos clients nationaux et attirer de bons profils locaux.",
-    metrics: [
-      { label: "Propriété du code", value: "100 % à vous" },
-      { label: "Frais de création", value: "0 €" },
+    icon: Building2,
+    tag: "CABINETS & PME",
+    title: "Professions libérales, indépendants & PME locales",
+    desc: "Une image sérieuse et structurée qui inspire confiance dès le premier clic pour vos prospects en Maine-et-Loire et Mayenne.",
+    features: [
+      "Architecture claire de vos expertises et zone d'action",
+      "Prise de rendez-vous en ligne intégrée",
+      "Code source 100 % à vous, hébergé à votre nom",
     ],
-    architectureFeatures: [
-      "Présentation claire de vos machines, capacités et normes",
-      "Page recrutement directe sans intermédiaire",
-      "Site léger sans WordPress ni extensions à mettre à jour",
-    ],
-    googleKeywords: ["usinage précision 49", "sous-traitance industrielle Segré", "PME ZI Étriché"],
-  },
-  {
-    index: "04",
-    tag: "COMMERCE & TERROIR",
-    title: "Boutiques, Domaines, Gîtes & Tables",
-    desc: "Évitez de laisser 15 à 18 % de commission à Booking ou Airbnb en permettant aux clients de réserver en direct.",
-    metrics: [
-      { label: "Commission", value: "0 %" },
-      { label: "En direct", value: "100 %" },
-    ],
-    architectureFeatures: [
-      "Vraies photos du lieu, de la carte ou des chambres",
-      "Boutons directs pour réserver, appeler ou lancer le GPS",
-      "Meilleure visibilité sur Google pour le tourisme en Haut-Anjou",
-    ],
-    googleKeywords: ["gîte Anjou Bleu", "restaurant Segré", "domaine réception 49"],
   },
 ];
 
-const LOCAL_FAQS = [
+export const SEGRE_FAQS = [
   {
-    index: "01",
-    q: "Puis-je rencontrer Léo en personne à Segré ou sur mon chantier ?",
-    a: "Oui. Je suis basé à Segré-en-Anjou Bleu et me déplace sans frais autour de Segré, Le Lion-d'Angers, Candé, Pouancé et Château-Gontier pour comprendre votre métier, voir vos réalisations et cadrer votre vitrine en 20 minutes autour d'un café.",
+    q: "Combien coûte la création d'un site internet à Segré avec Boubane ?",
+    a: "La création du design et du code est à 0 € d'honoraires, sans acompte ni abonnement caché. Vous réglez uniquement vos frais techniques directs : votre nom de domaine (~10 €/an) et votre hébergement (~5 €/mois).",
   },
   {
-    index: "02",
-    q: "Pourquoi offrir la création à 0 € aux entreprises du Segréen ?",
-    a: "Parce que le modèle d'agence à 4 500 € repose sur des frais commerciaux et de structure que je n'ai pas. En travaillant en circuit court sur une architecture de code pur, je crée votre vitrine gratuitement et vous ne payez que votre hébergement direct (~5 €/mois ou 15 €/an clé en main).",
+    q: "En combien de temps mon site est-il mis en ligne à Segré ?",
+    a: "Votre vitrine est conçue, optimisée pour Google et mise en ligne sous 5 jours ouvrés dès que nous avons validé votre activité et récupéré vos photos.",
   },
   {
-    index: "03",
-    q: "Comment faites-vous pour que mon site sorte premier sur Google à Segré ?",
-    a: "Chaque page livrée intègre un balisage sémantique local complet (Schema.org LocalBusiness géolocalisé 49500/53200), un temps de chargement inférieur à 0.3 seconde sur smartphone et des titres calibrés sur les recherches exactes de vos clients locaux.",
+    q: "Comment faites-vous pour référencer mon site sur Google à Segré (49500) ?",
+    a: "Chaque site intègre une structure HTML sémantique propre, un balisage Schema.org LocalBusiness géolocalisé sur Segré-en-Anjou Bleu et le Haut-Anjou, des balises titres calibrées sur vos métiers locaux et un temps de chargement ultra-rapide sur mobile.",
   },
   {
-    index: "04",
-    q: "Et si j'ai déjà un vieux site ou juste une page Facebook ?",
-    a: "C'est le cas de la majorité des artisans du Haut-Anjou que j'accompagne. Je récupère vos meilleures photos et avis existants, je réécris les textes de manière claire, et je vous livre une vitrine complète sous 5 jours ouvrés sans coupure de service.",
+    q: "Est-ce que je peux vous rencontrer en personne autour de Segré ?",
+    a: "Oui. Basé à Segré-en-Anjou Bleu, je peux me déplacer gratuitement dans tout le Segréen (Le Lion-d'Angers, Candé, Pouancé, Château-Gontier) ou échanger en 10 minutes par téléphone / visio.",
+  },
+  {
+    q: "Le code du site m'appartient-il vraiment ?",
+    a: "Oui, intégralement. Contrairement aux agences qui louent leurs sites sur 36 ou 48 mois, le code reste 100 % entre vos mains sans aucun engagement de durée.",
   },
 ];
 
 export function SegreInteractiveExperience() {
-  const [selectedTownId, setSelectedTownId] = useState<string>("lion");
-  const [selectedSectorIdx, setSelectedSectorIdx] = useState<number>(0);
-  const [budgetYears, setBudgetYears] = useState<1 | 3>(3);
-  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(0);
-
-  const segreOrigin = TOWNS[0];
-  const activeTown = TOWNS.find((t) => t.id === selectedTownId) ?? TOWNS[1];
-  const activeSector = SECTORS[selectedSectorIdx];
-
-  const agencyBudget = budgetYears === 1 ? "6 300 €" : "9 900 €";
-  const boubaneBudget = budgetYears === 1 ? "~60 €" : "~180 €";
-  const savedAmount = budgetYears === 1 ? "6 240 €" : "9 720 €";
-
   return (
-    <main className="relative pt-14 md:pt-20 pb-0">
+    <main className="relative pt-14 pb-28">
       {/* ====================================================================
-          ZONE 01 : HERO LOCALE + CARTE TOPOGRAPHIQUE INTERACTIVE DU HAUT-ANJOU
+          HERO LOCALE — SEGRÉ-EN-ANJOU BLEU (49500)
          ==================================================================== */}
-      <section className="mx-auto max-w-[1200px] px-6 pb-24 md:pb-32">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-          {/* Colonne Gauche : Positionnement & Actions Directes */}
-          <AtelierReveal className="lg:col-span-6 space-y-6">
-            <EyebrowBadge index="HAUT-ANJOU · 49500">Artisanat Web Local</EyebrowBadge>
+      <section className="mx-auto max-w-[1160px] px-5 sm:px-6 pb-20 sm:pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <AtelierReveal className="lg:col-span-7 space-y-6">
+            <EyebrowBadge index="SEGRÉ-EN-ANJOU BLEU · 49500">
+              Création Web & SEO Local
+            </EyebrowBadge>
 
-            <h1 className="text-[clamp(2.35rem,4.6vw,3.9rem)] font-bold tracking-[-0.045em] leading-[1.03] text-[#0C0A08]">
-              Création de site internet à{" "}
-              <span className="relative inline-block">
-                Segré
-                <HandDrawnUnderline className="absolute -bottom-1.5 inset-x-0 h-2.5 w-full" delay={0.2} />
-              </span>{" "}
+            <h1 className="font-[family-name:var(--font-jakarta)] text-[clamp(2.2rem,4.8vw,3.75rem)] font-bold tracking-[-0.04em] leading-[1.05] text-[#0C0A08]">
+              Création de site internet à Segré{" "}
               <span className="text-[#0C0A08]/40 font-normal">&amp; en Haut-Anjou.</span>
             </h1>
 
-            <p className="text-[1.04rem] leading-[1.65] text-[#57534E] max-w-[48ch]">
-              Un interlocuteur unique basé à Segré-en-Anjou Bleu. Nous concevons et codons votre
-              vitrine sur-mesure à <strong>0 € d&apos;honoraires</strong> pour attirer de vrais
-              clients dans le 49 et le 53.
+            <p className="text-[1.05rem] leading-[1.65] text-[#57534E] max-w-[54ch]">
+              Basé à <strong>Segré-en-Anjou Bleu (49500)</strong>, je conçois des sites vitrines
+              sur-mesure pour les artisans, commerces et PME du Segréen :{" "}
+              <strong className="text-[#0C0A08]">0 € de création</strong>, code 100 % à vous et
+              mise en ligne en 5 jours ouvrés.
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <Link
                 href="/commander"
-                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#1E1B18] active:scale-[0.97] transition-all shadow-[0_6px_20px_rgba(12,10,8,0.16)]"
+                className="inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold shadow-[0_10px_28px_rgba(237,91,4,0.24)] hover:bg-[#D64E00] active:scale-[0.97] transition-all"
               >
                 <span>Commander mon site (0 €)</span>
                 <ArrowRight className="w-4 h-4" />
@@ -296,187 +166,46 @@ export function SegreInteractiveExperience() {
                 className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] px-6 py-3.5 text-sm font-semibold text-[#0C0A08] hover:border-[#0C0A08] active:scale-[0.97] transition-all"
               >
                 <Calendar className="w-4 h-4 text-[#ED5B04]" />
-                <span>Café / Appel (10 min)</span>
+                <span>Prendre RDV (10 min)</span>
               </Link>
             </div>
 
-            <div className="pt-2 flex flex-wrap items-center gap-5">
+            <div className="pt-2 flex flex-wrap items-center gap-6 text-xs font-mono text-[#57534E]">
               <a
                 href="tel:+33778310346"
-                className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-[#0C0A08]/75 hover:text-[#ED5B04] transition-colors"
+                className="inline-flex items-center gap-2 font-semibold text-[#0C0A08] hover:text-[#ED5B04] transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-[#ED5B04]" />
                 <span>07 78 31 03 46</span>
               </a>
-              <ArchitectMarginalia note="Déplacement offert en Segréen" />
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#ED5B04]" />
+                <span>Rendez-vous possible sur place en Segréen</span>
+              </span>
             </div>
           </AtelierReveal>
 
-          {/* Colonne Droite : Radar Topographique Interactif SVG du Haut-Anjou */}
-          <AtelierReveal delay={0.08} className="lg:col-span-6">
-            <SpecularPlate dark crosshairs className="p-6 sm:p-8">
-              <div className="flex items-center justify-between gap-3 pb-4 border-b border-white/[0.08]">
-                <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04]">
-                  <Compass className="w-3.5 h-3.5" />
-                  <span>CARTE DE PROXIMITÉ · CLIC SUR UNE VILLE</span>
+          <AtelierReveal delay={0.06} className="lg:col-span-5">
+            <SpecularPlate tilt={false} crosshairs className="p-4 sm:p-5 bg-white">
+              <div className="relative overflow-hidden rounded-2xl aspect-[4/3] bg-[#FAF8F5]">
+                <img
+                  src="/images/leo-artisan-desk.jpg"
+                  alt="Léo Saillour, créateur de sites internet à Segré-en-Anjou Bleu"
+                  width={900}
+                  height={675}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-x-3 bottom-3 rounded-xl bg-[#0C0A08]/85 backdrop-blur-md px-4 py-3 text-white flex items-center justify-between gap-3">
+                  <div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#ED5B04]">
+                      INTERLOCUTEUR DIRECT
+                    </div>
+                    <div className="text-sm font-semibold">Léo Saillour · Segré (49500)</div>
+                  </div>
+                  <span className="font-mono text-xs rounded-full bg-white/10 px-2.5 py-1">
+                    5 jours
+                  </span>
                 </div>
-                <span className="font-mono text-[10px] text-white/40 tabular-nums">
-                  47.68° N · 0.87° O
-                </span>
-              </div>
-
-              {/* Canevas SVG Topographique Vectoriel Fait Main */}
-              <div className="relative mt-4 rounded-2xl bg-[#0B0A09] border border-white/[0.07] overflow-hidden">
-                <svg
-                  viewBox="0 0 440 300"
-                  className="w-full h-auto block select-none"
-                  role="img"
-                  aria-label="Carte interactive du rayon d'intervention autour de Segré"
-                >
-                  {/* Lignes topographiques concentriques autour de Segré */}
-                  <g stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="none">
-                    <circle cx={segreOrigin.x} cy={segreOrigin.y} r="48" strokeDasharray="3 4" />
-                    <circle cx={segreOrigin.x} cy={segreOrigin.y} r="96" strokeDasharray="3 4" />
-                    <circle cx={segreOrigin.x} cy={segreOrigin.y} r="152" />
-                    <path
-                      d="M 20 120 Q 120 155 215 165 T 410 250"
-                      stroke="rgba(237,91,4,0.12)"
-                      strokeWidth="1.5"
-                    />
-                  </g>
-
-                  {/* Faisceau de trajet animé entre Segré et la ville active */}
-                  {activeTown.id !== "segre" && (
-                    <motion.line
-                      key={activeTown.id}
-                      x1={segreOrigin.x}
-                      y1={segreOrigin.y}
-                      x2={activeTown.x}
-                      y2={activeTown.y}
-                      stroke="#ED5B04"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      initial={{ pathLength: 0, opacity: 0.2 }}
-                      animate={{ pathLength: 1, opacity: 0.9 }}
-                      transition={{ duration: 0.45, ease: ATELIER_EASE }}
-                    />
-                  )}
-
-                  {/* Points des 7 communes */}
-                  {TOWNS.map((town) => {
-                    const isOrigin = town.id === "segre";
-                    const isSelected = town.id === activeTown.id;
-                    return (
-                      <g
-                        key={town.id}
-                        className="cursor-pointer"
-                        onClick={() => setSelectedTownId(town.id)}
-                        onMouseEnter={() => setSelectedTownId(town.id)}
-                      >
-                        <circle cx={town.x} cy={town.y} r="18" fill="transparent" />
-
-                        {isSelected && (
-                          <circle
-                            cx={town.x}
-                            cy={town.y}
-                            r="12"
-                            fill="rgba(237,91,4,0.22)"
-                          />
-                        )}
-
-                        <circle
-                          cx={town.x}
-                          cy={town.y}
-                          r={isOrigin || isSelected ? 5.5 : 3.8}
-                          fill={isOrigin ? "#FAF8F5" : isSelected ? "#ED5B04" : "rgba(255,255,255,0.45)"}
-                          stroke="#0B0A09"
-                          strokeWidth="1.5"
-                        />
-
-                        <text
-                          x={town.x + town.dx}
-                          y={town.y + town.dy}
-                          textAnchor={town.anchor}
-                          fontFamily="monospace"
-                          fontSize={isSelected || isOrigin ? "10" : "8.8"}
-                          fontWeight={isSelected || isOrigin ? "700" : "500"}
-                          fill={isSelected || isOrigin ? "#FAF8F5" : "rgba(255,255,255,0.52)"}
-                        >
-                          {town.mapLabel}
-                        </text>
-                      </g>
-                    );
-                  })}
-                </svg>
-              </div>
-
-              {/* Télémétrie Live de la Commune Sélectionnée */}
-              <div className="relative overflow-hidden mt-4 rounded-xl bg-white/[0.04] border border-white/[0.08] p-4 min-h-[116px]">
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.div
-                    key={activeTown.id}
-                    initial={{ opacity: 0, y: 4, filter: "blur(2px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, y: -4, filter: "blur(2px)" }}
-                    transition={{ duration: 0.2, ease: ATELIER_EASE }}
-                    className="space-y-3"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <div className="font-semibold text-white text-sm">
-                          {activeTown.name}{" "}
-                          <span className="font-mono text-xs text-white/45">({activeTown.cp})</span>
-                        </div>
-                        <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#ED5B04]">
-                          {activeTown.zoneLabel}
-                        </div>
-                      </div>
-                      <div className="text-right font-mono text-xs tabular-nums">
-                        <span className="text-white font-bold">
-                          {activeTown.distanceKm === 0 ? "Sur place" : `${activeTown.distanceKm} km`}
-                        </span>
-                        {activeTown.driveMin > 0 && (
-                          <span className="text-white/45 ml-1.5">· {activeTown.driveMin} min</span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      <span className="inline-flex items-center gap-1 font-mono text-[10px] text-white/40 mr-1">
-                        <Search className="w-3 h-3" /> SEO ciblé :
-                      </span>
-                      {activeTown.localQueries.map((q) => (
-                        <span
-                          key={q}
-                          className="rounded-full bg-white/[0.06] border border-white/[0.08] px-2.5 py-0.5 font-mono text-[10px] text-white/80"
-                        >
-                          {q}
-                        </span>
-                      ))}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Pilules rapides des villes pour mobile */}
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                {TOWNS.map((t) => {
-                  const active = t.id === activeTown.id;
-                  return (
-                    <button
-                      key={t.id}
-                      type="button"
-                      onClick={() => setSelectedTownId(t.id)}
-                      className={`px-2.5 py-1 rounded-full font-mono text-[10px] transition-colors cursor-pointer active:scale-[0.96] ${
-                        active
-                          ? "bg-[#ED5B04] text-white font-semibold"
-                          : "bg-white/[0.05] text-white/55 hover:text-white"
-                      }`}
-                    >
-                      {t.name.split(" ·")[0]}
-                    </button>
-                  );
-                })}
               </div>
             </SpecularPlate>
           </AtelierReveal>
@@ -484,356 +213,225 @@ export function SegreInteractiveExperience() {
       </section>
 
       {/* ====================================================================
-          ZONE 02 : EXPLORATEUR INTERACTIF DES MÉTIERS DU SEGRÉEN
+          3 PILIERS — POURQUOI BOUBANE À SEGRÉ
          ==================================================================== */}
-      <section className="py-24 md:py-32 bg-[#F3EFE7] border-t border-[#0C0A08]/[0.07]">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <AtelierReveal className="max-w-2xl mb-14">
-            <EyebrowBadge index="02">Pour votre métier</EyebrowBadge>
-            <h2 className="mt-5 text-[clamp(2.1rem,4.4vw,3.4rem)] font-bold tracking-[-0.045em] leading-[1.04] text-[#0C0A08]">
-              Un site adapté à{" "}
-              <span className="text-[#0C0A08]/40 font-normal">votre activité locale.</span>
+      <section className="py-16 sm:py-20 border-t border-[#0C0A08]/[0.07] bg-white/60">
+        <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
+          <div className="max-w-2xl mb-12">
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
+              APPROCHE TERRAIN · 49500
+            </p>
+            <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.75rem,3.6vw,2.5rem)] font-bold tracking-[-0.035em] leading-[1.08] text-[#0C0A08]">
+              Un site pensé pour être trouvé à Segré et convertir vos appels.
             </h2>
-          </AtelierReveal>
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-            {/* Sélecteur Vertical Rail layoutId */}
-            <div className="lg:col-span-5 divide-y divide-[#0C0A08]/[0.09] border-y border-[#0C0A08]/[0.09] flex flex-col justify-center">
-              {SECTORS.map((sec, idx) => {
-                const selected = selectedSectorIdx === idx;
-                return (
-                  <button
-                    key={sec.index}
-                    type="button"
-                    onClick={() => setSelectedSectorIdx(idx)}
-                    onMouseEnter={() => setSelectedSectorIdx(idx)}
-                    className="relative w-full text-left py-6 pl-6 pr-4 flex items-start gap-5 cursor-pointer group active:scale-[0.995] transition-transform"
-                  >
-                    {selected && (
-                      <motion.span
-                        layoutId="segreSectorRail"
-                        transition={ATELIER_SNAPPY_SPRING}
-                        className="absolute left-0 top-3 bottom-3 w-[2.5px] rounded-full bg-[#ED5B04]"
-                      />
-                    )}
-                    <span
-                      className={`font-mono text-lg font-medium tabular-nums pt-0.5 transition-colors ${
-                        selected ? "text-[#ED5B04]" : "text-[#0C0A08]/30 group-hover:text-[#0C0A08]/60"
-                      }`}
-                    >
-                      {sec.index}
-                    </span>
-                    <div>
-                      <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#0C0A08]/45">
-                        {sec.tag}
-                      </div>
-                      <h3 className="mt-1 text-lg font-bold tracking-[-0.02em] text-[#0C0A08]">
-                        {sec.title}
-                      </h3>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <SpecularPlate tilt={false} className="p-7 bg-white">
+              <div className="font-mono text-xs text-[#ED5B04] font-semibold">01 · BUDGET</div>
+              <h3 className="mt-3 text-lg font-bold text-[#0C0A08]">0 € d&apos;honoraires</h3>
+              <p className="mt-2 text-sm leading-[1.6] text-[#57534E]">
+                Pas de facture à 4 500 € ni de location sur 36 mois. Vous ne réglez que votre
+                domaine (~10 €/an) et votre hébergement (~5 €/mois).
+              </p>
+            </SpecularPlate>
 
-            {/* Fiche Technique Interactive du Secteur Sélectionné */}
-            <div className="lg:col-span-7 flex">
-              <SpecularPlate className="w-full p-8 sm:p-10 bg-white atelier-shadow-warm overflow-hidden flex flex-col justify-between">
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.div
-                    key={activeSector.index}
-                    initial={{ opacity: 0, filter: "blur(3px)", y: 8 }}
-                    animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-                    exit={{ opacity: 0, filter: "blur(3px)", y: -6 }}
-                    transition={{ duration: 0.24, ease: ATELIER_EASE }}
-                    className="space-y-7"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-[#0C0A08]/[0.07]">
-                      <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#ED5B04]">
-                        SPÉCIFICATION #{activeSector.index} · {activeSector.tag}
-                      </span>
-                      <div className="flex items-center gap-4">
-                        {activeSector.metrics.map((m) => (
-                          <div key={m.label} className="text-right">
-                            <div className="font-mono text-[10px] text-[#0C0A08]/45">{m.label}</div>
-                            <div className="font-mono text-sm font-bold text-[#0C0A08] tabular-nums">
-                              {m.value}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+            <SpecularPlate tilt={false} className="p-7 bg-white">
+              <div className="font-mono text-xs text-[#ED5B04] font-semibold flex items-center gap-1.5">
+                <Search className="w-3.5 h-3.5" />
+                <span>02 · VISIBILITÉ GOOGLE</span>
+              </div>
+              <h3 className="mt-3 text-lg font-bold text-[#0C0A08]">
+                SEO local Segré &amp; Haut-Anjou
+              </h3>
+              <p className="mt-2 text-sm leading-[1.6] text-[#57534E]">
+                Structure sémantique optimisée, données Schema.org locales et vitesse mobile pour
+                ressortir sur les recherches près de chez vous.
+              </p>
+            </SpecularPlate>
 
-                    <div>
-                      <h3 className="text-2xl font-bold tracking-[-0.03em] text-[#0C0A08]">
-                        {activeSector.title}
-                      </h3>
-                      <p className="mt-2.5 text-[0.96rem] leading-[1.65] text-[#57534E]">
-                        {activeSector.desc}
-                      </p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#0C0A08]/45">
-                        CE QUE NOUS CONSTRUISONS SUR VOTRE VITRINE :
-                      </div>
-                      {activeSector.architectureFeatures.map((feat) => (
-                        <div key={feat} className="flex items-start gap-3 text-sm text-[#0C0A08]">
-                          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ED5B04]/10 text-[#ED5B04]">
-                            <Check className="w-3 h-3" strokeWidth={2.5} />
-                          </span>
-                          <span>{feat}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="rounded-2xl bg-[#FAF8F5] border border-[#0C0A08]/[0.07] p-4 flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[#0C0A08]/50 mr-1">
-                        EXEMPLES REQUÊTES GOOGLE :
-                      </span>
-                      {activeSector.googleKeywords.map((kw) => (
-                        <span
-                          key={kw}
-                          className="rounded-full bg-white border border-[#0C0A08]/[0.08] px-3 py-1 font-mono text-[11px] text-[#0C0A08]"
-                        >
-                          {kw}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="pt-2 flex flex-wrap items-center justify-between gap-4 border-t border-[#0C0A08]/[0.07]">
-                      <Link
-                        href="/commander"
-                        className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-6 py-3 text-sm font-semibold hover:bg-[#1E1B18] active:scale-[0.97] transition-all"
-                      >
-                        <span>Lancer mon projet (0 €)</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                      <a
-                        href="/showcase-votre-site.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[#0C0A08]/70 hover:text-[#ED5B04] transition-colors"
-                      >
-                        <span>Voir un exemple live</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </a>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </SpecularPlate>
-            </div>
+            <SpecularPlate tilt={false} className="p-7 bg-white">
+              <div className="font-mono text-xs text-[#ED5B04] font-semibold flex items-center gap-1.5">
+                <Zap className="w-3.5 h-3.5" />
+                <span>03 · RAPIDITÉ</span>
+              </div>
+              <h3 className="mt-3 text-lg font-bold text-[#0C0A08]">En ligne en 5 jours</h3>
+              <p className="mt-2 text-sm leading-[1.6] text-[#57534E]">
+                On échange 10 minutes, vous m&apos;envoyez vos photos par téléphone et je m&apos;occupe
+                du design, des textes et de la mise en ligne.
+              </p>
+            </SpecularPlate>
           </div>
         </div>
       </section>
 
       {/* ====================================================================
-          ZONE 03 : COMPARATEUR LOCAL INTERACTIF (AGENCE D'ANGERS VS SEGRÉ)
+          SECTEURS ACCOMPAGNÉS À SEGRÉ (TOUT VISIBLE POUR GOOGLE)
          ==================================================================== */}
-      <section className="py-24 md:py-32 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.06]">
-        <div className="mx-auto max-w-[1160px] px-6">
-          <AtelierReveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-            <div>
-              <EyebrowBadge index="03">Économie Locale</EyebrowBadge>
-              <h2 className="mt-5 text-[clamp(2rem,4vw,3.1rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-                Pourquoi payer 5 000 € en agence{" "}
-                <span className="text-[#0C0A08]/40 font-normal">n&apos;a plus de sens à Segré.</span>
+      <section className="py-20 sm:py-24 border-t border-[#0C0A08]/[0.07]">
+        <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
+          <div className="max-w-2xl mb-12">
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
+              MÉTIERS DU SEGRÉEN
+            </p>
+            <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.75rem,3.6vw,2.5rem)] font-bold tracking-[-0.035em] leading-[1.08] text-[#0C0A08]">
+              Des sites adaptés aux entreprises de Segré-en-Anjou Bleu.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {SECTORS.map((sector) => {
+              const Icon = sector.icon;
+              return (
+                <SpecularPlate
+                  key={sector.tag}
+                  tilt={false}
+                  className="p-7 bg-white flex flex-col justify-between space-y-6"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04] font-semibold">
+                        {sector.tag}
+                      </span>
+                      <span className="w-9 h-9 rounded-xl bg-[#FAF8F5] border border-[#0C0A08]/[0.08] flex items-center justify-center text-[#0C0A08]">
+                        <Icon className="w-4 h-4" />
+                      </span>
+                    </div>
+                    <h3 className="mt-4 text-xl font-bold tracking-[-0.02em] text-[#0C0A08]">
+                      {sector.title}
+                    </h3>
+                    <p className="mt-2.5 text-sm leading-[1.6] text-[#57534E]">{sector.desc}</p>
+                    <ul className="mt-5 space-y-2.5">
+                      {sector.features.map((feat) => (
+                        <li key={feat} className="flex items-start gap-2.5 text-sm text-[#0C0A08]">
+                          <Check className="w-4 h-4 text-[#ED5B04] shrink-0 mt-0.5" strokeWidth={2.3} />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="pt-4 border-t border-[#0C0A08]/[0.07]">
+                    <Link
+                      href="/commander"
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-[#0C0A08] hover:text-[#ED5B04] transition-colors"
+                    >
+                      <span>Demander ma maquette gratuite</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </SpecularPlate>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          ZONE D'INTERVENTION HAUT-ANJOU & SUD MAYENNE
+         ==================================================================== */}
+      <section className="py-20 sm:py-24 border-t border-[#0C0A08]/[0.07] bg-white/60">
+        <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
+                ZONE D&apos;INTERVENTION LOCALE
+              </p>
+              <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.75rem,3.6vw,2.5rem)] font-bold tracking-[-0.035em] leading-[1.08] text-[#0C0A08]">
+                Création de sites web autour de Segré, en Anjou et Sud Mayenne.
               </h2>
             </div>
+            <p className="text-sm text-[#57534E] max-w-[38ch]">
+              Un rayon d&apos;action de 40 km autour de Segré pour des rencontres sur place ou un
+              suivi 100 % à distance partout en France.
+            </p>
+          </div>
 
-            <div className="inline-flex p-1 rounded-full bg-[#F0ECE3] border border-[#0C0A08]/[0.08] shrink-0">
-              {([1, 3] as const).map((y) => {
-                const active = budgetYears === y;
-                return (
-                  <button
-                    key={y}
-                    type="button"
-                    onClick={() => setBudgetYears(y)}
-                    className={`relative px-4 py-1.5 rounded-full font-mono text-[11px] uppercase tracking-[0.08em] cursor-pointer transition-colors ${
-                      active ? "text-white" : "text-[#0C0A08]/60"
-                    }`}
-                  >
-                    {active && (
-                      <motion.span
-                        layoutId="segreYearsPill"
-                        transition={ATELIER_SNAPPY_SPRING}
-                        className="absolute inset-0 rounded-full bg-[#0C0A08]"
-                      />
-                    )}
-                    <span className="relative z-10">{y === 1 ? "Sur 1 an" : "Sur 3 ans"}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </AtelierReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-            <AtelierReveal delay={0.04} className="flex">
-              <div className="w-full rounded-[24px] bg-[#F3EFE7] border border-[#0C0A08]/[0.08] p-8 flex flex-col justify-between">
-                <div>
-                  <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/45">
-                    MODÈLE AGENCE CLASSIQUE (ANGERS / NANTES)
-                  </div>
-                  <div className="mt-4 text-4xl font-bold tracking-[-0.04em] text-[#0C0A08]/50 line-through tabular-nums">
-                    {agencyBudget}
-                  </div>
-                  <p className="mt-3 text-sm text-[#57534E] leading-relaxed">
-                    Facture initiale de 4 500 € + maintenance mensuelle captive de 150 €/mois sur
-                    WordPress, sans propriété réelle du code source.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-[#0C0A08]/[0.07] font-mono text-xs text-[#0C0A08]/45">
-                  INTERLOCUTEUR DISTANT · TICKETS D&apos;ATTENTE
-                </div>
-              </div>
-            </AtelierReveal>
-
-            <AtelierReveal delay={0.1} className="flex">
-              <SpecularPlate dark crosshairs className="w-full p-8 flex flex-col justify-between">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {TOWNS.map((town) => (
+              <div
+                key={town.name}
+                className="rounded-2xl bg-white border border-[#0C0A08]/[0.08] p-5 flex flex-col justify-between"
+              >
                 <div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04]">
-                      ARTISANAT WEB BOUBANE · SEGRÉ
+                    <span className="font-mono text-[11px] text-[#ED5B04] font-semibold">
+                      {town.cp}
                     </span>
-                    <span className="rounded-full bg-[#ED5B04]/15 border border-[#ED5B04]/30 px-2.5 py-0.5 font-mono text-[10px] text-[#ED5B04]">
-                      -{savedAmount} d&apos;économie
-                    </span>
+                    <span className="font-mono text-[11px] text-[#57534E]">{town.distance}</span>
                   </div>
-                  <div className="mt-4 flex items-baseline gap-2.5">
-                    <span className="text-4xl font-bold tracking-[-0.04em] text-white tabular-nums">
-                      0 €
-                    </span>
-                    <span className="font-mono text-xs text-white/55 tabular-nums">
-                      conception · {boubaneBudget} hébergement direct
-                    </span>
-                  </div>
-                  <p className="mt-3 text-sm text-white/70 leading-relaxed">
-                    Conception et code sur-mesure offerts à 100 %, code déposé à votre nom,
-                    rencontre locale à Segré et affichage instantané &lt; 0.3s.
-                  </p>
+                  <h3 className="mt-2 text-base font-bold text-[#0C0A08]">{town.name}</h3>
+                  <p className="mt-1.5 text-xs leading-[1.55] text-[#57534E]">{town.note}</p>
                 </div>
-                <div className="mt-6 pt-4 border-t border-white/[0.08] font-mono text-xs text-white/60">
-                  CIRCUIT COURT · ZÉRO ENGAGEMENT
-                </div>
-              </SpecularPlate>
-            </AtelierReveal>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ====================================================================
-          ZONE 04 : QUESTIONS FRÉQUENTES LOCALES (OUVERT À FILETS FINS)
+          FAQ LOCALE SEGRÉ (CONTENU INDEXABLE PAR GOOGLE)
          ==================================================================== */}
-      <section className="py-24 md:py-28 bg-[#F3EFE7] border-t border-[#0C0A08]/[0.07]">
-        <div className="mx-auto max-w-[1040px] px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <div className="lg:col-span-4">
-              <EyebrowBadge index="04">FAQ Segréen</EyebrowBadge>
-              <h2 className="mt-5 text-3xl font-bold tracking-[-0.035em] text-[#0C0A08]">
-                Questions des dirigeants locaux
-              </h2>
-            </div>
+      <section className="py-20 sm:py-24 border-t border-[#0C0A08]/[0.07]">
+        <div className="mx-auto max-w-[920px] px-5 sm:px-6">
+          <div className="mb-10">
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
+              QUESTIONS FRÉQUENTES · SEGRÉ
+            </p>
+            <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.75rem,3.6vw,2.4rem)] font-bold tracking-[-0.035em] leading-[1.08] text-[#0C0A08]">
+              Tout savoir sur la création de votre site à Segré.
+            </h2>
+          </div>
 
-            <div className="lg:col-span-8 divide-y divide-[#0C0A08]/[0.09] border-y border-[#0C0A08]/[0.09]">
-              {LOCAL_FAQS.map((item, idx) => {
-                const isOpen = openFaqIdx === idx;
-                return (
-                  <div key={item.index}>
-                    <button
-                      type="button"
-                      aria-expanded={isOpen}
-                      onClick={() => setOpenFaqIdx(isOpen ? null : idx)}
-                      className="w-full py-5 flex items-center justify-between gap-4 text-left cursor-pointer group active:scale-[0.996]"
-                    >
-                      <div className="flex items-baseline gap-3.5">
-                        <span className="font-mono text-xs text-[#ED5B04] font-semibold">
-                          {item.index}
-                        </span>
-                        <span className="font-semibold text-[#0C0A08] group-hover:text-[#ED5B04] transition-colors">
-                          {item.q}
-                        </span>
-                      </div>
-                      <motion.span
-                        animate={{ rotate: isOpen ? 45 : 0 }}
-                        transition={{ duration: 0.22, ease: ATELIER_EASE }}
-                        className="w-7 h-7 shrink-0 rounded-full border border-[#0C0A08]/[0.12] flex items-center justify-center"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                      </motion.span>
-                    </button>
-
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.25, ease: ATELIER_EASE }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pb-6 pl-8 pr-4 text-sm leading-[1.68] text-[#57534E]">
-                            {item.a}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
+          <div className="divide-y divide-[#0C0A08]/[0.1] border-y border-[#0C0A08]/[0.1]">
+            {SEGRE_FAQS.map((item) => (
+              <div key={item.q} className="py-6">
+                <h3 className="text-base sm:text-lg font-bold text-[#0C0A08]">{item.q}</h3>
+                <p className="mt-2 text-sm sm:text-[0.96rem] leading-[1.65] text-[#57534E]">
+                  {item.a}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ====================================================================
-          ZONE 05 : FINAL LUMINEUX HAUT-ANJOU
+          CTA FINAL
          ==================================================================== */}
-      <section className="py-24 md:py-32 bg-[#FAF8F5] text-[#0C0A08] border-t border-[#0C0A08]/[0.07] relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-24 left-1/2 -translate-x-1/2 w-[900px] h-[340px] bg-[radial-gradient(ellipse_at_center,rgba(237,91,4,0.1)_0%,transparent_70%)] blur-3xl"
-        />
-        <div className="relative z-10 mx-auto max-w-[860px] px-6 text-center space-y-7">
-          <div className="flex justify-center">
-            <EyebrowBadge index="SEGRÉ · 49500">
-              Disponible cette semaine
-            </EyebrowBadge>
+      <section className="mx-auto max-w-[1160px] px-5 sm:px-6">
+        <SpecularPlate dark className="p-8 sm:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="max-w-xl">
+            <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04]">
+              SEGRÉ-EN-ANJOU BLEU · DISPONIBLE CETTE SEMAINE
+            </div>
+            <h2 className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.7rem,3.2vw,2.35rem)] font-bold tracking-[-0.035em] leading-[1.1] text-white">
+              Prêt à lancer votre site internet à Segré ?
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-white/70">
+              Commandez votre maquette en 3 étapes ou réservez un appel découverte de 10 minutes
+              avec Léo Saillour.
+            </p>
           </div>
-          <h2 className="text-[clamp(2.2rem,5vw,3.7rem)] font-bold tracking-[-0.045em] leading-[1.04] text-[#0C0A08]">
-            On se voit autour d&apos;un{" "}
-            <span className="relative inline-block text-[#57534E] font-normal">
-              café à Segré
-              <HandDrawnUnderline className="absolute -bottom-2 inset-x-0 h-2.5 w-full" delay={0.25} />
-            </span>{" "}
-            ?
-          </h2>
-          <p className="text-[#57534E] max-w-[50ch] mx-auto text-[1.02rem] leading-relaxed">
-            Réservez votre créneau offert (0 €) en 2 minutes ou appelez Léo directement au 07 78 31
-            03 46.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Link
               href="/commander"
-              className="inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all shadow-[0_10px_30px_rgba(237,91,4,0.22)]"
+              className="inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all"
             >
-              <span>Commander mon site (0 €)</span>
+              <span>Commander à 0 €</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
             <a
-              href="https://wa.me/33778310346?text=Bonjour%20L%C3%A9o%2C%20je%20suis%20bas%C3%A9%20pr%C3%A8s%20de%20Segr%C3%A9%20et%20souhaite%20discuter%20de%20mon%20site."
+              href="https://wa.me/33778310346"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.14] text-[#0C0A08] px-6 py-3.5 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all"
+              className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 text-white px-6 py-3.5 text-sm font-semibold hover:bg-white/15 transition-colors"
             >
-              <MessageCircle className="w-4 h-4 text-[#ED5B04]" />
-              <span>WhatsApp Direct</span>
+              <MessageCircle className="w-4 h-4 text-[#22C55E]" />
+              <span>WhatsApp</span>
             </a>
           </div>
-          <div className="pt-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#57534E] flex items-center justify-center gap-2">
-            <MapPin className="w-3.5 h-3.5 text-[#ED5B04]" />
-            <span>Segré · Le Lion-d&apos;Angers · Château-Gontier · Angers</span>
-          </div>
-        </div>
+        </SpecularPlate>
       </section>
     </main>
   );

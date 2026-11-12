@@ -71,6 +71,15 @@ export function ArtisanWorkbenchSection() {
               >
                 Prendre RDV
               </Link>
+              <span aria-hidden="true" className="text-[#0C0A08]/35">
+                ·
+              </span>
+              <Link
+                href="/creation-site-internet-segre"
+                className="py-1.5 hover:text-[#ED5B04] transition-colors"
+              >
+                Segré &amp; Haut-Anjou
+              </Link>
             </div>
           </AtelierReveal>
         </div>
