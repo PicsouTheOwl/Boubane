@@ -405,6 +405,21 @@
   position: relative;
 }
 
+@keyframes bureauWindowOpen {
+  0% {
+    opacity: 0;
+    translate: 0 28px;
+    scale: 0.9;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+    filter: blur(0);
+  }
+}
+
 .bureau-window {
   position: absolute;
   background: #FFFFFF;
@@ -419,6 +434,7 @@
   display: flex;
   flex-direction: column;
   transform-origin: center center;
+  animation: bureauWindowOpen 0.72s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease;
   will-change: transform, left, top;
   touch-action: none;
@@ -467,7 +483,7 @@
 }
 
 .bureau-window.is-transitioning {
-  transition: left 0.45s cubic-bezier(0.16, 1, 0.3, 1), top 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.38s ease, box-shadow 0.4s ease !important;
+  transition: left 0.48s cubic-bezier(0.16, 1, 0.3, 1), top 0.48s cubic-bezier(0.16, 1, 0.3, 1), transform 0.52s cubic-bezier(0.22, 1.2, 0.36, 1), opacity 0.36s ease, box-shadow 0.4s ease !important;
 }
 
 .bureau-window-bar {
@@ -510,7 +526,7 @@
 .bureau-window-body {
   flex: 1 1 auto;
   position: relative;
-  background: #FFFFFF;
+  background: #FAF8F5;
   overflow: hidden;
   min-height: 160px;
   cursor: grab;
@@ -531,9 +547,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 180%;
-  height: 180%;
-  transform: scale(0.5555);
+  width: 266.6667%;
+  height: 266.6667%;
+  transform: scale(0.375);
   transform-origin: 0 0;
   border: none;
   display: block;
@@ -892,6 +908,22 @@
   box-sizing: border-box;
 }
 
+@keyframes portalBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes portalWindowOpen {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.93);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .mockup-portal-backdrop {
   position: absolute;
   inset: 0;
@@ -900,6 +932,7 @@
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   z-index: 1;
   cursor: pointer;
+  animation: portalBackdropIn 0.24s ease-out both;
 }
 
 .mockup-portal-window {
@@ -916,6 +949,16 @@
   border: 1px solid rgba(0, 0, 0, 0.15);
   box-shadow: 0 36px 140px -10px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
   overflow: hidden;
+  transform-origin: center center;
+  animation: portalWindowOpen 0.36s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bureau-window,
+  .mockup-portal-backdrop,
+  .mockup-portal-window {
+    animation: none !important;
+  }
 }
 
 .mockup-portal-window .cs-window-bar {

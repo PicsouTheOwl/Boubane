@@ -6,241 +6,240 @@
   <title>Votre Prochain Site — Studio Boubane</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0C0A08;
-      --card-bg: rgba(255, 255, 255, 0.04);
-      --card-border: rgba(255, 255, 255, 0.10);
-      --text: #FAF8F5;
-      --text-muted: #A1A1AA;
-      --accent: #EEF85A;
-      --accent-soft: rgba(238, 248, 90, 0.12);
-      --amber: #F59E0B;
+      --bg: #FAF8F5;
+      --surface: #FFFFFF;
+      --ink: #0C0A08;
+      --muted: #52525B;
+      --accent: #ED5B04;
+      --accent-soft: #FFF4EC;
+      --border: rgba(12, 10, 8, 0.08);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      background: radial-gradient(ellipse 90% 70% at 50% 20%, #1c1815 0%, #0C0A08 100%);
-      color: var(--text);
+      background: var(--bg);
+      color: var(--ink);
       line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
     .header {
-      padding: 14px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--card-border);
-      background: rgba(12, 10, 8, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       position: sticky;
       top: 0;
       z-index: 10;
+      padding: 18px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(250, 248, 245, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       text-decoration: none;
-      color: var(--text);
+      color: var(--ink);
     }
     .brand-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #FAF8F5 0%, #D4D4D8 100%);
-      color: #0C0A08;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #FFFFFF;
       font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
-      box-shadow: 0 4px 12px rgba(255,255,255,0.15);
+      font-size: 1rem;
+      box-shadow: 0 8px 18px -6px rgba(237, 91, 4, 0.45);
     }
     .brand-title {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700;
-      font-size: 0.92rem;
-      letter-spacing: -0.01em;
+      font-weight: 800;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
     }
     .badge-offert {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.74rem;
       color: var(--accent);
       background: var(--accent-soft);
-      border: 1px solid rgba(238, 248, 90, 0.28);
-      padding: 3px 10px;
+      border: 1px solid rgba(237, 91, 4, 0.24);
+      padding: 6px 14px;
       border-radius: 999px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-weight: 700;
     }
     .hero {
-      flex: 1;
-      padding: clamp(28px, 6vh, 52px) 24px;
-      max-width: 720px;
+      max-width: 1120px;
       margin: 0 auto;
+      padding: 54px 48px 36px;
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
-    .pill-tag {
+    .pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      color: #FAF8F5;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 4px 12px;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 999px;
-      margin-bottom: 16px;
+      padding: 7px 16px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(12, 10, 8, 0.04);
     }
     .pill-dot {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
+      background: #16A34A;
     }
     h1 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+      font-size: 3.35rem;
       font-weight: 800;
-      line-height: 1.18;
-      letter-spacing: -0.03em;
-      margin-bottom: 12px;
-      color: #FFFFFF;
+      line-height: 1.06;
+      letter-spacing: -0.035em;
+      max-width: 820px;
+      margin: 0 auto 20px;
     }
     h1 em {
       font-family: 'Instrument Serif', serif;
       font-style: italic;
       font-weight: 400;
       color: var(--accent);
-      padding: 0 2px;
+      font-size: 3.6rem;
     }
-    p.subtitle {
-      color: var(--text-muted);
-      font-size: clamp(0.85rem, 1.8vw, 0.96rem);
-      line-height: 1.5;
-      max-width: 580px;
-      margin: 0 auto 26px auto;
+    .lead {
+      font-size: 1.12rem;
+      color: var(--muted);
+      max-width: 610px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
     }
-    .grid-pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      width: 100%;
-      text-align: left;
-      margin-top: 6px;
-      margin-bottom: 26px;
-    }
-    .pillar-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 14px 12px;
-      backdrop-filter: blur(12px);
-      transition: all 0.25s ease;
-    }
-    .pillar-card:hover {
-      border-color: rgba(238, 248, 90, 0.35);
-      background: rgba(255, 255, 255, 0.06);
-    }
-    .pillar-kpi {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 4px;
-    }
-    .pillar-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #FFFFFF;
-      margin-bottom: 2px;
-    }
-    .pillar-desc {
-      font-size: 0.68rem;
-      color: #71717A;
-      line-height: 1.35;
-    }
-    .cta-btn {
+    .cta-row {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 14px;
+      margin-bottom: 44px;
+    }
+    .btn-primary {
       background: var(--accent);
-      color: #0C0A08;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 750;
-      font-size: 0.84rem;
-      padding: 11px 22px;
+      color: #FFFFFF;
+      padding: 15px 30px;
       border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.96rem;
       text-decoration: none;
-      box-shadow: 0 8px 24px -4px rgba(238, 248, 90, 0.35);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 14px 28px -8px rgba(237, 91, 4, 0.42);
     }
-    .cta-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px -4px rgba(238, 248, 90, 0.5);
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--border);
+      padding: 15px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.96rem;
+      text-decoration: none;
     }
-    @media (max-width: 640px) {
-      .grid-pillars {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
+    .bento {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 48px 52px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .bento-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 26px;
+      text-align: left;
+      box-shadow: 0 12px 30px -12px rgba(12, 10, 8, 0.08);
+    }
+    .bento-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .bento-val {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+    .bento-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
     }
   </style>
 </head>
 <body>
   <header class="header">
-    <div class="brand">
-      <div class="brand-icon">✦</div>
+    <a href="#" class="brand">
+      <div class="brand-icon">V</div>
       <span class="brand-title">Votre Entreprise</span>
-    </div>
-    <div class="badge-offert">CONCEPTION OFFERTE · 0 €</div>
+    </a>
+    <nav class="header-nav">
+      <span>Prestations</span>
+      <span>Réalisations</span>
+      <span>Zone d'intervention</span>
+      <span class="badge-offert">CRÉATION 0 € · EN LIGNE 5J</span>
+    </nav>
   </header>
 
-  <main class="hero">
-    <div class="pill-tag">
-      <span class="pill-dot"></span>
-      <span>Ce template est réservé pour vous</span>
-    </div>
-    <h1>Votre Marque. Votre Vision.<br>Votre <em>Prochain Site</em>.</h1>
-    <p class="subtitle">
-      Conçu sur-mesure de A à Z par Studio Boubane. Zéro acompte demandé, code propriétaire livré sur GitHub avec une vitesse garantie &lt; 0.3s.
-    </p>
+  <main>
+    <section class="hero">
+      <div class="pill">
+        <span class="pill-dot"></span>
+        <span>Vitrine sur-mesure · Mobile &amp; Google Maps</span>
+      </div>
+      <h1>Votre savoir-faire, <em>crédible</em> dès la première seconde</h1>
+      <p class="lead">
+        Vos vraies photos de chantier, des textes clairs qui rassurent vos clients locaux et votre numéro cliquable en haut de l'écran.
+      </p>
+      <div class="cta-row">
+        <a href="https://www.boubane.com/commander" target="_top" class="btn-primary">Lancer mon site à 0 €</a>
+        <a href="https://www.boubane.com/#realisations" target="_top" class="btn-ghost">Voir des exemples</a>
+      </div>
+    </section>
 
-    <div class="grid-pillars">
-      <div class="pillar-card">
-        <div class="pillar-kpi">48h</div>
-        <div class="pillar-title">Clé en Main</div>
-        <div class="pillar-desc">Votre vitrine déployée sans effort, prête à recevoir des demandes de devis.</div>
+    <section class="bento">
+      <div class="bento-card">
+        <div class="bento-kicker">01 · Propriété</div>
+        <div class="bento-val">100 % à vous</div>
+        <p class="bento-desc">Nom de domaine, code source et textes enregistrés directement à votre nom dès le premier jour.</p>
       </div>
-      <div class="pillar-card">
-        <div class="pillar-kpi">Sur-Mesure</div>
-        <div class="pillar-title">Haute Autorité</div>
-        <div class="pillar-desc">Design d'artisanat web unique qui convertit immédiatement.</div>
+      <div class="bento-card">
+        <div class="bento-kicker">02 · Contact direct</div>
+        <div class="bento-val">Devis en 1 clic</div>
+        <p class="bento-desc">Appel direct et demande de rappel sans intermédiaire ni commission sur vos chantiers.</p>
       </div>
-      <div class="pillar-card">
-        <div class="pillar-kpi">0 € Acompte</div>
-        <div class="pillar-title">100% Souverain</div>
-        <div class="pillar-desc">Propriété totale de votre code, hébergement direct à votre nom.</div>
+      <div class="bento-card">
+        <div class="bento-kicker">03 · Délai studio</div>
+        <div class="bento-val">Livré en 5 jours</div>
+        <p class="bento-desc">Maquette interactive validée ensemble avant la mise en ligne officielle sur votre domaine.</p>
       </div>
-    </div>
-
-    <a href="index.html#tarifs" target="_top" class="cta-btn">
-      <span>Réserver ma maquette offerte</span>
-      <span aria-hidden="true">→</span>
-    </a>
+    </section>
   </main>
 </body>
 </html>

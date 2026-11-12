@@ -31,7 +31,7 @@ const WINDOWS: WindowMeta[] = [
     id: "bureauWinAchille",
     key: "achille",
     urlText: "artisan-haut-anjou.fr",
-    iframeSrc: "/showcase-votre-site.html",
+    iframeSrc: "/showcase-artisan.html",
     defaultPos: { top: "15px", right: "20px" },
     defaultAngle: 1.8,
     widthStyle: "clamp(310px, 46%, 490px)",
@@ -61,9 +61,9 @@ const PORTAL_META: Record<
   },
   achille: {
     url: "artisan-haut-anjou.fr",
-    href: "/showcase-votre-site.html",
+    href: "/showcase-artisan.html",
     dotColor: "#ED5B04",
-    caption: "Vitrine Artisanale — Rénovation & Savoir-faire d'Anjou",
+    caption: "Atelier Renou — Menuiserie & Charpente en Haut-Anjou",
   },
   valmy: {
     url: "votre-prochain-site.fr",
@@ -823,6 +823,7 @@ export function HeroSection() {
                       height: win.heightStyle,
                       transform: `rotate(${win.defaultAngle}deg)`,
                       zIndex: 12 + idx,
+                      animationDelay: `${0.06 + idx * 0.13}s`,
                     }}
                   >
                     <div className="bureau-window-bar">
