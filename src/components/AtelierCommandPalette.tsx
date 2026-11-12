@@ -54,13 +54,6 @@ export function AtelierCommandPalette() {
         action: () => router.push("/#modele"),
       },
       {
-        id: "realisations",
-        label: "Galerie d'Architecture & Réalisations",
-        hint: "Astravacances · Haut-Anjou",
-        icon: FileText,
-        action: () => router.push("/#realisations"),
-      },
-      {
         id: "hebergement",
         label: "Hébergement Direct & Pass 15 €/an",
         hint: "/hebergement",

@@ -23,11 +23,11 @@ export function ComparisonSection() {
           </div>
 
           <img
-            src="/images/cat-confiance.png"
-            alt="Mascotte chat Boubane validant l'offre 0 €"
+            src="/images/cat-savoir-faire.png"
+            alt="Mascotte chat Boubane avec lunettes dessinant une maquette de site web"
             width={720}
             height={720}
-            className="w-24 sm:w-28 h-auto object-contain shrink-0 self-start sm:self-end drop-shadow-[0_12px_22px_rgba(237,91,4,0.14)]"
+            className="w-32 sm:w-40 h-auto object-contain shrink-0 self-start sm:self-end drop-shadow-[0_14px_26px_rgba(237,91,4,0.14)]"
             loading="lazy"
           />
         </AtelierReveal>

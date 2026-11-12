@@ -36,14 +36,6 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href="/#realisations"
-                  className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
-                >
-                  Exemples en ligne
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/commander"
                   className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
                 >

@@ -4,7 +4,6 @@ import { AtelierReadingCompass } from "@/components/AtelierPrimitives";
 import { HeroSection } from "@/components/HeroSection";
 import { ScrollStory3DStage } from "@/components/home/ScrollStory3DStage";
 import { ComparisonSection } from "@/components/home/ComparisonSection";
-import { ShowcaseDossiersSection } from "@/components/home/ShowcaseDossiersSection";
 import { ArtisanWorkbenchSection } from "@/components/home/ArtisanWorkbenchSection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { FinalCtaSection } from "@/components/home/FinalCtaSection";
@@ -18,7 +17,6 @@ export default function HomePage() {
         <HeroSection />
         <ScrollStory3DStage />
         <ComparisonSection />
-        <ShowcaseDossiersSection />
         <ArtisanWorkbenchSection />
         <FaqSection />
         <FinalCtaSection />

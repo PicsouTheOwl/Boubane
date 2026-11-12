@@ -32,11 +32,6 @@ export function SiteHeader({ isHome = true }: { isHome?: boolean }) {
               </Link>
             </li>
             <li>
-              <Link href={`${prefix}#realisations`} className="nav-link">
-                Réalisations
-              </Link>
-            </li>
-            <li>
               <Link href={`${prefix}#processus`} className="nav-link">
                 Processus
               </Link>

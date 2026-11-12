@@ -48,7 +48,7 @@ const CHAPTERS: StoryChapter[] = [
     id: "propriete",
     pill: "À votre nom",
     eyebrow: "Propriété intégrale",
-    title: "Domaine et code restent 100 % entre vos mains.",
+    title: "Le code reste 100 % entre vos mains.",
     body: "Vous réglez uniquement votre domaine (~10 €/an) et votre hébergement (~5 €/mois) directement chez votre prestataire.",
     highlight: "Liberté totale sans engagement",
     focusCard: "ownership",
