@@ -1423,41 +1423,11 @@
     </div>
   </footer>
 
-  <!-- BADGE FLOTTANT VITRINE STUDIO BOUBANE (Démonstrateur) -->
-  <aside class="boubane-showcase-pill" id="boubanePill" aria-label="Informations sur la vitrine démonstrateur">
-    <div class="boubane-pill-dot"></div>
-    <div class="boubane-pill-content">
-      <span class="boubane-pill-tag">Vitrine Réalisée</span>
-      <span class="boubane-pill-title">Vitrine Pro Clé en Main • 100% Propriétaire</span>
-    </div>
-    <a href="/commander" class="boubane-pill-cta" target="_top">Commander mon site →</a>
-    <button type="button" class="boubane-pill-close" onclick="closeBoubanePill()" aria-label="Masquer le badge">&times;</button>
-  </aside>
-
   <script>
     // Menu mobile toggle
     function toggleAstraMobileMenu() {
       const dropdown = document.getElementById('astraMobileDropdown');
       if (dropdown) dropdown.classList.toggle('is-open');
-    }
-
-    // Gestion du badge démonstrateur Boubane
-    function closeBoubanePill() {
-      const pill = document.getElementById('boubanePill');
-      if (pill) {
-        pill.style.opacity = '0';
-        pill.style.transform = 'translateY(10px)';
-        setTimeout(() => { pill.style.display = 'none'; }, 300);
-      }
-    }
-
-    // Masquage automatique du pill si chargé dans une petite iframe (ex: bureau virtual de la Hero)
-    if (window.self !== window.top) {
-      const isSmallIframe = window.innerWidth < 640 || window.innerHeight < 460;
-      if (isSmallIframe) {
-        const pill = document.getElementById('boubanePill');
-        if (pill) pill.style.display = 'none';
-      }
     }
 
     // Scrollspy automatique pour la navbar

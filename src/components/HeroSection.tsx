@@ -1163,15 +1163,7 @@ export function HeroSection() {
                 <span className="cs-url-text">{PORTAL_META[portalSite].url}</span>
               </div>
 
-              <div className="cs-window-bar-right">
-                <button
-                  type="button"
-                  className="cs-btn-close-win"
-                  onClick={() => setPortalSite(null)}
-                >
-                  Fermer (ESC)
-                </button>
-              </div>
+              <div className="cs-window-bar-right" />
             </div>
 
             <div className="mockup-portal-body">
@@ -1180,26 +1172,6 @@ export function HeroSection() {
                 className="mockup-portal-iframe"
                 title={PORTAL_META[portalSite].caption}
               />
-            </div>
-
-            <div className="mockup-portal-cap">
-              <div className="cs-cap__left">
-                <span
-                  className="cs-cap__dot"
-                  style={{ background: PORTAL_META[portalSite].dotColor }}
-                />
-                <span className="cs-cap__t">{PORTAL_META[portalSite].caption}</span>
-              </div>
-              <div className="cs-cap__actions">
-                <a
-                  href={PORTAL_META[portalSite].href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cs-cap-visit-btn"
-                >
-                  Ouvrir en pleine page ↗
-                </a>
-              </div>
             </div>
           </div>
         </div>
