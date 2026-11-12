@@ -27,11 +27,6 @@ export function SiteHeader({ isHome = true }: { isHome?: boolean }) {
               </Link>
             </li>
             <li>
-              <Link href={`${prefix}#comparatif`} className="nav-link">
-                Comparatif
-              </Link>
-            </li>
-            <li>
               <Link href={`${prefix}#processus`} className="nav-link">
                 Processus
               </Link>
