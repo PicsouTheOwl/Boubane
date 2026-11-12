@@ -762,10 +762,8 @@ export function HeroSection() {
                   </svg>
                 </span>
               </Link>
-              <a
-                href="https://rdv.boubane.com/boubane"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/rdv"
                 className="btn btn-secondary btn-magnetic"
                 style={{
                   fontSize: "0.95rem",
@@ -795,7 +793,7 @@ export function HeroSection() {
                   <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
                 <span>Prendre RDV (10 min)</span>
-              </a>
+              </Link>
             </div>
           </div>
 

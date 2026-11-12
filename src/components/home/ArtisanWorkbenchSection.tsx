@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { AtelierReveal } from "@/components/AtelierPrimitives";
 
 export function ArtisanWorkbenchSection() {
@@ -64,14 +65,12 @@ export function ArtisanWorkbenchSection() {
               <span aria-hidden="true" className="text-[#0C0A08]/35">
                 ·
               </span>
-              <a
-                href="https://rdv.boubane.com/boubane"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/rdv"
                 className="py-1.5 hover:text-[#ED5B04] transition-colors"
               >
                 Prendre RDV
-              </a>
+              </Link>
             </div>
           </AtelierReveal>
         </div>

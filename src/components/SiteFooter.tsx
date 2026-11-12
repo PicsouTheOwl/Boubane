@@ -59,15 +59,13 @@ export function SiteFooter() {
             </div>
             <ul className="space-y-2.5 text-[0.9rem]">
               <li>
-                <a
-                  href="https://rdv.boubane.com/boubane"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/rdv"
                   className="inline-flex items-center gap-1.5 text-[#0C0A08]/75 hover:text-[#ED5B04] transition-colors"
                 >
                   <span>Réserver un appel (10 min)</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
+                </Link>
               </li>
               <li>
                 <Link

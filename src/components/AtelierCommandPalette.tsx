@@ -42,9 +42,9 @@ export function AtelierCommandPalette() {
       {
         id: "rdv",
         label: "Réserver un appel avec Léo (10 min)",
-        hint: "rdv.boubane.com",
+        hint: "/rdv",
         icon: Calendar,
-        action: () => window.open("https://rdv.boubane.com/boubane", "_blank", "noopener,noreferrer"),
+        action: () => router.push("/rdv"),
       },
       {
         id: "modele",

@@ -291,15 +291,13 @@ export function SegreInteractiveExperience() {
                 <span>Commander mon site (0 €)</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <a
-                href="https://rdv.boubane.com/boubane"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/rdv"
                 className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] px-6 py-3.5 text-sm font-semibold text-[#0C0A08] hover:border-[#0C0A08] active:scale-[0.97] transition-all"
               >
                 <Calendar className="w-4 h-4 text-[#ED5B04]" />
                 <span>Café / Appel (10 min)</span>
-              </a>
+              </Link>
             </div>
 
             <div className="pt-2 flex flex-wrap items-center gap-5">
