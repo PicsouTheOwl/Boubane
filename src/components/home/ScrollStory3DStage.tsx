@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Layers } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { ATELIER_EASE, ATELIER_SNAPPY_SPRING, ATELIER_SPRING, cn } from "@/lib/utils";
 
@@ -57,7 +57,6 @@ const CHAPTERS: StoryChapter[] = [
 
 export function ScrollStory3DStage() {
   const [activeIdx, setActiveIdx] = useState(1);
-  const [spreadMode, setSpreadMode] = useState(false);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
 
   const current = CHAPTERS[activeIdx];
@@ -103,9 +102,9 @@ export function ScrollStory3DStage() {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                   animate={{
-                    rotate: isAgency ? 0 : spreadMode ? -12 : -7,
-                    x: isAgency ? 28 : spreadMode ? -28 : 0,
-                    y: isAgency ? 18 : spreadMode ? -14 : 0,
+                    rotate: isAgency ? 0 : -7,
+                    x: isAgency ? 28 : 0,
+                    y: isAgency ? 18 : 0,
                     scale: isAgency ? 1.05 : 0.95,
                   }}
                   transition={ATELIER_SPRING}
@@ -134,9 +133,9 @@ export function ScrollStory3DStage() {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                   animate={{
-                    rotate: isOwnership ? 0 : spreadMode ? 11 : 5,
-                    x: isOwnership ? -24 : spreadMode ? 24 : 0,
-                    y: isOwnership ? 10 : spreadMode ? -8 : 0,
+                    rotate: isOwnership ? 0 : 5,
+                    x: isOwnership ? -24 : 0,
+                    y: isOwnership ? 10 : 0,
                     scale: isOwnership ? 1.05 : 0.97,
                   }}
                   transition={ATELIER_SPRING}
@@ -165,9 +164,9 @@ export function ScrollStory3DStage() {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                   animate={{
-                    rotate: isOrange ? 0 : spreadMode ? -4 : -2,
-                    x: isOrange ? 0 : spreadMode ? -14 : 0,
-                    y: isOrange ? -10 : spreadMode ? 14 : 0,
+                    rotate: isOrange ? 0 : -2,
+                    x: 0,
+                    y: isOrange ? -10 : 0,
                     scale: isOrange ? 1.05 : 0.96,
                   }}
                   transition={ATELIER_SPRING}
@@ -189,28 +188,6 @@ export function ScrollStory3DStage() {
                   </div>
                 </motion.button>
               </motion.div>
-            </div>
-
-            {/* Interactive Controls Row beneath Card Fan */}
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-              <button
-                type="button"
-                onClick={() => setSpreadMode((s) => !s)}
-                aria-pressed={spreadMode}
-                className={cn(
-                  "inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-[0.08em] border transition-colors cursor-pointer",
-                  spreadMode
-                    ? "bg-[#ED5B04] border-[#ED5B04] text-white"
-                    : "bg-white border-[#E7E3DC] text-[#57534E] hover:border-[#0C0A08]/35 hover:text-[#0C0A08]"
-                )}
-              >
-                <Layers className="w-3.5 h-3.5" />
-                <span>{spreadMode ? "Regrouper" : "Écarter les cartes"}</span>
-              </button>
-
-              <span className="font-mono text-[10.5px] text-[#57534E] px-2">
-                Cliquez sur une carte pour l&apos;inspecter
-              </span>
             </div>
           </div>
 
