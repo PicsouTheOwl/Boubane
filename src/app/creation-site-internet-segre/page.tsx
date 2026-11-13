@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import {
-  SEGRE_FAQS,
-  SegreInteractiveExperience,
-} from "@/components/segre/SegreInteractiveExperience";
+import { SegreInteractiveExperience } from "@/components/segre/SegreInteractiveExperience";
+import { SEGRE_FAQS } from "@/data/segre";
 
 export const metadata: Metadata = {
   title: "Création Site Internet Segré (49500) · Site Vitrine Artisans & PME | Boubane",
