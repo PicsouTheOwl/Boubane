@@ -305,8 +305,8 @@
           Fabrication en atelier et pose soignée pour vos rénovations de longères, extensions bois et ouvertures haute performance dans tout le Haut-Anjou.
         </p>
         <div class="actions">
-          <a href="#" class="btn-primary">Demander un devis gratuit</a>
-          <a href="#" class="btn-secondary">Voir nos chantiers</a>
+          <a href="/commander" target="_top" class="btn-primary" onclick="if(window.top && window.top !== window){window.top.location.href='/commander';return false;}">Demander un devis gratuit</a>
+          <a href="/rdv" target="_top" class="btn-secondary" onclick="if(window.top && window.top !== window){window.top.location.href='/rdv';return false;}">Prendre RDV (10 min)</a>
         </div>
         <div class="trust-row">
           <div class="trust-item">
@@ -367,3 +367,4 @@
   </main>
 </body>
 </html>
+

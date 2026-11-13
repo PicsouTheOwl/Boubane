@@ -1134,8 +1134,22 @@ export function HeroSection() {
                     aria-label="Fermer"
                     onClick={() => setPortalSite(null)}
                   />
-                  <span className="cs-dot cs-dot--yellow" aria-hidden="true" />
-                  <span className="cs-dot cs-dot--green" aria-hidden="true" />
+                  <button
+                    type="button"
+                    className="cs-dot cs-dot--yellow"
+                    aria-label="Minimiser"
+                    onClick={() => setPortalSite(null)}
+                  />
+                  <button
+                    type="button"
+                    className="cs-dot cs-dot--green"
+                    aria-label="Ouvrir en plein écran"
+                    onClick={() => {
+                      if (portalSite) {
+                        window.open(PORTAL_META[portalSite].href, "_blank", "noopener,noreferrer");
+                      }
+                    }}
+                  />
                 </div>
                 <div className="cs-portal-site-switch">
                   {(["astra", "achille", "valmy"] as SiteKey[]).map((key) => (
