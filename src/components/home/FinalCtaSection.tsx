@@ -37,12 +37,14 @@ export function FinalCtaSection() {
               <span>Commander mon site à 0 €</span>
               <ArrowUpRight className="w-4 h-4" />
             </Link>
-            <Link
-              href="/rdv"
+            <a
+              href="https://rdv.boubane.com/boubane/30min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.14] text-[#0C0A08] px-6 py-3.5 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all"
             >
-              <span>Prendre RDV (10 min)</span>
-            </Link>
+              <span>Prendre RDV (30 min)</span>
+            </a>
           </div>
         </AtelierReveal>
       </div>

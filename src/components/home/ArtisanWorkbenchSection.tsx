@@ -65,12 +65,14 @@ export function ArtisanWorkbenchSection() {
               <span aria-hidden="true" className="text-[#0C0A08]/35">
                 ·
               </span>
-              <Link
-                href="/rdv"
+              <a
+                href="https://rdv.boubane.com/boubane/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="py-1.5 hover:text-[#ED5B04] transition-colors"
               >
-                Prendre RDV
-              </Link>
+                Prendre RDV (30 min)
+              </a>
               <span aria-hidden="true" className="text-[#0C0A08]/35">
                 ·
               </span>

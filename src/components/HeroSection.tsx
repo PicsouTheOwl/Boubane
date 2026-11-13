@@ -762,8 +762,10 @@ export function HeroSection() {
                   </svg>
                 </span>
               </Link>
-              <Link
-                href="/rdv"
+              <a
+                href="https://rdv.boubane.com/boubane/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn btn-secondary btn-magnetic"
                 style={{
                   fontSize: "0.95rem",
@@ -774,7 +776,7 @@ export function HeroSection() {
                   borderColor: "rgba(237, 91, 4, 0.35)",
                   color: "var(--color-primary)",
                 }}
-                aria-label="Prendre rendez-vous avec Léo (10 min)"
+                aria-label="Prendre rendez-vous avec Léo (30 min)"
               >
                 <svg
                   width="14"
@@ -792,8 +794,8 @@ export function HeroSection() {
                   <line x1="8" y1="2" x2="8" y2="6" />
                   <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
-                <span>Prendre RDV (10 min)</span>
-              </Link>
+                <span>Prendre RDV (30 min)</span>
+              </a>
             </div>
           </div>
 

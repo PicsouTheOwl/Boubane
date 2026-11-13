@@ -120,7 +120,7 @@ export const SEGRE_FAQS = [
   },
   {
     q: "Est-ce que je peux vous rencontrer en personne autour de Segré ?",
-    a: "Oui. Basé à Segré-en-Anjou Bleu, je peux me déplacer gratuitement dans tout le Segréen (Le Lion-d'Angers, Candé, Pouancé, Château-Gontier) ou échanger en 10 minutes par téléphone / visio.",
+    a: "Oui. Basé à Segré-en-Anjou Bleu, je peux me déplacer gratuitement dans tout le Segréen (Le Lion-d'Angers, Candé, Pouancé, Château-Gontier) ou échanger 30 minutes par téléphone / visio.",
   },
   {
     q: "Le code du site m'appartient-il vraiment ?",
@@ -161,13 +161,15 @@ export function SegreInteractiveExperience() {
                 <span>Commander mon site (0 €)</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link
-                href="/rdv"
+              <a
+                href="https://rdv.boubane.com/boubane/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] px-6 py-3.5 text-sm font-semibold text-[#0C0A08] hover:border-[#0C0A08] active:scale-[0.97] transition-all"
               >
                 <Calendar className="w-4 h-4 text-[#ED5B04]" />
-                <span>Prendre RDV (10 min)</span>
-              </Link>
+                <span>Prendre RDV (30 min)</span>
+              </a>
             </div>
 
             <div className="pt-2 flex flex-wrap items-center gap-6 text-xs font-mono text-[#57534E]">
@@ -257,7 +259,7 @@ export function SegreInteractiveExperience() {
               </div>
               <h3 className="mt-3 text-lg font-bold text-[#0C0A08]">En ligne en 5 jours</h3>
               <p className="mt-2 text-sm leading-[1.6] text-[#57534E]">
-                On échange 10 minutes, vous m&apos;envoyez vos photos par téléphone et je m&apos;occupe
+                On échange 30 minutes, vous m&apos;envoyez vos photos par téléphone et je m&apos;occupe
                 du design, des textes et de la mise en ligne.
               </p>
             </SpecularPlate>
@@ -409,7 +411,7 @@ export function SegreInteractiveExperience() {
               Prêt à lancer votre site internet à Segré ?
             </h2>
             <p className="mt-3 text-sm sm:text-base text-white/70">
-              Commandez votre maquette en 3 étapes ou réservez un appel découverte de 10 minutes
+              Commandez votre maquette en 3 étapes ou réservez un créneau de 30 minutes
               avec Léo Saillour.
             </p>
           </div>

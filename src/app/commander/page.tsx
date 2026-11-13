@@ -614,17 +614,19 @@ export default function CommanderPage() {
                     </h2>
                     <p className="text-[#57534E] max-w-[46ch] mx-auto">
                       Je vous réponds personnellement sous 24h ouvrées pour lancer votre esquisse
-                      gratuite. Vous pouvez aussi bloquer un créneau de 10 min ou m&apos;envoyer
+                      gratuite. Vous pouvez aussi bloquer un créneau de 30 min ou m&apos;envoyer
                       votre brief en direct sur WhatsApp.
                     </p>
                     <div className="pt-4 flex flex-wrap justify-center gap-3">
-                      <Link
-                        href="/rdv"
+                      <a
+                        href="https://rdv.boubane.com/boubane/30min"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-6 py-3 text-sm font-semibold hover:bg-[#ED5B04] transition-colors active:scale-[0.97]"
                       >
                         <Calendar className="w-4 h-4" />
-                        <span>Réserver mon créneau (10 min)</span>
-                      </Link>
+                        <span>Réserver mon créneau (30 min)</span>
+                      </a>
                       <a
                         href={whatsappBriefUrl}
                         target="_blank"
@@ -698,13 +700,15 @@ export default function CommanderPage() {
                   Préférez parler de vive voix avant de commander ?
                 </p>
                 <div className="flex flex-col gap-2 pt-1">
-                  <Link
-                    href="/rdv"
+                  <a
+                    href="https://rdv.boubane.com/boubane/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.1] px-4 py-2.5 text-xs font-semibold text-[#0C0A08] hover:border-[#0C0A08] transition-colors"
                   >
                     <Calendar className="w-3.5 h-3.5 text-[#ED5B04]" />
-                    <span>Appel découverte 10 min</span>
-                  </Link>
+                    <span>Appel découverte 30 min</span>
+                  </a>
                   <a
                     href="https://wa.me/33778310346"
                     target="_blank"
