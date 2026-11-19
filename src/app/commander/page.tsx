@@ -20,6 +20,7 @@ import {
   MapPin,
   MessageCircle,
   PhoneCall,
+  Plus,
   Receipt,
   ShieldCheck,
   Sparkles,
@@ -92,7 +93,10 @@ function CommanderContent() {
   const searchParams = useSearchParams();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [direction, setDirection] = useState(1);
-  const [selectedModuleIds, setSelectedModuleIds] = useState<string[]>(["site-web"]);
+  const [selectedModuleIds, setSelectedModuleIds] = useState<string[]>([
+    "site-web",
+    "assistant-mails",
+  ]);
   const [trade, setTrade] = useState<string>(TRADES[0].label);
   const [situation, setSituation] = useState<string>(SITUATIONS[0]);
   const [name, setName] = useState("");
@@ -105,7 +109,7 @@ function CommanderContent() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // Initialisation via query param (ex: /commander?modules=assistant-mails,tableau-bord)
+  // Initialisation via query param
   useEffect(() => {
     const rawModules = searchParams.get("modules");
     if (rawModules) {
@@ -117,7 +121,7 @@ function CommanderContent() {
   }, [searchParams]);
 
   const toggleModule = (id: string) => {
-    if (id === "site-web") return; // Toujours inclus
+    if (id === "site-web") return;
     setSelectedModuleIds((prev) =>
       prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
     );
@@ -128,6 +132,7 @@ function CommanderContent() {
   );
   const totalPrice = selectedModules.reduce((acc, m) => acc + m.price, 0);
   const totalMarketPrice = selectedModules.reduce((acc, m) => acc + m.marketPrice, 0);
+  const totalEconomy = totalMarketPrice - totalPrice;
 
   const goToStep = (next: 1 | 2 | 3) => {
     setDirection(next > step ? 1 : -1);
@@ -195,20 +200,20 @@ function CommanderContent() {
       <SiteHeader isHome={false} />
 
       <main className="relative pt-14 pb-28">
-        <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-6">
           <AtelierReveal className="max-w-3xl mb-10 sm:mb-12">
-            <h1 className="font-[family-name:var(--font-jakarta)] text-[clamp(2.1rem,5vw,3.5rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-              Configurez votre installation sur-mesure
+            <h1 className="font-[family-name:var(--font-jakarta)] text-[clamp(2.1rem,5vw,3.5rem)] font-extrabold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
+              Configurez votre projet d&apos;atelier
               <span className="text-[#ED5B04]">.</span>
             </h1>
             <p className="mt-4 text-[1.03rem] leading-[1.6] text-[#57534E] max-w-[58ch]">
-              Le site web reste à 0 € d&apos;honoraires de conception. Vous choisissez librement vos automatisations IA au prix atelier le plus bas du marché, sans aucun abonnement forcé.
+              Votre vitrine web reste à 0 € d&apos;honoraires. Choisissez librement vos automatisations IA au tarif le plus bas, installé à votre nom sans abonnement imposé.
             </p>
           </AtelierReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-8">
-              <SpecularPlate tilt={false} crosshairs className="p-6 sm:p-10 bg-white overflow-hidden">
+              <div className="rounded-3xl border border-[#E7E3DC] bg-white p-6 sm:p-10 shadow-[0_18px_45px_rgba(12,10,8,0.06)] overflow-hidden">
                 {!submitted ? (
                   <>
                     {/* Stepper header */}
@@ -279,15 +284,15 @@ function CommanderContent() {
                             {/* Choix des Modules */}
                             <div>
                               <div className="flex items-center justify-between mb-3">
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60">
+                                <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 font-semibold">
                                   01. Choisissez vos modules
                                 </label>
                                 <span className="font-mono text-[11px] text-[#ED5B04] font-semibold">
-                                  Site web offert · Options payantes à prix atelier
+                                  Site offert (0 €) · Options IA dès 390 €
                                 </span>
                               </div>
 
-                              <div className="grid grid-cols-1 gap-3">
+                              <div className="space-y-3">
                                 {AUTOMATION_MODULES.map((mod) => {
                                   const isSelected = selectedModuleIds.includes(mod.id);
                                   const isBase = mod.id === "site-web";
@@ -297,29 +302,32 @@ function CommanderContent() {
                                     <div
                                       key={mod.id}
                                       onClick={() => toggleModule(mod.id)}
-                                      className={`flex items-start justify-between gap-4 p-4 rounded-xl border transition-all cursor-pointer ${
+                                      className={`flex items-start justify-between gap-4 p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer ${
                                         isSelected
-                                          ? "border-[#ED5B04] bg-[#FFFDF9] shadow-[0_6px_18px_rgba(237,91,4,0.08)]"
-                                          : "border-[#0C0A08]/[0.08] bg-[#FAF8F5] hover:border-[#0C0A08]/25 hover:bg-white"
+                                          ? "border-[#ED5B04] bg-[#FFFDF9] shadow-[0_8px_24px_rgba(237,91,4,0.1)] ring-1 ring-[#ED5B04]"
+                                          : "border-[#E7E3DC] bg-[#FAF8F5] hover:border-[#0C0A08]/30 hover:bg-white hover:shadow-sm"
                                       }`}
                                     >
                                       <div className="flex items-start gap-3.5 min-w-0">
                                         <span
-                                          className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                                          className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                                             isSelected
-                                              ? "bg-[#ED5B04] text-white"
-                                              : "bg-white border border-[#0C0A08]/[0.08] text-[#57534E]"
+                                              ? "bg-[#ED5B04] text-white shadow-[0_4px_12px_rgba(237,91,4,0.25)]"
+                                              : "bg-white border border-[#E7E3DC] text-[#57534E]"
                                           }`}
                                         >
-                                          <Icon className="w-4 h-4" />
+                                          <Icon className="w-5 h-5" />
                                         </span>
                                         <div className="min-w-0">
+                                          <div className="text-xs font-mono italic text-[#78716C] mb-0.5">
+                                            {mod.hook}
+                                          </div>
                                           <div className="flex items-center gap-2 flex-wrap">
-                                            <span className="font-bold text-[#0C0A08] text-sm leading-snug">
+                                            <span className="font-bold text-[#0C0A08] text-base leading-snug">
                                               {mod.name}
                                             </span>
                                             {isBase && (
-                                              <span className="px-2 py-0.5 rounded bg-[#E6F8EE] text-[#0E7541] font-mono text-[10px] font-bold">
+                                              <span className="px-2 py-0.5 rounded-full bg-[#E6F8EE] text-[#0E7541] font-mono text-[10px] font-bold">
                                                 0 € INCLUS
                                               </span>
                                             )}
@@ -332,8 +340,8 @@ function CommanderContent() {
                                             {!isBase && (
                                               <>
                                                 <span>·</span>
-                                                <span className="line-through text-[#0C0A08]/35">
-                                                  Agence : {mod.marketPrice} €
+                                                <span className="line-through text-[#A8A29E]">
+                                                  Tarif agence : {mod.marketPrice} €
                                                 </span>
                                               </>
                                             )}
@@ -341,19 +349,19 @@ function CommanderContent() {
                                         </div>
                                       </div>
 
-                                      <div className="shrink-0 flex flex-col items-end gap-2">
+                                      <div className="shrink-0 flex flex-col items-end gap-2 text-right">
+                                        <div className="font-mono text-sm sm:text-base font-extrabold text-[#0C0A08]">
+                                          {mod.price === 0 ? "0 €" : `+${mod.price} €`}
+                                        </div>
                                         <span
-                                          className={`w-5 h-5 rounded-full flex items-center justify-center border transition-colors ${
+                                          className={`w-6 h-6 rounded-full flex items-center justify-center border transition-colors ${
                                             isSelected
                                               ? "border-[#ED5B04] bg-[#ED5B04] text-white"
                                               : "border-[#0C0A08]/20 bg-white text-transparent"
                                           }`}
                                         >
-                                          <Check className="w-3 h-3" strokeWidth={2.5} />
+                                          <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
                                         </span>
-                                        <div className="font-mono text-xs font-bold text-[#0C0A08]">
-                                          {mod.price === 0 ? "0 €" : `+${mod.price} €`}
-                                        </div>
                                       </div>
                                     </div>
                                   );
@@ -363,7 +371,7 @@ function CommanderContent() {
 
                             {/* Secteur */}
                             <div>
-                              <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 mb-3">
+                              <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 mb-3 font-semibold">
                                 02. Votre secteur d&apos;activité
                               </label>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -378,7 +386,7 @@ function CommanderContent() {
                                       className={`group relative flex items-center justify-between gap-3 text-left px-4 py-3.5 rounded-xl border text-sm font-medium transition-all cursor-pointer active:scale-[0.985] ${
                                         selected
                                           ? "border-[#0C0A08] bg-[#0C0A08] text-white shadow-[0_8px_20px_rgba(12,10,8,0.14)]"
-                                          : "border-[#0C0A08]/[0.09] bg-[#FAF8F5] text-[#0C0A08] hover:border-[#0C0A08]/30 hover:bg-white"
+                                          : "border-[#E7E3DC] bg-[#FAF8F5] text-[#0C0A08] hover:border-[#0C0A08]/30 hover:bg-white"
                                       }`}
                                     >
                                       <span className="flex items-center gap-3 min-w-0">
@@ -386,7 +394,7 @@ function CommanderContent() {
                                           className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                                             selected
                                               ? "bg-[#ED5B04] text-white"
-                                              : "bg-white border border-[#0C0A08]/[0.08] text-[#57534E] group-hover:text-[#0C0A08]"
+                                              : "bg-white border border-[#E7E3DC] text-[#57534E] group-hover:text-[#0C0A08]"
                                           }`}
                                         >
                                           <Icon className="w-4 h-4" />
@@ -410,7 +418,7 @@ function CommanderContent() {
 
                             {/* Situation */}
                             <div>
-                              <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 mb-3">
+                              <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 mb-3 font-semibold">
                                 03. Votre situation actuelle
                               </label>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -424,7 +432,7 @@ function CommanderContent() {
                                       className={`flex items-center justify-between gap-3 text-left px-4 py-3.5 rounded-xl border text-sm font-medium transition-all cursor-pointer active:scale-[0.985] ${
                                         selected
                                           ? "border-[#ED5B04] bg-[#FFF2E8] text-[#0C0A08] shadow-[0_6px_16px_rgba(237,91,4,0.1)]"
-                                          : "border-[#0C0A08]/[0.09] bg-[#FAF8F5] text-[#0C0A08]/80 hover:border-[#0C0A08]/30 hover:bg-white"
+                                          : "border-[#E7E3DC] bg-[#FAF8F5] text-[#0C0A08]/80 hover:border-[#0C0A08]/30 hover:bg-white"
                                       }`}
                                     >
                                       <span className="leading-snug">{item}</span>
@@ -443,17 +451,17 @@ function CommanderContent() {
                               </div>
                             </div>
 
-                            <div className="pt-3 flex items-center justify-between gap-4 border-t border-[#0C0A08]/[0.07]">
+                            <div className="pt-3 flex items-center justify-between gap-4 border-t border-[#0C0A08]/[0.08]">
                               <div className="text-xs text-[#57534E]">
-                                Estimation :{" "}
+                                Montant calculé :{" "}
                                 <span className="font-mono font-bold text-[#0C0A08]">
-                                  {totalPrice === 0 ? "0 € (Offert)" : `${totalPrice} € HT`}
+                                  {totalPrice === 0 ? "0.00 € (Offert)" : `${totalPrice} € HT`}
                                 </span>
                               </div>
                               <button
                                 type="button"
                                 onClick={() => goToStep(2)}
-                                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#ED5B04] active:scale-[0.97] transition-all cursor-pointer shrink-0"
+                                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#ED5B04] active:scale-[0.97] transition-all cursor-pointer shrink-0 shadow-sm"
                               >
                                 <span>Continuer vers mes coordonnées</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -475,7 +483,7 @@ function CommanderContent() {
                           >
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5">
+                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
                                   Votre Nom *
                                 </label>
                                 <input
@@ -483,11 +491,11 @@ function CommanderContent() {
                                   value={name}
                                   onChange={(e) => setName(e.target.value)}
                                   placeholder="Jean Dupont"
-                                  className="w-full rounded-xl border border-[#0C0A08]/[0.12] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
                                 />
                               </div>
                               <div>
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5">
+                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
                                   Nom de l&apos;entreprise *
                                 </label>
                                 <input
@@ -495,14 +503,14 @@ function CommanderContent() {
                                   value={company}
                                   onChange={(e) => setCompany(e.target.value)}
                                   placeholder="Atelier Dupont"
-                                  className="w-full rounded-xl border border-[#0C0A08]/[0.12] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
                                 />
                               </div>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5">
+                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
                                   Email professionnel *
                                 </label>
                                 <input
@@ -510,11 +518,11 @@ function CommanderContent() {
                                   value={email}
                                   onChange={(e) => setEmail(e.target.value)}
                                   placeholder="contact@entreprise.fr"
-                                  className="w-full rounded-xl border border-[#0C0A08]/[0.12] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
                                 />
                               </div>
                               <div>
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5">
+                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
                                   Téléphone direct
                                 </label>
                                 <input
@@ -522,13 +530,13 @@ function CommanderContent() {
                                   value={phone}
                                   onChange={(e) => setPhone(e.target.value)}
                                   placeholder="06 00 00 00 00"
-                                  className="w-full rounded-xl border border-[#0C0A08]/[0.12] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
                                 />
                               </div>
                             </div>
 
                             <div>
-                              <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5">
+                              <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
                                 Ville / Zone d&apos;intervention
                               </label>
                               <div className="relative">
@@ -538,21 +546,21 @@ function CommanderContent() {
                                   value={city}
                                   onChange={(e) => setCity(e.target.value)}
                                   placeholder="Ex : Segré, Angers, Haut-Anjou..."
-                                  className="w-full rounded-xl border border-[#0C0A08]/[0.12] bg-[#FAF8F5] pl-10 pr-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] pl-10 pr-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
                                 />
                               </div>
                             </div>
 
                             <div>
-                              <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5">
+                              <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
                                 Notes ou précisions (facultatif)
                               </label>
                               <textarea
                                 rows={3}
                                 value={details}
                                 onChange={(e) => setDetails(e.target.value)}
-                                placeholder="Ex : Outils déjà utilisés (Pennylane, Gmail...), volume d'appels ou de devis par mois..."
-                                className="w-full rounded-xl border border-[#0C0A08]/[0.12] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                placeholder="Ex : Outils déjà utilisés (Pennylane, Gmail, WhatsApp...), calendrier souhaité..."
+                                className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
                               />
                             </div>
 
@@ -562,11 +570,11 @@ function CommanderContent() {
                               </div>
                             )}
 
-                            <div className="pt-4 flex items-center justify-between gap-4 border-t border-[#0C0A08]/[0.07]">
+                            <div className="pt-4 flex items-center justify-between gap-4 border-t border-[#0C0A08]/[0.08]">
                               <button
                                 type="button"
                                 onClick={() => goToStep(1)}
-                                className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] text-[#0C0A08] px-5 py-3 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all cursor-pointer"
+                                className="inline-flex items-center gap-2 rounded-full bg-white border border-[#E7E3DC] text-[#0C0A08] px-5 py-3 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all cursor-pointer"
                               >
                                 <ArrowLeft className="w-4 h-4" />
                                 <span>Retour aux modules</span>
@@ -594,18 +602,18 @@ function CommanderContent() {
                             transition={{ duration: 0.28, ease: ATELIER_EASE }}
                             className="space-y-6"
                           >
-                            <div className="rounded-2xl bg-[#FAF8F5] border border-[#0C0A08]/[0.08] p-6 space-y-5">
+                            <div className="rounded-2xl bg-[#FFFDF9] border border-[#E7E3DC] p-6 space-y-5">
                               <div className="flex items-center justify-between gap-3">
                                 <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04] font-semibold">
                                   RÉCAPITULATIF DE VOTRE COMMANDE ATELIER
                                 </div>
-                                <span className="font-mono text-[11px] rounded-full bg-white border border-[#0C0A08]/[0.08] px-2.5 py-0.5 text-[#0C0A08]">
+                                <span className="font-mono text-[11px] rounded-full bg-[#E6F8EE] border border-[#0E7541]/20 px-2.5 py-0.5 text-[#0E7541] font-semibold">
                                   Sans acompte préalable
                                 </span>
                               </div>
 
                               <div className="space-y-3 pt-1">
-                                <div className="text-[#0C0A08]/50 font-mono text-[11px] uppercase">
+                                <div className="text-[#0C0A08]/50 font-mono text-[11px] uppercase font-semibold">
                                   MODULES SÉLECTIONNÉS ({selectedModules.length})
                                 </div>
                                 <div className="space-y-2">
@@ -647,11 +655,11 @@ function CommanderContent() {
 
                               <div className="pt-3 border-t border-[#0C0A08]/[0.08] flex items-baseline justify-between">
                                 <div>
-                                  <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/55">
-                                    TOTAL FORFAIT FIXE
+                                  <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/55 font-semibold">
+                                    TOTAL FORFAIT FIXE ATELIER
                                   </div>
                                   <div className="text-xs text-[#57534E]">
-                                    Sans abonnement imposé · Installé sur votre serveur
+                                    Sans abonnement récurrent · Code source 100 % à vous
                                   </div>
                                 </div>
                                 <div className="text-right">
@@ -663,12 +671,12 @@ function CommanderContent() {
                             </div>
 
                             {/* What happens next */}
-                            <div className="rounded-2xl border border-[#0C0A08]/[0.08] bg-white p-5">
-                              <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/55 mb-3">
+                            <div className="rounded-2xl border border-[#E7E3DC] bg-white p-5 shadow-sm">
+                              <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/55 mb-3 font-semibold">
                                 DÉROULEMENT APRÈS COMMANDE
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                                <div className="rounded-xl bg-[#FAF8F5] p-3.5">
+                                <div className="rounded-xl bg-[#FAF8F5] p-3.5 border border-[#E7E3DC]">
                                   <div className="font-mono font-semibold text-[#ED5B04]">
                                     Sous 24h
                                   </div>
@@ -676,7 +684,7 @@ function CommanderContent() {
                                     Appel de 15 min avec Léo pour cadrer vos accès
                                   </div>
                                 </div>
-                                <div className="rounded-xl bg-[#FAF8F5] p-3.5">
+                                <div className="rounded-xl bg-[#FAF8F5] p-3.5 border border-[#E7E3DC]">
                                   <div className="font-mono font-semibold text-[#ED5B04]">
                                     En 5 jours
                                   </div>
@@ -684,7 +692,7 @@ function CommanderContent() {
                                     Création du site et configuration de vos agents
                                   </div>
                                 </div>
-                                <div className="rounded-xl bg-[#FAF8F5] p-3.5">
+                                <div className="rounded-xl bg-[#FAF8F5] p-3.5 border border-[#E7E3DC]">
                                   <div className="font-mono font-semibold text-[#ED5B04]">
                                     Livraison
                                   </div>
@@ -699,7 +707,7 @@ function CommanderContent() {
                               <button
                                 type="button"
                                 onClick={() => goToStep(2)}
-                                className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] text-[#0C0A08] px-5 py-3 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all cursor-pointer"
+                                className="inline-flex items-center gap-2 rounded-full bg-white border border-[#E7E3DC] text-[#0C0A08] px-5 py-3 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all cursor-pointer"
                               >
                                 <ArrowLeft className="w-4 h-4" />
                                 <span>Modifier</span>
@@ -708,7 +716,7 @@ function CommanderContent() {
                                 type="button"
                                 disabled={submitting}
                                 onClick={handleSubmit}
-                                className="inline-flex items-center gap-2.5 rounded-full bg-[#ED5B04] text-white px-8 py-4 text-sm font-semibold shadow-[0_10px_28px_rgba(237,91,4,0.28)] hover:bg-[#D64E00] active:scale-[0.97] transition-all cursor-pointer disabled:opacity-60"
+                                className="inline-flex items-center gap-2.5 rounded-full bg-[#ED5B04] text-white px-8 py-4 text-sm font-bold shadow-[0_10px_28px_rgba(237,91,4,0.28)] hover:bg-[#D64E00] active:scale-[0.97] transition-all cursor-pointer disabled:opacity-60"
                               >
                                 <span>
                                   {submitting
@@ -780,76 +788,107 @@ function CommanderContent() {
                       </a>
                       <Link
                         href="/"
-                        className="inline-flex items-center gap-2 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.12] text-[#0C0A08] px-6 py-3 text-sm font-semibold hover:border-[#0C0A08] transition-colors active:scale-[0.97]"
+                        className="inline-flex items-center gap-2 rounded-full bg-[#FAF8F5] border border-[#E7E3DC] text-[#0C0A08] px-6 py-3 text-sm font-semibold hover:border-[#0C0A08] transition-colors active:scale-[0.97]"
                       >
                         <span>Retour à l&apos;accueil</span>
                       </Link>
                     </div>
                   </motion.div>
                 )}
-              </SpecularPlate>
+              </div>
             </div>
 
-            {/* Sidebar Sticky Ticket */}
-            <div className="lg:col-span-4 space-y-5 lg:sticky lg:top-28">
-              <SpecularPlate dark className="p-7 space-y-5">
-                <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                  <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04]">
-                    TICKET DE VOTRE PROJET
+            {/* Sidebar Sticky Ticket Machine */}
+            <div className="lg:col-span-4 space-y-4 lg:sticky lg:top-28">
+              <div className="rounded-2xl bg-[#1C1917] border border-[#292524] p-5 text-white shadow-2xl space-y-4 relative overflow-hidden">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#22C55E] animate-pulse" />
+                    <span className="font-mono text-xs uppercase tracking-[0.14em] text-white font-bold">
+                      TICKET ATELIER
+                    </span>
                   </div>
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-white/65">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E]" />
-                    {selectedModules.length} module{selectedModules.length > 1 ? "s" : ""}
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-white/10 text-white/70">
+                    {selectedModules.length} MODULES
                   </span>
                 </div>
 
-                <div className="space-y-2 text-xs">
-                  {selectedModules.map((m) => (
-                    <div key={m.id} className="flex items-center justify-between text-white/80">
-                      <span className="truncate pr-2">{m.name}</span>
-                      <span className="font-mono shrink-0 font-semibold text-white">
-                        {m.price === 0 ? "0 € (Offert)" : `${m.price} €`}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                {/* The Paper Ejection Slot */}
+                <div className="w-full h-2.5 bg-black rounded-full border border-white/10 shadow-inner" />
 
-                <div className="pt-3 border-t border-white/10 space-y-1.5">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-xs text-white/60">Total HT :</span>
-                    <span className="font-mono text-2xl font-bold text-[#ED5B04]">
-                      {totalPrice.toLocaleString("fr-FR")} €
+                {/* Thermal Receipt Paper */}
+                <div className="relative bg-[#FFFDF9] text-[#0C0A08] rounded-t-xl p-4 sm:p-5 shadow-[0_14px_30px_rgba(0,0,0,0.3)] border-x border-t border-[#E7E3DC] font-mono text-xs">
+                  <div className="text-center pb-2.5 border-b border-dashed border-[#0C0A08]/20 space-y-0.5">
+                    <div className="font-black text-xs tracking-wider text-[#0C0A08]">
+                      ATELIER BOUBANE
+                    </div>
+                    <div className="text-[9px] text-[#78716C] uppercase">
+                      LÉO SAILLOUR · ARTISAN DU WEB
+                    </div>
+                  </div>
+
+                  <div className="py-3 space-y-1.5 border-b border-dashed border-[#0C0A08]/20">
+                    {selectedModules.map((m) => (
+                      <div key={m.id} className="flex items-baseline justify-between gap-1 text-[11px]">
+                        <span className="truncate text-[#0C0A08]">{m.name}</span>
+                        <span className="shrink-0 font-bold text-[#0C0A08]">
+                          {m.price === 0 ? "0.00 € (OFFERT)" : `${m.price} €`}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="py-2.5 space-y-1 border-b border-dashed border-[#0C0A08]/20 text-[10px]">
+                    <div className="flex items-center justify-between text-[#78716C]">
+                      <span>TARIF AGENCES</span>
+                      <span className="line-through">{totalMarketPrice.toLocaleString("fr-FR")} €</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[#0E7541] font-bold">
+                      <span>ÉCONOMIE ATELIER</span>
+                      <span>- {totalEconomy.toLocaleString("fr-FR")} €</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-2.5 pb-1 flex items-baseline justify-between">
+                    <span className="text-xs font-bold text-[#0C0A08] uppercase">
+                      TOTAL ESTIMÉ
+                    </span>
+                    <span className="font-mono text-xl font-black text-[#ED5B04]">
+                      {totalPrice.toLocaleString("fr-FR")} € HT
                     </span>
                   </div>
-                  <div className="text-[11px] font-mono text-white/40">
-                    Tarif moyen agence : {totalMarketPrice.toLocaleString("fr-FR")} €
+
+                  {/* Sawtooth / Zig-Zag Bottom Edge */}
+                  <div className="absolute -bottom-2.5 left-0 right-0 h-2.5 overflow-hidden leading-none pointer-events-none">
+                    <svg
+                      className="w-full h-full text-[#FFFDF9] fill-current"
+                      viewBox="0 0 200 12"
+                      preserveAspectRatio="none"
+                    >
+                      <polygon points="0,0 5,12 10,0 15,12 20,0 25,12 30,0 35,12 40,0 45,12 50,0 55,12 60,0 65,12 70,0 75,12 80,0 85,12 90,0 95,12 100,0 105,12 110,0 115,12 120,0 125,12 130,0 135,12 140,0 145,12 150,0 155,12 160,0 165,12 170,0 175,12 180,0 185,12 190,0 195,12 200,0" />
+                    </svg>
                   </div>
                 </div>
 
-                <div className="space-y-3 pt-2 border-t border-white/10">
-                  <div className="flex items-start gap-2.5">
-                    <Sparkles className="w-4 h-4 text-[#ED5B04] mt-0.5 shrink-0" />
-                    <div className="text-xs text-white/70">
-                      <strong className="text-white">Site vitrine offert (0 €)</strong> sans acompte.
-                    </div>
+                <div className="space-y-2.5 pt-1 text-xs text-white/70">
+                  <div className="flex items-start gap-2">
+                    <Sparkles className="w-3.5 h-3.5 text-[#ED5B04] mt-0.5 shrink-0" />
+                    <span>Création du site web à 0 € sans acompte.</span>
                   </div>
-                  <div className="flex items-start gap-2.5">
-                    <Lock className="w-4 h-4 text-[#ED5B04] mt-0.5 shrink-0" />
-                    <div className="text-xs text-white/70">
-                      <strong className="text-white">Code &amp; serveur à vous</strong>, sans abonnement imposé.
-                    </div>
+                  <div className="flex items-start gap-2">
+                    <Lock className="w-3.5 h-3.5 text-[#ED5B04] mt-0.5 shrink-0" />
+                    <span>Code source et accès hébergement 100 % à vous.</span>
                   </div>
-                  <div className="flex items-start gap-2.5">
-                    <ShieldCheck className="w-4 h-4 text-[#ED5B04] mt-0.5 shrink-0" />
-                    <div className="text-xs text-white/70">
-                      <strong className="text-white">Livré en 5 jours ouvrés</strong> avec Léo Saillour.
-                    </div>
+                  <div className="flex items-start gap-2">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#ED5B04] mt-0.5 shrink-0" />
+                    <span>Livré en 5 jours ouvrés avec Léo Saillour.</span>
                   </div>
                 </div>
-              </SpecularPlate>
+              </div>
 
-              <SpecularPlate tilt={false} className="p-6 bg-white space-y-3">
-                <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/45">
+              {/* Direct exchange */}
+              <div className="rounded-2xl border border-[#E7E3DC] bg-white p-5 space-y-3 shadow-sm">
+                <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/45 font-semibold">
                   BESOIN D&apos;UN ÉCHANGE DIRECT ?
                 </div>
                 <p className="text-xs text-[#57534E]">
@@ -860,7 +899,7 @@ function CommanderContent() {
                     href="https://rdv.boubane.com/boubane/30min"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.1] px-4 py-2.5 text-xs font-semibold text-[#0C0A08] hover:border-[#0C0A08] transition-colors"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FAF8F5] border border-[#E7E3DC] px-4 py-2.5 text-xs font-semibold text-[#0C0A08] hover:border-[#0C0A08] transition-colors"
                   >
                     <Calendar className="w-3.5 h-3.5 text-[#ED5B04]" />
                     <span>Appel découverte 30 min</span>
@@ -869,20 +908,13 @@ function CommanderContent() {
                     href="https://wa.me/33778310346"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.1] px-4 py-2.5 text-xs font-semibold text-[#0C0A08] hover:border-[#0C0A08] transition-colors"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FAF8F5] border border-[#E7E3DC] px-4 py-2.5 text-xs font-semibold text-[#0C0A08] hover:border-[#0C0A08] transition-colors"
                   >
                     <MessageCircle className="w-3.5 h-3.5 text-[#0E7541]" />
                     <span>WhatsApp · 07 78 31 03 46</span>
                   </a>
-                  <a
-                    href="mailto:leo@boubane.com"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.1] px-4 py-2.5 text-xs font-semibold text-[#0C0A08] hover:border-[#0C0A08] transition-colors"
-                  >
-                    <Mail className="w-3.5 h-3.5 text-[#0C0A08]/70" />
-                    <span>leo@boubane.com</span>
-                  </a>
                 </div>
-              </SpecularPlate>
+              </div>
             </div>
           </div>
         </div>
