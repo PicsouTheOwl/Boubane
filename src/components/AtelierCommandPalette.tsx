@@ -14,7 +14,6 @@ import {
   Server,
   Sparkles,
 } from "lucide-react";
-import { ATELIER_EASE, ATELIER_SPRING } from "@/lib/utils";
 
 interface CommandItem {
   id: string;
@@ -22,6 +21,20 @@ interface CommandItem {
   hint: string;
   action: () => void;
   icon: React.ComponentType<{ className?: string }>;
+}
+
+export function CommandPaletteTrigger() {
+  return (
+    <button
+      type="button"
+      onClick={() =>
+        window.dispatchEvent(new CustomEvent("boubane:open-palette"))
+      }
+      className="min-h-[36px] inline-flex items-center gap-2 rounded-full border border-[#0C0A08]/[0.1] bg-white/70 hover:bg-white px-3 py-1 text-[11px] font-mono text-[#57534E] hover:text-[#0C0A08] transition-colors cursor-pointer"
+    >
+      <span>⌘K · Navigation rapide</span>
+    </button>
+  );
 }
 
 export function AtelierCommandPalette() {
@@ -113,8 +126,14 @@ export function AtelierCommandPalette() {
         setOpen(false);
       }
     };
+    const onOpenTrigger = () => setOpen(true);
+
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("boubane:open-palette", onOpenTrigger);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("boubane:open-palette", onOpenTrigger);
+    };
   }, []);
 
   const handleListKeyDown = (e: React.KeyboardEvent) => {
@@ -141,17 +160,29 @@ export function AtelierCommandPalette() {
         {open && (
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.16, ease: ATELIER_EASE }}
+            animate={{
+              opacity: 1,
+              transition: { duration: 0.08, ease: [0.16, 1, 0.3, 1] },
+            }}
+            exit={{
+              opacity: 0,
+              transition: { duration: 0.06, ease: [0.7, 0, 0.84, 0] },
+            }}
             onClick={() => setOpen(false)}
             className="fixed inset-0 z-[150] flex items-start justify-center pt-[16vh] px-4 bg-[#0B0A09]/55 backdrop-blur-md"
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: -8 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: -6 }}
-              transition={ATELIER_SPRING}
+              initial={{ opacity: 0, scale: 0.985 }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                transition: { duration: 0.08, ease: [0.16, 1, 0.3, 1] },
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.985,
+                transition: { duration: 0.06, ease: [0.7, 0, 0.84, 0] },
+              }}
               onClick={(e) => e.stopPropagation()}
               onKeyDown={handleListKeyDown}
               className="w-full max-w-lg rounded-[20px] bg-[#141311] text-[#FAF8F5] border border-white/[0.12] shadow-[0_32px_90px_-15px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.1)] overflow-hidden"

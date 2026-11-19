@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
+import { AnimatePresence, motion } from "motion/react";
 
 type SiteKey = "astra" | "achille" | "valmy";
 
@@ -773,8 +774,8 @@ export function HeroSection() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "8px",
-                  borderColor: "rgba(237, 91, 4, 0.35)",
-                  color: "var(--color-primary)",
+                  borderColor: "rgba(12, 10, 8, 0.14)",
+                  color: "#0C0A08",
                 }}
                 aria-label="Prendre rendez-vous avec Léo (30 min)"
               >
@@ -1118,78 +1119,92 @@ export function HeroSection() {
       </section>
 
       {/* Portail Plein Écran macOS */}
-      {portalSite && (
-        <div
-          className="mockup-fullscreen-portal active is-active"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Aperçu plein écran"
-        >
-          <div className="mockup-portal-backdrop" onClick={() => setPortalSite(null)} />
-          <div className="mockup-portal-window">
-            <div className="cs-window-bar">
-              <div className="cs-window-bar-left">
-                <div className="cs-dots">
-                  <button
-                    type="button"
-                    className="cs-dot cs-dot--red"
-                    aria-label="Fermer"
-                    onClick={() => setPortalSite(null)}
-                  />
-                  <button
-                    type="button"
-                    className="cs-dot cs-dot--yellow"
-                    aria-label="Minimiser"
-                    onClick={() => setPortalSite(null)}
-                  />
-                  <button
-                    type="button"
-                    className="cs-dot cs-dot--green"
-                    aria-label="Ouvrir en plein écran"
-                    onClick={() => {
-                      if (portalSite) {
-                        window.open(PORTAL_META[portalSite].href, "_blank", "noopener,noreferrer");
-                      }
-                    }}
-                  />
-                </div>
-                <div className="cs-portal-site-switch">
-                  {(["astra", "achille", "valmy"] as SiteKey[]).map((key) => (
+      <AnimatePresence>
+        {portalSite && (
+          <motion.div
+            key="portal-modal"
+            exit={{
+              opacity: 0,
+              transition: { duration: 0.12, ease: [0.7, 0, 0.84, 0] },
+            }}
+            className="mockup-fullscreen-portal active is-active"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Aperçu plein écran"
+          >
+            <div className="mockup-portal-backdrop" onClick={() => setPortalSite(null)} />
+            <div className="mockup-portal-window">
+              <div className="cs-window-bar">
+                <div className="cs-window-bar-left">
+                  <div className="cs-dots">
                     <button
-                      key={key}
                       type="button"
-                      className={`cs-portal-tab-btn ${portalSite === key ? "active" : ""}`}
-                      onClick={() => setPortalSite(key)}
-                    >
-                      <span>
-                        {key === "astra"
-                          ? "Astravacances"
-                          : key === "achille"
-                          ? "Artisanat BTP"
-                          : "Votre Prochain Site"}
-                      </span>
-                    </button>
-                  ))}
+                      className="cs-dot cs-dot--red"
+                      aria-label="Fermer"
+                      onClick={() => setPortalSite(null)}
+                    />
+                    <button
+                      type="button"
+                      className="cs-dot cs-dot--yellow"
+                      aria-label="Minimiser"
+                      onClick={() => setPortalSite(null)}
+                    />
+                    <button
+                      type="button"
+                      className="cs-dot cs-dot--green"
+                      aria-label="Ouvrir en plein écran"
+                      onClick={() => {
+                        if (portalSite) {
+                          window.open(PORTAL_META[portalSite].href, "_blank", "noopener,noreferrer");
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className="cs-portal-site-switch">
+                    {(["astra", "achille", "valmy"] as SiteKey[]).map((key) => (
+                      <button
+                        key={key}
+                        type="button"
+                        className={`cs-portal-tab-btn ${portalSite === key ? "active" : ""}`}
+                        onClick={() => setPortalSite(key)}
+                      >
+                        <span>
+                          {key === "astra"
+                            ? "Astravacances"
+                            : key === "achille"
+                            ? "Artisanat BTP"
+                            : "Votre Prochain Site"}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="cs-url-bar" id="portalUrlBar">
+                  <span className="cs-url-text">{PORTAL_META[portalSite].url}</span>
+                </div>
+
+                <div className="cs-window-bar-right">
+                  <Link
+                    href="/commander"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[#ED5B04] hover:bg-[#D64E00] text-white px-3.5 py-1.5 text-[11.5px] font-semibold transition-colors whitespace-nowrap"
+                  >
+                    <span>Commander ce style</span>
+                  </Link>
                 </div>
               </div>
 
-              <div className="cs-url-bar" id="portalUrlBar">
-                <span className="cs-url-text">{PORTAL_META[portalSite].url}</span>
+              <div className="mockup-portal-body">
+                <iframe
+                  src={PORTAL_META[portalSite].href}
+                  className="mockup-portal-iframe"
+                  title={PORTAL_META[portalSite].caption}
+                />
               </div>
-
-              <div className="cs-window-bar-right" />
             </div>
-
-            <div className="mockup-portal-body">
-              <iframe
-                src={PORTAL_META[portalSite].href}
-                className="mockup-portal-iframe"
-                title={PORTAL_META[portalSite].caption}
-              />
-            </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

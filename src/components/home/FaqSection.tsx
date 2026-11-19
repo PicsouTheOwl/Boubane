@@ -76,9 +76,22 @@ export function FaqSection() {
                     {isOpen && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: ATELIER_EASE }}
+                        animate={{
+                          height: "auto",
+                          opacity: 1,
+                          transition: {
+                            duration: 0.22,
+                            ease: [0.16, 1, 0.3, 1],
+                          },
+                        }}
+                        exit={{
+                          height: 0,
+                          opacity: 0,
+                          transition: {
+                            duration: 0.11,
+                            ease: [0.7, 0, 0.84, 0],
+                          },
+                        }}
                         className="overflow-hidden"
                       >
                         <p className="pb-6 pr-8 text-[0.95rem] leading-[1.68] text-[#57534E] max-w-[60ch]">

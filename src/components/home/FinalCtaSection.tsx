@@ -25,14 +25,13 @@ export function FinalCtaSection() {
             Votre nouveau site peut être en ligne la semaine prochaine.
           </h2>
           <p className="mt-4 text-[1rem] leading-[1.62] text-[#57534E] max-w-[46ch] mx-auto">
-            Envoyez vos coordonnées en deux minutes ou réservez dix minutes au téléphone pour qu&apos;on
-            en discute tranquillement.
+            Envoyez votre brief en deux minutes ou réservez un appel de 30 minutes pour parler de votre site et de vos automatisations.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/commander"
-              className="inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all shadow-[0_10px_28px_rgba(237,91,4,0.22)]"
+              className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all duration-100 shadow-[0_10px_28px_rgba(237,91,4,0.22)]"
             >
               <span>Commander mon site à 0 €</span>
               <ArrowUpRight className="w-4 h-4" />
@@ -41,7 +40,7 @@ export function FinalCtaSection() {
               href="https://rdv.boubane.com/boubane/30min"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.14] text-[#0C0A08] px-6 py-3.5 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all"
+              className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.14] text-[#0C0A08] px-6 py-3.5 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all duration-100"
             >
               <span>Prendre RDV (30 min)</span>
             </a>

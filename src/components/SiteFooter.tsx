@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { CommandPaletteTrigger } from "@/components/AtelierCommandPalette";
 
 export function SiteFooter() {
   return (
@@ -32,6 +33,22 @@ export function SiteFooter() {
                   className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
                 >
                   Pourquoi 0 €
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#configurateur"
+                  className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
+                >
+                  Automatisations IA
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#apercu"
+                  className="text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
+                >
+                  Démos en direct
                 </Link>
               </li>
               <li>
@@ -99,6 +116,7 @@ export function SiteFooter() {
 
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] font-mono text-[#0C0A08]/45">
           <span>© {new Date().getFullYear()} BOUBANE · LÉO SAILLOUR</span>
+          <CommandPaletteTrigger />
         </div>
       </div>
     </footer>

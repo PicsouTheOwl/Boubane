@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AUTOMATION_MODULES } from "@/data/automations";
 import { AtelierReveal } from "@/components/AtelierPrimitives";
 import { AtelierModuleList } from "@/components/AtelierModuleList";
@@ -11,6 +11,21 @@ export function AtelierConfiguratorSection() {
     "site-web",
     "assistant-mails",
   ]);
+
+  useEffect(() => {
+    const onSelectModule = (e: Event) => {
+      const id = (e as CustomEvent<{ id?: string }>).detail?.id;
+      if (!id || id === "site-web") return;
+      const isValid = AUTOMATION_MODULES.some((m) => m.id === id);
+      if (!isValid) return;
+
+      setSelectedIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    };
+
+    window.addEventListener("boubane:select-module", onSelectModule);
+    return () =>
+      window.removeEventListener("boubane:select-module", onSelectModule);
+  }, []);
 
   const toggleModule = (id: string) => {
     if (id === "site-web") return;

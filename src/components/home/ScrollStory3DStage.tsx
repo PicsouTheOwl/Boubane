@@ -57,20 +57,11 @@ const CHAPTERS: StoryChapter[] = [
 
 export function ScrollStory3DStage() {
   const [activeIdx, setActiveIdx] = useState(1);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
 
   const current = CHAPTERS[activeIdx];
 
   const stepBy = (delta: number) => {
     setActiveIdx((prev) => (prev + delta + CHAPTERS.length) % CHAPTERS.length);
-  };
-
-  const handleMouseMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== "mouse") return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const nx = (e.clientX - rect.left) / Math.max(1, rect.width) - 0.5;
-    const ny = (e.clientY - rect.top) / Math.max(1, rect.height) - 0.5;
-    setTilt({ rx: -ny * 9, ry: nx * 12 });
   };
 
   const isAgency = current.focusCard === "agency";
@@ -83,18 +74,8 @@ export function ScrollStory3DStage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left Interactive Tactile Card Fan */}
           <div className="lg:col-span-6 flex flex-col items-center">
-            <div
-              onPointerMove={handleMouseMove}
-              onPointerLeave={() => setTilt({ rx: 0, ry: 0 })}
-              style={{ perspective: 1200 }}
-              className="relative w-full max-w-[490px] h-[300px] sm:h-[340px] select-none flex items-center justify-center"
-            >
-              <motion.div
-                animate={{ rotateX: tilt.rx, rotateY: tilt.ry }}
-                transition={{ type: "spring", stiffness: 170, damping: 22 }}
-                style={{ transformStyle: "preserve-3d" }}
-                className="relative w-[310px] h-[290px] sm:w-[460px] sm:h-[325px]"
-              >
+            <div className="relative w-full max-w-[490px] h-[300px] sm:h-[340px] select-none flex items-center justify-center">
+              <div className="relative w-[310px] h-[290px] sm:w-[460px] sm:h-[325px]">
                 {/* Card A: Agence Classique 4 500 € */}
                 <motion.button
                   type="button"
@@ -187,7 +168,7 @@ export function ScrollStory3DStage() {
                     Design &amp; code offerts · Livré en 5 jours
                   </div>
                 </motion.button>
-              </motion.div>
+              </div>
             </div>
           </div>
 
@@ -218,7 +199,7 @@ export function ScrollStory3DStage() {
                         <motion.span
                           layoutId="compactStoryTabPill"
                           transition={ATELIER_SNAPPY_SPRING}
-                          className="absolute inset-0 rounded-full bg-[#ED5B04]"
+                          className="absolute inset-0 rounded-full bg-[#0C0A08]"
                         />
                       )}
                       <span className="relative z-10">{chap.pill}</span>
@@ -232,7 +213,7 @@ export function ScrollStory3DStage() {
                   type="button"
                   onClick={() => stepBy(-1)}
                   aria-label="Étape précédente"
-                  className="w-9 h-9 rounded-full bg-white border border-[#E7E3DC] flex items-center justify-center text-[#0C0A08] hover:border-[#ED5B04] hover:text-[#ED5B04] active:scale-[0.95] transition-all cursor-pointer"
+                  className="w-11 h-11 rounded-full bg-white border border-[#E7E3DC] flex items-center justify-center text-[#0C0A08] hover:border-[#0C0A08] active:scale-[0.95] transition-all cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </button>
@@ -240,7 +221,7 @@ export function ScrollStory3DStage() {
                   type="button"
                   onClick={() => stepBy(1)}
                   aria-label="Étape suivante"
-                  className="w-9 h-9 rounded-full bg-white border border-[#E7E3DC] flex items-center justify-center text-[#0C0A08] hover:border-[#ED5B04] hover:text-[#ED5B04] active:scale-[0.95] transition-all cursor-pointer"
+                  className="w-11 h-11 rounded-full bg-white border border-[#E7E3DC] flex items-center justify-center text-[#0C0A08] hover:border-[#0C0A08] active:scale-[0.95] transition-all cursor-pointer"
                 >
                   <ArrowRight className="w-4 h-4" />
                 </button>
@@ -254,7 +235,11 @@ export function ScrollStory3DStage() {
                   key={current.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
+                  exit={{
+                    opacity: 0,
+                    y: -6,
+                    transition: { duration: 0.11, ease: [0.7, 0, 0.84, 0] },
+                  }}
                   transition={{ duration: 0.22, ease: ATELIER_EASE }}
                 >
                   <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#ED5B04] font-semibold">
