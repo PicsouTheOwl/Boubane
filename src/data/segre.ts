@@ -25,3 +25,4 @@ export const SEGRE_FAQS: SegreFaq[] = [
     a: "Oui, intégralement. Contrairement aux agences qui louent leurs sites sur 36 ou 48 mois, le code reste 100 % entre vos mains sans aucun engagement de durée.",
   },
 ];
+

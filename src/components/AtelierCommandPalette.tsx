@@ -34,10 +34,17 @@ export function AtelierCommandPalette() {
     () => [
       {
         id: "commander",
-        label: "Commander mon site offert (0 €)",
-        hint: "Tunnel en 3 étapes",
+        label: "Commander & Configurer mon projet",
+        hint: "Tunnel en 3 étapes (Site 0 € + IA)",
         icon: Sparkles,
         action: () => router.push("/commander"),
+      },
+      {
+        id: "configurateur",
+        label: "Configurateur & Automatisations IA",
+        hint: "Site 0 € + Modules atelier",
+        icon: Sparkles,
+        action: () => router.push("/#configurateur"),
       },
       {
         id: "rdv",

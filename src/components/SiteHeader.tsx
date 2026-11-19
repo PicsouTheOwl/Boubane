@@ -27,8 +27,8 @@ export function SiteHeader({ isHome = true }: { isHome?: boolean }) {
               </Link>
             </li>
             <li>
-              <Link href={`${prefix}#processus`} className="nav-link">
-                Processus
+              <Link href={`${prefix}#configurateur`} className="nav-link">
+                Configurateur
               </Link>
             </li>
             <li>
@@ -42,7 +42,7 @@ export function SiteHeader({ isHome = true }: { isHome?: boolean }) {
         <Link
           href="/commander"
           className="btn btn-primary btn-magnetic"
-          aria-label="Commander mon site offert"
+          aria-label="Commander mon projet"
         >
           <span className="nav-btn-text-full">Commander (0 €)</span>
           <span className="nav-btn-text-short">Commander</span>
@@ -75,4 +75,3 @@ export function SiteHeader({ isHome = true }: { isHome?: boolean }) {
     </header>
   );
 }
-

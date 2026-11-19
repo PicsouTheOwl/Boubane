@@ -12,12 +12,20 @@ const FAQ_ITEMS = [
     a: "Oui, vous réglez 0 € d'honoraires pour le design et le développement. Vos seuls frais sont techniques : nom de domaine (~10 € / an) et hébergement (~5 € / mois), payés directement chez OVH, Hostinger ou Vercel.",
   },
   {
-    q: "Y a-t-il un engagement ou un abonnement caché ?",
-    a: "Non. Vous êtes propriétaire du nom de domaine et de tout le code source dès la mise en ligne. Si vous voulez un jour faire modifier le site par quelqu'un d'autre ou changer d'hébergeur, vous êtes libre.",
+    q: "Pourquoi le site est à 0 € alors que les automatisations IA sont payantes ?",
+    a: "Le site vitrine est ma porte d'entrée : je le conçois rapidement et avec exigence pour vous prouver la valeur de mon travail. Les automatisations IA (assistant vocal 24/7, tri des emails, relances d'impayés, CRM métier) nécessitent des branchements techniques sur vos outils. Je les facture à prix fixe atelier (dès 390 €), soit 3 à 4 fois moins cher que les agences du marché (comme Mushrooms à 1 800 € - 3 900 €), et sans aucun abonnement récurrent imposé.",
   },
   {
-    q: "Combien de temps faut-il pour avoir le site en ligne ?",
-    a: "Une fois que j'ai vos photos et vos infos de base, la maquette est prête en quelques jours et le site complet est généralement en ligne sous 5 à 7 jours ouvrés.",
+    q: "Suis-je obligé de prendre des automatisations IA avec mon site ?",
+    a: "Absolument pas ! Le site vitrine reste 100 % offert et indépendant. Vous ne cochez des automatisations que si vous perdez des heures chaque semaine à trier vos devis, relancer vos factures ou décrocher au volant.",
+  },
+  {
+    q: "Y a-t-il un engagement ou un abonnement caché ?",
+    a: "Non. Vous êtes propriétaire du nom de domaine, du code source et des scripts installés sur votre serveur. Si vous voulez un jour faire modifier votre installation par quelqu'un d'autre, vous êtes totalement libre.",
+  },
+  {
+    q: "Combien de temps faut-il pour avoir le site et les modules en ligne ?",
+    a: "Le site vitrine est livré sous 5 jours ouvrés. Si vous ajoutez des automatisations IA, nous les connectons et les testons ensemble dans le même calendrier de 5 à 7 jours.",
   },
   {
     q: "Et si la proposition ne me plaît pas ?",

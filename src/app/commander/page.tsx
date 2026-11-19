@@ -1,29 +1,45 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowLeft,
   ArrowRight,
+  BarChart3,
   BedDouble,
   Briefcase,
   Building2,
   Calendar,
   Check,
+  Globe,
   Hammer,
   Lock,
   Mail,
   MapPin,
   MessageCircle,
+  PhoneCall,
+  Receipt,
   ShieldCheck,
   Sparkles,
   Store,
+  Users,
 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { AtelierReveal, SpecularPlate } from "@/components/AtelierPrimitives";
 import { ATELIER_EASE, ATELIER_SPRING } from "@/lib/utils";
+import { AUTOMATION_MODULES, type AutomationModule } from "@/data/automations";
+
+const ICON_MAP = {
+  Globe,
+  Mail,
+  Receipt,
+  BarChart3,
+  PhoneCall,
+  Users,
+};
 
 const TRADES = [
   { label: "Artisan / BTP (Menuisier, Couvreur, Maçon…)", icon: Hammer },
@@ -42,7 +58,7 @@ const SITUATIONS = [
 ] as const;
 
 const STEPS_META = [
-  { id: 1 as const, label: "Activité & Contexte" },
+  { id: 1 as const, label: "Modules & Activité" },
   { id: 2 as const, label: "Coordonnées Directes" },
   { id: 3 as const, label: "Validation Finale" },
 ];
@@ -72,9 +88,11 @@ const STEP_VARIANTS = {
   }),
 };
 
-export default function CommanderPage() {
+function CommanderContent() {
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [direction, setDirection] = useState(1);
+  const [selectedModuleIds, setSelectedModuleIds] = useState<string[]>(["site-web"]);
   const [trade, setTrade] = useState<string>(TRADES[0].label);
   const [situation, setSituation] = useState<string>(SITUATIONS[0]);
   const [name, setName] = useState("");
@@ -86,6 +104,30 @@ export default function CommanderPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  // Initialisation via query param (ex: /commander?modules=assistant-mails,tableau-bord)
+  useEffect(() => {
+    const rawModules = searchParams.get("modules");
+    if (rawModules) {
+      const parsed = rawModules.split(",").map((s) => s.trim());
+      const validIds = AUTOMATION_MODULES.map((m) => m.id);
+      const matched = parsed.filter((id) => validIds.includes(id));
+      setSelectedModuleIds(["site-web", ...matched.filter((id) => id !== "site-web")]);
+    }
+  }, [searchParams]);
+
+  const toggleModule = (id: string) => {
+    if (id === "site-web") return; // Toujours inclus
+    setSelectedModuleIds((prev) =>
+      prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
+    );
+  };
+
+  const selectedModules = AUTOMATION_MODULES.filter((m) =>
+    selectedModuleIds.includes(m.id)
+  );
+  const totalPrice = selectedModules.reduce((acc, m) => acc + m.price, 0);
+  const totalMarketPrice = selectedModules.reduce((acc, m) => acc + m.marketPrice, 0);
 
   const goToStep = (next: 1 | 2 | 3) => {
     setDirection(next > step ? 1 : -1);
@@ -109,12 +151,17 @@ export default function CommanderPage() {
     goToStep(3);
   };
 
-  const buildBriefText = () =>
-    `[PROJET SITE OFFERT]\n• Entreprise : ${company}${city ? ` (${city})` : ""}\n• Profil : ${trade}\n• Situation : ${situation}\n• Téléphone : ${
+  const buildBriefText = () => {
+    const modulesText = selectedModules
+      .map((m) => `  • ${m.name} (${m.price === 0 ? "0 € - Offert" : `${m.price} € HT`})`)
+      .join("\n");
+
+    return `[PROJET ATELIER BOUBANE]\n• Entreprise : ${company}${city ? ` (${city})` : ""}\n• Profil : ${trade}\n• Situation : ${situation}\n• Modules retenus :\n${modulesText}\n• Total investissement : ${totalPrice} € HT\n• Téléphone : ${
       phone || "Non renseigné"
     }\n• Email : ${email || "Non renseigné"}\n• Message : ${
       details || "Aucun détail supplémentaire"
     }`;
+  };
 
   const handleSubmit = () => {
     setSubmitting(true);
@@ -136,9 +183,9 @@ export default function CommanderPage() {
   };
 
   const whatsappBriefUrl = `https://wa.me/33778310346?text=${encodeURIComponent(
-    `Bonjour Léo, voici mon brief pour un site vitrine Boubane :\nNom : ${name}\nEntreprise : ${company}${
+    `Bonjour Léo, voici mon brief configuré sur Boubane :\nNom : ${name}\nEntreprise : ${company}${
       city ? ` (${city})` : ""
-    }\nSecteur : ${trade}\nSituation : ${situation}${
+    }\nModules : ${selectedModules.map((m) => m.name).join(", ")}\nTotal estimé : ${totalPrice} € HT\nSecteur : ${trade}${
       details ? `\nPrécisions : ${details}` : ""
     }`
   )}`;
@@ -151,12 +198,11 @@ export default function CommanderPage() {
         <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
           <AtelierReveal className="max-w-3xl mb-10 sm:mb-12">
             <h1 className="font-[family-name:var(--font-jakarta)] text-[clamp(2.1rem,5vw,3.5rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-              Commandez votre vitrine sur-mesure
+              Configurez votre installation sur-mesure
               <span className="text-[#ED5B04]">.</span>
             </h1>
-            <p className="mt-4 text-[1.03rem] leading-[1.6] text-[#57534E] max-w-[56ch]">
-              Dites-moi en trois étapes rapides ce que vous faites. Je m&apos;occupe du reste et
-              je vous prépare une maquette sous 5 jours ouvrés, sans acompte.
+            <p className="mt-4 text-[1.03rem] leading-[1.6] text-[#57534E] max-w-[58ch]">
+              Le site web reste à 0 € d&apos;honoraires de conception. Vous choisissez librement vos automatisations IA au prix atelier le plus bas du marché, sans aucun abonnement forcé.
             </p>
           </AtelierReveal>
 
@@ -230,9 +276,95 @@ export default function CommanderPage() {
                             transition={{ duration: 0.28, ease: ATELIER_EASE }}
                             className="space-y-8"
                           >
+                            {/* Choix des Modules */}
+                            <div>
+                              <div className="flex items-center justify-between mb-3">
+                                <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60">
+                                  01. Choisissez vos modules
+                                </label>
+                                <span className="font-mono text-[11px] text-[#ED5B04] font-semibold">
+                                  Site web offert · Options payantes à prix atelier
+                                </span>
+                              </div>
+
+                              <div className="grid grid-cols-1 gap-3">
+                                {AUTOMATION_MODULES.map((mod) => {
+                                  const isSelected = selectedModuleIds.includes(mod.id);
+                                  const isBase = mod.id === "site-web";
+                                  const Icon = ICON_MAP[mod.iconName];
+
+                                  return (
+                                    <div
+                                      key={mod.id}
+                                      onClick={() => toggleModule(mod.id)}
+                                      className={`flex items-start justify-between gap-4 p-4 rounded-xl border transition-all cursor-pointer ${
+                                        isSelected
+                                          ? "border-[#ED5B04] bg-[#FFFDF9] shadow-[0_6px_18px_rgba(237,91,4,0.08)]"
+                                          : "border-[#0C0A08]/[0.08] bg-[#FAF8F5] hover:border-[#0C0A08]/25 hover:bg-white"
+                                      }`}
+                                    >
+                                      <div className="flex items-start gap-3.5 min-w-0">
+                                        <span
+                                          className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                                            isSelected
+                                              ? "bg-[#ED5B04] text-white"
+                                              : "bg-white border border-[#0C0A08]/[0.08] text-[#57534E]"
+                                          }`}
+                                        >
+                                          <Icon className="w-4 h-4" />
+                                        </span>
+                                        <div className="min-w-0">
+                                          <div className="flex items-center gap-2 flex-wrap">
+                                            <span className="font-bold text-[#0C0A08] text-sm leading-snug">
+                                              {mod.name}
+                                            </span>
+                                            {isBase && (
+                                              <span className="px-2 py-0.5 rounded bg-[#E6F8EE] text-[#0E7541] font-mono text-[10px] font-bold">
+                                                0 € INCLUS
+                                              </span>
+                                            )}
+                                          </div>
+                                          <p className="text-xs text-[#57534E] leading-relaxed mt-1">
+                                            {mod.description}
+                                          </p>
+                                          <div className="mt-2 flex items-center gap-3 text-[11px] font-mono text-[#0C0A08]/60">
+                                            <span>{mod.metric}</span>
+                                            {!isBase && (
+                                              <>
+                                                <span>·</span>
+                                                <span className="line-through text-[#0C0A08]/35">
+                                                  Agence : {mod.marketPrice} €
+                                                </span>
+                                              </>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className="shrink-0 flex flex-col items-end gap-2">
+                                        <span
+                                          className={`w-5 h-5 rounded-full flex items-center justify-center border transition-colors ${
+                                            isSelected
+                                              ? "border-[#ED5B04] bg-[#ED5B04] text-white"
+                                              : "border-[#0C0A08]/20 bg-white text-transparent"
+                                          }`}
+                                        >
+                                          <Check className="w-3 h-3" strokeWidth={2.5} />
+                                        </span>
+                                        <div className="font-mono text-xs font-bold text-[#0C0A08]">
+                                          {mod.price === 0 ? "0 €" : `+${mod.price} €`}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            {/* Secteur */}
                             <div>
                               <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 mb-3">
-                                Votre secteur d&apos;activité
+                                02. Votre secteur d&apos;activité
                               </label>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                 {TRADES.map((item) => {
@@ -276,9 +408,10 @@ export default function CommanderPage() {
                               </div>
                             </div>
 
+                            {/* Situation */}
                             <div>
                               <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 mb-3">
-                                Votre situation actuelle
+                                03. Votre situation actuelle
                               </label>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                 {SITUATIONS.map((item) => {
@@ -311,15 +444,18 @@ export default function CommanderPage() {
                             </div>
 
                             <div className="pt-3 flex items-center justify-between gap-4 border-t border-[#0C0A08]/[0.07]">
-                              <span className="text-xs text-[#57534E]">
-                                Aucun engagement · Réponse sous 24h ouvrées
-                              </span>
+                              <div className="text-xs text-[#57534E]">
+                                Estimation :{" "}
+                                <span className="font-mono font-bold text-[#0C0A08]">
+                                  {totalPrice === 0 ? "0 € (Offert)" : `${totalPrice} € HT`}
+                                </span>
+                              </div>
                               <button
                                 type="button"
                                 onClick={() => goToStep(2)}
                                 className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#ED5B04] active:scale-[0.97] transition-all cursor-pointer shrink-0"
                               >
-                                <span>Continuer</span>
+                                <span>Continuer vers mes coordonnées</span>
                                 <ArrowRight className="w-4 h-4" />
                               </button>
                             </div>
@@ -409,13 +545,13 @@ export default function CommanderPage() {
 
                             <div>
                               <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5">
-                                Notes sur votre projet (facultatif)
+                                Notes ou précisions (facultatif)
                               </label>
                               <textarea
                                 rows={3}
                                 value={details}
                                 onChange={(e) => setDetails(e.target.value)}
-                                placeholder="Ex : Site actuel à refaire, couleurs souhaitées, services principaux à mettre en avant..."
+                                placeholder="Ex : Outils déjà utilisés (Pennylane, Gmail...), volume d'appels ou de devis par mois..."
                                 className="w-full rounded-xl border border-[#0C0A08]/[0.12] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
                               />
                             </div>
@@ -433,14 +569,14 @@ export default function CommanderPage() {
                                 className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] text-[#0C0A08] px-5 py-3 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all cursor-pointer"
                               >
                                 <ArrowLeft className="w-4 h-4" />
-                                <span>Retour</span>
+                                <span>Retour aux modules</span>
                               </button>
                               <button
                                 type="button"
                                 onClick={handleNextFromStep2}
                                 className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#ED5B04] active:scale-[0.97] transition-all cursor-pointer"
                               >
-                                <span>Vérifier ma commande</span>
+                                <span>Vérifier mon projet</span>
                                 <ArrowRight className="w-4 h-4" />
                               </button>
                             </div>
@@ -461,69 +597,75 @@ export default function CommanderPage() {
                             <div className="rounded-2xl bg-[#FAF8F5] border border-[#0C0A08]/[0.08] p-6 space-y-5">
                               <div className="flex items-center justify-between gap-3">
                                 <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04] font-semibold">
-                                  RÉCAPITULATIF DE VOTRE RÉSERVATION
+                                  RÉCAPITULATIF DE VOTRE COMMANDE ATELIER
                                 </div>
                                 <span className="font-mono text-[11px] rounded-full bg-white border border-[#0C0A08]/[0.08] px-2.5 py-0.5 text-[#0C0A08]">
-                                  Sans acompte
+                                  Sans acompte préalable
                                 </span>
                               </div>
 
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                              <div className="space-y-3 pt-1">
+                                <div className="text-[#0C0A08]/50 font-mono text-[11px] uppercase">
+                                  MODULES SÉLECTIONNÉS ({selectedModules.length})
+                                </div>
+                                <div className="space-y-2">
+                                  {selectedModules.map((m) => (
+                                    <div
+                                      key={m.id}
+                                      className="flex items-center justify-between text-sm py-1 border-b border-[#0C0A08]/[0.05]"
+                                    >
+                                      <span className="font-semibold text-[#0C0A08]">{m.name}</span>
+                                      <span className="font-mono font-bold text-[#0C0A08]">
+                                        {m.price === 0 ? "0.00 € (Offert)" : `${m.price} € HT`}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
                                 <div>
                                   <div className="text-[#0C0A08]/45 font-mono text-[11px]">
-                                    SECTEUR
+                                    SECTEUR &amp; CONTEXTE
                                   </div>
                                   <div className="font-semibold text-[#0C0A08] mt-0.5">{trade}</div>
+                                  <div className="text-xs text-[#57534E] mt-0.5">{situation}</div>
                                 </div>
                                 <div>
                                   <div className="text-[#0C0A08]/45 font-mono text-[11px]">
-                                    CONTEXTE
-                                  </div>
-                                  <div className="font-semibold text-[#0C0A08] mt-0.5">
-                                    {situation}
-                                  </div>
-                                </div>
-                                <div>
-                                  <div className="text-[#0C0A08]/45 font-mono text-[11px]">
-                                    CONTACT
+                                    CONTACT DIRECT
                                   </div>
                                   <div className="font-semibold text-[#0C0A08] mt-0.5">
                                     {name} · {company}
                                     {city ? ` (${city})` : ""}
                                   </div>
-                                  <div className="text-[#57534E]">
+                                  <div className="text-xs text-[#57534E] mt-0.5">
                                     {[email, phone].filter(Boolean).join(" · ")}
-                                  </div>
-                                </div>
-                                <div>
-                                  <div className="text-[#0C0A08]/45 font-mono text-[11px]">
-                                    HONORAIRES STUDIO
-                                  </div>
-                                  <div className="font-mono text-lg font-bold text-[#0C0A08] mt-0.5">
-                                    0.00 € HT
-                                  </div>
-                                  <div className="text-xs text-[#57534E]">
-                                    Domaine & hébergement directs uniquement
                                   </div>
                                 </div>
                               </div>
 
-                              {details && (
-                                <div className="pt-3 border-t border-[#0C0A08]/[0.07] text-sm">
-                                  <div className="text-[#0C0A08]/45 font-mono text-[11px]">
-                                    PRÉCISIONS
+                              <div className="pt-3 border-t border-[#0C0A08]/[0.08] flex items-baseline justify-between">
+                                <div>
+                                  <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/55">
+                                    TOTAL FORFAIT FIXE
                                   </div>
-                                  <div className="text-[#0C0A08]/85 mt-1 leading-relaxed">
-                                    {details}
+                                  <div className="text-xs text-[#57534E]">
+                                    Sans abonnement imposé · Installé sur votre serveur
                                   </div>
                                 </div>
-                              )}
+                                <div className="text-right">
+                                  <div className="font-mono text-2xl font-black text-[#ED5B04]">
+                                    {totalPrice.toLocaleString("fr-FR")} € HT
+                                  </div>
+                                </div>
+                              </div>
                             </div>
 
                             {/* What happens next */}
                             <div className="rounded-2xl border border-[#0C0A08]/[0.08] bg-white p-5">
                               <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/55 mb-3">
-                                LA SUITE EN 3 TEMPS
+                                DÉROULEMENT APRÈS COMMANDE
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                                 <div className="rounded-xl bg-[#FAF8F5] p-3.5">
@@ -531,23 +673,23 @@ export default function CommanderPage() {
                                     Sous 24h
                                   </div>
                                   <div className="mt-1 font-medium text-[#0C0A08]">
-                                    Échange rapide & récupération de vos photos
+                                    Appel de 15 min avec Léo pour cadrer vos accès
                                   </div>
                                 </div>
                                 <div className="rounded-xl bg-[#FAF8F5] p-3.5">
                                   <div className="font-mono font-semibold text-[#ED5B04]">
-                                    J+1 à J+4
+                                    En 5 jours
                                   </div>
                                   <div className="mt-1 font-medium text-[#0C0A08]">
-                                    Création de votre maquette sur-mesure
+                                    Création du site et configuration de vos agents
                                   </div>
                                 </div>
                                 <div className="rounded-xl bg-[#FAF8F5] p-3.5">
                                   <div className="font-mono font-semibold text-[#ED5B04]">
-                                    J+5
+                                    Livraison
                                   </div>
                                   <div className="mt-1 font-medium text-[#0C0A08]">
-                                    Validation & mise en ligne à votre nom
+                                    Mise en ligne, tests mutuels et code 100 % à vous
                                   </div>
                                 </div>
                               </div>
@@ -571,7 +713,9 @@ export default function CommanderPage() {
                                 <span>
                                   {submitting
                                     ? "Transmission en cours..."
-                                    : "Réserver mon créneau offert (0 €)"}
+                                    : totalPrice === 0
+                                    ? "Réserver mon site offert (0 €)"
+                                    : `Commander mon projet (${totalPrice} € HT)`}
                                 </span>
                                 <Check className="w-4 h-4" />
                               </button>
@@ -607,15 +751,13 @@ export default function CommanderPage() {
                       </svg>
                     </div>
                     <div className="font-mono text-xs uppercase tracking-[0.12em] text-[#0E7541] font-semibold">
-                      CRÉNEAU RÉSERVÉ AVEC SUCCÈS
+                      COMMANDE ENREGISTRÉE AVEC SUCCÈS
                     </div>
                     <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[#0C0A08]">
-                      Merci {name}, votre demande est entre mes mains.
+                      Merci {name}, votre projet est entre mes mains.
                     </h2>
-                    <p className="text-[#57534E] max-w-[46ch] mx-auto">
-                      Je vous réponds personnellement sous 24h ouvrées pour lancer votre esquisse
-                      gratuite. Vous pouvez aussi bloquer un créneau de 30 min ou m&apos;envoyer
-                      votre brief en direct sur WhatsApp.
+                    <p className="text-[#57534E] max-w-[48ch] mx-auto text-sm leading-relaxed">
+                      Je vous recontacte sous 24h ouvrées pour préparer le lancement de votre site et le déploiement de vos modules ({selectedModules.map((m) => m.name).join(", ")}).
                     </p>
                     <div className="pt-4 flex flex-wrap justify-center gap-3">
                       <a
@@ -625,7 +767,7 @@ export default function CommanderPage() {
                         className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-6 py-3 text-sm font-semibold hover:bg-[#ED5B04] transition-colors active:scale-[0.97]"
                       >
                         <Calendar className="w-4 h-4" />
-                        <span>Réserver mon créneau (30 min)</span>
+                        <span>Réserver un créneau de cadrage (30 min)</span>
                       </a>
                       <a
                         href={whatsappBriefUrl}
@@ -634,7 +776,7 @@ export default function CommanderPage() {
                         className="inline-flex items-center gap-2 rounded-full bg-[#E6F8EE] border border-[#0E7541]/20 text-[#0E7541] px-6 py-3 text-sm font-semibold hover:bg-[#D5F2E2] transition-colors active:scale-[0.97]"
                       >
                         <MessageCircle className="w-4 h-4" />
-                        <span>Envoyer sur WhatsApp</span>
+                        <span>Envoyer le brief sur WhatsApp</span>
                       </a>
                       <Link
                         href="/"
@@ -648,45 +790,59 @@ export default function CommanderPage() {
               </SpecularPlate>
             </div>
 
+            {/* Sidebar Sticky Ticket */}
             <div className="lg:col-span-4 space-y-5 lg:sticky lg:top-28">
               <SpecularPlate dark className="p-7 space-y-5">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
                   <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04]">
-                    CE QUI EST GARANTI
+                    TICKET DE VOTRE PROJET
                   </div>
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-white/65">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E]" />
-                    Dispo cette semaine
+                    {selectedModules.length} module{selectedModules.length > 1 ? "s" : ""}
                   </span>
                 </div>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
+
+                <div className="space-y-2 text-xs">
+                  {selectedModules.map((m) => (
+                    <div key={m.id} className="flex items-center justify-between text-white/80">
+                      <span className="truncate pr-2">{m.name}</span>
+                      <span className="font-mono shrink-0 font-semibold text-white">
+                        {m.price === 0 ? "0 € (Offert)" : `${m.price} €`}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-3 border-t border-white/10 space-y-1.5">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-xs text-white/60">Total HT :</span>
+                    <span className="font-mono text-2xl font-bold text-[#ED5B04]">
+                      {totalPrice.toLocaleString("fr-FR")} €
+                    </span>
+                  </div>
+                  <div className="text-[11px] font-mono text-white/40">
+                    Tarif moyen agence : {totalMarketPrice.toLocaleString("fr-FR")} €
+                  </div>
+                </div>
+
+                <div className="space-y-3 pt-2 border-t border-white/10">
+                  <div className="flex items-start gap-2.5">
                     <Sparkles className="w-4 h-4 text-[#ED5B04] mt-0.5 shrink-0" />
-                    <div>
-                      <div className="text-sm font-semibold text-white">0 € de conception</div>
-                      <div className="text-xs text-white/60 mt-0.5">
-                        Aucun acompte. Vous ne réglez rien avant la mise en ligne finale.
-                      </div>
+                    <div className="text-xs text-white/70">
+                      <strong className="text-white">Site vitrine offert (0 €)</strong> sans acompte.
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-2.5">
                     <Lock className="w-4 h-4 text-[#ED5B04] mt-0.5 shrink-0" />
-                    <div>
-                      <div className="text-sm font-semibold text-white">
-                        Code source 100 % à vous
-                      </div>
-                      <div className="text-xs text-white/60 mt-0.5">
-                        Le code reste intégralement entre vos mains, sans location ni verrouillage.
-                      </div>
+                    <div className="text-xs text-white/70">
+                      <strong className="text-white">Code &amp; serveur à vous</strong>, sans abonnement imposé.
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-2.5">
                     <ShieldCheck className="w-4 h-4 text-[#ED5B04] mt-0.5 shrink-0" />
-                    <div>
-                      <div className="text-sm font-semibold text-white">Livré en 5 jours ouvrés</div>
-                      <div className="text-xs text-white/60 mt-0.5">
-                        Validation étape par étape en direct avec Léo Saillour.
-                      </div>
+                    <div className="text-xs text-white/70">
+                      <strong className="text-white">Livré en 5 jours ouvrés</strong> avec Léo Saillour.
                     </div>
                   </div>
                 </div>
@@ -696,8 +852,8 @@ export default function CommanderPage() {
                 <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/45">
                   BESOIN D&apos;UN ÉCHANGE DIRECT ?
                 </div>
-                <p className="text-sm text-[#57534E]">
-                  Préférez parler de vive voix avant de commander ?
+                <p className="text-xs text-[#57534E]">
+                  Vous hésitez sur les modules adaptés à votre activité ? Parlons-en de vive voix.
                 </p>
                 <div className="flex flex-col gap-2 pt-1">
                   <a
@@ -734,5 +890,13 @@ export default function CommanderPage() {
 
       <SiteFooter />
     </>
+  );
+}
+
+export default function CommanderPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#FAF8F5]" />}>
+      <CommanderContent />
+    </Suspense>
   );
 }
