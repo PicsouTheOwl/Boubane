@@ -6,13 +6,11 @@ import {
   motion,
   AnimatePresence,
   useMotionValue,
-  useSpring,
-  useTransform,
   useReducedMotion,
   animate,
 } from "motion/react";
 import { ArrowRight, ArrowUpRight, X } from "lucide-react";
-import { type AutomationModule } from "@/data/automations";
+import { formatAmount, type AutomationModule } from "@/data/automations";
 import { cn } from "@/lib/utils";
 
 const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
@@ -24,15 +22,6 @@ const EASE_PRESS = [0.16, 1, 0.3, 1] as const;
 const MAX_PULL_DOWN = 110;
 const MAX_PUSH_UP = 22;
 const RUBBER_CONSTANT = 0.55;
-
-/**
- * Deterministic currency formatting (avoids Node vs browser locale space mismatch during hydration).
- */
-function formatAmount(value: number): string {
-  return Math.round(value)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, "\u00A0");
-}
 
 function rubberbandOffset(drag: number, size: number): number {
   return (1 - 1 / ((drag * RUBBER_CONSTANT) / size + 1)) * size;
@@ -123,7 +112,7 @@ export interface AtelierProjectSummaryProps {
 }
 
 /**
- * Compact Warm Atelier thermal printer unit with a clean, airy hanging paper receipt.
+ * Minimal matte printer cap with a calm, airy hanging paper receipt.
  */
 export function AtelierProjectSummary({
   selectedModules,
@@ -132,7 +121,6 @@ export function AtelierProjectSummary({
   onRemoveModule,
 }: AtelierProjectSummaryProps) {
   const prefersReducedMotion = !!useReducedMotion();
-  const [isHovered, setIsHovered] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
 
   const hasMountedRef = useRef(false);
@@ -150,15 +138,6 @@ export function AtelierProjectSummary({
     velocity: 0,
   });
 
-  // Subtle 3D tilt & bezel specular sheen (desktop mouse only)
-  const rawTiltX = useMotionValue(0.5);
-  const rawTiltY = useMotionValue(0.5);
-  const springTiltX = useSpring(rawTiltX, { stiffness: 180, damping: 24 });
-  const springTiltY = useSpring(rawTiltY, { stiffness: 180, damping: 24 });
-  const rotateX = useTransform(springTiltY, [0, 1], [3.5, -3.5]);
-  const rotateY = useTransform(springTiltX, [0, 1], [-3.5, 3.5]);
-  const sheenX = useTransform(springTiltX, [0, 1], ["15%", "85%"]);
-
   const totalPrice = selectedModules.reduce((sum, m) => sum + m.price, 0);
   const totalMarketPrice = selectedModules.reduce(
     (sum, m) => sum + m.marketPrice,
@@ -173,7 +152,7 @@ export function AtelierProjectSummary({
     };
   }, []);
 
-  // Secondary action (amber print LED) + follow-through feed impulse when modules change
+  // Secondary action (amber print LED) + gentle velocity feed follow-through on module count change
   useEffect(() => {
     const prev = prevCountRef.current;
     const next = selectedModules.length;
@@ -193,29 +172,10 @@ export function AtelierProjectSummary({
         type: "spring",
         stiffness: delta > 0 ? 260 : 280,
         damping: delta > 0 ? 19 : 22,
-        velocity: delta > 0 ? 150 : -95,
+        velocity: delta > 0 ? 140 : -90,
       });
     }
   }, [selectedModules.length, prefersReducedMotion, paperY]);
-
-  const handleContainerPointerMove = (
-    e: React.PointerEvent<HTMLDivElement>
-  ) => {
-    if (prefersReducedMotion || e.pointerType !== "mouse") return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    const nx = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    const ny = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
-    rawTiltX.set(nx);
-    rawTiltY.set(ny);
-    if (!isHovered) setIsHovered(true);
-  };
-
-  const handleContainerPointerLeave = () => {
-    setIsHovered(false);
-    rawTiltX.set(0.5);
-    rawTiltY.set(0.5);
-  };
 
   // Interruptible rubber-band tug on the hanging receipt (desktop mouse only)
   const handlePaperPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -294,95 +254,30 @@ export function AtelierProjectSummary({
   };
 
   return (
-    <motion.div
-      onPointerMove={handleContainerPointerMove}
-      onPointerLeave={handleContainerPointerLeave}
-      style={
-        prefersReducedMotion
-          ? undefined
-          : {
-              rotateX,
-              rotateY,
-              transformPerspective: 1000,
-            }
-      }
-      className="w-full max-w-[400px] mx-auto lg:ml-auto lg:mr-0 will-change-transform"
-    >
-      {/* Layer 1: Compact Printer Hardware Unit */}
-      <div className="relative z-10 overflow-hidden rounded-[24px] p-3.5 pb-6 bg-gradient-to-b from-[#F5F2EC] via-[#ECE7DE] to-[#E3DDD2] border border-[#0C0A08]/[0.1] shadow-[0_1px_2px_rgba(12,10,8,0.05),0_18px_38px_-18px_rgba(12,10,8,0.18),inset_0_1px_0_rgba(255,255,255,0.92)]">
-        {/* Whisper-quiet specular sheen tracking pointer on printer bezel */}
-        {!prefersReducedMotion && (
-          <motion.div
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-24 -translate-x-1/2 w-56 h-48 rounded-full transition-opacity duration-200"
-            style={{
-              left: sheenX,
-              opacity: isHovered ? 0.55 : 0,
-              background:
-                "radial-gradient(circle, rgba(255,255,255,0.75) 0%, transparent 70%)",
-            }}
-          />
-        )}
-
-        {/* Top Hardware Header */}
-        <div className="relative flex items-center justify-between gap-3 pb-3 px-0.5">
-          <div className="w-9 h-9 rounded-[11px] bg-white border border-[#0C0A08]/[0.08] shadow-[0_1px_2px_rgba(12,10,8,0.06),inset_0_1px_0_#fff] flex items-center justify-center shrink-0">
-            <img
-              src="/assets/boubane-logo.png"
-              alt="Boubane"
-              width={20}
-              height={20}
-              className="w-5 h-5 object-contain"
-            />
-          </div>
-
-          {mode === "configurator" ? (
-            <motion.div
-              whileTap={
-                prefersReducedMotion
-                  ? undefined
-                  : { scaleX: 1.03, scaleY: 0.94, y: 1.5 }
-              }
-              transition={{ duration: 0.11, ease: EASE_PRESS }}
-            >
-              <Link
-                href={orderUrl || "/commander"}
-                className="group min-h-[44px] inline-flex items-center gap-2 rounded-[12px] bg-[#ED5B04] hover:bg-[#D64E00] text-white pl-4 pr-2.5 py-2 text-[13px] font-semibold transition-colors duration-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_2px_0_#B84400,0_10px_20px_-8px_rgba(237,91,4,0.48)]"
-              >
-                <span>{totalPrice === 0 ? "Lancer à 0 €" : "Commander"}</span>
-                <span className="w-6 h-6 rounded-[8px] bg-black/15 flex items-center justify-center">
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5" />
-                </span>
-              </Link>
-            </motion.div>
-          ) : (
-            <div className="min-h-[32px] inline-flex items-center gap-2 rounded-full bg-white/85 border border-[#0C0A08]/[0.08] px-3 py-1 font-mono text-[11px] text-[#0C0A08]/75">
-              <motion.span
-                aria-hidden="true"
-                animate={{
-                  scale: isPrinting && !prefersReducedMotion ? 1.25 : 1,
-                  backgroundColor: isPrinting ? "#ED5B04" : "#16A34A",
-                }}
-                transition={{ type: "spring", stiffness: 360, damping: 22 }}
-                className="inline-block w-2 h-2 rounded-full"
+    <div className="w-full max-w-[380px] mx-auto lg:ml-auto lg:mr-0">
+      {/* Layer 1: Minimal Matte Printer Cap */}
+      <div className="relative z-10 rounded-[20px] px-4 pt-3.5 pb-5 bg-[#EFECE5] border border-[#0C0A08]/[0.09] shadow-[0_12px_28px_-16px_rgba(12,10,8,0.14),inset_0_1px_0_rgba(255,255,255,0.85)]">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-[9px] bg-white border border-[#0C0A08]/[0.08] flex items-center justify-center shrink-0">
+              <img
+                src="/assets/boubane-logo.png"
+                alt="Boubane"
+                width={18}
+                height={18}
+                className="w-[18px] h-[18px] object-contain"
               />
-              <span>En direct</span>
             </div>
-          )}
-        </div>
 
-        {/* Compact Recessed LCD Screen */}
-        <div className="relative rounded-[14px] bg-white border border-[#0C0A08]/[0.08] px-4 py-3 shadow-[inset_0_1px_3px_rgba(12,10,8,0.07),0_1px_0_rgba(255,255,255,0.85)]">
-          <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <div className="text-[14px] font-semibold tracking-[-0.02em] text-[#0C0A08] leading-tight truncate">
-                Votre projet
+              <div className="text-[13px] font-semibold tracking-[-0.02em] text-[#0C0A08] leading-tight truncate">
+                Votre ticket
               </div>
-              <div className="flex items-center gap-1.5 text-[12px] text-[#78716C] mt-0.5 tabular-nums">
+              <div className="flex items-center gap-1.5 text-[11.5px] text-[#78716C] mt-0.5 tabular-nums">
                 <motion.span
                   aria-hidden="true"
                   animate={{
-                    scale: isPrinting && !prefersReducedMotion ? 1.35 : 1,
+                    scale: isPrinting && !prefersReducedMotion ? 1.3 : 1,
                     backgroundColor: isPrinting ? "#ED5B04" : "#16A34A",
                   }}
                   transition={{ type: "spring", stiffness: 360, damping: 22 }}
@@ -394,35 +289,42 @@ export function AtelierProjectSummary({
                 </span>
               </div>
             </div>
-
-            <div className="text-right shrink-0">
-              <div className="text-[10.5px] font-mono uppercase tracking-[0.08em] text-[#A8A29E] leading-tight">
-                Total HT
-              </div>
-              <div className="mt-0.5 flex items-baseline justify-end">
-                <RollingNumber
-                  value={totalPrice}
-                  reducedMotion={prefersReducedMotion}
-                  className="font-mono text-[1.35rem] font-bold tracking-[-0.03em] text-[#0C0A08]"
-                />
-                <span className="font-mono text-[1.1rem] font-bold text-[#0C0A08] ml-1">
-                  €
-                </span>
-              </div>
-            </div>
           </div>
+
+          {mode === "configurator" ? (
+            <motion.div
+              whileTap={
+                prefersReducedMotion
+                  ? undefined
+                  : { scaleX: 1.02, scaleY: 0.95, y: 1 }
+              }
+              transition={{ duration: 0.11, ease: EASE_PRESS }}
+            >
+              <Link
+                href={orderUrl || "/commander"}
+                className="group min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#ED5B04] hover:bg-[#D64E00] text-white pl-4 pr-3.5 py-2 text-[13px] font-semibold transition-colors duration-150 shadow-[0_8px_20px_-8px_rgba(237,91,4,0.45)]"
+              >
+                <span>{totalPrice === 0 ? "Lancer à 0 €" : "Commander"}</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5" />
+              </Link>
+            </motion.div>
+          ) : (
+            <span className="rounded-full bg-white/80 border border-[#0C0A08]/[0.08] px-2.5 py-1 font-mono text-[10.5px] text-[#57534E] shrink-0">
+              En direct
+            </span>
+          )}
         </div>
 
-        {/* Recessed Paper Ejection Slot */}
+        {/* Slim Recessed Ejection Slot */}
         <div
           aria-hidden="true"
-          className="absolute bottom-2.5 inset-x-5 h-2 rounded-full bg-[#151311] shadow-[inset_0_1px_3px_rgba(0,0,0,0.95),0_1px_0_rgba(255,255,255,0.75)]"
+          className="absolute bottom-2 inset-x-4 h-[6px] rounded-full bg-[#1C1917] shadow-[inset_0_1px_2px_rgba(0,0,0,0.85)]"
         />
       </div>
 
-      {/* Layer 2: Slot-Masked Airy Thermal Receipt Paper */}
-      <div className="relative z-20 w-[86%] mx-auto -mt-3 [clip-path:inset(0_-32px_-56px_-32px)]">
-        {/* Fixed slot exit cast-shadow (stays stationary while paper feeds/tugs beneath) */}
+      {/* Layer 2: Slot-Masked Clean Hanging Paper Receipt */}
+      <div className="relative z-20 w-[88%] mx-auto -mt-2.5 [clip-path:inset(0_-28px_-48px_-28px)]">
+        {/* Fixed slot exit cast-shadow */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-3.5 z-10 bg-gradient-to-b from-[#0C0A08]/[0.14] via-[#0C0A08]/[0.04] to-transparent"
@@ -431,7 +333,7 @@ export function AtelierProjectSummary({
         {/* One-time slot entrance wrapper */}
         <motion.div
           initial={
-            prefersReducedMotion ? { opacity: 0 } : { y: -24, opacity: 0 }
+            prefersReducedMotion ? { opacity: 0 } : { y: -22, opacity: 0 }
           }
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true, amount: 0.15 }}
@@ -453,25 +355,21 @@ export function AtelierProjectSummary({
               !prefersReducedMotion && "cursor-grab active:cursor-grabbing"
             )}
           >
-            {/* Hidden reserve paper roll tucked inside printer slot for downward pull continuity */}
+            {/* Hidden reserve paper roll tucked inside printer slot */}
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -top-20 inset-x-0 h-20 bg-[#FFFDF9] border-x border-[#0C0A08]/[0.06]"
             />
 
             <div className="relative bg-[#FFFDF9] text-[#0C0A08] border-x border-[#0C0A08]/[0.06] px-5 pt-6 pb-5">
-              {/* Minimal Header */}
-              <div className="flex items-baseline justify-between pb-4 border-b border-dashed border-[#0C0A08]/15">
-                <span className="font-[family-name:var(--font-jakarta)] text-[14px] font-bold tracking-[-0.02em] text-[#0C0A08]">
-                  Boubane
-                </span>
-                <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[#A8A29E]">
-                  Prix fixes
-                </span>
+              {/* Ultra-Quiet Header */}
+              <div className="flex items-center justify-between pb-3.5 border-b border-dashed border-[#0C0A08]/12 font-mono text-[10px] uppercase tracking-[0.12em] text-[#A8A29E]">
+                <span>Boubane</span>
+                <span>Prix fixes</span>
               </div>
 
-              {/* Spacious Line Items */}
-              <div className="py-4 border-b border-dashed border-[#0C0A08]/15">
+              {/* Clean Line Items */}
+              <div className="py-3.5 border-b border-dashed border-[#0C0A08]/12">
                 <AnimatePresence initial={false}>
                   {selectedModules.map((m, index) => {
                     const isFree = m.price === 0;
@@ -526,11 +424,11 @@ export function AtelierProjectSummary({
                             <span className="font-mono text-[12.5px] tabular-nums">
                               {isFree ? (
                                 <span className="font-semibold text-[#0E7541]">
-                                  0 €
+                                  0&nbsp;€
                                 </span>
                               ) : (
                                 <span className="font-semibold text-[#0C0A08]">
-                                  {formatAmount(m.price)} €
+                                  {formatAmount(m.price)}&nbsp;€
                                 </span>
                               )}
                             </span>
@@ -555,47 +453,44 @@ export function AtelierProjectSummary({
                 </AnimatePresence>
               </div>
 
-              {/* Clean Minimal Totals (crisp ink total so primary CTA stays Von Restorff standout) */}
-              <div className="pt-4 space-y-2">
-                <div className="flex items-center justify-between text-[12px] text-[#78716C]">
-                  <span>Livraison</span>
-                  <span className="font-mono text-[#0C0A08]/80">5 jours</span>
-                </div>
-
-                <div className="flex items-baseline justify-between pt-1">
-                  <span className="text-[13px] font-semibold text-[#0C0A08]">
+              {/* Single Total Block */}
+              <div className="pt-4">
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className="text-[13px] font-medium text-[#57534E]">
                     Total HT
                   </span>
                   <div className="flex items-baseline">
                     <RollingNumber
                       value={totalPrice}
                       reducedMotion={prefersReducedMotion}
-                      className="font-mono text-[1.25rem] font-extrabold tracking-[-0.02em] text-[#0C0A08]"
+                      className="font-mono text-[1.45rem] font-extrabold tracking-[-0.03em] text-[#0C0A08]"
                     />
-                    <span className="font-mono text-[1.15rem] font-extrabold text-[#0C0A08] ml-1">
+                    <span className="font-mono text-[1.2rem] font-extrabold text-[#0C0A08] ml-1">
                       €
                     </span>
                   </div>
                 </div>
 
-                {totalEconomy > 0 && (
-                  <div className="flex items-center justify-between text-[11px] font-mono text-[#0E7541] pt-0.5 tabular-nums">
-                    <span>vs agences ({formatAmount(totalMarketPrice)} €)</span>
-                    <span>&minus;{formatAmount(totalEconomy)} €</span>
-                  </div>
-                )}
+                <div className="mt-1.5 flex items-center justify-between gap-2 text-[11.5px] text-[#78716C]">
+                  <span>Livré en 5 jours</span>
+                  {totalEconomy > 0 && (
+                    <span className="font-mono text-[#0E7541] tabular-nums">
+                      &minus;{formatAmount(totalEconomy)}&nbsp;€ vs agence
+                    </span>
+                  )}
+                </div>
               </div>
 
-              {/* Minimal 1-line Footer */}
-              <div className="mt-5 pt-3.5 border-t border-dashed border-[#0C0A08]/12 text-center font-mono text-[10.5px] text-[#A8A29E]">
-                Sans acompte · Code 100 % à vous
+              {/* Calm 1-line Footer */}
+              <div className="mt-4 pt-3 border-t border-dashed border-[#0C0A08]/10 text-center text-[11px] text-[#A8A29E]">
+                Sans acompte · Code à vous
               </div>
             </div>
 
-            {/* Crisp Serrated Zig-Zag Paper Bottom Edge */}
+            {/* Flush Subtle Serrated Zig-Zag Paper Bottom Edge */}
             <div
               aria-hidden="true"
-              className="h-3 w-full overflow-hidden leading-none pointer-events-none"
+              className="h-2.5 w-full overflow-hidden leading-none pointer-events-none"
             >
               <svg
                 className="block w-full h-full text-[#FFFDF9] fill-current"
@@ -609,20 +504,20 @@ export function AtelierProjectSummary({
         </motion.div>
       </div>
 
-      {/* Subtle Secondary Visio Link below the hanging receipt */}
+      {/* Subtle Secondary Visio Link */}
       {mode === "configurator" && (
-        <div className="mt-5 text-center">
+        <div className="mt-4 text-center">
           <a
             href="https://rdv.boubane.com/boubane/30min"
             target="_blank"
             rel="noopener noreferrer"
             className="min-h-[44px] px-4 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#78716C] hover:text-[#0C0A08] transition-colors"
           >
-            <span>Ou valider en visio (30 min)</span>
+            <span>Ou en discuter en visio (30 min)</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </a>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 }

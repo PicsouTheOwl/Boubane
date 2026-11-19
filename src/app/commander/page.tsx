@@ -19,6 +19,7 @@ import {
   MapPin,
   MessageCircle,
   PhoneCall,
+  Plus,
   Receipt,
   Sparkles,
   Store,
@@ -28,8 +29,12 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { AtelierReveal } from "@/components/AtelierPrimitives";
 import { AtelierProjectSummary } from "@/components/AtelierProjectSummary";
-import { ATELIER_EASE, ATELIER_SPRING } from "@/lib/utils";
-import { AUTOMATION_MODULES } from "@/data/automations";
+import { ATELIER_EASE, ATELIER_SPRING, cn } from "@/lib/utils";
+import {
+  AUTOMATION_MODULES,
+  formatAmount,
+  type AutomationModule,
+} from "@/data/automations";
 
 const ICON_MAP = {
   Globe,
@@ -39,6 +44,87 @@ const ICON_MAP = {
   PhoneCall,
   Users,
 };
+
+function StepModuleContent({
+  mod,
+  isBase,
+  isSelected,
+}: {
+  mod: AutomationModule;
+  isBase: boolean;
+  isSelected: boolean;
+}) {
+  const Icon = ICON_MAP[mod.iconName];
+
+  return (
+    <>
+      <span
+        className={cn(
+          "w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 transition-colors duration-150",
+          isBase
+            ? "bg-[#E6F8EE] text-[#0E7541]"
+            : isSelected
+              ? "bg-[#0C0A08] text-white"
+              : "bg-white border border-[#0C0A08]/[0.08] text-[#57534E] group-hover:text-[#0C0A08]"
+        )}
+      >
+        <Icon className="w-[18px] h-[18px]" strokeWidth={1.9} />
+      </span>
+
+      <span className="min-w-0 flex-1 block">
+        <span className="flex items-baseline gap-2 flex-wrap">
+          <span className="font-[family-name:var(--font-jakarta)] text-[15px] font-semibold tracking-[-0.02em] text-[#0C0A08]">
+            {mod.name}
+          </span>
+          <span className="hidden sm:inline text-[12px] text-[#78716C]">
+            &middot; {mod.metric}
+          </span>
+        </span>
+        <span className="block mt-0.5 text-[13px] text-[#57534E] leading-snug">
+          {mod.description}
+        </span>
+      </span>
+
+      <span className="text-right shrink-0 pl-1 block">
+        {isBase ? (
+          <>
+            <span className="block font-mono text-[14px] font-bold text-[#0E7541] tabular-nums">
+              0&nbsp;€
+            </span>
+            <span className="block text-[11px] text-[#0E7541]/80">Offert</span>
+          </>
+        ) : (
+          <>
+            <span className="block font-mono text-[14.5px] font-bold text-[#0C0A08] tabular-nums">
+              {formatAmount(mod.price)}&nbsp;€
+            </span>
+            <span className="block font-mono text-[11px] line-through text-[#A8A29E] tabular-nums">
+              {formatAmount(mod.marketPrice)}&nbsp;€
+            </span>
+          </>
+        )}
+      </span>
+
+      <span
+        aria-hidden="true"
+        className={cn(
+          "w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors duration-150",
+          isBase
+            ? "bg-[#E6F8EE] text-[#0E7541]"
+            : isSelected
+              ? "bg-[#0C0A08] text-white"
+              : "border border-[#0C0A08]/20 text-[#0C0A08]/45 group-hover:border-[#0C0A08]/60 group-hover:text-[#0C0A08]"
+        )}
+      >
+        {isBase || isSelected ? (
+          <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
+        ) : (
+          <Plus className="w-3.5 h-3.5" strokeWidth={2} />
+        )}
+      </span>
+    </>
+  );
+}
 
 const TRADES = [
   { label: "Artisan / BTP (Menuisier, Couvreur, Maçon…)", icon: Hammer },
@@ -279,87 +365,60 @@ function CommanderContent() {
                           >
                             {/* Choix des Modules */}
                             <div>
-                              <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center justify-between gap-3 mb-3">
                                 <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 font-semibold">
                                   01. Choisissez vos modules
                                 </label>
-                                <span className="font-mono text-[11px] text-[#ED5B04] font-semibold">
-                                  Site offert (0 €) · Options IA dès 390 €
+                                <span className="font-mono text-[11px] text-[#78716C]">
+                                  Site à 0&nbsp;€ · Options à prix fixe
                                 </span>
                               </div>
 
-                              <div className="space-y-3">
+                              <div className="space-y-2.5">
                                 {AUTOMATION_MODULES.map((mod) => {
                                   const isSelected = selectedModuleIds.includes(mod.id);
                                   const isBase = mod.id === "site-web";
-                                  const Icon = ICON_MAP[mod.iconName];
+                                  const baseRowClasses =
+                                    "rounded-[16px] px-4 py-3.5 sm:px-5 sm:py-4 flex items-center gap-3.5 sm:gap-4";
+
+                                  if (isBase) {
+                                    return (
+                                      <div
+                                        key={mod.id}
+                                        className={cn(
+                                          baseRowClasses,
+                                          "cursor-default bg-[#FAF8F5] border border-[#0C0A08]/[0.08]"
+                                        )}
+                                      >
+                                        <StepModuleContent
+                                          mod={mod}
+                                          isBase={true}
+                                          isSelected={true}
+                                        />
+                                      </div>
+                                    );
+                                  }
 
                                   return (
-                                    <div
+                                    <button
                                       key={mod.id}
+                                      type="button"
+                                      aria-pressed={isSelected}
                                       onClick={() => toggleModule(mod.id)}
-                                      className={`flex items-start justify-between gap-4 p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer ${
+                                      className={cn(
+                                        baseRowClasses,
+                                        "group w-full text-left cursor-pointer active:scale-[0.992] transition-all duration-150",
                                         isSelected
-                                          ? "border-[#ED5B04] bg-[#FFFDF9] shadow-[0_8px_24px_rgba(237,91,4,0.1)] ring-1 ring-[#ED5B04]"
-                                          : "border-[#E7E3DC] bg-[#FAF8F5] hover:border-[#0C0A08]/30 hover:bg-white hover:shadow-sm"
-                                      }`}
+                                          ? "bg-white border border-[#0C0A08]/35 shadow-[0_6px_20px_-10px_rgba(12,10,8,0.1)]"
+                                          : "bg-[#FAF8F5]/75 hover:bg-white border border-[#0C0A08]/[0.08] hover:border-[#0C0A08]/20"
+                                      )}
                                     >
-                                      <div className="flex items-start gap-3.5 min-w-0">
-                                        <span
-                                          className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
-                                            isSelected
-                                              ? "bg-[#ED5B04] text-white shadow-[0_4px_12px_rgba(237,91,4,0.25)]"
-                                              : "bg-white border border-[#E7E3DC] text-[#57534E]"
-                                          }`}
-                                        >
-                                          <Icon className="w-5 h-5" />
-                                        </span>
-                                        <div className="min-w-0">
-                                          <div className="text-xs font-mono italic text-[#78716C] mb-0.5">
-                                            {mod.hook}
-                                          </div>
-                                          <div className="flex items-center gap-2 flex-wrap">
-                                            <span className="font-bold text-[#0C0A08] text-base leading-snug">
-                                              {mod.name}
-                                            </span>
-                                            {isBase && (
-                                              <span className="px-2 py-0.5 rounded-full bg-[#E6F8EE] text-[#0E7541] font-mono text-[10px] font-bold">
-                                                0 € INCLUS
-                                              </span>
-                                            )}
-                                          </div>
-                                          <p className="text-xs text-[#57534E] leading-relaxed mt-1">
-                                            {mod.description}
-                                          </p>
-                                          <div className="mt-2 flex items-center gap-3 text-[11px] font-mono text-[#0C0A08]/60">
-                                            <span>{mod.metric}</span>
-                                            {!isBase && (
-                                              <>
-                                                <span>·</span>
-                                                <span className="line-through text-[#A8A29E]">
-                                                  Tarif agence : {mod.marketPrice} €
-                                                </span>
-                                              </>
-                                            )}
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div className="shrink-0 flex flex-col items-end gap-2 text-right">
-                                        <div className="font-mono text-sm sm:text-base font-extrabold text-[#0C0A08]">
-                                          {mod.price === 0 ? "0 €" : `+${mod.price} €`}
-                                        </div>
-                                        <span
-                                          className={`w-6 h-6 rounded-full flex items-center justify-center border transition-colors ${
-                                            isSelected
-                                              ? "border-[#ED5B04] bg-[#ED5B04] text-white"
-                                              : "border-[#0C0A08]/20 bg-white text-transparent"
-                                          }`}
-                                        >
-                                          <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
-                                        </span>
-                                      </div>
-                                    </div>
+                                      <StepModuleContent
+                                        mod={mod}
+                                        isBase={false}
+                                        isSelected={isSelected}
+                                      />
+                                    </button>
                                   );
                                 })}
                               </div>

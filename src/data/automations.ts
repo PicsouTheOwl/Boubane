@@ -5,21 +5,29 @@ export interface AutomationModule {
   description: string;
   metric: string;
   price: number;
-  marketPrice: number; // Prix agence concurrente type Mushrooms
+  marketPrice: number; // Tarif moyen constaté en agence
   iconName: "Globe" | "Mail" | "Receipt" | "BarChart3" | "PhoneCall" | "Users";
   includedByDefault?: boolean;
   isFree?: boolean;
   category: "site" | "ia";
 }
 
+/**
+ * Deterministic currency formatting (avoids Node vs browser locale space mismatch during SSR hydration).
+ */
+export function formatAmount(value: number): string {
+  return Math.round(value)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, "\u00A0");
+}
+
 export const AUTOMATION_MODULES: AutomationModule[] = [
   {
     id: "site-web",
-    hook: "« Mon site actuel est lent ou inexistant »",
-    name: "Site Web Vitrine Haute Précision",
-    description:
-      "Un site moderne, ultra-rapide sur mobile, pensé pour générer des appels et demandes de devis. Écrit directement avec vous.",
-    metric: "Livré en 5 jours ouvrés",
+    hook: "Présence en ligne",
+    name: "Site vitrine",
+    description: "Design sur mesure, rapide sur mobile, livré en 5 jours.",
+    metric: "Livré en 5 jours",
     price: 0,
     marketPrice: 2400,
     iconName: "Globe",
@@ -29,11 +37,10 @@ export const AUTOMATION_MODULES: AutomationModule[] = [
   },
   {
     id: "assistant-mails",
-    hook: "« Je croule sous les mails et demandes »",
-    name: "Assistant Mails & Réponses IA",
-    description:
-      "Vos emails entrants triés par priorité et vos réponses préparées en brouillon. Vous relisez, vous validez : rien ne part sans votre accord.",
-    metric: "≈ 300 h par an récupérées",
+    hook: "Boîte de réception",
+    name: "Assistant mails",
+    description: "Mails triés et brouillons prêts. Vous validez avant envoi.",
+    metric: "~300 h / an gagnées",
     price: 390,
     marketPrice: 1900,
     iconName: "Mail",
@@ -41,11 +48,10 @@ export const AUTOMATION_MODULES: AutomationModule[] = [
   },
   {
     id: "facturation-relances",
-    hook: "« Mes relances de devis et factures traînent »",
-    name: "Facturation & Relances Automatiques",
-    description:
-      "Devis accepté automatiquement converti en facture, relances des impayés programmées avec tact et suivi bancaire synchronisé.",
-    metric: "1 à 3 jours par mois sauvés",
+    hook: "Trésorerie",
+    name: "Facturation & relances",
+    description: "Devis convertis en factures et relances d'impayés automatiques.",
+    metric: "1 à 3 j / mois sauvés",
     price: 390,
     marketPrice: 1800,
     iconName: "Receipt",
@@ -53,11 +59,10 @@ export const AUTOMATION_MODULES: AutomationModule[] = [
   },
   {
     id: "tableau-bord",
-    hook: "« Je n'ai aucune vue directe sur mes chiffres »",
-    name: "Tableau de Bord & Trésorerie Directe",
-    description:
-      "Tous vos chiffres (entrées, devis en cours, factures en attente, solde) au même endroit en temps réel, sans aucune double saisie.",
-    metric: "Vos chiffres clés en 10 secondes",
+    hook: "Pilotage",
+    name: "Tableau de bord",
+    description: "CA, devis en cours et trésorerie réunis sur un seul écran.",
+    metric: "Chiffres en direct",
     price: 590,
     marketPrice: 2900,
     iconName: "BarChart3",
@@ -65,11 +70,10 @@ export const AUTOMATION_MODULES: AutomationModule[] = [
   },
   {
     id: "assistant-vocal",
-    hook: "« Je rate des appels sur chantier ou en clientèle »",
-    name: "Assistant Vocal Téléphonique 24/7",
-    description:
-      "Un agent vocal décroche avec une voix naturelle, qualifie la demande (urgence, coordonnées, type de travaux) et vous transmet le résumé par SMS/WhatsApp.",
-    metric: "Zéro prospect perdu",
+    hook: "Standard 24/7",
+    name: "Assistant vocal",
+    description: "Décroche vos appels manqués, qualifie et résume par SMS.",
+    metric: "Zéro appel perdu",
     price: 690,
     marketPrice: 2600,
     iconName: "PhoneCall",
@@ -77,11 +81,10 @@ export const AUTOMATION_MODULES: AutomationModule[] = [
   },
   {
     id: "crm-sur-mesure",
-    hook: "« Je note tout sur des carnets ou WhatsApp »",
-    name: "CRM Métier & Suivi Chantiers",
-    description:
-      "Un espace centralisé taillé pour votre façon de travailler : fiches clients, historique des échanges, devis et statut des chantiers sans usine à gaz.",
-    metric: "Fin définitive de la double saisie",
+    hook: "Suivi clients",
+    name: "CRM sur mesure",
+    description: "Clients, chantiers et devis centralisés sans double saisie.",
+    metric: "Zéro ressaisie",
     price: 790,
     marketPrice: 3900,
     iconName: "Users",
