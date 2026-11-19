@@ -7,124 +7,24 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowLeft,
   ArrowRight,
-  BarChart3,
   BedDouble,
   Briefcase,
   Building2,
   Calendar,
   Check,
-  Globe,
   Hammer,
-  Mail,
   MapPin,
   MessageCircle,
-  PhoneCall,
-  Plus,
-  Receipt,
   Sparkles,
   Store,
-  Users,
 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { AtelierReveal } from "@/components/AtelierPrimitives";
+import { AtelierModuleList } from "@/components/AtelierModuleList";
 import { AtelierProjectSummary } from "@/components/AtelierProjectSummary";
-import { ATELIER_EASE, ATELIER_SPRING, cn } from "@/lib/utils";
-import {
-  AUTOMATION_MODULES,
-  formatAmount,
-  type AutomationModule,
-} from "@/data/automations";
-
-const ICON_MAP = {
-  Globe,
-  Mail,
-  Receipt,
-  BarChart3,
-  PhoneCall,
-  Users,
-};
-
-function StepModuleContent({
-  mod,
-  isBase,
-  isSelected,
-}: {
-  mod: AutomationModule;
-  isBase: boolean;
-  isSelected: boolean;
-}) {
-  const Icon = ICON_MAP[mod.iconName];
-
-  return (
-    <>
-      <span
-        className={cn(
-          "w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 transition-colors duration-150",
-          isBase
-            ? "bg-[#E6F8EE] text-[#0E7541]"
-            : isSelected
-              ? "bg-[#0C0A08] text-white"
-              : "bg-white border border-[#0C0A08]/[0.08] text-[#57534E] group-hover:text-[#0C0A08]"
-        )}
-      >
-        <Icon className="w-[18px] h-[18px]" strokeWidth={1.9} />
-      </span>
-
-      <span className="min-w-0 flex-1 block">
-        <span className="flex items-baseline gap-2 flex-wrap">
-          <span className="font-[family-name:var(--font-jakarta)] text-[15px] font-semibold tracking-[-0.02em] text-[#0C0A08]">
-            {mod.name}
-          </span>
-          <span className="hidden sm:inline text-[12px] text-[#78716C]">
-            &middot; {mod.metric}
-          </span>
-        </span>
-        <span className="block mt-0.5 text-[13px] text-[#57534E] leading-snug">
-          {mod.description}
-        </span>
-      </span>
-
-      <span className="text-right shrink-0 pl-1 block">
-        {isBase ? (
-          <>
-            <span className="block font-mono text-[14px] font-bold text-[#0E7541] tabular-nums">
-              0&nbsp;€
-            </span>
-            <span className="block text-[11px] text-[#0E7541]/80">Offert</span>
-          </>
-        ) : (
-          <>
-            <span className="block font-mono text-[14.5px] font-bold text-[#0C0A08] tabular-nums">
-              {formatAmount(mod.price)}&nbsp;€
-            </span>
-            <span className="block font-mono text-[11px] line-through text-[#A8A29E] tabular-nums">
-              {formatAmount(mod.marketPrice)}&nbsp;€
-            </span>
-          </>
-        )}
-      </span>
-
-      <span
-        aria-hidden="true"
-        className={cn(
-          "w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors duration-150",
-          isBase
-            ? "bg-[#E6F8EE] text-[#0E7541]"
-            : isSelected
-              ? "bg-[#0C0A08] text-white"
-              : "border border-[#0C0A08]/20 text-[#0C0A08]/45 group-hover:border-[#0C0A08]/60 group-hover:text-[#0C0A08]"
-        )}
-      >
-        {isBase || isSelected ? (
-          <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
-        ) : (
-          <Plus className="w-3.5 h-3.5" strokeWidth={2} />
-        )}
-      </span>
-    </>
-  );
-}
+import { ATELIER_EASE, ATELIER_SPRING } from "@/lib/utils";
+import { AUTOMATION_MODULES } from "@/data/automations";
 
 const TRADES = [
   { label: "Artisan / BTP (Menuisier, Couvreur, Maçon…)", icon: Hammer },
@@ -374,54 +274,11 @@ function CommanderContent() {
                                 </span>
                               </div>
 
-                              <div className="space-y-2.5">
-                                {AUTOMATION_MODULES.map((mod) => {
-                                  const isSelected = selectedModuleIds.includes(mod.id);
-                                  const isBase = mod.id === "site-web";
-                                  const baseRowClasses =
-                                    "rounded-[16px] px-4 py-3.5 sm:px-5 sm:py-4 flex items-center gap-3.5 sm:gap-4";
-
-                                  if (isBase) {
-                                    return (
-                                      <div
-                                        key={mod.id}
-                                        className={cn(
-                                          baseRowClasses,
-                                          "cursor-default bg-[#FAF8F5] border border-[#0C0A08]/[0.08]"
-                                        )}
-                                      >
-                                        <StepModuleContent
-                                          mod={mod}
-                                          isBase={true}
-                                          isSelected={true}
-                                        />
-                                      </div>
-                                    );
-                                  }
-
-                                  return (
-                                    <button
-                                      key={mod.id}
-                                      type="button"
-                                      aria-pressed={isSelected}
-                                      onClick={() => toggleModule(mod.id)}
-                                      className={cn(
-                                        baseRowClasses,
-                                        "group w-full text-left cursor-pointer active:scale-[0.992] transition-all duration-150",
-                                        isSelected
-                                          ? "bg-white border border-[#0C0A08]/35 shadow-[0_6px_20px_-10px_rgba(12,10,8,0.1)]"
-                                          : "bg-[#FAF8F5]/75 hover:bg-white border border-[#0C0A08]/[0.08] hover:border-[#0C0A08]/20"
-                                      )}
-                                    >
-                                      <StepModuleContent
-                                        mod={mod}
-                                        isBase={false}
-                                        isSelected={isSelected}
-                                      />
-                                    </button>
-                                  );
-                                })}
-                              </div>
+                              <AtelierModuleList
+                                selectedIds={selectedModuleIds}
+                                onToggle={toggleModule}
+                                compact
+                              />
                             </div>
 
                             {/* Secteur */}

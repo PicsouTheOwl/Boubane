@@ -12,12 +12,8 @@ const FAQ_ITEMS = [
     a: "Oui, vous réglez 0 € d'honoraires pour le design et le développement. Vos seuls frais sont techniques : nom de domaine (~10 € / an) et hébergement (~5 € / mois), payés directement chez OVH, Hostinger ou Vercel.",
   },
   {
-    q: "Pourquoi le site est à 0 € alors que les automatisations IA sont payantes ?",
-    a: "Le site vitrine est ma porte d'entrée : je le conçois rapidement et avec exigence pour vous prouver la valeur de mon travail. Les automatisations IA (assistant vocal 24/7, tri des emails, relances d'impayés, CRM métier) nécessitent des branchements techniques sur vos outils. Je les facture à prix fixe atelier (dès 390 €), soit 3 à 4 fois moins cher que les agences du marché (souvent facturées entre 1 800 € et 3 900 € par module), et sans aucun abonnement récurrent imposé.",
-  },
-  {
-    q: "Suis-je obligé de prendre des automatisations IA avec mon site ?",
-    a: "Absolument pas ! Le site vitrine reste 100 % offert et indépendant. Vous ne cochez des automatisations que si vous perdez des heures chaque semaine à trier vos devis, relancer vos factures ou décrocher au volant.",
+    q: "Pourquoi le site est à 0 € et les automatisations payantes ?",
+    a: "Le site vitrine est offert pour démarrer sans risque. Les automatisations IA (mails, relances, vocal, CRM) demandent des connexions sur mesure : elles sont entièrement optionnelles et facturées à prix fixe dès 390 €, sans abonnement.",
   },
   {
     q: "Y a-t-il un engagement ou un abonnement caché ?",

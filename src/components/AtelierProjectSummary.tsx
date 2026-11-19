@@ -255,39 +255,32 @@ export function AtelierProjectSummary({
 
   return (
     <div className="w-full max-w-[380px] mx-auto lg:ml-auto lg:mr-0">
-      {/* Layer 1: Minimal Matte Printer Cap */}
-      <div className="relative z-10 rounded-[20px] px-4 pt-3.5 pb-5 bg-[#EFECE5] border border-[#0C0A08]/[0.09] shadow-[0_12px_28px_-16px_rgba(12,10,8,0.14),inset_0_1px_0_rgba(255,255,255,0.85)]">
+      {/* Layer 1: Slimmer Matte Printer Cap */}
+      <div className="relative z-10 rounded-[18px] px-4 pt-3 pb-4.5 bg-[#EFECE5] border border-[#0C0A08]/[0.08] shadow-[0_10px_24px_-16px_rgba(12,10,8,0.12),inset_0_1px_0_rgba(255,255,255,0.85)]">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-[9px] bg-white border border-[#0C0A08]/[0.08] flex items-center justify-center shrink-0">
-              <img
-                src="/assets/boubane-logo.png"
-                alt="Boubane"
-                width={18}
-                height={18}
-                className="w-[18px] h-[18px] object-contain"
-              />
-            </div>
+            <img
+              src="/assets/boubane-logo.png"
+              alt="Boubane"
+              width={20}
+              height={20}
+              className="w-5 h-5 object-contain rounded-[4px] shrink-0"
+            />
 
-            <div className="min-w-0">
-              <div className="text-[13px] font-semibold tracking-[-0.02em] text-[#0C0A08] leading-tight truncate">
-                Votre ticket
-              </div>
-              <div className="flex items-center gap-1.5 text-[11.5px] text-[#78716C] mt-0.5 tabular-nums">
-                <motion.span
-                  aria-hidden="true"
-                  animate={{
-                    scale: isPrinting && !prefersReducedMotion ? 1.3 : 1,
-                    backgroundColor: isPrinting ? "#ED5B04" : "#16A34A",
-                  }}
-                  transition={{ type: "spring", stiffness: 360, damping: 22 }}
-                  className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
-                />
-                <span>
-                  {selectedModules.length} module
-                  {selectedModules.length > 1 ? "s" : ""}
-                </span>
-              </div>
+            <div className="flex items-center gap-1.5 text-[12.5px] font-medium text-[#57534E] tabular-nums min-w-0">
+              <motion.span
+                aria-hidden="true"
+                animate={{
+                  scale: isPrinting && !prefersReducedMotion ? 1.3 : 1,
+                  backgroundColor: isPrinting ? "#ED5B04" : "#16A34A",
+                }}
+                transition={{ type: "spring", stiffness: 360, damping: 22 }}
+                className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
+              />
+              <span className="truncate">
+                {selectedModules.length} module
+                {selectedModules.length > 1 ? "s" : ""}
+              </span>
             </div>
           </div>
 
@@ -309,7 +302,7 @@ export function AtelierProjectSummary({
               </Link>
             </motion.div>
           ) : (
-            <span className="rounded-full bg-white/80 border border-[#0C0A08]/[0.08] px-2.5 py-1 font-mono text-[10.5px] text-[#57534E] shrink-0">
+            <span className="font-mono text-[11px] text-[#78716C] shrink-0">
               En direct
             </span>
           )}
@@ -318,11 +311,11 @@ export function AtelierProjectSummary({
         {/* Slim Recessed Ejection Slot */}
         <div
           aria-hidden="true"
-          className="absolute bottom-2 inset-x-4 h-[6px] rounded-full bg-[#1C1917] shadow-[inset_0_1px_2px_rgba(0,0,0,0.85)]"
+          className="absolute bottom-1.5 inset-x-4 h-[5px] rounded-full bg-[#1C1917]"
         />
       </div>
 
-      {/* Layer 2: Slot-Masked Clean Hanging Paper Receipt */}
+      {/* Layer 2: Slot-Masked Ultra-Pure Hanging Paper Receipt */}
       <div className="relative z-20 w-[88%] mx-auto -mt-2.5 [clip-path:inset(0_-28px_-48px_-28px)]">
         {/* Fixed slot exit cast-shadow */}
         <div
@@ -361,15 +354,9 @@ export function AtelierProjectSummary({
               className="pointer-events-none absolute -top-20 inset-x-0 h-20 bg-[#FFFDF9] border-x border-[#0C0A08]/[0.06]"
             />
 
-            <div className="relative bg-[#FFFDF9] text-[#0C0A08] border-x border-[#0C0A08]/[0.06] px-5 pt-6 pb-5">
-              {/* Ultra-Quiet Header */}
-              <div className="flex items-center justify-between pb-3.5 border-b border-dashed border-[#0C0A08]/12 font-mono text-[10px] uppercase tracking-[0.12em] text-[#A8A29E]">
-                <span>Boubane</span>
-                <span>Prix fixes</span>
-              </div>
-
-              {/* Clean Line Items */}
-              <div className="py-3.5 border-b border-dashed border-[#0C0A08]/12">
+            <div className="relative bg-[#FFFDF9] text-[#0C0A08] border-x border-[#0C0A08]/[0.06] px-5 pt-5 pb-4">
+              {/* Clean Line Items — only ONE dashed divider below */}
+              <div className="pb-3.5 border-b border-dashed border-[#0C0A08]/12">
                 <AnimatePresence initial={false}>
                   {selectedModules.map((m, index) => {
                     const isFree = m.price === 0;
@@ -471,19 +458,16 @@ export function AtelierProjectSummary({
                   </div>
                 </div>
 
-                <div className="mt-1.5 flex items-center justify-between gap-2 text-[11.5px] text-[#78716C]">
-                  <span>Livré en 5 jours</span>
-                  {totalEconomy > 0 && (
-                    <span className="font-mono text-[#0E7541] tabular-nums">
-                      &minus;{formatAmount(totalEconomy)}&nbsp;€ vs agence
-                    </span>
-                  )}
-                </div>
+                {totalEconomy > 0 && (
+                  <div className="mt-1 text-right font-mono text-[11px] text-[#0E7541] tabular-nums">
+                    &minus;{formatAmount(totalEconomy)}&nbsp;€ vs agence
+                  </div>
+                )}
               </div>
 
               {/* Calm 1-line Footer */}
-              <div className="mt-4 pt-3 border-t border-dashed border-[#0C0A08]/10 text-center text-[11px] text-[#A8A29E]">
-                Sans acompte · Code à vous
+              <div className="mt-4 text-center text-[11px] text-[#A8A29E]">
+                Livré en 5j · Sans acompte · Code à vous
               </div>
             </div>
 
