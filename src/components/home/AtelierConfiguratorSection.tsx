@@ -1,23 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import {
-  ArrowRight,
   BarChart3,
   Check,
   Globe,
   Mail,
-  Minus,
   PhoneCall,
   Plus,
   Receipt,
-  Sparkles,
   Users,
 } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import { AUTOMATION_MODULES, type AutomationModule } from "@/data/automations";
-import { ATELIER_EASE, ATELIER_SPRING } from "@/lib/utils";
+import { AUTOMATION_MODULES } from "@/data/automations";
+import { AtelierProjectSummary } from "@/components/AtelierProjectSummary";
 
 const ICON_MAP = {
   Globe,
@@ -46,13 +41,6 @@ export function AtelierConfiguratorSection() {
   const selectedModules = AUTOMATION_MODULES.filter((m) =>
     selectedIds.includes(m.id)
   );
-
-  const totalPrice = selectedModules.reduce((sum, m) => sum + m.price, 0);
-  const totalMarketPrice = selectedModules.reduce(
-    (sum, m) => sum + m.marketPrice,
-    0
-  );
-  const totalEconomy = totalMarketPrice - totalPrice;
 
   const queryParams = selectedIds
     .filter((id) => id !== "site-web")
@@ -228,146 +216,14 @@ export function AtelierConfiguratorSection() {
             })}
           </div>
 
-          {/* Right Thermal Receipt Machine & Ticket (5 cols) */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-4">
-            {/* The Machine Top */}
-            <div className="rounded-2xl bg-[#1C1917] border border-[#292524] p-5 sm:p-6 text-white shadow-2xl space-y-4 relative overflow-hidden">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#22C55E] animate-pulse" />
-                  <span className="font-mono text-xs uppercase tracking-[0.14em] text-white/80 font-bold">
-                    IMPRIMANTE ATELIER BOUBANE
-                  </span>
-                </div>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-white/10 text-white/70">
-                  MODÈLE B-2026
-                </span>
-              </div>
-
-              {/* Status Header */}
-              <div className="flex items-center justify-between text-xs text-white/60">
-                <span>{selectedModules.length} module{selectedModules.length > 1 ? "s" : ""} imprimé{selectedModules.length > 1 ? "s" : ""}</span>
-                <span className="text-[#ED5B04] font-mono font-semibold">Devis temps réel</span>
-              </div>
-
-              {/* The Paper Ejection Slot */}
-              <div className="w-full h-3 bg-black rounded-full border border-white/10 shadow-inner relative overflow-hidden">
-                <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
-              </div>
-
-              {/* Thermal Receipt Paper */}
-              <div className="relative bg-[#FFFDF9] text-[#0C0A08] rounded-t-xl p-5 sm:p-6 shadow-[0_18px_36px_rgba(0,0,0,0.35)] border-x border-t border-[#E7E3DC] font-mono text-xs">
-                {/* Stamp */}
-                <div className="text-center pb-3 border-b border-dashed border-[#0C0A08]/20 space-y-1">
-                  <div className="font-black text-sm tracking-wider text-[#0C0A08]">
-                    ATELIER BOUBANE
-                  </div>
-                  <div className="text-[10px] text-[#78716C] uppercase tracking-wider">
-                    ARTISAN NUMÉRIQUE · PRIX FIXES DIRECTS
-                  </div>
-                  <div className="text-[10px] text-[#78716C]">
-                    REÇU PROVISOIRE · SANS ACOMPTE
-                  </div>
-                </div>
-
-                {/* Line Items */}
-                <div className="py-4 space-y-2 border-b border-dashed border-[#0C0A08]/20">
-                  {selectedModules.map((m) => (
-                    <div
-                      key={m.id}
-                      className="flex items-baseline justify-between gap-2 text-xs"
-                    >
-                      <span className="truncate text-[#0C0A08] font-medium">
-                        {m.name}
-                      </span>
-                      <span className="shrink-0 font-bold text-[#0C0A08]">
-                        {m.price === 0 ? "0.00 € (OFFERT)" : `${m.price.toFixed(2)} €`}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Calculations */}
-                <div className="py-3 space-y-1.5 border-b border-dashed border-[#0C0A08]/20 text-[11px]">
-                  <div className="flex items-center justify-between text-[#78716C]">
-                    <span>TARIF AGENCES (TYPE MUSHROOMS)</span>
-                    <span className="line-through">{totalMarketPrice.toLocaleString("fr-FR")} €</span>
-                  </div>
-                  <div className="flex items-center justify-between text-[#0E7541] font-bold">
-                    <span>ÉCONOMIE ATELIER RÉALISÉE</span>
-                    <span>- {totalEconomy.toLocaleString("fr-FR")} € HT</span>
-                  </div>
-                </div>
-
-                {/* Big Total */}
-                <div className="pt-3 pb-2 flex items-baseline justify-between">
-                  <span className="text-xs font-bold text-[#0C0A08] uppercase">
-                    TOTAL ESTIMÉ HT
-                  </span>
-                  <span className="font-mono text-2xl font-black text-[#ED5B04]">
-                    {totalPrice.toLocaleString("fr-FR")} €
-                  </span>
-                </div>
-
-                <div className="text-[10px] text-[#78716C] text-center pt-2">
-                  Code source 100 % à vous · Hébergement direct à votre nom
-                </div>
-
-                {/* Barcode SVG Deco */}
-                <div className="pt-3 flex flex-col items-center">
-                  <div className="w-48 h-8 flex items-center justify-between opacity-70">
-                    {Array.from({ length: 36 }).map((_, i) => (
-                      <span
-                        key={i}
-                        className={`bg-[#0C0A08] h-full ${
-                          i % 3 === 0 ? "w-1" : i % 2 === 0 ? "w-0.5" : "w-1.5"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-[9px] tracking-[0.2em] text-[#78716C] mt-1">
-                    BOUBANE-2026-VALEUR-DIRECTE
-                  </span>
-                </div>
-
-                {/* Sawtooth / Zig-Zag Bottom Edge */}
-                <div className="absolute -bottom-3 left-0 right-0 h-3 overflow-hidden leading-none pointer-events-none">
-                  <svg
-                    className="w-full h-full text-[#FFFDF9] fill-current"
-                    viewBox="0 0 200 12"
-                    preserveAspectRatio="none"
-                  >
-                    <polygon points="0,0 5,12 10,0 15,12 20,0 25,12 30,0 35,12 40,0 45,12 50,0 55,12 60,0 65,12 70,0 75,12 80,0 85,12 90,0 95,12 100,0 105,12 110,0 115,12 120,0 125,12 130,0 135,12 140,0 145,12 150,0 155,12 160,0 165,12 170,0 175,12 180,0 185,12 190,0 195,12 200,0" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Action Buttons inside the Printer */}
-              <div className="pt-2 space-y-2.5">
-                <Link
-                  href={orderUrl}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#ED5B04] text-white py-4 text-sm font-bold hover:bg-[#D64E00] active:scale-[0.98] transition-all shadow-[0_10px_28px_rgba(237,91,4,0.35)] cursor-pointer"
-                >
-                  <span>Commander mon projet ({totalPrice} € HT)</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                <a
-                  href="https://rdv.boubane.com/boubane/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-white/10 border border-white/15 text-white py-3 text-xs font-semibold hover:bg-white/15 transition-colors cursor-pointer"
-                >
-                  <span>Valider ces choix en visio de 30 min</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Reassurance note */}
-            <div className="rounded-xl border border-[#E7E3DC] bg-white p-4 text-xs text-[#57534E] leading-relaxed shadow-sm">
-              <strong className="text-[#0C0A08]">Zéro mauvaise surprise :</strong>{" "}
-              Le montant total est garanti avant le début des travaux. Pas d&apos;acompte demandé à la commande, vous validez tout sur maquette.
-            </div>
+          {/* Right Live Atelier Estimate Console (5 cols) */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28">
+            <AtelierProjectSummary
+              mode="configurator"
+              selectedModules={selectedModules}
+              orderUrl={orderUrl}
+              onRemoveModule={toggleModule}
+            />
           </div>
         </div>
       </div>

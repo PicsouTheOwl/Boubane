@@ -15,23 +15,21 @@ import {
   Check,
   Globe,
   Hammer,
-  Lock,
   Mail,
   MapPin,
   MessageCircle,
   PhoneCall,
-  Plus,
   Receipt,
-  ShieldCheck,
   Sparkles,
   Store,
   Users,
 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { AtelierReveal, SpecularPlate } from "@/components/AtelierPrimitives";
+import { AtelierReveal } from "@/components/AtelierPrimitives";
+import { AtelierProjectSummary } from "@/components/AtelierProjectSummary";
 import { ATELIER_EASE, ATELIER_SPRING } from "@/lib/utils";
-import { AUTOMATION_MODULES, type AutomationModule } from "@/data/automations";
+import { AUTOMATION_MODULES } from "@/data/automations";
 
 const ICON_MAP = {
   Globe,
@@ -131,8 +129,6 @@ function CommanderContent() {
     selectedModuleIds.includes(m.id)
   );
   const totalPrice = selectedModules.reduce((acc, m) => acc + m.price, 0);
-  const totalMarketPrice = selectedModules.reduce((acc, m) => acc + m.marketPrice, 0);
-  const totalEconomy = totalMarketPrice - totalPrice;
 
   const goToStep = (next: 1 | 2 | 3) => {
     setDirection(next > step ? 1 : -1);
@@ -798,93 +794,13 @@ function CommanderContent() {
               </div>
             </div>
 
-            {/* Sidebar Sticky Ticket Machine */}
+            {/* Sidebar Sticky Estimate Console */}
             <div className="lg:col-span-4 space-y-4 lg:sticky lg:top-28">
-              <div className="rounded-2xl bg-[#1C1917] border border-[#292524] p-5 text-white shadow-2xl space-y-4 relative overflow-hidden">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#22C55E] animate-pulse" />
-                    <span className="font-mono text-xs uppercase tracking-[0.14em] text-white font-bold">
-                      TICKET ATELIER
-                    </span>
-                  </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-white/10 text-white/70">
-                    {selectedModules.length} MODULES
-                  </span>
-                </div>
-
-                {/* The Paper Ejection Slot */}
-                <div className="w-full h-2.5 bg-black rounded-full border border-white/10 shadow-inner" />
-
-                {/* Thermal Receipt Paper */}
-                <div className="relative bg-[#FFFDF9] text-[#0C0A08] rounded-t-xl p-4 sm:p-5 shadow-[0_14px_30px_rgba(0,0,0,0.3)] border-x border-t border-[#E7E3DC] font-mono text-xs">
-                  <div className="text-center pb-2.5 border-b border-dashed border-[#0C0A08]/20 space-y-0.5">
-                    <div className="font-black text-xs tracking-wider text-[#0C0A08]">
-                      ATELIER BOUBANE
-                    </div>
-                    <div className="text-[9px] text-[#78716C] uppercase">
-                      LÉO SAILLOUR · ARTISAN DU WEB
-                    </div>
-                  </div>
-
-                  <div className="py-3 space-y-1.5 border-b border-dashed border-[#0C0A08]/20">
-                    {selectedModules.map((m) => (
-                      <div key={m.id} className="flex items-baseline justify-between gap-1 text-[11px]">
-                        <span className="truncate text-[#0C0A08]">{m.name}</span>
-                        <span className="shrink-0 font-bold text-[#0C0A08]">
-                          {m.price === 0 ? "0.00 € (OFFERT)" : `${m.price} €`}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="py-2.5 space-y-1 border-b border-dashed border-[#0C0A08]/20 text-[10px]">
-                    <div className="flex items-center justify-between text-[#78716C]">
-                      <span>TARIF AGENCES</span>
-                      <span className="line-through">{totalMarketPrice.toLocaleString("fr-FR")} €</span>
-                    </div>
-                    <div className="flex items-center justify-between text-[#0E7541] font-bold">
-                      <span>ÉCONOMIE ATELIER</span>
-                      <span>- {totalEconomy.toLocaleString("fr-FR")} €</span>
-                    </div>
-                  </div>
-
-                  <div className="pt-2.5 pb-1 flex items-baseline justify-between">
-                    <span className="text-xs font-bold text-[#0C0A08] uppercase">
-                      TOTAL ESTIMÉ
-                    </span>
-                    <span className="font-mono text-xl font-black text-[#ED5B04]">
-                      {totalPrice.toLocaleString("fr-FR")} € HT
-                    </span>
-                  </div>
-
-                  {/* Sawtooth / Zig-Zag Bottom Edge */}
-                  <div className="absolute -bottom-2.5 left-0 right-0 h-2.5 overflow-hidden leading-none pointer-events-none">
-                    <svg
-                      className="w-full h-full text-[#FFFDF9] fill-current"
-                      viewBox="0 0 200 12"
-                      preserveAspectRatio="none"
-                    >
-                      <polygon points="0,0 5,12 10,0 15,12 20,0 25,12 30,0 35,12 40,0 45,12 50,0 55,12 60,0 65,12 70,0 75,12 80,0 85,12 90,0 95,12 100,0 105,12 110,0 115,12 120,0 125,12 130,0 135,12 140,0 145,12 150,0 155,12 160,0 165,12 170,0 175,12 180,0 185,12 190,0 195,12 200,0" />
-                    </svg>
-                  </div>
-                </div>
-
-                <div className="space-y-2.5 pt-1 text-xs text-white/70">
-                  <div className="flex items-start gap-2">
-                    <Sparkles className="w-3.5 h-3.5 text-[#ED5B04] mt-0.5 shrink-0" />
-                    <span>Création du site web à 0 € sans acompte.</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Lock className="w-3.5 h-3.5 text-[#ED5B04] mt-0.5 shrink-0" />
-                    <span>Code source et accès hébergement 100 % à vous.</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#ED5B04] mt-0.5 shrink-0" />
-                    <span>Livré en 5 jours ouvrés avec Léo Saillour.</span>
-                  </div>
-                </div>
-              </div>
+              <AtelierProjectSummary
+                mode="checkout"
+                selectedModules={selectedModules}
+                onRemoveModule={toggleModule}
+              />
 
               {/* Direct exchange */}
               <div className="rounded-2xl border border-[#E7E3DC] bg-white p-5 space-y-3 shadow-sm">

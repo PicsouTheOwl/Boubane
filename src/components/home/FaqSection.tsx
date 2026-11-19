@@ -13,7 +13,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Pourquoi le site est à 0 € alors que les automatisations IA sont payantes ?",
-    a: "Le site vitrine est ma porte d'entrée : je le conçois rapidement et avec exigence pour vous prouver la valeur de mon travail. Les automatisations IA (assistant vocal 24/7, tri des emails, relances d'impayés, CRM métier) nécessitent des branchements techniques sur vos outils. Je les facture à prix fixe atelier (dès 390 €), soit 3 à 4 fois moins cher que les agences du marché (comme Mushrooms à 1 800 € - 3 900 €), et sans aucun abonnement récurrent imposé.",
+    a: "Le site vitrine est ma porte d'entrée : je le conçois rapidement et avec exigence pour vous prouver la valeur de mon travail. Les automatisations IA (assistant vocal 24/7, tri des emails, relances d'impayés, CRM métier) nécessitent des branchements techniques sur vos outils. Je les facture à prix fixe atelier (dès 390 €), soit 3 à 4 fois moins cher que les agences du marché (souvent facturées entre 1 800 € et 3 900 € par module), et sans aucun abonnement récurrent imposé.",
   },
   {
     q: "Suis-je obligé de prendre des automatisations IA avec mon site ?",
