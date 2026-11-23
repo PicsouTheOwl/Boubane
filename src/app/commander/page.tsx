@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -15,16 +15,20 @@ import {
   Hammer,
   MapPin,
   MessageCircle,
+  SlidersHorizontal,
   Sparkles,
   Store,
+  X,
 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { AtelierReveal } from "@/components/AtelierPrimitives";
 import { AtelierModuleList } from "@/components/AtelierModuleList";
 import { AtelierProjectSummary } from "@/components/AtelierProjectSummary";
-import { ATELIER_EASE, ATELIER_SPRING } from "@/lib/utils";
-import { AUTOMATION_MODULES } from "@/data/automations";
+import { ATELIER_SPRING } from "@/lib/utils";
+import { AUTOMATION_MODULES, formatAmount } from "@/data/automations";
+
+const EASE_OUT = [0.16, 1, 0.3, 1] as const;
+const EASE_IN = [0.7, 0, 0.84, 0] as const;
 
 const TRADES = [
   { label: "Artisan / BTP (Menuisier, Couvreur, Maçon…)", icon: Hammer },
@@ -43,10 +47,55 @@ const SITUATIONS = [
 ] as const;
 
 const STEPS_META = [
-  { id: 1 as const, label: "Modules & Activité" },
-  { id: 2 as const, label: "Coordonnées Directes" },
-  { id: 3 as const, label: "Validation Finale" },
+  { id: 1 as const, label: "Activité" },
+  { id: 2 as const, label: "Coordonnées" },
+  { id: 3 as const, label: "Validation" },
 ];
+
+const VALID_OPTIONAL_MODULE_IDS = new Set(
+  AUTOMATION_MODULES.filter((m) => m.id !== "site-web").map((m) => m.id)
+);
+
+function parseModulesFromParams(rawModules: string | null): string[] {
+  if (!rawModules) return ["site-web"];
+  const seen = new Set<string>();
+  const matched: string[] = [];
+  for (const part of rawModules.split(",")) {
+    const id = part.trim();
+    if (VALID_OPTIONAL_MODULE_IDS.has(id) && !seen.has(id)) {
+      seen.add(id);
+      matched.push(id);
+    }
+  }
+  return ["site-web", ...matched];
+}
+
+type StepTransitionCustom = {
+  direction: number;
+  reduced: boolean;
+};
+
+const STEP_VARIANTS = {
+  enter: ({ direction, reduced }: StepTransitionCustom) =>
+    reduced
+      ? { opacity: 0 }
+      : { opacity: 0, x: direction > 0 ? 16 : -16 },
+  center: ({ reduced }: StepTransitionCustom) => ({
+    opacity: 1,
+    x: 0,
+    transition: reduced
+      ? { duration: 0.12 }
+      : { duration: 0.22, ease: EASE_OUT },
+  }),
+  exit: ({ direction, reduced }: StepTransitionCustom) =>
+    reduced
+      ? { opacity: 0, transition: { duration: 0.1 } }
+      : {
+          opacity: 0,
+          x: direction > 0 ? -16 : 16,
+          transition: { duration: 0.11, ease: EASE_IN },
+        },
+};
 
 declare global {
   interface Window {
@@ -55,32 +104,17 @@ declare global {
   }
 }
 
-const STEP_VARIANTS = {
-  enter: (direction: number) => ({
-    opacity: 0,
-    x: direction > 0 ? 24 : -24,
-    filter: "blur(3px)",
-  }),
-  center: {
-    opacity: 1,
-    x: 0,
-    filter: "blur(0px)",
-  },
-  exit: (direction: number) => ({
-    opacity: 0,
-    x: direction > 0 ? -24 : 24,
-    filter: "blur(3px)",
-  }),
-};
-
 function CommanderContent() {
   const searchParams = useSearchParams();
+  const prefersReducedMotion = useReducedMotion() ?? false;
+
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [direction, setDirection] = useState(1);
-  const [selectedModuleIds, setSelectedModuleIds] = useState<string[]>([
-    "site-web",
-    "assistant-mails",
-  ]);
+  const [selectedModuleIds, setSelectedModuleIds] = useState<string[]>(() =>
+    parseModulesFromParams(searchParams.get("modules"))
+  );
+  const [isModuleModalOpen, setIsModuleModalOpen] = useState(false);
+
   const [trade, setTrade] = useState<string>(TRADES[0].label);
   const [situation, setSituation] = useState<string>(SITUATIONS[0]);
   const [name, setName] = useState("");
@@ -93,16 +127,26 @@ function CommanderContent() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // Initialisation via query param
   useEffect(() => {
-    const rawModules = searchParams.get("modules");
-    if (rawModules) {
-      const parsed = rawModules.split(",").map((s) => s.trim());
-      const validIds = AUTOMATION_MODULES.map((m) => m.id);
-      const matched = parsed.filter((id) => validIds.includes(id));
-      setSelectedModuleIds(["site-web", ...matched.filter((id) => id !== "site-web")]);
-    }
+    setSelectedModuleIds(parseModulesFromParams(searchParams.get("modules")));
   }, [searchParams]);
+
+  useEffect(() => {
+    if (!isModuleModalOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsModuleModalOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isModuleModalOpen]);
 
   const toggleModule = (id: string) => {
     if (id === "site-web") return;
@@ -140,10 +184,13 @@ function CommanderContent() {
 
   const buildBriefText = () => {
     const modulesText = selectedModules
-      .map((m) => `  • ${m.name} (${m.price === 0 ? "0 € - Offert" : `${m.price} € HT`})`)
+      .map(
+        (m) =>
+          `  • ${m.name} (${m.price === 0 ? "0 € - Offert" : `${formatAmount(m.price)} € HT`})`
+      )
       .join("\n");
 
-    return `[PROJET ATELIER BOUBANE]\n• Entreprise : ${company}${city ? ` (${city})` : ""}\n• Profil : ${trade}\n• Situation : ${situation}\n• Modules retenus :\n${modulesText}\n• Total investissement : ${totalPrice} € HT\n• Téléphone : ${
+    return `[PROJET ATELIER BOUBANE]\n• Entreprise : ${company}${city ? ` (${city})` : ""}\n• Profil : ${trade}\n• Situation : ${situation}\n• Modules retenus :\n${modulesText}\n• Total investissement : ${formatAmount(totalPrice)} € HT\n• Téléphone : ${
       phone || "Non renseigné"
     }\n• Email : ${email || "Non renseigné"}\n• Message : ${
       details || "Aucun détail supplémentaire"
@@ -165,47 +212,80 @@ function CommanderContent() {
     setTimeout(() => {
       setSubmitting(false);
       setSubmitted(true);
-      window.scrollTo({ top: 120, behavior: "smooth" });
-    }, 450);
+      window.scrollTo({ top: 120, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    }, 350);
   };
 
   const whatsappBriefUrl = `https://wa.me/33778310346?text=${encodeURIComponent(
     `Bonjour Léo, voici mon brief configuré sur Boubane :\nNom : ${name}\nEntreprise : ${company}${
       city ? ` (${city})` : ""
-    }\nModules : ${selectedModules.map((m) => m.name).join(", ")}\nTotal estimé : ${totalPrice} € HT\nSecteur : ${trade}${
+    }\nModules : ${selectedModules.map((m) => m.name).join(", ")}\nTotal estimé : ${formatAmount(totalPrice)} € HT\nSecteur : ${trade}${
       details ? `\nPrécisions : ${details}` : ""
     }`
   )}`;
+
+  const stepCustom: StepTransitionCustom = {
+    direction,
+    reduced: prefersReducedMotion,
+  };
 
   return (
     <>
       <SiteHeader isHome={false} />
 
-      <main className="relative pt-14 pb-28">
-        <div className="mx-auto max-w-[1180px] px-5 sm:px-6">
-          <AtelierReveal className="max-w-3xl mb-10 sm:mb-12">
-            <h1 className="font-[family-name:var(--font-jakarta)] text-[clamp(2.1rem,5vw,3.5rem)] font-extrabold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
-              Configurez votre projet d&apos;atelier
-              <span className="text-[#ED5B04]">.</span>
-            </h1>
-            <p className="mt-4 text-[1.03rem] leading-[1.6] text-[#57534E] max-w-[58ch]">
-              Votre vitrine web reste à 0 € d&apos;honoraires. Choisissez librement vos automatisations IA au tarif le plus bas, installé à votre nom sans abonnement imposé.
-            </p>
-          </AtelierReveal>
+      <main className="relative pt-12 pb-28">
+        <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
+          <div className="max-w-3xl mb-8 sm:mb-10">
+            <Link
+              href="/#configurateur"
+              className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#78716C] hover:text-[#0C0A08] transition-colors mb-3 min-h-[44px] -ml-1 px-1"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Retour au configurateur</span>
+            </Link>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <h1 className="font-[family-name:var(--font-jakarta)] text-[clamp(2rem,4.4vw,3.1rem)] font-extrabold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
+              Finalisez votre demande<span className="text-[#ED5B04]">.</span>
+            </h1>
+            <p className="mt-3 text-[0.98rem] leading-[1.6] text-[#57534E] max-w-[52ch]">
+              Quelques infos sur votre activité et vos coordonnées. Réponse directe sous 24h, sans acompte.
+            </p>
+          </div>
+
+          {!submitted && (
+            <div className="mb-5 lg:hidden border-y border-[#0C0A08]/[0.08] py-3 flex items-center justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="text-[13px] font-medium text-[#0C0A08] truncate">
+                  {selectedModules.map((m) => m.name).join(" · ")}
+                </div>
+                <div className="mt-0.5 font-mono text-[11.5px] font-semibold text-[#57534E] tabular-nums">
+                  {totalPrice === 0 ? "0 €" : `${formatAmount(totalPrice)} € HT`}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsModuleModalOpen(true)}
+                className="min-h-[44px] px-2 text-[12.5px] font-medium text-[#57534E] hover:text-[#0C0A08] underline underline-offset-4 decoration-[#0C0A08]/25 cursor-pointer shrink-0 transition-colors"
+              >
+                Modifier
+              </button>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             <div className="lg:col-span-8">
-              <div className="rounded-3xl border border-[#E7E3DC] bg-white p-6 sm:p-10 shadow-[0_18px_45px_rgba(12,10,8,0.06)] overflow-hidden">
+              <div className="rounded-3xl border border-[#0C0A08]/[0.08] bg-white p-6 sm:p-10 shadow-[0_14px_40px_-18px_rgba(12,10,8,0.08)] overflow-hidden">
                 {!submitted ? (
                   <>
-                    {/* Stepper header */}
-                    <div className="mb-8 sm:mb-9">
-                      <div className="flex items-center justify-between text-xs font-mono uppercase tracking-[0.1em] text-[#0C0A08]/55 mb-3">
-                        <span>Étape 0{step} / 03</span>
-                        <span className="text-[#ED5B04] font-semibold">
+                    {/* Minimalist Stepper */}
+                    <div className="mb-7 sm:mb-8">
+                      <div className="sm:hidden flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.1em] text-[#57534E] mb-2.5">
+                        <span>0{step} / 03</span>
+                        <span className="text-[#0C0A08] font-semibold">
                           {STEPS_META[step - 1].label}
                         </span>
                       </div>
+
                       <div className="grid grid-cols-3 gap-2">
                         {STEPS_META.map((item) => {
                           const isDone = step > item.id;
@@ -217,15 +297,19 @@ function CommanderContent() {
                               type="button"
                               disabled={!canJump}
                               onClick={() => canJump && goToStep(item.id)}
-                              className={`text-left group ${
+                              className={`min-h-[44px] flex flex-col justify-start text-left group pt-1 ${
                                 canJump ? "cursor-pointer" : "cursor-default"
                               }`}
                             >
-                              <div className="h-1.5 rounded-full bg-[#0C0A08]/[0.07] overflow-hidden">
+                              <div className="w-full h-[3px] rounded-full bg-[#0C0A08]/[0.08] overflow-hidden">
                                 <motion.div
                                   initial={false}
                                   animate={{ scaleX: isDone || isActive ? 1 : 0 }}
-                                  transition={{ duration: 0.35, ease: ATELIER_EASE }}
+                                  transition={
+                                    prefersReducedMotion
+                                      ? { duration: 0.1 }
+                                      : { duration: 0.25, ease: EASE_OUT }
+                                  }
                                   style={{ transformOrigin: "left center" }}
                                   className={`h-full w-full ${
                                     isDone ? "bg-[#0C0A08]" : "bg-[#ED5B04]"
@@ -233,12 +317,12 @@ function CommanderContent() {
                                 />
                               </div>
                               <div
-                                className={`mt-2 hidden sm:flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.08em] transition-colors ${
+                                className={`mt-2 hidden sm:flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.08em] transition-colors ${
                                   isActive
                                     ? "text-[#0C0A08] font-semibold"
                                     : isDone
-                                    ? "text-[#0C0A08]/60 group-hover:text-[#ED5B04]"
-                                    : "text-[#0C0A08]/35"
+                                      ? "text-[#0C0A08]/60 group-hover:text-[#0C0A08]"
+                                      : "text-[#0C0A08]/35"
                                 }`}
                               >
                                 <span>0{item.id}.</span>
@@ -251,40 +335,21 @@ function CommanderContent() {
                     </div>
 
                     <div className="relative overflow-hidden">
-                      <AnimatePresence mode="popLayout" custom={direction} initial={false}>
+                      <AnimatePresence mode="popLayout" custom={stepCustom} initial={false}>
                         {step === 1 && (
                           <motion.div
                             key="step1"
-                            custom={direction}
+                            custom={stepCustom}
                             variants={STEP_VARIANTS}
                             initial="enter"
                             animate="center"
                             exit="exit"
-                            transition={{ duration: 0.28, ease: ATELIER_EASE }}
                             className="space-y-8"
                           >
-                            {/* Choix des Modules */}
-                            <div>
-                              <div className="flex items-center justify-between gap-3 mb-3">
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 font-semibold">
-                                  01. Choisissez vos modules
-                                </label>
-                                <span className="font-mono text-[11px] text-[#78716C]">
-                                  Site à 0&nbsp;€ · Options à prix fixe
-                                </span>
-                              </div>
-
-                              <AtelierModuleList
-                                selectedIds={selectedModuleIds}
-                                onToggle={toggleModule}
-                                compact
-                              />
-                            </div>
-
                             {/* Secteur */}
                             <div>
-                              <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 mb-3 font-semibold">
-                                02. Votre secteur d&apos;activité
+                              <label className="block text-[13px] font-semibold text-[#0C0A08] mb-3">
+                                Votre secteur d&apos;activité
                               </label>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                 {TRADES.map((item) => {
@@ -295,29 +360,28 @@ function CommanderContent() {
                                       key={item.label}
                                       type="button"
                                       onClick={() => setTrade(item.label)}
-                                      className={`group relative flex items-center justify-between gap-3 text-left px-4 py-3.5 rounded-xl border text-sm font-medium transition-all cursor-pointer active:scale-[0.985] ${
+                                      className={`group min-h-[52px] flex items-center justify-between gap-3 text-left px-4 py-3 rounded-xl border text-[13.5px] sm:text-sm font-medium transition-all duration-150 cursor-pointer active:scale-[0.985] ${
                                         selected
-                                          ? "border-[#0C0A08] bg-[#0C0A08] text-white shadow-[0_8px_20px_rgba(12,10,8,0.14)]"
-                                          : "border-[#E7E3DC] bg-[#FAF8F5] text-[#0C0A08] hover:border-[#0C0A08]/30 hover:bg-white"
+                                          ? "border-[#0C0A08] bg-[#0C0A08] text-white"
+                                          : "border-[#0C0A08]/[0.09] bg-[#FAF8F5]/70 text-[#0C0A08] hover:border-[#0C0A08]/25 hover:bg-white"
                                       }`}
                                     >
                                       <span className="flex items-center gap-3 min-w-0">
-                                        <span
-                                          className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                                        <Icon
+                                          className={`w-4 h-4 shrink-0 transition-colors ${
                                             selected
-                                              ? "bg-[#ED5B04] text-white"
-                                              : "bg-white border border-[#E7E3DC] text-[#57534E] group-hover:text-[#0C0A08]"
+                                              ? "text-white/85"
+                                              : "text-[#78716C] group-hover:text-[#0C0A08]"
                                           }`}
-                                        >
-                                          <Icon className="w-4 h-4" />
-                                        </span>
+                                          strokeWidth={1.75}
+                                        />
                                         <span className="leading-snug">{item.label}</span>
                                       </span>
                                       <span
-                                        className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 border transition-colors ${
+                                        className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors ${
                                           selected
-                                            ? "border-[#ED5B04] bg-[#ED5B04] text-white"
-                                            : "border-[#0C0A08]/20 bg-white text-transparent"
+                                            ? "bg-white/15 text-white"
+                                            : "border border-[#0C0A08]/15 text-transparent"
                                         }`}
                                       >
                                         <Check className="w-3 h-3" strokeWidth={2.5} />
@@ -330,8 +394,8 @@ function CommanderContent() {
 
                             {/* Situation */}
                             <div>
-                              <label className="block font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/60 mb-3 font-semibold">
-                                03. Votre situation actuelle
+                              <label className="block text-[13px] font-semibold text-[#0C0A08] mb-3">
+                                Votre situation actuelle
                               </label>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                 {SITUATIONS.map((item) => {
@@ -341,18 +405,18 @@ function CommanderContent() {
                                       key={item}
                                       type="button"
                                       onClick={() => setSituation(item)}
-                                      className={`flex items-center justify-between gap-3 text-left px-4 py-3.5 rounded-xl border text-sm font-medium transition-all cursor-pointer active:scale-[0.985] ${
+                                      className={`group min-h-[52px] flex items-center justify-between gap-3 text-left px-4 py-3 rounded-xl border text-[13.5px] sm:text-sm font-medium transition-all duration-150 cursor-pointer active:scale-[0.985] ${
                                         selected
-                                          ? "border-[#ED5B04] bg-[#FFF2E8] text-[#0C0A08] shadow-[0_6px_16px_rgba(237,91,4,0.1)]"
-                                          : "border-[#E7E3DC] bg-[#FAF8F5] text-[#0C0A08]/80 hover:border-[#0C0A08]/30 hover:bg-white"
+                                          ? "border-[#0C0A08] bg-[#0C0A08] text-white"
+                                          : "border-[#0C0A08]/[0.09] bg-[#FAF8F5]/70 text-[#0C0A08]/85 hover:border-[#0C0A08]/25 hover:bg-white"
                                       }`}
                                     >
                                       <span className="leading-snug">{item}</span>
                                       <span
-                                        className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 border transition-colors ${
+                                        className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors ${
                                           selected
-                                            ? "border-[#ED5B04] bg-[#ED5B04] text-white"
-                                            : "border-[#0C0A08]/20 bg-white text-transparent"
+                                            ? "bg-white/15 text-white"
+                                            : "border border-[#0C0A08]/15 text-transparent"
                                         }`}
                                       >
                                         <Check className="w-3 h-3" strokeWidth={2.5} />
@@ -363,19 +427,16 @@ function CommanderContent() {
                               </div>
                             </div>
 
-                            <div className="pt-3 flex items-center justify-between gap-4 border-t border-[#0C0A08]/[0.08]">
-                              <div className="text-xs text-[#57534E]">
-                                Montant calculé :{" "}
-                                <span className="font-mono font-bold text-[#0C0A08]">
-                                  {totalPrice === 0 ? "0.00 € (Offert)" : `${totalPrice} € HT`}
-                                </span>
-                              </div>
+                            <div className="pt-4 flex flex-wrap items-center justify-between gap-4 border-t border-[#0C0A08]/[0.08]">
+                              <span className="text-[12.5px] text-[#78716C]">
+                                Sans acompte · Réponse sous 24h
+                              </span>
                               <button
                                 type="button"
                                 onClick={() => goToStep(2)}
-                                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#ED5B04] active:scale-[0.97] transition-all cursor-pointer shrink-0 shadow-sm"
+                                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] hover:bg-[#1E1A16] text-white min-h-[44px] px-7 py-3 text-sm font-semibold active:scale-[0.98] transition-all duration-150 cursor-pointer shrink-0"
                               >
-                                <span>Continuer vers mes coordonnées</span>
+                                <span>Continuer</span>
                                 <ArrowRight className="w-4 h-4" />
                               </button>
                             </div>
@@ -385,94 +446,117 @@ function CommanderContent() {
                         {step === 2 && (
                           <motion.div
                             key="step2"
-                            custom={direction}
+                            custom={stepCustom}
                             variants={STEP_VARIANTS}
                             initial="enter"
                             animate="center"
                             exit="exit"
-                            transition={{ duration: 0.28, ease: ATELIER_EASE }}
                             className="space-y-5"
                           >
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
-                                  Votre Nom *
+                                <label
+                                  htmlFor="commander-name"
+                                  className="block text-[12.5px] font-medium text-[#57534E] mb-1.5"
+                                >
+                                  Votre nom *
                                 </label>
                                 <input
+                                  id="commander-name"
                                   type="text"
                                   value={name}
                                   onChange={(e) => setName(e.target.value)}
                                   placeholder="Jean Dupont"
-                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#0C0A08]/[0.11] bg-[#FAF8F5]/70 px-4 py-3 text-base text-[#0C0A08] placeholder:text-[#A8A29E] focus:bg-white focus:border-[#0C0A08] focus:outline-none transition-colors"
                                 />
                               </div>
                               <div>
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
+                                <label
+                                  htmlFor="commander-company"
+                                  className="block text-[12.5px] font-medium text-[#57534E] mb-1.5"
+                                >
                                   Nom de l&apos;entreprise *
                                 </label>
                                 <input
+                                  id="commander-company"
                                   type="text"
                                   value={company}
                                   onChange={(e) => setCompany(e.target.value)}
                                   placeholder="Atelier Dupont"
-                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#0C0A08]/[0.11] bg-[#FAF8F5]/70 px-4 py-3 text-base text-[#0C0A08] placeholder:text-[#A8A29E] focus:bg-white focus:border-[#0C0A08] focus:outline-none transition-colors"
                                 />
                               </div>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
+                                <label
+                                  htmlFor="commander-email"
+                                  className="block text-[12.5px] font-medium text-[#57534E] mb-1.5"
+                                >
                                   Email professionnel *
                                 </label>
                                 <input
+                                  id="commander-email"
                                   type="email"
                                   value={email}
                                   onChange={(e) => setEmail(e.target.value)}
                                   placeholder="contact@entreprise.fr"
-                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#0C0A08]/[0.11] bg-[#FAF8F5]/70 px-4 py-3 text-base text-[#0C0A08] placeholder:text-[#A8A29E] focus:bg-white focus:border-[#0C0A08] focus:outline-none transition-colors"
                                 />
                               </div>
                               <div>
-                                <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
+                                <label
+                                  htmlFor="commander-phone"
+                                  className="block text-[12.5px] font-medium text-[#57534E] mb-1.5"
+                                >
                                   Téléphone direct
                                 </label>
                                 <input
+                                  id="commander-phone"
                                   type="tel"
                                   value={phone}
                                   onChange={(e) => setPhone(e.target.value)}
                                   placeholder="06 00 00 00 00"
-                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#0C0A08]/[0.11] bg-[#FAF8F5]/70 px-4 py-3 text-base text-[#0C0A08] placeholder:text-[#A8A29E] focus:bg-white focus:border-[#0C0A08] focus:outline-none transition-colors"
                                 />
                               </div>
                             </div>
 
                             <div>
-                              <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
+                              <label
+                                htmlFor="commander-city"
+                                className="block text-[12.5px] font-medium text-[#57534E] mb-1.5"
+                              >
                                 Ville / Zone d&apos;intervention
                               </label>
                               <div className="relative">
-                                <MapPin className="w-4 h-4 text-[#0C0A08]/40 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                <MapPin className="w-4 h-4 text-[#78716C] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                                 <input
+                                  id="commander-city"
                                   type="text"
                                   value={city}
                                   onChange={(e) => setCity(e.target.value)}
                                   placeholder="Ex : Segré, Angers, Haut-Anjou..."
-                                  className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] pl-10 pr-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                  className="w-full rounded-xl border border-[#0C0A08]/[0.11] bg-[#FAF8F5]/70 pl-10 pr-4 py-3 text-base text-[#0C0A08] placeholder:text-[#A8A29E] focus:bg-white focus:border-[#0C0A08] focus:outline-none transition-colors"
                                 />
                               </div>
                             </div>
 
                             <div>
-                              <label className="block font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/60 mb-1.5 font-semibold">
+                              <label
+                                htmlFor="commander-details"
+                                className="block text-[12.5px] font-medium text-[#57534E] mb-1.5"
+                              >
                                 Notes ou précisions (facultatif)
                               </label>
                               <textarea
+                                id="commander-details"
                                 rows={3}
                                 value={details}
                                 onChange={(e) => setDetails(e.target.value)}
                                 placeholder="Ex : Outils déjà utilisés (Pennylane, Gmail, WhatsApp...), calendrier souhaité..."
-                                className="w-full rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] px-4 py-3 text-base text-[#0C0A08] focus:bg-white focus:border-[#ED5B04] focus:outline-none transition-colors"
+                                className="w-full rounded-xl border border-[#0C0A08]/[0.11] bg-[#FAF8F5]/70 px-4 py-3 text-base text-[#0C0A08] placeholder:text-[#A8A29E] focus:bg-white focus:border-[#0C0A08] focus:outline-none transition-colors"
                               />
                             </div>
 
@@ -486,17 +570,17 @@ function CommanderContent() {
                               <button
                                 type="button"
                                 onClick={() => goToStep(1)}
-                                className="inline-flex items-center gap-2 rounded-full bg-white border border-[#E7E3DC] text-[#0C0A08] px-5 py-3 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all cursor-pointer"
+                                className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] text-[#0C0A08] min-h-[44px] px-5 py-2.5 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.98] transition-all duration-150 cursor-pointer"
                               >
                                 <ArrowLeft className="w-4 h-4" />
-                                <span>Retour aux modules</span>
+                                <span>Retour</span>
                               </button>
                               <button
                                 type="button"
                                 onClick={handleNextFromStep2}
-                                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#ED5B04] active:scale-[0.97] transition-all cursor-pointer"
+                                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] hover:bg-[#1E1A16] text-white min-h-[44px] px-7 py-3 text-sm font-semibold active:scale-[0.98] transition-all duration-150 cursor-pointer"
                               >
-                                <span>Vérifier mon projet</span>
+                                <span>Vérifier ma demande</span>
                                 <ArrowRight className="w-4 h-4" />
                               </button>
                             </div>
@@ -506,136 +590,144 @@ function CommanderContent() {
                         {step === 3 && (
                           <motion.div
                             key="step3"
-                            custom={direction}
+                            custom={stepCustom}
                             variants={STEP_VARIANTS}
                             initial="enter"
                             animate="center"
                             exit="exit"
-                            transition={{ duration: 0.28, ease: ATELIER_EASE }}
                             className="space-y-6"
                           >
-                            <div className="rounded-2xl bg-[#FFFDF9] border border-[#E7E3DC] p-6 space-y-5">
+                            <div className="rounded-2xl bg-[#FAF8F5]/70 border border-[#0C0A08]/[0.08] p-5 sm:p-6 space-y-5">
                               <div className="flex items-center justify-between gap-3">
-                                <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04] font-semibold">
-                                  RÉCAPITULATIF DE VOTRE COMMANDE ATELIER
+                                <div className="text-[13px] font-semibold text-[#0C0A08]">
+                                  Votre sélection ({selectedModules.length})
                                 </div>
-                                <span className="font-mono text-[11px] rounded-full bg-[#E6F8EE] border border-[#0E7541]/20 px-2.5 py-0.5 text-[#0E7541] font-semibold">
-                                  Sans acompte préalable
-                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => setIsModuleModalOpen(true)}
+                                  className="min-h-[44px] -my-2 px-2 text-[12.5px] font-medium text-[#57534E] hover:text-[#0C0A08] underline underline-offset-4 decoration-[#0C0A08]/25 cursor-pointer transition-colors"
+                                >
+                                  Modifier
+                                </button>
                               </div>
 
-                              <div className="space-y-3 pt-1">
-                                <div className="text-[#0C0A08]/50 font-mono text-[11px] uppercase font-semibold">
-                                  MODULES SÉLECTIONNÉS ({selectedModules.length})
-                                </div>
-                                <div className="space-y-2">
-                                  {selectedModules.map((m) => (
-                                    <div
-                                      key={m.id}
-                                      className="flex items-center justify-between text-sm py-1 border-b border-[#0C0A08]/[0.05]"
+                              <div className="divide-y divide-[#0C0A08]/[0.06] border-t border-b border-[#0C0A08]/[0.06]">
+                                {selectedModules.map((m) => (
+                                  <div
+                                    key={m.id}
+                                    className="flex items-center justify-between text-sm py-2.5"
+                                  >
+                                    <span className="font-medium text-[#0C0A08]">{m.name}</span>
+                                    <span
+                                      className={`font-mono text-[13px] font-semibold tabular-nums ${
+                                        m.price === 0 ? "text-[#0E7541]" : "text-[#0C0A08]"
+                                      }`}
                                     >
-                                      <span className="font-semibold text-[#0C0A08]">{m.name}</span>
-                                      <span className="font-mono font-bold text-[#0C0A08]">
-                                        {m.price === 0 ? "0.00 € (Offert)" : `${m.price} € HT`}
-                                      </span>
-                                    </div>
-                                  ))}
-                                </div>
+                                      {m.price === 0
+                                        ? "0 €"
+                                        : `${formatAmount(m.price)} € HT`}
+                                    </span>
+                                  </div>
+                                ))}
                               </div>
 
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                                 <div>
-                                  <div className="text-[#0C0A08]/45 font-mono text-[11px]">
-                                    SECTEUR &amp; CONTEXTE
+                                  <div className="text-[12px] font-medium text-[#78716C]">
+                                    Secteur &amp; contexte
                                   </div>
-                                  <div className="font-semibold text-[#0C0A08] mt-0.5">{trade}</div>
-                                  <div className="text-xs text-[#57534E] mt-0.5">{situation}</div>
+                                  <div className="font-semibold text-[#0C0A08] mt-1">
+                                    {trade}
+                                  </div>
+                                  <div className="text-[13px] text-[#57534E] mt-0.5">
+                                    {situation}
+                                  </div>
                                 </div>
                                 <div>
-                                  <div className="text-[#0C0A08]/45 font-mono text-[11px]">
-                                    CONTACT DIRECT
+                                  <div className="text-[12px] font-medium text-[#78716C]">
+                                    Contact direct
                                   </div>
-                                  <div className="font-semibold text-[#0C0A08] mt-0.5">
+                                  <div className="font-semibold text-[#0C0A08] mt-1">
                                     {name} · {company}
                                     {city ? ` (${city})` : ""}
                                   </div>
-                                  <div className="text-xs text-[#57534E] mt-0.5">
+                                  <div className="text-[13px] text-[#57534E] mt-0.5">
                                     {[email, phone].filter(Boolean).join(" · ")}
                                   </div>
                                 </div>
                               </div>
 
-                              <div className="pt-3 border-t border-[#0C0A08]/[0.08] flex items-baseline justify-between">
+                              <div className="pt-4 border-t border-[#0C0A08]/[0.08] flex items-baseline justify-between gap-4">
                                 <div>
-                                  <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#0C0A08]/55 font-semibold">
-                                    TOTAL FORFAIT FIXE ATELIER
+                                  <div className="text-[13px] font-semibold text-[#0C0A08]">
+                                    Total forfait fixe
                                   </div>
-                                  <div className="text-xs text-[#57534E]">
-                                    Sans abonnement récurrent · Code source 100 % à vous
+                                  <div className="text-[12px] text-[#57534E]">
+                                    Sans abonnement · Code source 100 % à vous
                                   </div>
                                 </div>
-                                <div className="text-right">
-                                  <div className="font-mono text-2xl font-black text-[#ED5B04]">
-                                    {totalPrice.toLocaleString("fr-FR")} € HT
-                                  </div>
+                                <div className="font-mono text-[22px] font-extrabold tracking-[-0.02em] text-[#0C0A08] tabular-nums shrink-0">
+                                  {totalPrice === 0
+                                    ? "0 €"
+                                    : `${formatAmount(totalPrice)} € HT`}
                                 </div>
                               </div>
                             </div>
 
-                            {/* What happens next */}
-                            <div className="rounded-2xl border border-[#E7E3DC] bg-white p-5 shadow-sm">
-                              <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/55 mb-3 font-semibold">
-                                DÉROULEMENT APRÈS COMMANDE
+                            {/* Clean Hairline Timeline */}
+                            <div className="pt-5 border-t border-[#0C0A08]/[0.07]">
+                              <div className="text-[12px] font-medium text-[#78716C] mb-3.5">
+                                Déroulement après envoi
                               </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                                <div className="rounded-xl bg-[#FAF8F5] p-3.5 border border-[#E7E3DC]">
-                                  <div className="font-mono font-semibold text-[#ED5B04]">
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-[13px]">
+                                <div>
+                                  <div className="font-mono text-[11.5px] font-semibold text-[#0C0A08]">
                                     Sous 24h
                                   </div>
-                                  <div className="mt-1 font-medium text-[#0C0A08]">
+                                  <div className="mt-1 text-[#57534E] leading-snug">
                                     Appel de 15 min avec Léo pour cadrer vos accès
                                   </div>
                                 </div>
-                                <div className="rounded-xl bg-[#FAF8F5] p-3.5 border border-[#E7E3DC]">
-                                  <div className="font-mono font-semibold text-[#ED5B04]">
+                                <div>
+                                  <div className="font-mono text-[11.5px] font-semibold text-[#0C0A08]">
                                     En 5 jours
                                   </div>
-                                  <div className="mt-1 font-medium text-[#0C0A08]">
-                                    Création du site et configuration de vos agents
+                                  <div className="mt-1 text-[#57534E] leading-snug">
+                                    Création du site et configuration de vos modules
                                   </div>
                                 </div>
-                                <div className="rounded-xl bg-[#FAF8F5] p-3.5 border border-[#E7E3DC]">
-                                  <div className="font-mono font-semibold text-[#ED5B04]">
+                                <div>
+                                  <div className="font-mono text-[11.5px] font-semibold text-[#0C0A08]">
                                     Livraison
                                   </div>
-                                  <div className="mt-1 font-medium text-[#0C0A08]">
-                                    Mise en ligne, tests mutuels et code 100 % à vous
+                                  <div className="mt-1 text-[#57534E] leading-snug">
+                                    Mise en ligne et remise de vos accès complets
                                   </div>
                                 </div>
                               </div>
                             </div>
 
-                            <div className="pt-2 flex flex-wrap items-center justify-between gap-4">
+                            <div className="pt-4 border-t border-[#0C0A08]/[0.08] flex flex-wrap items-center justify-between gap-4">
                               <button
                                 type="button"
                                 onClick={() => goToStep(2)}
-                                className="inline-flex items-center gap-2 rounded-full bg-white border border-[#E7E3DC] text-[#0C0A08] px-5 py-3 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all cursor-pointer"
+                                className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] text-[#0C0A08] min-h-[44px] px-5 py-2.5 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.98] transition-all duration-150 cursor-pointer"
                               >
                                 <ArrowLeft className="w-4 h-4" />
-                                <span>Modifier</span>
+                                <span>Retour</span>
                               </button>
                               <button
                                 type="button"
                                 disabled={submitting}
                                 onClick={handleSubmit}
-                                className="inline-flex items-center gap-2.5 rounded-full bg-[#ED5B04] text-white px-8 py-4 text-sm font-bold shadow-[0_10px_28px_rgba(237,91,4,0.28)] hover:bg-[#D64E00] active:scale-[0.97] transition-all cursor-pointer disabled:opacity-60"
+                                className="inline-flex items-center gap-2.5 rounded-full bg-[#ED5B04] hover:bg-[#D64E00] text-white min-h-[48px] px-8 py-3.5 text-sm font-bold shadow-[0_10px_28px_rgba(237,91,4,0.28)] active:scale-[0.98] transition-all duration-150 cursor-pointer disabled:opacity-60"
                               >
                                 <span>
                                   {submitting
                                     ? "Transmission en cours..."
                                     : totalPrice === 0
-                                    ? "Réserver mon site offert (0 €)"
-                                    : `Commander mon projet (${totalPrice} € HT)`}
+                                      ? "Réserver mon site (0 €)"
+                                      : `Envoyer ma demande (${formatAmount(totalPrice)} € HT)`}
                                 </span>
                                 <Check className="w-4 h-4" />
                               </button>
@@ -647,9 +739,13 @@ function CommanderContent() {
                   </>
                 ) : (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.96 }}
+                    initial={
+                      prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }
+                    }
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={ATELIER_SPRING}
+                    transition={
+                      prefersReducedMotion ? { duration: 0.14 } : ATELIER_SPRING
+                    }
                     className="py-10 text-center space-y-5"
                   >
                     <div className="mx-auto w-16 h-16 rounded-full bg-[#E6F8EE] text-[#0E7541] flex items-center justify-center">
@@ -664,14 +760,20 @@ function CommanderContent() {
                       >
                         <motion.path
                           d="M20 6L9 17l-5-5"
-                          initial={{ pathLength: 0 }}
+                          initial={
+                            prefersReducedMotion ? { pathLength: 1 } : { pathLength: 0 }
+                          }
                           animate={{ pathLength: 1 }}
-                          transition={{ duration: 0.45, ease: ATELIER_EASE }}
+                          transition={
+                            prefersReducedMotion
+                              ? { duration: 0 }
+                              : { duration: 0.4, ease: EASE_OUT }
+                          }
                         />
                       </svg>
                     </div>
                     <div className="font-mono text-xs uppercase tracking-[0.12em] text-[#0E7541] font-semibold">
-                      COMMANDE ENREGISTRÉE AVEC SUCCÈS
+                      DEMANDE ENREGISTRÉE
                     </div>
                     <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[#0C0A08]">
                       Merci {name}, votre projet est entre mes mains.
@@ -684,7 +786,7 @@ function CommanderContent() {
                         href="https://rdv.boubane.com/boubane/30min"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-6 py-3 text-sm font-semibold hover:bg-[#ED5B04] transition-colors active:scale-[0.97]"
+                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-6 py-3 text-sm font-semibold hover:bg-[#ED5B04] transition-colors active:scale-[0.98]"
                       >
                         <Calendar className="w-4 h-4" />
                         <span>Réserver un créneau de cadrage (30 min)</span>
@@ -693,14 +795,14 @@ function CommanderContent() {
                         href={whatsappBriefUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full bg-[#E6F8EE] border border-[#0E7541]/20 text-[#0E7541] px-6 py-3 text-sm font-semibold hover:bg-[#D5F2E2] transition-colors active:scale-[0.97]"
+                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#E6F8EE] border border-[#0E7541]/20 text-[#0E7541] px-6 py-3 text-sm font-semibold hover:bg-[#D5F2E2] transition-colors active:scale-[0.98]"
                       >
                         <MessageCircle className="w-4 h-4" />
                         <span>Envoyer le brief sur WhatsApp</span>
                       </a>
                       <Link
                         href="/"
-                        className="inline-flex items-center gap-2 rounded-full bg-[#FAF8F5] border border-[#E7E3DC] text-[#0C0A08] px-6 py-3 text-sm font-semibold hover:border-[#0C0A08] transition-colors active:scale-[0.97]"
+                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.1] text-[#0C0A08] px-6 py-3 text-sm font-semibold hover:border-[#0C0A08] transition-colors active:scale-[0.98]"
                       >
                         <span>Retour à l&apos;accueil</span>
                       </Link>
@@ -710,40 +812,49 @@ function CommanderContent() {
               </div>
             </div>
 
-            {/* Sidebar Sticky Estimate Console */}
-            <div className="lg:col-span-4 space-y-4 lg:sticky lg:top-28">
+            {/* Sidebar Sticky Receipt Console */}
+            <div className="lg:col-span-4 space-y-5 lg:sticky lg:top-28">
               <AtelierProjectSummary
                 mode="checkout"
                 selectedModules={selectedModules}
-                onRemoveModule={toggleModule}
+                onRemoveModule={!submitted ? toggleModule : undefined}
               />
 
-              {/* Direct exchange */}
-              <div className="rounded-2xl border border-[#E7E3DC] bg-white p-5 space-y-3 shadow-sm">
-                <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/45 font-semibold">
-                  BESOIN D&apos;UN ÉCHANGE DIRECT ?
+              {!submitted && (
+                <div className="text-center">
+                  <button
+                    type="button"
+                    onClick={() => setIsModuleModalOpen(true)}
+                    className="min-h-[44px] px-4 inline-flex items-center gap-2 text-[12.5px] font-medium text-[#78716C] hover:text-[#0C0A08] transition-colors cursor-pointer"
+                  >
+                    <SlidersHorizontal className="w-3.5 h-3.5" />
+                    <span>Modifier les modules</span>
+                  </button>
                 </div>
-                <p className="text-xs text-[#57534E]">
-                  Vous hésitez sur les modules adaptés à votre activité ? Parlons-en de vive voix.
+              )}
+
+              <div className="pt-5 border-t border-[#0C0A08]/[0.07] text-center">
+                <p className="text-[12.5px] text-[#78716C] mb-1">
+                  Une question avant d&apos;envoyer ?
                 </p>
-                <div className="flex flex-col gap-2 pt-1">
+                <div className="inline-flex items-center justify-center gap-4 flex-wrap">
                   <a
                     href="https://rdv.boubane.com/boubane/30min"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FAF8F5] border border-[#E7E3DC] px-4 py-2.5 text-xs font-semibold text-[#0C0A08] hover:border-[#0C0A08] transition-colors"
+                    className="min-h-[44px] px-2 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#0C0A08] hover:text-[#ED5B04] transition-colors"
                   >
                     <Calendar className="w-3.5 h-3.5 text-[#ED5B04]" />
-                    <span>Appel découverte 30 min</span>
+                    <span>Appel 30 min</span>
                   </a>
                   <a
                     href="https://wa.me/33778310346"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FAF8F5] border border-[#E7E3DC] px-4 py-2.5 text-xs font-semibold text-[#0C0A08] hover:border-[#0C0A08] transition-colors"
+                    className="min-h-[44px] px-2 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#0C0A08] hover:text-[#0E7541] transition-colors"
                   >
                     <MessageCircle className="w-3.5 h-3.5 text-[#0E7541]" />
-                    <span>WhatsApp · 07 78 31 03 46</span>
+                    <span>WhatsApp</span>
                   </a>
                 </div>
               </div>
@@ -751,6 +862,103 @@ function CommanderContent() {
           </div>
         </div>
       </main>
+
+      <AnimatePresence>
+        {isModuleModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: { duration: prefersReducedMotion ? 0.1 : 0.18 },
+            }}
+            exit={{
+              opacity: 0,
+              transition: { duration: prefersReducedMotion ? 0.08 : 0.11 },
+            }}
+            onClick={() => setIsModuleModalOpen(false)}
+            className="fixed inset-0 z-50 bg-[#0C0A08]/35 backdrop-blur-[2px] flex items-center justify-center p-4"
+          >
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="module-editor-title"
+              onClick={(e) => e.stopPropagation()}
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: 12, scale: 0.985 }
+              }
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: prefersReducedMotion
+                  ? { duration: 0.12 }
+                  : { duration: 0.22, ease: EASE_OUT },
+              }}
+              exit={
+                prefersReducedMotion
+                  ? { opacity: 0, transition: { duration: 0.1 } }
+                  : {
+                      opacity: 0,
+                      y: 6,
+                      scale: 0.99,
+                      transition: { duration: 0.11, ease: EASE_IN },
+                    }
+              }
+              className="w-full max-w-[600px] rounded-[24px] bg-[#FAF8F5] border border-[#0C0A08]/[0.08] shadow-[0_24px_64px_rgba(12,10,8,0.18)] overflow-hidden"
+            >
+              <div className="px-6 py-4 flex items-start justify-between gap-4">
+                <div>
+                  <h2
+                    id="module-editor-title"
+                    className="font-[family-name:var(--font-jakarta)] text-lg font-bold tracking-[-0.02em] text-[#0C0A08]"
+                  >
+                    Ajuster vos modules
+                  </h2>
+                  <p className="mt-0.5 text-[12.5px] text-[#57534E]">
+                    Site vitrine inclus à 0&nbsp;€ · Options à prix fixe
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  aria-label="Fermer"
+                  onClick={() => setIsModuleModalOpen(false)}
+                  className="min-w-[44px] min-h-[44px] -mr-2 -mt-1 inline-flex items-center justify-center rounded-full text-[#78716C] hover:text-[#0C0A08] hover:bg-[#0C0A08]/[0.05] transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="max-h-[60vh] overflow-y-auto px-6 py-2 bg-white border-y border-[#0C0A08]/[0.07]">
+                <AtelierModuleList
+                  selectedIds={selectedModuleIds}
+                  onToggle={toggleModule}
+                  compact
+                />
+              </div>
+
+              <div className="px-6 py-4 flex items-center justify-between gap-4">
+                <div className="text-[13px] text-[#57534E]">
+                  Total estimé :{" "}
+                  <span className="font-mono font-bold text-[#0C0A08] tabular-nums">
+                    {totalPrice === 0
+                      ? "0 €"
+                      : `${formatAmount(totalPrice)} € HT`}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsModuleModalOpen(false)}
+                  className="bg-[#0C0A08] hover:bg-[#1E1A16] text-white rounded-full min-h-[44px] px-6 text-sm font-semibold active:scale-[0.98] transition-all duration-150 cursor-pointer"
+                >
+                  Terminer
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <SiteFooter />
     </>
