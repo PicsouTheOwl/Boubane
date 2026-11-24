@@ -5,6 +5,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { ScrollStory3DStage } from "@/components/home/ScrollStory3DStage";
 import { AtelierConfiguratorSection } from "@/components/home/AtelierConfiguratorSection";
 import { AtelierLiveDemosSection } from "@/components/home/AtelierLiveDemosSection";
+import { AtelierIntegrationsSection } from "@/components/home/AtelierIntegrationsSection";
 import { ArtisanWorkbenchSection } from "@/components/home/ArtisanWorkbenchSection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { FinalCtaSection } from "@/components/home/FinalCtaSection";
@@ -19,6 +20,7 @@ export default function HomePage() {
         <ScrollStory3DStage />
         <AtelierConfiguratorSection />
         <AtelierLiveDemosSection />
+        <AtelierIntegrationsSection />
         <ArtisanWorkbenchSection />
         <FaqSection />
         <FinalCtaSection />
