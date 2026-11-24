@@ -678,14 +678,20 @@ export function HeroSection() {
     };
   }, []);
 
-  // Close Portal on Escape
+  // Close Portal on Escape + lock background scroll
   useEffect(() => {
     if (!portalSite) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setPortalSite(null);
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [portalSite]);
 
   return (
@@ -915,7 +921,7 @@ export function HeroSection() {
                   alt="Mascotte chat Boubane qui code et fait signe"
                   width={600}
                   height={600}
-                  className="pointer-events-none select-none absolute bottom-0 right-1 sm:right-4 z-[35] w-[112px] sm:w-[144px] lg:w-[156px] h-auto object-contain drop-shadow-[0_14px_22px_rgba(12,10,8,0.16)]"
+                  className="pointer-events-none select-none absolute bottom-0 right-1 sm:right-4 z-[35] w-[92px] sm:w-[144px] lg:w-[156px] h-auto object-contain drop-shadow-[0_14px_22px_rgba(12,10,8,0.16)]"
                 />
               </div>
             </div>
@@ -1187,10 +1193,32 @@ export function HeroSection() {
                 <div className="cs-window-bar-right">
                   <Link
                     href="/commander"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#ED5B04] hover:bg-[#D64E00] text-white px-3.5 py-1.5 text-[11.5px] font-semibold transition-colors whitespace-nowrap"
+                    className="min-h-[38px] inline-flex items-center gap-1.5 rounded-full bg-[#ED5B04] hover:bg-[#D64E00] text-white px-3.5 py-1.5 text-[11.5px] font-semibold transition-colors whitespace-nowrap"
                   >
-                    <span>Commander ce style</span>
+                    <span className="sm:hidden">Commander</span>
+                    <span className="hidden sm:inline">Commander ce style</span>
                   </Link>
+                  <button
+                    type="button"
+                    aria-label="Fermer l'aperçu"
+                    onClick={() => setPortalSite(null)}
+                    className="md:hidden min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-full bg-[#0C0A08]/[0.06] text-[#0C0A08] active:scale-95 transition-transform cursor-pointer"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
                 </div>
               </div>
 

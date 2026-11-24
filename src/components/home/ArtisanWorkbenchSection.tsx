@@ -8,7 +8,7 @@ export function ArtisanWorkbenchSection() {
   return (
     <section
       id="artisan"
-      className="relative py-20 sm:py-28 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.07]"
+      className="relative py-16 sm:py-28 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.07]"
     >
       <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -44,10 +44,10 @@ export function ArtisanWorkbenchSection() {
               </p>
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs font-semibold text-[#0C0A08]">
+            <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs font-semibold text-[#0C0A08]">
               <a
                 href="tel:+33778310346"
-                className="py-1.5 hover:text-[#ED5B04] transition-colors"
+                className="min-h-[44px] inline-flex items-center hover:text-[#ED5B04] transition-colors"
               >
                 07 78 31 03 46
               </a>
@@ -58,7 +58,7 @@ export function ArtisanWorkbenchSection() {
                 href="https://wa.me/33778310346?text=Bonjour%20L%C3%A9o%2C%20je%20souhaite%20%C3%A9changer%20sur%20mon%20projet%20de%20site%20vitrine."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-1.5 hover:text-[#ED5B04] transition-colors"
+                className="min-h-[44px] inline-flex items-center hover:text-[#ED5B04] transition-colors"
               >
                 WhatsApp
               </a>
@@ -69,7 +69,7 @@ export function ArtisanWorkbenchSection() {
                 href="https://rdv.boubane.com/boubane/30min"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-1.5 hover:text-[#ED5B04] transition-colors"
+                className="min-h-[44px] inline-flex items-center hover:text-[#ED5B04] transition-colors"
               >
                 Prendre RDV (30 min)
               </a>
@@ -78,7 +78,7 @@ export function ArtisanWorkbenchSection() {
               </span>
               <Link
                 href="/creation-site-internet-segre"
-                className="py-1.5 hover:text-[#ED5B04] transition-colors"
+                className="min-h-[44px] inline-flex items-center hover:text-[#ED5B04] transition-colors"
               >
                 Segré &amp; Haut-Anjou
               </Link>

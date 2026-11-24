@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Plus } from "lucide-react";
 import { AtelierReveal } from "@/components/AtelierPrimitives";
 import { ATELIER_EASE } from "@/lib/utils";
@@ -30,12 +30,13 @@ const FAQ_ITEMS = [
 ];
 
 export function FaqSection() {
+  const prefersReducedMotion = !!useReducedMotion();
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
     <section
       id="faq"
-      className="relative py-20 sm:py-28 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.07]"
+      className="relative py-16 sm:py-28 bg-[#FAF8F5] border-t border-[#0C0A08]/[0.07]"
     >
       <div className="mx-auto max-w-[1160px] px-5 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -57,7 +58,7 @@ export function FaqSection() {
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => setOpenIdx(isOpen ? null : idx)}
-                    className="w-full py-5 sm:py-6 flex items-center justify-between gap-6 text-left cursor-pointer group"
+                    className="min-h-[56px] w-full py-5 sm:py-6 flex items-center justify-between gap-6 text-left cursor-pointer group"
                   >
                     <span className="font-semibold text-[1rem] sm:text-[1.04rem] tracking-[-0.02em] text-[#0C0A08] group-hover:text-[#ED5B04] transition-colors">
                       {item.q}
@@ -65,7 +66,10 @@ export function FaqSection() {
 
                     <motion.span
                       animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.2, ease: ATELIER_EASE }}
+                      transition={{
+                        duration: prefersReducedMotion ? 0.08 : 0.2,
+                        ease: ATELIER_EASE,
+                      }}
                       className="shrink-0 text-[#0C0A08]/60 group-hover:text-[#0C0A08]"
                     >
                       <Plus className="w-4 h-4" strokeWidth={1.8} />
@@ -75,26 +79,36 @@ export function FaqSection() {
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{
-                          height: "auto",
-                          opacity: 1,
-                          transition: {
-                            duration: 0.22,
-                            ease: [0.16, 1, 0.3, 1],
-                          },
-                        }}
-                        exit={{
-                          height: 0,
-                          opacity: 0,
-                          transition: {
-                            duration: 0.11,
-                            ease: [0.7, 0, 0.84, 0],
-                          },
-                        }}
+                        initial={
+                          prefersReducedMotion ? { opacity: 0 } : { height: 0, opacity: 0 }
+                        }
+                        animate={
+                          prefersReducedMotion
+                            ? { opacity: 1, transition: { duration: 0.1 } }
+                            : {
+                                height: "auto",
+                                opacity: 1,
+                                transition: {
+                                  duration: 0.22,
+                                  ease: [0.16, 1, 0.3, 1],
+                                },
+                              }
+                        }
+                        exit={
+                          prefersReducedMotion
+                            ? { opacity: 0, transition: { duration: 0.08 } }
+                            : {
+                                height: 0,
+                                opacity: 0,
+                                transition: {
+                                  duration: 0.11,
+                                  ease: [0.7, 0, 0.84, 0],
+                                },
+                              }
+                        }
                         className="overflow-hidden"
                       >
-                        <p className="pb-6 pr-8 text-[0.95rem] leading-[1.68] text-[#57534E] max-w-[60ch]">
+                        <p className="pb-6 pr-2 sm:pr-8 text-[0.95rem] leading-[1.68] text-[#57534E] max-w-[60ch]">
                           {item.a}
                         </p>
                       </motion.div>

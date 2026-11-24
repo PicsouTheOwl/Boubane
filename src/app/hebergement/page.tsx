@@ -30,7 +30,7 @@ export default function HebergementPage() {
       <SiteHeader isHome={false} />
 
       <main className="relative pt-16 pb-28">
-        <div className="mx-auto max-w-[1140px] px-6">
+        <div className="mx-auto max-w-[1140px] px-5 sm:px-6">
           <AtelierReveal className="max-w-3xl mb-14">
             <EyebrowBadge index="HÉBERGEMENT">Nom de domaine et serveur</EyebrowBadge>
             <h1 className="mt-5 text-[clamp(2.2rem,5vw,3.6rem)] font-bold tracking-[-0.04em] leading-[1.06] text-[#0C0A08]">
@@ -46,7 +46,7 @@ export default function HebergementPage() {
           {/* Tableau d'ingénierie 2 options */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             <AtelierReveal delay={0.05} className="lg:col-span-6 flex">
-              <SpecularPlate className="w-full p-8 sm:p-10 bg-white flex flex-col justify-between">
+              <SpecularPlate className="w-full p-6 sm:p-10 bg-white flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between pb-5 border-b border-[#0C0A08]/[0.07]">
                     <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#0C0A08]/45">
@@ -96,7 +96,7 @@ export default function HebergementPage() {
             </AtelierReveal>
 
             <AtelierReveal delay={0.12} className="lg:col-span-6 flex">
-              <SpecularPlate dark crosshairs className="w-full p-8 sm:p-10 flex flex-col justify-between">
+              <SpecularPlate dark crosshairs className="w-full p-6 sm:p-10 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between pb-5 border-b border-white/[0.08]">
                     <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#ED5B04]">
@@ -165,13 +165,13 @@ export default function HebergementPage() {
               exit={{ opacity: 0, scale: 0.94, y: 8 }}
               transition={ATELIER_SNAPPY_SPRING}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-md rounded-[24px] bg-white p-8 border border-[#0C0A08]/[0.1] shadow-2xl text-center"
+              className="relative w-full max-w-md max-h-[85dvh] overflow-y-auto overscroll-contain rounded-[24px] bg-white p-6 sm:p-8 border border-[#0C0A08]/[0.1] shadow-2xl text-center"
             >
               <button
                 type="button"
                 aria-label="Fermer"
                 onClick={() => setModalOpen(false)}
-                className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#FAF8F5] flex items-center justify-center text-[#0C0A08]/60 hover:text-[#0C0A08] cursor-pointer"
+                className="absolute top-3 right-3 min-w-[44px] min-h-[44px] rounded-full bg-[#FAF8F5] flex items-center justify-center text-[#0C0A08]/60 hover:text-[#0C0A08] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -188,7 +188,7 @@ export default function HebergementPage() {
                   href="https://wa.me/33778310346?text=Bonjour%20L%C3%A9o%2C%20je%20souhaite%20activer%20l%27h%C3%A9bergement%20%C3%A0%2015%E2%82%AC%20pour%20mon%20site."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-5 py-2.5 text-xs font-semibold"
+                  className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-5 py-2.5 text-xs font-semibold"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                   <span>Contacter sur WhatsApp</span>
@@ -196,7 +196,7 @@ export default function HebergementPage() {
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.12] px-5 py-2.5 text-xs font-semibold text-[#0C0A08] cursor-pointer"
+                  className="min-h-[44px] rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.12] px-5 py-2.5 text-xs font-semibold text-[#0C0A08] cursor-pointer"
                 >
                   Fermer
                 </button>

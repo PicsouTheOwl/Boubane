@@ -434,7 +434,7 @@ function CommanderContent() {
                               <button
                                 type="button"
                                 onClick={() => goToStep(2)}
-                                className="inline-flex items-center gap-2 rounded-full bg-[#0C0A08] hover:bg-[#1E1A16] text-white min-h-[44px] px-7 py-3 text-sm font-semibold active:scale-[0.98] transition-all duration-150 cursor-pointer shrink-0"
+                                className="w-full sm:w-auto justify-center inline-flex items-center gap-2 rounded-full bg-[#0C0A08] hover:bg-[#1E1A16] text-white min-h-[44px] px-7 py-3 text-sm font-semibold active:scale-[0.98] transition-all duration-150 cursor-pointer shrink-0"
                               >
                                 <span>Continuer</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -464,6 +464,8 @@ function CommanderContent() {
                                 <input
                                   id="commander-name"
                                   type="text"
+                                  autoComplete="name"
+                                  enterKeyHint="next"
                                   value={name}
                                   onChange={(e) => setName(e.target.value)}
                                   placeholder="Jean Dupont"
@@ -480,6 +482,8 @@ function CommanderContent() {
                                 <input
                                   id="commander-company"
                                   type="text"
+                                  autoComplete="organization"
+                                  enterKeyHint="next"
                                   value={company}
                                   onChange={(e) => setCompany(e.target.value)}
                                   placeholder="Atelier Dupont"
@@ -499,6 +503,11 @@ function CommanderContent() {
                                 <input
                                   id="commander-email"
                                   type="email"
+                                  inputMode="email"
+                                  autoComplete="email"
+                                  autoCapitalize="none"
+                                  autoCorrect="off"
+                                  enterKeyHint="next"
                                   value={email}
                                   onChange={(e) => setEmail(e.target.value)}
                                   placeholder="contact@entreprise.fr"
@@ -515,6 +524,9 @@ function CommanderContent() {
                                 <input
                                   id="commander-phone"
                                   type="tel"
+                                  inputMode="tel"
+                                  autoComplete="tel"
+                                  enterKeyHint="next"
                                   value={phone}
                                   onChange={(e) => setPhone(e.target.value)}
                                   placeholder="06 00 00 00 00"
@@ -535,6 +547,8 @@ function CommanderContent() {
                                 <input
                                   id="commander-city"
                                   type="text"
+                                  autoComplete="address-level2"
+                                  enterKeyHint="next"
                                   value={city}
                                   onChange={(e) => setCity(e.target.value)}
                                   placeholder="Ex : Segré, Angers, Haut-Anjou..."
@@ -553,6 +567,7 @@ function CommanderContent() {
                               <textarea
                                 id="commander-details"
                                 rows={3}
+                                enterKeyHint="done"
                                 value={details}
                                 onChange={(e) => setDetails(e.target.value)}
                                 placeholder="Ex : Outils déjà utilisés (Pennylane, Gmail, WhatsApp...), calendrier souhaité..."
@@ -720,7 +735,7 @@ function CommanderContent() {
                                 type="button"
                                 disabled={submitting}
                                 onClick={handleSubmit}
-                                className="inline-flex items-center gap-2.5 rounded-full bg-[#ED5B04] hover:bg-[#D64E00] text-white min-h-[48px] px-8 py-3.5 text-sm font-bold shadow-[0_10px_28px_rgba(237,91,4,0.28)] active:scale-[0.98] transition-all duration-150 cursor-pointer disabled:opacity-60"
+                                className="w-full sm:w-auto justify-center inline-flex items-center gap-2.5 rounded-full bg-[#ED5B04] hover:bg-[#D64E00] text-white min-h-[48px] px-8 py-3.5 text-sm font-bold shadow-[0_10px_28px_rgba(237,91,4,0.28)] active:scale-[0.98] transition-all duration-150 cursor-pointer disabled:opacity-60"
                               >
                                 <span>
                                   {submitting
@@ -876,7 +891,7 @@ function CommanderContent() {
               transition: { duration: prefersReducedMotion ? 0.08 : 0.11 },
             }}
             onClick={() => setIsModuleModalOpen(false)}
-            className="fixed inset-0 z-50 bg-[#0C0A08]/35 backdrop-blur-[2px] flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-[#0C0A08]/35 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-0 sm:p-4"
           >
             <motion.div
               role="dialog"
@@ -886,7 +901,7 @@ function CommanderContent() {
               initial={
                 prefersReducedMotion
                   ? { opacity: 0 }
-                  : { opacity: 0, y: 12, scale: 0.985 }
+                  : { opacity: 0, y: 18, scale: 0.99 }
               }
               animate={{
                 opacity: 1,
@@ -901,14 +916,14 @@ function CommanderContent() {
                   ? { opacity: 0, transition: { duration: 0.1 } }
                   : {
                       opacity: 0,
-                      y: 6,
+                      y: 12,
                       scale: 0.99,
                       transition: { duration: 0.11, ease: EASE_IN },
                     }
               }
-              className="w-full max-w-[600px] rounded-[24px] bg-[#FAF8F5] border border-[#0C0A08]/[0.08] shadow-[0_24px_64px_rgba(12,10,8,0.18)] overflow-hidden"
+              className="w-full max-w-[600px] rounded-t-[24px] sm:rounded-[24px] bg-[#FAF8F5] border border-[#0C0A08]/[0.08] shadow-[0_24px_64px_rgba(12,10,8,0.18)] overflow-hidden"
             >
-              <div className="px-6 py-4 flex items-start justify-between gap-4">
+              <div className="px-5 sm:px-6 py-4 flex items-start justify-between gap-4">
                 <div>
                   <h2
                     id="module-editor-title"
@@ -930,7 +945,7 @@ function CommanderContent() {
                 </button>
               </div>
 
-              <div className="max-h-[60vh] overflow-y-auto px-6 py-2 bg-white border-y border-[#0C0A08]/[0.07]">
+              <div className="max-h-[72dvh] sm:max-h-[60vh] overflow-y-auto overscroll-contain px-5 sm:px-6 py-2 bg-white border-y border-[#0C0A08]/[0.07]">
                 <AtelierModuleList
                   selectedIds={selectedModuleIds}
                   onToggle={toggleModule}
@@ -938,7 +953,7 @@ function CommanderContent() {
                 />
               </div>
 
-              <div className="px-6 py-4 flex items-center justify-between gap-4">
+              <div className="px-5 sm:px-6 py-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] sm:pb-4 flex items-center justify-between gap-4">
                 <div className="text-[13px] text-[#57534E]">
                   Total estimé :{" "}
                   <span className="font-mono font-bold text-[#0C0A08] tabular-nums">

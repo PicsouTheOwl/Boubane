@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import { MotionConfig } from "motion/react";
@@ -24,6 +24,17 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-geist-mono",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  interactiveWidget: "resizes-content",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FAF8F5" },
+    { media: "(prefers-color-scheme: dark)", color: "#FAF8F5" },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.boubane.com"),

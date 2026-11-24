@@ -259,7 +259,7 @@ function InvoicingInteractiveDemo({
         })}
       </div>
 
-      <div className="pt-2 flex items-center justify-between gap-3">
+      <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
         <button
           type="button"
           onClick={() =>
@@ -435,7 +435,7 @@ function DashboardInteractiveDemo({
 
   return (
     <div className="w-full max-w-[490px] rounded-[16px] bg-white border border-[#0C0A08]/[0.08] shadow-[0_12px_32px_-16px_rgba(12,10,8,0.12)] p-5 sm:p-6 space-y-5">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <div className="text-[13.5px] font-semibold text-[#0C0A08]">
             Cockpit d&apos;activité
@@ -464,7 +464,7 @@ function DashboardInteractiveDemo({
                 aria-selected={active}
                 onClick={() => setPeriod(item.key)}
                 className={cn(
-                  "relative px-3 py-1.5 rounded-full text-[11.5px] font-semibold transition-colors cursor-pointer",
+                  "relative min-h-[36px] px-3 py-1.5 rounded-full text-[11.5px] font-semibold transition-colors cursor-pointer",
                   active ? "text-white" : "text-[#57534E] hover:text-[#0C0A08]"
                 )}
               >
@@ -487,22 +487,22 @@ function DashboardInteractiveDemo({
       </div>
 
       {/* KPIs Row */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
         <div className="rounded-[12px] bg-[#FAF8F5] border border-[#0C0A08]/[0.06] p-3">
           <div className="text-[11px] text-[#78716C]">CA encaissé</div>
-          <div className="mt-1 font-mono text-[15px] sm:text-[17px] font-bold text-[#0C0A08] tabular-nums">
+          <div className="mt-1 font-mono text-[15px] sm:text-[17px] font-bold text-[#0C0A08] tabular-nums whitespace-nowrap">
             {data.ca}
           </div>
         </div>
         <div className="rounded-[12px] bg-[#FAF8F5] border border-[#0C0A08]/[0.06] p-3">
           <div className="text-[11px] text-[#78716C]">Devis en cours</div>
-          <div className="mt-1 font-mono text-[15px] sm:text-[17px] font-bold text-[#0C0A08] tabular-nums">
+          <div className="mt-1 font-mono text-[15px] sm:text-[17px] font-bold text-[#0C0A08] tabular-nums whitespace-nowrap">
             {data.devis}
           </div>
         </div>
-        <div className="rounded-[12px] bg-[#FAF8F5] border border-[#0C0A08]/[0.06] p-3">
+        <div className="col-span-2 sm:col-span-1 rounded-[12px] bg-[#FAF8F5] border border-[#0C0A08]/[0.06] p-3 flex sm:block items-baseline justify-between gap-2">
           <div className="text-[11px] text-[#78716C]">Temps gagné</div>
-          <div className="mt-1 font-mono text-[15px] sm:text-[17px] font-bold text-[#0E7541] tabular-nums">
+          <div className="sm:mt-1 font-mono text-[15px] sm:text-[17px] font-bold text-[#0E7541] tabular-nums whitespace-nowrap">
             {data.temps}
           </div>
         </div>
@@ -585,7 +585,7 @@ export function AtelierLiveDemosSection() {
         <div
           role="tablist"
           aria-label="Aperçu des automatisations IA"
-          className="flex flex-wrap items-center gap-1 sm:gap-6 border-b border-[#0C0A08]/[0.09]"
+          className="flex flex-nowrap items-center gap-5 sm:gap-6 overflow-x-auto no-scrollbar -mx-5 px-5 sm:mx-0 sm:px-0 border-b border-[#0C0A08]/[0.09]"
         >
           {DEMOS.map((demo) => {
             const active = activeTab === demo.id;
@@ -597,7 +597,7 @@ export function AtelierLiveDemosSection() {
                 aria-selected={active}
                 onClick={() => setActiveTab(demo.id)}
                 className={cn(
-                  "min-h-[44px] relative px-2 sm:px-0 py-3 text-[13.5px] sm:text-[14px] font-medium cursor-pointer transition-colors",
+                  "min-h-[44px] whitespace-nowrap shrink-0 relative px-1 sm:px-0 py-3 text-[13.5px] sm:text-[14px] font-medium cursor-pointer transition-colors",
                   active
                     ? "text-[#0C0A08]"
                     : "text-[#78716C] hover:text-[#0C0A08]"
@@ -645,7 +645,7 @@ export function AtelierLiveDemosSection() {
               <button
                 type="button"
                 onClick={handleAddToTicket}
-                className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#0C0A08] hover:bg-[#ED5B04] text-white px-5 py-2.5 text-[13px] font-semibold transition-colors active:scale-[0.97] cursor-pointer"
+                className="min-h-[44px] w-full sm:w-auto justify-center inline-flex items-center gap-2 rounded-full bg-[#0C0A08] hover:bg-[#ED5B04] text-white px-5 py-2.5 text-[13px] font-semibold transition-colors active:scale-[0.97] cursor-pointer"
               >
                 {addedFeedbackMap[activeTab] ? (
                   <>
@@ -663,7 +663,7 @@ export function AtelierLiveDemosSection() {
           </div>
 
           {/* Right Interactive Sandbox */}
-          <div className="lg:col-span-8 p-5 sm:p-8 lg:p-10 bg-[#FAF8F5]/60 flex items-center justify-center min-h-[340px] sm:min-h-[370px]">
+          <div className="lg:col-span-8 p-4 sm:p-8 lg:p-10 bg-[#FAF8F5]/60 flex items-center justify-center min-h-[340px] sm:min-h-[370px]">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeTab}

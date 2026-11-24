@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ATELIER_EASE, ATELIER_SNAPPY_SPRING, ATELIER_SPRING, cn } from "@/lib/utils";
 
 interface StoryChapter {
@@ -56,6 +56,7 @@ const CHAPTERS: StoryChapter[] = [
 ];
 
 export function ScrollStory3DStage() {
+  const prefersReducedMotion = !!useReducedMotion();
   const [activeIdx, setActiveIdx] = useState(1);
 
   const current = CHAPTERS[activeIdx];
@@ -75,22 +76,21 @@ export function ScrollStory3DStage() {
           {/* Left Interactive Tactile Card Fan */}
           <div className="lg:col-span-6 flex flex-col items-center">
             <div className="relative w-full max-w-[490px] h-[300px] sm:h-[340px] select-none flex items-center justify-center">
-              <div className="relative w-[310px] h-[290px] sm:w-[460px] sm:h-[325px]">
+              <div className="relative w-full max-w-[310px] sm:max-w-[460px] h-[290px] sm:h-[325px]">
                 {/* Card A: Agence Classique 4 500 € */}
                 <motion.button
                   type="button"
                   onClick={() => setActiveIdx(0)}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
                   animate={{
                     rotate: isAgency ? 0 : -7,
                     x: isAgency ? 28 : 0,
                     y: isAgency ? 18 : 0,
                     scale: isAgency ? 1.05 : 0.95,
                   }}
-                  transition={ATELIER_SPRING}
+                  transition={prefersReducedMotion ? { duration: 0.1 } : ATELIER_SPRING}
                   className={cn(
-                    "absolute top-2 left-0 sm:left-2 w-[205px] sm:w-[275px] rounded-[18px] bg-[#F3EFE7] border p-5 sm:p-6 text-left cursor-pointer",
+                    "absolute top-2 left-0 sm:left-2 w-[205px] sm:w-[275px] rounded-[18px] bg-[#F3EFE7] border p-5 sm:p-6 text-left cursor-pointer hover:scale-[1.02] transition-transform",
                     isAgency
                       ? "z-40 border-[#0C0A08]/25 shadow-[0_24px_48px_rgba(12,10,8,0.14)]"
                       : "z-10 border-[#E5DEC9] shadow-[0_14px_30px_rgba(12,10,8,0.07)]"
@@ -111,17 +111,16 @@ export function ScrollStory3DStage() {
                 <motion.button
                   type="button"
                   onClick={() => setActiveIdx(3)}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
                   animate={{
                     rotate: isOwnership ? 0 : 5,
                     x: isOwnership ? -24 : 0,
                     y: isOwnership ? 10 : 0,
                     scale: isOwnership ? 1.05 : 0.97,
                   }}
-                  transition={ATELIER_SPRING}
+                  transition={prefersReducedMotion ? { duration: 0.1 } : ATELIER_SPRING}
                   className={cn(
-                    "absolute top-12 sm:top-14 right-0 sm:right-2 w-[210px] sm:w-[285px] rounded-[18px] bg-white border p-5 sm:p-6 text-left cursor-pointer",
+                    "absolute top-12 sm:top-14 right-0 sm:right-2 w-[210px] sm:w-[285px] rounded-[18px] bg-white border p-5 sm:p-6 text-left cursor-pointer hover:scale-[1.02] transition-transform",
                     isOwnership
                       ? "z-40 border-[#ED5B04]/50 shadow-[0_24px_52px_rgba(12,10,8,0.14)]"
                       : "z-20 border-[#E7E3DC] shadow-[0_18px_36px_rgba(12,10,8,0.08)]"
@@ -142,17 +141,16 @@ export function ScrollStory3DStage() {
                 <motion.button
                   type="button"
                   onClick={() => setActiveIdx(activeIdx === 1 ? 2 : 1)}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
                   animate={{
                     rotate: isOrange ? 0 : -2,
                     x: 0,
                     y: isOrange ? -10 : 0,
                     scale: isOrange ? 1.05 : 0.96,
                   }}
-                  transition={ATELIER_SPRING}
+                  transition={prefersReducedMotion ? { duration: 0.1 } : ATELIER_SPRING}
                   className={cn(
-                    "absolute bottom-1 left-6 sm:left-14 w-[235px] sm:w-[304px] rounded-[20px] bg-[#ED5B04] p-5 sm:p-6 text-left cursor-pointer",
+                    "absolute bottom-1 left-6 sm:left-14 w-[235px] sm:w-[304px] rounded-[20px] bg-[#ED5B04] p-5 sm:p-6 text-left cursor-pointer hover:scale-[1.02] transition-transform",
                     isOrange
                       ? "z-40 shadow-[0_26px_54px_rgba(237,91,4,0.34)]"
                       : "z-30 shadow-[0_18px_36px_rgba(237,91,4,0.22)]"
@@ -179,7 +177,7 @@ export function ScrollStory3DStage() {
               <div
                 role="tablist"
                 aria-label="Choisir une étape"
-                className="inline-flex flex-wrap p-1 rounded-full bg-white border border-[#E7E3DC]"
+                className="flex flex-nowrap overflow-x-auto no-scrollbar max-w-full p-1 rounded-full bg-white border border-[#E7E3DC]"
               >
                 {CHAPTERS.map((chap, idx) => {
                   const selected = activeIdx === idx;
@@ -191,14 +189,14 @@ export function ScrollStory3DStage() {
                       aria-selected={selected}
                       onClick={() => setActiveIdx(idx)}
                       className={cn(
-                        "relative px-3.5 py-2 rounded-full text-[11px] font-semibold tracking-[0.02em] transition-colors cursor-pointer",
+                        "relative whitespace-nowrap shrink-0 min-h-[40px] px-3.5 py-2 rounded-full text-[11px] font-semibold tracking-[0.02em] transition-colors cursor-pointer",
                         selected ? "text-white" : "text-[#57534E] hover:text-[#0C0A08]"
                       )}
                     >
                       {selected && (
                         <motion.span
                           layoutId="compactStoryTabPill"
-                          transition={ATELIER_SNAPPY_SPRING}
+                          transition={prefersReducedMotion ? { duration: 0.1 } : ATELIER_SNAPPY_SPRING}
                           className="absolute inset-0 rounded-full bg-[#0C0A08]"
                         />
                       )}
@@ -264,7 +262,7 @@ export function ScrollStory3DStage() {
 
                 <Link
                   href="/commander"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-6 py-2.5 text-[13px] font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all"
+                  className="min-h-[44px] w-full sm:w-auto justify-center inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-6 py-2.5 text-[13px] font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all"
                 >
                   <span>Lancer mon site à 0 €</span>
                   <ArrowUpRight className="w-4 h-4" />

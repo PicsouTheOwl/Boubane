@@ -137,7 +137,7 @@ export default function BlogPage() {
 
           {/* Barre de Filtres Tactile */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12 pb-6 border-b border-[#0C0A08]/[0.08]">
-            <div className="flex flex-wrap items-center gap-1.5">
+            <div className="flex flex-nowrap overflow-x-auto no-scrollbar max-w-full items-center gap-1.5">
               {CATEGORIES.map((cat) => {
                 const active = selectedCat === cat;
                 return (
@@ -145,7 +145,7 @@ export default function BlogPage() {
                     key={cat}
                     type="button"
                     onClick={() => setSelectedCat(cat)}
-                    className={`relative px-4 py-2 rounded-full text-xs font-mono font-semibold uppercase tracking-[0.08em] transition-colors cursor-pointer ${
+                    className={`relative whitespace-nowrap shrink-0 min-h-[44px] px-4 py-2 rounded-full text-xs font-mono font-semibold uppercase tracking-[0.08em] transition-colors cursor-pointer ${
                       active ? "text-white" : "text-[#0C0A08]/60 hover:text-[#0C0A08]"
                     }`}
                   >
@@ -165,11 +165,12 @@ export default function BlogPage() {
             <div className="relative w-full md:w-72">
               <Search className="w-4 h-4 text-[#0C0A08]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
-                type="text"
+                type="search"
+                enterKeyHint="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Rechercher un dossier..."
-                className="w-full rounded-full border border-[#0C0A08]/[0.1] bg-white pl-10 pr-4 py-2 text-sm text-[#0C0A08] focus:border-[#ED5B04] focus:outline-none"
+                className="w-full min-h-[44px] rounded-full border border-[#0C0A08]/[0.1] bg-white pl-10 pr-4 py-2 text-base sm:text-sm text-[#0C0A08] focus:border-[#ED5B04] focus:outline-none"
               />
             </div>
           </div>
@@ -288,21 +289,21 @@ export default function BlogPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setOpenArticle(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 backdrop-blur-md p-4"
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/65 backdrop-blur-md p-0 sm:p-4"
           >
             <motion.article
-              initial={{ opacity: 0, y: 20, scale: 0.97 }}
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 12, scale: 0.97 }}
-              transition={{ duration: 0.28, ease: ATELIER_EASE }}
+              exit={{ opacity: 0, y: 12, scale: 0.98 }}
+              transition={{ duration: 0.24, ease: ATELIER_EASE }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-[24px] bg-[#FAF8F5] p-8 sm:p-10 border border-[#0C0A08]/[0.1] shadow-2xl"
+              className="relative w-full max-w-2xl max-h-[88dvh] overflow-y-auto overscroll-contain rounded-t-[24px] sm:rounded-[24px] bg-[#FAF8F5] p-6 sm:p-10 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] sm:pb-10 border border-[#0C0A08]/[0.1] shadow-2xl"
             >
               <button
                 type="button"
                 aria-label="Fermer"
                 onClick={() => setOpenArticle(null)}
-                className="sticky float-right top-0 w-8 h-8 rounded-full bg-white border border-[#0C0A08]/[0.1] flex items-center justify-center text-[#0C0A08] cursor-pointer"
+                className="sticky float-right top-0 min-w-[44px] min-h-[44px] -mr-2 -mt-2 rounded-full bg-white border border-[#0C0A08]/[0.1] flex items-center justify-center text-[#0C0A08] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>

@@ -158,7 +158,7 @@ export function SpecularPlate({
 }
 
 /**
- * Staggered reveal block with subtle blur-to-sharp entrance (non-blocking).
+ * Staggered reveal block (compositor-only, non-blocking).
  */
 export function AtelierReveal({
   children,
@@ -171,10 +171,10 @@ export function AtelierReveal({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16, filter: "blur(3px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.48, delay, ease: ATELIER_EASE }}
+      transition={{ duration: 0.44, delay, ease: ATELIER_EASE }}
       className={className}
     >
       {children}

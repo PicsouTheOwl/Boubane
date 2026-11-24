@@ -7,7 +7,7 @@ import { AtelierReveal } from "@/components/AtelierPrimitives";
 
 export function FinalCtaSection() {
   return (
-    <section className="relative py-24 sm:py-32 bg-[#FAF8F5] text-[#0C0A08] border-t border-[#0C0A08]/[0.07]">
+    <section className="relative py-18 sm:py-32 bg-[#FAF8F5] text-[#0C0A08] border-t border-[#0C0A08]/[0.07]">
       <div className="mx-auto max-w-[820px] px-5 sm:px-6 text-center">
         <AtelierReveal>
           <img
@@ -28,10 +28,10 @@ export function FinalCtaSection() {
             Envoyez votre brief en deux minutes ou réservez un appel de 30 minutes pour parler de votre site et de vos automatisations.
           </p>
 
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/commander"
-              className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all duration-100 shadow-[0_10px_28px_rgba(237,91,4,0.22)]"
+              className="min-h-[44px] w-full sm:w-auto max-w-[340px] justify-center inline-flex items-center gap-2 rounded-full bg-[#ED5B04] text-white px-7 py-3.5 text-sm font-semibold hover:bg-[#D64E00] active:scale-[0.97] transition-all duration-100 shadow-[0_10px_28px_rgba(237,91,4,0.22)]"
             >
               <span>Commander mon site à 0 €</span>
               <ArrowUpRight className="w-4 h-4" />
@@ -40,7 +40,7 @@ export function FinalCtaSection() {
               href="https://rdv.boubane.com/boubane/30min"
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.14] text-[#0C0A08] px-6 py-3.5 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all duration-100"
+              className="min-h-[44px] w-full sm:w-auto max-w-[340px] justify-center inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.14] text-[#0C0A08] px-6 py-3.5 text-sm font-semibold hover:border-[#0C0A08] active:scale-[0.97] transition-all duration-100"
             >
               <span>Prendre RDV (30 min)</span>
             </a>

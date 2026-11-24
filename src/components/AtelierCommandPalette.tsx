@@ -13,6 +13,7 @@ import {
   Search,
   Server,
   Sparkles,
+  X,
 } from "lucide-react";
 
 interface CommandItem {
@@ -30,9 +31,10 @@ export function CommandPaletteTrigger() {
       onClick={() =>
         window.dispatchEvent(new CustomEvent("boubane:open-palette"))
       }
-      className="min-h-[36px] inline-flex items-center gap-2 rounded-full border border-[#0C0A08]/[0.1] bg-white/70 hover:bg-white px-3 py-1 text-[11px] font-mono text-[#57534E] hover:text-[#0C0A08] transition-colors cursor-pointer"
+      className="min-h-[44px] inline-flex items-center gap-2 rounded-full border border-[#0C0A08]/[0.1] bg-white/70 hover:bg-white px-3.5 py-1 text-[11px] font-mono text-[#57534E] hover:text-[#0C0A08] transition-colors cursor-pointer"
     >
-      <span>⌘K · Navigation rapide</span>
+      <span className="hidden sm:inline">⌘K · </span>
+      <span>Navigation rapide</span>
     </button>
   );
 }
@@ -169,7 +171,7 @@ export function AtelierCommandPalette() {
               transition: { duration: 0.06, ease: [0.7, 0, 0.84, 0] },
             }}
             onClick={() => setOpen(false)}
-            className="fixed inset-0 z-[150] flex items-start justify-center pt-[16vh] px-4 bg-[#0B0A09]/55 backdrop-blur-md"
+            className="fixed inset-0 z-[150] flex items-start justify-center pt-[max(1rem,env(safe-area-inset-top))] sm:pt-[14vh] px-3 sm:px-4 bg-[#0B0A09]/55 backdrop-blur-md"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.985 }}
@@ -187,22 +189,34 @@ export function AtelierCommandPalette() {
               onKeyDown={handleListKeyDown}
               className="w-full max-w-lg rounded-[20px] bg-[#141311] text-[#FAF8F5] border border-white/[0.12] shadow-[0_32px_90px_-15px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.1)] overflow-hidden"
             >
-              <div className="flex items-center gap-3 px-4 py-3.5 border-b border-white/[0.08]">
+              <div className="flex items-center gap-3 px-4 py-2.5 sm:py-3.5 border-b border-white/[0.08]">
                 <Search className="w-4 h-4 text-white/40 shrink-0" />
                 <input
                   autoFocus
                   type="text"
+                  inputMode="search"
+                  enterKeyHint="go"
+                  autoCapitalize="none"
+                  autoCorrect="off"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Aller vers une page, commander, appeler..."
-                  className="w-full bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
+                  className="w-full bg-transparent text-base sm:text-sm text-white placeholder:text-white/40 focus:outline-none"
                 />
-                <kbd className="font-mono text-[10px] text-white/40 border border-white/10 rounded px-1.5 py-0.5">
+                <kbd className="hidden sm:inline-block font-mono text-[10px] text-white/40 border border-white/10 rounded px-1.5 py-0.5">
                   ESC
                 </kbd>
+                <button
+                  type="button"
+                  aria-label="Fermer la recherche"
+                  onClick={() => setOpen(false)}
+                  className="sm:hidden min-w-[44px] min-h-[44px] -mr-2 inline-flex items-center justify-center text-white/60 hover:text-white cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
 
-              <div className="max-h-72 overflow-y-auto p-2 space-y-0.5">
+              <div className="max-h-[min(60dvh,22rem)] overflow-y-auto overscroll-contain p-2 space-y-0.5">
                 {filtered.length > 0 ? (
                   filtered.map((item, idx) => {
                     const Icon = item.icon;
@@ -216,7 +230,7 @@ export function AtelierCommandPalette() {
                           setOpen(false);
                           item.action();
                         }}
-                        className={`w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl text-left text-sm transition-colors cursor-pointer ${
+                        className={`w-full min-h-[44px] flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl text-left text-sm transition-colors cursor-pointer ${
                           active
                             ? "bg-white/[0.09] text-white"
                             : "text-white/70 hover:bg-white/[0.05]"
@@ -231,7 +245,9 @@ export function AtelierCommandPalette() {
                           <span className="truncate font-medium">{item.label}</span>
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
-                          <span className="font-mono text-[10px] text-white/40">{item.hint}</span>
+                          <span className="hidden sm:inline font-mono text-[10px] text-white/40">
+                            {item.hint}
+                          </span>
                           {active && <ArrowRight className="w-3.5 h-3.5 text-[#ED5B04]" />}
                         </div>
                       </button>
