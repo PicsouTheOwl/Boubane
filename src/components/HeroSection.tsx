@@ -10,6 +10,11 @@ interface WindowMeta {
   id: string;
   key: SiteKey;
   urlText: string;
+  dockLabel: string;
+  dockShortLabel: string;
+  dockSub: string;
+  speedBadge: string;
+  accentColor: string;
   iframeSrc: string;
   defaultPos: { top: string; left?: string; right?: string };
   defaultAngle: number;
@@ -22,31 +27,46 @@ const WINDOWS: WindowMeta[] = [
     id: "bureauWinAstra",
     key: "astra",
     urlText: "astravacances.fr",
+    dockLabel: "Astravacances",
+    dockShortLabel: "Astra",
+    dockSub: "Tourisme · Réalisé",
+    speedBadge: "0.2s",
+    accentColor: "#2B9BBD",
     iframeSrc: "/showcase-astra.html",
-    defaultPos: { top: "25px", left: "15px" },
-    defaultAngle: -1.5,
-    widthStyle: "clamp(320px, 48%, 520px)",
-    heightStyle: "clamp(260px, 42vh, 360px)",
+    defaultPos: { top: "14px", left: "6px" },
+    defaultAngle: -1.8,
+    widthStyle: "clamp(310px, 50%, 525px)",
+    heightStyle: "clamp(260px, 41vh, 355px)",
   },
   {
     id: "bureauWinAchille",
     key: "achille",
-    urlText: "artisan-haut-anjou.fr",
+    urlText: "atelier-renou.fr",
+    dockLabel: "Atelier Renou",
+    dockShortLabel: "Artisan",
+    dockSub: "Menuiserie · Anjou",
+    speedBadge: "0.2s",
+    accentColor: "#1B4332",
     iframeSrc: "/showcase-artisan.html",
-    defaultPos: { top: "15px", right: "20px" },
+    defaultPos: { top: "26px", right: "8px" },
     defaultAngle: 1.8,
-    widthStyle: "clamp(310px, 46%, 490px)",
-    heightStyle: "clamp(250px, 40vh, 340px)",
+    widthStyle: "clamp(310px, 50%, 525px)",
+    heightStyle: "clamp(260px, 41vh, 355px)",
   },
   {
     id: "bureauWinValmy",
     key: "valmy",
-    urlText: "votre-prochain-site.fr",
+    urlText: "votre-entreprise.fr",
+    dockLabel: "Votre futur site",
+    dockShortLabel: "Votre site",
+    dockSub: "Sur-mesure · 0 €",
+    speedBadge: "0 €",
+    accentColor: "#ED5B04",
     iframeSrc: "/showcase-votre-site.html",
-    defaultPos: { top: "220px", left: "80px" },
-    defaultAngle: -0.8,
-    widthStyle: "clamp(310px, 47%, 500px)",
-    heightStyle: "clamp(250px, 40vh, 340px)",
+    defaultPos: { top: "136px", left: "19%" },
+    defaultAngle: 0,
+    widthStyle: "clamp(340px, 60%, 600px)",
+    heightStyle: "clamp(285px, 46vh, 385px)",
   },
 ];
 
@@ -61,15 +81,15 @@ const PORTAL_META: Record<
     caption: "Astravacances.fr — Vitrine Réalisée par Studio Boubane (Vitesse < 0.3s)",
   },
   achille: {
-    url: "artisan-haut-anjou.fr",
+    url: "atelier-renou.fr",
     href: "/showcase-artisan.html",
-    dotColor: "#ED5B04",
+    dotColor: "#1B4332",
     caption: "Atelier Renou — Menuiserie & Charpente en Haut-Anjou",
   },
   valmy: {
-    url: "votre-prochain-site.fr",
+    url: "votre-entreprise.fr",
     href: "/showcase-votre-site.html",
-    dotColor: "#0C0A08",
+    dotColor: "#ED5B04",
     caption: "Votre Prochain Site — Conception Sur-Mesure Studio Boubane",
   },
 };
@@ -86,16 +106,85 @@ export function HeroSection() {
   const runnerGroupRef = useRef<SVGGElement>(null);
 
   const highestZ = useRef(20);
-  const [activeDockIdx, setActiveDockIdx] = useState<number>(0);
+  const activeIdxRef = useRef<number>(2);
+  const stackOrderRef = useRef<number[]>([0, 1, 2]);
+
+  const [activeDockIdx, setActiveDockIdx] = useState<number>(2);
   const [minimizedMap, setMinimizedMap] = useState<Record<number, boolean>>({});
   const [bouncingIdx, setBouncingIdx] = useState<number | null>(null);
   const [portalSite, setPortalSite] = useState<SiteKey | null>(null);
+
+  const applyMobileStack = useCallback((animateTransition: boolean) => {
+    const order = stackOrderRef.current.filter((idx) => {
+      const w = winRefs.current[WINDOWS[idx].id];
+      return w && w.getAttribute("data-minimized") !== "true";
+    });
+
+    order.forEach((idx, posInVisible) => {
+      const win = winRefs.current[WINDOWS[idx].id];
+      if (!win) return;
+      const depthFromFront = order.length - 1 - posInVisible;
+      const topPx = depthFromFront === 0 ? 38 : depthFromFront === 1 ? 20 : 4;
+      const scaleVal = depthFromFront === 0 ? 1 : depthFromFront === 1 ? 0.958 : 0.916;
+      const opacityVal = depthFromFront === 0 ? 1 : depthFromFront === 1 ? 0.9 : 0.76;
+
+      if (animateTransition) {
+        win.classList.add("is-transitioning");
+        setTimeout(() => win.classList.remove("is-transitioning"), 380);
+      }
+      win.style.right = "auto";
+      win.style.bottom = "auto";
+      win.style.left = "6px";
+      win.style.top = `${topPx}px`;
+      win.style.transform = `scale(${scaleVal}) rotate(0deg)`;
+      win.style.opacity = String(opacityVal);
+      win.style.zIndex = String(14 + posInVisible * 4);
+    });
+  }, []);
+
+  const syncDesktopAngles = useCallback((focusedIdx: number) => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) return;
+    WINDOWS.forEach((meta, i) => {
+      const w = winRefs.current[meta.id];
+      if (!w || w.getAttribute("data-minimized") === "true") return;
+      if (w.classList.contains("is-dragging") || w.classList.contains("is-flying")) return;
+      w.classList.add("is-transitioning");
+      const targetAngle = i === focusedIdx ? 0 : meta.defaultAngle;
+      w.style.transform = `rotate(${targetAngle}deg)`;
+      w.setAttribute("data-saved-transform", `rotate(${targetAngle}deg)`);
+      setTimeout(() => w.classList.remove("is-transitioning"), 380);
+    });
+  }, []);
+
+  const focusWindow = useCallback(
+    (idx: number) => {
+      const meta = WINDOWS[idx];
+      const win = winRefs.current[meta.id];
+      if (!win) return;
+
+      activeIdxRef.current = idx;
+      setActiveDockIdx(idx);
+      stackOrderRef.current = [
+        ...stackOrderRef.current.filter((item) => item !== idx),
+        idx,
+      ];
+
+      if (typeof window !== "undefined" && window.innerWidth < 768) {
+        applyMobileStack(true);
+      } else {
+        highestZ.current += 1;
+        win.style.zIndex = String(highestZ.current);
+        syncDesktopAngles(idx);
+      }
+    },
+    [applyMobileStack, syncDesktopAngles]
+  );
 
   const triggerBounce = useCallback((idx: number) => {
     setBouncingIdx(null);
     requestAnimationFrame(() => {
       setBouncingIdx(idx);
-      setTimeout(() => setBouncingIdx((cur) => (cur === idx ? null : cur)), 620);
+      setTimeout(() => setBouncingIdx((cur) => (cur === idx ? null : cur)), 450);
     });
   }, []);
 
@@ -115,21 +204,34 @@ export function HeroSection() {
         const dx = btnRect.left + btnRect.width / 2 - (winRect.left + winRect.width / 2);
         const dy = btnRect.top + btnRect.height / 2 - (winRect.top + winRect.height / 2);
         win.classList.add("is-transitioning");
-        win.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(0.06)`;
+        win.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(0.08)`;
         win.style.opacity = "0";
         win.style.pointerEvents = "none";
       } else {
         win.classList.add("is-transitioning");
-        win.style.transform = "translateY(120px) scale(0.2)";
+        win.style.transform = "translateY(100px) scale(0.2)";
         win.style.opacity = "0";
         win.style.pointerEvents = "none";
       }
 
-      setMinimizedMap((prev) => ({ ...prev, [idx]: true }));
+      setMinimizedMap((prev) => {
+        const next = { ...prev, [idx]: true };
+        const remaining = stackOrderRef.current.filter((i) => !next[i]);
+        const nextFocus = remaining.length > 0 ? remaining[remaining.length - 1] : idx;
+        activeIdxRef.current = nextFocus;
+        setActiveDockIdx(nextFocus);
+        if (typeof window !== "undefined" && window.innerWidth < 768) {
+          requestAnimationFrame(() => applyMobileStack(true));
+        } else {
+          syncDesktopAngles(nextFocus);
+        }
+        return next;
+      });
+
       triggerBounce(idx);
-      setTimeout(() => win.classList.remove("is-transitioning"), 450);
+      setTimeout(() => win.classList.remove("is-transitioning"), 380);
     },
-    [triggerBounce]
+    [applyMobileStack, syncDesktopAngles, triggerBounce]
   );
 
   const restoreWindow = useCallback(
@@ -138,22 +240,15 @@ export function HeroSection() {
       const win = winRefs.current[meta.id];
       if (!win) return;
 
-      highestZ.current += 1;
-      win.style.zIndex = String(highestZ.current);
       win.removeAttribute("data-minimized");
       win.style.pointerEvents = "";
-
-      const savedTransform = win.getAttribute("data-saved-transform");
-      win.classList.add("is-transitioning");
-      win.style.transform = savedTransform || `rotate(${meta.defaultAngle}deg)`;
       win.style.opacity = "1";
 
       setMinimizedMap((prev) => ({ ...prev, [idx]: false }));
-      setActiveDockIdx(idx);
+      focusWindow(idx);
       triggerBounce(idx);
-      setTimeout(() => win.classList.remove("is-transitioning"), 460);
     },
-    [triggerBounce]
+    [focusWindow, triggerBounce]
   );
 
   const handleToggleDockApp = useCallback(
@@ -168,21 +263,21 @@ export function HeroSection() {
         return;
       }
 
-      const curZ = parseInt(win.style.zIndex || "0", 10);
-      if (curZ === highestZ.current) {
-        minimizeWindow(idx);
+      if (activeIdxRef.current === idx) {
+        if (typeof window !== "undefined" && window.innerWidth < 768) {
+          setPortalSite(meta.key);
+        } else {
+          minimizeWindow(idx);
+        }
       } else {
-        highestZ.current += 1;
-        win.style.zIndex = String(highestZ.current);
-        win.classList.add("is-transitioning");
-        setTimeout(() => win.classList.remove("is-transitioning"), 450);
-        setActiveDockIdx(idx);
+        focusWindow(idx);
+        triggerBounce(idx);
       }
     },
-    [minimizeWindow, restoreWindow]
+    [focusWindow, minimizeWindow, restoreWindow, triggerBounce]
   );
 
-  // Desktop Messy Desk Inertial Drag Physics
+  // Studio Desk Inertial Drag Physics + 5px Hysteresis + Mobile Card Stack
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -191,25 +286,24 @@ export function HeroSection() {
 
     const layoutResponsive = () => {
       const isMobile = window.innerWidth < 768;
-      WINDOWS.forEach((meta, i) => {
-        const win = winRefs.current[meta.id];
-        if (!win) return;
-        if (isMobile) {
-          win.style.right = "auto";
-          win.style.bottom = "auto";
-          win.style.left = "10px";
-          win.style.top = `${12 + i * 26}px`;
-          win.style.transform = "rotate(0deg)";
-          win.style.zIndex = String(10 + i);
-        } else {
+      if (isMobile) {
+        applyMobileStack(false);
+      } else {
+        stackOrderRef.current.forEach((idx, orderPos) => {
+          const meta = WINDOWS[idx];
+          const win = winRefs.current[meta.id];
+          if (!win || win.getAttribute("data-minimized") === "true") return;
           win.style.top = meta.defaultPos.top;
           win.style.left = meta.defaultPos.left ?? "auto";
           win.style.right = meta.defaultPos.right ?? "auto";
           win.style.bottom = "auto";
-          win.style.transform = `rotate(${meta.defaultAngle}deg)`;
-          win.style.zIndex = String(12 + i);
-        }
-      });
+          win.style.opacity = "1";
+          const angle = idx === activeIdxRef.current ? 0 : meta.defaultAngle;
+          win.style.transform = `rotate(${angle}deg)`;
+          win.style.zIndex = String(12 + orderPos);
+        });
+        highestZ.current = 16;
+      }
     };
 
     if (window.innerWidth < 768) {
@@ -234,7 +328,12 @@ export function HeroSection() {
       const win = winRefs.current[meta.id];
       if (!win) return;
 
+      let activePointerId: number | null = null;
       let isDragging = false;
+      let wasAlreadyFocused = false;
+      let downX = 0;
+      let downY = 0;
+      let clickedBody = false;
       let currentLeft = 0;
       let currentTop = 0;
       let lastPointerX = 0;
@@ -254,60 +353,86 @@ export function HeroSection() {
       };
 
       const onPointerDown = (e: PointerEvent) => {
-        highestZ.current += 1;
-        win.style.zIndex = String(highestZ.current);
-        setActiveDockIdx(idx);
+        if (activePointerId !== null) return;
+        if (e.pointerType === "mouse" && e.button !== 0) return;
 
         const target = e.target as HTMLElement | null;
         if (target?.closest("button") || target?.closest("a") || target?.closest(".cs-dot")) {
           return;
         }
-        if (e.pointerType === "touch" && !target?.closest(".bureau-window-bar")) {
+
+        wasAlreadyFocused = activeIdxRef.current === idx;
+        clickedBody = !!target?.closest(".bureau-window-body");
+
+        if (!wasAlreadyFocused) {
+          focusWindow(idx);
+        }
+
+        // On mobile viewport, keep native vertical scrolling smooth; tap switches/opens cards
+        if (window.innerWidth < 768) {
+          activePointerId = e.pointerId;
+          downX = e.clientX;
+          downY = e.clientY;
           return;
         }
 
         cancelFling();
-        isDragging = true;
-        win.classList.add("is-dragging");
-        win.classList.remove("is-transitioning");
-
+        activePointerId = e.pointerId;
+        isDragging = false;
+        downX = e.clientX;
+        downY = e.clientY;
         lastPointerX = e.clientX;
         lastPointerY = e.clientY;
         lastTime = performance.now();
         vx = 0;
         vy = 0;
         smoothedTilt = 0;
-
-        const canvasRect = canvas.getBoundingClientRect();
-        const winRect = win.getBoundingClientRect();
-
-        currentLeft = winRect.left - canvasRect.left;
-        currentTop = winRect.top - canvasRect.top;
-
-        win.style.right = "auto";
-        win.style.bottom = "auto";
-        win.style.left = `${currentLeft}px`;
-        win.style.top = `${currentTop}px`;
-
-        const curRotate = window.innerWidth < 768 ? 0 : meta.defaultAngle;
-        win.style.transform = `scale(1.025) rotate(${curRotate}deg)`;
-
-        try {
-          win.setPointerCapture(e.pointerId);
-        } catch {}
-
-        e.preventDefault();
       };
 
       const onPointerMove = (e: PointerEvent) => {
-        if (!isDragging) return;
+        if (e.pointerId !== activePointerId || window.innerWidth < 768) return;
+
+        if (!isDragging) {
+          if (Math.hypot(e.clientX - downX, e.clientY - downY) < 5) return;
+
+          isDragging = true;
+          if (activeIdxRef.current !== idx) {
+            focusWindow(idx);
+          } else {
+            highestZ.current += 1;
+            win.style.zIndex = String(highestZ.current);
+          }
+          win.classList.add("is-dragging");
+          win.classList.remove("is-transitioning");
+
+          const canvasRect = canvas.getBoundingClientRect();
+          const winRect = win.getBoundingClientRect();
+
+          currentLeft = winRect.left - canvasRect.left;
+          currentTop = winRect.top - canvasRect.top;
+
+          win.style.right = "auto";
+          win.style.bottom = "auto";
+          win.style.left = `${currentLeft}px`;
+          win.style.top = `${currentTop}px`;
+          win.style.transform = "scale(1.018) rotate(0deg)";
+
+          lastPointerX = e.clientX;
+          lastPointerY = e.clientY;
+          lastTime = performance.now();
+
+          try {
+            win.setPointerCapture(e.pointerId);
+          } catch {}
+        }
+
         const now = performance.now();
         const dt = Math.max(1, now - lastTime);
         const dx = e.clientX - lastPointerX;
         const dy = e.clientY - lastPointerY;
 
-        vx = vx * 0.4 + (dx / dt) * 0.6;
-        vy = vy * 0.4 + (dy / dt) * 0.6;
+        vx = vx * 0.45 + (dx / dt) * 0.55;
+        vy = vy * 0.45 + (dy / dt) * 0.55;
         currentLeft += dx;
         currentTop += dy;
 
@@ -315,85 +440,96 @@ export function HeroSection() {
         lastPointerY = e.clientY;
         lastTime = now;
 
-        const minVisibleX = 60;
+        const minVisibleX = 80;
         const minLeft = -win.offsetWidth + minVisibleX;
         const maxLeft = canvas.clientWidth - minVisibleX;
-        const minTop = -60;
-        const maxTop = canvas.clientHeight + 350;
+        const minTop = -40;
+        const maxTop = canvas.clientHeight + 260;
 
         currentLeft = Math.max(minLeft, Math.min(currentLeft, maxLeft));
         currentTop = Math.max(minTop, Math.min(currentTop, maxTop));
 
-        const targetTilt = Math.max(-8, Math.min(8, vx * 14));
-        smoothedTilt += (targetTilt - smoothedTilt) * 0.28;
-        const pitch = Math.max(-5, Math.min(5, -vy * 8));
+        const targetTilt = Math.max(-4.5, Math.min(4.5, vx * 9));
+        smoothedTilt += (targetTilt - smoothedTilt) * 0.25;
 
-        win.style.transform = `scale(1.028) rotate(${(meta.defaultAngle + smoothedTilt).toFixed(
-          2
-        )}deg) perspective(650px) rotateX(${pitch.toFixed(1)}deg)`;
+        win.style.transform = `scale(1.018) rotate(${smoothedTilt.toFixed(2)}deg)`;
         win.style.left = `${currentLeft.toFixed(1)}px`;
         win.style.top = `${currentTop.toFixed(1)}px`;
       };
 
       const stopDrag = (e: PointerEvent) => {
-        if (!isDragging) return;
+        if (e.pointerId !== activePointerId) return;
+        activePointerId = null;
+
+        const movedDist = Math.hypot(e.clientX - downX, e.clientY - downY);
+
+        if (!isDragging) {
+          if (movedDist < 6 && wasAlreadyFocused && clickedBody && e.type === "pointerup") {
+            setPortalSite(meta.key);
+          }
+          return;
+        }
+
         isDragging = false;
         win.classList.remove("is-dragging");
         try {
-          if (e.pointerId) win.releasePointerCapture(e.pointerId);
+          if (win.hasPointerCapture(e.pointerId)) {
+            win.releasePointerCapture(e.pointerId);
+          }
         } catch {}
 
-        const minVisibleX = 60;
+        const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const minVisibleX = 80;
         const minLeft = -win.offsetWidth + minVisibleX;
         const maxLeft = canvas.clientWidth - minVisibleX;
-        const minTop = -60;
-        const maxTop = canvas.clientHeight + 350;
+        const minTop = -40;
+        const maxTop = canvas.clientHeight + 260;
 
         const speed = Math.hypot(vx, vy);
-        if (speed > 0.05) {
+        if (speed > 0.06 && !prefersReduced) {
           win.classList.add("is-flying");
           let currentTilt = smoothedTilt;
           const step = () => {
-            vx *= 0.92;
-            vy *= 0.92;
-            currentTilt *= 0.88;
+            vx *= 0.91;
+            vy *= 0.91;
+            currentTilt *= 0.86;
             currentLeft += vx * 16;
             currentTop += vy * 16;
 
             if (currentLeft <= minLeft) {
               currentLeft = minLeft;
-              vx = -vx * 0.38;
+              vx = -vx * 0.35;
             } else if (currentLeft >= maxLeft) {
               currentLeft = maxLeft;
-              vx = -vx * 0.38;
+              vx = -vx * 0.35;
             }
             if (currentTop <= minTop) {
               currentTop = minTop;
-              vy = -vy * 0.38;
+              vy = -vy * 0.35;
             } else if (currentTop >= maxTop) {
               currentTop = maxTop;
-              vy = -vy * 0.38;
+              vy = -vy * 0.35;
             }
 
             win.style.left = `${currentLeft.toFixed(1)}px`;
             win.style.top = `${currentTop.toFixed(1)}px`;
-            win.style.transform = `scale(1) rotate(${(meta.defaultAngle + currentTilt).toFixed(2)}deg)`;
+            win.style.transform = `scale(1) rotate(${currentTilt.toFixed(2)}deg)`;
 
-            if (Math.hypot(vx, vy) > 0.012) {
+            if (Math.hypot(vx, vy) > 0.014) {
               flingAnimId = requestAnimationFrame(step);
             } else {
               cancelFling();
               win.classList.add("is-transitioning");
-              win.style.transform = `rotate(${meta.defaultAngle}deg)`;
-              win.setAttribute("data-saved-transform", `rotate(${meta.defaultAngle}deg)`);
-              setTimeout(() => win.classList.remove("is-transitioning"), 300);
+              win.style.transform = "rotate(0deg)";
+              win.setAttribute("data-saved-transform", "rotate(0deg)");
+              setTimeout(() => win.classList.remove("is-transitioning"), 320);
             }
           };
           flingAnimId = requestAnimationFrame(step);
         } else {
           win.classList.add("is-transitioning");
-          win.style.transform = `rotate(${meta.defaultAngle}deg)`;
-          win.setAttribute("data-saved-transform", `rotate(${meta.defaultAngle}deg)`);
+          win.style.transform = "rotate(0deg)";
+          win.setAttribute("data-saved-transform", "rotate(0deg)");
           setTimeout(() => win.classList.remove("is-transitioning"), 280);
         }
       };
@@ -416,7 +552,7 @@ export function HeroSection() {
       window.removeEventListener("resize", onResize);
       cleanups.forEach((fn) => fn());
     };
-  }, []);
+  }, [applyMobileStack, focusWindow]);
 
   // Kinetic 3D Ribbon Marquee + Elastic Drag/Fling Physics Engine
   useEffect(() => {
@@ -436,7 +572,6 @@ export function HeroSection() {
     let lastScrollY = window.scrollY;
     let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
 
-    // Smooth, critically balanced elastic arch spring state (zero jitter or jumping)
     let bendY = 0;
     let targetBendY = 0;
     let velY = 0;
@@ -444,7 +579,6 @@ export function HeroSection() {
     let bendX = 0;
     let targetBendX = 0;
 
-    // Grab / Scrub / Release inertia state
     let isDragging = false;
     let startClientX = 0;
     let startClientY = 0;
@@ -531,7 +665,6 @@ export function HeroSection() {
       const relY = clamp(((e.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2, -1, 1);
 
       if (!isDragging) {
-        // Gentle, predictable hover sway without ever reversing marquee text or jumping
         targetBendY = relY * 20;
         targetBendX = relX * 14;
         return;
@@ -547,7 +680,6 @@ export function HeroSection() {
       const instVx = clamp((dx / dt) * 16, -24, 24);
       dragVx = dragVx * 0.4 + instVx * 0.6;
 
-      // Scrub text cleanly 1:1 with pointer horizontal movement
       offset += dx * 1.35;
       targetBendY = clamp(dyTotal * 0.45, -42, 42);
       targetBendX = clamp(dxTotal * 0.16, -22, 22);
@@ -564,7 +696,6 @@ export function HeroSection() {
         } catch {}
 
         if (movedDist < 6) {
-          // Gentle tap pulse
           currentSpeed = -8;
           velY = 10;
         } else {
@@ -602,19 +733,16 @@ export function HeroSection() {
       const dt = Math.min(48, Math.max(1, now - lastTickTime));
       lastTickTime = now;
 
-      // Velocity / Marquee Position
       if (!isDragging) {
         currentSpeed += (targetSpeed - currentSpeed) * 0.06;
         offset -= currentSpeed;
       }
 
-      // Seamless infinite wrap across both forward & reverse throw directions
       while (offset <= -singleLen * 2.5) offset += singleLen;
       while (offset >= -singleLen * 0.5) offset -= singleLen;
 
       textPath.setAttribute("startOffset", `${offset.toFixed(1)}px`);
 
-      // Smooth damped spring interpolation (consistent, zero snap)
       if (isDragging) {
         bendY += (targetBendY - bendY) * 0.28;
         bendX += (targetBendX - bendX) * 0.28;
@@ -629,7 +757,6 @@ export function HeroSection() {
         updateCurveGeometry(bendX, bendY);
       }
 
-      // Animate running cat smoothly left -> right along the upper contour of the live bent ribbon
       const runner = runnerGroupRef.current;
       if (runner) {
         try {
@@ -814,114 +941,159 @@ export function HeroSection() {
                 className="bureau-canvas hero-bureau-canvas"
                 aria-label="Espace de travail interactif multi-fenêtres"
               >
-                {WINDOWS.map((win, idx) => (
-                  <div
-                    key={win.id}
-                    ref={(el) => {
-                      winRefs.current[win.id] = el;
-                    }}
-                    id={win.id}
-                    className="bureau-window"
-                    style={{
-                      top: win.defaultPos.top,
-                      left: win.defaultPos.left,
-                      right: win.defaultPos.right,
-                      width: win.widthStyle,
-                      height: win.heightStyle,
-                      transform: `rotate(${win.defaultAngle}deg)`,
-                      zIndex: 12 + idx,
-                      animationDelay: `${0.06 + idx * 0.13}s`,
-                    }}
-                  >
-                    <div className="bureau-window-bar">
-                      <div className="cs-traffic-lights cs-dots">
-                        <button
-                          type="button"
-                          className="cs-dot cs-dot--red bureau-win-close"
-                          aria-label="Fermer"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            minimizeWindow(idx);
-                          }}
-                        />
-                        <button
-                          type="button"
-                          className="cs-dot cs-dot--yellow bureau-win-min"
-                          aria-label="Minimiser"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            minimizeWindow(idx);
-                          }}
-                        />
-                        <button
-                          type="button"
-                          className="cs-dot cs-dot--green bureau-win-max"
-                          aria-label="Plein écran"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPortalSite(win.key);
-                          }}
-                        />
-                      </div>
-                      <div className="cs-url-bar">
-                        <svg
-                          className="cs-url-lock-svg"
-                          width="10"
-                          height="10"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
+                {WINDOWS.map((win, idx) => {
+                  const isFocused = activeDockIdx === idx && !minimizedMap[idx];
+                  return (
+                    <div
+                      key={win.id}
+                      ref={(el) => {
+                        winRefs.current[win.id] = el;
+                      }}
+                      id={win.id}
+                      className={`bureau-window ${isFocused ? "is-focused" : ""}`}
+                      style={{
+                        top: win.defaultPos.top,
+                        left: win.defaultPos.left,
+                        right: win.defaultPos.right,
+                        width: win.widthStyle,
+                        height: win.heightStyle,
+                        transform: `rotate(${win.defaultAngle}deg)`,
+                        zIndex: 12 + idx,
+                        animationDelay: `${0.04 + idx * 0.06}s`,
+                      }}
+                    >
+                      <div className="bureau-window-screen">
+                        <div
+                          className="bureau-window-bar"
+                          onDoubleClick={() => setPortalSite(win.key)}
                         >
-                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                        </svg>
-                        <span className="cs-url-text">{win.urlText}</span>
+                          <div className="cs-traffic-lights cs-dots">
+                            <button
+                              type="button"
+                              className="cs-dot cs-dot--red bureau-win-close"
+                              aria-label={`Réduire ${win.dockLabel}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                minimizeWindow(idx);
+                              }}
+                            />
+                            <button
+                              type="button"
+                              className="cs-dot cs-dot--yellow bureau-win-min"
+                              aria-label={`Minimiser ${win.dockLabel}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                minimizeWindow(idx);
+                              }}
+                            />
+                            <button
+                              type="button"
+                              className="cs-dot cs-dot--green bureau-win-max"
+                              aria-label={`Ouvrir ${win.dockLabel} en plein écran`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPortalSite(win.key);
+                              }}
+                            />
+                          </div>
+
+                          <button
+                            type="button"
+                            className="bureau-url-capsule"
+                            title="Explorer cette vitrine en plein écran"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPortalSite(win.key);
+                            }}
+                          >
+                            <span
+                              className="bureau-url-dot"
+                              style={{ backgroundColor: win.accentColor }}
+                              aria-hidden="true"
+                            />
+                            <svg
+                              className="cs-url-lock-svg"
+                              width="10"
+                              height="10"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
+                            >
+                              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                            <span className="cs-url-text">{win.urlText}</span>
+                            <span className="bureau-url-speed">{win.speedBadge}</span>
+                          </button>
+
+                          <div className="bureau-bar-right">
+                            <button
+                              type="button"
+                              className="bureau-expand-pill"
+                              title="Agrandir en plein écran"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPortalSite(win.key);
+                              }}
+                            >
+                              <span>Aperçu</span>
+                              <svg
+                                width="9"
+                                height="9"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
+                              >
+                                <line x1="7" y1="17" x2="17" y2="7" />
+                                <polyline points="7 7 17 7 17 17" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="bureau-window-body">
+                          <div className="bureau-window-iframe-shield" />
+                          <iframe
+                            src={win.iframeSrc}
+                            title={win.urlText}
+                            loading={idx === 2 ? "eager" : "lazy"}
+                          />
+                          <div className="bureau-live-cue" aria-hidden="true">
+                            <span>Tester la démo en plein écran</span>
+                            <svg
+                              width="11"
+                              height="11"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <line x1="7" y1="17" x2="17" y2="7" />
+                              <polyline points="7 7 17 7 17 17" />
+                            </svg>
+                          </div>
+                        </div>
                       </div>
-                      <button
-                        type="button"
-                        className="bureau-expand-pill"
-                        title="Agrandir en plein écran"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setPortalSite(win.key);
-                        }}
-                      >
-                        <span>Agrandir</span>
-                        <svg
-                          width="9"
-                          height="9"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-                        </svg>
-                      </button>
                     </div>
-                    <div className="bureau-window-body">
-                      <div className="bureau-window-iframe-shield" />
-                      <iframe
-                        src={win.iframeSrc}
-                        title={win.urlText}
-                        loading={idx === 0 ? "eager" : "lazy"}
-                      />
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
 
                 <img
                   src="/images/boubane-mascot.gif"
                   alt="Mascotte chat Boubane qui code et fait signe"
                   width={600}
                   height={600}
-                  className="pointer-events-none select-none absolute bottom-0 right-1 sm:right-4 z-[35] w-[92px] sm:w-[144px] lg:w-[156px] h-auto object-contain drop-shadow-[0_14px_22px_rgba(12,10,8,0.16)]"
+                  className="pointer-events-none select-none absolute bottom-0 right-1 sm:right-4 z-[45] w-[92px] sm:w-[144px] lg:w-[156px] h-auto object-contain drop-shadow-[0_14px_22px_rgba(12,10,8,0.16)]"
                 />
               </div>
             </div>
@@ -932,93 +1104,105 @@ export function HeroSection() {
           <nav
             className="cs-floating-dock"
             id="heroFloatingDock"
-            aria-label="Dock d'applications macOS et sélecteur de vitrines"
+            aria-label="Sélecteur de vitrines interactives"
           >
-            <div className="cs-dock-items-wrap">
-              <button
-                ref={(el) => {
-                  dockRefs.current[0] = el;
-                }}
-                type="button"
-                className={`cs-dock-app-btn ${activeDockIdx === 0 && !minimizedMap[0] ? "active" : ""} ${
-                  bouncingIdx === 0 ? "is-bouncing" : ""
-                }`}
-                onClick={() => handleToggleDockApp(0)}
-                aria-label="Astravacances"
-                aria-selected={activeDockIdx === 0 && !minimizedMap[0]}
-              >
-                <span className="cs-dock-tooltip">Astravacances.fr</span>
-                <div className="cs-dock-icon-box">
-                  <img src="/assets/astra-logo.png" alt="Astravacances" className="cs-dock-img" />
-                </div>
-                <span className="cs-dock-indicator" />
-              </button>
-
-              <button
-                ref={(el) => {
-                  dockRefs.current[1] = el;
-                }}
-                type="button"
-                className={`cs-dock-app-btn ${activeDockIdx === 1 && !minimizedMap[1] ? "active" : ""} ${
-                  bouncingIdx === 1 ? "is-bouncing" : ""
-                }`}
-                onClick={() => handleToggleDockApp(1)}
-                aria-label="Vitrine Artisanale"
-                aria-selected={activeDockIdx === 1 && !minimizedMap[1]}
-              >
-                <span className="cs-dock-tooltip">Vitrine Artisanale</span>
-                <div
-                  className="cs-dock-icon-box"
-                  style={{
-                    background: "#ED5B04",
-                    color: "#FAF8F5",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
+            <div className="cs-dock-items-wrap" role="tablist" aria-label="Vitrines de démonstration">
+              {WINDOWS.map((win, idx) => {
+                const isActive = activeDockIdx === idx && !minimizedMap[idx];
+                return (
+                  <button
+                    key={win.key}
+                    ref={(el) => {
+                      dockRefs.current[idx] = el;
+                    }}
+                    type="button"
+                    role="tab"
+                    className={`cs-dock-app-btn ${isActive ? "active" : ""} ${
+                      bouncingIdx === idx ? "is-bouncing" : ""
+                    }`}
+                    onClick={() => handleToggleDockApp(idx)}
+                    aria-label={win.dockLabel}
+                    aria-selected={isActive}
                   >
-                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-                  </svg>
-                </div>
-                <span className="cs-dock-indicator" />
-              </button>
+                    {idx === 0 && (
+                      <div className="cs-dock-icon-box">
+                        <img
+                          src="/assets/astra-logo.png"
+                          alt=""
+                          className="cs-dock-img"
+                        />
+                      </div>
+                    )}
+                    {idx === 1 && (
+                      <div
+                        className="cs-dock-icon-box"
+                        style={{
+                          background: "#1B4332",
+                          color: "#FAF8F5",
+                          borderColor: "rgba(27, 67, 50, 0.35)",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontFamily: "Georgia, serif",
+                            fontSize: "0.95rem",
+                            fontWeight: 700,
+                          }}
+                        >
+                          R
+                        </span>
+                      </div>
+                    )}
+                    {idx === 2 && (
+                      <div
+                        className="cs-dock-icon-box"
+                        style={{
+                          background: "#ED5B04",
+                          color: "#FFFFFF",
+                          borderColor: "rgba(237, 91, 4, 0.35)",
+                        }}
+                      >
+                        <span style={{ fontSize: "0.9rem", fontWeight: 800 }}>✦</span>
+                      </div>
+                    )}
 
-              <button
-                ref={(el) => {
-                  dockRefs.current[2] = el;
-                }}
-                type="button"
-                className={`cs-dock-app-btn ${activeDockIdx === 2 && !minimizedMap[2] ? "active" : ""} ${
-                  bouncingIdx === 2 ? "is-bouncing" : ""
-                }`}
-                onClick={() => handleToggleDockApp(2)}
-                aria-label="Votre prochain site"
-                aria-selected={activeDockIdx === 2 && !minimizedMap[2]}
-              >
-                <span className="cs-dock-tooltip">Votre prochain site</span>
-                <div
-                  className="cs-dock-icon-box"
-                  style={{
-                    background: "linear-gradient(135deg, #27272A 0%, #0C0A08 100%)",
-                    color: "#FAF8F5",
-                  }}
-                >
-                  <span style={{ fontSize: "1.1rem", color: "#EEF85A", fontWeight: 800 }}>✦</span>
-                </div>
-                <span className="cs-dock-indicator" />
-              </button>
+                    <span className="cs-dock-label-group">
+                      <span className="cs-dock-label">
+                        <span className="sm:hidden">{win.dockShortLabel}</span>
+                        <span className="hidden sm:inline">{win.dockLabel}</span>
+                      </span>
+                      <span className="cs-dock-sub">{win.dockSub}</span>
+                    </span>
+
+                    <span className="cs-dock-indicator" aria-hidden="true" />
+                  </button>
+                );
+              })}
             </div>
+
+            <div className="cs-dock-divider" aria-hidden="true" />
+
+            <button
+              type="button"
+              className="cs-dock-expand-btn"
+              onClick={() => setPortalSite(WINDOWS[activeDockIdx]?.key ?? "valmy")}
+              aria-label="Ouvrir la vitrine sélectionnée en plein écran"
+            >
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+              </svg>
+              <span className="cs-dock-expand-label">Plein écran</span>
+            </button>
           </nav>
         </div>
       </section>
@@ -1158,7 +1342,7 @@ export function HeroSection() {
                     <button
                       type="button"
                       className="cs-dot cs-dot--green"
-                      aria-label="Ouvrir en plein écran"
+                      aria-label="Ouvrir dans un nouvel onglet"
                       onClick={() => {
                         if (portalSite) {
                           window.open(PORTAL_META[portalSite].href, "_blank", "noopener,noreferrer");
@@ -1178,8 +1362,8 @@ export function HeroSection() {
                           {key === "astra"
                             ? "Astravacances"
                             : key === "achille"
-                            ? "Artisanat BTP"
-                            : "Votre Prochain Site"}
+                              ? "Atelier Renou"
+                              : "Votre futur site"}
                         </span>
                       </button>
                     ))}
@@ -1187,10 +1371,53 @@ export function HeroSection() {
                 </div>
 
                 <div className="cs-url-bar" id="portalUrlBar">
+                  <span
+                    className="bureau-url-dot"
+                    style={{ backgroundColor: PORTAL_META[portalSite].dotColor }}
+                    aria-hidden="true"
+                  />
+                  <svg
+                    className="cs-url-lock-svg"
+                    width="11"
+                    height="11"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
                   <span className="cs-url-text">{PORTAL_META[portalSite].url}</span>
                 </div>
 
                 <div className="cs-window-bar-right">
+                  <a
+                    href={PORTAL_META[portalSite].href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden sm:inline-flex min-h-[34px] items-center gap-1.5 rounded-full bg-white border border-[#0C0A08]/[0.1] hover:border-[#0C0A08]/25 text-[#44403C] hover:text-[#0C0A08] px-3 py-1 text-[11.5px] font-medium transition-colors whitespace-nowrap"
+                  >
+                    <span>Nouvel onglet</span>
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <line x1="7" y1="17" x2="17" y2="7" />
+                      <polyline points="7 7 17 7 17 17" />
+                    </svg>
+                  </a>
+
                   <Link
                     href="/commander"
                     className="min-h-[38px] inline-flex items-center gap-1.5 rounded-full bg-[#ED5B04] hover:bg-[#D64E00] text-white px-3.5 py-1.5 text-[11.5px] font-semibold transition-colors whitespace-nowrap"
@@ -1198,6 +1425,7 @@ export function HeroSection() {
                     <span className="sm:hidden">Commander</span>
                     <span className="hidden sm:inline">Commander ce style</span>
                   </Link>
+
                   <button
                     type="button"
                     aria-label="Fermer l'aperçu"
@@ -1236,4 +1464,3 @@ export function HeroSection() {
     </>
   );
 }
-
