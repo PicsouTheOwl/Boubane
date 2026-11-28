@@ -226,7 +226,7 @@ export function SegreInteractiveExperience() {
               <div className="font-mono text-xs text-[#ED5B04] font-semibold">01 · BUDGET</div>
               <h3 className="mt-3 text-lg font-bold text-[#0C0A08]">0 € d&apos;honoraires</h3>
               <p className="mt-2 text-sm leading-[1.6] text-[#57534E]">
-                Pas de facture à 4 500 € ni de location sur 36 mois. Vous ne réglez que votre
+                Aucun acompte ni location sur 36 mois. Vous ne réglez que votre
                 domaine (~10 €/an) et votre hébergement (~5 €/mois).
               </p>
             </SpecularPlate>

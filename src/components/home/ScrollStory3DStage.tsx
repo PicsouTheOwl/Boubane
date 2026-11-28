@@ -13,25 +13,16 @@ interface StoryChapter {
   title: string;
   body: string;
   highlight: string;
-  focusCard: "agency" | "orange" | "ownership";
+  focusCard: "orange" | "speed" | "ownership";
 }
 
 const CHAPTERS: StoryChapter[] = [
-  {
-    id: "declic",
-    pill: "Le déclic",
-    eyebrow: "Le point de départ",
-    title: "Une vitrine d'agence coûte souvent 4 500 €.",
-    body: "Trop d'artisans et de gérants signent des factures lourdes ou un leasing sur quatre ans pour un site lent qu'ils ne possèdent même pas.",
-    highlight: "4 500 € en moyenne ailleurs",
-    focusCard: "agency",
-  },
   {
     id: "modele",
     pill: "Modèle 0 €",
     eyebrow: "Sans intermédiaires",
     title: "Enlever le superflu ramène la création à 0 €.",
-    body: "Pas de locaux parisiens, pas de commerciaux ni de réunions sans fin. Je dessine et j'écris votre site directement avec vous.",
+    body: "Pas de locaux coûteux, pas de commerciaux ni de réunions sans fin. Je dessine et j'écris votre site directement avec vous.",
     highlight: "0 € d'honoraires de création",
     focusCard: "orange",
   },
@@ -42,7 +33,7 @@ const CHAPTERS: StoryChapter[] = [
     title: "En ligne en 5 jours avec vos vraies photos.",
     body: "Vos réalisations, des mots clairs et votre numéro accessible dès la première seconde sur mobile.",
     highlight: "Livré sous 5 jours ouvrés",
-    focusCard: "orange",
+    focusCard: "speed",
   },
   {
     id: "propriete",
@@ -57,7 +48,7 @@ const CHAPTERS: StoryChapter[] = [
 
 export function ScrollStory3DStage() {
   const prefersReducedMotion = !!useReducedMotion();
-  const [activeIdx, setActiveIdx] = useState(1);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   const current = CHAPTERS[activeIdx];
 
@@ -65,7 +56,7 @@ export function ScrollStory3DStage() {
     setActiveIdx((prev) => (prev + delta + CHAPTERS.length) % CHAPTERS.length);
   };
 
-  const isAgency = current.focusCard === "agency";
+  const isSpeed = current.focusCard === "speed";
   const isOrange = current.focusCard === "orange";
   const isOwnership = current.focusCard === "ownership";
 
@@ -77,40 +68,40 @@ export function ScrollStory3DStage() {
           <div className="lg:col-span-6 flex flex-col items-center">
             <div className="relative w-full max-w-[490px] h-[300px] sm:h-[340px] select-none flex items-center justify-center">
               <div className="relative w-full max-w-[310px] sm:max-w-[460px] h-[290px] sm:h-[325px]">
-                {/* Card A: Agence Classique 4 500 € */}
+                {/* Card A: Mise en ligne 5 jours */}
                 <motion.button
                   type="button"
-                  onClick={() => setActiveIdx(0)}
+                  onClick={() => setActiveIdx(1)}
                   whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
                   animate={{
-                    rotate: isAgency ? 0 : -7,
-                    x: isAgency ? 28 : 0,
-                    y: isAgency ? 18 : 0,
-                    scale: isAgency ? 1.05 : 0.95,
+                    rotate: isSpeed ? 0 : -6,
+                    x: isSpeed ? 28 : 0,
+                    y: isSpeed ? 18 : 0,
+                    scale: isSpeed ? 1.05 : 0.95,
                   }}
                   transition={prefersReducedMotion ? { duration: 0.1 } : ATELIER_SPRING}
                   className={cn(
                     "absolute top-2 left-0 sm:left-2 w-[205px] sm:w-[275px] rounded-[18px] bg-[#F3EFE7] border p-5 sm:p-6 text-left cursor-pointer hover:scale-[1.02] transition-transform",
-                    isAgency
+                    isSpeed
                       ? "z-40 border-[#0C0A08]/25 shadow-[0_24px_48px_rgba(12,10,8,0.14)]"
                       : "z-10 border-[#E5DEC9] shadow-[0_14px_30px_rgba(12,10,8,0.07)]"
                   )}
                 >
                   <div className="font-mono text-[9.5px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-[#78716C]">
-                    AGENCE CLASSIQUE
+                    DÉLAI GARANTI
                   </div>
-                  <div className="mt-3 font-[family-name:var(--font-jakarta)] text-[26px] sm:text-[32px] font-extrabold leading-[1.1] text-[#A8A29E] line-through tabular-nums">
-                    4 500 €
+                  <div className="mt-3 font-[family-name:var(--font-jakarta)] text-[26px] sm:text-[32px] font-extrabold leading-[1.1] text-[#0C0A08] tabular-nums">
+                    5 jours
                   </div>
-                  <div className="mt-3 text-[11px] sm:text-[12px] text-[#78716C] leading-snug">
-                    6 à 12 semaines · Leasing 4 ans
+                  <div className="mt-3 text-[11px] sm:text-[12px] text-[#57534E] leading-snug">
+                    Rapide sur mobile · Vos vraies photos
                   </div>
                 </motion.button>
 
                 {/* Card B: Propriété Intégrale 100 % à vous */}
                 <motion.button
                   type="button"
-                  onClick={() => setActiveIdx(3)}
+                  onClick={() => setActiveIdx(2)}
                   whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
                   animate={{
                     rotate: isOwnership ? 0 : 5,
@@ -140,7 +131,7 @@ export function ScrollStory3DStage() {
                 {/* Card C: Modèle Boubane 0 € */}
                 <motion.button
                   type="button"
-                  onClick={() => setActiveIdx(activeIdx === 1 ? 2 : 1)}
+                  onClick={() => setActiveIdx(0)}
                   whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
                   animate={{
                     rotate: isOrange ? 0 : -2,
@@ -170,9 +161,8 @@ export function ScrollStory3DStage() {
             </div>
           </div>
 
-          {/* Right Compact Interactive Story Panel (Single Stage, Zero Scroll Bloat) */}
+          {/* Right Compact Interactive Story Panel */}
           <div className="lg:col-span-6">
-            {/* Segmented Tab Bar with Animated Pill + Prev/Next */}
             <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#0C0A08]/[0.08]">
               <div
                 role="tablist"
@@ -189,7 +179,7 @@ export function ScrollStory3DStage() {
                       aria-selected={selected}
                       onClick={() => setActiveIdx(idx)}
                       className={cn(
-                        "relative whitespace-nowrap shrink-0 min-h-[40px] px-3.5 py-2 rounded-full text-[11px] font-semibold tracking-[0.02em] transition-colors cursor-pointer",
+                        "relative whitespace-nowrap shrink-0 min-h-[40px] px-4 py-2 rounded-full text-[11.5px] font-semibold tracking-[0.01em] transition-colors cursor-pointer",
                         selected ? "text-white" : "text-[#57534E] hover:text-[#0C0A08]"
                       )}
                     >
@@ -226,7 +216,7 @@ export function ScrollStory3DStage() {
               </div>
             </div>
 
-            {/* Active Story Content with Smooth Swaps */}
+            {/* Active Story Content */}
             <div className="pt-7 min-h-[250px] flex flex-col justify-between">
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.div
