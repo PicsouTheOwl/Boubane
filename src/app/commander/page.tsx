@@ -13,8 +13,10 @@ import {
   Calendar,
   Check,
   Hammer,
+  Mail,
   MapPin,
   MessageCircle,
+  Phone,
   SlidersHorizontal,
   Sparkles,
   Store,
@@ -123,6 +125,7 @@ function CommanderContent() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [details, setDetails] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -197,7 +200,7 @@ function CommanderContent() {
     }`;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setSubmitting(true);
     const fullMessage = buildBriefText();
 
@@ -209,11 +212,32 @@ function CommanderContent() {
       });
     }
 
-    setTimeout(() => {
+    try {
+      await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "commande",
+          name,
+          company,
+          email,
+          phone,
+          city,
+          craft: trade,
+          situation,
+          modules: selectedModules.map((m) => m.name),
+          totalPrice,
+          message: fullMessage,
+          website: honeypot,
+        }),
+      });
+    } catch {
+      // Fallback links (WhatsApp / Email / Phone) remain available on confirmation screen
+    } finally {
       setSubmitting(false);
       setSubmitted(true);
       window.scrollTo({ top: 120, behavior: prefersReducedMotion ? "auto" : "smooth" });
-    }, 350);
+    }
   };
 
   const whatsappBriefUrl = `https://wa.me/33778310346?text=${encodeURIComponent(
@@ -223,6 +247,10 @@ function CommanderContent() {
       details ? `\nPrécisions : ${details}` : ""
     }`
   )}`;
+
+  const mailtoBriefUrl = `mailto:leo@boubane.com?subject=${encodeURIComponent(
+    `Demande de projet Boubane — ${company || name}`
+  )}&body=${encodeURIComponent(buildBriefText())}`;
 
   const stepCustom: StepTransitionCustom = {
     direction,
@@ -573,6 +601,16 @@ function CommanderContent() {
                                 placeholder="Ex : Outils déjà utilisés (Pennylane, Gmail, WhatsApp...), calendrier souhaité..."
                                 className="w-full rounded-xl border border-[#0C0A08]/[0.11] bg-[#FAF8F5]/70 px-4 py-3 text-base text-[#0C0A08] placeholder:text-[#A8A29E] focus:bg-white focus:border-[#0C0A08] focus:outline-none transition-colors"
                               />
+                              <input
+                                type="text"
+                                name="website"
+                                tabIndex={-1}
+                                autoComplete="off"
+                                value={honeypot}
+                                onChange={(e) => setHoneypot(e.target.value)}
+                                className="hidden"
+                                aria-hidden="true"
+                              />
                             </div>
 
                             {errorMsg && (
@@ -798,29 +836,35 @@ function CommanderContent() {
                     </p>
                     <div className="pt-4 flex flex-wrap justify-center gap-3">
                       <a
-                        href="https://rdv.boubane.com/boubane/30min"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-6 py-3 text-sm font-semibold hover:bg-[#ED5B04] transition-colors active:scale-[0.98]"
-                      >
-                        <Calendar className="w-4 h-4" />
-                        <span>Réserver un créneau de cadrage (30 min)</span>
-                      </a>
-                      <a
                         href={whatsappBriefUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#E6F8EE] border border-[#0E7541]/20 text-[#0E7541] px-6 py-3 text-sm font-semibold hover:bg-[#D5F2E2] transition-colors active:scale-[0.98]"
+                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#0E7541] hover:bg-[#0B5E34] text-white px-6 py-3 text-sm font-semibold transition-colors active:scale-[0.98]"
                       >
                         <MessageCircle className="w-4 h-4" />
-                        <span>Envoyer le brief sur WhatsApp</span>
+                        <span>Confirmer en 1 clic sur WhatsApp</span>
                       </a>
                       <Link
-                        href="/"
-                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.1] text-[#0C0A08] px-6 py-3 text-sm font-semibold hover:border-[#0C0A08] transition-colors active:scale-[0.98]"
+                        href="/rdv"
+                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#0C0A08] text-white px-6 py-3 text-sm font-semibold hover:bg-[#ED5B04] transition-colors active:scale-[0.98]"
                       >
-                        <span>Retour à l&apos;accueil</span>
+                        <Calendar className="w-4 h-4" />
+                        <span>Choisir un créneau d&apos;appel</span>
                       </Link>
+                      <a
+                        href={mailtoBriefUrl}
+                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] text-[#0C0A08] px-5 py-3 text-sm font-semibold hover:border-[#0C0A08] transition-colors active:scale-[0.98]"
+                      >
+                        <Mail className="w-4 h-4" />
+                        <span>Copie par e-mail</span>
+                      </a>
+                      <a
+                        href="tel:+33778310346"
+                        className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-[#FAF8F5] border border-[#0C0A08]/[0.1] text-[#0C0A08] px-5 py-3 text-sm font-semibold hover:border-[#0C0A08] transition-colors active:scale-[0.98]"
+                      >
+                        <Phone className="w-4 h-4 text-[#ED5B04]" />
+                        <span>07 78 31 03 46</span>
+                      </a>
                     </div>
                   </motion.div>
                 )}
@@ -853,15 +897,13 @@ function CommanderContent() {
                   Une question avant d&apos;envoyer ?
                 </p>
                 <div className="inline-flex items-center justify-center gap-4 flex-wrap">
-                  <a
-                    href="https://rdv.boubane.com/boubane/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href="/rdv"
                     className="min-h-[44px] px-2 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#0C0A08] hover:text-[#ED5B04] transition-colors"
                   >
                     <Calendar className="w-3.5 h-3.5 text-[#ED5B04]" />
                     <span>Appel 30 min</span>
-                  </a>
+                  </Link>
                   <a
                     href="https://wa.me/33778310346"
                     target="_blank"

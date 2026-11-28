@@ -491,15 +491,13 @@ export function AtelierProjectSummary({
       {/* Subtle Secondary Visio Link */}
       {mode === "configurator" && (
         <div className="mt-4 text-center">
-          <a
-            href="https://rdv.boubane.com/boubane/30min"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/rdv"
             className="min-h-[44px] px-4 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#78716C] hover:text-[#0C0A08] transition-colors"
           >
             <span>Ou en discuter en visio (30 min)</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
-          </a>
+          </Link>
         </div>
       )}
     </div>

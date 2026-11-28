@@ -139,15 +139,13 @@ export function SegreInteractiveExperience() {
                 <span>Commander mon site (0 €)</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <a
-                href="https://rdv.boubane.com/boubane/30min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] px-6 py-3.5 text-sm font-semibold text-[#0C0A08] hover:border-[#0C0A08] active:scale-[0.97] transition-all"
+              <Link
+                href="/rdv"
+                className="min-h-[44px] inline-flex items-center gap-2 rounded-full bg-white border border-[#0C0A08]/[0.12] px-6 py-3.5 text-sm font-semibold text-[#0C0A08] hover:border-[#0C0A08] active:scale-[0.97] transition-all"
               >
                 <Calendar className="w-4 h-4 text-[#ED5B04]" />
                 <span>Prendre RDV (30 min)</span>
-              </a>
+              </Link>
             </div>
 
             <div className="pt-2 flex flex-wrap items-center gap-6 text-xs font-mono text-[#57534E]">
@@ -166,25 +164,42 @@ export function SegreInteractiveExperience() {
           </AtelierReveal>
 
           <AtelierReveal delay={0.06} className="lg:col-span-5">
-            <SpecularPlate tilt={false} crosshairs className="p-4 sm:p-5 bg-white">
-              <div className="relative overflow-hidden rounded-2xl aspect-[4/3] bg-[#FAF8F5]">
-                <img
-                  src="/images/leo-artisan-desk.jpg"
-                  alt="Léo Saillour, créateur de sites internet à Segré-en-Anjou Bleu"
-                  width={900}
-                  height={675}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-x-3 bottom-3 rounded-xl bg-[#0C0A08]/85 backdrop-blur-md px-4 py-3 text-white flex items-center justify-between gap-3">
+            <SpecularPlate tilt={false} crosshairs className="p-5 sm:p-6 bg-white">
+              <div className="relative overflow-hidden rounded-2xl bg-[#FAF8F5] border border-[#0C0A08]/[0.06] p-6">
+                <div className="flex items-center justify-between gap-4">
                   <div>
-                    <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#ED5B04]">
-                      INTERLOCUTEUR DIRECT
+                    <div className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[#ED5B04] font-semibold">
+                      INTERLOCUTEUR LOCAL
                     </div>
-                    <div className="text-sm font-semibold">Léo Saillour · Segré (49500)</div>
+                    <div className="mt-1 font-[family-name:var(--font-jakarta)] text-lg font-bold text-[#0C0A08]">
+                      Léo Saillour · Boubane
+                    </div>
+                    <div className="text-xs text-[#57534E]">
+                      Segré-en-Anjou Bleu (49500)
+                    </div>
                   </div>
-                  <span className="font-mono text-xs rounded-full bg-white/10 px-2.5 py-1">
-                    5 jours
-                  </span>
+                  <img
+                    src="/images/cat-savoir-faire.png"
+                    alt="Mascotte Boubane dessinant une maquette sur mesure"
+                    width={320}
+                    height={320}
+                    className="w-24 sm:w-28 h-auto object-contain shrink-0 drop-shadow-[0_12px_20px_rgba(237,91,4,0.16)]"
+                  />
+                </div>
+
+                <div className="mt-5 pt-4 border-t border-[#0C0A08]/[0.08] grid grid-cols-3 gap-2.5 text-center">
+                  <div className="rounded-xl bg-white border border-[#0C0A08]/[0.06] py-2.5 px-2">
+                    <div className="font-mono text-sm font-bold text-[#0E7541]">0 €</div>
+                    <div className="text-[11px] text-[#57534E]">Création</div>
+                  </div>
+                  <div className="rounded-xl bg-white border border-[#0C0A08]/[0.06] py-2.5 px-2">
+                    <div className="font-mono text-sm font-bold text-[#0C0A08]">5 jours</div>
+                    <div className="text-[11px] text-[#57534E]">Mise en ligne</div>
+                  </div>
+                  <div className="rounded-xl bg-white border border-[#0C0A08]/[0.06] py-2.5 px-2">
+                    <div className="font-mono text-sm font-bold text-[#0C0A08]">&lt; 0,3 s</div>
+                    <div className="text-[11px] text-[#57534E]">Sur mobile</div>
+                  </div>
                 </div>
               </div>
             </SpecularPlate>

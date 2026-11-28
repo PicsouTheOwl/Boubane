@@ -1,13 +1,14 @@
-# Robots.txt pour Boubane Studio
+# Robots.txt — Boubane
 # https://www.boubane.com/
 
 User-agent: *
 Allow: /
 
-# Pages et répertoires strictement privés / non indexables
+# Pages et répertoires privés / techniques
+Disallow: /api/
 Disallow: /dashboard
 Disallow: /dashboard.html
 Disallow: /site/dashboard.html
 
-# Sitemaps
+# Sitemap
 Sitemap: https://www.boubane.com/sitemap.xml

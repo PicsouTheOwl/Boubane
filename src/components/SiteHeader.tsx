@@ -201,16 +201,14 @@ export function SiteHeader({ isHome = true }: { isHome?: boolean }) {
                 <li aria-hidden="true" className="border-t border-[#0C0A08]/[0.07] my-1.5" />
 
                 <li>
-                  <a
-                    href="https://rdv.boubane.com/boubane/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href="/rdv"
                     onClick={closeMenu}
                     className="min-h-[44px] px-3.5 rounded-[14px] flex items-center justify-between text-[14.5px] font-medium text-[#0C0A08] active:bg-[#0C0A08]/[0.06] transition-colors"
                   >
                     <span>Prendre RDV (30 min)</span>
                     <ArrowUpRight className="w-4 h-4 text-[#ED5B04]" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <Link

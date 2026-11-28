@@ -20,6 +20,32 @@ export function SiteFooter() {
                 BOUBANE
               </span>
             </Link>
+
+            <p className="text-[0.9rem] leading-relaxed text-[#57534E] max-w-[38ch]">
+              Sites vitrines sur-mesure à 0&nbsp;€ d&apos;honoraires et automatisations IA à prix fixe pour artisans, cabinets et PME.
+            </p>
+
+            <div className="pt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.84rem] font-mono text-[#0C0A08]/80">
+              <a
+                href="tel:+33778310346"
+                className="inline-flex items-center min-h-[38px] sm:min-h-0 font-semibold hover:text-[#ED5B04] transition-colors"
+              >
+                07 78 31 03 46
+              </a>
+              <span aria-hidden="true" className="text-[#0C0A08]/25">
+                ·
+              </span>
+              <a
+                href="mailto:leo@boubane.com"
+                className="inline-flex items-center min-h-[38px] sm:min-h-0 hover:text-[#ED5B04] transition-colors"
+              >
+                leo@boubane.com
+              </a>
+            </div>
+
+            <p className="text-[12px] text-[#78716C]">
+              Léo Saillour · Segré-en-Anjou Bleu (49500) &amp; France entière
+            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-8 md:col-span-7 md:grid-cols-2">
@@ -46,10 +72,10 @@ export function SiteFooter() {
                 </li>
                 <li>
                   <Link
-                    href="/#apercu"
+                    href="/#outils"
                     className="inline-flex items-center min-h-[38px] sm:min-h-0 text-[#0C0A08]/75 hover:text-[#0C0A08] transition-colors"
                   >
-                    Démos en direct
+                    Outils compatibles
                   </Link>
                 </li>
                 <li>
@@ -77,13 +103,22 @@ export function SiteFooter() {
               </div>
               <ul className="space-y-1 sm:space-y-2.5 text-[0.9rem]">
                 <li>
-                  <a
-                    href="https://rdv.boubane.com/boubane/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href="/rdv"
                     className="inline-flex items-center min-h-[38px] sm:min-h-0 gap-1.5 text-[#0C0A08]/75 hover:text-[#ED5B04] transition-colors"
                   >
                     <span>Réserver un appel (30 min)</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href="https://wa.me/33778310346?text=Bonjour%20L%C3%A9o%2C%20je%20souhaite%20%C3%A9changer%20sur%20mon%20projet."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center min-h-[38px] sm:min-h-0 gap-1.5 text-[#0C0A08]/75 hover:text-[#0E7541] transition-colors"
+                  >
+                    <span>WhatsApp direct</span>
                     <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
                   </a>
                 </li>

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     canonical: "https://www.boubane.com/creation-site-internet-segre",
   },
   openGraph: {
-    title: "Création Site Internet à Segré (49500) | Studio Boubane",
+    title: "Création Site Internet à Segré (49500) | Boubane",
     description:
       "Site vitrine sur-mesure à 0 € d'honoraires à Segré-en-Anjou Bleu. Livré en 5 jours ouvrés, code 100 % à vous, optimisé pour Google Maps & recherche locale.",
     url: "https://www.boubane.com/creation-site-internet-segre",
@@ -41,7 +41,7 @@ const LOCAL_JSON_LD = {
       telephone: "+33778310346",
       email: "leo@boubane.com",
       priceRange: "0 €",
-      image: "https://www.boubane.com/images/leo-artisan-desk.jpg",
+      image: "https://www.boubane.com/images/cat-savoir-faire.png",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Segré-en-Anjou Bleu",

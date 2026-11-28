@@ -38,30 +38,31 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.boubane.com"),
-  title: "Boubane · Studio Web & Création de Sites Sur-Mesure | Segré (49) & France",
+  title: "Boubane · Site Vitrine Sur-Mesure à 0 € & Automatisations IA | Segré & France",
   description:
-    "Studio d'artisanat web à Segré-en-Anjou Bleu (49500). Conception de sites vitrines sur-mesure d'exception pour artisans, cabinets et PME d'Anjou. 0 € en création, livré en 5 jours, liberté totale sans engagement.",
+    "Conception de sites vitrines sur-mesure à 0 € d'honoraires (livrés en 5 jours, code 100 % à vous) et automatisations IA à prix fixe branchées sur Gmail, Outlook, Excel et WhatsApp.",
   icons: {
     icon: "/assets/boubane-logo.png",
     apple: "/assets/boubane-logo.png",
   },
   manifest: "/site.webmanifest",
+  alternates: {
+    canonical: "https://www.boubane.com/",
+  },
   openGraph: {
     locale: "fr_FR",
     type: "website",
     url: "https://www.boubane.com/",
     siteName: "Boubane",
-    title: "Boubane · Studio Web & Création de Sites Sur-Mesure | Segré (49) & France",
+    title: "Boubane · Site Vitrine Sur-Mesure à 0 € & Automatisations IA",
     description:
-      "Conception et développement de sites vitrines d'exception à Segré-en-Anjou Bleu et dans tout le Haut-Anjou. 100% de la création offerte à nos frais.",
-    images: ["/assets/boubane-logo.png"],
+      "Votre site vitrine sur-mesure créé à 0 € en 5 jours ouvrés + automatisations IA à prix fixe sans abonnement imposé.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Boubane · Studio Web & Création de Sites Sur-Mesure | Segré (49)",
+    title: "Boubane · Site Vitrine Sur-Mesure à 0 € & Automatisations IA",
     description:
-      "Des vitrines sur-mesure d'exception pour artisans et entreprises de Segré et d'Anjou. 100% offert, zéro engagement.",
-    images: ["/assets/boubane-logo.png"],
+      "Votre site vitrine sur-mesure créé à 0 € en 5 jours ouvrés + automatisations IA à prix fixe sans abonnement.",
   },
 };
 

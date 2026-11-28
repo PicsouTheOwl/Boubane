@@ -207,23 +207,29 @@
       localStorage.setItem(STORAGE_KEY_LEADS, JSON.stringify(leads));
       trackEvent('form_lead_submitted', { leadId: leadData.id, name: leadData.name });
 
-      // Synchronisation immédiate vers le CRM (automatique)
-      const DEFAULT_CRM_WEBHOOK = 'https://crm.boubane.com/api/webhook/lead';
+      // Synchronisation immédiate via l'API serveur /api/lead (anti-CORS + relais CRM)
+      const DEFAULT_CRM_WEBHOOK = '/api/lead';
       let crmTarget = DEFAULT_CRM_WEBHOOK;
       try {
         const cfgRaw = localStorage.getItem(STORAGE_KEY_CONFIG);
         if (cfgRaw) {
           const cfg = JSON.parse(cfgRaw);
-          if (cfg.crmWebhookUrl && cfg.crmWebhookUrl.trim()) {
+          if (
+            cfg.crmWebhookUrl &&
+            cfg.crmWebhookUrl.trim() &&
+            cfg.crmWebhookUrl.trim() !== 'https://crm.boubane.com/api/webhook/lead'
+          ) {
             crmTarget = cfg.crmWebhookUrl.trim();
           }
         }
       } catch (_) {}
 
       window.boubaneSendLeadToCrm(leadData, crmTarget)
-        .then(() => {
-          leadData.crmSynced = true;
-          localStorage.setItem(STORAGE_KEY_LEADS, JSON.stringify(leads));
+        .then((res) => {
+          if (res && res.ok) {
+            leadData.crmSynced = true;
+            localStorage.setItem(STORAGE_KEY_LEADS, JSON.stringify(leads));
+          }
         })
         .catch(() => {});
     } catch (e) {
@@ -231,9 +237,9 @@
     }
   };
 
-  // Envoi vers le Webhook CRM (Twenty CRM Boubane, HubSpot, Make, Zapier, Notion)
+  // Envoi vers l'API serveur Boubane (/api/lead) ou Webhook CRM personnalisé
   window.boubaneSendLeadToCrm = function(lead, webhookUrl) {
-    const targetUrl = webhookUrl || 'https://crm.boubane.com/api/webhook/lead';
+    const targetUrl = webhookUrl || '/api/lead';
     
     const payload = {
       event: 'lead_captured',
